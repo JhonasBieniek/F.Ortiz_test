@@ -1,0 +1,46 @@
+<mat-dialog-content class="dialog" >
+
+<div fxLayout="row" fxLayoutWrap="wrap" [hidden]="true">
+  <!-- Card column -->
+  <div fxFlex.gt-sm="100%" fxFlex="100">
+<form [formGroup]="form" >
+    
+  <div fxLayout="row" fxLayoutWrap="wrap" class="row">
+
+      <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+          <mat-card-header class="bg-info text-white">
+          <mat-card-title class="dadosCadastro">Cadastrar Cargo</mat-card-title>
+          </mat-card-header>
+      </div> 
+
+    <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+      <mat-form-field appearance ="outline">
+        <input matInput placeholder="Nome do cargo" [formControl]="form.controls['nome']">
+      </mat-form-field>
+        <mat-hint *ngIf="form.controls['nome'].hasError('required') && form.controls['nome'].touched" class="text-danger font-14">Cargo.</mat-hint>
+        <mat-hint *ngIf="form.controls['nome'].hasError('minlength') && form.controls['nome'].touched" class="text-danger font-14">O nome deve conter no mínimo 5 caracteres</mat-hint>
+        <mat-hint *ngIf="form.controls['nome'].hasError('maxlength') && form.controls['nome'].touched" class="text-danger font-14">Seu nome não deve exceder 50 caracteres.</mat-hint>
+    </div>
+  </div>
+<div fxLayout="row" fxLayoutWrap="wrap" class="row">
+
+    <div class="p-10" fxFlex.gt-sm="15" fxFlex.gt-xs="50" fxFlex="100">
+<mat-card-actions>
+  <button mat-raised-button color="primary"  type="submit" (click)="areaVendasSubmit(); close()">Salvar cadastro</button>
+</mat-card-actions>
+</div>
+<div class="p-10" fxFlex.gt-sm="15" fxFlex.gt-xs="50" fxFlex="100">
+
+<mat-card-actions>
+  <button mat-raised-button color="primary" (click)="close()">Cancelar</button>
+</mat-card-actions>
+</div>
+
+</div>
+
+    </form>
+   </div>
+  </div>
+</mat-dialog-content>
+
+

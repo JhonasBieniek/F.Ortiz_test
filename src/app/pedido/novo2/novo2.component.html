@@ -1,0 +1,288 @@
+<!-- ============================================================== -->
+<!-- row -->
+<!-- ============================================================== -->
+<input type="file" style="display: none" (change)="incomingfile($event)" accept=".xlsx" #hiddenfileinput >
+<div fxLayout="row" fxLayoutWrap="wrap">
+  <!-- Card column -->
+  <div fxFlex.gt-sm="100%" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <div fxLayout="row" fxLayoutWrap="wrap" class="row">
+          <div class="p-10" fxFlex.gt-sm="60" fxFlex.gt-md="60" fxFlex.gt-xs="60" fxFlex="60">
+            <div class="p-10" fxFlex.gt-sm="35" fxFlex.gt-md="35" fxFlex.gt-xs="35" fxFlex="35">
+                <mat-card-title style="margin-top: 20px;">Importar Pedido:</mat-card-title>
+            </div>
+            <div class="p-10" fxFlex.gt-sm="65" fxFlex.gt-md="65" fxFlex.gt-xs="65" fxFlex="65">
+            <mat-form-field appearance="outline">
+                <mat-label style="color: red; border-color: red">{{selectRepresentada}}</mat-label>
+                <mat-select name="importar">
+                  <mat-option>-- Selecione --</mat-option>
+                  <mat-option (click)="hiddenfileinput.click(volk); representada='volk'">VOLK</mat-option>
+                  <mat-option (click)="hiddenfileinput.click(camper); representada='camper'">CAMPER</mat-option>
+                  <mat-option (click)="hiddenfileinput.click(betanin); representada='betanin'">BETANIN</mat-option>
+                  <mat-option (click)="hiddenfileinput.click(kadesh); representada='kadesh'">KADESH</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>  
+          </div>
+        </div>
+          <mat-card-subtitle class="sub-title">--Dados do Pedido--</mat-card-subtitle>
+          <form [formGroup]="form" class="form">
+            <div fxLayout="row" fxLayoutWrap="wrap" class="row">
+              <div class="p-10" fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="100">
+                <mat-form-field appearance="outline">
+                  <mat-label>Nº Pedido</mat-label>
+                  <input matInput placeholder="Nº Pedido" [ngModel]="pedido" [formControl]="form.controls['pedido']">
+                </mat-form-field>
+              </div>
+              <div class="p-10" fxFlex.gt-sm="22" fxFlex.gt-xs="2" fxFlex="100">
+                <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+                  [floatLabel]="form.value.floatLabel">
+                  <mat-label>Representada.</mat-label>
+                  <mat-select required [(ngModel)]="selectedRepresentada" [ngModelOptions]="{standalone: true}"
+                    name="representada">
+                    <mat-option *ngFor="let representada of representadas" [value]="representada.id"
+                      (click)="CarregarProdutosRepresentada()">
+                      {{representada.razao_social}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-placeholder>Representada</mat-placeholder>
+                </mat-form-field>
+              </div>
+              <div class="p-10" fxFlex.gt-sm="26" fxFlex.gt-xs="26" fxFlex="100">
+                <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+                  [floatLabel]="form.value.floatLabel">
+                  <mat-label>Cliente</mat-label>
+                  <mat-select required [(ngModel)]="selectedCliente" [ngModelOptions]="{standalone: true}"
+                    name="cliente">
+                    <mat-option *ngFor="let cliente of clientes" [value]="cliente.id" (click)="selectedAreaVendaID = cliente.area_venda_id">
+                      {{cliente.razao_social}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-placeholder>Cliente</mat-placeholder>
+                </mat-form-field>
+              </div>
+              <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="50">
+                <mat-form-field appearance="outline">
+                  <mat-label>Data de Emissão</mat-label>
+                  <input matInput [matDatepicker]="pickerEmissao" [(ngModel)]="emissao"
+                    [formControl]="form.controls['emissao']" placeholder="Data Programada">
+                  <mat-datepicker-toggle matSuffix [for]="pickerEmissao"></mat-datepicker-toggle>
+                  <mat-datepicker #pickerEmissao></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+              <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="50">
+                <mat-form-field appearance="outline">
+                  <mat-label>Data de Entrega</mat-label>
+                  <input matInput [matDatepicker]="pickerEntrega" [(ngModel)]="entrega"
+                    [formControl]="form.controls['entrega']" placeholder="Data Programada">
+                  <mat-datepicker-toggle matSuffix [for]="pickerEntrega"></mat-datepicker-toggle>
+                  <mat-datepicker #pickerEntrega></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="p-10 pad" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="20">
+                <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+                  [floatLabel]="form.value.floatLabel">
+                  <mat-label>Cond. comercial</mat-label>
+                  <mat-select required [(ngModel)]="selectedCondComerciais" [ngModelOptions]="{standalone: true}"
+                    name="condComercial">
+                    <mat-option *ngFor="let condComercial of condComerciais" [value]="condComercial.id">
+                      {{condComercial.nome}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-placeholder>Condição Comercial</mat-placeholder>
+                </mat-form-field>
+                <div style="font-size: 9px; margin-top: -15px; color:red">{{condComercial}}</div>
+              </div>
+              <div class="p-10 pad" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="50">
+                <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+                  [floatLabel]="form.value.floatLabel">
+                  <mat-label>Área de venda</mat-label>
+                  <mat-select required [(ngModel)]="selectedAreaVendaID" [ngModelOptions]="{standalone: true}"
+                    name="area">
+                    <mat-option *ngFor="let area of areas" [value]="area.id" (click)="chargeAreaVendas(area)">
+                      {{area.nome}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-placeholder>Região</mat-placeholder>
+                </mat-form-field>
+              </div>
+              <div class="p-10 pad" fxFlex.gt-sm="60" fxFlex.gt-xs="60" fxFlex="50">
+                <mat-form-field appearance="outline">
+                  <input matInput placeholder="Observação" [formControl]="form.controls['observacao']">
+                </mat-form-field>
+                <textarea
+                  *ngIf="form.controls['observacao'].hasError('maxlength') && form.controls['observacao'].touched"
+                  class="text-danger font-14">O representante não deve exceder 50 caracteres</textarea>
+              </div>
+
+              <div class="p-10" style="margin-top:-15px; margin-right: -10px" fxFlex.gt-sm="30" fxFlex.gt-xs="30"
+                fxFlex="100">
+                <label class="m-r-10">Frete :</label>
+                <mat-radio-group [(ngModel)]="frete" [formControl]="form.controls['frete']">
+                  <mat-radio-button value="Representada" class="m-r-10">Representada</mat-radio-button>
+                  <mat-radio-button value="Cliente">Cliente</mat-radio-button>
+                </mat-radio-group>
+                <small *ngIf="!form.controls['frete'].valid && form.controls['frete'].touched"
+                  class="mat-text-warn">Você precisa selecionar um gênero.</small>
+              </div>
+              <div class="p-10 pad" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
+                <mat-form-field appearance="outline">
+                  <mat-label>Transportadora</mat-label>
+                  <input matInput placeholder="Insira a transportadora" [(ngModel)]="transportadora"
+                    [formControl]="form.controls['transportadora']">
+                </mat-form-field>
+              </div>
+              <div class="p-10 pad" fxFlex.gt-sm="5" fxFlex.gt-xs="5" fxFlex="15">
+              </div>
+              <div class="p-10" style="margin-top:-15px; margin-right: 10px" fxFlex.gt-sm="15" fxFlex.gt-xs="15"
+                fxFlex="15">
+                <section>
+                  <mat-checkbox [(ngModel)]="checked" [ngModelOptions]="{standalone: true}">Pedido Programado
+                  </mat-checkbox>
+                </section>
+              </div>
+              <div *ngIf="checked" class="p-10 pad" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="50">
+                <mat-form-field appearance="outline">
+                  <mat-label>Data Programada</mat-label>
+                  <input matInput [matDatepicker]="picker" [formControl]="form.controls['programado']"
+                    placeholder="Data Programada">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+            <!--div fxLayout="row" fxLayoutWrap="wrap" class="row">
+              <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                <mat-card-subtitle class="sub-title">--Endereço de entrega--</mat-card-subtitle>
+              </div>
+              <div class="p-10" fxFlex.gt-sm="15" fxFlex.gt-xs="11" fxFlex="100">
+                <mat-form-field appearance="outline">
+                  <input matInput placeholder="CEP" [(ngModel)]='modelCEP' (blur)="onBlurCep()"
+                    [formControl]="form.controls['cep']" mask="00000-000">
+                </mat-form-field>
+                <small *ngIf="form.controls['cep'].hasError('required') && form.controls['cep'].touched"
+                  class="text-danger font-14">Você precisa deve inserir um CEP.</small>
+                <small *ngIf="form.controls['cep'].errors?.number && form.controls['cep'].touched"
+                  class="text-danger font-14">O CEP precisa ser válido.</small>
+              </div>
+              <div class="p-10" fxFlex.gt-sm="48" fxFlex.gt-xs="48" fxFlex="100">
+                <mat-form-field appearance="outline">
+                  <input matInput placeholder="Logradouro" [(ngModel)]='modelLogradouro'
+                    [formControl]="form.controls['logradouro']">
+                </mat-form-field>
+                <mat-hint
+                  *ngIf="form.controls['logradouro'].hasError('required') && form.controls['logradouro'].touched"
+                  class="text-danger font-14">Você deve incluir um endereço.</mat-hint>
+                <mat-hint
+                  *ngIf="form.controls['logradouro'].hasError('minlength') && form.controls['logradouro'].touched"
+                  class="text-danger font-14">O endereço tem que ter no mínimo 5 caracteres.</mat-hint>
+                <mat-hint
+                  *ngIf="form.controls['logradouro'].hasError('maxlength') && form.controls['logradouro'].touched"
+                  class="text-danger font-14">O endereço não deve exceder 50 caracteres</mat-hint>
+              </div>
+              <div class="p-10" fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="100">
+                <mat-form-field appearance="outline">
+                  <input matInput placeholder="Número" [(ngModel)]='modelNumero'
+                    [formControl]="form.controls['numero']">
+                </mat-form-field>
+                <small *ngIf="form.controls['numero'].hasError('required') && form.controls['numero'].touched"
+                  class="text-danger font-14">Você precisa deve inserir um Número.</small>
+                <small *ngIf="form.controls['numero'].errors?.number && form.controls['numero'].touched"
+                  class="text-danger font-14">O Número precisa ser válido.</small>
+              </div>
+              <div class="p-10" fxFlex.gt-sm="27" fxFlex.gt-xs="27" fxFlex="100">
+                <mat-form-field appearance="outline">
+                  <input matInput placeholder="Complemento" [(ngModel)]='modelComplemento'
+                    [formControl]="form.controls['complemento']">
+                </mat-form-field>
+                <mat-hint
+                  *ngIf="form.controls['complemento'].hasError('required') && form.controls['complemento'].touched"
+                  class="text-danger font-14">Você deve incluir um complemento.</mat-hint>
+                <mat-hint
+                  *ngIf="form.controls['complemento'].hasError('minlength') && form.controls['complemento'].touched"
+                  class="text-danger font-14">O complemento tem que ter no mínimo 5 caracteres.</mat-hint>
+                <mat-hint
+                  *ngIf="form.controls['complemento'].hasError('maxlength') && form.controls['complemento'].touched"
+                  class="text-danger font-14">O complemento não deve exceder 50 caracteres</mat-hint>
+              </div>
+              <div class="p-10" fxFlex.gt-sm="28" fxFlex.gt-xs="28" fxFlex="100">
+                <mat-form-field appearance="outline">
+                  <input matInput placeholder="Bairro" [(ngModel)]='modelBairro'
+                    [formControl]="form.controls['bairro']">
+                </mat-form-field>
+                <mat-hint *ngIf="form.controls['bairro'].hasError('required') && form.controls['bairro'].touched"
+                  class="text-danger font-14">Você deve incluir um bairro.</mat-hint>
+                <mat-hint *ngIf="form.controls['bairro'].hasError('minlength') && form.controls['bairro'].touched"
+                  class="text-danger font-14">O bairro tem que ter no mínimo 5 caracteres.</mat-hint>
+                <mat-hint *ngIf="form.controls['bairro'].hasError('maxlength') && form.controls['bairro'].touched"
+                  class="text-danger font-14">O bairro não deve exceder 50 caracteres</mat-hint>
+              </div>
+              <div class="p-10" fxFlex.gt-sm="28" fxFlex.gt-xs="28" fxFlex="100">
+                <mat-form-field appearance="outline">
+                  <input matInput placeholder="Cidade" [(ngModel)]="modelCidade"
+                    [formControl]="form.controls['cidade']">
+                </mat-form-field>
+                <mat-hint *ngIf="form.controls['cidade'].hasError('required') && form.controls['cidade'].touched"
+                  class="text-danger font-14">Você deve incluir uma cidade.</mat-hint>
+                <mat-hint *ngIf="form.controls['cidade'].hasError('minlength') && form.controls['cidade'].touched"
+                  class="text-danger font-14">A cidade tem que ter no mínimo 5 caracteres.</mat-hint>
+                <mat-hint *ngIf="form.controls['cidade'].hasError('maxlength') && form.controls['cidade'].touched"
+                  class="text-danger font-14">A cidade não deve exceder 50 caracteres</mat-hint>
+              </div>
+              <div class="p-10" fxFlex.gt-sm="22" fxFlex.gt-xs="22" fxFlex="100">
+                <mat-form-field appearance="outline">
+                  <input matInput placeholder="Estado" [(ngModel)]="modelEstado"
+                    [formControl]="form.controls['estado']">
+                </mat-form-field>
+                <mat-hint *ngIf="form.controls['estado'].hasError('required') && form.controls['estado'].touched"
+                  class="text-danger font-14">Você deve incluir um estado.</mat-hint>
+                <mat-hint *ngIf="form.controls['estado'].hasError('minlength') && form.controls['estado'].touched"
+                  class="text-danger font-14">O estado tem que ter no mínimo 5 caracteres.</mat-hint>
+                <mat-hint *ngIf="form.controls['estado'].hasError('maxlength') && form.controls['estado'].touched"
+                  class="text-danger font-14">O estado não deve exceder 50 caracteres</mat-hint>
+              </div>
+              <div class="p-10" fxFlex.gt-sm="22" fxFlex.gt-xs="22" fxFlex="100">
+                <mat-form-field appearance="outline">
+                  <input matInput placeholder="Comprador" [formControl]="form.controls['comprador']">
+                </mat-form-field>
+                <mat-hint *ngIf="form.controls['comprador'].hasError('required') && form.controls['comprador'].touched"
+                  class="text-danger font-14">Você deve incluir um representante.</mat-hint>
+                <mat-hint *ngIf="form.controls['comprador'].hasError('minlength') && form.controls['comprador'].touched"
+                  class="text-danger font-14">O representante tem que conter no mínimo 5 caracteres.</mat-hint>
+                <mat-hint *ngIf="form.controls['comprador'].hasError('maxlength') && form.controls['comprador'].touched"
+                  class="text-danger font-14">O representante não deve exceder 50 caracteres</mat-hint>
+              </div>
+            </div-->
+          </form>
+        <div fxLayout="row" fxLayoutWrap="wrap">
+          <!-- Card column -->
+          <div fxFlex.gt-sm="100%" fxFlex="100">
+            <mat-card-subtitle class="sub-title">--Selecione o Produto--</mat-card-subtitle>
+            <mat-form-field>
+              <input matInput type='text' class="form-control" placeholder='Digite para filtrar...'
+                (keyup)='updateFilter($event)' />
+            </mat-form-field>
+            <ngx-datatable #table class='material' [columns]="columns" [columnMode]="'force'" [headerHeight]="50"
+              [footerHeight]="50" [rowHeight]="'auto'" [limit]="5" [rows]='rows' [loadingIndicator]="loadingIndicator"
+              [selected]="selected" [selectionType]="'single'" (select)='onSelect($event)'>
+            </ngx-datatable>
+          </div>
+          <div fxFlex.gt-sm="100%" fxFlex="100">
+            <mat-card-subtitle style="margin-top: 2em" class="sub-title">--Produtos Selecionados--</mat-card-subtitle>
+            <mt-shopping-cart #shoppingCart></mt-shopping-cart>
+          </div>
+        </div>
+        <div *ngIf="ValorTotal !=0" style="margin-top: -40px; color: red">
+          <tr>
+            <th>Valor Total Nota: {{ValorTotal | currency:'BRL':true:'1.2-2'}}</th>
+          </tr>
+        </div>
+        <div style="margin-top: 20px; margin-left:5px">
+          <button mat-stroked-button color="primary" (click)="enviarPedido()" [disabled]="form.valid">Finalizar</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

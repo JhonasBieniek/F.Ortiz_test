@@ -1,0 +1,57 @@
+<div fxLayout="row" fxLayoutWrap="wrap">
+  <!-- Card column -->
+  <div fxFlex.gt-sm="100%" fxFlex="100">
+      <mat-card>
+          <mat-card-content>
+              <mat-card-title >Funcionários</mat-card-title>
+              <mat-card-actions align="end">
+                <div class="button-row">
+                 <button mat-raised-button color="primary" (click)="openDialog()">Novo Funcionário</button>
+                </div> 
+              </mat-card-actions> 
+          </mat-card-content>
+          <mat-tab-group>
+              <mat-tab label="Funcionários cadastradas"><mat-card-content>
+                          <mat-card-title>Buscar</mat-card-title>
+                          <mat-form-field>
+                             <input matInput  type='text' class="form-control"  placeholder='Digite um nome para filtrar...' (keyup)='updateFilter($event)'   />
+                          </mat-form-field>
+                          <ngx-datatable
+                              #table
+                              class='material'
+                              [columnMode]="'flex'"
+                              [headerHeight]="50"
+                              [footerHeight]="50"
+                              [rowHeight]="'auto'"
+                              [limit]="20"
+                              [rows]='rows'>
+
+                              <ngx-datatable-column [flexGrow]="1" name="Nome">
+                                <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
+                                  {{ row.nome }}
+                                </ng-template>
+                              </ngx-datatable-column>
+                              
+                              <ngx-datatable-column [flexGrow]="1" name="Rg">
+                                <ng-template let-value="rg" let-row="row" ngx-datatable-cell-template>
+                                  {{ row.rg }}
+                                </ng-template>
+                              </ngx-datatable-column>  
+
+                              <ngx-datatable-column [flexGrow]="0.3" name="Usuario id">
+                                <ng-template let-value="usuario_id" let-row="row" ngx-datatable-cell-template>
+                                  {{ row.usuario_id }}
+                                </ng-template>
+                              </ngx-datatable-column>
+
+                              <ngx-datatable-column [flexGrow]="0.5" name="Status">
+                                <ng-template let-value="status" let-row="row" ngx-datatable-cell-template>
+                                  {{ row.status }}
+                                </ng-template>
+                              </ngx-datatable-column>
+                            </ngx-datatable>
+              </mat-card-content></mat-tab>
+          </mat-tab-group>
+      </mat-card>    
+  </div>
+</div>

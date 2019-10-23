@@ -1,0 +1,55 @@
+.demo-tab-group {
+    border: 1px solid #e8e8e8;
+  }
+  
+  .demo-tab-content {
+    padding: 24px;
+  }
+
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 90%;
+}
+.u {
+  text-decoration: underline;
+}
+.titulo{
+  font-size: 24px;
+}
+.campos{
+  font-size: 9px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgb(200, 200, 202);
+  margin-bottom: 3px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.invisible{
+  display: block;
+  visibility: hidden;
+  height: 0;
+  width: 0;
+}
+
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 90%;
+}
+.dialog{
+  min-height: 700px;
+}
+.prod-cor{
+  color: black;
+  font-weight: bold;
+}

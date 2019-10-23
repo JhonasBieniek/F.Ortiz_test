@@ -1,0 +1,58 @@
+<div fxLayout="row" fxLayoutWrap="wrap">
+    <!-- Card column -->
+    <div fxFlex.gt-sm="100%" fxFlex="100">
+        <mat-card>
+            <mat-card-content>
+                <mat-card-title>Cadastro de tipo de preço </mat-card-title>
+            </mat-card-content>
+            <mat-card-content>
+            <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                <mat-card-title>Dados tipo de preço </mat-card-title>
+                <mat-divider></mat-divider>
+              </div>
+            </mat-card-content>
+            <mat-card-content>
+            <div fxLayout="row" fxLayoutWrap="wrap" class="row">
+
+                <div class="p-10" fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="100">
+                    <mat-form-field appearance="outline">
+                      <input matInput placeholder="Nome da Categoria" [formControl]="form.controls['fname']">
+                    </mat-form-field>
+                      <mat-hint *ngIf="form.controls['fname'].hasError('required') && form.controls['fname'].touched" class="text-danger font-14">Você deve incluir um nome fantasia.</mat-hint>
+                      <mat-hint *ngIf="form.controls['fname'].hasError('minlength') && form.controls['fname'].touched" class="text-danger font-14">O nome tem que ter no mínimo 5 caracteres.</mat-hint>
+                      <mat-hint *ngIf="form.controls['fname'].hasError('maxlength') && form.controls['fname'].touched" class="text-danger font-14">O nome não deve exceder 50 caracteres</mat-hint>
+                  </div>   
+                  <div class="p-0" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
+
+                  <mat-card-actions align="end">
+                      <div class="button-row">
+                      <button mat-icon-button color="primary">
+                          <mat-icon aria-label="Example icon-button with a heart icon">add_box</mat-icon>
+                      </button>
+                      <button mat-raised-button color="primary" type="submit">Salvar cadastro</button>
+                      </div>
+              </mat-card-actions> 
+            </div>   
+                    </div>
+                  </mat-card-content>
+                <mat-card-content>
+                            <mat-card-title>Listar</mat-card-title>
+                            <mat-divider></mat-divider>
+                            <mat-form-field>
+                               <input matInput  type='text' class="form-control"  placeholder='Procurar por nome...' (keyup)='updateFilter($event)'   />
+                            </mat-form-field>
+                            <ngx-datatable
+                                #table
+                                class='material'
+                                [columns]="columns"
+                                [columnMode]="'force'"
+                                [headerHeight]="50"
+                                [footerHeight]="50"
+                                [rowHeight]="'auto'"
+                                [limit]="10"
+                                [rows]='rows'>
+                              </ngx-datatable>
+                </mat-card-content>
+        </mat-card>    
+    </div>
+  </div>

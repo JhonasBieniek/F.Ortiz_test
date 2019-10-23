@@ -1,0 +1,35 @@
+.demo-tab-group {
+    border: 1px solid #e8e8e8;
+  }
+  
+  .demo-tab-content {
+    padding: 24px;
+  }
+  .button-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 20px;
+    margin-bottom: -10px;
+  }
+  .bt_criarpedido{
+    padding: 20px;
+  }
+  .title{
+    font-weight: bold;
+  }
+  
+  :host ::ng-deep .datatable-body-cell {
+    padding: 0 !important;
+    font-size: 9pt !important;
+    text-align: center !important;
+
+  }
+  :host ::ng-deep .datatable-header-cell{
+    font-size: 9pt !important;
+    text-align: center !important;
+    line-height: 1.42857143 !important;
+
+  }
+ 
+  

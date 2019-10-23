@@ -1,0 +1,99 @@
+<mat-dialog-content class="dialog" >
+
+<div fxLayout="row" fxLayoutWrap="wrap" [hidden]="true">
+  <!-- Card column -->
+  <div fxFlex.gt-sm="100%" fxFlex="100">
+<form [formGroup]="form" >
+    
+  <div fxLayout="row" fxLayoutWrap="wrap" class="row">
+
+      <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+          <mat-card-header class="bg-info text-white">
+          <mat-card-title class="dadosCadastro">Cadastrar área de venda</mat-card-title>
+          </mat-card-header>
+      </div> 
+
+    <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+      <mat-form-field appearance ="outline">
+        <input matInput placeholder="Nome da área de venda" [formControl]="form.controls['nome']">
+      </mat-form-field>
+        <mat-hint *ngIf="form.controls['nome'].hasError('required') && form.controls['nome'].touched" class="text-danger font-14">Nome Completo.</mat-hint>
+        <mat-hint *ngIf="form.controls['nome'].hasError('minlength') && form.controls['nome'].touched" class="text-danger font-14">O nome deve conter no mínimo 5 caracteres</mat-hint>
+        <mat-hint *ngIf="form.controls['nome'].hasError('maxlength') && form.controls['nome'].touched" class="text-danger font-14">Seu nome não deve exceder 50 caracteres.</mat-hint>
+    </div>
+    <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+      <mat-form-field appearance ="outline"
+            [hideRequiredMarker]="form.value.hideRequired"
+            [floatLabel]="form.value.floatLabel">
+            <mat-label>Selecione um vendedor...</mat-label>
+          <mat-select required [(ngModel)]="selectedVendedor" [ngModelOptions]="{standalone: true}" name="vendedor">
+              <mat-option *ngFor="let vendedor of vendedores" [value]="vendedor.id">
+                  {{vendedor.nome}}
+                </mat-option>                  
+              </mat-select>
+          <mat-placeholder>Vendedor</mat-placeholder>
+        </mat-form-field>
+      </div>
+      <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+        <mat-form-field appearance ="outline"
+              [hideRequiredMarker]="form.value.hideRequired"
+              [floatLabel]="form.value.floatLabel">
+              <mat-label>Selecione um auxiliar...</mat-label>
+            <mat-select required [(ngModel)]="selectedAuxiliar" [ngModelOptions]="{standalone: true}" name="auxiliar">
+                <mat-option *ngFor="let aux of auxiliares" [value]="aux.id">
+                    {{aux.nome}}
+                  </mat-option>                  
+                </mat-select>
+            <mat-placeholder>Auxiliar</mat-placeholder>
+          </mat-form-field>
+        </div>
+    <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+      <mat-form-field appearance ="outline"
+            [hideRequiredMarker]="form.value.hideRequired"
+            [floatLabel]="form.value.floatLabel">
+            <mat-label>Selecione a região...</mat-label>
+          <mat-select required [(ngModel)]="selectedRegiao" [ngModelOptions]="{standalone: true}" name="regiao">
+              <mat-option *ngFor="let regiao of regioes" [value]="regiao.id">
+                  {{regiao.nome}}
+                </mat-option>                  
+              </mat-select>
+          <mat-placeholder>Unidade</mat-placeholder>
+        </mat-form-field>
+      </div>
+    
+     <div class="p-10" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="100">
+        <mat-form-field appearance ="outline"
+              [hideRequiredMarker]="form.value.hideRequired"
+              [floatLabel]="form.value.floatLabel">
+              <mat-label>Status.</mat-label>
+            <mat-select required [formControl]="form.controls['active']">
+              <mat-option>-- Selecione... --</mat-option>
+              <mat-option [value]=1>Ativo</mat-option>
+              <mat-option [value]=0>Inativo</mat-option>
+            </mat-select>
+            <mat-placeholder>Status</mat-placeholder>
+          </mat-form-field>
+        </div>
+  </div>
+<div fxLayout="row" fxLayoutWrap="wrap" class="row">
+
+    <div class="p-10" fxFlex.gt-sm="15" fxFlex.gt-xs="50" fxFlex="100">
+<mat-card-actions>
+  <button mat-raised-button color="primary"  type="submit" (click)="areaVendasSubmit(); close()">Salvar cadastro</button>
+</mat-card-actions>
+</div>
+<div class="p-10" fxFlex.gt-sm="15" fxFlex.gt-xs="50" fxFlex="100">
+
+<mat-card-actions>
+  <button mat-raised-button color="primary" (click)="close()">Cancelar</button>
+</mat-card-actions>
+</div>
+
+</div>
+
+    </form>
+   </div>
+  </div>
+</mat-dialog-content>
+
+

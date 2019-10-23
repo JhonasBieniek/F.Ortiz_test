@@ -1,0 +1,86 @@
+<div fxLayout="row" fxLayoutWrap="wrap">
+  <!-- Card column -->
+  <div fxFlex.gt-sm="100%" fxFlex="100">
+      <mat-card>
+          <mat-card-actions class="bt_criarpedido" align="end">
+                  <div class="button-row">
+
+                  <button mat-raised-button color="primary" type="button" [routerLink]="['/pedido/novo']">
+                    <mat-icon class="example-icon" >add_box</mat-icon> Criar pedido</button>
+                    
+                  </div>
+          </mat-card-actions>
+          <mat-card-content>
+              <mat-card-title class="title">Listar Pedidos </mat-card-title>
+          </mat-card-content>
+          <mat-tab-group>
+              <mat-tab label="Abertos"><mat-card-content class="table">
+                          <mat-card-title>Pedidos abertos</mat-card-title>
+                          <mat-form-field>
+                             <input matInput  type='text' class="form-control"  placeholder='Filtrar...' (keyup)='updateFilter($event)'   />
+                          </mat-form-field>
+                          <ngx-datatable
+                              #table
+                              class='material'
+                              [columnMode]="'flex'"
+                              [headerHeight]="'auto'"
+                              [footerHeight]="50"
+                              [rowHeight]="'auto'"
+                              [limit]="10"
+                              [rows]='rows'>
+                              <ngx-datatable-column name="Numero do Pedido" prop="num_pedido" [flexGrow]="0.6">
+                                <ng-template let-value="value" ngx-datatable-cell-template>
+                                  {{value}}
+                                </ng-template>
+                              </ngx-datatable-column>
+                              <ngx-datatable-column name="Representada" [flexGrow]="1.2">
+                                <ng-template let-value="value" ngx-datatable-cell-template>
+                                  {{value.nome_fantasia}}
+                                </ng-template>
+                              </ngx-datatable-column>
+                              <ngx-datatable-column name="Comprador" prop="cliente" [flexGrow]="1">
+                                <ng-template let-value="value" ngx-datatable-cell-template>
+                                  {{value.nome_fantasia}}
+                                </ng-template>
+                              </ngx-datatable-column>
+                              <ngx-datatable-column name="Data de Emissão" prop="data_emissao" [flexGrow]="0.5">
+                                <ng-template let-value="value" ngx-datatable-cell-template>
+                                  {{value | json}}
+                                </ng-template>
+                              </ngx-datatable-column>
+                              <ngx-datatable-column name="Data de Entrega" prop="data_entrega" [flexGrow]="0.5">
+                                <ng-template let-value="value" ngx-datatable-cell-template>
+                                  {{value | json}}
+                                </ng-template>
+                              </ngx-datatable-column>
+                              <ngx-datatable-column name="Frete" [flexGrow]="0.4">
+                                <ng-template let-value="value" ngx-datatable-cell-template>
+                                  {{value}}
+                                </ng-template>
+                              </ngx-datatable-column>
+                              <ngx-datatable-column name="Status" [flexGrow]="0.4">
+                                <ng-template let-value="value" ngx-datatable-cell-template>
+                                  {{value}}
+                                </ng-template>
+                              </ngx-datatable-column>
+                              <ngx-datatable-column name="Entregue" [flexGrow]="0.4">
+                                <ng-template let-value="value" ngx-datatable-cell-template>
+                                  {{value}}
+                                </ng-template>
+                              </ngx-datatable-column>
+                            </ngx-datatable>
+              </mat-card-content></mat-tab>
+             
+              <mat-tab label="Baixados"><mat-card-content>
+                 
+
+              </mat-card-content></mat-tab>
+              <mat-tab label="Cancelados"><mat-card-content>
+                     
+                      
+              </mat-card-content></mat-tab>
+              
+          </mat-tab-group>
+      </mat-card>    
+  </div>
+</div>
