@@ -218,23 +218,16 @@ export class OrcamentoComponent implements OnInit {
       representada_id: this.selectedRepresentada,
       cliente_id: this.selectedCliente,
       condicao_comercial_id: this.selectedCondComerciais,
-      vendedor_id: this.selectedAreaVenda.vendedor_id,
-      auxiliar_id: this.selectedAreaVenda.auxiliar_id,
-      regiao_id: this.selectedAreaVenda.regiao_id,
       data_emissao: this.dateFormatPipe.transform(new Date(this.form.value.emissao)),
-      data_validade: this.dateFormatPipe.transform(new Date(this.form.value.validade)),
-      desconto: 5,
-      frete: this.form.value.frete,
-      transportadora: this.form.value.transportadora,
+      validade: this.form.value.validade,
       valor_total: 1000,
       comissao_media: 3,
       comissao_bruto: 93.348,
       status: true,
-      entregue: false,
       obs: this.form.value.observacao,
-      pedido_produtos: this.produtos()
+      orcamento_produtos: this.produtos()
     }
-    this.clientservice.addPedido(pedido).subscribe(res => {
+    this.clientservice.addOrcamento(pedido).subscribe(res => {
       this.resposta = res
       if (this.resposta.status == 'success') {
         this.notificationService.notify(`Pedido Cadastrado com Sucesso!`)

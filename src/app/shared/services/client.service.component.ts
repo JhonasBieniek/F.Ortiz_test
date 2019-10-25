@@ -136,6 +136,13 @@ export class ClientService {
       .post(uri, data) 
       
   }
+  addOrcamento(data) {
+    const uri = API_URL+ 'orcamentos/add.json';
+    return this
+      .http
+      .post(uri, data) 
+      
+  }
   addCliente(data){
     const uri = API_URL+ 'clientes/add.json';
     return this
