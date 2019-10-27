@@ -48,7 +48,7 @@
     "ngx-perfect-scrollbar": "^5.0.0",
     "ngx-quill": "^3.1.0",
     "ngx-spinner": "^7.2.0",
-    "node-sass": "^4.9.2",
+    "node-sass": "^4.13.0",
     "rxjs": "^6.2.0",
     "rxjs-compat": "^6.2.0",
     "rxjs-tslint": "^0.1.4",

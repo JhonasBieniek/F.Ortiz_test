@@ -544,6 +544,29 @@ export class Novo2Component implements OnInit {
     let itemSelected = selected[0]
     this.addItem(itemSelected);
   }
+  comissaoMedia(){
+    let i=1;
+    let comissao = 0
+    this.items().forEach(element => {
+      comissao = +comissao + +element.comissao
+      i++;
+    })
+    return comissao/(i-1);
+  }
+  comissaoBruta(){
+    let comissao = 0
+    this.items().forEach(element => {
+      comissao = +comissao + +((element.quantidade*element.valorUnitario) * element.comissao/100)
+    })
+    return comissao;
+  }
+  valorTotal(){
+    let valor = 0
+    this.items().forEach(element => {
+      valor = +valor + +((element.quantidade*element.valorUnitario))
+    })
+    return valor.toFixed(2);
+  }
 
   enviarPedido() {
     let pedido;
@@ -561,10 +584,11 @@ export class Novo2Component implements OnInit {
       desconto: 5,
       frete: this.form.value.frete,
       transportadora: this.form.value.transportadora,
-      valor_total: 1000,
-      comissao_media: 3,
-      comissao_bruto: 93.348,
+      valor_total: this.ValorTotal,
+      comissao_media: this.comissaoMedia(),
+      comissao_bruto: this.comissaoBruta(),
       status: true,
+      situacao: "Pendente",
       entregue: false,
       obs: this.form.value.observacao,
       pedido_produtos: this.produtos()

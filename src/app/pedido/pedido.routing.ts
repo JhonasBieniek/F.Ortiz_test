@@ -5,23 +5,38 @@ import { NovoComponent } from './novo/novo.component';
 import { Novo2Component } from './novo2/novo2.component';
 import { OrcamentoComponent } from './orcamento/orcamento.component';
 import { ConciliacaoComponent } from './conciliacao/conciliacao.component';
+import { OrcListarComponent } from './orc-listar/orc-listar.component';
+import { PedidoListarComponent } from './pedido-listar/pedido-listar.component';
 
 
 export const PedidoRoutes: Routes = [
-  { 
+  {
     path: '',
     children: [{
-      path: 'listar', 
+      path: 'listar',
       component: ListarComponent
+    }, {
+      path: 'novo',
+      component: NovoComponent
+    },
+    {
+      path: 'importar',
+      component: Novo2Component
+    },
+    {
+      path: 'orcamento',
+      component: OrcamentoComponent
+    },
+    {
+      path: 'conciliacao',
+      component: ConciliacaoComponent
     },{
-        path: 'novo', 
-        component: NovoComponent },
-      {
-        path: 'importar', 
-        component: Novo2Component },
-      {path: 'orcamento',
-       component: OrcamentoComponent},
-      {path: 'conciliacao',
-       component: ConciliacaoComponent}]
+      path: 'listar-pedido',
+      component: PedidoListarComponent
+    },
+    {
+      path: 'listar-orcamento',
+      component: OrcListarComponent
+    }]
   }
 ];

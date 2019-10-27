@@ -24,6 +24,8 @@ import { Novo2Component } from './novo2/novo2.component';
 import { OrcamentoComponent } from './orcamento/orcamento.component';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { ConciliacaoComponent } from './conciliacao/conciliacao.component';
+import { OrcListarComponent } from './orc-listar/orc-listar.component';
+import { PedidoListarComponent } from './pedido-listar/pedido-listar.component';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
 
@@ -44,7 +46,7 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
     NgxMaskModule.forRoot(),
     NgxSpinnerModule
   ],
-  declarations: [ListarComponent, NovoComponent, ItensPedidoComponent, ShoppingCartComponent, DialogCadastroComponent, DialogClienteAddComponent, Novo2Component, OrcamentoComponent, ConciliacaoComponent],
+  declarations: [ListarComponent, NovoComponent, ItensPedidoComponent, ShoppingCartComponent, DialogCadastroComponent, DialogClienteAddComponent, Novo2Component, OrcamentoComponent, ConciliacaoComponent, OrcListarComponent, PedidoListarComponent],
   providers: [
     DateFormatPipe,    
   ],

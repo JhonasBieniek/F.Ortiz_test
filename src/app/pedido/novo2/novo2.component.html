@@ -274,9 +274,15 @@
             <mt-shopping-cart #shoppingCart></mt-shopping-cart>
           </div>
         </div>
-        <div *ngIf="ValorTotal !=0" style="margin-top: -40px; color: red">
+        <div *ngIf="ValorTotal !=0" style="margin-top: -40px; color: black; text-align: left;">
+          <tr *ngIf="ValorTotal != valorTotal()">
+            <th style="color: red;">Valor Total Nota: {{ValorTotal | currency:'BRL':true:'1.2-2'}}</th>
+          </tr>
           <tr>
-            <th>Valor Total Nota: {{ValorTotal | currency:'BRL':true:'1.2-2'}}</th>
+            <th>Comissão Média: {{comissaoMedia()}}%</th>
+          </tr>
+          <tr>
+            <th>Comissão Bruta: {{comissaoBruta() | currency:'BRL':true:'1.2-2'}}</th>
           </tr>
         </div>
         <div style="margin-top: 20px; margin-left:5px">

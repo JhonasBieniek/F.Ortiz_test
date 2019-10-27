@@ -1,0 +1,166 @@
+{
+    "pedidos": [
+      {
+        "titulo": "Abertos",
+        "step": true,
+        "index": 0,
+        "columns": [
+          {
+            "prop": "num_pedido",
+            "name": "Num Pedido",
+            "width": "200"
+          },
+          {
+            "prop": "representada.nome_fantasia",
+            "name": "Representada",
+            "width": "120"
+          },
+          {
+            "prop": "cliente.nome_fantasia",
+            "name": "Comprador",
+            "width": "150"
+          },
+          {
+            "prop": "data_emissao",
+            "name": "Emissão",
+            "width": "130"
+          },
+          {
+            "prop": "data_entrega",
+            "name": "Entrega",
+            "width": "160"
+          }
+        ]
+      }
+    ],
+    "orcamentos": [
+      {
+        "titulo": "Solicitações",
+        "step": "solicitacao",
+        "index": 0,
+        "columns": [
+          {
+            "prop": "cliente",
+            "name": "Cliente",
+            "width": "200"
+          },
+          {
+            "prop": "created",
+            "name": "Período",
+            "width": "120"
+          },
+          {
+            "prop": "nomeInvest",
+            "name": "Investimento",
+            "width": "150"
+          },
+          {
+            "prop": "valor",
+            "name": "Valor",
+            "width": "130"
+          },
+          {
+            "prop": "acessor",
+            "name": "Acessor",
+            "width": "160"
+          }
+        ]
+      },
+      {
+        "titulo": "Boletas Env.",
+        "step": "enviada",
+        "index": 1,
+        "columns": [
+          {
+            "prop": "cliente",
+            "name": "Cliente",
+            "width": 200
+          },
+          {
+            "prop": "modified",
+            "name": "Período",
+            "width": 120
+          },
+          {
+            "prop": "nomeInvest",
+            "name": "Investimento",
+            "width": 150
+          },
+          {
+            "prop": "valor",
+            "name": "Valor",
+            "width": 130
+          },
+          {
+            "prop": "acessor",
+            "name": "Acessor",
+            "width": 160
+          }
+        ]
+      },
+      {
+        "titulo": "Em liquidação",
+        "step": "liquidacao",
+        "index": 2,
+        "columns": [
+          {
+            "prop": "cliente",
+            "name": "Cliente",
+            "width": 200
+          },
+          {
+            "prop": "modified",
+            "name": "Prazo Liquid.",
+            "width": 120
+          },
+          {
+            "prop": "nomeInvest",
+            "name": "Investimento",
+            "width": 150
+          },
+          {
+            "prop": "valor",
+            "name": "Valor",
+            "width": 130
+          },
+          {
+            "prop": "acessor",
+            "name": "Acessor",
+            "width": 160
+          }
+        ]
+      },
+      {
+        "titulo": "Finalizado",
+        "step": "finalizado",
+        "index": 4,
+        "columns": [
+          {
+            "prop": "cliente",
+            "name": "Cliente",
+            "width": 200
+          },
+          {
+            "prop": "modified",
+            "name": "Prazo",
+            "width": 120
+          },
+          {
+            "prop": "nomeInvest",
+            "name": "Investimento",
+            "width": 150
+          },
+          {
+            "prop": "valor",
+            "name": "Valor",
+            "width": 130
+          },
+          {
+            "prop": "acessor",
+            "name": "Acessor",
+            "width": 160
+          }
+        ]
+      }
+    ]
+  }

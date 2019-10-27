@@ -73,8 +73,8 @@ const MENUITEMS = [
     icon: 'dvr',
     children: [
       {state: 'importar', name: 'Importar'},
-      {state: 'listar', name: 'Pedidos'},
-      {state: 'orcamento', name: 'Orçamento'},
+      {state: 'listar-pedido', name: 'Pedidos'},
+      {state: 'listar-orcamento', name: 'Orçamentos'},
       {state: 'conciliacao', name: 'Conciliação de Notas'},
       {state: 'relatorios', name: 'Relatórios'},
     ]
