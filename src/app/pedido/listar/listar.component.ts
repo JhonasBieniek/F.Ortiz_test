@@ -23,10 +23,8 @@ export class ListarComponent implements OnInit {
   temp:any = [];
   steps:any = [];
   path;
-  
+  nome:string = "";  
   defaultTab = 0;
-
-  itemSelected
 
   loadingIndicator = true;
   reorderable = true;
@@ -35,6 +33,15 @@ export class ListarComponent implements OnInit {
 
   @ViewChild(ListarComponent) table: ListarComponent;
   constructor(private clientservice: ClientService, private dialog: MatDialog) {
+                             
+  }
+
+  ngOnInit() {
+    this.steps = data[this.rota];
+    console.log(this.rota);
+    if(this.rota != "orcamentos"){
+      this.path  = '/pedido/novo';
+      this.nome = "Pedido"
       this.clientservice.getPedidos().subscribe((res:any) =>{
         let i = 0;
         this.steps.forEach(e => {
@@ -43,17 +50,19 @@ export class ListarComponent implements OnInit {
         });
         this.rows = [...this.temp];
     });   
-    if(this.rota == "orcamentos"){
-      this.path  = '/pedido/novo';
     }else{
       this.path  = '/pedido/orcamento';
-    }                          
-  }
-
-  ngOnInit() {
-    this.steps = data[this.rota];
+      this.nome = "Orçamento"
+      this.clientservice.getOrcamentos().subscribe((res:any) =>{
+        let i = 0;
+        this.steps.forEach(e => {
+          this.temp[i] = res.data.filter(d => d.status == e.step);
+          i++;
+        });
+        this.rows = [...this.temp];
+    });   
+    }   
    }
-  
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
     this.rows[this.defaultTab] = this.temp[this.defaultTab].filter(function(d) {

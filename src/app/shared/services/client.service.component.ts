@@ -239,6 +239,15 @@ export class ClientService {
               return res;
             });
   }
+  getOrcamentos() {
+    const uri = `${API_URL}` + `orcamentos/index.json`;
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
   getUnidades() {
     const uri = `${API_URL}` + `unidades/index.json`;
     return this

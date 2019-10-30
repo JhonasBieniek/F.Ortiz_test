@@ -5,12 +5,12 @@
       <mat-card-actions class="bt_criarpedido" align="end">
         <div class="button-row">
           <button mat-raised-button color="primary" type="button" [routerLink]="[path]">
-            <mat-icon class="example-icon">add_box</mat-icon> Criar pedido
+            <mat-icon class="example-icon">add_box</mat-icon> Criar {{nome}}
           </button>
         </div>
       </mat-card-actions>
       <mat-card-content>
-        <mat-card-title class="title">Listar Pedidos </mat-card-title>
+        <mat-card-title class="title">Listar {{nome}}s </mat-card-title>
       </mat-card-content>
       <mat-tab-group (selectedTabChange)="onTabChange($event)">
         <mat-tab *ngFor="let step of steps " class="aba" label="{{step.titulo}}">

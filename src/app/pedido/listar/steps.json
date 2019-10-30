@@ -36,33 +36,18 @@
     "orcamentos": [
       {
         "titulo": "Solicitações",
-        "step": "solicitacao",
+        "step": true,
         "index": 0,
         "columns": [
           {
-            "prop": "cliente",
-            "name": "Cliente",
-            "width": "200"
-          },
-          {
-            "prop": "created",
-            "name": "Período",
+            "prop": "representada.nome_fantasia",
+            "name": "Representada",
             "width": "120"
           },
           {
-            "prop": "nomeInvest",
-            "name": "Investimento",
+            "prop": "cliente.nome_fantasia",
+            "name": "Comprador",
             "width": "150"
-          },
-          {
-            "prop": "valor",
-            "name": "Valor",
-            "width": "130"
-          },
-          {
-            "prop": "acessor",
-            "name": "Acessor",
-            "width": "160"
           }
         ]
       },
