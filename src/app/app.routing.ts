@@ -19,7 +19,7 @@ export const AppRoutes: Routes = [{
   }, {
     path: 'material',
     loadChildren: './material-component/material.module#MaterialComponentsModule',
-  }, {
+  },{
     path: 'apps',
     loadChildren: './apps/apps.module#AppsModule'
   },{
@@ -60,14 +60,14 @@ export const AppRoutes: Routes = [{
   path: '',
   component: AppBlankComponent,
   children: [{
-    path: 'authentication',
-    loadChildren: './authentication/authentication.module#AuthenticationModule'
+    path: 'glogin',
+    loadChildren: './glogin/glogin.module#GloginModule'
   }]
 }, {
   path: '**',
   redirectTo: 'authentication/404' 
 },
 { 
-  path: 'login', 
-  redirectTo: 'authentication/authentication.module#AuthenticationModule' 
+  path: 'glogin', 
+  redirectTo: './glogin/glogin.module#GloginModule' 
 }];

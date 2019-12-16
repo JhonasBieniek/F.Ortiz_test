@@ -6,7 +6,7 @@ import { SnackbarComponent } from './messages/snackbar/snackbar.component';
 import {NotificationService} from './messages/notification.service';
 import { ClientService } from './services/client.service.component';
 import { OrderService } from './services/order.service.component';
-
+import { UserService } from './services/user.service.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +24,8 @@ import { OrderService } from './services/order.service.component';
   providers: [ MenuItems,
                NotificationService,
                ClientService,
-               OrderService
+               OrderService,
+               UserService
               ]
 })
 export class SharedModule { }

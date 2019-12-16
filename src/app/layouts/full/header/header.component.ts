@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { UserService } from '../../../shared/services/user.service.component';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -60,4 +62,12 @@ export class AppHeaderComponent {
       subject: 'Just see the my admin!',
       time: '9:00 AM'
     }];
+
+    constructor(
+      private userService: UserService,
+    ) {}
+
+    public signOut() {
+      this.userService.signOut();
+    }
 }

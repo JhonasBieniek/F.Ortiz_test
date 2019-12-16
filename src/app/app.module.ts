@@ -38,9 +38,26 @@ import { NgxCurrencyModule } from "ngx-currency";
 import { NgxSpinnerModule } from "ngx-spinner";
 import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from "ngx-currency/src/currency-mask.config";
 
+import {
+  GoogleApiModule, 
+  GoogleApiService, 
+  GoogleAuthService, 
+  NgGapiClientConfig, 
+  NG_GAPI_CONFIG,
+  GoogleApiConfig
+} from "ng-gapi";
 
 
-
+let gapiClientConfig: NgGapiClientConfig = {
+  client_id: "1078742420525-80sm10jeu87n9bd445bkjaeusdroofer.apps.googleusercontent.com",
+  discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest"],
+  scope: [
+    "https://mail.google.com/",
+    "https://www.googleapis.com/auth/gmail.modify",
+    "https://www.googleapis.com/auth/gmail.compose",
+    "https://www.googleapis.com/auth/gmail.send"
+  ].join(" ")
+};
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -71,8 +88,6 @@ registerLocaleData(ptBr)
     AppBlankComponent,
     AppSidebarComponent,
     DateFormatPipe,
-
-    
   ],
   imports: [
     BrowserModule,
@@ -81,6 +96,10 @@ registerLocaleData(ptBr)
     FormsModule,
     FlexLayoutModule,  
     HttpClientModule,
+    GoogleApiModule.forRoot({
+      provide: NG_GAPI_CONFIG,
+      useValue: gapiClientConfig
+    }),
     HttpClientJsonpModule,
     PerfectScrollbarModule,
     SharedModule,  
