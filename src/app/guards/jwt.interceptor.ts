@@ -1,6 +1,16 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
+import { 
+    HttpErrorResponse,
+    HttpEvent,
+    HttpHandler,
+    HttpInterceptor,
+    HttpRequest,
+    HttpResponse
+} from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -14,6 +24,20 @@ export class JwtInterceptor implements HttpInterceptor {
                 }
             });
         }
-        return next.handle(request);
+        return next.handle(request)
+        .map((event: HttpEvent<any>) => {
+            if (event instanceof HttpResponse && ~~(event.status / 100) > 3) {
+              console.info('HttpResponse::event =', event, ';');
+            } else console.info('event =', event, ';');
+            return event;
+          })
+          .catch((err: any, caught) => {
+            if (err instanceof HttpErrorResponse) {
+              if (err.status === 401) {
+                console.info('err.error =', err.error, ';');
+              }
+              return Observable.throw(err);
+            }
+          });;
     }
 }
