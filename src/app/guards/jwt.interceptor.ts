@@ -15,7 +15,10 @@ import { UserService } from '../shared/services/user.service.component';
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
 
-    constructor(private router: Router) {}
+    constructor(
+        private router: Router,
+        private userService: UserService
+        ) {}
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // add authorization header with jwt token if available
@@ -31,9 +34,9 @@ export class JwtInterceptor implements HttpInterceptor {
         (err: any) => {
         if (err instanceof HttpErrorResponse) {
           if (err.status !== 401) {
+            this.userService.signOut();
            return;
-          }
-          this.router.navigate(['glogin']);
+          } 
         }
       }));
     }
