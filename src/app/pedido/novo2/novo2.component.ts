@@ -20,6 +20,7 @@ import * as moment from 'moment';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
+import { forEach } from '@angular/router/src/utils/collection';
 
 export const MY_FORMATS = {
   parse: {
@@ -272,23 +273,69 @@ export class Novo2Component implements OnInit {
     this.emissao = moment(data[4][0].match(new RegExp("\\d{2}\\/\\d{2}\\/\\d{4}", "g"))[0].replace(/\//g, "-"), 'DD-MM-YYYY').format("YYYY-MM-DD")
     this.selectedRepresentada = 21;
 
-    while (inicial <= final) {
-      while (data[final][0] != "Soma Quant.") {
-        final++;
-        while (data[inicial][0].toString().split(" ", 1)[0] != "Descrição") {
-          inicial++;
+    while (data[final][0] != "Soma Quant.") {
+      final++;
+      while (data[inicial][0].toString().split(" ", 1)[0] != "Descrição") {
+        inicial++;
+        if(data[inicial+1][0] === undefined){
+          inicial+=2;
         }
       }
-      if (data[inicial][0] != undefined) {
-        if (data[inicial][0].toString().split(" ", 1)[0] != "Descrição" && data[inicial][0] != "Soma Quant.") {
-          console.log(data[inicial][0]);
+    }
+    for(let i=inicial+1; i<final; i+=3){
+      let rowTam = i+1;
+      let rowQtd = i+2;
+      let dados = data[i][0].toString();
+      let produto = {
+        codigo: dados.split(/\s+/g)[1],
+        nome: dados.match(new RegExp("BOT([^.]+)\\PR", "g"))[0],
+        quantidade: null,
+        tamanho: null,
+        ipi: 0,
+        valorUnitario: dados.match(new RegExp("\\d{2}\\,\\d{2}"))[0],
+        comissao: null
+      }
+      for(let j=0; j<=data[rowTam].length; j++){
+        if(data[rowTam][j] != undefined || data[rowQtd][j] != undefined ){
+          produto.tamanho = data[rowTam][j];
+          produto.quantidade = data[rowQtd][j];
+          await this.consultaCod(produto).then((res: any) => {
+            console.log(res, "return promise consulta")
+            if (res != undefined) {
+              this.addItemPlan(res) //* Adiciona item à item que já esteja cadastrado no banco
+              console.log('oi')
+            } else {
+              this.dialogProd = true;
+            }
+          });
         }
       }
-      inicial++;
     }
     this.ValorTotal = data[final+7][0];
     this.frete = data[final+9][0] = "CIF Destino" ? "Cliente" : "Representada"
     this.transportadora = data[final+11][0];
+    this.ValorTotal = data[final][1];
+    if (inicial > final) {
+      if (this.dialogProd == true) {
+        this.openDialogVolk()
+      }
+    }
+    // setTimeout(() => {this.chargeItens()}, 2000);
+    if (String(this.cliente).length == 14) {
+      console.log('14')
+      this.clientservice.getClientesCnpj(this.cliente).subscribe((res: any) => {
+        if (res.success == true) {
+          this.selectedCliente = res.data.id;
+          this.selectedAreaVendaID = res.data.area_venda_id;
+        } else {
+          this.openDialogCNPJ(this.cliente)
+        }
+      })
+    } else {
+      this.notificationService.notify("CNPJ INCORRETO!")
+    }
+    this.CarregarProdutosRepresentada();
+    this.spinner.hide();
   }
 
   async betanin(data) {
