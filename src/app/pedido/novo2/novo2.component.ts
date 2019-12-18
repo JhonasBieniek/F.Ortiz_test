@@ -282,6 +282,7 @@ export class Novo2Component implements OnInit {
         }
       }
     }
+
     for(let i=inicial+1; i<final; i+=3){
       let rowTam = i+1;
       let rowQtd = i+2;
@@ -394,6 +395,56 @@ export class Novo2Component implements OnInit {
       this.clientservice.getClientesCnpj(this.cliente).subscribe((res: any) => {
         if (res.success == true) {
           this.selectedCliente = res.data.id;
+        } else {
+          this.openDialogCNPJ(this.cliente)
+        }
+      })
+    } else {
+      this.notificationService.notify("CNPJ INCORRETO!")
+    }
+    this.CarregarProdutosRepresentada();
+    this.spinner.hide();
+  }
+
+  async italbotas(data){
+    var inicial = 0;
+    var final = 0;
+    this.cliente = data[5][13];
+    this.cliente = (this.cliente.length == 13)? "0"+this.cliente: this.cliente;
+    this.pedido = data[5][1]+"/"+data[6][22];
+    this.condComercial = data[6][13];
+    this.emissao = data[6][4];
+    this.entrega = null;
+    this.selectedRepresentada = 12;
+    inicial = 7;
+    while (data[final][16] != "TOTAL:") {
+      final++;
+    }
+    for(let i=inicial; i<final; i+=3){
+      let rowTam = i+2;
+      let produto = {
+        codigo: data[rowTam][0],
+        nome: data[rowTam][1].toString().split(" - ")[0],
+        quantidade: data[i][11],
+        tamanho: data[rowTam][1].toString().split(" - ")[1],
+        ipi: 0,
+        valorUnitario: data[i][14],
+        comissao: data[i][24]
+      }
+    }
+    
+    if (inicial > final) {
+      if (this.dialogProd == true) {
+        this.openDialogVolk()
+      }
+    }
+    // setTimeout(() => {this.chargeItens()}, 2000);
+    if (String(this.cliente).length == 14) {
+      console.log('14')
+      this.clientservice.getClientesCnpj(this.cliente).subscribe((res: any) => {
+        if (res.success == true) {
+          this.selectedCliente = res.data.id;
+          this.selectedAreaVendaID = res.data.area_venda_id;
         } else {
           this.openDialogCNPJ(this.cliente)
         }
