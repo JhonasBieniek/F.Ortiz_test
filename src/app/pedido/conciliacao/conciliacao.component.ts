@@ -1,61 +1,159 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Injectable } from '@angular/core';
 import { ClientService } from '../../shared/services/client.service.component';
-import { MatDialog } from '@angular/material';
- 
+import { MatDialogConfig, MatDialog, MatTabChangeEvent, MatBottomSheetRef, MatBottomSheet } from '@angular/material';
+import { NotificationService } from '../../shared/messages/notification.service';
+import { DialogAddNotaComponent } from './dialog-add-nota/dialog-add-nota.component';
+
+import steps from './status.json';
+
 @Component({
   selector: 'app-conciliacao',
   templateUrl: './conciliacao.component.html',
   styleUrls: ['./conciliacao.component.css']
 })
 
+@Injectable()
 export class ConciliacaoComponent implements OnInit {
   editing = {};
-  rows = [];
-  data: any =[];
-  temp = [...this.data];
-  
-  loadingIndicator: boolean = true;
-  reorderable: boolean = true;                           
-       
+  rows:any = [];
+  temp:any = [];
+  selected:any = [];
+  steps: any = steps.concilicacao;
+  defaultTab = 0;
 
+  itemSelected
+
+  loadingIndicator = true;
+  reorderable = true;
+
+  isEditable = {};                  
+  
   @ViewChild(ConciliacaoComponent) table: ConciliacaoComponent;
-  constructor(private clientservice: ClientService, private dialog: MatDialog) {
-      this.clientservice.getPedidos().subscribe(res =>{
-      this.data = res;
-      this.rows = this.data.data;
-      this.temp = [...this.data.data];
-      setTimeout(() => { this.loadingIndicator = false; }, 1500); 
-    });  
-
-                                 
-  }
   
-  updateFilter(event) {
-  const val = event.target.value.toLowerCase();
-      
-  // filter our data
-  const temp = this.temp.filter(function(d) {
-    return d.num_pedido.toLowerCase().indexOf(val) !== -1 || !val ||
-    d.cliente.nome_fantasia.toLowerCase().indexOf(val) !== -1 || !val ||
-    d.representada.nome_fantasia.toLowerCase().indexOf(val) !== -1 || !val 
-           
-  }); 
-  // update the rows
-  this.rows = temp;
-  // Whenever the filter changes, always go back to the first page
-  this.table = this.data;
+  constructor(
+    private notificationService: NotificationService,
+    private clientservice: ClientService, 
+    private dialog: MatDialog
+    ) {
+      this.clientservice.getNotas().subscribe((res:any) =>{
+      let i = 0;
+      this.steps.forEach(e => {
+        this.temp[i] = res.data.filter(d => d.status == e.status);
+        i++;
+      });
+      this.rows = [...this.temp];
+    });                     
   }
-  updateValue(event, cell, rowIndex) {    
-  console.log('inline editing rowIndex', rowIndex)
-  this.editing[rowIndex + '-' + cell] = false;
-  this.rows[rowIndex][cell] = event.target.value;
-  this.rows = [...this.rows];
-  console.log('UPDATED!', this.rows[rowIndex][cell]);
-  }
-
 
   ngOnInit() {
    
+  }
+
+  clearSelected(){
+    this.selected = [];
+  }
+
+  dta(data){
+    let dateNow = Date.now();
+    let dateCreated:any = new Date(data.seconds*1000);
+    let dif = Math.abs(dateNow.valueOf() - dateCreated.valueOf())
+    let m = (Math.ceil(dif)/(1000))
+    // set minutos p segundos
+    var seconds = m 
+    // calcula (e subtrai) dias inteiros
+    var days = Math.floor(seconds / 86400);
+    seconds -= days * 86400;
+    // calcula (e subtrai) horas inteiros
+    var hours = Math.floor(seconds / 3600) % 24;
+    seconds -= hours * 3600;
+    // calcula (e subtrai) minutos inteiros
+    var minutes = Math.floor(seconds / 60) % 60;
+    return days + 'd ' + hours + 'h ' + minutes + 'm ';
+  }
+
+  openDialog() {
+    let dialogConfig = new MatDialogConfig();
+    dialogConfig = {
+      maxWidth: '55vw',
+      maxHeight: '95vh',
+      width: '50vw',
+      height: '95vh'
+    }
+    let dialogRef = this.dialog.open(
+      DialogAddNotaComponent, 
+      dialogConfig, 
+    );
+    dialogRef.afterClosed().subscribe(value => {
+      if(value == true){
+        this.notificationService.notify("Nota adicionada com sucesso !")
+        this.selected = [];
+      }
+    });
+  }
+  
+  /*
+  openDeleteDialog() {
+    let dialogConfig = new MatDialogConfig();
+    dialogConfig = {
+      maxWidth: '55vw',
+      maxHeight: '40vh',
+      width: '50vw',
+      height: '40vh'
+    }
+    dialogConfig.data = this.selected;
+    let dialogRef = this.dialog.open(
+      DialogDeleteBoletaComponent, 
+      dialogConfig, 
+    );
+    dialogRef.afterClosed().subscribe(value => {
+      if(value == true){
+        this.notificationService.notify(`Nota excluida com sucesso !`);
+        this.selected = [];
+      }
+    });
+  }
+  */
+
+  updateFilter(event) {
+    const val = event.target.value.toLowerCase();
+    this.rows[this.defaultTab] = this.temp[this.defaultTab].filter(function(d) {
+      if( d.cliente.toLowerCase().indexOf(val) !== -1 || !val )
+      return d
+    }); 
+  }
+
+  filter(val) {
+    this.rows[this.defaultTab] = this.temp[this.defaultTab].filter(function(d) {
+      if( d.cliente.toLowerCase().indexOf(val) !== -1 || !val )
+      return d
+    }); 
+  } 
+  
+  onSelect({ selected }) {
+    console.log(selected);
+    if(selected.length == 1 && this.defaultTab == 0){
+      this.filter(selected[0].cliente.toLowerCase());
+    }
+    if(selected.length == 0){
+      this.filter("");
+    }
+    this.selected.splice(0, this.selected.length);
+    this.selected.push(...selected);
+  }
+
+  valorSelected(){
+    let valor: number = 0;
+    this.selected.forEach(element => {
+      valor +=element.valor;
+    });
+    return valor;
+  }
+
+  onTabChange(event: MatTabChangeEvent) {
+    this.defaultTab = event.index;
+    console.log(this.defaultTab, "tab change");
+    window.dispatchEvent(new Event('resize'));
+    this.selected =[];
   }
 
 }

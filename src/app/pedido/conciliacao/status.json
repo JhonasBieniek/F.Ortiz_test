@@ -1,0 +1,115 @@
+{
+  "concilicacao": [
+    {
+      "titulo": "Abertos",
+      "step": "abertos",
+      "index": 0,
+      "columns": [
+        {
+          "prop": "num_nota",
+          "name": "N° nota",
+          "width": "100"
+        },
+        {
+          "prop": "pedido",
+          "name": "Pedido",
+          "width": "100"
+        },
+        {
+          "prop": "representada",
+          "name": "Representada",
+          "width": "150"
+        },
+        {
+          "prop": "cliente",
+          "name": "Cliente",
+          "width": "150"
+        },
+        {
+          "prop": "data_faturamento",
+          "name": "Data faturamento",
+          "width": "160"
+        },
+        {
+          "prop": "status",
+          "name": "Status",
+          "width": "160"
+        }
+      ]
+    },
+    {
+      "titulo": "Baixados",
+      "step": "baixados",
+      "index": 1,
+      "columns": [
+        {
+          "prop": "num_nota",
+          "name": "N° nota",
+          "width": "100"
+        },
+        {
+          "prop": "pedido",
+          "name": "Pedido",
+          "width": "100"
+        },
+        {
+          "prop": "representada",
+          "name": "Representada",
+          "width": "150"
+        },
+        {
+          "prop": "cliente",
+          "name": "Cliente",
+          "width": "150"
+        },
+        {
+          "prop": "data_faturamento",
+          "name": "Data faturamento",
+          "width": "160"
+        },
+        {
+          "prop": "status",
+          "name": "Status",
+          "width": "160"
+        }
+      ]
+    },
+    {
+      "titulo": "Cancelados",
+      "step": "cancelados",
+      "index": 2,
+      "columns": [
+        {
+          "prop": "num_nota",
+          "name": "N° nota",
+          "width": "100"
+        },
+        {
+          "prop": "pedido",
+          "name": "Pedido",
+          "width": "100"
+        },
+        {
+          "prop": "representada",
+          "name": "Representada",
+          "width": "150"
+        },
+        {
+          "prop": "cliente",
+          "name": "Cliente",
+          "width": "150"
+        },
+        {
+          "prop": "data_faturamento",
+          "name": "Data faturamento",
+          "width": "160"
+        },
+        {
+          "prop": "status",
+          "name": "Status",
+          "width": "160"
+        }
+      ]
+    }
+  ]
+}

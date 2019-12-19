@@ -16,7 +16,7 @@ import { ItensPedidoComponent } from './itens-pedido/itens-pedido.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { DialogCadastroComponent } from './novo/dialog-cadastro/dialog-cadastro.component';
 import { MatDialogModule } from '@angular/material';
-import {NgxMaskModule, IConfig} from 'ngx-mask';
+import { NgxMaskModule, IConfig} from 'ngx-mask';
 import { DialogClienteAddComponent } from './novo/dialog-body/dialog-body-cliente.component';
 import { DateFormatPipe } from '../shared/pipes/dateFormat.pipe';
 import { NgxCurrencyModule } from 'ngx-currency';
@@ -26,6 +26,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { ConciliacaoComponent } from './conciliacao/conciliacao.component';
 import { OrcListarComponent } from './orc-listar/orc-listar.component';
 import { PedidoListarComponent } from './pedido-listar/pedido-listar.component';
+import { DialogAddNotaComponent } from './conciliacao/dialog-add-nota/dialog-add-nota.component';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
 
@@ -46,11 +47,11 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
     NgxMaskModule.forRoot(),
     NgxSpinnerModule
   ],
-  declarations: [ListarComponent, NovoComponent, ItensPedidoComponent, ShoppingCartComponent, DialogCadastroComponent, DialogClienteAddComponent, Novo2Component, OrcamentoComponent, ConciliacaoComponent, OrcListarComponent, PedidoListarComponent],
+  declarations: [ListarComponent, NovoComponent, ItensPedidoComponent, ShoppingCartComponent, DialogCadastroComponent, DialogClienteAddComponent, Novo2Component, OrcamentoComponent, ConciliacaoComponent, OrcListarComponent, PedidoListarComponent, DialogAddNotaComponent],
   providers: [
     DateFormatPipe,    
   ],
-  entryComponents: [ DialogCadastroComponent, DialogClienteAddComponent],
+  entryComponents: [ DialogCadastroComponent, DialogClienteAddComponent, DialogAddNotaComponent],
 
 })
 export class PedidoModule { }

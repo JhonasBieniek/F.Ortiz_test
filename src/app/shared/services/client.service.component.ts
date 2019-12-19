@@ -239,6 +239,24 @@ export class ClientService {
               return res;
             });
   }
+  getNotas() {
+    const uri = `${API_URL}` + `notas/index.json`;
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
+  getPedidoSemNota() {
+    const uri = `${API_URL}` + `notas/getPedidoSemNota.json`;
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
   getOrcamentos() {
     const uri = `${API_URL}` + `orcamentos/index.json`;
     return this
