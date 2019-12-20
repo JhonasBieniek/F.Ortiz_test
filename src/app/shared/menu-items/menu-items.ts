@@ -76,16 +76,6 @@ const MENUITEMS = [
       {state: 'relatorios', name: 'Relatórios'},
     ]
   },{
-    state: 'credito',
-    name: 'Crédito',
-    type: 'sub',
-    icon: 'payment',
-    children: [
-      {state: 'listar', name: 'Listar'},
-      {state: 'gerar', name: 'Gerar'},
-      {state: 'configurar', name: 'Configurar'},
-    ]
-  },{
     state: 'comissao',
     name: 'Comissão',
     type: 'sub',
@@ -93,7 +83,20 @@ const MENUITEMS = [
     children: [
       {state: 'receber', name: 'A receber'},  
       {state: 'repasses', name: 'Repasses'},  
-      {state: 'recebidos', name: 'Recebidos'}
+      {state: 'recebidos', name: 'Recebidos'},
+      {state: 'recebimentos', name: 'Recebimentos'},
+      {
+        state: 'relcomissao',
+        name: 'Relatórios',
+        type: 'subchild',
+        subchildren: [
+            {state: 'comissoes', name: 'Comissoes'},
+            {state: 'acumulado', name: 'Acumulado'},
+            {state: 'checkbox', name: 'Recebimento'},
+            {state: 'datepicker', name: 'Devoluções'},    
+            {state: 'editor', name: 'Estornos'}
+        ]
+      }
     ]
   },{
     state: 'financeiro',
@@ -110,18 +113,27 @@ const MENUITEMS = [
       {state: 'financeiro', name: 'Configurar'},
     ]
   },{
-    state: 'relatorio',
-    name: 'Relatório',
+    state: 'pages',
+    name: 'Pages',
     type: 'sub',
-    icon: 'insert_chart',
+    icon: 'content_copy',
     children: [
-      {state: 'relatorio', name: 'Crédito'},
-      {state: 'relatorio', name: 'Desempenho'},
-      {state: 'relatorio', name: 'Divergência'},
-      {state: 'relatorio', name: 'Financeiro'},
-      {state: 'relatorio', name: 'Pedido'},
-      {state: 'relatorio', name: 'Produto'},
-      {state: 'relatorio', name: 'Venda'},
+      { state: 'timeline', name: 'Timeline', type: 'link' },
+      { state: 'invoice', name: 'Invoice', type: 'link' },
+      { state: 'pricing', name: 'Pricing', type: 'link' },
+      { state: 'helper', name: 'Helper Classes', type: 'link' },
+      {
+        state: 'icons',
+        name: 'Icons',
+        type: 'subchild',
+        subchildren: [
+          {
+            state: 'material',
+            name: 'Material Icons',
+            type: 'link'
+          }
+        ]
+      }
     ]
   },/*{
     state: 'configuracao',
