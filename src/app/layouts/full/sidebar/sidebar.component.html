@@ -50,7 +50,21 @@
         </a>
         <mat-nav-list class="sub-item" *ngIf="menuitem.type === 'sub'">
             <mat-list-item *ngFor="let childitem of menuitem.children" routerLinkActive="selected"> 
-                <a [routerLink]="['/', menuitem.state, childitem.state ]" class="relative" routerLinkActive="selected">{{ childitem.name}}</a> 
+                <a [routerLink]="['/', menuitem.state, childitem.state ]" class="relative" 
+                (click)="itemSelect[i]=j" routerLinkActive="selected">{{ childitem.name}}</a> 
+            </mat-list-item>
+            <mat-list-item *ngFor="let childitem of menuitem.children; let j=index">
+                <a class="" href="javascript: void(0);" *ngIf="childitem.type === 'subchild'" (click)="itemSelect[i]=j"
+                    [ngClass]="j==itemSelect[i]? 'selected' : ''">
+                    <span>{{ childitem.name }}</span>
+                    <span fxFlex></span>
+                    <mat-icon class="dd-icon">keyboard_arrow_down</mat-icon>
+                </a>
+                <mat-nav-list class="child-sub-item" *ngIf="childitem.type === 'subchild'" >
+                    <mat-list-item *ngFor="let child of childitem.subchildren" routerLinkActive="selected">
+                        <a [routerLink]="['/', menuitem.state, childitem.state, child.state ]" routerLinkActive="selected" >{{child.name}}</a>
+                    </mat-list-item>
+                </mat-nav-list>
             </mat-list-item>
         </mat-nav-list>
         <div class="saperator text-muted" *ngIf="menuitem.type === 'saperator'">

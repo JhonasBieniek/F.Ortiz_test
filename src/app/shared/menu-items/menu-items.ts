@@ -8,10 +8,16 @@ export interface Saperator {
   name: string;
   type?: string;
 }
+export interface SubChildren {
+  state: string;
+  name: string;
+  type?: string;
+}
 export interface ChildrenItems {
   state: string;
   name: string;
   type?: string;
+  child?: SubChildren[];
 }
 
 export interface Menu {
@@ -112,30 +118,7 @@ const MENUITEMS = [
       {state: 'financeiro', name: 'Contas a Receber'},
       {state: 'financeiro', name: 'Configurar'},
     ]
-  },{
-    state: 'pages',
-    name: 'Pages',
-    type: 'sub',
-    icon: 'content_copy',
-    children: [
-      { state: 'timeline', name: 'Timeline', type: 'link' },
-      { state: 'invoice', name: 'Invoice', type: 'link' },
-      { state: 'pricing', name: 'Pricing', type: 'link' },
-      { state: 'helper', name: 'Helper Classes', type: 'link' },
-      {
-        state: 'icons',
-        name: 'Icons',
-        type: 'subchild',
-        subchildren: [
-          {
-            state: 'material',
-            name: 'Material Icons',
-            type: 'link'
-          }
-        ]
-      }
-    ]
-  },/*{
+  }/*{
     state: 'configuracao',
     name: 'Configuração',
     type: 'sub',
