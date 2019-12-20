@@ -224,6 +224,7 @@ export class OrcamentoComponent implements OnInit {
       comissao_media: 3,
       comissao_bruto: 93.348,
       status: true,
+      gerado: true,
       obs: this.form.value.observacao,
       orcamento_produtos: this.produtos()
     }

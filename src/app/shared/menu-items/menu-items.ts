@@ -53,9 +53,6 @@ const MENUITEMS = [
       {state: 'condicoescomerciais', name: 'Condições Comerciais'},
       {state: 'comissoes', name: 'Comissões'},
       {state: 'ramo-atividade', name: 'Ramo de Atividade'},
-      
-      
-      
     ]
   },{
     state: 'produto',
@@ -87,6 +84,16 @@ const MENUITEMS = [
       {state: 'listar', name: 'Listar'},
       {state: 'gerar', name: 'Gerar'},
       {state: 'configurar', name: 'Configurar'},
+    ]
+  },{
+    state: 'comissao',
+    name: 'Comissão',
+    type: 'sub',
+    icon: 'trending_up',
+    children: [
+      {state: 'receber', name: 'A receber'},  
+      {state: 'repasses', name: 'Repasses'},  
+      {state: 'recebidos', name: 'Recebidos'}
     ]
   },{
     state: 'financeiro',
