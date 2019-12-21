@@ -51,6 +51,12 @@ export class ClientService {
       .subscribe(res =>
           console.log('Done'));
   }
+  addNota(data){
+    const uri = `${API_URL}` + `notas/add.json`;
+    return this
+      .http
+      .post(uri, data) 
+  }
   addRegiao(dados) {
     const uri = `${API_URL}` + `regioes/add.json`;
     const obj = {
@@ -149,6 +155,7 @@ export class ClientService {
       .http
       .post(uri, data) 
   }
+  
   getProdutos() {
     const uri = `${API_URL}` + `produtos/index.json`;
     return this

@@ -1,3 +1,48 @@
-<p>
-  dialog-add-nota works!
-</p>
+<div mat-dialog-actions class="bt_criarpedido" align="end">
+  <button mat-raised-button color="warn" type="button" (click)="close()">
+    <mat-icon class="example-icon">add_box</mat-icon> Fechar
+  </button>
+</div>
+<h1 mat-dialog-title>Cadastrar nota fiscal</h1>
+<div mat-dialog-content >
+  <p>Pedidos sem nota fiscal cadastrada</p>
+  <mat-tab-group (selectedTabChange)="onTabChange($event)">
+    <mat-tab *ngFor="let step of steps " class="aba" label="{{step.titulo}}">
+      <mat-form-field>
+        <input matInput type='text' class="form-control" placeholder='Insira um nome para pesquisar...'
+        (keyup)='updateFilter($event)' />
+      </mat-form-field>
+      <ngx-datatable 
+      #step.step 
+      class='material striped' 
+      [columnMode]="'flex'" 
+      [headerHeight]="50" 
+      [footerHeight]="50"
+      [rowHeight]="'auto'" 
+      [limit]="5"
+      [rows]='rows[step.index]' 
+      [selected]="selected"
+      [selectionType]="'single'"
+      (select)='onSelect($event)' 
+      [sorts]="[{prop: 'id', dir: 'asc'}]">
+        <ngx-datatable-column  [flexGrow]="0.3" name="Selecionar" [sortable]="false" [draggable]="false">
+          <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
+            <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)" />
+          </ng-template>
+          <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected"let-onCheckboxChangeFn="onCheckboxChangeFn">
+            <input type="checkbox"  [checked]="isSelected" (change)="onCheckboxChangeFn($event)" />
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column *ngFor="let column of step.columns"  [flexGrow]=column.width name="{{column.name}}" prop="{{column.prop}}" [ngSwitch]="column.prop">
+          <ng-template *ngSwitchCase="'modified'" let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+            {{dta(value)}}
+          </ng-template>
+          <ng-template ngSwitchDefault let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+            {{value}}
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+

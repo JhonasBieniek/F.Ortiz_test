@@ -4,7 +4,7 @@ import { MatDialogConfig, MatDialog, MatTabChangeEvent, MatBottomSheetRef, MatBo
 import { NotificationService } from '../../shared/messages/notification.service';
 import { DialogAddNotaComponent } from './dialog-add-nota/dialog-add-nota.component';
 
-import steps from './status.json';
+import steps from './steps.json';
 
 @Component({
   selector: 'app-conciliacao',
@@ -26,9 +26,7 @@ export class ConciliacaoComponent implements OnInit {
   loadingIndicator = true;
   reorderable = true;
 
-  isEditable = {};                  
-  
-  @ViewChild(ConciliacaoComponent) table: ConciliacaoComponent;
+  isEditable = {};               
   
   constructor(
     private notificationService: NotificationService,
@@ -38,7 +36,7 @@ export class ConciliacaoComponent implements OnInit {
       this.clientservice.getNotas().subscribe((res:any) =>{
       let i = 0;
       this.steps.forEach(e => {
-        this.temp[i] = res.data.filter(d => d.status == e.status);
+        this.temp[i] = res.data.filter(d => d.status == e.step);
         i++;
       });
       this.rows = [...this.temp];
@@ -74,9 +72,9 @@ export class ConciliacaoComponent implements OnInit {
   openDialog() {
     let dialogConfig = new MatDialogConfig();
     dialogConfig = {
-      maxWidth: '55vw',
+      maxWidth: '95vw',
       maxHeight: '95vh',
-      width: '50vw',
+      width: '90vw',
       height: '95vh'
     }
     let dialogRef = this.dialog.open(
@@ -91,62 +89,16 @@ export class ConciliacaoComponent implements OnInit {
     });
   }
   
-  /*
-  openDeleteDialog() {
-    let dialogConfig = new MatDialogConfig();
-    dialogConfig = {
-      maxWidth: '55vw',
-      maxHeight: '40vh',
-      width: '50vw',
-      height: '40vh'
-    }
-    dialogConfig.data = this.selected;
-    let dialogRef = this.dialog.open(
-      DialogDeleteBoletaComponent, 
-      dialogConfig, 
-    );
-    dialogRef.afterClosed().subscribe(value => {
-      if(value == true){
-        this.notificationService.notify(`Nota excluida com sucesso !`);
-        this.selected = [];
-      }
-    });
-  }
-  */
-
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
-    this.rows[this.defaultTab] = this.temp[this.defaultTab].filter(function(d) {
-      if( d.cliente.toLowerCase().indexOf(val) !== -1 || !val )
+    this.rows[this.defaultTab] = this.temp[this.defaultTab].filter(d => {
+      if( d.num_nota.toLowerCase().indexOf(val) !== -1 || !val 
+      || d.pedido.num_pedido.toLowerCase().indexOf(val) !== -1 || !val)
       return d
-    }); 
-  }
-
-  filter(val) {
-    this.rows[this.defaultTab] = this.temp[this.defaultTab].filter(function(d) {
-      if( d.cliente.toLowerCase().indexOf(val) !== -1 || !val )
-      return d
-    }); 
-  } 
-  
-  onSelect({ selected }) {
-    console.log(selected);
-    if(selected.length == 1 && this.defaultTab == 0){
-      this.filter(selected[0].cliente.toLowerCase());
-    }
-    if(selected.length == 0){
-      this.filter("");
-    }
-    this.selected.splice(0, this.selected.length);
-    this.selected.push(...selected);
-  }
-
-  valorSelected(){
-    let valor: number = 0;
-    this.selected.forEach(element => {
-      valor +=element.valor;
     });
-    return valor;
+  }
+
+  onSelect() {
   }
 
   onTabChange(event: MatTabChangeEvent) {

@@ -1,60 +1,56 @@
 <div fxLayout="row" fxLayoutWrap="wrap">
-  <!-- Card column -->
   <div fxFlex.gt-sm="100%" fxFlex="100">
     <mat-card>
-      <mat-card-actions class="bt_criarpedido" align="end">
-        <div class="button-row">
-          <button mat-raised-button color="primary" type="button" (click)="openDialog()">
-            <mat-icon class="example-icon">add_box</mat-icon> Cadastra Nota
-          </button>
-        </div>
-      </mat-card-actions>
       <mat-card-content>
-        <mat-card-title class="title">Listar Notas </mat-card-title>
+        <mat-card-title >Notas fiscais</mat-card-title>
+        <mat-card-actions align="end">
+          <div class="button-row">
+            <button mat-raised-button color="primary" type="button" (click)="openDialog()">
+              <mat-icon class="example-icon">add_box</mat-icon> Cadastra Nota
+            </button>
+          </div> 
+        </mat-card-actions> 
       </mat-card-content>
-      <mat-card-content>
-        <mat-tab-group (selectedTabChange)="onTabChange($event)">
-          <mat-tab *ngFor="let step of steps " class="aba" label="{{step.titulo}}">
-            <mat-card-content>
-              <mat-form-field>
-                <input matInput type='text' class="form-control" placeholder='Insira um nome para pesquisar...'
-                (keyup)='updateFilter($event)' />
-              </mat-form-field>
-              <ngx-datatable #step.step 
-              class='material' 
-              [columnMode]="'force'" 
-              [headerHeight]="50" 
-              [footerHeight]="50"
-              [rowHeight]="50" 
-              [scrollbarH]="true" 
-              [limit]="10" 
-              [rows]='rows[step.index]' 
-              [selected]="selected"
-              [selectionType]="'checkbox'"
-              (select)='onSelect($event)' 
-              [sorts]="[{prop: 'id', dir: 'asc'}]" >
-                <ngx-datatable-column  [width]="40" name="Selecionar" [sortable]="false" [draggable]="false">
-                  <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected"
-                    let-selectFn="selectFn">
-                    <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)" />
-                  </ng-template>
-                  <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected"
-                    let-onCheckboxChangeFn="onCheckboxChangeFn">
-                    <input type="checkbox"  [checked]="isSelected" (change)="onCheckboxChangeFn($event)" />
-                  </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column *ngFor="let column of step.columns"  [width]=column.width name="{{column.name}}" prop="{{column.prop}}" [ngSwitch]="column.prop">
-                  <ng-template *ngSwitchCase="'modified'" let-rowIndex="rowIndex" let-value="value" let-row="row"ngx-datatable-cell-template>
-                    {{dta(value)}}
-                  </ng-template>
-                  <ng-template ngSwitchDefault let-rowIndex="rowIndex" let-value="value" let-row="row">
-                  </ng-template>
-                </ngx-datatable-column>
-              </ngx-datatable>
-            </mat-card-content>
-          </mat-tab>
-        </mat-tab-group>
-      </mat-card-content>
-    </mat-card>
+      <mat-tab-group (selectedTabChange)="onTabChange($event)">
+        <mat-tab *ngFor="let step of steps " class="aba" label="{{step.titulo}}">
+          <mat-card-content>
+            <mat-form-field>
+              <input matInput type='text' class="form-control" placeholder='Insira um nome para pesquisar...'
+              (keyup)='updateFilter($event)' />
+            </mat-form-field>
+            <ngx-datatable 
+            #step.step 
+            class='material striped' 
+            [columnMode]="'flex'" 
+            [headerHeight]="50" 
+            [footerHeight]="50"
+            [rowHeight]="'auto'" 
+            [limit]="20"
+            [rows]='rows[step.index]' 
+            [selected]="selected"
+            [selectionType]="'checkbox'"
+            (select)='onSelect($event)' 
+            [sorts]="[{prop: 'id', dir: 'asc'}]">
+              <ngx-datatable-column  [flexGrow]="0.3" name="Selecionar" [sortable]="false" [draggable]="false">
+                <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
+                  <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)" />
+                </ng-template>
+                <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected"let-onCheckboxChangeFn="onCheckboxChangeFn">
+                  <input type="checkbox"  [checked]="isSelected" (change)="onCheckboxChangeFn($event)" />
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column *ngFor="let column of step.columns"  [flexGrow]=column.width name="{{column.name}}" prop="{{column.prop}}" [ngSwitch]="column.prop">
+                <ng-template *ngSwitchCase="'modified'" let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+                  {{dta(value)}}
+                </ng-template>
+                <ng-template ngSwitchDefault let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+                  {{value}}
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+          </mat-card-content>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card>    
   </div>
 </div>

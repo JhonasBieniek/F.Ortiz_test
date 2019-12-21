@@ -1,0 +1,36 @@
+{
+  "pedidos": [
+    {
+      "titulo": "Pedidos",
+      "step": true,
+      "index": 0,
+      "columns": [
+        {
+          "prop": "num_pedido",
+          "name": "Pedido",
+          "width": 0.4
+        },
+        {
+          "prop": "representada.nome_fantasia",
+          "name": "Representada",
+          "width": 1.5
+        },
+        {
+          "prop": "cliente.nome_fantasia",
+          "name": "Cliente",
+          "width": 1.5
+        },
+        {
+          "prop": "data_emissao",
+          "name": "Data Emissão",
+          "width": 1
+        },
+        {
+          "prop": "data_entrega",
+          "name": "Data Entrega",
+          "width": 1
+        }
+      ]
+    }
+  ]
+}
