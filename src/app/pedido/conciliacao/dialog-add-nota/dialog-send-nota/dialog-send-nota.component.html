@@ -1,0 +1,31 @@
+<h1 mat-dialog-title>Cadastrar nota fiscal</h1>
+<div mat-dialog-content>
+  <p>Adicionar nota fiscal para o pedido {{data.num_pedido}}</p>
+  <form [formGroup]="form">
+    <div fxLayout="row" fxLayoutWrap="wrap" class="row">
+      <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+        <mat-form-field appearance="outline">
+          <input matInput placeholder="Numero da nota" [formControl]="form.controls['num_nota']" type="numbers">
+        </mat-form-field>
+      </div>
+      <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+        <mat-form-field appearance="outline">
+          <mat-label>Data de Faturamento</mat-label>
+          <input matInput [matDatepicker]="pickerEntrega"
+            [formControl]="form.controls['data_faturamento']" placeholder="Data Programada">
+          <mat-datepicker-toggle matSuffix [for]="pickerEntrega"></mat-datepicker-toggle>
+          <mat-datepicker #pickerEntrega></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-form-field appearance="outline">
+          <textarea matInput placeholder="Observação" [formControl]="form.controls['obs']"></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="save()" cdkFocusInitial [disabled]="!form.valid">Salvar</button>
+  <button mat-raised-button color="warn" (click)="cancel()" >Cancelar</button>
+</div>

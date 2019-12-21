@@ -2,112 +2,112 @@
   "concilicacao": [
     {
       "titulo": "Abertos",
-      "step": "abertos",
+      "step": "aberto",
       "index": 0,
       "columns": [
         {
           "prop": "num_nota",
           "name": "N° nota",
-          "width": "100"
+          "width": 0.4
         },
         {
-          "prop": "pedido",
+          "prop": "pedido.num_pedido",
           "name": "Pedido",
-          "width": "100"
+          "width": 0.4
         },
         {
-          "prop": "representada",
+          "prop": "pedido.representada.nome_fantasia",
           "name": "Representada",
-          "width": "150"
+          "width": 1.5
         },
         {
-          "prop": "cliente",
+          "prop": "pedido.cliente.nome_fantasia",
           "name": "Cliente",
-          "width": "150"
+          "width": 1.5
         },
         {
           "prop": "data_faturamento",
           "name": "Data faturamento",
-          "width": "160"
+          "width": 1
         },
         {
           "prop": "status",
           "name": "Status",
-          "width": "160"
+          "width": 0.5
         }
       ]
     },
     {
       "titulo": "Baixados",
-      "step": "baixados",
+      "step": "baixado",
       "index": 1,
       "columns": [
         {
           "prop": "num_nota",
           "name": "N° nota",
-          "width": "100"
+          "width": 0.4
         },
         {
-          "prop": "pedido",
+          "prop": "pedido.num_pedido",
           "name": "Pedido",
-          "width": "100"
+          "width": 0.4
         },
         {
-          "prop": "representada",
+          "prop": "pedido.representada.nome_fantasia",
           "name": "Representada",
-          "width": "150"
+          "width": 1.5
         },
         {
-          "prop": "cliente",
+          "prop": "pedido.cliente.nome_fantasia",
           "name": "Cliente",
-          "width": "150"
+          "width": 1.5
         },
         {
           "prop": "data_faturamento",
           "name": "Data faturamento",
-          "width": "160"
+          "width": 1
         },
         {
           "prop": "status",
           "name": "Status",
-          "width": "160"
+          "width": 0.5
         }
       ]
     },
     {
       "titulo": "Cancelados",
-      "step": "cancelados",
+      "step": "cancelado",
       "index": 2,
       "columns": [
         {
           "prop": "num_nota",
           "name": "N° nota",
-          "width": "100"
+          "width": 0.4
         },
         {
-          "prop": "pedido",
+          "prop": "pedido.num_pedido",
           "name": "Pedido",
-          "width": "100"
+          "width": 0.4
         },
         {
-          "prop": "representada",
+          "prop": "pedido.representada.nome_fantasia",
           "name": "Representada",
-          "width": "150"
+          "width": 1.5
         },
         {
-          "prop": "cliente",
+          "prop": "pedido.cliente.nome_fantasia",
           "name": "Cliente",
-          "width": "150"
+          "width": 1.5
         },
         {
           "prop": "data_faturamento",
           "name": "Data faturamento",
-          "width": "160"
+          "width": 1
         },
         {
           "prop": "status",
           "name": "Status",
-          "width": "160"
+          "width": 0.5
         }
       ]
     }

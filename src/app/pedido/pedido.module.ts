@@ -27,6 +27,7 @@ import { ConciliacaoComponent } from './conciliacao/conciliacao.component';
 import { OrcListarComponent } from './orc-listar/orc-listar.component';
 import { PedidoListarComponent } from './pedido-listar/pedido-listar.component';
 import { DialogAddNotaComponent } from './conciliacao/dialog-add-nota/dialog-add-nota.component';
+import { DialogSendNotaComponent } from './conciliacao/dialog-add-nota/dialog-send-nota/dialog-send-nota.component';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
 
@@ -47,11 +48,11 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
     NgxMaskModule.forRoot(),
     NgxSpinnerModule
   ],
-  declarations: [ListarComponent, NovoComponent, ItensPedidoComponent, ShoppingCartComponent, DialogCadastroComponent, DialogClienteAddComponent, Novo2Component, OrcamentoComponent, ConciliacaoComponent, OrcListarComponent, PedidoListarComponent, DialogAddNotaComponent],
+  declarations: [ListarComponent, NovoComponent, ItensPedidoComponent, ShoppingCartComponent, DialogCadastroComponent, DialogClienteAddComponent, Novo2Component, OrcamentoComponent, ConciliacaoComponent, OrcListarComponent, PedidoListarComponent, DialogAddNotaComponent, DialogSendNotaComponent],
   providers: [
     DateFormatPipe,    
   ],
-  entryComponents: [ DialogCadastroComponent, DialogClienteAddComponent, DialogAddNotaComponent],
+  entryComponents: [ DialogCadastroComponent, DialogClienteAddComponent, DialogAddNotaComponent, DialogSendNotaComponent],
 
 })
 export class PedidoModule { }
