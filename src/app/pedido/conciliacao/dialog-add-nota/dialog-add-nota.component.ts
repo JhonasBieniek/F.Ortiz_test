@@ -74,18 +74,11 @@ export class DialogAddNotaComponent implements OnInit {
 
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
-    this.rows[this.defaultTab] = this.temp[this.defaultTab].filter(function(d) {
-      if( d.cliente.toLowerCase().indexOf(val) !== -1 || !val )
+    this.rows[this.defaultTab] = this.temp[this.defaultTab].filter(d => {
+      if(d.pedido.num_pedido.toLowerCase().indexOf(val) !== -1 || !val)
       return d
-    }); 
+    });
   }
-
-  filter(val) {
-    this.rows[this.defaultTab] = this.temp[this.defaultTab].filter(function(d) {
-      if( d.cliente.toLowerCase().indexOf(val) !== -1 || !val )
-      return d
-    }); 
-  } 
   
   onSelect({ selected }) {
     let dialogConfig = new MatDialogConfig();
@@ -107,21 +100,6 @@ export class DialogAddNotaComponent implements OnInit {
         this.loadData();
       }
     });
-  }
-
-  valorSelected(){
-    let valor: number = 0;
-    this.selected.forEach(element => {
-      valor +=element.valor;
-    });
-    return valor;
-  }
-
-  onTabChange(event: MatTabChangeEvent) {
-    this.defaultTab = event.index;
-    console.log(this.defaultTab, "tab change");
-    window.dispatchEvent(new Event('resize'));
-    this.selected =[];
   }
 
 }

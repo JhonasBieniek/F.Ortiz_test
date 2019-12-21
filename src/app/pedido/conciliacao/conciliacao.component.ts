@@ -91,37 +91,14 @@ export class ConciliacaoComponent implements OnInit {
   
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
-    this.rows[this.defaultTab] = this.temp[this.defaultTab].filter(function(d) {
-      if( d.cliente.toLowerCase().indexOf(val) !== -1 || !val )
+    this.rows[this.defaultTab] = this.temp[this.defaultTab].filter(d => {
+      if( d.num_nota.toLowerCase().indexOf(val) !== -1 || !val 
+      || d.pedido.num_pedido.toLowerCase().indexOf(val) !== -1 || !val)
       return d
-    }); 
-  }
-
-  filter(val) {
-    this.rows[this.defaultTab] = this.temp[this.defaultTab].filter(function(d) {
-      if( d.cliente.toLowerCase().indexOf(val) !== -1 || !val )
-      return d
-    }); 
-  } 
-  
-  onSelect({ selected }) {
-    console.log(selected);
-    if(selected.length == 1 && this.defaultTab == 0){
-      this.filter(selected[0].cliente.toLowerCase());
-    }
-    if(selected.length == 0){
-      this.filter("");
-    }
-    this.selected.splice(0, this.selected.length);
-    this.selected.push(...selected);
-  }
-
-  valorSelected(){
-    let valor: number = 0;
-    this.selected.forEach(element => {
-      valor +=element.valor;
     });
-    return valor;
+  }
+
+  onSelect() {
   }
 
   onTabChange(event: MatTabChangeEvent) {
