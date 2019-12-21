@@ -47,7 +47,10 @@ export class ListarComponent implements OnInit {
       
   // filter our data
   const temp = this.temp.filter(function(d) {
-    return d.nome.toLowerCase().indexOf(val) !== -1 || !val || d.representada.nome_fantasia.toLowerCase().indexOf(val) !== -1 || !val;
+    return d.nome.toLowerCase().indexOf(val) !== -1 || !val 
+    || d.representada.nome_fantasia.toLowerCase().indexOf(val) !== -1 || !val
+    || d.codigo.toLowerCase().indexOf(val) !== -1 || !val
+    || d.unidade.sigla.toLowerCase().indexOf(val) !== -1 || !val;
   }); 
   // update the rows
   this.rows = temp;

@@ -16,16 +16,46 @@
                           <mat-form-field>
                              <input matInput  type='text' class="form-control"  placeholder='Digite um nome para filtrar...' (keyup)='updateFilter($event)'   />
                           </mat-form-field>
-                          <ngx-datatable
-                              #table
-                              class='material'
-                              [columns]="columns"
-                              [columnMode]="'force'"
-                              [headerHeight]="50"
-                              [footerHeight]="50"
-                              [rowHeight]="'auto'"
-                              [limit]="20"
-                              [rows]='rows'>
+                            <ngx-datatable
+                                #table
+                                class='material striped'
+                                [columnMode]="'flex'"
+                                [headerHeight]="50"
+                                [footerHeight]="50"
+                                [rowHeight]="'auto'"
+                                [limit]="20"
+                                [rows]='rows'>
+
+                                <ngx-datatable-column [flexGrow]="0.3" name="Id">
+                                    <ng-template let-value="id" let-row="row" ngx-datatable-cell-template>
+                                      {{ row.id }}
+                                    </ng-template>
+                                  </ngx-datatable-column>
+                                  <ngx-datatable-column [flexGrow]="1" name="Funcionário">
+                                    <ng-template let-value="sigla" let-row="row" ngx-datatable-cell-template>
+                                      {{ row.funcionario.nome }}
+                                    </ng-template>
+                                  </ngx-datatable-column>  
+                                  <ngx-datatable-column [flexGrow]="1" name="Representada">
+                                    <ng-template let-value="descricao" let-row="row" ngx-datatable-cell-template>
+                                      {{ row.representada.nome_fantasia}}
+                                    </ng-template>
+                                  </ngx-datatable-column>
+                                  <ngx-datatable-column [flexGrow]="0.3" name="Inicial">
+                                    <ng-template let-value="created" let-row="row" ngx-datatable-cell-template>
+                                      {{ row.inicio}}
+                                    </ng-template>
+                                  </ngx-datatable-column>
+                                  <ngx-datatable-column [flexGrow]="0.3" name="Final">
+                                    <ng-template let-value="modified" let-row="row" ngx-datatable-cell-template>
+                                      {{ row.final}}
+                                    </ng-template>
+                                  </ngx-datatable-column>
+                                  <ngx-datatable-column [flexGrow]="0.5" name="Percentual">
+                                    <ng-template let-value="status" let-row="row" ngx-datatable-cell-template>
+                                      {{ row.percentual }}%
+                                    </ng-template>
+                                  </ngx-datatable-column>
                             </ngx-datatable>
               </mat-card-content></mat-tab>
           </mat-tab-group>
