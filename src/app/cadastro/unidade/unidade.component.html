@@ -18,7 +18,7 @@
                             </mat-form-field>
                             <ngx-datatable
                                 #table
-                                class='material'
+                                class='material striped'
                                 [columnMode]="'flex'"
                                 [headerHeight]="50"
                                 [footerHeight]="50"
@@ -31,37 +31,31 @@
                                       {{ row.id }}
                                     </ng-template>
                                   </ngx-datatable-column>
-                                  
                                   <ngx-datatable-column [flexGrow]="1" name="Sigla">
                                     <ng-template let-value="sigla" let-row="row" ngx-datatable-cell-template>
                                       {{ row.sigla }}
                                     </ng-template>
                                   </ngx-datatable-column>  
-    
                                   <ngx-datatable-column [flexGrow]="1" name="Descrição">
                                     <ng-template let-value="descricao" let-row="row" ngx-datatable-cell-template>
                                       {{ row.descricao }}
                                     </ng-template>
                                   </ngx-datatable-column>
-    
-                                  <ngx-datatable-column [flexGrow]="0.5" name="Status">
-                                    <ng-template let-value="status" let-row="row" ngx-datatable-cell-template>
-                                      {{ row.status }}
-                                    </ng-template>
-                                  </ngx-datatable-column>
-
                                   <ngx-datatable-column [flexGrow]="1" name="Data de Criação">
                                     <ng-template let-value="created" let-row="row" ngx-datatable-cell-template>
                                       {{ row.created | mask: '0000/00/00 00:00:00' }}
                                     </ng-template>
                                   </ngx-datatable-column>
-
                                   <ngx-datatable-column [flexGrow]="1" name="Data de Alteração">
                                     <ng-template let-value="modified" let-row="row" ngx-datatable-cell-template>
                                       {{ row.modified | mask: '0000/00/00 00:00:00' }}
                                     </ng-template>
                                   </ngx-datatable-column>
-                                
+                                  <ngx-datatable-column [flexGrow]="0.5" name="Status">
+                                    <ng-template let-value="status" let-row="row" ngx-datatable-cell-template>
+                                      {{ (row.status == true)? "Ativo" : "Inativo" }}
+                                    </ng-template>
+                                  </ngx-datatable-column>
                               </ngx-datatable>
                 </mat-card-content></mat-tab>
             </mat-tab-group>

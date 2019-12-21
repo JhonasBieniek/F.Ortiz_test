@@ -18,7 +18,7 @@
                           </mat-form-field>
                           <ngx-datatable
                               #table
-                              class='material'
+                              class='material striped'
                               [columnMode]="'flex'"
                               [headerHeight]="50"
                               [footerHeight]="50"
@@ -26,19 +26,19 @@
                               [limit]="20"
                               [rows]='rows'>
 
-                              <ngx-datatable-column [flexGrow]="1" name="Razão Social">
+                              <ngx-datatable-column [flexGrow]="2" name="Razão Social">
                                 <ng-template let-value="razao_social" let-row="row" ngx-datatable-cell-template>
                                   {{ row.razao_social }}
                                 </ng-template>
                               </ngx-datatable-column>
                               
-                              <ngx-datatable-column [flexGrow]="0.5" name="CNPJ">
+                              <ngx-datatable-column [flexGrow]="1" name="CNPJ">
                                 <ng-template let-value="cnpj" let-row="row" ngx-datatable-cell-template>
                                   {{ row.cnpj |  mask: '00.000.000/0000-00'}}
                                 </ng-template>
                               </ngx-datatable-column>  
 
-                              <ngx-datatable-column [flexGrow]="0.5" name="Inscrição estadual">
+                              <ngx-datatable-column [flexGrow]="0.8" name="Inscrição estadual">
                                 <ng-template let-value="inscricao_estadual" let-row="row" ngx-datatable-cell-template>
                                   {{ row.inscricao_estadual }}
                                 </ng-template>
@@ -46,7 +46,7 @@
 
                               <ngx-datatable-column [flexGrow]="0.5" name="Status">
                                 <ng-template let-value="status" let-row="row" ngx-datatable-cell-template>
-                                  {{ row.status }}
+                                  {{ (row.status == true)? "Ativo" : "Inativo" }}
                                 </ng-template>
                               </ngx-datatable-column>
                             </ngx-datatable>

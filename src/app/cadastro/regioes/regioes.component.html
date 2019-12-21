@@ -18,15 +18,35 @@
                           </mat-form-field>
                           <ngx-datatable
                               #table
-                              class='material'
-                              [columns]="columns"
-                              [columnMode]="'force'"
+                              class='material striped'
+                              [columnMode]="'flex'"
                               [headerHeight]="50"
                               [footerHeight]="50"
                               [rowHeight]="'auto'"
                               [limit]="20"
                               [rows]='rows'>
-                            </ngx-datatable>
+
+                              <ngx-datatable-column [flexGrow]="0.3" name="Id">
+                                <ng-template let-value="id" let-row="row" ngx-datatable-cell-template>
+                                  {{ row.id }}
+                                </ng-template>
+                              </ngx-datatable-column>
+                              <ngx-datatable-column [flexGrow]="0.5" name="Sigla">
+                                <ng-template let-value="sigla" let-row="row" ngx-datatable-cell-template>
+                                  {{ row.nome }}
+                                </ng-template>
+                              </ngx-datatable-column>  
+                              <ngx-datatable-column [flexGrow]="2" name="Descrição">
+                                <ng-template let-value="descricao" let-row="row" ngx-datatable-cell-template>
+                                  {{ row.descricao }}
+                                </ng-template>
+                              </ngx-datatable-column>
+                              <ngx-datatable-column [flexGrow]="0.5" name="Status">
+                                <ng-template let-value="status" let-row="row" ngx-datatable-cell-template>
+                                  {{ (row.status == true)? "Ativo" : "Inativo" }}
+                                </ng-template>
+                              </ngx-datatable-column>
+                          </ngx-datatable>
               </mat-card-content></mat-tab>
           </mat-tab-group>
       </mat-card>    

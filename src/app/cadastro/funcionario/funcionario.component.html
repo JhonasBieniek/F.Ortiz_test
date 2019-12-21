@@ -18,7 +18,7 @@
                           </mat-form-field>
                           <ngx-datatable
                               #table
-                              class='material'
+                              class='material striped'
                               [columnMode]="'flex'"
                               [headerHeight]="50"
                               [footerHeight]="50"
@@ -26,19 +26,19 @@
                               [limit]="20"
                               [rows]='rows'>
 
-                              <ngx-datatable-column [flexGrow]="1" name="Nome">
+                              <ngx-datatable-column [flexGrow]="1.5" name="Nome">
                                 <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
                                   {{ row.nome }}
                                 </ng-template>
                               </ngx-datatable-column>
                               
-                              <ngx-datatable-column [flexGrow]="1" name="Rg">
+                              <ngx-datatable-column [flexGrow]="0.5" name="Rg">
                                 <ng-template let-value="rg" let-row="row" ngx-datatable-cell-template>
                                   {{ row.rg }}
                                 </ng-template>
                               </ngx-datatable-column>  
 
-                              <ngx-datatable-column [flexGrow]="0.3" name="Usuario id">
+                              <ngx-datatable-column [flexGrow]="0.3" name="Id do Usuário">
                                 <ng-template let-value="usuario_id" let-row="row" ngx-datatable-cell-template>
                                   {{ row.usuario_id }}
                                 </ng-template>
@@ -46,7 +46,7 @@
 
                               <ngx-datatable-column [flexGrow]="0.5" name="Status">
                                 <ng-template let-value="status" let-row="row" ngx-datatable-cell-template>
-                                  {{ row.status }}
+                                  {{ (row.status == true)? "Ativo" : "Inativo" }}
                                 </ng-template>
                               </ngx-datatable-column>
                             </ngx-datatable>
