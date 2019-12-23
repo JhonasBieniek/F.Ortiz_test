@@ -41,6 +41,7 @@ import { AppModule } from '../app.module';
 import {NgxMaskModule} from 'ngx-mask';
 import { RamoAtividadeComponent } from './ramo-atividade/ramo-atividade.component'
 import { DialogBodyRamoComponent } from './ramo-atividade/dialog-body-ramo/dialog-body-ramo.component';
+import { DialogConfirmarDeleteComponent } from './dialog-confirmar-delete/confirmar-delete.component';
 
 
 
@@ -78,6 +79,7 @@ import { DialogBodyRamoComponent } from './ramo-atividade/dialog-body-ramo/dialo
                   DialogBodyRepresentadaComponent,
                   DialogBodyFornecedorComponent,
                   DialogBodyRamoComponent,
+                  DialogConfirmarDeleteComponent,
                   CargosComponent,
                   UnidadeComponent,
                   FuncionarioComponent,
@@ -89,7 +91,6 @@ import { DialogBodyRamoComponent } from './ramo-atividade/dialog-body-ramo/dialo
                   DialogBodyClienteComponent,
                   RamoAtividadeComponent
   ],
-
   entryComponents: [ DialogBodyComponent, 
                      DialogBodyCargosComponent, 
                      DialogBodyUnidadesComponent, 
@@ -102,10 +103,9 @@ import { DialogBodyRamoComponent } from './ramo-atividade/dialog-body-ramo/dialo
                      DialogBodyFuncionarioComponent,
                      DialogBodyClienteComponent,
                      DialogBodyFornecedorComponent,
-                     DialogBodyRamoComponent
-  
+                     DialogBodyRamoComponent,
+                     DialogConfirmarDeleteComponent
   ],
-
 })
 
 export class CadastroModule { }

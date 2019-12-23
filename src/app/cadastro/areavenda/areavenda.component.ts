@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialogConfig, MatDialog } from "@angular/material";
 import { DialogBodyComponent } from './dialog-body/dialog-body.component';
 import { ClientService } from '../../shared/services/client.service.component';
+import { DialogConfirmarDeleteComponent } from '../dialog-confirmar-delete/confirmar-delete.component';
 
 
 @Component({
@@ -13,6 +14,7 @@ export class AreaVendaComponent implements OnInit {
   data:any = [];
   dados:any = [];
   editing = {};
+  isEditable = {};
   rows = [];
   temp = [...this.data];
   
@@ -91,7 +93,19 @@ export class AreaVendaComponent implements OnInit {
       });
       console.log("Rodei")
   }
+  delete(row){
+    console.log(row, "deleteTest")
+    const dialogConfig = new MatDialogConfig();
+      dialogConfig.data = row
+      let dialogRef = this.dialog.open(DialogConfirmarDeleteComponent,
+      dialogConfig   
+    );
+    dialogRef.afterClosed().subscribe(value => {
 
+     (value != 1) ? this.refreshTable() : null
+
+      });
+    }
 
   ngOnInit() {
    

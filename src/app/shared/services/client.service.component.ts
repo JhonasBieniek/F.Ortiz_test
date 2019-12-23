@@ -40,6 +40,25 @@ export class ClientService {
     return !(date.valueOf() > new Date().valueOf());
   }
 
+  delete(tipo,id){
+    const uri = `${API_URL}` + tipo +`/delete/`+id +`.json`;
+    const obj = {
+      id
+    };
+    this
+      .http
+      .post(uri, obj)
+      .subscribe(res =>{
+        this.resposta = res
+          if(this.resposta.status == true){
+            this.notificationService.notify(`Deletado com Sucesso!`)
+          }else{
+            this.notificationService.notify(this.resposta.data.retornoMsg)
+          }
+        }
+      ); 
+  }
+
   addAreaVenda(dados) {
     const uri = `${API_URL}` + `area-vendas/add.json`;
     const obj = {
