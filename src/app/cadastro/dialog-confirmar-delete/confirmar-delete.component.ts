@@ -15,14 +15,17 @@ export class DialogConfirmarDeleteComponent {
   constructor(
     private clienteService: ClientService,
     public dialogRef: MatDialogRef<DialogConfirmarDeleteComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any){ }
+    @Inject(MAT_DIALOG_DATA) public data: any){ 
+      console.log(this.data)
+    }
 
   Cancelar(): void { 
     this.dialogRef.close(1);
   }
   
   Deletar(){
-    this.clienteService.delete('area-vendas', this.data.id)
+    console.log(this.data)
+    this.clienteService.delete(this.data.tipo, this.data.id)
     this.dialogRef.close();
       }
   }

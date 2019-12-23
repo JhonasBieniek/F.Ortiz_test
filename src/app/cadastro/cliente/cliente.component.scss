@@ -28,3 +28,39 @@
 .example-full-width {
   width: 90%;
 }
+.button {
+  padding: 6px 9px;
+  font-size: 18px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: rgb(3, 3, 3);
+  border: none;
+  border-radius: 10px;
+}
+
+.button:hover {background-color: #1e88e5}
+
+.button:active {
+  background-color: #519fe2;
+  box-shadow: 0 2px #666;
+  transform: translateY(2px);
+}
+.button2 {
+  padding: 6px 9px;
+  font-size: 18px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: rgb(3, 3, 3);
+  border: none;
+  border-radius: 10px;
+}
+
+.button2:hover {background-color: red}
+
+.button2:active {
+  background-color:red;
+  box-shadow: 0 2px #666;
+  transform: translateY(2px);
+}

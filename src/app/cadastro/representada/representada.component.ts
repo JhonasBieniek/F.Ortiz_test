@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialogConfig, MatDialog } from "@angular/material";
 import { ClientService } from '../../shared/services/client.service.component';
 import { DialogBodyRepresentadaComponent } from './dialog-body/dialog-body-representada.component';
+import { DialogConfirmarDeleteComponent } from '../dialog-confirmar-delete/confirmar-delete.component';
 
 
 
@@ -16,6 +17,7 @@ export class RepresentadaComponent implements OnInit {
   data:any = [];
   dados:any = [];
   editing = {};
+  isEditable = {};
   rows = [];
   temp = [...this.data];
   
@@ -82,6 +84,21 @@ export class RepresentadaComponent implements OnInit {
         console.log(`Dialog sent: ${value}`); 
       });
   }
+  delete(row){
+    const dialogConfig = new MatDialogConfig();
+      let tipo = 'representadas'
+      dialogConfig.data = row
+      dialogConfig.data.nome = row.razao_social
+      dialogConfig.data.tipo = tipo
+      let dialogRef = this.dialog.open(DialogConfirmarDeleteComponent,
+      dialogConfig   
+    );
+    dialogRef.afterClosed().subscribe(value => {
+
+     (value != 1) ? this.refreshTable() : null
+
+      });
+    }
 
   refreshTable(){
     this.clientservice.getRepresentadas().subscribe(res =>{
