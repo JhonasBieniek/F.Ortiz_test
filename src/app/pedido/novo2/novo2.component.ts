@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
 import { ClientService } from '../../shared/services/client.service.component';
@@ -38,6 +38,7 @@ export const MY_FORMATS = {
   selector: 'app-novo2',
   templateUrl: './novo2.component.html',
   styleUrls: ['./novo2.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   providers: [DatePipe,
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }]
