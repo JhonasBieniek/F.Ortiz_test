@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialogConfig, MatDialog } from "@angular/material";
 import { DialogBodyGruposComponent } from './dialog-body/dialog-body.component';
 import { ClientService } from '../../shared/services/client.service.component';
+import { DialogConfirmarDeleteComponent } from '../dialog-confirmar-delete/confirmar-delete.component';
 
 
 @Component({
@@ -13,6 +14,7 @@ export class GruposComponent implements OnInit {
   data:any = [];
   dados:any = [];
   editing = {};
+  isEditable = {};
   rows = [];
   temp = [...this.data];
   
@@ -77,6 +79,20 @@ export class GruposComponent implements OnInit {
         console.log(`Dialog sent: ${value}`); 
       });
   }
+  delete(row){
+    const dialogConfig = new MatDialogConfig();
+      let tipo = 'grupos'
+      dialogConfig.data = row
+      dialogConfig.data.tipo = tipo
+      let dialogRef = this.dialog.open(DialogConfirmarDeleteComponent,
+      dialogConfig   
+    );
+    dialogRef.afterClosed().subscribe(value => {
+
+     (value != 1) ? this.refreshTable() : null
+
+      });
+    }
 
   refreshTable(){
     this.clientservice.getGrupos().subscribe(res =>{

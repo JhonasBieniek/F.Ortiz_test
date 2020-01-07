@@ -94,9 +94,10 @@ export class AreaVendaComponent implements OnInit {
       console.log("Rodei")
   }
   delete(row){
-    console.log(row, "deleteTest")
     const dialogConfig = new MatDialogConfig();
+      let tipo = 'area-vendas'
       dialogConfig.data = row
+      dialogConfig.data.tipo = tipo
       let dialogRef = this.dialog.open(DialogConfirmarDeleteComponent,
       dialogConfig   
     );

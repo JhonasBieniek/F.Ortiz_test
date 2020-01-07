@@ -3,6 +3,7 @@ import { MatDialogConfig, MatDialog } from "@angular/material";
 import { DialogBodyCargosComponent } from './dialog-body/dialog-body.component';
 import { ClientService } from '../../shared/services/client.service.component';
 import { DatePipe, CurrencyPipe } from '@angular/common';
+import { DialogConfirmarDeleteComponent } from '../dialog-confirmar-delete/confirmar-delete.component';
 
 
 @Component({
@@ -16,6 +17,7 @@ export class CargosComponent implements OnInit {
   data:any = [];
   dados:any = [];
   editing = {};
+  isEditable = {};
   rows = [];
   temp = [...this.data];
   
@@ -95,6 +97,20 @@ export class CargosComponent implements OnInit {
       });
       console.log("Rodei")
   }
+  delete(row){
+    const dialogConfig = new MatDialogConfig();
+      let tipo = 'cargos'
+      dialogConfig.data = row
+      dialogConfig.data.tipo = tipo
+      let dialogRef = this.dialog.open(DialogConfirmarDeleteComponent,
+      dialogConfig   
+    );
+    dialogRef.afterClosed().subscribe(value => {
+
+     (value != 1) ? this.refreshTable() : null
+
+      });
+    }
 
 
   ngOnInit() {
