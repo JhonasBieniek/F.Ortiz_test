@@ -15,7 +15,8 @@ export const PedidoRoutes: Routes = [
     children: [{
       path: 'listar',
       component: ListarComponent
-    }, {
+    }, 
+    {
       path: 'novo',
       component: NovoComponent
     },

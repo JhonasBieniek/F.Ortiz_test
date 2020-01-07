@@ -54,24 +54,6 @@ export class DialogAddNotaComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  dta(data){
-    let dateNow = Date.now();
-    let dateCreated:any = new Date(data.seconds*1000);
-    let dif = Math.abs(dateNow.valueOf() - dateCreated.valueOf())
-    let m = (Math.ceil(dif)/(1000))
-    // set minutos p segundos
-    var seconds = m 
-    // calcula (e subtrai) dias inteiros
-    var days = Math.floor(seconds / 86400);
-    seconds -= days * 86400;
-    // calcula (e subtrai) horas inteiros
-    var hours = Math.floor(seconds / 3600) % 24;
-    seconds -= hours * 3600;
-    // calcula (e subtrai) minutos inteiros
-    var minutes = Math.floor(seconds / 60) % 60;
-    return days + 'd ' + hours + 'h ' + minutes + 'm ';
-  }
-
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
     this.rows[this.defaultTab] = this.temp[this.defaultTab].filter(d => {

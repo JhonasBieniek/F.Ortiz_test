@@ -4,11 +4,11 @@ import { MatDialogConfig, MatDialog, MatTabChangeEvent, MatBottomSheetRef, MatBo
 import { NotificationService } from '../../shared/messages/notification.service';
 import { DialogAddNotaComponent } from './dialog-add-nota/dialog-add-nota.component';
 
-import steps from './steps.json';
+import page from './steps.json';
 
 @Component({
   selector: 'app-conciliacao',
-  templateUrl: './conciliacao.component.html',
+  templateUrl: '../default.html',
   styleUrls: ['./conciliacao.component.css']
 })
 
@@ -18,7 +18,8 @@ export class ConciliacaoComponent implements OnInit {
   rows:any = [];
   temp:any = [];
   selected:any = [];
-  steps: any = steps.concilicacao;
+  page:any = page;
+  steps: any = this.page.concilicacao;
   defaultTab = 0;
 
   itemSelected
@@ -32,8 +33,16 @@ export class ConciliacaoComponent implements OnInit {
     private notificationService: NotificationService,
     private clientservice: ClientService, 
     private dialog: MatDialog
-    ) {
-      this.clientservice.getNotas().subscribe((res:any) =>{
+  ) {
+      this.loadData();
+    }
+
+  ngOnInit() {
+   
+  }
+
+  loadData(){
+    this.clientservice.getNotas().subscribe((res:any) =>{
       let i = 0;
       this.steps.forEach(e => {
         this.temp[i] = res.data.filter(d => d.status == e.step);
@@ -43,30 +52,12 @@ export class ConciliacaoComponent implements OnInit {
     });                     
   }
 
-  ngOnInit() {
-   
+  add(){
+    this.openDialog()
   }
-
+  
   clearSelected(){
     this.selected = [];
-  }
-
-  dta(data){
-    let dateNow = Date.now();
-    let dateCreated:any = new Date(data.seconds*1000);
-    let dif = Math.abs(dateNow.valueOf() - dateCreated.valueOf())
-    let m = (Math.ceil(dif)/(1000))
-    // set minutos p segundos
-    var seconds = m 
-    // calcula (e subtrai) dias inteiros
-    var days = Math.floor(seconds / 86400);
-    seconds -= days * 86400;
-    // calcula (e subtrai) horas inteiros
-    var hours = Math.floor(seconds / 3600) % 24;
-    seconds -= hours * 3600;
-    // calcula (e subtrai) minutos inteiros
-    var minutes = Math.floor(seconds / 60) % 60;
-    return days + 'd ' + hours + 'h ' + minutes + 'm ';
   }
 
   openDialog() {

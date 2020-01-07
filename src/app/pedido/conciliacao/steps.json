@@ -1,4 +1,9 @@
 {
+  "titulo": "Notas fiscais",
+  "add": {
+    "titulo": "Cadastra Nota",
+    "func": "openDialog()"
+  },
   "concilicacao": [
     {
       "titulo": "Abertos",

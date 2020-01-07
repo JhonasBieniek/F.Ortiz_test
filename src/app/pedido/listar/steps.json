@@ -1,4 +1,8 @@
 {
+  "titulo": "Pedidos",
+  "add": {
+    "titulo": "Cadastra Pedido"
+  },
     "pedidos": [
       {
         "titulo": "Abertos",
@@ -8,27 +12,27 @@
           {
             "prop": "num_pedido",
             "name": "Num Pedido",
-            "width": "200"
+            "width": 0.4
           },
           {
             "prop": "representada.nome_fantasia",
             "name": "Representada",
-            "width": "120"
+            "width": 1.5
           },
           {
             "prop": "cliente.nome_fantasia",
             "name": "Comprador",
-            "width": "150"
+            "width": 1.5
           },
           {
             "prop": "data_emissao",
             "name": "Emissão",
-            "width": "130"
+            "width": 1
           },
           {
             "prop": "data_entrega",
             "name": "Entrega",
-            "width": "160"
+            "width": 1
           }
         ]
       }

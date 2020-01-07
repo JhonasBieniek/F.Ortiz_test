@@ -1,68 +1,52 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ClientService } from '../../shared/services/client.service.component';
 import { MatDialog } from '@angular/material';
-
-declare var require: any;
-
-const data: any = require('./steps.json');
+import { Router} from '@angular/router';
+import page from './steps.json';
 
 @Component({
   selector: 'app-listar',
-  templateUrl: './listar.component.html',
+  templateUrl: '../default.html',
   styleUrls: ['./listar.component.scss']
 })
+
 export class ListarComponent implements OnInit {
 
   @Input('rotaRecebida') private rota;
-
-
   editing = {};
-  rows = [];
-  data: any =[];
-  selected:any = [];
+  rows:any = [];
   temp:any = [];
-  steps:any = [];
-  path;
-  nome:string = "";  
+  selected:any = [];
+  page:any = page;
+  steps: any = this.page.pedidos;
   defaultTab = 0;
+
+  itemSelected
 
   loadingIndicator = true;
   reorderable = true;
 
-  isEditable = {};                         
-
+  isEditable = {};               
+  
   @ViewChild(ListarComponent) table: ListarComponent;
-  constructor(private clientservice: ClientService, private dialog: MatDialog) {
-                             
+  constructor(
+    private clientservice: ClientService,
+    private router: Router,
+    private dialog: MatDialog) {
+      this.loadData()      
   }
-
+  loadData(){
+    this.clientservice.getPedidos().subscribe((res:any) =>{
+      let i = 0;
+      this.steps.forEach(e => {
+        this.temp[i] = res.data.filter(d => d.status == e.step);
+        i++;
+      });
+      this.rows = [...this.temp];
+    });                     
+  }
   ngOnInit() {
-    this.steps = data[this.rota];
-    console.log(this.rota);
-    if(this.rota != "orcamentos"){
-      this.path  = '/pedido/novo';
-      this.nome = "Pedido"
-      this.clientservice.getPedidos().subscribe((res:any) =>{
-        let i = 0;
-        this.steps.forEach(e => {
-          this.temp[i] = res.data.filter(d => d.status == e.step);
-          i++;
-        });
-        this.rows = [...this.temp];
-    });   
-    }else{
-      this.path  = '/pedido/orcamento';
-      this.nome = "Orçamento"
-      this.clientservice.getOrcamentos().subscribe((res:any) =>{
-        let i = 0;
-        this.steps.forEach(e => {
-          this.temp[i] = res.data.filter(d => d.status == e.step);
-          i++;
-        });
-        this.rows = [...this.temp];
-    });   
-    }   
-   }
+  }
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
     this.rows[this.defaultTab] = this.temp[this.defaultTab].filter(function(d) {
@@ -71,6 +55,9 @@ export class ListarComponent implements OnInit {
           d.num_pedido.toLowerCase().indexOf(val) !== -1 || !val )
       return d
     }); 
+  }
+  add(){
+    this.router.navigate(['/pedido/novo']);
   }
 
 }
