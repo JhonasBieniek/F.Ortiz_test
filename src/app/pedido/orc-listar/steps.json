@@ -1,0 +1,35 @@
+{
+  "titulo": "Orçamentos",
+  "add": {
+    "titulo": "Cadastrar Orçamentos"
+  },
+    "pedidos": [
+      {
+        "titulo": "Abertos",
+        "step": false,
+        "index": 0,
+        "columns": [
+          {
+            "prop": "representada.nome_fantasia",
+            "name": "Representada",
+            "width": 1.5
+          },
+          {
+            "prop": "cliente.nome_fantasia",
+            "name": "Comprador",
+            "width": 1.5
+          },
+          {
+            "prop": "data_emissao",
+            "name": "Emissão",
+            "width": 1
+          },
+          {
+            "prop": "data_entrega",
+            "name": "Entrega",
+            "width": 1
+          }
+        ]
+      }
+    ]
+  }

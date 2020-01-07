@@ -1,0 +1,40 @@
+{
+  "titulo": "Pedidos",
+  "add": {
+    "titulo": "Cadastrar Pedido"
+  },
+    "pedidos": [
+      {
+        "titulo": "Abertos",
+        "step": true,
+        "index": 0,
+        "columns": [
+          {
+            "prop": "num_pedido",
+            "name": "N° Pedido",
+            "width": 0.6
+          },
+          {
+            "prop": "representada.nome_fantasia",
+            "name": "Representada",
+            "width": 1.5
+          },
+          {
+            "prop": "cliente.nome_fantasia",
+            "name": "Comprador",
+            "width": 1.5
+          },
+          {
+            "prop": "data_emissao",
+            "name": "Emissão",
+            "width": 1
+          },
+          {
+            "prop": "data_entrega",
+            "name": "Entrega",
+            "width": 1
+          }
+        ]
+      }
+    ]
+  }
