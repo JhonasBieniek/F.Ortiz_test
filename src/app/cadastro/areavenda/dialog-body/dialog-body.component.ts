@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogConfig } from "@angular/material";
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
 import { ClientService } from '../../../shared/services/client.service.component';
 
 @Component({
@@ -49,31 +49,39 @@ export class DialogBodyComponent implements OnInit {
   ngOnInit() {
     this.form = this.fb.group({
       nome: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
-      vendedor: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
-      auxiliar: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
-      regiao: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
-      active: [null, Validators.required],
+      vendedor_id: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
+      auxiliar_id: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
+      regiao_id: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
+      status: [null, Validators.required],
       hideRequired: true,
       floatLabel: 'auto',
     });
   }
 
   areaVendasSubmit() { 
-    this.dados = [{
-      nome : this.form.value.nome,
-      vendedor_id: this.selectedVendedor,
-      auxiliar_id: this.selectedAuxiliar,
-      regiao_id: this.selectedRegiao,
-      status:this.form.value.active,
-    }]
-
-    this.clientservice.addAreaVenda(this.dados)  
-
+    this.clientservice.addAreaVenda(this.form.value)  
   }
 
   close() {
     this.dialogRef.close(
     );
+  }
+
+  getFormValidationErrors() {
+    const result = [];
+    Object.keys(this.form.controls).forEach(key => {
+      const controlErrors: ValidationErrors = this.form.get(key).errors;
+      if (controlErrors) {
+        Object.keys(controlErrors).forEach(keyError => {
+          result.push({
+            'control': key,
+            'error': keyError,
+            'value': controlErrors[keyError]
+          });
+        });
+      }
+    });
+    console.log(result);
   }
 
 }

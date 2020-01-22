@@ -94,13 +94,12 @@ export class RamoAtividadeComponent implements OnInit {
     }
 
   refreshTable(){
-    this.clientservice.getGrupos().subscribe(res =>{
+    this.clientservice.getRamos().subscribe(res =>{
       this.dados = res;
       this.rows = this.dados.data;
       this.temp = [...this.dados.data];
       setTimeout(() => { this.loadingIndicator = false; }, 1500);
       });
-      console.log("Rodei")
   }
 
 

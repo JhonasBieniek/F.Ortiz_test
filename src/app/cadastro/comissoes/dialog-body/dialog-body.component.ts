@@ -1,8 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
 import { ClientService } from '../../../shared/services/client.service.component';
 import { CustomValidators } from 'ng2-validation';
+import { NotificationService } from '../../../shared/messages/notification.service';
 
 @Component({
   selector: 'app-dialog-body',
@@ -27,7 +28,8 @@ export class DialogBodyComissoesComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<DialogBodyComissoesComponent>, 
                                 @Inject(MAT_DIALOG_DATA) public data: any,
                                 private fb: FormBuilder,
-                                private clientservice: ClientService
+                                private clientservice: ClientService,
+                                private notificationService: NotificationService
                                 )
     {
       this.clientservice.getFuncionarios().subscribe(res =>{
@@ -44,8 +46,8 @@ export class DialogBodyComissoesComponent implements OnInit {
                               
   ngOnInit() {
     this.form = this.fb.group({
-      vendedor: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
-      auxiliar: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
+      funcionario_id: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
+      representada_id: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
       inicio: [null, Validators.compose([Validators.required, CustomValidators.number])],
       final: [null, Validators.compose([Validators.required, CustomValidators.number])],
       percentual: [null, Validators.compose([Validators.required, CustomValidators.number])],
@@ -55,16 +57,30 @@ export class DialogBodyComissoesComponent implements OnInit {
   }
 
   areaVendasSubmit() { 
-    this.dados = [{
-      funcionario_id: this.selectedFuncionario,
-      representada_id: this.selectedRepresentada,
-      inicio: this.form.value.inicio,
-      final: this.form.value.final,
-      percentual: this.form.value.percentual,
-    }]
+    this.clientservice.addComissoes(this.form.value).subscribe((res:any) =>{
+      if(res.success == true){
+        this.notificationService.notify(`Cadastro Efetuado com Sucesso!`)
+      }else{
+        this.notificationService.notify(`Erro contate o Administrador`)
+      }}
+    );  
+  }
 
-    this.clientservice.addComissoes(this.dados)  
-
+  getFormValidationErrors() {
+    const result = [];
+    Object.keys(this.form.controls).forEach(key => {
+      const controlErrors: ValidationErrors = this.form.get(key).errors;
+      if (controlErrors) {
+        Object.keys(controlErrors).forEach(keyError => {
+          result.push({
+            'control': key,
+            'error': keyError,
+            'value': controlErrors[keyError]
+          });
+        });
+      }
+    });
+    console.log(result);
   }
 
   close() {

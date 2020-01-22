@@ -68,7 +68,7 @@ export class DialogBodyClienteComponent implements OnInit {
       fname: [data.fantasia, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
       rsocial: [data.nome, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
       ie: [null, Validators.compose([Validators.required, CustomValidators.numbers])],
-      cnpj: [this.form.value.cnpj,Validators.compose([Validators.required, CustomValidators.digits])],
+      cnpj: [this.form.value.cnpj,Validators.compose([Validators.required, Validators.minLength(14), Validators.maxLength(14)])],
       email: [data.email, Validators.compose([Validators.required, CustomValidators.email])],
       cep: [data.cep, Validators.compose([Validators.required, CustomValidators.numbers])],
       logradouro: [data.logradouro, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
@@ -143,7 +143,7 @@ addCliente(){
     area_venda_id: this.form.value.area,
     ramo_atividade_id: this.form.value.ramo,
     obs: this.form.value.observacao,
-    enderecos: {
+    endereco: {
       cep: this.form.value.cep.toString().replace(/[^0-9]+/g,''),
       logradouro: this.form.value.logradouro,
       numero: this.form.value.numero,

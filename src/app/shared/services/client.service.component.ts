@@ -5,7 +5,7 @@ import { NotificationService } from '../messages/notification.service';
 import * as jwt_decode from 'jwt-decode';
 
 
-export const API_URL = "http://test2.fortiz.com.br/api/"
+export const API_URL = "https://test2.fortiz.com.br/api/"
 
 @Injectable()
 export class ClientService {
@@ -61,12 +61,9 @@ export class ClientService {
 
   addAreaVenda(dados) {
     const uri = `${API_URL}` + `area-vendas/add.json`;
-    const obj = {
-      dados
-    };
     this
       .http
-      .post(uri, dados[0]) 
+      .post(uri, dados) 
       .subscribe(res =>
           console.log('Done'));
   }
@@ -142,11 +139,9 @@ export class ClientService {
   }
   addComissoes(dados) {
     const uri = `${API_URL}` + `comissoes/add.json`;
-    this
+    return this
       .http
-      .post(uri, dados[0]) 
-      .subscribe(res =>
-          console.log('Done'));
+      .post(uri, dados) 
   }
   addProdutos(dados) {
     const uri = `${API_URL}` + `produtos/add.json`;
@@ -170,6 +165,18 @@ export class ClientService {
   }
   addCliente(data){
     const uri = API_URL+ 'clientes/add.json';
+    return this
+      .http
+      .post(uri, data) 
+  }
+  addRepresenta(data){
+    const uri = API_URL+ 'representadas/add.json';
+    return this
+      .http
+      .post(uri, data) 
+  }
+  addFuncionario(data){
+    const uri = API_URL+ 'funcionarios/add.json';
     return this
       .http
       .post(uri, data) 
@@ -366,7 +373,7 @@ export class ClientService {
             });
   }
   getCep(cep) {
-    const uri = API_URL + 'enderecos/getCEP/' +cep + '.json';
+    const uri = `${API_URL}` + 'enderecos/getCEP/' +cep + '.json';
     return this
           .http
           .get(uri)

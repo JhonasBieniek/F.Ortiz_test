@@ -1,84 +1,75 @@
-<mat-dialog-content class="dialog" >
+<mat-dialog-content class="dialog">
 
-<div fxLayout="row" fxLayoutWrap="wrap" [hidden]="true">
-  <!-- Card column -->
-  <div fxFlex.gt-sm="100%" fxFlex="100">
-<form [formGroup]="form" >
-    
-  <div fxLayout="row" fxLayoutWrap="wrap" class="row">
+  <div fxLayout="row" fxLayoutWrap="wrap" [hidden]="true">
+    <!-- Card column -->
+    <div fxFlex.gt-sm="100%" fxFlex="100">
+      <form [formGroup]="form">
 
-      <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-          <mat-card-header class="bg-info text-white">
-          <mat-card-title class="dadosCadastro">Cadastrar Comissão</mat-card-title>
-          </mat-card-header>
-      </div> 
-      <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
-        <mat-form-field appearance ="outline"
-              [hideRequiredMarker]="form.value.hideRequired"
+        <div fxLayout="row" fxLayoutWrap="wrap" class="row">
+
+          <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+            <mat-card-header class="bg-info text-white">
+              <mat-card-title class="dadosCadastro">Cadastrar Comissão</mat-card-title>
+            </mat-card-header>
+          </div>
+          <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+            <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
               [floatLabel]="form.value.floatLabel">
               <mat-label>Selecione um funcionario</mat-label>
-            <mat-select required [(ngModel)]="selectedFuncionario" [ngModelOptions]="{standalone: true}" name="funcionario">
+              <mat-select required [formControl]="form.controls['funcionario_id']">
                 <mat-option *ngFor="let funcionario of funcionarios" [value]="funcionario.id">
-                    {{funcionario.nome}}
-                  </mat-option>                  
-                </mat-select>
-            <mat-placeholder>Funcionário</mat-placeholder>
-          </mat-form-field>
-        </div>
-    <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
-      <mat-form-field appearance ="outline"
-            [hideRequiredMarker]="form.value.hideRequired"
-            [floatLabel]="form.value.floatLabel">
-            <mat-label>Selecione uma representada</mat-label>
-          <mat-select required [(ngModel)]="selectedRepresentada" [ngModelOptions]="{standalone: true}" name="representada">
-              <mat-option *ngFor="let representada of representadas" [value]="representada.id">
-                  {{representada.nome_fantasia}}
-                </mat-option>                  
+                  {{funcionario.nome}}
+                </mat-option>
               </mat-select>
-          <mat-placeholder>Representada</mat-placeholder>
-        </mat-form-field>
-      </div>
-    <div class="p-10" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="100">
-      <mat-form-field appearance ="outline">
-        <input matInput placeholder="Inicial" [formControl]="form.controls['inicio']">
-      </mat-form-field>
-      <small *ngIf="form.controls['inicio'].hasError('required') && form.controls['inicio'].touched" class="text-danger font-14">Você precisa deve inserir um Número.</small>
-      <small *ngIf="form.controls['inicio'].errors?.number && form.controls['inicio'].touched" class="text-danger font-14">O Número precisa ser válido.</small>
+              <mat-placeholder>Funcionário</mat-placeholder>
+            </mat-form-field>
+          </div>
+          <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+            <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+              [floatLabel]="form.value.floatLabel">
+              <mat-label>Selecione uma representada</mat-label>
+              <mat-select required [formControl]="form.controls['representada_id']">
+                <mat-option *ngFor="let representada of representadas" [value]="representada.id">
+                  {{representada.nome_fantasia}}
+                </mat-option>
+              </mat-select>
+              <mat-placeholder>Representada</mat-placeholder>
+            </mat-form-field>
+          </div>
+          <div class="p-10" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="100">
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Inicial" [formControl]="form.controls['inicio']">
+            </mat-form-field>
+            <small *ngIf="form.controls['inicio'].hasError('required') && form.controls['inicio'].touched"
+              class="text-danger font-14">Você precisa deve inserir um Número.</small>
+            <small *ngIf="form.controls['inicio'].errors?.number && form.controls['inicio'].touched"
+              class="text-danger font-14">O Número precisa ser válido.</small>
+          </div>
+          <div class="p-10" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="100">
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Final" [formControl]="form.controls['final']">
+            </mat-form-field>
+            <small *ngIf="form.controls['final'].hasError('required') && form.controls['final'].touched"
+              class="text-danger font-14">Você precisa deve inserir um Número.</small>
+            <small *ngIf="form.controls['final'].errors?.number && form.controls['final'].touched"
+              class="text-danger font-14">O Número precisa ser válido.</small>
+          </div>
+          <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="100">
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Percentual" [formControl]="form.controls['percentual']">
+            </mat-form-field>
+            <small *ngIf="form.controls['percentual'].hasError('required') && form.controls['percentual'].touched"
+              class="text-danger font-14">Você precisa deve inserir um Número.</small>
+            <small *ngIf="form.controls['percentual'].errors?.number && form.controls['percentual'].touched"
+              class="text-danger font-14">O Número precisa ser válido.</small>
+          </div>
+        </div>
+        <mat-card-actions>
+          <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid" (click)="areaVendasSubmit(); close()">Salvar</button>
+          <button mat-raised-button color="warn" (click)="close()">Cancelar</button>
+        </mat-card-actions>
+      </form>
     </div>
-    <div class="p-10" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="100">
-      <mat-form-field appearance ="outline">
-        <input matInput placeholder="Final" [formControl]="form.controls['final']">
-      </mat-form-field>
-      <small *ngIf="form.controls['final'].hasError('required') && form.controls['final'].touched" class="text-danger font-14">Você precisa deve inserir um Número.</small>
-      <small *ngIf="form.controls['final'].errors?.number && form.controls['final'].touched" class="text-danger font-14">O Número precisa ser válido.</small>
-    </div>
-    <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="100">
-      <mat-form-field appearance ="outline">
-        <input matInput placeholder="Percentual" [formControl]="form.controls['percentual']">
-      </mat-form-field>
-      <small *ngIf="form.controls['percentual'].hasError('required') && form.controls['percentual'].touched" class="text-danger font-14">Você precisa deve inserir um Número.</small>
-      <small *ngIf="form.controls['percentual'].errors?.number && form.controls['percentual'].touched" class="text-danger font-14">O Número precisa ser válido.</small>
-    </div>
-  </div>
-<div fxLayout="row" fxLayoutWrap="wrap" class="row">
-
-    <div class="p-10" fxFlex.gt-sm="15" fxFlex.gt-xs="50" fxFlex="100">
-<mat-card-actions>
-  <button mat-raised-button color="primary"  type="submit" (click)="areaVendasSubmit(); close()">Salvar cadastro</button>
-</mat-card-actions>
-</div>
-<div class="p-10" fxFlex.gt-sm="15" fxFlex.gt-xs="50" fxFlex="100">
-
-<mat-card-actions>
-  <button mat-raised-button color="primary" (click)="close()">Cancelar</button>
-</mat-card-actions>
-</div>
-
-</div>
-
-    </form>
-   </div>
   </div>
 </mat-dialog-content>
-
-
+<a (click) = "getFormValidationErrors()" >errors</a>

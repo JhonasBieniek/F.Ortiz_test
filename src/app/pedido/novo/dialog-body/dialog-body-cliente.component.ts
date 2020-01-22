@@ -145,7 +145,7 @@ export class DialogClienteAddComponent implements OnInit {
       area_venda_id: this.form.value.area,
       ramo_atividade_id: this.form.value.ramo,
       obs: this.form.value.observacao,
-      enderecos: {
+      endereco: {
         cep: this.form.value.cep.toString().replace(/[^0-9]+/g, ''),
         logradouro: this.form.value.logradouro,
         numero: this.form.value.numero,

@@ -25,8 +25,8 @@ export class DialogBodyCondComerciaisComponent implements OnInit {
   ngOnInit() {
     this.form = this.fb.group({
       nome: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
-      prazo: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
-      dias: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
+      prazo: [null, Validators.compose([Validators.required ])],
+      dias: [null, Validators.compose([Validators.required ])],
     });
   }
 

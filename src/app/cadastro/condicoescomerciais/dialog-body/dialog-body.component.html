@@ -1,60 +1,49 @@
-<mat-dialog-content class="dialog" >
+<mat-dialog-content class="dialog">
 
-<div fxLayout="row" fxLayoutWrap="wrap" [hidden]="true">
-  <!-- Card column -->
-  <div fxFlex.gt-sm="100%" fxFlex="100">
-<form [formGroup]="form" >
-    
-  <div fxLayout="row" fxLayoutWrap="wrap" class="row">
+  <div fxLayout="row" fxLayoutWrap="wrap" [hidden]="true">
+    <!-- Card column -->
+    <div fxFlex.gt-sm="100%" fxFlex="100">
+      <form [formGroup]="form">
 
-      <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-          <mat-card-header class="bg-info text-white">
-          <mat-card-title class="dadosCadastro">Cadastrar Condição Comercial</mat-card-title>
-          </mat-card-header>
-      </div> 
+        <div fxLayout="row" fxLayoutWrap="wrap" class="row">
 
-    <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
-      <mat-form-field appearance ="outline">
-        <input matInput placeholder="Nome da região" [formControl]="form.controls['nome']">
-      </mat-form-field>
-        <mat-hint *ngIf="form.controls['nome'].hasError('required') && form.controls['nome'].touched" class="text-danger font-14">Nome Completo.</mat-hint>
-        <mat-hint *ngIf="form.controls['nome'].hasError('minlength') && form.controls['nome'].touched" class="text-danger font-14">O nome deve conter no mínimo 5 caracteres</mat-hint>
-        <mat-hint *ngIf="form.controls['nome'].hasError('maxlength') && form.controls['nome'].touched" class="text-danger font-14">Seu nome não deve exceder 50 caracteres.</mat-hint>
+          <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+            <mat-card-header class="bg-info text-white">
+              <mat-card-title class="dadosCadastro">Cadastrar Condição Comercial</mat-card-title>
+            </mat-card-header>
+          </div>
+
+          <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Nome da região" [formControl]="form.controls['nome']">
+            </mat-form-field>
+            <mat-hint *ngIf="form.controls['nome'].hasError('required') && form.controls['nome'].touched"
+              class="text-danger font-14">Condição.</mat-hint>
+            <mat-hint *ngIf="form.controls['nome'].hasError('minlength') && form.controls['nome'].touched"
+              class="text-danger font-14">A condição deve conter no mínimo 5 caracteres</mat-hint>
+            <mat-hint *ngIf="form.controls['nome'].hasError('maxlength') && form.controls['nome'].touched"
+              class="text-danger font-14">Sua condição não deve exceder 50 caracteres.</mat-hint>
+          </div>
+          <div class="p-10" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100">
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Prazo" [formControl]="form.controls['prazo']">
+            </mat-form-field>
+            <small *ngIf="form.controls['prazo'].hasError('required') && form.controls['prazo'].touched"
+              class="text-danger font-14">Você precisa deve inserir um Número.</small>
+          </div>
+          <div class="p-10" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100">
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Dias" [formControl]="form.controls['dias']">
+            </mat-form-field>
+            <small *ngIf="form.controls['dias'].hasError('required') && form.controls['dias'].touched"
+              class="text-danger font-14">Você precisa deve inserir um Número.</small>
+          </div>
+        </div>
+        <mat-card-actions>
+          <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid" (click)="regioesSubmit(); close()">Salvar</button>
+          <button mat-raised-button color="warn" (click)="close()">Cancelar</button>
+        </mat-card-actions>
+      </form>
     </div>
-    <div class="p-10" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100">
-      <mat-form-field appearance ="outline">
-        <input matInput placeholder="Prazo" [formControl]="form.controls['prazo']">
-      </mat-form-field>
-      <small *ngIf="form.controls['prazo'].hasError('required') && form.controls['prazo'].touched" class="text-danger font-14">Você precisa deve inserir um Número.</small>
-      <small *ngIf="form.controls['prazo'].errors?.number && form.controls['prazo'].touched" class="text-danger font-14">O Número precisa ser válido.</small>
-    </div>
-    <div class="p-10" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100">
-      <mat-form-field appearance ="outline">
-        <input matInput placeholder="Dias" [formControl]="form.controls['dias']">
-      </mat-form-field>
-      <small *ngIf="form.controls['dias'].hasError('required') && form.controls['dias'].touched" class="text-danger font-14">Você precisa deve inserir um Número.</small>
-      <small *ngIf="form.controls['dias'].errors?.number && form.controls['dias'].touched" class="text-danger font-14">O Número precisa ser válido.</small>
-    </div>
-  </div>
-<div fxLayout="row" fxLayoutWrap="wrap" class="row">
-
-    <div class="p-10" fxFlex.gt-sm="15" fxFlex.gt-xs="50" fxFlex="100">
-<mat-card-actions>
-  <button mat-raised-button color="primary"  type="submit" (click)="regioesSubmit(); close()">Salvar cadastro</button>
-</mat-card-actions>
-</div>
-<div class="p-10" fxFlex.gt-sm="15" fxFlex.gt-xs="50" fxFlex="100">
-
-<mat-card-actions>
-  <button mat-raised-button color="primary" (click)="close()">Cancelar</button>
-</mat-card-actions>
-</div>
-
-</div>
-
-    </form>
-   </div>
   </div>
 </mat-dialog-content>
-
-

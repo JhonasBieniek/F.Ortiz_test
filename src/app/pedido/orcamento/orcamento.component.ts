@@ -168,16 +168,16 @@ export class OrcamentoComponent implements OnInit {
       this.selectedAreaVendaID = res.data[0].area_venda_id;
       this.chargeAreaVendas(res.data[0].area_venda);
       this.cep = res
-      if (this.cep.data[0].enderecos[0].logradouro != 'error') {
+      if (this.cep.data[0].endereco[0].logradouro != 'error') {
         //this.notificationService.notify(`Endereço inserido com sucesso!`)
-        this.modelLogradouro = this.cep.data[0].enderecos[0].logradouro
-        this.modelBairro = this.cep.data[0].enderecos[0].bairro
-        this.modelCidade = this.cep.data[0].enderecos[0].cidade
-        this.modelEstado = this.cep.data[0].enderecos[0].estado
-        this.modelCEP = this.cep.data[0].enderecos[0].cep
-        this.modelComplemento = this.cep.data[0].enderecos[0].complemento
-        this.modelNumero = this.cep.data[0].enderecos[0].numero
-        console.log(this.cep.data[0].enderecos[0].logradouro)
+        this.modelLogradouro = this.cep.data[0].endereco[0].logradouro
+        this.modelBairro = this.cep.data[0].endereco[0].bairro
+        this.modelCidade = this.cep.data[0].endereco[0].cidade
+        this.modelEstado = this.cep.data[0].endereco[0].estado
+        this.modelCEP = this.cep.data[0].endereco[0].cep
+        this.modelComplemento = this.cep.data[0].endereco[0].complemento
+        this.modelNumero = this.cep.data[0].endereco[0].numero
+        console.log(this.cep.data[0].endereco[0].logradouro)
       } else {
         this.notificationService.notify(`Endereço Inválido`)
       }

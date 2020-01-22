@@ -1,181 +1,190 @@
 <!-- ============================================================== -->
 <!-- row -->
 <!-- ============================================================== -->
-  
-                <form [formGroup]="form">
-     
-                  <div fxLayout="row" fxLayoutWrap="wrap" class="row">
 
-                      <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-                          <mat-card-header class="bg-info text-white">
-                          <mat-card-title class="dadosCadastro">Dados de cadastro</mat-card-title>
-                          </mat-card-header>
-                      </div> 
-
-                    <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
-                      <mat-form-field appearance ="outline">
-                        <input matInput placeholder="Nome fantasia" [formControl]="form.controls['fname']">
-                      </mat-form-field>
-                        <mat-hint *ngIf="form.controls['fname'].hasError('required') && form.controls['fname'].touched" class="text-danger font-14">Você deve incluir um nome fantasia.</mat-hint>
-                        <mat-hint *ngIf="form.controls['fname'].hasError('minlength') && form.controls['fname'].touched" class="text-danger font-14">O nome tem que ter no mínimo 5 caracteres.</mat-hint>
-                        <mat-hint *ngIf="form.controls['fname'].hasError('maxlength') && form.controls['fname'].touched" class="text-danger font-14">O nome não deve exceder 50 caracteres</mat-hint>
-                    </div>
-
-                <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
-                    <mat-form-field appearance ="outline">
-                      <input matInput placeholder="Razão social*" [formControl]="form.controls['rsocial']">
-                    </mat-form-field>
-                      <mat-hint *ngIf="form.controls['rsocial'].hasError('required') && form.controls['rsocial'].touched" class="text-danger font-14">Você deve incluir uma razão social.</mat-hint>
-                      <mat-hint *ngIf="form.controls['rsocial'].hasError('minlength') && form.controls['rsocial'].touched" class="text-danger font-14">A razão social tem que conter no mínimo 5 caracteres.</mat-hint>
-                      <mat-hint *ngIf="form.controls['rsocial'].hasError('maxlength') && form.controls['rsocial'].touched" class="text-danger font-14">A razão social não deve exceder 50 caracteres</mat-hint>
-                  </div>
-              
-                  <div class="p-10" fxFlex.gt-sm="35" fxFlex.gt-xs="30" fxFlex="100">
-                      <mat-form-field appearance ="outline">
-                        <input matInput placeholder="CNPJ" mask="00.000.000/0000-00" [formControl]="form.controls['cnpj']" type="digits">
-                      </mat-form-field>
-                      <small *ngIf="form.controls['cnpj'].hasError('required') && form.controls['cnpj'].touched" class="text-danger font-14">Você precisa inserir um CPF.</small>
-                      <small *ngIf="form.controls['cnpj'].errors?.digits && form.controls['cnpj'].touched" class="text-danger font-14">Você precisa inserir um CPF válido.</small>
-                  </div>
-
-                  <div class="p-10" fxFlex.gt-sm="35" fxFlex.gt-xs="35" fxFlex="100">
-                      <mat-form-field appearance ="outline">
-                        <input matInput placeholder="Inscrição estadual" [formControl]="form.controls['ie']" type="digits">
-                      </mat-form-field>
-                      <small *ngIf="form.controls['ie'].hasError('required') && form.controls['ie'].touched" class="text-danger font-14">Você precisa inserir um CPF.</small>
-                      <small *ngIf="form.controls['ie'].errors?.digits && form.controls['ie'].touched" class="text-danger font-14">Você precisa inserir um CPF válido.</small>
-                  </div>   
-                  
-                  <div class="p-10" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
-                    <mat-form-field appearance ="outline"
-                          [hideRequiredMarker]="form.value.hideRequired"
-                          [floatLabel]="form.value.floatLabel">
-                          <mat-label>Status</mat-label>
-                        <mat-select required [formControl]="form.controls['active']">
-                          <mat-option>-- Selecione... --</mat-option>
-                          <mat-option value="1">Ativo</mat-option>
-                          <mat-option value="0">Inativo</mat-option>
-                        </mat-select>
-                      </mat-form-field>
-                    </div>
-
-                  <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-                      <mat-card-header class="bg-info text-white">
-                      <mat-card-title class="Endereco">Endereço</mat-card-title>
-                      </mat-card-header>
-                  </div> 
-
-                  <div class="p-10" fxFlex.gt-sm="13" fxFlex.gt-xs="13" fxFlex="100">
-                    <mat-form-field appearance="outline">
-                      <input matInput placeholder="CEP" mask="00000-000" (blur)="onBlurMethod()" [formControl]="form.controls['cep']">
-                    </mat-form-field>
-                    <mat-hint *ngIf="form.controls['cep'].hasError('required') && form.controls['cep'].touched" class="text-danger font-14">Você deve inserir o CEP.</mat-hint>
-                        <mat-hint *ngIf="form.controls['cep'].hasError('minlength') && form.controls['cep'].touched" class="text-danger font-14">O nome deve conter no mínimo 8 caracteres.</mat-hint>
-                        <mat-hint *ngIf="form.controls['cep'].hasError('maxlength') && form.controls['cep'].touched" class="text-danger font-14">Seu cep não deve exceder 8 caracteres.</mat-hint>
-                  </div>
-                  <div class="p-10" fxFlex.gt-sm="52" fxFlex.gt-xs="55" fxFlex="100">
-                      <mat-form-field appearance="outline">
-                        <input matInput placeholder="Logradouro" [(ngModel)]="modelLogradouro" [formControl]="form.controls['logradouro']">
-                      </mat-form-field>
-                      <small *ngIf="form.controls['logradouro'].hasError('required') && form.controls['logradouro'].touched" class="text-danger font-14">Você precisa deve inserir um endereço.</small>
-                      <small *ngIf="form.controls['logradouro'].errors?.number && form.controls['logradouro'].touched" class="text-danger font-14">O endereço precisa ser válido.</small>
-                    </div>
-                    <div class="p-10" fxFlex.gt-sm="14" fxFlex.gt-xs="14" fxFlex="100">
-                      <mat-form-field appearance="outline">
-                        <input matInput placeholder="Número" [formControl]="form.controls['numero']">
-                      </mat-form-field>
-                      <small *ngIf="form.controls['numero'].hasError('required') && form.controls['numero'].touched" class="text-danger font-14">Você precisa deve inserir um Número.</small>
-                      <small *ngIf="form.controls['numero'].errors?.number && form.controls['numero'].touched" class="text-danger font-14">O Número precisa ser válido.</small>
-                    </div>
-                <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="21" fxFlex="100">
-                    <mat-form-field appearance="outline">
-                      <input matInput placeholder="Complemento" [formControl]="form.controls['complemento']">
-                    </mat-form-field>
-                      <mat-hint *ngIf="form.controls['complemento'].hasError('required') && form.controls['complemento'].touched" class="text-danger font-14">Você deve incluir um complemento.</mat-hint>
-                      <mat-hint *ngIf="form.controls['complemento'].hasError('minlength') && form.controls['complemento'].touched" class="text-danger font-14">O complemento tem que ter no mínimo 5 caracteres.</mat-hint>
-                      <mat-hint *ngIf="form.controls['complemento'].hasError('maxlength') && form.controls['complemento'].touched" class="text-danger font-14">O complemento não deve exceder 50 caracteres</mat-hint>
-                  </div>
-                <div class="p-10" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
-                    <mat-form-field appearance="outline">
-                      <input matInput placeholder="Bairro" [(ngModel)]="modelBairro" [formControl]="form.controls['bairro']">
-                    </mat-form-field>
-                    <small *ngIf="form.controls['bairro'].hasError('required') && form.controls['bairro'].touched" class="text-danger font-14">Você precisa deve inserir um bairro.</small>
-                  </div>
-                <div class="p-10" fxFlex.gt-sm="36" fxFlex.gt-xs="36" fxFlex="100">
-                    <mat-form-field appearance="outline">
-                      <input matInput placeholder="Cidade" [(ngModel)]="modelCidade" [formControl]="form.controls['cidade']">
-                    </mat-form-field>
-                    <small *ngIf="form.controls['cidade'].hasError('required') && form.controls['cidade'].touched" class="text-danger font-14">Você precisa deve inserir uma cidade.</small>
-                  </div>
-                <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="100">
-                    <mat-form-field appearance="outline">
-                      <input matInput placeholder="Estado" [(ngModel)]="modelEstado" [formControl]="form.controls['estado']">
-                    </mat-form-field>
-                    <small *ngIf="form.controls['estado'].hasError('required') && form.controls['estado'].touched" class="text-danger font-14">Você precisa deve inserir um estado.</small>
-                  </div>
-              
-                  <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="100">
-                
-                </div>
-
-                <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-                    <mat-card-header class="bg-info text-white">
-                    <mat-card-title class="Outros">Outros</mat-card-title>
-                    </mat-card-header>
-                </div> 
-                  
-                  <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
-                      <mat-form-field appearance ="outline">
-                        <input matInput placeholder="Telefone Fixo" mask="(00) 0000-0000" [formControl]="form.controls['phonepj']" type="text">
-                      </mat-form-field>
-                      <small *ngIf="form.controls['phonepj'].hasError('required') && form.controls['phonepj'].touched" class="text-danger font-14">Você precisa inserir um númeoro.</small>
-                      <small *ngIf="form.controls['phonepj'].errors?.phone && form.controls['phonepj'].touched" class="text-danger font-14">O número inserido deve ser válido.</small>
-                    </div>
-              
-                    <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
-                        <mat-form-field appearance ="outline">
-                          <input matInput placeholder="Celular" mask="(00) 0 0000-0000" [formControl]="form.controls['phonepj2']" type="text">
-                        </mat-form-field>
-                        <small *ngIf="form.controls['phonepj2'].hasError('required') && form.controls['phonepj2'].touched" class="text-danger font-14">Você precisa inserir um númeoro.</small>
-                        <small *ngIf="form.controls['phonepj2'].errors?.phone && form.controls['phonepj2'].touched" class="text-danger font-14">O número inserido deve ser válido.</small>
-                    </div>
-                    <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
-                      <mat-form-field appearance ="outline">
-                        <input matInput placeholder="Representante*" [formControl]="form.controls['representante']">
-                      </mat-form-field>
-                        <mat-hint *ngIf="form.controls['representante'].hasError('required') && form.controls['representante'].touched" class="text-danger font-14">Você deve incluir um representante.</mat-hint>
-                        <mat-hint *ngIf="form.controls['representante'].hasError('minlength') && form.controls['representante'].touched" class="text-danger font-14">O representante tem que conter no mínimo 5 caracteres.</mat-hint>
-                        <mat-hint *ngIf="form.controls['representante'].hasError('maxlength') && form.controls['representante'].touched" class="text-danger font-14">O representante não deve exceder 50 caracteres</mat-hint>
-                    </div>
-                  <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
-                      <mat-form-field appearance ="outline">
-                        <input matInput placeholder="Email" [formControl]="form.controls['email']" type="email">
-                      </mat-form-field>
-                      <small *ngIf="form.controls['email'].hasError('required') && form.controls['email'].touched" class="text-danger font-14">You must include an email address.</small>
-                      <small *ngIf="form.controls['email'].errors?.email && form.controls['email'].touched" class="text-danger font-14">You must include a valid email address.</small>
-                  </div>  
-                  
-           
-
-
-              <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-                  <mat-card-header class="bg-info text-white">
-                  <mat-card-title class="Endereco">Observação</mat-card-title>
-                  </mat-card-header>
-              </div>    
-              
-              <div fxFlex.gt-sm="100" fxFlex="100">
-                  <mat-form-field appearance ="outline">
-                    <input matInput [formControl]="form.controls['observacao']">
-                  </mat-form-field>
-                  <textarea *ngIf="form.controls['observacao'].hasError('maxlength') && form.controls['observacao'].touched" class="text-danger font-14">O representante não deve exceder 50 caracteres</textarea>
-              </div>
-              
-                </div>
-                
-                <mat-card-actions>
-                  <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">Submit</button>
-                </mat-card-actions>
-              </form>
-       
-
+<form [formGroup]="form">
+  <div fxLayout="row" fxLayoutWrap="wrap" class="row">
+    <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+      <mat-card-header class="bg-info text-white">
+        <mat-card-title class="dadosCadastro">Dados de cadastro</mat-card-title>
+      </mat-card-header>
+    </div>
+    <div class="p-10" fxFlex.gt-sm="35" fxFlex.gt-xs="30" fxFlex="100">
+      <mat-form-field appearance="outline">
+        <input matInput placeholder="CNPJ" mask="00.000.000/0000-00" formControlName="cnpj" (blur)="onBlurCnpj()" type="digits">
+      </mat-form-field>
+      <small *ngIf="form.get('cnpj').errors?.required && form.get('cnpj').touched"
+        class="text-danger font-14">Você precisa inserir um CNPJ.</small>
+      <small *ngIf="form.get('cnpj').errors?.minlength && form.get('cnpj').touched"
+        class="text-danger font-14">Você precisa inserir um CNPJ válido.</small>
+    </div>
+    <div class="p-10" fxFlex.gt-sm="35" fxFlex.gt-xs="35" fxFlex="100">
+      <mat-form-field appearance="outline">
+        <input matInput placeholder="Inscrição estadual" formControlName="inscricao_estadual" type="digits">
+      </mat-form-field>
+      <small *ngIf="form.get('inscricao_estadual').errors?.required && form.get('inscricao_estadual').touched"
+        class="text-danger font-14">Você precisa inserir a inscrição estadual.</small>
+    </div>
+    <div class="p-10" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
+      <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+        [floatLabel]="form.value.floatLabel">
+        <mat-label>Status</mat-label>
+        <mat-select required formControlName="status">
+          <mat-option>-- Selecione... --</mat-option>
+          <mat-option value="1">Ativo</mat-option>
+          <mat-option value="0">Inativo</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <small *ngIf="form.get('status').errors?.required && form.get('status').touched"
+        class="text-danger font-14">Você precisa selecionar o status.</small>
+    </div>
+    <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+      <mat-form-field appearance="outline">
+        <input matInput placeholder="Nome fantasia" formControlName="nome_fantasia">
+      </mat-form-field>
+      <mat-hint *ngIf="form.get('nome_fantasia').errors?.required && form.get('nome_fantasia').touched"
+        class="text-danger font-14">Você deve incluir um nome fantasia.</mat-hint>
+      <mat-hint *ngIf="form.get('nome_fantasia').errors?.minlength && form.get('nome_fantasia').touched"
+        class="text-danger font-14">O nome tem que ter no mínimo 5 caracteres.</mat-hint>
+      <mat-hint *ngIf="form.get('nome_fantasia').errors?.maxlength && form.get('nome_fantasia').touched"
+        class="text-danger font-14">O nome não deve exceder 50 caracteres</mat-hint>
+    </div>
+    <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+      <mat-form-field appearance="outline">
+        <input matInput placeholder="Razão social*" formControlName="razao_social">
+      </mat-form-field>
+      <mat-hint *ngIf="form.get('razao_social').errors?.required && form.get('razao_social').touched"
+        class="text-danger font-14">Você deve incluir uma razão social.</mat-hint>
+      <mat-hint *ngIf="form.get('razao_social').errors?.minlength && form.get('razao_social').touched"
+        class="text-danger font-14">A razão social tem que conter no mínimo 5 caracteres.</mat-hint>
+      <mat-hint *ngIf="form.get('razao_social').errors?.maxlength && form.get('razao_social').touched"
+        class="text-danger font-14">A razão social não deve exceder 50 caracteres</mat-hint>
+    </div>
+  </div>
+  <div formGroupName="endereco" fxLayout="row" fxLayoutWrap="wrap" class="row">
+    <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+      <mat-card-header class="bg-info text-white">
+        <mat-card-title class="Endereco">Endereço</mat-card-title>
+      </mat-card-header>
+    </div>
+    <div class="p-10" fxFlex.gt-sm="13" fxFlex.gt-xs="13" fxFlex="100">
+      <mat-form-field appearance="outline">
+        <input matInput placeholder="CEP" mask="00000-000" (blur)="onBlurMethod()" formControlName="cep">
+      </mat-form-field>
+      <mat-hint *ngIf="form.get('endereco.cep').errors?.required && form.get('endereco.cep').touched"
+        class="text-danger font-14">Você deve inserir o CEP.</mat-hint>
+      <mat-hint *ngIf="form.get('endereco.cep').errors?.minlength && form.get('endereco.cep').touched"
+        class="text-danger font-14">O nome deve conter no mínimo 8 caracteres.</mat-hint>
+      <mat-hint *ngIf="form.get('endereco.cep').errors?.maxlength && form.get('endereco.cep').touched"
+        class="text-danger font-14">Seu cep não deve exceder 8 caracteres.</mat-hint>
+    </div>
+    <div class="p-10" fxFlex.gt-sm="52" fxFlex.gt-xs="55" fxFlex="100">
+      <mat-form-field appearance="outline">
+        <input matInput placeholder="Logradouro" formControlName="logradouro">
+      </mat-form-field>
+      <small *ngIf="form.get('endereco.logradouro').errors?.required && form.get('endereco.logradouro').touched"
+        class="text-danger font-14">Você precisa deve inserir um endereço.</small>
+      <small *ngIf="form.get('endereco.logradouro').errors?.number && form.get('endereco.logradouro').touched"
+        class="text-danger font-14">O endereço precisa ser válido.</small>
+    </div>
+    <div class="p-10" fxFlex.gt-sm="14" fxFlex.gt-xs="14" fxFlex="100">
+      <mat-form-field appearance="outline">
+        <input matInput placeholder="Número" formControlName="numero">
+      </mat-form-field>
+      <small *ngIf="form.get('endereco.numero').errors?.required && form.get('endereco.numero').touched"
+        class="text-danger font-14">Você precisa deve inserir um Número.</small>
+      <small *ngIf="form.get('endereco.numero').errors?.number && form.get('endereco.numero').touched"
+        class="text-danger font-14">O Número precisa ser válido.</small>
+    </div>
+    <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="21" fxFlex="100">
+      <mat-form-field appearance="outline">
+        <input matInput placeholder="Complemento" formControlName="complemento">
+      </mat-form-field>
+      <mat-hint *ngIf="form.get('endereco.complemento').errors?.required && form.get('endereco.complemento').touched"
+        class="text-danger font-14">Você deve incluir um complemento.</mat-hint>
+      <mat-hint *ngIf="form.get('endereco.complemento').errors?.minlength && form.get('endereco.complemento').touched"
+        class="text-danger font-14">O complemento tem que ter no mínimo 5 caracteres.</mat-hint>
+      <mat-hint *ngIf="form.get('endereco.complemento').errors?.maxlength && form.get('endereco.complemento').touched"
+        class="text-danger font-14">O complemento não deve exceder 50 caracteres</mat-hint>
+    </div>
+    <div class="p-10" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
+      <mat-form-field appearance="outline">
+        <input matInput placeholder="Bairro" formControlName="bairro">
+      </mat-form-field>
+      <small *ngIf="form.get('endereco.bairro').errors?.required && form.get('endereco.bairro').touched"
+        class="text-danger font-14">Você precisa deve inserir um bairro.</small>
+    </div>
+    <div class="p-10" fxFlex.gt-sm="36" fxFlex.gt-xs="36" fxFlex="100">
+      <mat-form-field appearance="outline">
+        <input matInput placeholder="Cidade" formControlName="cidade">
+      </mat-form-field>
+      <small *ngIf="form.get('endereco.cidade').errors?.required && form.get('endereco.cidade').touched"
+        class="text-danger font-14">Você precisa deve inserir uma cidade.</small>
+    </div>
+    <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="100">
+      <mat-form-field appearance="outline">
+        <input matInput placeholder="Estado" formControlName="estado">
+      </mat-form-field>
+      <small *ngIf="form.get('endereco.estado').errors?.required && form.get('endereco.estado').touched"
+        class="text-danger font-14">Você precisa deve inserir um estado.</small>
+    </div>
+    <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="100">  
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutWrap="wrap" class="row">
+    <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+      <mat-card-header class="bg-info text-white">
+        <mat-card-title class="Outros">Outros</mat-card-title>
+      </mat-card-header>
+    </div>
+    <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+      <mat-form-field appearance="outline">
+        <input matInput placeholder="Telefone Fixo" mask="(00) 0000-0000" formControlName="telefone"
+          type="text">
+      </mat-form-field>
+      <small *ngIf="form.get('telefone').errors?.phone && form.get('telefone').touched"
+        class="text-danger font-14">O número inserido deve ser válido.</small>
+    </div>
+    <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+      <mat-form-field appearance="outline">
+        <input matInput placeholder="Celular" mask="(00) 0 0000-0000" formControlName="celular"
+          type="text">
+      </mat-form-field>
+      <small *ngIf="form.get('celular').errors?.phone && form.get('celular').touched"
+        class="text-danger font-14">O número inserido deve ser válido.</small>
+    </div>
+    <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+      <mat-form-field appearance="outline">
+        <input matInput placeholder="Representante*" formControlName="representante">
+      </mat-form-field>
+      <mat-hint *ngIf="form.get('representante').errors?.minlength && form.get('representante').touched"
+        class="text-danger font-14">O representante tem que conter no mínimo 5 caracteres.</mat-hint>
+      <mat-hint *ngIf="form.get('representante').errors?.maxlength && form.get('representante').touched"
+        class="text-danger font-14">O representante não deve exceder 50 caracteres</mat-hint>
+    </div>
+    <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+      <mat-form-field appearance="outline">
+        <input matInput placeholder="Email" formControlName="email" type="email">
+      </mat-form-field>
+      <small *ngIf="form.get('email').errors?.email && form.get('email').touched"
+        class="text-danger font-14">O endereço de email deve ser valido.</small>
+    </div>
+    <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+      <mat-card-header class="bg-info text-white">
+        <mat-card-title class="Endereco">Observação</mat-card-title>
+      </mat-card-header>
+    </div>
+    <div fxFlex.gt-sm="100" fxFlex="100">
+      <mat-form-field appearance="outline">
+        <input matInput formControlName="obs">
+      </mat-form-field>
+      <textarea *ngIf="form.get('obs').errors?.maxlength && form.get('obs').touched"
+        class="text-danger font-14">O representante não deve exceder 50 caracteres</textarea>
+    </div>
+  </div>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid" (click)="onSubmit(); close()">Salvar</button>
+    <button style="margin-left: 15px;" mat-raised-button color="warn" (click)="close()">Cancelar</button>
+  </mat-card-actions>
+</form>
+<!-- <a (click) = "getFormValidationErrors()" >errors</a> -->

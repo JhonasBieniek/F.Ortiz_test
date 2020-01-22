@@ -22,7 +22,7 @@
         <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
           [floatLabel]="form.value.floatLabel">
           <mat-label>Selecione um vendedor...</mat-label>
-          <mat-select required [(ngModel)]="selectedVendedor" [ngModelOptions]="{standalone: true}" name="vendedor">
+          <mat-select required [formControl]="form.controls['vendedor_id']">
             <mat-option *ngFor="let vendedor of vendedores" [value]="vendedor.id">
               {{vendedor.nome}}
             </mat-option>
@@ -34,7 +34,7 @@
         <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
           [floatLabel]="form.value.floatLabel">
           <mat-label>Selecione um auxiliar...</mat-label>
-          <mat-select required [(ngModel)]="selectedAuxiliar" [ngModelOptions]="{standalone: true}" name="auxiliar">
+          <mat-select required [formControl]="form.controls['auxiliar_id']">
             <mat-option *ngFor="let aux of auxiliares" [value]="aux.id">
               {{aux.nome}}
             </mat-option>
@@ -46,7 +46,7 @@
         <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
           [floatLabel]="form.value.floatLabel">
           <mat-label>Selecione a região...</mat-label>
-          <mat-select required [(ngModel)]="selectedRegiao" [ngModelOptions]="{standalone: true}" name="regiao">
+          <mat-select required [formControl]="form.controls['regiao_id']">
             <mat-option *ngFor="let regiao of regioes" [value]="regiao.id">
               {{regiao.nome}}
             </mat-option>
@@ -58,7 +58,7 @@
         <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
           [floatLabel]="form.value.floatLabel">
           <mat-label>Status.</mat-label>
-          <mat-select required [formControl]="form.controls['active']">
+          <mat-select required [formControl]="form.controls['status']">
             <mat-option>-- Selecione... --</mat-option>
             <mat-option [value]=1>Ativo</mat-option>
             <mat-option [value]=0>Inativo</mat-option>
@@ -67,18 +67,10 @@
         </mat-form-field>
       </div>
     </div>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid" (click)="areaVendasSubmit(); close()"> Salvar </button>
+      <button mat-raised-button color="warn" (click)="close()">Cancelar</button>
+    </mat-card-actions>
   </form>
-    <div fxLayout="row" fxLayoutWrap="wrap">
-      <div class="p-10" fxFlex.gt-sm="15" fxFlex.gt-xs="50" fxFlex="100">
-        <mat-card-actions>
-          <button mat-raised-button color="primary" type="submit" (click)="areaVendasSubmit(); close()">Salvar
-            cadastro</button>
-        </mat-card-actions>
-      </div>
-      <div class="p-10 bt" fxFlex.gt-sm="15" fxFlex.gt-xs="50" fxFlex="100">
-        <mat-card-actions>
-          <button mat-raised-button color="warn" (click)="close()">Cancelar</button>
-        </mat-card-actions>
-      </div>
-    </div>
 </mat-dialog-content>
+<!-- <a (click) = "getFormValidationErrors()" >errors</a> -->

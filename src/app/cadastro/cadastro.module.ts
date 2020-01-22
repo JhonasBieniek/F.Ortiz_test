@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ClienteComponent } from './cliente/cliente.component';
 import { RouterModule } from '@angular/router';
 import {CadastroRoutes} from './cadastro.routing';
@@ -90,6 +90,9 @@ import { DialogConfirmarDeleteComponent } from './dialog-confirmar-delete/confir
                   GruposComponent,
                   DialogBodyClienteComponent,
                   RamoAtividadeComponent
+  ],
+  providers: [
+    DatePipe
   ],
   entryComponents: [ DialogBodyComponent, 
                      DialogBodyCargosComponent, 
