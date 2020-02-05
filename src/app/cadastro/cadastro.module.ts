@@ -42,6 +42,8 @@ import {NgxMaskModule} from 'ngx-mask';
 import { RamoAtividadeComponent } from './ramo-atividade/ramo-atividade.component'
 import { DialogBodyRamoComponent } from './ramo-atividade/dialog-body-ramo/dialog-body-ramo.component';
 import { DialogConfirmarDeleteComponent } from './dialog-confirmar-delete/confirmar-delete.component';
+import { ProdutosComponent } from './produtos/produtos.component';
+import { DialogBodyProdutoComponent } from './produtos/dialog-body-produto/dialog-body-produto.component';
 
 
 
@@ -89,7 +91,9 @@ import { DialogConfirmarDeleteComponent } from './dialog-confirmar-delete/confir
                   UsuariosComponent,
                   GruposComponent,
                   DialogBodyClienteComponent,
-                  RamoAtividadeComponent
+                  RamoAtividadeComponent,
+                  ProdutosComponent,
+                  DialogBodyProdutoComponent
   ],
   providers: [
     DatePipe
@@ -107,7 +111,8 @@ import { DialogConfirmarDeleteComponent } from './dialog-confirmar-delete/confir
                      DialogBodyClienteComponent,
                      DialogBodyFornecedorComponent,
                      DialogBodyRamoComponent,
-                     DialogConfirmarDeleteComponent
+                     DialogConfirmarDeleteComponent,
+                     DialogBodyProdutoComponent
   ],
 })
 

@@ -44,14 +44,12 @@ export class NovoComponent implements OnInit {
        this.form = this.fb.group({
          nome: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
          ipi: [null, Validators.compose([Validators.minLength(1), Validators.maxLength(3)])],
-         certificadoAprovacao: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
-         codigo: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
-         embalagem: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
-         representada: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
-         unidade: [null, Validators.compose([Validators.required, CustomValidators.number])],
-         status: [null, Validators.required],
-         hideRequired: false,
-         floatLabel: 'auto',
+         certificado_aprovacao: [null],
+         codigo: [null],
+         embalagem: [null],
+         representada_id: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
+         unidade_id: [null],
+         status: [null, Validators.required]
        });
      }
 

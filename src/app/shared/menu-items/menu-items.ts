@@ -51,23 +51,15 @@ const MENUITEMS = [
       {state: 'areavenda', name: 'Áreas de Vendas'},
       {state: 'cargos', name: 'Cargos'},
       {state: 'cliente', name: 'Clientes'},
-      {state: 'representada', name: 'Representadas'},
-      {state: 'unidade', name: 'Unidades'},
-      {state: 'funcionario', name: 'Funcionários'},
-      {state: 'regioes', name: 'Regiões'},
-      {state: 'grupos', name: 'Grupos'},
       {state: 'condicoescomerciais', name: 'Condições Comerciais'},
       {state: 'comissoes', name: 'Comissões'},
+      {state: 'funcionario', name: 'Funcionários'},
+      {state: 'grupos', name: 'Grupos'},
+      {state: 'produtos', name: 'Produtos'},
       {state: 'ramo-atividade', name: 'Ramo de Atividade'},
-    ]
-  },{
-    state: 'produto',
-    name: 'Produto',
-    type: 'sub',
-    icon: 'shop',
-    children: [
-      {state: 'novo', name: 'Novo'},  
-      {state: 'listar', name: 'Listar'},  
+      {state: 'regioes', name: 'Regiões'},
+      {state: 'representada', name: 'Representadas'},
+      {state: 'unidade', name: 'Unidades'},     
     ]
   },{
     state: 'pedido',

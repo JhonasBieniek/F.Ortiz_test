@@ -15,6 +15,7 @@ import { CondicoescomerciaisComponent } from './condicoescomerciais/condicoescom
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { GruposComponent } from './grupos/grupos.component';
 import { RamoAtividadeComponent } from './ramo-atividade/ramo-atividade.component';
+import { ProdutosComponent } from './produtos/produtos.component';
 
 
 export const CadastroRoutes: Routes = [
@@ -62,9 +63,12 @@ export const CadastroRoutes: Routes = [
     },{
       path: 'cargos', 
       component: CargosComponent
-  },{
+    },{
     path: 'ramo-atividade', 
     component: RamoAtividadeComponent
-}]
+    },{
+    path: 'produtos', 
+    component: ProdutosComponent
+    }]
   }
 ];
