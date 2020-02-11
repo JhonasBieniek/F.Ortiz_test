@@ -4,7 +4,7 @@
     <div fxLayout="row" fxLayoutWrap="wrap" class="row">
       <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <mat-card-header class="bg-info text-white">
-          <mat-card-title class="dadosCadastro">Cadastrar área de venda</mat-card-title>
+          <mat-card-title class="dadosCadastro">{{pageTitle}}</mat-card-title>
         </mat-card-header>
       </div>
       <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
@@ -60,8 +60,8 @@
           <mat-label>Status.</mat-label>
           <mat-select required [formControl]="form.controls['status']">
             <mat-option>-- Selecione... --</mat-option>
-            <mat-option [value]=1>Ativo</mat-option>
-            <mat-option [value]=0>Inativo</mat-option>
+            <mat-option [value]=true>Ativo</mat-option>
+            <mat-option [value]=false>Inativo</mat-option>
           </mat-select>
           <mat-placeholder>Status</mat-placeholder>
         </mat-form-field>

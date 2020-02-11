@@ -3,6 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import { NotificationService } from '../messages/notification.service';
 import * as jwt_decode from 'jwt-decode';
+import { Observable, throwError } from 'rxjs';
+import { map } from 'rxjs/operators/map';
+import { catchError } from 'rxjs/operators';
 
 
 export const API_URL = "https://test2.fortiz.com.br/api/"
@@ -59,13 +62,23 @@ export class ClientService {
       ); 
   }
 
-  addAreaVenda(dados) {
+  addAreaVenda(data) {
     const uri = `${API_URL}` + `area-vendas/add.json`;
     this
       .http
-      .post(uri, dados) 
+      .post(uri, data) 
       .subscribe(res =>
           console.log('Done'));
+  }
+
+  updateAreaVenda(data): Observable<any>{
+    const url = `${API_URL}area-vendas/edit/${data.id}.json`;
+     return this.http.put(url, data).pipe(
+      catchError(this.handleError),
+      map(res => {
+        return res;
+      })
+     )
   }
   addNota(data){
     const uri = `${API_URL}` + `notas/add.json`;
@@ -414,6 +427,10 @@ export class ClientService {
     }else{
       this.notificationService.notify("CNPJ INCORRETO!")
     }
+  }
+  private handleError(error: any): Observable<any>{
+    console.log("ERRO NA REQUISIÇÃO => ", error);
+      return throwError(error);
   }
 
 }

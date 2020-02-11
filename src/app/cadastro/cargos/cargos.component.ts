@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialogConfig, MatDialog } from "@angular/material";
 import { DialogBodyCargosComponent } from './dialog-body/dialog-body.component';
 import { ClientService } from '../../shared/services/client.service.component';
-import { DatePipe, CurrencyPipe } from '@angular/common';
 import { DialogConfirmarDeleteComponent } from '../dialog-confirmar-delete/confirmar-delete.component';
 
 
@@ -111,7 +110,16 @@ export class CargosComponent implements OnInit {
 
       });
     }
-
+  edit(row){
+    const dialogConfig = new MatDialogConfig();
+      dialogConfig.data = row
+      let dialogRef = this.dialog.open(DialogBodyCargosComponent,
+      dialogConfig   
+    );
+    dialogRef.afterClosed().subscribe(value => {
+      (value != 1) ? this.refreshTable() : null
+      });
+    }
 
   ngOnInit() {
    
