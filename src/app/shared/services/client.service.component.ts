@@ -99,14 +99,20 @@ export class ClientService {
   }
   addCargo(dados) {
     const uri = `${API_URL}` + `cargos/add.json`;
-    const obj = {
-      dados
-    };
     this
       .http
-      .post(uri, dados[0]) 
+      .post(uri, dados) 
       .subscribe(res =>
           console.log('Done'));
+  }
+  updateCargo(data): Observable<any>{
+    const url = `${API_URL}cargos/edit/${data.id}.json`;
+     return this.http.put(url, data).pipe(
+      catchError(this.handleError),
+      map(res => {
+        return res;
+      })
+     )
   }
   addCondComerciais(dados) {
     const uri = `${API_URL}` + `condicoes-comerciais/add.json`;

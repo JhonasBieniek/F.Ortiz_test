@@ -39,7 +39,7 @@ export class CargosComponent implements OnInit {
 
     this.clientservice.getCargos().subscribe(res =>{
       this.data = res; console.log(this.data.data)
-      this.rows = this.data.data;
+      this.rows = this.data.data.sort((a,b)=> a.id - b.id);
       this.temp = [...this.data.data];
       setTimeout(() => { this.loadingIndicator = false; }, 1500); 
     });                                  
@@ -112,7 +112,9 @@ export class CargosComponent implements OnInit {
     }
   edit(row){
     const dialogConfig = new MatDialogConfig();
+
       dialogConfig.data = row
+      dialogConfig.data.action = 'edit'
       let dialogRef = this.dialog.open(DialogBodyCargosComponent,
       dialogConfig   
     );
