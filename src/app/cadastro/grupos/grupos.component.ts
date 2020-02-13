@@ -79,6 +79,16 @@ export class GruposComponent implements OnInit {
         console.log(`Dialog sent: ${value}`); 
       });
   }
+  edit(row){
+    const dialogConfig = new MatDialogConfig();
+      dialogConfig.data = row
+      dialogConfig.data.action = 'edit'
+      let dialogRef = this.dialog.open(DialogBodyGruposComponent,dialogConfig);
+
+    dialogRef.afterClosed().subscribe(value => {
+     (value != 1) ? this.refreshTable() : null
+      });
+    }
   delete(row){
     const dialogConfig = new MatDialogConfig();
       let tipo = 'grupos'

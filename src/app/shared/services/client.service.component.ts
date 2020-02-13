@@ -151,9 +151,18 @@ export class ClientService {
     const uri = `${API_URL}` + `grupos/add.json`;
     this
       .http
-      .post(uri, dados[0]) 
+      .post(uri, dados) 
       .subscribe(res =>
-          console.log('Done Add User!'));
+          console.log('Done'));
+  }
+  updateGrupos(data): Observable<any>{
+    const url = `${API_URL}grupos/edit/${data.id}.json`;
+     return this.http.put(url, data).pipe(
+      catchError(this.handleError),
+      map(res => {
+        return res;
+      })
+     )
   }
   addRamos(dados) {
     const uri = `${API_URL}` + `ramoAtividades/add.json`;

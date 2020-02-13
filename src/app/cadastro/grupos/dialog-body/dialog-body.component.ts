@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ClientService } from '../../../shared/services/client.service.component';
+import { NotificationService } from '../../../shared/messages/notification.service';
 
 @Component({
   selector: 'app-dialog-body',
@@ -11,31 +12,37 @@ import { ClientService } from '../../../shared/services/client.service.component
 export class DialogBodyGruposComponent implements OnInit {
 
   public form: FormGroup;
-  dados:any= "";
+  pageTitle:string= "";
   
-
-
   constructor(public dialogRef: MatDialogRef<DialogBodyGruposComponent>, 
                                 @Inject(MAT_DIALOG_DATA) public data: any,
                                 private fb: FormBuilder,
-                                private clientservice: ClientService
+                                private clientservice: ClientService,
+                                private notificationService: NotificationService
                                 ){
     
   }
                               
   ngOnInit() {
     this.form = this.fb.group({
+      id:[null],
       nome: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
     });
+    if(this.data == null){
+      this.pageTitle = 'Cadastrar grupo'
+    }else{
+      this.pageTitle = 'Editar grupo'
+      this.form.patchValue(this.data)
+    }
   }
 
   areaVendasSubmit() { 
-    this.dados = [{
-      nome : this.form.value.nome,
-    }]
-
-    this.clientservice.addGrupos(this.dados)  
-
+    if(this.data == null)
+    this.clientservice.addGrupos(this.form.value)  
+    else
+    this.clientservice.updateGrupos(this.form.value).subscribe( () =>{
+      this.notificationService.notify("Atualizado com Sucesso!")
+    }) 
   }
 
   close() {
