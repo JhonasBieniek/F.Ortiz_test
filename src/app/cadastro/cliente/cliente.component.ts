@@ -28,17 +28,15 @@ export class ClienteComponent implements OnInit {
       { prop: "cnpj" },
       { prop: 'inscricao_estadual' },
       { prop: 'status' },
-
   ];       
 
   @ViewChild(ClienteComponent) table: ClienteComponent;
   constructor(private clientservice: ClientService, private dialog: MatDialog) {
 
     this.clientservice.getClientes().subscribe(res =>{
-      
       this.data = res; 
       console.log(this.data)
-      this.rows = this.data.data;
+      this.rows = this.data.data.sort((a,b)=> a.id - b.id);
       this.temp = [...this.data.data];
       setTimeout(() => { this.loadingIndicator = false; }, 1500); 
     });                                  
@@ -74,7 +72,6 @@ export class ClienteComponent implements OnInit {
       width: '75vw',
       height: '90vh'
     }
-    //dialogConfig.data = this.dados.data;
     let dialogRef = this.dialog.open(
       DialogBodyClienteComponent, 
       dialogConfig, 
@@ -85,6 +82,18 @@ export class ClienteComponent implements OnInit {
         console.log(`Dialog sent: ${value}`); 
       });
   }
+  edit(row){
+    const dialogConfig = new MatDialogConfig();
+
+      dialogConfig.data = row
+      dialogConfig.data.action = 'edit'
+      let dialogRef = this.dialog.open(DialogBodyClienteComponent,
+      dialogConfig   
+    );
+    dialogRef.afterClosed().subscribe(value => {
+      (value != 1) ? this.refreshTable() : null
+      });
+    }
   delete(row){
     const dialogConfig = new MatDialogConfig();
       let tipo = 'clientes'
@@ -94,24 +103,18 @@ export class ClienteComponent implements OnInit {
       let dialogRef = this.dialog.open(DialogConfirmarDeleteComponent,
       dialogConfig   
     );
-    dialogRef.afterClosed().subscribe(value => {
-
-     (value != 1) ? this.refreshTable() : null
-
-      });
+    dialogRef.afterClosed().subscribe(value => 
+      { (value != 1) ? this.refreshTable() : null });
     }
 
   refreshTable(){
     this.clientservice.getClientes().subscribe(res =>{
       this.dados = res;
-      this.rows = this.dados.data;
+      this.rows = this.dados.data.sort((a,b)=> a.id - b.id);
       this.temp = [...this.dados.data];
       setTimeout(() => { this.loadingIndicator = false; }, 1500);
       });
-      console.log("Rodei")
   }
-
-
   ngOnInit() {
    
   }

@@ -70,7 +70,7 @@ export class AreaVendaComponent implements OnInit {
       maxWidth: '75vw',
       maxHeight: '85vh',
       width: '75vw',
-      height: '75vh'
+      height: '40vh'
     }
     //dialogConfig.data = this.dados.data;
     let dialogRef = this.dialog.open(
@@ -87,7 +87,7 @@ export class AreaVendaComponent implements OnInit {
   refreshTable(){
     this.clientservice.getAreaVenda().subscribe(res =>{
       this.dados = res;
-      this.rows = this.dados.data;
+      this.rows = this.dados.data.sort((a,b)=> a.id - b.id);
       this.temp = [...this.dados.data];
       setTimeout(() => { this.loadingIndicator = false; }, 1500);
       });

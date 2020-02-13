@@ -49,8 +49,7 @@ export class DialogBodyCargosComponent implements OnInit {
       })
     }else{
       this.clientservice.addCargo(this.form.value)   
-    }
-     
+    } 
   }
 
   close() {

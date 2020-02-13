@@ -116,14 +116,20 @@ export class ClientService {
   }
   addCondComerciais(dados) {
     const uri = `${API_URL}` + `condicoes-comerciais/add.json`;
-    const obj = {
-      dados
-    };
     this
       .http
-      .post(uri, dados[0]) 
+      .post(uri, dados) 
       .subscribe(res =>
           console.log('Done'));
+  }
+  updateCondComerciais(data): Observable<any>{
+    const url = `${API_URL}condicoes-comerciais/edit/${data.id}.json`;
+     return this.http.put(url, data).pipe(
+      catchError(this.handleError),
+      map(res => {
+        return res;
+      })
+     )
   }
   addUnidades(dados) {
     const uri = `${API_URL}` + `unidades/add.json`;
@@ -187,6 +193,15 @@ export class ClientService {
     return this
       .http
       .post(uri, data) 
+  }
+  updateCliente(data): Observable<any>{
+    const url = `${API_URL}clientes/edit/${data.id}.json`;
+     return this.http.put(url, data).pipe(
+      catchError(this.handleError),
+      map(res => {
+        return res;
+      })
+     )
   }
   addRepresenta(data){
     const uri = API_URL+ 'representadas/add.json';

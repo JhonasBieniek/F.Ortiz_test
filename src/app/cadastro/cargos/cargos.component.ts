@@ -23,31 +23,24 @@ export class CargosComponent implements OnInit {
   loadingIndicator: boolean = true;
   reorderable: boolean = true;          
 
-
-
   columns = [
       { prop: 'id' },
       { prop: 'nome' },
       { name: 'Criação', prop: 'created' },
       { prop: 'modified' },
-
   ];       
 
   @ViewChild(CargosComponent) table: CargosComponent;
-  constructor(private clientservice: ClientService, private dialog: MatDialog
-    ) {
-
+  constructor(private clientservice: ClientService, private dialog: MatDialog) {
     this.clientservice.getCargos().subscribe(res =>{
-      this.data = res; console.log(this.data.data)
+      this.data = res;
       this.rows = this.data.data.sort((a,b)=> a.id - b.id);
       this.temp = [...this.data.data];
       setTimeout(() => { this.loadingIndicator = false; }, 1500); 
     });                                  
   }
-  
   updateFilter(event) {
   const val = event.target.value.toLowerCase();
-      
   // filter our data
   const temp = this.temp.filter(function(d) {
     if( d.nome.toLowerCase().indexOf(val) !== -1 || !val )
@@ -65,7 +58,6 @@ export class CargosComponent implements OnInit {
   this.rows = [...this.rows];
   console.log('UPDATED!', this.rows[rowIndex][cell]);
   }
-
   openDialog() {
     let dialogConfig = new MatDialogConfig();
     dialogConfig = {
@@ -75,26 +67,22 @@ export class CargosComponent implements OnInit {
       width: '75vw',
       height: '45vh'
     }
-    //dialogConfig.data = this.dados.data;
     let dialogRef = this.dialog.open(
       DialogBodyCargosComponent, 
       dialogConfig, 
-    
   );
     dialogRef.afterClosed().subscribe(value => {
         this.refreshTable();
         console.log(`Dialog sent: ${value}`); 
       });
   }
-
   refreshTable(){
     this.clientservice.getCargos().subscribe(res =>{
       this.dados = res;
-      this.rows = this.dados.data;
+      this.rows = this.dados.data.sort((a,b)=> a.id - b.id);
       this.temp = [...this.dados.data];
       setTimeout(() => { this.loadingIndicator = false; }, 1500);
       });
-      console.log("Rodei")
   }
   delete(row){
     const dialogConfig = new MatDialogConfig();
@@ -105,9 +93,7 @@ export class CargosComponent implements OnInit {
       dialogConfig   
     );
     dialogRef.afterClosed().subscribe(value => {
-
      (value != 1) ? this.refreshTable() : null
-
       });
     }
   edit(row){
@@ -122,7 +108,6 @@ export class CargosComponent implements OnInit {
       (value != 1) ? this.refreshTable() : null
       });
     }
-
   ngOnInit() {
    
   }
