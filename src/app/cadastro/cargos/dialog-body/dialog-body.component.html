@@ -6,7 +6,7 @@
         <div fxLayout="row" fxLayoutWrap="wrap" class="row">
           <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
             <mat-card-header class="bg-info text-white">
-              <mat-card-title class="dadosCadastro">Cadastrar Cargo</mat-card-title>
+              <mat-card-title class="dadosCadastro">{{pageTitle}}</mat-card-title>
             </mat-card-header>
           </div>
           <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
@@ -21,7 +21,7 @@
               class="text-danger font-14">Seu nome não deve exceder 50 caracteres.</mat-hint>
           </div>
         </div>
-        <mat-card-actions>
+        <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
           <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid" (click)="areaVendasSubmit(); close()"> Salvar </button>
           <button mat-raised-button color="warn" (click)="close()">Cancelar</button>
         </mat-card-actions>

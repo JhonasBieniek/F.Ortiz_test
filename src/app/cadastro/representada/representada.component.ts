@@ -68,6 +68,23 @@ export class RepresentadaComponent implements OnInit {
       this.refreshTable();
     });
   }
+  edit(row){
+    let dialogConfig = new MatDialogConfig();
+      dialogConfig = {
+        maxWidth: '75vw',
+        maxHeight: '95vh',
+        width: '75vw',
+        height: '95vh'
+      }
+      dialogConfig.data = row
+      dialogConfig.data.action = 'edit'
+      let dialogRef = this.dialog.open(DialogBodyRepresentadaComponent,
+      dialogConfig   
+    );
+    dialogRef.afterClosed().subscribe(value => {
+      (value != 1) ? this.refreshTable() : null
+      });
+    }
 
   delete(row){
     const dialogConfig = new MatDialogConfig();

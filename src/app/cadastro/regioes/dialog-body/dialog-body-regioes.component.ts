@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ClientService } from '../../../shared/services/client.service.component';
+import { NotificationService } from '../../../shared/messages/notification.service';
 
 @Component({
   selector: 'app-dialog-body',
@@ -11,37 +12,39 @@ import { ClientService } from '../../../shared/services/client.service.component
 export class DialogBodyRegioesComponent implements OnInit {
 
   public form: FormGroup;
-  dados:any= "";
-  dataAux;
-  dataAux1;
+  pageTitle:string = "";
 
   constructor(public dialogRef: MatDialogRef<DialogBodyRegioesComponent>, 
                                 @Inject(MAT_DIALOG_DATA) public data: any,
                                 private fb: FormBuilder,
-                                private clientservice: ClientService
+                                private clientservice: ClientService,
+                                private notificationService: NotificationService
                                 ){
 
                                 }
                               
   ngOnInit() {
     this.form = this.fb.group({
+      id: [null],
       nome: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
       descricao: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
-      active: [null, Validators.required],
-      hideRequired: true,
-      floatLabel: 'auto',
+      status: [true, Validators.required],
     });
+    if(this.data == null)
+    this.pageTitle = 'Cadastrar região';
+    else{
+      this.pageTitle = 'Editar região';
+      this.form.patchValue(this.data)
+    }
   }
 
   regioesSubmit() { 
-    this.dados = [{
-      nome : this.form.value.nome,
-      descricao: this.form.value.descricao,
-      status:this.form.value.active,
-    }]
-
-    this.clientservice.addRegiao(this.dados)  
-
+    if(this.data ==null)
+    this.clientservice.addRegiao(this.form.value)  
+    else
+    this.clientservice.updateRegiao(this.form.value).subscribe( () =>{
+      this.notificationService.notify("Atualizado com Sucesso!")
+    })
   }
 
   close() {

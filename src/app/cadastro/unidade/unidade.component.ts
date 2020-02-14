@@ -83,6 +83,18 @@ export class UnidadeComponent implements OnInit {
         console.log(`Dialog sent: ${value}`); 
       });
   }
+  edit(row){
+    let dialogConfig = new MatDialogConfig();
+      dialogConfig.data = row
+      let dialogRef = this.dialog.open(DialogBodyUnidadesComponent,
+      dialogConfig   
+    );
+    dialogRef.afterClosed().subscribe(value => {
+
+     (value != 1) ? this.refreshTable() : null
+
+      });
+    }
   delete(row){
     const dialogConfig = new MatDialogConfig();
       let tipo = 'unidades'

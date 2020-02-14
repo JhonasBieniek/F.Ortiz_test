@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogConfig } from "@angular/material";
 import { FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
 import { ClientService } from '../../../shared/services/client.service.component';
+import { NotificationService } from '../../../shared/messages/notification.service';
 
 @Component({
   selector: 'app-dialog-body',
@@ -23,11 +24,13 @@ export class DialogBodyComponent implements OnInit {
   selectedRegiao: string;
   selectedVendedor: string;
   selectedAuxiliar: string;
+  pageTitle:string = "";
 
 
   constructor(public dialogRef: MatDialogRef<DialogBodyComponent>, 
                                 @Inject(MAT_DIALOG_DATA) public data: any,
                                 private fb: FormBuilder,
+                                private notificationService: NotificationService,
                                 private clientservice: ClientService
                                 )
     {
@@ -47,19 +50,44 @@ export class DialogBodyComponent implements OnInit {
   }
                               
   ngOnInit() {
+    if(this.data != null){
+      this.chargeForm();
+      this.pageTitle = 'Editar área de venda'
+    }else{
+      this.pageTitle = 'Cadastrar área de venda'
+      this.form = this.fb.group({
+        nome: [null, Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(50)])],
+        vendedor_id: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
+        auxiliar_id: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
+        regiao_id: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
+        status: [true, Validators.required],
+        hideRequired: true,
+        floatLabel: 'auto',
+      });
+    }
+  }
+  private chargeForm(){
+    console.log(this.data);
     this.form = this.fb.group({
-      nome: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
-      vendedor_id: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
-      auxiliar_id: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
-      regiao_id: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
-      status: [null, Validators.required],
+      id: this.data.id,
+      nome: [this.data.nome,Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(50)])],
+      vendedor_id: [this.data.vendedor_id,Validators.compose([Validators.required])],
+      auxiliar_id: [this.data.auxiliar_id,Validators.compose([Validators.required])],
+      regiao_id: [this.data.regiao_id,Validators.compose([Validators.required])],
+      status: [this.data.status,Validators.compose([Validators.required])],
       hideRequired: true,
       floatLabel: 'auto',
     });
   }
 
   areaVendasSubmit() { 
-    this.clientservice.addAreaVenda(this.form.value)  
+    if(this.data != undefined){
+      this.clientservice.updateAreaVenda(this.form.value).subscribe( () =>{
+        this.notificationService.notify("Atualizado com Sucesso!")
+      })
+    }else{
+      this.clientservice.addAreaVenda(this.form.value)  
+    }
   }
 
   close() {

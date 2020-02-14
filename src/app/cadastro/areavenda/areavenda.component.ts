@@ -4,7 +4,6 @@ import { DialogBodyComponent } from './dialog-body/dialog-body.component';
 import { ClientService } from '../../shared/services/client.service.component';
 import { DialogConfirmarDeleteComponent } from '../dialog-confirmar-delete/confirmar-delete.component';
 
-
 @Component({
   selector: 'app-areavenda',
   templateUrl: './areavenda.component.html',
@@ -35,7 +34,7 @@ export class AreaVendaComponent implements OnInit {
 
     this.clientservice.getAreaVenda().subscribe(res =>{
       this.data = res; console.log(this.data.data)
-      this.rows = this.data.data;
+      this.rows = this.data.data.sort((a,b)=> a.id - b.id);
       this.temp = [...this.data.data];
       setTimeout(() => { this.loadingIndicator = false; }, 1500); 
     });                                  
@@ -87,7 +86,7 @@ export class AreaVendaComponent implements OnInit {
   refreshTable(){
     this.clientservice.getAreaVenda().subscribe(res =>{
       this.dados = res;
-      this.rows = this.dados.data;
+      this.rows = this.dados.data.sort((a,b)=> a.id - b.id);
       this.temp = [...this.dados.data];
       setTimeout(() => { this.loadingIndicator = false; }, 1500);
       });
@@ -107,6 +106,25 @@ export class AreaVendaComponent implements OnInit {
 
       });
     }
+    edit(row){
+      let dialogConfig = new MatDialogConfig();
+      dialogConfig = {
+        maxWidth: '75vw',
+        maxHeight: '85vh',
+        width: '75vw',
+        height: '75vh'
+      }
+        dialogConfig.data = row
+        dialogConfig.data.action = 'edit'
+        let dialogRef = this.dialog.open(DialogBodyComponent,
+        dialogConfig   
+      );
+      dialogRef.afterClosed().subscribe(value => {
+  
+       (value != 1) ? this.refreshTable() : null
+  
+        });
+      }
 
   ngOnInit() {
    

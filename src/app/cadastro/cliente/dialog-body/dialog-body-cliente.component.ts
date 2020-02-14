@@ -21,6 +21,7 @@ export class DialogBodyClienteComponent implements OnInit {
   dados: any = [];
   areas: any=[];
   ramos: any=[];
+  pageTitle:string = "";
 
   constructor(private fb: FormBuilder, 
               private clientservice: ClientService,
@@ -28,7 +29,7 @@ export class DialogBodyClienteComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any,
               private notificationService: NotificationService
               ) {
-                if(data != null){
+                if(data != null && data.action != 'edit'){
                   this.chargeCnpj(data)
                 }
                 this.clientservice.getAreaVenda().subscribe((res:any) =>{
@@ -37,34 +38,72 @@ export class DialogBodyClienteComponent implements OnInit {
                 this.clientservice.getRamos().subscribe((res:any) =>{
                   this.ramos = res.data; 
                 });
-   
   }
 
   ngOnInit() {  
     this.form = this.fb.group({
+      id: [null],
       razao_social: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
       nome_fantasia: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
       cnpj: [null, Validators.compose([Validators.required, Validators.minLength(14), Validators.maxLength(14)])],
       inscricao_estadual: [null, Validators.compose([CustomValidators.digits])],
       email: [null, Validators.compose([CustomValidators.email])],
-      telefone: [null, Validators.compose([CustomValidators.phone('IN')])],
-      celular: [null, Validators.compose([CustomValidators.phone('IN')])],
+      telefone: [null],
+      celular: [null],
       representante: [null, Validators.compose([Validators.minLength(5), Validators.maxLength(50)])],
       area_venda_id: [null, Validators.compose([Validators.required])],
       ramo_atividade_id: [null],
       obs: [null, Validators.compose([Validators.maxLength(100)])],
-      status: [true],
-      endereco: this.fb.group({
-        cep: [null, Validators.compose([CustomValidators.number])],
-        logradouro: [null, Validators.compose([Validators.minLength(5), Validators.maxLength(50)])],
-        numero: [null, Validators.compose([CustomValidators.number])],
-        complemento: [null, Validators.compose([Validators.minLength(5), Validators.maxLength(50)])],
-        bairro: [null, Validators.compose([Validators.minLength(2), Validators.maxLength(50)])],
-        cidade: [null, Validators.compose([Validators.minLength(2), Validators.maxLength(50)])],
-        estado: [null, Validators.compose([Validators.minLength(2), Validators.maxLength(50)])],  
+      status: true,
+      enderecos: this.fb.group({
+        id: null,
+        cep: null,
+        logradouro: null,
+        numero: null,
+        complemento: null,
+        bairro: null,
+        cidade: null,
+        estado: null,  
+        pais: 'Brasil',  
       })
     });
+    if(this.data != undefined){
+      this.pageTitle = 'Editar Cliente'
+      this.editCharge();
+    }else{
+        this.pageTitle = 'Cadastrar Cliente'
+    }
   }
+
+  editCharge(){
+ // Verificar como fazer quanto tiver mais de um endereço
+    this.form.patchValue({
+      id: this.data.id,
+      razao_social: this.data.razao_social,
+      nome_fantasia: this.data.nome_fantasia,
+      cnpj: this.data.cnpj,
+      inscricao_estadual: this.data.inscricao_estadual,
+      email: this.data.email,
+      telefone: this.data.telefone,
+      celular: this.data.celular,
+      representante: this.data.representante,
+      area_venda_id: this.data.area_venda_i,
+      ramo_atividade_id: this.data.ramo_atividade_id,
+      obs: this.data.obs,
+      status: this.data.status,
+      enderecos:{
+        id: (this.data.enderecos[0].id != undefined ? this.data.enderecos[0].id : null),
+        cep: (this.data.enderecos[0].cep != undefined ? this.data.enderecos[0].cep : null),
+        logradouro: (this.data.enderecos[0].logradouro != undefined ? this.data.enderecos[0].logradouro : null),
+        numero: (this.data.enderecos[0].numero != undefined ? this.data.enderecos[0].numero : null),
+        complemento: (this.data.enderecos[0].complemento != undefined ? this.data.enderecos[0].complemento : null),
+        bairro: (this.data.enderecos[0].bairro != undefined ? this.data.enderecos[0].bairro : null),
+        cidade: (this.data.enderecos[0].cidade != undefined ? this.data.enderecos[0].cidade : null),
+        estado: (this.data.enderecos[0].estado != undefined ? this.data.enderecos[0].estado : null),  
+        pais: (this.data.enderecos[0].pais != undefined ? this.data.enderecos[0].pais  : null), 
+    }
+  })
+}
 
   chargeForm(data) { 
     this.form.get('razao_social').setValue(data.nome);
@@ -72,13 +111,13 @@ export class DialogBodyClienteComponent implements OnInit {
     this.form.get('email').setValue(data.email);
     this.form.get('telefone').setValue(this.removeSpecialChar(data.telefone.split("/")[0]));
     this.form.get('celular').setValue(this.addDigitsNumber(this.removeSpecialChar(data.telefone.split("/")[1])));
-    this.form.get('endereco.cep').setValue(this.removeSpecialChar(data.cep));
-    this.form.get('endereco.logradouro').setValue(data.logradouro);
-    this.form.get('endereco.numero').setValue(data.numero);
-    this.form.get('endereco.complemento').setValue(data.complemento);
-    this.form.get('endereco.bairro').setValue(data.bairro);
-    this.form.get('endereco.cidade').setValue(data.municipio);
-    this.form.get('endereco.estado').setValue(data.uf);
+    this.form.get('enderecos.cep').setValue(this.removeSpecialChar(data.cep));
+    this.form.get('enderecos.logradouro').setValue(data.logradouro);
+    this.form.get('enderecos.numero').setValue(data.numero);
+    this.form.get('enderecos.complemento').setValue(data.complemento);
+    this.form.get('enderecos.bairro').setValue(data.bairro);
+    this.form.get('enderecos.cidade').setValue(data.municipio);
+    this.form.get('enderecos.estado').setValue(data.uf);
   }
   
   removeSpecialChar(data) {
@@ -92,15 +131,15 @@ export class DialogBodyClienteComponent implements OnInit {
   }
 
   onBlurMethod(){
-    if(this.form.get('endereco.cep').value != null){
-      this.clientservice.getCep(this.form.get('endereco.cep').value).subscribe( res => {
+    if(this.form.get('enderecos.cep').value != null){
+      this.clientservice.getCep(this.form.get('enderecos.cep').value).subscribe( res => {
         this.cep = res
         if(this.cep.data != 'error'){
         this.notificationService.notify(`Cep inserido com sucesso!`)
-        this.form.get('endereco.cidade').setValue(this.cep.data.cidade);
-        this.form.get('endereco.estado').setValue(this.cep.data.estado);
-        this.form.get('endereco.logradouro').setValue(this.cep.data.logradouro);
-        this.form.get('endereco.bairro').setValue(this.cep.data.bairro);
+        this.form.get('enderecos.cidade').setValue(this.cep.data.cidade);
+        this.form.get('enderecos.estado').setValue(this.cep.data.estado);
+        this.form.get('enderecos.logradouro').setValue(this.cep.data.logradouro);
+        this.form.get('enderecos.bairro').setValue(this.cep.data.bairro);
       }else{
         this.notificationService.notify(`Cep Inválido`)
        }
@@ -109,15 +148,17 @@ export class DialogBodyClienteComponent implements OnInit {
   }
 
   onBlurCnpj(){
-    if(this.form.get('cnpj').value != null){
-      this.clientservice.getApiCnpj(this.form.get('cnpj').value).subscribe((res:any) => {
-        if(res.status != 'ERROR'){
-          this.chargeForm(res);
-        }else{
-          this.notificationService.notify(`Cnpj Inválido`)
-        }
-      });
-    } 
+    if(this.data == null){
+      if(this.form.get('cnpj').value != null){
+        this.clientservice.getApiCnpj(this.form.get('cnpj').value).subscribe((res:any) => {
+          if(res.status != 'ERROR'){
+            this.chargeForm(res);
+          }else{
+            this.notificationService.notify(`Cnpj Inválido`)
+          }
+        });
+      } 
+    }
   }
 
   chargeCnpj(data){
@@ -134,13 +175,20 @@ export class DialogBodyClienteComponent implements OnInit {
   }
 
   onSubmit(){
-    this.clientservice.addCliente(this.form.value).subscribe((res:any) =>{
-      if(res.status == 'success'){
-        this.notificationService.notify(`Cadastro Efetuado com Sucesso!`)
-      }else{
-        this.notificationService.notify(`Erro contate o Administrador`)
-      }}
-    );
+
+    if(this.data != undefined){
+      this.clientservice.updateCliente(this.form.value).subscribe( () =>{
+        this.notificationService.notify("Atualizado com Sucesso!")
+      })
+    }else{
+      this.clientservice.addCliente(this.form.value).subscribe((res:any) =>{
+        if(res.status == 'success'){
+          this.notificationService.notify(`Cadastro Efetuado com Sucesso!`)
+        }else{
+          this.notificationService.notify(`Erro contate o Administrador`)
+        }}
+      );
+    } 
   }
 
   getFormValidationErrors() {

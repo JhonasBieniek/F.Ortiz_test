@@ -91,6 +91,19 @@ export class ProdutosComponent implements OnInit {
       (value != 1) ? this.refreshTable() : null
     });
   }
+  edit(row){
+    const dialogConfig = new MatDialogConfig();
+      dialogConfig.data = row
+      dialogConfig.data.action = 'edit'
+      let dialogRef = this.dialog.open(DialogBodyProdutoComponent,
+      dialogConfig   
+    );
+    dialogRef.afterClosed().subscribe(value => {
+
+     (value != 1) ? this.refreshTable() : null
+
+      });
+    }
   ngOnInit() {
    
   }

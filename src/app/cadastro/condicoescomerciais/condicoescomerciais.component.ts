@@ -81,6 +81,27 @@ export class CondicoescomerciaisComponent implements OnInit {
         console.log(`Dialog sent: ${value}`); 
       });
   }
+  
+  edit(row){
+    let dialogConfig = new MatDialogConfig();
+      dialogConfig = {
+        maxWidth: '75vw',
+        maxHeight: '75vh',
+        width: '75vw',
+        height: '45vh'
+      }
+      dialogConfig.data = row
+      dialogConfig.data.action = 'edit'
+      let dialogRef = this.dialog.open(DialogBodyCondComerciaisComponent,
+      dialogConfig   
+    );
+    dialogRef.afterClosed().subscribe(value => {
+
+     (value != 1) ? this.refreshTable() : null
+
+      });
+    }
+
   delete(row){
     const dialogConfig = new MatDialogConfig();
       let tipo = 'condicoes-comerciais'

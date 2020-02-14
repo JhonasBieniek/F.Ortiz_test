@@ -62,18 +62,8 @@ export class RegioesComponent implements OnInit {
   }
 
   openDialog() {
-    let dialogConfig = new MatDialogConfig();
-    dialogConfig = {
-      maxWidth: '75vw',
-      maxHeight: '75vh',
-    
-      width: '75vw',
-      height: '65vh'
-    }
-    //dialogConfig.data = this.dados.data;
     let dialogRef = this.dialog.open(
       DialogBodyRegioesComponent, 
-      dialogConfig, 
     
   );
     dialogRef.afterClosed().subscribe(value => {
@@ -81,6 +71,19 @@ export class RegioesComponent implements OnInit {
         console.log(`Dialog sent: ${value}`); 
       });
   }
+  edit(row){
+    const dialogConfig = new MatDialogConfig();
+      dialogConfig.data = row
+      dialogConfig.data.action = 'edit'
+      let dialogRef = this.dialog.open(DialogBodyRegioesComponent,
+      dialogConfig   
+    );
+    dialogRef.afterClosed().subscribe(value => {
+
+     (value != 1) ? this.refreshTable() : null
+
+      });
+    }
   
   delete(row){
     const dialogConfig = new MatDialogConfig();

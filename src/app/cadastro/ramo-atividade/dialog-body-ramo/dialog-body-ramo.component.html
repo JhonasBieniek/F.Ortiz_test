@@ -9,7 +9,7 @@
 
           <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
             <mat-card-header class="bg-info text-white">
-              <mat-card-title class="dadosCadastro">Cadastrar Ramo de Atividade</mat-card-title>
+              <mat-card-title class="dadosCadastro">{{pageTitle}}</mat-card-title>
             </mat-card-header>
           </div>
 
@@ -29,7 +29,7 @@
 
           <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
             <mat-card-actions>
-              <button style="margin-left:20px" mat-raised-button color="primary" [disabled]="!form.valid"  (click)="Submit()">Salvar cadastro</button>
+              <button style="margin-left:20px" mat-raised-button color="primary" [disabled]="!form.valid"  (click)="Submit(); close()">Salvar cadastro</button>
               <button mat-raised-button color="primary" (click)="close()">Cancelar</button>
             </mat-card-actions>
           </div>

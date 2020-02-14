@@ -21,7 +21,6 @@ import * as moment from 'moment';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
-import { forEach } from '@angular/router/src/utils/collection';
 
 export const MY_FORMATS = {
   parse: {

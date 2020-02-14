@@ -3,6 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import { NotificationService } from '../messages/notification.service';
 import * as jwt_decode from 'jwt-decode';
+import { Observable, throwError } from 'rxjs';
+import { map } from 'rxjs/operators/map';
+import { catchError } from 'rxjs/operators';
 
 
 export const API_URL = "https://test2.fortiz.com.br/api/"
@@ -59,13 +62,23 @@ export class ClientService {
       ); 
   }
 
-  addAreaVenda(dados) {
+  addAreaVenda(data) {
     const uri = `${API_URL}` + `area-vendas/add.json`;
     this
       .http
-      .post(uri, dados) 
+      .post(uri, data) 
       .subscribe(res =>
           console.log('Done'));
+  }
+
+  updateAreaVenda(data): Observable<any>{
+    const url = `${API_URL}area-vendas/edit/${data.id}.json`;
+     return this.http.put(url, data).pipe(
+      catchError(this.handleError),
+      map(res => {
+        return res;
+      })
+     )
   }
   addNota(data){
     const uri = `${API_URL}` + `notas/add.json`;
@@ -73,46 +86,73 @@ export class ClientService {
       .http
       .post(uri, data) 
   }
-  addRegiao(dados) {
+  addRegiao(data) {
     const uri = `${API_URL}` + `regioes/add.json`;
-    const obj = {
-      dados
-    };
     this
       .http
-      .post(uri, dados[0]) 
+      .post(uri, data) 
       .subscribe(res =>
           console.log('Done'));
+  }
+  updateRegiao(data): Observable<any>{
+    const url = `${API_URL}regioes/edit/${data.id}.json`;
+     return this.http.put(url, data).pipe(
+      catchError(this.handleError),
+      map(res => {
+        return res;
+      })
+     )
   }
   addCargo(dados) {
     const uri = `${API_URL}` + `cargos/add.json`;
-    const obj = {
-      dados
-    };
     this
       .http
-      .post(uri, dados[0]) 
+      .post(uri, dados) 
       .subscribe(res =>
           console.log('Done'));
   }
+  updateCargo(data): Observable<any>{
+    const url = `${API_URL}cargos/edit/${data.id}.json`;
+     return this.http.put(url, data).pipe(
+      catchError(this.handleError),
+      map(res => {
+        return res;
+      })
+     )
+  }
   addCondComerciais(dados) {
     const uri = `${API_URL}` + `condicoes-comerciais/add.json`;
-    const obj = {
-      dados
-    };
     this
       .http
-      .post(uri, dados[0]) 
+      .post(uri, dados) 
       .subscribe(res =>
           console.log('Done'));
+  }
+  updateCondComerciais(data): Observable<any>{
+    const url = `${API_URL}condicoes-comerciais/edit/${data.id}.json`;
+     return this.http.put(url, data).pipe(
+      catchError(this.handleError),
+      map(res => {
+        return res;
+      })
+     )
   }
   addUnidades(dados) {
     const uri = `${API_URL}` + `unidades/add.json`;
     this
       .http
-      .post(uri, dados[0]) 
+      .post(uri, dados) 
       .subscribe(res =>
           console.log('Done'));
+  }
+  updateUnidade(data): Observable<any>{
+    const url = `${API_URL}unidades/edit/${data.id}.json`;
+     return this.http.put(url, data).pipe(
+      catchError(this.handleError),
+      map(res => {
+        return res;
+      })
+     )
   }
   addUsuarios(dados) {
     const uri = `${API_URL}` + `usuarios/add.json`;
@@ -126,28 +166,67 @@ export class ClientService {
     const uri = `${API_URL}` + `grupos/add.json`;
     this
       .http
-      .post(uri, dados[0]) 
+      .post(uri, dados) 
       .subscribe(res =>
-          console.log('Done Add User!'));
+          console.log('Done'));
+  }
+  updateGrupos(data): Observable<any>{
+    const url = `${API_URL}grupos/edit/${data.id}.json`;
+     return this.http.put(url, data).pipe(
+      catchError(this.handleError),
+      map(res => {
+        return res;
+      })
+     )
   }
   addRamos(dados) {
     const uri = `${API_URL}` + `ramoAtividades/add.json`;
-    return this
+    this
       .http
       .post(uri, dados) 
-      
+      .subscribe(res =>
+          console.log('Done'));
+  }
+  updateRamos(data): Observable<any>{
+    const url = `${API_URL}ramoAtividades/edit/${data.id}.json`;
+     return this.http.put(url, data).pipe(
+      catchError(this.handleError),
+      map(res => {
+        return res;
+      })
+     )
   }
   addComissoes(dados) {
     const uri = `${API_URL}` + `comissoes/add.json`;
-    return this
+    this
       .http
       .post(uri, dados) 
+      .subscribe(res =>
+          console.log('Done')); 
+  }
+  updateComissoes(data): Observable<any>{
+    const url = `${API_URL}comissoes/edit/${data.id}.json`;
+     return this.http.put(url, data).pipe(
+      catchError(this.handleError),
+      map(res => {
+        return res;
+      })
+     )
   }
   addProdutos(dados) {
     const uri = `${API_URL}` + `produtos/add.json`;
      return this
       .http
       .post(uri, dados) 
+  }
+  updateProduto(data): Observable<any>{
+    const url = `${API_URL}produtos/edit/${data.id}.json`;
+     return this.http.put(url, data).pipe(
+      catchError(this.handleError),
+      map(res => {
+        return res;
+      })
+     )
   }
   addPedido(data) {
     const uri = API_URL+ 'pedidos/add.json';
@@ -169,11 +248,29 @@ export class ClientService {
       .http
       .post(uri, data) 
   }
+  updateCliente(data): Observable<any>{
+    const url = `${API_URL}clientes/edit/${data.id}.json`;
+     return this.http.put(url, data).pipe(
+      catchError(this.handleError),
+      map(res => {
+        return res;
+      })
+     )
+  }
   addRepresenta(data){
     const uri = API_URL+ 'representadas/add.json';
     return this
       .http
       .post(uri, data) 
+  }
+  updateRepresentada(data): Observable<any>{
+    const url = `${API_URL}representadas/edit/${data.id}.json`;
+     return this.http.put(url, data).pipe(
+      catchError(this.handleError),
+      map(res => {
+        return res;
+      })
+     )
   }
   addFuncionario(data){
     const uri = API_URL+ 'funcionarios/add.json';
@@ -414,6 +511,10 @@ export class ClientService {
     }else{
       this.notificationService.notify("CNPJ INCORRETO!")
     }
+  }
+  private handleError(error: any): Observable<any>{
+    console.log("ERRO NA REQUISIÇÃO => ", error);
+      return throwError(error);
   }
 
 }
