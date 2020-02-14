@@ -5,6 +5,8 @@ import { NovoComponent } from './novo/novo.component';
 import { PedidoRoutes } from './pedido.routing';
 import { RouterModule } from '@angular/router';
 
+import { CadastroModule } from '../cadastro/cadastro.module';
+
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { DemoMaterialModule} from '../demo-material-module';
 import { CdkTableModule } from '@angular/cdk/table';
@@ -17,7 +19,7 @@ import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { DialogCadastroComponent } from './novo/dialog-cadastro/dialog-cadastro.component';
 import { MatDialogModule } from '@angular/material';
 import { NgxMaskModule, IConfig} from 'ngx-mask';
-import { DialogClienteAddComponent } from './novo/dialog-body/dialog-body-cliente.component';
+import { DialogBodyClienteComponent } from '../cadastro/cliente/dialog-body/dialog-body-cliente.component';
 import { DateFormatPipe } from '../shared/pipes/dateFormat.pipe';
 import { NgxCurrencyModule } from 'ngx-currency';
 import { Novo2Component } from './novo2/novo2.component';
@@ -46,13 +48,14 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
     MatDialogModule,
     NgxCurrencyModule,
     NgxMaskModule.forRoot(),
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    CadastroModule
   ],
-  declarations: [ListarComponent, NovoComponent, ItensPedidoComponent, ShoppingCartComponent, DialogCadastroComponent, DialogClienteAddComponent, Novo2Component, OrcamentoComponent, ConciliacaoComponent, OrcListarComponent, PedidoListarComponent, DialogAddNotaComponent, DialogSendNotaComponent],
+  declarations: [ListarComponent, NovoComponent, ItensPedidoComponent, ShoppingCartComponent, DialogCadastroComponent, Novo2Component, OrcamentoComponent, ConciliacaoComponent, OrcListarComponent, PedidoListarComponent, DialogAddNotaComponent, DialogSendNotaComponent],
   providers: [
     DateFormatPipe,    
   ],
-  entryComponents: [ DialogCadastroComponent, DialogClienteAddComponent, DialogAddNotaComponent, DialogSendNotaComponent],
+  entryComponents: [ DialogCadastroComponent, DialogBodyClienteComponent, DialogAddNotaComponent, DialogSendNotaComponent],
 
 })
 export class PedidoModule { }

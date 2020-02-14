@@ -52,30 +52,24 @@ export class ShoppingCartComponent implements OnInit {
   ngOnInit() {
    
   }
-
-  items(): any[] {
-    return this.shoppingCartService.items    
-  }
-
+  
   clear(){
-    this.shoppingCartService.clear()
-  }
- 
-
-  removeItem(item: any){
-    this.shoppingCartService.removeItem(item)
+    this.formPedido = this.fb.group({
+      camposForm: this.fb.array([]),
+    })
   }
 
-  addItem(item: any){
-    this.shoppingCartService.addItem(item)
-    console.log('Me chamaram')
+  removeItem(index){
+    const campos = this.formPedido.get('camposForm') as FormArray;
+    campos.removeAt(index);
   }
-totalCalc(qtd, valor, i){
-  const campos = this.formPedido.get('camposForm') as FormArray;
-  if( qtd != undefined && valor != undefined ){
-    campos.controls[i].get('valorTotal').setValue(valor*qtd);
+
+  totalCalc(qtd, valor, i){
+    const campos = this.formPedido.get('camposForm') as FormArray;
+    if( qtd != undefined && valor != undefined ){
+      campos.controls[i].get('valorTotal').setValue(valor*qtd);
+    }
   }
-}
 
   total() {
     const campos = this.formPedido.get('camposForm') as FormArray;
@@ -85,41 +79,23 @@ totalCalc(qtd, valor, i){
     });
     return Math.round((total)*100)/100;
   }
-  addForm(){
+
+  addForm(item:any){
     const campos = this.formPedido.controls.camposForm as FormArray;
     campos.push(this.fb.group({
-      cliente: '',//new FormControl('',[Validators.compose([Validators.required, CustomValidators.number])]),
-      quantidade: '',
-      unidade: {value:'', disabled: true},
-      embalagem: {value:'', disabled: true},
-      tamanho: '',
-      ipi: {value:'', disabled: true},
-      desconto: '',
-      valorUnitario: '',
+      codigo: item.codigo,
+      nome: item.nome,
+      quantidade: item.quantidade,
+      unidade: {value: item.unidade, disabled: true},
+      embalagem: {value: item.embalagem, disabled: true},
+      tamanho: item.tamanho,
+      ipi: {value: item.ipi, disabled: true},
+      desconto: item.desconto,
+      valorUnitario: item.valorUnitario,
       valorTotal: {value: 0, disabled: true},
-      comissao: '',
-      observacao: ''
+      comissao: item.comissao,
+      observacao: item.observacao
     }));
-    console.log(campos)
   }
-  // addFormPlanilha(data){
-  //   console.log(data, "dataForm")
-  //   const campos = this.formPedido.controls.camposForm as FormArray;
-  //     campos.push(this.fb.group({
-  //       cliente: '',//new FormControl('',[Validators.compose([Validators.required, CustomValidators.number])]),
-  //       quantidade: data.quantidade,
-  //       unidade: data.unidade,
-  //       embalagem: data.embalagem,
-  //       ipi: data.ipi,
-  //       desconto: '',
-  //       valorUnitario: data.valorUnitario,
-  //       comissao: data.comissao,
-  //       tamanho: data.tamanho,
-  //       valorTotal: data.valorTotal,
-  //       observacao: ''
-  //     }));
-  //     console.log(campos, "campos")
-  // }
-
 
 }

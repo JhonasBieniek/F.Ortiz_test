@@ -19,8 +19,6 @@ export class DialogCadastroComponent implements OnInit {
   selectedUnidade: string;
   resposta: any =[];
   prods = [];
-  
-
 
   constructor(public dialogRef: MatDialogRef<DialogCadastroComponent>, 
                                 @Inject(MAT_DIALOG_DATA) public data: any,
@@ -37,64 +35,26 @@ export class DialogCadastroComponent implements OnInit {
       this.clientservice.getUnidades().subscribe((res:any) =>{
         this.unidades = res.data; 
       });      
-      this.dados = this.items();
       dialogRef.disableClose = true;
   }
                               
   ngOnInit() {
-    
-    this.dados.forEach(element => {
-      this.addForm()
-    });
-    this.produtos();  
-
-    /*this.form = this.fb.group({
-      nome: [null, Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(50)])],
-      embalagem: [null, Validators.compose([Validators.minLength(1), Validators.maxLength(50)])],
-      tamanho: [null, Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(50)])],
-      codigo: [null, Validators.compose([CustomValidators.number])],
-      ipi: [null, Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(50)])],
-      unidade: [null, Validators.compose([Validators.minLength(1), Validators.maxLength(50)])],
-      active: [1, Validators.required],
-      hideRequired: true,
-      floatLabel: 'auto',
-    });*/
-  }
-  items(): any[]{
-    return this.orderservice.itemsNew;
-  }
-  addForm(){
     const campos = this.form.controls.camposForm as FormArray;
-    campos.push(this.fb.group({
-      nome: '',//new FormControl('',[Validators.compose([Validators.required, CustomValidators.number])]),
-      embalagem: '',
-      tamanho: '',
-      codigo: '',
-      ipi: '',
-      unidade: '',
-      active: 1,
-      valorUnitario: '',
-      quantidade:' ',
-      desconto: '',
-      comissao: '',
-    }));
-  }
-  produtos(){
-    console.log(this.dados, "itens dialog")
-    this.dados.forEach(element => {
-      this.prods.push({
-      nome: element.nome,
-      embalagem: element.embalagem,
-      tamanho: element.tamanho,
-      codigo: element.codigo,
-      ipi: element.ipi,
-      active: 1,
-      valorUnitario: element.valorUnitario,
-      quantidade: element.quantidade,
-      desconto: element.desconto,
-      comissao: element.comissao
-      })
-      console.log(this.prods, "prods")
+    this.data.forEach(element => {
+      campos.push(this.fb.group({
+        nome: element.nome,
+        embalagem: element.embalagem,
+        tamanho: element.tamanho,
+        codigo: element.codigo,
+        ipi: element.ipi,
+        unidade: '',
+        active: 1,
+        valorUnitario: element.valorUnitario,
+        quantidade: element.quantidade,
+        desconto: element.desconto,
+        comissao: element.comissao,
+        representada_id : element.representada_id
+      }));
     });
   }
 
@@ -105,7 +65,7 @@ export class DialogCadastroComponent implements OnInit {
         nome : element.nome,
         embalagem: element.embalagem,
         certificado_aprovacao: "",
-        representada_id: 15,
+        representada_id: element.representada_id,
         tamanho: element.tamanho,
         codigo: element.codigo,
         ipi: element.ipi,
@@ -125,7 +85,7 @@ export class DialogCadastroComponent implements OnInit {
   send(dados, valorUnitario, quantidade, desconto, comissao, tamanho){
     console.log(quantidade, "dados do send");
     this.clientservice.addProdutos(dados).subscribe((res:any) => {
-      if(res.status == 'success'){
+      if(res.success == true){
         res.data.valorUnitario = valorUnitario
         res.data.quantidade = quantidade
         res.data.desconto = desconto

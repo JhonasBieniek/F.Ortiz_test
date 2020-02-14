@@ -10,82 +10,80 @@
         </mat-card-header>
       </div>
       <form [formGroup]="form">
-        <div class="campos row" fxLayout="row" fxLayoutWrap="wrap" formArrayName="camposForm"
-          *ngFor="let item of prods; let i = index">
-          <div class="p-10 prod-cor" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-             Produto: {{item.nome}}
+        <div formArrayName="camposForm">
+          <div class="campos row" fxLayout="row" fxLayoutWrap="wrap" *ngFor="let c of form.get('camposForm').controls; index as i" [formGroupName]="i">
+            <ng-container >
+              <div class="p-10" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="100">
+                <mat-form-field appearance="outline">
+                  <input matInput placeholder="Código do produto" formControlName="codigo">
+                </mat-form-field>
+              </div>
+              <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="34">
+                <mat-form-field appearance="outline">
+                  <input matInput placeholder="Nome do produto" formControlName="nome">
+                </mat-form-field>
+              </div>
+              <div class="p-10" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="33">
+                <mat-form-field appearance="outline">
+                  <input matInput placeholder="Embalagem" formControlName="embalagem">
+                </mat-form-field>
+              </div>
+              <div class="p-10" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25">
+                <mat-form-field appearance="outline">
+                  <input matInput placeholder="IPI" formControlName="ipi">
+                </mat-form-field>
+              </div>
+              <div class="p-10" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25">
+                <mat-form-field appearance="outline">
+                  <input matInput placeholder="Tamanho" formControlName="tamanho">
+                </mat-form-field>
+              </div>
+              <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="34">
+                <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+                  [floatLabel]="form.value.floatLabel">
+                  <mat-label>Selecione a unidade</mat-label>
+                  <mat-select formControlName="unidade">
+                    <mat-option *ngFor="let unidade of unidades" [value]="unidade.id">
+                      {{unidade.sigla}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-placeholder>Unidade</mat-placeholder>
+                </mat-form-field> 
+              </div>
+              <div class="p-10" fxFlex.gt-sm="16" fxFlex.gt-xs="16" fxFlex="16">
+                <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+                  [floatLabel]="form.value.floatLabel">
+                  <mat-label>Status.</mat-label>
+                  <mat-select required formControlName="active">
+                    <mat-option>-- Selecione... --</mat-option>
+                    <mat-option [value]=1>Ativo</mat-option>
+                    <mat-option [value]=0>Inativo</mat-option>
+                  </mat-select>
+                  <mat-placeholder>Status</mat-placeholder>
+                </mat-form-field>
+              </div>
+              <div class="p-10 invisible" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25">
+                <mat-form-field appearance="outline">
+                  <input matInput placeholder="Tamanho" formControlName="valorUnitario" >
+                </mat-form-field>
+              </div>
+              <div class="p-10 invisible" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25">
+                <mat-form-field appearance="outline">
+                  <input matInput  placeholder="Tamanho" formControlName="quantidade">
+                </mat-form-field>
+              </div>
+              <div class="p-10 invisible" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25">
+                <mat-form-field appearance="outline">
+                  <input matInput  placeholder="Tamanho" formControlName="desconto">
+                </mat-form-field>
+              </div>
+              <div class="p-10 invisible" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25">
+                <mat-form-field appearance="outline">
+                  <input matInput  placeholder="Tamanho" formControlName="comissao" >
+                </mat-form-field>
+              </div>
+            </ng-container>
           </div>
-          <ng-container [formGroupName]="i">
-            <div class="p-10" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="100">
-              <mat-form-field appearance="outline">
-                <input matInput placeholder="Código do produto" formControlName="codigo" [(ngModel)]="item.codigo">
-              </mat-form-field>
-            </div>
-            <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="34">
-              <mat-form-field appearance="outline">
-                <input matInput placeholder="Nome do produto" formControlName="nome" [(ngModel)]="item.nome">
-              </mat-form-field>
-            </div>
-            <div class="p-10" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="33">
-              <mat-form-field appearance="outline">
-                <input matInput placeholder="Embalagem" formControlName="embalagem">
-              </mat-form-field>
-            </div>
-            <div class="p-10" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25">
-              <mat-form-field appearance="outline">
-                <input matInput placeholder="IPI" formControlName="ipi" [(ngModel)]="item.ipi">
-              </mat-form-field>
-            </div>
-            <div class="p-10" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25">
-              <mat-form-field appearance="outline">
-                <input matInput placeholder="Tamanho" formControlName="tamanho" [(ngModel)]="item.tamanho">
-              </mat-form-field>
-            </div>
-            <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="34">
-              <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
-                [floatLabel]="form.value.floatLabel">
-                <mat-label>Selecione a unidade</mat-label>
-                <mat-select required formControlName="unidade">
-                  <mat-option *ngFor="let unidade of unidades" [value]="unidade.id">
-                    {{unidade.sigla}}
-                  </mat-option>
-                </mat-select>
-                <mat-placeholder>Unidade</mat-placeholder>
-              </mat-form-field> 
-            </div>
-            <div class="p-10" fxFlex.gt-sm="16" fxFlex.gt-xs="16" fxFlex="16">
-              <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
-                [floatLabel]="form.value.floatLabel">
-                <mat-label>Status.</mat-label>
-                <mat-select required formControlName="active">
-                  <mat-option>-- Selecione... --</mat-option>
-                  <mat-option [value]=1>Ativo</mat-option>
-                  <mat-option [value]=0>Inativo</mat-option>
-                </mat-select>
-                <mat-placeholder>Status</mat-placeholder>
-              </mat-form-field>
-            </div>
-            <div class="p-10 invisible" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25">
-              <mat-form-field appearance="outline">
-                <input matInput placeholder="Tamanho" formControlName="valorUnitario" [(ngModel)]="item.valorUnitario">
-              </mat-form-field>
-            </div>
-            <div class="p-10 invisible" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25">
-              <mat-form-field appearance="outline">
-                <input matInput  placeholder="Tamanho" formControlName="quantidade" [(ngModel)]="item.quantidade">
-              </mat-form-field>
-            </div>
-            <div class="p-10 invisible" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25">
-              <mat-form-field appearance="outline">
-                <input matInput  placeholder="Tamanho" formControlName="desconto" [(ngModel)]="item.desconto">
-              </mat-form-field>
-            </div>
-            <div class="p-10 invisible" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25">
-              <mat-form-field appearance="outline">
-                <input matInput  placeholder="Tamanho" formControlName="comissao" [(ngModel)]="item.comissao">
-              </mat-form-field>
-            </div>
-          </ng-container>
         </div>
       </form>
     </div>

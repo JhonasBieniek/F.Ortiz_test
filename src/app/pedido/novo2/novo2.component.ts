@@ -5,12 +5,13 @@ import { ClientService } from '../../shared/services/client.service.component';
 import { NotificationService } from '../../shared/messages/notification.service';
 
 import * as XLSX from 'xlsx'
+
 import { OrderService } from '../../shared/services/order.service.component';
 import { OrderItem } from '../order-item.model';
 import { ShoppingCartComponent } from '../shopping-cart/shopping-cart.component';
 import { MatDialogConfig, MatDialog, MatStepper } from '@angular/material';
 import { DialogCadastroComponent } from '../novo/dialog-cadastro/dialog-cadastro.component';
-import { DialogClienteAddComponent } from '../novo/dialog-body/dialog-body-cliente.component';
+import { DialogBodyClienteComponent } from '../../cadastro/cliente/dialog-body/dialog-body-cliente.component';
 import { ItemPedido } from '../itemPedido.model';
 import { DateFormatPipe } from '../../shared/pipes/dateFormat.pipe';
 
@@ -58,6 +59,8 @@ export class Novo2Component implements OnInit {
   condComerciais = [];
   areas = [];
   upload: any;
+  items = [];
+  itemsNew = [];
 
   selectedRepresentada: any;
   selectedCliente: string;
@@ -113,7 +116,6 @@ export class Novo2Component implements OnInit {
   }
 
   importar() {
-    this.spinner.show();
     this.planilha = new FileReader();
     this.planilha.onload = (e) => {
       this.arrayBuffer = this.planilha.result;
@@ -128,7 +130,10 @@ export class Novo2Component implements OnInit {
       var json = XLSX.utils.sheet_to_json(worksheet, { raw: true, header: 1 });
       this[this.representada](json);
     }
-    this.planilha.readAsArrayBuffer(this.file);
+    if(this.file != undefined){
+      this.spinner.show();
+      this.planilha.readAsArrayBuffer(this.file);
+    }
   }
 
   async volk(data) {
@@ -140,8 +145,8 @@ export class Novo2Component implements OnInit {
     this.condComercial = data[12][1];
     this.emissao = moment(data[6][3].replace(/\//g, "-"), 'DD-MM-YYYY').format("YYYY-MM-DD")
     this.entrega = moment(data[21][4], 'DD-MM-YYYY').format("YYYY-MM-DD")
-    this.frete = data[17][1] = "C" ? "Cliente" : "Representada"
-    this.selectedRepresentada = 15;
+    this.frete = data[17][1] = "C" ? "Cliente" : "Representada";
+    this.selectedRepresentada = this.cnpjFilter((data[3][1].toString().length == 13)? "0"+data[3][1]: data[3][1])[0].id;
 
     while (inicial <= final) {
       while (data[final][0] != "Valor Produtos.....:") {
@@ -161,26 +166,22 @@ export class Novo2Component implements OnInit {
             comissao: data[inicial][11]
         }
         await this.consultaCod(produto).then((res: any) => {
-          console.log(res, "return promise consulta")
           if (res != undefined) {
             this.addItemPlan(res) //* Adiciona item à item que já esteja cadastrado no banco
-            console.log('oi')
-          } else {
-            this.dialogProd = true;
           }
         })
       }
       inicial++;
     }
+
     this.ValorTotal = data[final][1];
     if (inicial > final) {
-      if (this.dialogProd == true) {
+      if (this.itemsNew.length > 0) {
         this.openDialogVolk()
       }
     }
     // setTimeout(() => {this.chargeItens()}, 2000);
     if (String(this.cliente).length == 14) {
-      console.log('14')
       this.clientservice.getClientesCnpj(this.cliente).subscribe((res: any) => {
         if (res.success == true) {
           this.selectedCliente = res.data.id;
@@ -507,14 +508,12 @@ export class Novo2Component implements OnInit {
     });
   }
 
-
   async consultaCod(produto:any): Promise<any> {
     let campos;
     let newItem;
     return new Promise(async (resolve, reject) => {
       this.clientservice.getProdutoCode(produto.codigo).subscribe((res: any) => {
         if (res.success == true) {
-          console.log("cadastrado", res);
           campos = produto;
           campos.embalagem = res.data.embalagem;
           campos.unidade = res.data.unidade.sigla;
@@ -526,16 +525,11 @@ export class Novo2Component implements OnInit {
           newItem.representada_id = this.selectedRepresentada;
           newItem.unidade_id = '';
           newItem.status = 1;
-          this.addItemNew(newItem)
+          this.itemsNew.push(newItem);
         }
         resolve(campos)
       })
     })
-  }
-
-
-  items(): any[] {
-    return this.orderservice.items;
   }
   // total(): number {
   //   return this.orderservice.total();
@@ -548,27 +542,27 @@ export class Novo2Component implements OnInit {
   }
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
-    // filter our data
     const temp = this.temp.filter(function (d) {
       return d.codigo.toLowerCase().indexOf(val) !== -1 || !val ||
         d.nome.toLowerCase().indexOf(val) !== -1 || !val ||
         d.unidade.descricao.toLowerCase().indexOf(val) !== -1 || !val
     });
-    // update the rows
     this.rows = temp;
-    // Whenever the filter changes, always go back to the first page
     this.table = this.data;
+  }
+  cnpjFilter(cnpj){
+    return this.representadas.filter(d => d.cnpj == cnpj);
   }
   addItemNew(item: ItemPedido) {
     this.orderservice.addItemNew(item)
   }
   addItem(item: ItemPedido) {
-    this.orderservice.addItem(item)
-    this.shoppingCart.addForm()
+    this.items.push(item)
+    this.shoppingCart.addForm(item)
   }
   addItemPlan(item: ItemPedido) {
-    this.orderservice.addItemPlan(item)
-    this.shoppingCart.addForm()
+    this.items.push(item)
+    this.shoppingCart.addForm(item)
   }
   chargeAreaVendas(data) {
     this.selectedAreaVenda = data
@@ -588,7 +582,8 @@ export class Novo2Component implements OnInit {
       maxWidth: '75vw',
       maxHeight: '85vh',
       width: '75vw',
-      height: '75vh'
+      height: '75vh',
+      data: this.itemsNew
     }
     //if (!this.dialog.openDialogs || !this.dialog.openDialogs.length) return;
     this.dialogRef = this.dialog.open(
@@ -599,19 +594,7 @@ export class Novo2Component implements OnInit {
       let produto;
       console.log(value, "Value retornado")
       value.forEach(element => {
-        produto = {
-          codigo: element.codigo,
-          nome: element.nome,
-          quantidade: element.quantidade,
-          tamanho: element.tamanho,
-          ipi: element.ipi,
-          valorUnitario: element.valorUnitario,
-          comissao: element.comissao,
-          id: element.id,
-          embalagem: element.embalagem,
-          unidade: element.unidade.sigla
-        };
-        this.addItemPlan(produto)
+        this.addItemPlan(element)
       });
     });
   }
@@ -625,7 +608,7 @@ export class Novo2Component implements OnInit {
     }
     dialogConfig.data = data;
     let dialogRefCNPJ = this.dialog.open(
-      DialogClienteAddComponent,
+      DialogBodyClienteComponent,
       dialogConfig,
     );
     dialogRefCNPJ.afterClosed().subscribe(value => {
@@ -646,7 +629,7 @@ export class Novo2Component implements OnInit {
   comissaoMedia(){
     let i=1;
     let comissao = 0
-    this.items().forEach(element => {
+    this.items.forEach(element => {
       comissao = +comissao + +element.comissao
       i++;
     })
@@ -654,14 +637,15 @@ export class Novo2Component implements OnInit {
   }
   comissaoBruta(){
     let comissao = 0
-    this.items().forEach(element => {
+    this.items.forEach(element => {
       comissao = +comissao + +((element.quantidade*element.valorUnitario) * element.comissao/100)
     })
     return comissao;
   }
+
   valorTotal(){
     let valor = 0
-    this.items().forEach(element => {
+    this.items.forEach(element => {
       valor = +valor + +((element.quantidade*element.valorUnitario))
     })
     return valor.toFixed(2);
@@ -705,9 +689,10 @@ export class Novo2Component implements OnInit {
     );
 
   }
+
   produtos() {
     let produtos = [];
-    this.items().forEach(element => {
+    this.items.forEach(element => {
       produtos.push({
         cliente_id: element.cliente,
         produto_id: element.id,

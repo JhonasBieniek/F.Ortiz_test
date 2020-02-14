@@ -3,66 +3,68 @@
   <div fxFlex.gt-sm="100%" fxFlex="100">
     <!--INICIO DO CARRINHO-->
     <!-- /.box-header -->
-    <div *ngIf="!items().length">
+    <div *ngIf="formPedido.get('camposForm').controls.length == 0">
       <p class="text-center">
         Não há itens no pedido!
       </p>
     </div>
-    <div *ngIf="items().length">
+    <div>
       <form [formGroup]="formPedido">
-        <div formArrayName="camposForm" *ngFor="let item of items(); let i = index">
-          <div class="title">{{item.codigo}} - {{item.nome | slice:0:55}} | 
-            <button (click)="removeItem(item)" mat-icon-button color="warn">
-              <mat-icon>clear</mat-icon>
-            </button>
-          </div>
-          <ng-container [formGroupName]="i">
-            <div fxLayout="row" fxLayoutWrap="wrap">
-              <mat-form-field fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="10" appearance="outline">
-                <mat-label>Qtd.</mat-label>
-                <input matInput (keyup)="totalCalc(item.quantidade, item.valorUnitario, i)" placeholder="Qtd" formControlName="quantidade" [(ngModel)]="item.quantidade">
-              </mat-form-field>
-              <mat-form-field fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="20" appearance="outline">
-                <mat-label>Unidade</mat-label>
-                <input matInput placeholder="Unidade" formControlName="unidade" [(ngModel)]="item.unidade">
-              </mat-form-field>
-              <mat-form-field fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="20" appearance="outline">
-                <input matInput placeholder="Embalagem" formControlName="embalagem" [(ngModel)]="item.embalagem">
-              </mat-form-field>
-              <mat-form-field fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="10" appearance="outline">
-                <input matInput placeholder="IPI" formControlName="ipi" mask="percent" suffix="%"
-                  [(ngModel)]="item.ipi">
-              </mat-form-field>
-              <mat-form-field fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="10" appearance="outline">
-                <input matInput placeholder="Desconto" formControlName="desconto" mask="percent" suffix="%"
-                  [(ngModel)]="item.desconto">
-              </mat-form-field>
-              <mat-form-field fxFlex.gt-sm="15" fxFlex.gt-xs="13" fxFlex="13" appearance="outline">
-                <input matInput (keyup)="totalCalc(item.quantidade, item.valorUnitario, i)" placeholder="Valor Unit." formControlName="valorUnitario" currencyMask
-                  [(ngModel)]="item.valorUnitario">
-              </mat-form-field>
-              <mat-form-field fxFlex.gt-sm="13" fxFlex.gt-xs="13" fxFlex="13" appearance="outline">
-                <input matInput placeholder="Comissão" formControlName="comissao" mask="percent" suffix="%"
-                  [(ngModel)]="item.comissao">
-              </mat-form-field>
-              <mat-form-field fxFlex.gt-sm="14" fxFlex.gt-xs="14" fxFlex="14" appearance="outline">
-                <input matInput placeholder="Tamanho" formControlName="tamanho" [(ngModel)]="item.tamanho">
-              </mat-form-field>
-              <mat-form-field fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="15" appearance="outline">
-                <input [disabled]="true" matInput placeholder="Vlr total" [(ngModel)]="item.valorTotal" formControlName="valorTotal" currencyMask>
-              </mat-form-field>
-              <mat-form-field fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="70" appearance="outline">
-                <input matInput placeholder="Observação" formControlName="observacao" [(ngModel)]="item.obs">
-              </mat-form-field>
+        <div formArrayName="camposForm">
+          <div *ngFor="let campos of formPedido.get('camposForm').controls; index as i" [formGroupName]="i">
+            <div class="title"> {{campos.get('codigo').value}} - {{campos.get('nome').value | slice:0:55}} | 
+              <button (click)="removeItem(i)" mat-icon-button color="warn">
+                <mat-icon>clear</mat-icon>
+              </button>
             </div>
-          </ng-container>
+            <ng-container>
+              <div fxLayout="row" fxLayoutWrap="wrap">
+                <mat-form-field fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="10" appearance="outline">
+                  <mat-label>Qtd.</mat-label>
+                  <input matInput (keyup)="totalCalc(campos.get('quantidade').value, campos.get('valorUnitario'), i)" placeholder="Qtd" formControlName="quantidade" >
+                </mat-form-field>
+                <mat-form-field fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="20" appearance="outline">
+                  <mat-label>Unidade</mat-label>
+                  <input matInput placeholder="Unidade" formControlName="unidade" >
+                </mat-form-field>
+                <mat-form-field fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="20" appearance="outline">
+                  <input matInput placeholder="Embalagem" formControlName="embalagem" >
+                </mat-form-field>
+                <mat-form-field fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="10" appearance="outline">
+                  <input matInput placeholder="IPI" formControlName="ipi" mask="percent" suffix="%"
+                    >
+                </mat-form-field>
+                <mat-form-field fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="10" appearance="outline">
+                  <input matInput placeholder="Desconto" formControlName="desconto" mask="percent" suffix="%"
+                    >
+                </mat-form-field>
+                <mat-form-field fxFlex.gt-sm="15" fxFlex.gt-xs="13" fxFlex="13" appearance="outline">
+                  <input matInput (keyup)="totalCalc(campos.get('quantidade').value, campos.get('valorUnitario'), i)" placeholder="Valor Unit." formControlName="valorUnitario" currencyMask
+                    >
+                </mat-form-field>
+                <mat-form-field fxFlex.gt-sm="13" fxFlex.gt-xs="13" fxFlex="13" appearance="outline">
+                  <input matInput placeholder="Comissão" formControlName="comissao" mask="percent" suffix="%"
+                    >
+                </mat-form-field>
+                <mat-form-field fxFlex.gt-sm="14" fxFlex.gt-xs="14" fxFlex="14" appearance="outline">
+                  <input matInput placeholder="Tamanho" formControlName="tamanho" >
+                </mat-form-field>
+                <mat-form-field fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="15" appearance="outline">
+                  <input [disabled]="true" matInput placeholder="Vlr total" formControlName="valorTotal" currencyMask>
+                </mat-form-field>
+                <mat-form-field fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="70" appearance="outline">
+                  <input matInput placeholder="Observação" formControlName="observacao" >
+                </mat-form-field>
+              </div>
+            </ng-container>
+          </div>
         </div>
         <div>
           <tr>
             <th>Valor Total: {{total() | currency:'BRL':true:'1.2-2'}}</th>
           </tr>
         </div>
-          <div  *ngIf="items().length" fxLayoutAlign="end center" >
+          <div *ngIf="formPedido.get('camposForm').controls.length > 0" fxLayoutAlign="end center" >
             <button mat-button color="warn" (click)="clear()"><i class="material-icons">delete_outline</i>Limpar</button>
           </div>
       </form>

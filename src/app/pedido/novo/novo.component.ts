@@ -170,7 +170,7 @@ export class NovoComponent implements OnInit {
   }
   addItem(item: ItemPedido) {
     this.orderservice.addItem(item)
-    this.shoppingCart.addForm()
+    this.shoppingCart.addForm(item);
   }
   chargeAdress() {
     this.clientservice.getClientesId(this.selectedCliente).subscribe((res: any) => {
