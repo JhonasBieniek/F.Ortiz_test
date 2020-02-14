@@ -83,8 +83,13 @@ export class ClienteComponent implements OnInit {
       });
   }
   edit(row){
-    const dialogConfig = new MatDialogConfig();
-
+    let dialogConfig = new MatDialogConfig();
+      dialogConfig = {
+        maxWidth: '75vw',
+        maxHeight: '100vh', 
+        width: '75vw',
+        height: '90vh'
+      }
       dialogConfig.data = row
       dialogConfig.data.action = 'edit'
       let dialogRef = this.dialog.open(DialogBodyClienteComponent,

@@ -29,7 +29,6 @@ export class DialogBodyClienteComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any,
               private notificationService: NotificationService
               ) {
-                console.log(data)
                 if(data != null && data.action != 'edit'){
                   this.chargeCnpj(data)
                 }
@@ -55,16 +54,17 @@ export class DialogBodyClienteComponent implements OnInit {
       area_venda_id: [null, Validators.compose([Validators.required])],
       ramo_atividade_id: [null],
       obs: [null, Validators.compose([Validators.maxLength(100)])],
-      status: [true],
+      status: true,
       enderecos: this.fb.group({
-        cep: [null],
-        logradouro: [null],
-        numero: [null],
-        complemento: [null],
-        bairro: [null],
-        cidade: [null],
-        estado: [null],  
-        pais: ['Brasil'],  
+        id: null,
+        cep: null,
+        logradouro: null,
+        numero: null,
+        complemento: null,
+        bairro: null,
+        cidade: null,
+        estado: null,  
+        pais: 'Brasil',  
       })
     });
     if(this.data != undefined){
@@ -78,29 +78,29 @@ export class DialogBodyClienteComponent implements OnInit {
   editCharge(){
  // Verificar como fazer quanto tiver mais de um endereço
     this.form.patchValue({
-      id: [this.data.id],
-      razao_social: [this.data.razao_social],
-      nome_fantasia: [this.data.nome_fantasia],
-      cnpj: [this.data.cnpj],
-      inscricao_estadual: [this.data.inscricao_estadual],
-      email: [this.data.email],
-      telefone: [this.data.telefone],
-      celular: [this.data.celular],
-      representante: [this.data.representante],
-      area_venda_id: [this.data.area_venda_id],
-      ramo_atividade_id: [this.data.ramo_atividade_id],
-      obs: [this.data.obs],
-      status: [this.data.status],
+      id: this.data.id,
+      razao_social: this.data.razao_social,
+      nome_fantasia: this.data.nome_fantasia,
+      cnpj: this.data.cnpj,
+      inscricao_estadual: this.data.inscricao_estadual,
+      email: this.data.email,
+      telefone: this.data.telefone,
+      celular: this.data.celular,
+      representante: this.data.representante,
+      area_venda_id: this.data.area_venda_i,
+      ramo_atividade_id: this.data.ramo_atividade_id,
+      obs: this.data.obs,
+      status: this.data.status,
       enderecos:{
-        id: [this.data.enderecos[0].id],
-        cep: [this.data.enderecos[0].cep],
-        logradouro: [this.data.enderecos[0].logradouro],
-        numero: [this.data.enderecos[0].numero],
-        complemento: [this.data.enderecos[0].complemento],
-        bairro: [this.data.enderecos[0].bairro],
-        cidade: [this.data.enderecos[0].cidade],
-        estado: [this.data.enderecos[0].estado],  
-        pais: [this.data.enderecos[0].pais], 
+        id: (this.data.enderecos[0].id != undefined ? this.data.enderecos[0].id : null),
+        cep: (this.data.enderecos[0].cep != undefined ? this.data.enderecos[0].cep : null),
+        logradouro: (this.data.enderecos[0].logradouro != undefined ? this.data.enderecos[0].logradouro : null),
+        numero: (this.data.enderecos[0].numero != undefined ? this.data.enderecos[0].numero : null),
+        complemento: (this.data.enderecos[0].complemento != undefined ? this.data.enderecos[0].complemento : null),
+        bairro: (this.data.enderecos[0].bairro != undefined ? this.data.enderecos[0].bairro : null),
+        cidade: (this.data.enderecos[0].cidade != undefined ? this.data.enderecos[0].cidade : null),
+        estado: (this.data.enderecos[0].estado != undefined ? this.data.enderecos[0].estado : null),  
+        pais: (this.data.enderecos[0].pais != undefined ? this.data.enderecos[0].pais  : null), 
     }
   })
 }

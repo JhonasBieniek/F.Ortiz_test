@@ -1,33 +1,15 @@
-.demo-tab-group {
-    border: 1px solid #e8e8e8;
+
+  .dialog{
+      max-Width: '75vw';
+      max-Height: '75vh';
+      width: '75vw';
+      height: '65vh';
   }
-  
-  .demo-tab-content {
-    padding: 24px;
+  .bt{
+    margin-left: 10px;
   }
-
-.example-form {
-  min-width: 150px;
-  max-width: 500px;
-  width: 100%;
-}
-
-.example-full-width {
-  width: 90%;
-}
-.u {
-  text-decoration: underline;
-}
-
-.example-form {
-  min-width: 150px;
-  max-width: 500px;
-  width: 100%;
-}
-
-.example-full-width {
-  width: 90%;
-}
-.dialog{
-  min-height: 700px;
-}
+  .dadosCadastro{
+    font-size: larger;
+    align-items: center;
+    margin-top: 16px;
+  }      

@@ -2,7 +2,7 @@
   <div fxLayout="row" fxLayoutWrap="wrap" class="row">
     <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
       <mat-card-header class="bg-info text-white">
-        <mat-card-title class="dadosCadastro">Dados de produtos</mat-card-title>
+        <mat-card-title class="dadosCadastro">{{pageTitle}}</mat-card-title>
       </mat-card-header>
     </div>
     <div class="p-10" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
@@ -41,8 +41,8 @@
         [floatLabel]="auto">
         <mat-label>Selecione o status</mat-label>
         <mat-select formControlName="status" [value]="1">
-          <mat-option value="1">Ativo</mat-option>
-          <mat-option value="0">Inativo</mat-option>
+          <mat-option [value]=true>Ativo</mat-option>
+          <mat-option [value]=false>Inativo</mat-option>
         </mat-select>
       </mat-form-field>
     </div>

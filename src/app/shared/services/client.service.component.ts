@@ -86,16 +86,22 @@ export class ClientService {
       .http
       .post(uri, data) 
   }
-  addRegiao(dados) {
+  addRegiao(data) {
     const uri = `${API_URL}` + `regioes/add.json`;
-    const obj = {
-      dados
-    };
     this
       .http
-      .post(uri, dados[0]) 
+      .post(uri, data) 
       .subscribe(res =>
           console.log('Done'));
+  }
+  updateRegiao(data): Observable<any>{
+    const url = `${API_URL}regioes/edit/${data.id}.json`;
+     return this.http.put(url, data).pipe(
+      catchError(this.handleError),
+      map(res => {
+        return res;
+      })
+     )
   }
   addCargo(dados) {
     const uri = `${API_URL}` + `cargos/add.json`;
@@ -135,9 +141,18 @@ export class ClientService {
     const uri = `${API_URL}` + `unidades/add.json`;
     this
       .http
-      .post(uri, dados[0]) 
+      .post(uri, dados) 
       .subscribe(res =>
           console.log('Done'));
+  }
+  updateUnidade(data): Observable<any>{
+    const url = `${API_URL}unidades/edit/${data.id}.json`;
+     return this.http.put(url, data).pipe(
+      catchError(this.handleError),
+      map(res => {
+        return res;
+      })
+     )
   }
   addUsuarios(dados) {
     const uri = `${API_URL}` + `usuarios/add.json`;
@@ -166,22 +181,52 @@ export class ClientService {
   }
   addRamos(dados) {
     const uri = `${API_URL}` + `ramoAtividades/add.json`;
-    return this
+    this
       .http
       .post(uri, dados) 
-      
+      .subscribe(res =>
+          console.log('Done'));
+  }
+  updateRamos(data): Observable<any>{
+    const url = `${API_URL}ramoAtividades/edit/${data.id}.json`;
+     return this.http.put(url, data).pipe(
+      catchError(this.handleError),
+      map(res => {
+        return res;
+      })
+     )
   }
   addComissoes(dados) {
     const uri = `${API_URL}` + `comissoes/add.json`;
-    return this
+    this
       .http
       .post(uri, dados) 
+      .subscribe(res =>
+          console.log('Done')); 
+  }
+  updateComissoes(data): Observable<any>{
+    const url = `${API_URL}comissoes/edit/${data.id}.json`;
+     return this.http.put(url, data).pipe(
+      catchError(this.handleError),
+      map(res => {
+        return res;
+      })
+     )
   }
   addProdutos(dados) {
     const uri = `${API_URL}` + `produtos/add.json`;
      return this
       .http
       .post(uri, dados) 
+  }
+  updateProduto(data): Observable<any>{
+    const url = `${API_URL}produtos/edit/${data.id}.json`;
+     return this.http.put(url, data).pipe(
+      catchError(this.handleError),
+      map(res => {
+        return res;
+      })
+     )
   }
   addPedido(data) {
     const uri = API_URL+ 'pedidos/add.json';
@@ -217,6 +262,15 @@ export class ClientService {
     return this
       .http
       .post(uri, data) 
+  }
+  updateRepresentada(data): Observable<any>{
+    const url = `${API_URL}representadas/edit/${data.id}.json`;
+     return this.http.put(url, data).pipe(
+      catchError(this.handleError),
+      map(res => {
+        return res;
+      })
+     )
   }
   addFuncionario(data){
     const uri = API_URL+ 'funcionarios/add.json';

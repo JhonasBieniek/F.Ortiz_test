@@ -23,6 +23,7 @@ export class DialogBodyComissoesComponent implements OnInit {
   auxiliares = [];
   selectedFuncionario: string;
   selectedRepresentada: string;
+  pageTitle:string = "";
 
 
   constructor(public dialogRef: MatDialogRef<DialogBodyComissoesComponent>, 
@@ -46,6 +47,7 @@ export class DialogBodyComissoesComponent implements OnInit {
                               
   ngOnInit() {
     this.form = this.fb.group({
+      id: null,
       funcionario_id: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
       representada_id: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
       inicio: [null, Validators.compose([Validators.required, CustomValidators.number])],
@@ -54,16 +56,23 @@ export class DialogBodyComissoesComponent implements OnInit {
       hideRequired: true,
       floatLabel: 'auto',
     });
+    if(this.data == null)
+    this.pageTitle = 'Cadastrar Comissão'
+    else{
+      this.pageTitle = 'Editar Comissão'
+      this.form.patchValue(this.data)
+    }
+
   }
 
   areaVendasSubmit() { 
-    this.clientservice.addComissoes(this.form.value).subscribe((res:any) =>{
-      if(res.success == true){
-        this.notificationService.notify(`Cadastro Efetuado com Sucesso!`)
-      }else{
-        this.notificationService.notify(`Erro contate o Administrador`)
-      }}
-    );  
+    if(this.data != undefined){
+      this.clientservice.updateComissoes(this.form.value).subscribe( () =>{
+        this.notificationService.notify("Atualizado com Sucesso!")
+      })
+    }else{
+      this.clientservice.addComissoes(this.form.value)  
+    } 
   }
 
   getFormValidationErrors() {

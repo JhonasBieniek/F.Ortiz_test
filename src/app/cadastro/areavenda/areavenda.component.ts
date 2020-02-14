@@ -4,7 +4,6 @@ import { DialogBodyComponent } from './dialog-body/dialog-body.component';
 import { ClientService } from '../../shared/services/client.service.component';
 import { DialogConfirmarDeleteComponent } from '../dialog-confirmar-delete/confirmar-delete.component';
 
-
 @Component({
   selector: 'app-areavenda',
   templateUrl: './areavenda.component.html',
@@ -70,7 +69,7 @@ export class AreaVendaComponent implements OnInit {
       maxWidth: '75vw',
       maxHeight: '85vh',
       width: '75vw',
-      height: '40vh'
+      height: '75vh'
     }
     //dialogConfig.data = this.dados.data;
     let dialogRef = this.dialog.open(
@@ -108,7 +107,13 @@ export class AreaVendaComponent implements OnInit {
       });
     }
     edit(row){
-      const dialogConfig = new MatDialogConfig();
+      let dialogConfig = new MatDialogConfig();
+      dialogConfig = {
+        maxWidth: '75vw',
+        maxHeight: '85vh',
+        width: '75vw',
+        height: '75vh'
+      }
         dialogConfig.data = row
         dialogConfig.data.action = 'edit'
         let dialogRef = this.dialog.open(DialogBodyComponent,

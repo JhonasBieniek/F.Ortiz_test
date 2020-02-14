@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from "@angular/material";
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { FormBuilder, FormGroup, Validators, ValidationErrors} from '@angular/forms';
 import { ClientService } from '../../../shared/services/client.service.component';
 import { NotificationService } from '../../../shared/messages/notification.service';
@@ -15,12 +15,14 @@ export class DialogBodyProdutoComponent implements OnInit {
   public form: FormGroup;
   representadas = [];
   unidades = [];
-  constructor(
-    public dialogRef: MatDialogRef<DialogBodyProdutoComponent>,
-    private fb: FormBuilder, 
-    private clientservice: ClientService,
-    private notificationService: NotificationService
-  ) { 
+  pageTitle:string = "";
+
+  constructor(public dialogRef: MatDialogRef<DialogBodyProdutoComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: any,
+              private fb: FormBuilder, 
+              private clientservice: ClientService,
+              private notificationService: NotificationService) 
+   { 
     this.clientservice.getRepresentadas().subscribe((res:any) =>{
       this.representadas = res.data;
     }); 
@@ -31,25 +33,43 @@ export class DialogBodyProdutoComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      nome: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
+      id: [null],
+      nome: [null, Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(50)])],
       ipi: [null, Validators.compose([Validators.minLength(1), Validators.maxLength(3)])],
       certificado_aprovacao: [null],
       codigo: [null],
       embalagem: [null],
-      representada_id: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
+      representada_id: [null, Validators.compose([Validators.required])],
       unidade_id: [null],
       status: [1]
     });
+    if(this.data == null){
+      this.pageTitle = 'Cadastrar Produto'
+    }else{
+      this.pageTitle = 'Editar Produto'
+      this.form.patchValue(this.data);
+    }
+  }
+  close() {
+    this.dialogRef.close(
+    );
   }
 
   onSubmit(){
-    this.clientservice.addProdutos(this.form.value).subscribe((res:any) =>{
-      if(res.success == true){
-        this.notificationService.notify(`Cadastro Efetuado com Sucesso!`)
-        this.dialogRef.close();
-      }else{
-        this.notificationService.notify(`Erro contate o Administrador`)
-      }}
-    );
+      if(this.data == null){
+      this.clientservice.addProdutos(this.form.value).subscribe((res:any) =>{
+        if(res.success == true){
+          this.notificationService.notify(`Cadastro Efetuado com Sucesso!`)
+          this.close();
+        }else{
+          this.notificationService.notify(`Erro contate o Administrador`)
+        }}
+      );
+     }else{
+      this.clientservice.updateProduto(this.form.value).subscribe( () =>{
+        this.notificationService.notify("Atualizado com Sucesso!")
+        this.close();
+      })
+     }
   }
 }

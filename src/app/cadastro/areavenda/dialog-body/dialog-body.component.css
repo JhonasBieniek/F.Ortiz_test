@@ -1,11 +1,9 @@
-.dialog{
-  min-height: 500px;
-}
-.bt{
-  margin-left: 10px;
-}
+
 .dadosCadastro{
   font-size: larger;
   align-items: center;
   margin-top: 16px;
+}
+.dialog{
+  min-height: 700px;
 }

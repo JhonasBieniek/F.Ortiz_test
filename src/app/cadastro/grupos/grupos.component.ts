@@ -80,7 +80,13 @@ export class GruposComponent implements OnInit {
       });
   }
   edit(row){
-    const dialogConfig = new MatDialogConfig();
+    let dialogConfig = new MatDialogConfig();
+      dialogConfig = {
+        maxWidth: '75vw',
+        maxHeight: '75vh',
+        width: '75vw',
+        height: '40vh'
+      }
       dialogConfig.data = row
       dialogConfig.data.action = 'edit'
       let dialogRef = this.dialog.open(DialogBodyGruposComponent,dialogConfig);

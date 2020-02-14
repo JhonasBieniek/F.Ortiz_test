@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from "@angular/material";
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { FormBuilder, FormGroup, Validators, ValidationErrors} from '@angular/forms';
 import { ClientService } from '../../../shared/services/client.service.component';
 import { NotificationService } from '../../../shared/messages/notification.service';
@@ -16,10 +16,12 @@ export class DialogBodyRepresentadaComponent implements OnInit {
   cep: any;
   modelCidade: any;
   modelEstado: any;
-  modelBairro
-  modelLogradouro
+  modelBairro;
+  modelLogradouro;
+  pageTitle:string = "";
 
   constructor(public dialogRef: MatDialogRef<DialogBodyRepresentadaComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: any,
               private fb: FormBuilder, 
               private clientservice: ClientService,
               private notificationService: NotificationService
@@ -28,27 +30,61 @@ export class DialogBodyRepresentadaComponent implements OnInit {
   }
   ngOnInit() {  
     this.form = this.fb.group({
-      razao_social: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
-      nome_fantasia: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
-      cnpj: [null, Validators.compose([Validators.required, Validators.minLength(14), Validators.maxLength(14)])],
+      id: [null],
+      razao_social: [null, Validators.compose([Validators.required])],
+      nome_fantasia: [null, Validators.compose([Validators.required])],
+      cnpj: [null, Validators.compose([Validators.required])],
       inscricao_estadual: [null, Validators.compose([CustomValidators.digits])],
-      email: [null, Validators.compose([CustomValidators.email])],
-      telefone: [null, Validators.compose([CustomValidators.phone('IN')])],
-      celular: [null, Validators.compose([CustomValidators.phone('IN')])],
-      representante: [null, Validators.compose([Validators.minLength(5), Validators.maxLength(50)])],
+      email: [null],
+      telefone: [null],
+      celular: [null],
+      representante: [null],
       obs: [null, Validators.compose([Validators.maxLength(100)])],
       status: [true],
       endereco: this.fb.group({
-        cep: [null, Validators.compose([CustomValidators.number])],
-        logradouro: [null, Validators.compose([Validators.minLength(5), Validators.maxLength(50)])],
-        numero: [null, Validators.compose([CustomValidators.number])],
-        complemento: [null, Validators.compose([Validators.minLength(5), Validators.maxLength(50)])],
-        bairro: [null, Validators.compose([Validators.minLength(2), Validators.maxLength(50)])],
-        cidade: [null, Validators.compose([Validators.minLength(2), Validators.maxLength(50)])],
-        estado: [null, Validators.compose([Validators.minLength(2), Validators.maxLength(50)])],  
+        cep: [null],
+        logradouro: [null],
+        numero: [null],
+        complemento: [null],
+        bairro: [null],
+        cidade: [null],
+        estado: [null],  
+        pais: ['Brasil'],  
       })
     });
+    if(this.data == null)
+      this.pageTitle = 'Cadastrar Representada'
+    else{
+        this.pageTitle = 'Editar Representada'
+        this.editCharge();
+    }
   }
+  editCharge(){
+       this.form.patchValue({
+         id: this.data.id,
+         razao_social: this.data.razao_social,
+         nome_fantasia: this.data.nome_fantasia,
+         cnpj: this.data.cnpj,
+         inscricao_estadual: this.data.inscricao_estadual,
+         email: this.data.email,
+         telefone: this.data.telefone,
+         celular: this.data.celular,
+         representante: this.data.representante,
+         obs: this.data.obs,
+         status: this.data.status,
+         endereco:{
+           id: this.data.endereco.id,
+           cep: this.data.endereco.cep,
+           logradouro: this.data.endereco.logradouro,
+           numero: this.data.endereco.numero,
+           complemento: this.data.endereco.complemento,
+           bairro: this.data.endereco.bairro,
+           cidade: this.data.endereco.cidade,
+           estado: this.data.endereco.estado,  
+           pais: this.data.endereco.pais, 
+       }
+     })
+   }
 
 
   onBlurMethod(){
@@ -70,7 +106,7 @@ export class DialogBodyRepresentadaComponent implements OnInit {
 
 
   onBlurCnpj(){
-    if(this.form.get('cnpj').value != null){
+    if(this.form.get('cnpj').value != null && this.data == null){
       this.clientservice.getApiCnpj(this.form.get('cnpj').value).subscribe((res:any) => {
         if(res.status != 'ERROR'){
           this.chargeForm(res);
@@ -107,13 +143,15 @@ export class DialogBodyRepresentadaComponent implements OnInit {
   }
 
   onSubmit(){
-    this.clientservice.addRepresenta(this.form.value).subscribe((res:any) =>{
-      if(res.success == true){
-        this.notificationService.notify(`Cadastro Efetuado com Sucesso!`)
-      }else{
-        this.notificationService.notify(`Erro contate o Administrador`)
-      }}
-    );
+    if(this.data == null){
+      this.clientservice.addRepresenta(this.form.value).subscribe((res:any) =>{
+          this.notificationService.notify(`Cadastro Efetuado com Sucesso!`)
+        });
+    }else{
+      this.clientservice.updateRepresentada(this.form.value).subscribe( () =>{
+        this.notificationService.notify("Atualizado com Sucesso!")
+      })
+    } 
   }
 
   getFormValidationErrors() {
