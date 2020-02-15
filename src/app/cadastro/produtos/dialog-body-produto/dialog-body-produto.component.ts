@@ -41,7 +41,7 @@ export class DialogBodyProdutoComponent implements OnInit {
       embalagem: [null],
       representada_id: [null, Validators.compose([Validators.required])],
       unidade_id: [null],
-      status: [1]
+      status: [true],
     });
     if(this.data == null){
       this.pageTitle = 'Cadastrar Produto'

@@ -80,7 +80,7 @@
           class="text-danger font-14">Você precisa selecionar o cargo.</small>
         </div>
 
-        <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+        <div class="p-10 mt-4" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
           <label class="m-r-20">Gênero :</label>
           <mat-radio-group formControlName="sexo" appearance="outline">
             <mat-radio-button value="M" class="m-r-10">Masculino</mat-radio-button>
@@ -97,9 +97,9 @@
             <mat-card-title class="Endereco">Endereço</mat-card-title>
           </mat-card-header>
         </div>
-        <div class="p-10" fxFlex.gt-sm="13" fxFlex.gt-xs="13" fxFlex="100">
+        <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
           <mat-form-field appearance="outline">
-            <input matInput placeholder="CEP" mask="00000-000" (blur)="onBlurMethod()" formControlName="cep">
+            <input matInput placeholder="CEP" mask="00000-000" (blur)="chargeCep()" formControlName="cep">
           </mat-form-field>
           <mat-hint *ngIf="funcionario.get('endereco.cep').errors?.required && funcionario.get('endereco.cep').touched"
             class="text-danger font-14">Você deve inserir o CEP.</mat-hint>
@@ -108,7 +108,7 @@
           <mat-hint *ngIf="funcionario.get('endereco.cep').errors?.maxlength && funcionario.get('endereco.cep').touched"
             class="text-danger font-14">Seu cep não deve exceder 8 caracteres.</mat-hint>
         </div>
-        <div class="p-10" fxFlex.gt-sm="52" fxFlex.gt-xs="55" fxFlex="100">
+        <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
           <mat-form-field appearance="outline">
             <input matInput placeholder="Logradouro" formControlName="logradouro">
           </mat-form-field>
@@ -117,7 +117,7 @@
           <small *ngIf="funcionario.get('endereco.logradouro').errors?.number && funcionario.get('endereco.logradouro').touched"
             class="text-danger font-14">O endereço precisa ser válido.</small>
         </div>
-        <div class="p-10" fxFlex.gt-sm="14" fxFlex.gt-xs="14" fxFlex="100">
+        <div class="p-10" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
           <mat-form-field appearance="outline">
             <input matInput placeholder="Número" formControlName="numero">
           </mat-form-field>
@@ -126,7 +126,7 @@
           <small *ngIf="funcionario.get('endereco.numero').errors?.number && funcionario.get('endereco.numero').touched"
             class="text-danger font-14">O Número precisa ser válido.</small>
         </div>
-        <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="21" fxFlex="100">
+        <div class="p-10" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
           <mat-form-field appearance="outline">
             <input matInput placeholder="Complemento" formControlName="complemento">
           </mat-form-field>
@@ -194,8 +194,8 @@
           <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
             <mat-label>Selecione o status...</mat-label>
             <mat-select required formControlName="status">
-              <mat-option value="1">Ativo</mat-option>
-              <mat-option value="0">Inativo</mat-option>
+              <mat-option [value]=true>Ativo</mat-option>
+              <mat-option [value]=false>Inativo</mat-option>
             </mat-select>
           </mat-form-field>
           <small *ngIf="funcionario.get('status').errors?.required && funcionario.get('status').touched"

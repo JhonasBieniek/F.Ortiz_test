@@ -65,10 +65,10 @@ export class FuncionarioComponent implements OnInit {
   openDialog() {
     let dialogConfig = new MatDialogConfig();
     dialogConfig = {
-      maxWidth: '75vw',
+      maxWidth: '100vw',
       maxHeight: '100vh',
     
-      width: '75vw',
+      width: '85vw',
       height: '95vh'
     }
     //dialogConfig.data = this.dados.data;
@@ -82,6 +82,24 @@ export class FuncionarioComponent implements OnInit {
         console.log(`Dialog sent: ${value}`); 
       });
   }
+  edit(row){
+    let dialogConfig = new MatDialogConfig();
+    dialogConfig = {
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      width: '85vw',
+      height: '95vh'
+    }
+      dialogConfig.data = row
+      let dialogRef = this.dialog.open(DialogBodyFuncionarioComponent,
+      dialogConfig   
+    );
+    dialogRef.afterClosed().subscribe(value => {
+
+     (value != 1) ? this.refreshTable() : null
+
+      });
+    }
   delete(row){
     const dialogConfig = new MatDialogConfig();
       let tipo = 'funcionarios'

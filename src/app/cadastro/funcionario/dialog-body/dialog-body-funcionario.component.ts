@@ -17,9 +17,11 @@ export class DialogBodyFuncionarioComponent implements OnInit {
   cargos;
   funcionario: FormGroup;
   usuario: FormGroup;
+  isLinear: boolean = true
 
   isOn = true;
   isOn2 = false;
+
 
   constructor(
     public dialogRef: MatDialogRef<DialogBodyFuncionarioComponent>,
@@ -46,7 +48,7 @@ export class DialogBodyFuncionarioComponent implements OnInit {
       celular: [null],
       telefone: [null],
       cargo_id: [null, Validators.compose([Validators.required])],
-      status: [1],
+      status: [true],
       endereco: this.fb.group({
         cep: [null, Validators.compose([Validators.required, CustomValidators.number])],
         logradouro: [null],
@@ -68,8 +70,7 @@ export class DialogBodyFuncionarioComponent implements OnInit {
   removeSpecialChar(data) {
     return data.toString().replace(/\D+/g, '');
   }
-
-  onBlurMethod(){
+  chargeCep(){
     let cep = this.funcionario.get('endereco.cep').value;
     if(cep != null && cep.length == 8){
       this.clientservice.getCep(cep).subscribe((res:any) => {
@@ -85,7 +86,6 @@ export class DialogBodyFuncionarioComponent implements OnInit {
       })
     }
   }
-
   onSubmit(){
     let data = this.funcionario.value;
     data.nascimento = this.datePipe.transform(data.nascimento, 'yyyy-MM-dd');
