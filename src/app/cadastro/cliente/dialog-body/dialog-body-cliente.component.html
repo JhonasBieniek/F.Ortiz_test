@@ -62,18 +62,21 @@
       <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <mat-card-header class="bg-info text-white">
           <mat-card-title class="Endereco">Endereço</mat-card-title>
-          <button mat-icon-button (click)="addEnderecos()">
+          <button mat-icon-button (click)="addEndereco()">
             <mat-icon>add</mat-icon>
           </button>
         </mat-card-header>
       </div>
-      <div fxLayout="row" fxLayoutWrap="wrap" *ngFor="let endereco of form.get('enderecos').controls; index as i" [formGroupName]="i" > 
+      <div fxLayout="row" fxLayoutWrap="wrap" *ngFor="let endereco of form.get('enderecos').controls; index as i" [formGroupName]="i"  > 
+        <button mat-icon-button (click)="delEndereco(i)">
+          <mat-icon>clear</mat-icon>
+        </button>
         <div class="p-10" fxFlex.gt-sm="13" fxFlex.gt-xs="13" fxFlex="100">
           <mat-form-field appearance="outline">
-            <input matInput placeholder="CEP" mask="00000-000" (blur)="onBlurMethod()" formControlName="cep">
+            <input matInput placeholder="CEP" mask="00000-000" (blur)="onBlurMethod(i)" formControlName="cep">
           </mat-form-field>
         </div>
-        <div class="p-10" fxFlex.gt-sm="52" fxFlex.gt-xs="55" fxFlex="100">
+        <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="55" fxFlex="100">
           <mat-form-field appearance="outline">
             <input matInput placeholder="Logradouro" formControlName="logradouro">
           </mat-form-field>

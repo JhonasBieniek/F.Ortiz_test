@@ -21,7 +21,7 @@ export class DialogBodyClienteComponent implements OnInit {
   dados: any = [];
   areas: any=[];
   ramos: any=[];
-  pageTitle:string = "";
+  pageTitle:string = 'Cadastrar Cliente';
 
   constructor(private fb: FormBuilder, 
               private clientservice: ClientService,
@@ -29,8 +29,16 @@ export class DialogBodyClienteComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any,
               private notificationService: NotificationService
               ) {
-                if(data != null && data.action != 'edit'){
-                  this.chargeCnpj(data)
+                if(data != null){
+                  if(data.action != 'edit'){
+                    this.chargeCnpj(data);
+                  }else{
+                    this.pageTitle = 'Editar Cliente';
+                    this.clientservice.getClientesId(data.id).subscribe((res:any) => {
+                      this.addEnderecos(res.data.enderecos);
+                      this.form.patchValue(res.data);
+                    })
+                  }
                 }
                 this.clientservice.getAreaVenda().subscribe((res:any) =>{
                   this.areas = res.data; 
@@ -57,31 +65,32 @@ export class DialogBodyClienteComponent implements OnInit {
       status: true,
       enderecos:this.fb.array([])
     });
-    if(this.data != undefined){
-      this.pageTitle = 'Editar Cliente'
-      this.editCharge();
-    }else{
-        this.pageTitle = 'Cadastrar Cliente'
-    }
   }
 
-  addEnderecos (){
+  addEndereco (data:any = null ){
     const endereco = this.form.controls.enderecos as FormArray;
     endereco.push(this.fb.group({
-      id: null,
-      cep: null,
-      logradouro: null,
-      numero: null,
-      complemento: null,
-      bairro: null,
-      cidade: null,
-      estado: null,  
+      id: data?data.id:null,
+      cep: data?data.cep:null,
+      logradouro: data?data.logradouro:null,
+      numero: data?data.numero:null,
+      complemento: data?data.complemento:null,
+      bairro: data?data.bairro:null,
+      cidade: data?data.cidade:null,
+      estado: data?data.estado:null,  
       pais: 'Brasil',  
     }))
   }
 
-  editCharge(){
-    this.form.patchValue(this.data);
+  delEndereco(index){
+    const endereco = this.form.controls.enderecos as FormArray;
+    endereco.removeAt(index);
+  }
+
+  addEnderecos(data:any){
+    data.forEach( async (e:any) => {
+      await this.addEnderecos(e);
+    })
   }
 
   chargeForm(data) { 
@@ -90,13 +99,16 @@ export class DialogBodyClienteComponent implements OnInit {
     this.form.get('email').setValue(data.email);
     this.form.get('telefone').setValue(this.removeSpecialChar(data.telefone.split("/")[0]));
     this.form.get('celular').setValue(this.addDigitsNumber(this.removeSpecialChar(data.telefone.split("/")[1])));
-    this.form.get('enderecos.cep').setValue(this.removeSpecialChar(data.cep));
-    this.form.get('enderecos.logradouro').setValue(data.logradouro);
-    this.form.get('enderecos.numero').setValue(data.numero);
-    this.form.get('enderecos.complemento').setValue(data.complemento);
-    this.form.get('enderecos.bairro').setValue(data.bairro);
-    this.form.get('enderecos.cidade').setValue(data.municipio);
-    this.form.get('enderecos.estado').setValue(data.uf);
+    let endereco = {
+      cep: this.removeSpecialChar(data.cep),
+      logradouro: data.logradouro,
+      numero: data.numero,
+      complemnto: data.complemento,
+      bairro: data.bairro,
+      cidade: data.municipio,
+      estado: data.uf
+    };
+    this.addEndereco(endereco);
   }
   
   removeSpecialChar(data) {
@@ -109,16 +121,17 @@ export class DialogBodyClienteComponent implements OnInit {
     }
   }
 
-  onBlurMethod(){
-    if(this.form.get('enderecos.cep').value != null){
-      this.clientservice.getCep(this.form.get('enderecos.cep').value).subscribe( res => {
+  onBlurMethod(index){
+    const enderecos = this.form.controls.enderecos as FormArray;
+    if( enderecos.at(index).get('cep').value != null && enderecos.at(index).get('cep').value.length == 8 ){
+      this.clientservice.getCep(enderecos.at(index).get('cep').value).subscribe( res => {
         this.cep = res
         if(this.cep.data != 'error'){
         this.notificationService.notify(`Cep inserido com sucesso!`)
-        this.form.get('enderecos.cidade').setValue(this.cep.data.cidade);
-        this.form.get('enderecos.estado').setValue(this.cep.data.estado);
-        this.form.get('enderecos.logradouro').setValue(this.cep.data.logradouro);
-        this.form.get('enderecos.bairro').setValue(this.cep.data.bairro);
+        enderecos.at(index).get('cidade').setValue(this.cep.data.cidade);
+        enderecos.at(index).get('estado').setValue(this.cep.data.estado);
+        enderecos.at(index).get('logradouro').setValue(this.cep.data.logradouro);
+        enderecos.at(index).get('bairro').setValue(this.cep.data.bairro);
       }else{
         this.notificationService.notify(`Cep Inválido`)
        }
