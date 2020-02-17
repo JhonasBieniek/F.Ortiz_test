@@ -38,8 +38,19 @@
             <small *ngIf="form.controls['dias'].hasError('required') && form.controls['dias'].touched"
               class="text-danger font-14">Você precisa deve inserir um Número.</small>
           </div>
+          <div fxLayout="row" fxLayoutWrap="wrap" class="row" fxFlex="100" formArrayName="codigos">
+            <div *ngFor="let item of itens(); let i = index">
+              <ng-container [formGroupName]="i">
+                <div class="p-10" style="margin-left:8px;margin-right:-3px;" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                  <mat-form-field appearance="outline" >
+                      <input matInput placeholder="Código Guide {{i == 0 ? null : i}}" formControlName="codigo">
+                  </mat-form-field>
+                </div>  
+              </ng-container>
+            </div>
+            </div>
         </div>
-        <mat-card-actions>
+        <mat-card-actions class="p-10">
           <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid" (click)="regioesSubmit(); close()">Salvar</button>
           <button mat-raised-button color="warn" (click)="close()">Cancelar</button>
         </mat-card-actions>

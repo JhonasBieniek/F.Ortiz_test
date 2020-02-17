@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { ClientService } from '../../../shared/services/client.service.component';
 import { NotificationService } from '../../../shared/messages/notification.service';
 
@@ -14,6 +14,7 @@ export class DialogBodyCondComerciaisComponent implements OnInit {
   public form: FormGroup;
   dados:any= "";
   pageTitle:string = "";
+  result = []
   
 
   constructor(public dialogRef: MatDialogRef<DialogBodyCondComerciaisComponent>, 
@@ -29,6 +30,7 @@ export class DialogBodyCondComerciaisComponent implements OnInit {
       nome: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
       prazo: [null, Validators.compose([Validators.required ])],
       dias: [null, Validators.compose([Validators.required ])],
+      codigos: this.fb.array([]),
     });
     if(this.data == null){
       this.pageTitle = 'Cadastrar Condição Comercial'
@@ -40,6 +42,18 @@ export class DialogBodyCondComerciaisComponent implements OnInit {
 
   private chargeForm(){
     this.form.patchValue(this.data)
+  }
+
+  itens() {
+    return this.result
+  }
+
+  addCod() {
+    const cods = this.form.controls.codigos as FormArray;
+    cods.push(this.fb.group({
+      codigo: new FormControl('', Validators.required),
+    }));
+    this.itens().push(1)
   }
 
   regioesSubmit() {
