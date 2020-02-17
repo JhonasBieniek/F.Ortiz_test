@@ -53,6 +53,8 @@ export class DialogBodyFuncionarioComponent implements OnInit {
         telefone: [null],
         cargo_id: [null, Validators.compose([Validators.required])],
         status: [true],
+        email: [null , Validators.compose([Validators.required])],
+        grupo_id: [null , Validators.compose([Validators.required])],
         endereco: this.fb.group({
           cep: [null, Validators.compose([Validators.required, CustomValidators.number])],
           logradouro: [null],
@@ -63,13 +65,6 @@ export class DialogBodyFuncionarioComponent implements OnInit {
           estado: [null],
           pais: ['Brasil']
         })
-      });
-      this.usuario = this.fb.group({
-        id: null,
-        email: [null, Validators.compose([Validators.required])],
-        senha: [null, Validators.compose([Validators.required])],
-        grupo_id: [null, Validators.compose([Validators.required])],
-        status: [true, Validators.compose([Validators.required])],
       });
       if(this.data == null){
         this.pageTitle = 'Cadastrar Funcionário'
@@ -105,9 +100,6 @@ export class DialogBodyFuncionarioComponent implements OnInit {
   onSubmit(){
     let data = this.funcionario.value;
     data.nascimento = this.datePipe.transform(data.nascimento, 'yyyy-MM-dd');
-    if(this.isOn == true){
-      data.usuario = this.usuario.value;
-    }
     this.clientservice.addFuncionario(data).subscribe((res:any) => {
       if(res.success == true){
         this.notificationService.notify(`Cadastro Efetuado com Sucesso!`)
