@@ -15,6 +15,7 @@ export class DialogBodyCondComerciaisComponent implements OnInit {
   dados:any= "";
   pageTitle:string = "";
   result = []
+  condicoesComerciais = [{id:1, nome: "À vista"}, {id:2, nome: "À prazo"}, {id:3, nome: "Parcelado"},]
   
 
   constructor(public dialogRef: MatDialogRef<DialogBodyCondComerciaisComponent>, 
@@ -29,8 +30,9 @@ export class DialogBodyCondComerciaisComponent implements OnInit {
       id: [null],
       nome: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
       prazo: [null, Validators.compose([Validators.required ])],
-      dias: [null, Validators.compose([Validators.required ])],
-      codigos: this.fb.array([]),
+      parcelas: [null, Validators.compose([Validators.required ])],
+      cond_id: [null],
+      parcelas_qtd: this.fb.array([]),
     });
     if(this.data == null){
       this.pageTitle = 'Cadastrar Condição Comercial'
@@ -48,12 +50,16 @@ export class DialogBodyCondComerciaisComponent implements OnInit {
     return this.result
   }
 
-  addCod() {
-    const cods = this.form.controls.codigos as FormArray;
-    cods.push(this.fb.group({
-      codigo: new FormControl('', Validators.required),
-    }));
-    this.itens().push(1)
+  addParcela() {
+
+    //Pegar o tamanho do form array ao inves de usar função itens
+    let campos = this.form.controls.parcelas_qtd as FormArray;
+    for(let i = 0; i < this.form.value.parcelas; i++){
+      campos.push(this.fb.group({
+        parcela: new FormControl('', Validators.required),
+      }));
+      this.itens().push(1)
+    }
   }
 
   regioesSubmit() {

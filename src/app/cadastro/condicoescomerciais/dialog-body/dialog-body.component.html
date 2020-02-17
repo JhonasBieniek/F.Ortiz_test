@@ -12,10 +12,9 @@
               <mat-card-title class="dadosCadastro">{{pageTitle}}</mat-card-title>
             </mat-card-header>
           </div>
-
-          <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+          <div class="p-10" fxFlex.gt-sm="60" fxFlex.gt-xs="60" fxFlex="100">
             <mat-form-field appearance="outline">
-              <input matInput placeholder="Nome da condição de pagamento" [formControl]="form.controls['nome']">
+              <input matInput placeholder="Nome da condição comercial" [formControl]="form.controls['nome']">
             </mat-form-field>
             <mat-hint *ngIf="form.controls['nome'].hasError('required') && form.controls['nome'].touched"
               class="text-danger font-14">Condição.</mat-hint>
@@ -24,31 +23,49 @@
             <mat-hint *ngIf="form.controls['nome'].hasError('maxlength') && form.controls['nome'].touched"
               class="text-danger font-14">Sua condição não deve exceder 50 caracteres.</mat-hint>
           </div>
-          <div class="p-10" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100">
-            <mat-form-field appearance="outline">
-              <input matInput placeholder="Prazo" [formControl]="form.controls['prazo']">
+          <div class="p-10" fxFlex.gt-sm="40" fxFlex.gt-xs="40" fxFlex="100">
+            <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+              [floatLabel]="form.value.floatLabel">
+              <mat-label>Selecione uma forma de pagamento...</mat-label>
+              <mat-select required [formControl]="form.controls['cond_id']">
+                <mat-option *ngFor="let cond of condicoesComerciais" [value]="cond.id">
+                  {{cond.nome}}
+                </mat-option>
+              </mat-select>
+              <mat-placeholder>Vendedor</mat-placeholder>
             </mat-form-field>
-            <small *ngIf="form.controls['prazo'].hasError('required') && form.controls['prazo'].touched"
-              class="text-danger font-14">Você precisa deve inserir um Número.</small>
           </div>
-          <div class="p-10" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100">
-            <mat-form-field appearance="outline">
-              <input matInput placeholder="Dias" [formControl]="form.controls['dias']">
-            </mat-form-field>
-            <small *ngIf="form.controls['dias'].hasError('required') && form.controls['dias'].touched"
-              class="text-danger font-14">Você precisa deve inserir um Número.</small>
+          <div [ngSwitch]="form.controls['cond_id'].value">
+            <div *ngSwitchCase="2" >
+              <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                <mat-form-field appearance="outline">
+                  <input matInput placeholder="N° de dias" [formControl]="form.controls['prazo']">
+                </mat-form-field>
+                <small *ngIf="form.controls['prazo'].hasError('required') && form.controls['prazo'].touched"
+                  class="text-danger font-14">Você precisa deve inserir um Número.</small>
+              </div>
+           </div>
+           <div *ngSwitchCase="3"> 
+            <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+              <mat-form-field appearance="outline" (keyup)="addParcela()" >
+                <input matInput placeholder="Parcelas" [formControl]="form.controls['parcelas']">
+              </mat-form-field>
+              <small *ngIf="form.controls['parcelas'].hasError('required') && form.controls['parcelas'].touched"
+                class="text-danger font-14">Você precisa deve inserir um Número.</small>
+            </div> <br/>
+            <div fxLayout="row" fxLayoutWrap="wrap" class="row" fxFlex="100" formArrayName="parcelas_qtd">
+              <div *ngFor="let item of itens(); let i = index">
+                <ng-container [formGroupName]="i">
+                  <div class="p-10" style="margin-left:8px;margin-right:-3px;" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                    <mat-form-field appearance="outline" >
+                        <input matInput placeholder="Código Guide {{i == 0 ? null : i}}" formControlName="parcela">
+                    </mat-form-field>
+                  </div>  
+                </ng-container>
+              </div>
+              </div>
+            </div>
           </div>
-          <div fxLayout="row" fxLayoutWrap="wrap" class="row" fxFlex="100" formArrayName="codigos">
-            <div *ngFor="let item of itens(); let i = index">
-              <ng-container [formGroupName]="i">
-                <div class="p-10" style="margin-left:8px;margin-right:-3px;" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-                  <mat-form-field appearance="outline" >
-                      <input matInput placeholder="Código Guide {{i == 0 ? null : i}}" formControlName="codigo">
-                  </mat-form-field>
-                </div>  
-              </ng-container>
-            </div>
-            </div>
         </div>
         <mat-card-actions class="p-10">
           <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid" (click)="regioesSubmit(); close()">Salvar</button>
