@@ -71,7 +71,6 @@ export class DialogBodyFuncionarioComponent implements OnInit {
       }else{
         this.pageTitle = 'Editar Funcionário'
         this.funcionario.patchValue(this.data);
-        this.usuario.patchValue(this.data.usuario);
       }
   }
   private chargeForm(){

@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ValidationErrors, FormArray } from '@angular/forms';
 import { ClientService } from '../../../shared/services/client.service.component';
 import { NotificationService } from '../../../shared/messages/notification.service';
 import { CustomValidators } from 'ng2-validation';
@@ -55,17 +55,7 @@ export class DialogBodyClienteComponent implements OnInit {
       ramo_atividade_id: [null],
       obs: [null, Validators.compose([Validators.maxLength(100)])],
       status: true,
-      enderecos: this.fb.group({
-        id: null,
-        cep: null,
-        logradouro: null,
-        numero: null,
-        complemento: null,
-        bairro: null,
-        cidade: null,
-        estado: null,  
-        pais: 'Brasil',  
-      })
+      enderecos:this.fb.array([])
     });
     if(this.data != undefined){
       this.pageTitle = 'Editar Cliente'
@@ -75,35 +65,24 @@ export class DialogBodyClienteComponent implements OnInit {
     }
   }
 
+  addEnderecos (){
+    const endereco = this.form.controls.enderecos as FormArray;
+    endereco.push(this.fb.group({
+      id: null,
+      cep: null,
+      logradouro: null,
+      numero: null,
+      complemento: null,
+      bairro: null,
+      cidade: null,
+      estado: null,  
+      pais: 'Brasil',  
+    }))
+  }
+
   editCharge(){
- // Verificar como fazer quanto tiver mais de um endereço
-    this.form.patchValue({
-      id: this.data.id,
-      razao_social: this.data.razao_social,
-      nome_fantasia: this.data.nome_fantasia,
-      cnpj: this.data.cnpj,
-      inscricao_estadual: this.data.inscricao_estadual,
-      email: this.data.email,
-      telefone: this.data.telefone,
-      celular: this.data.celular,
-      representante: this.data.representante,
-      area_venda_id: this.data.area_venda_i,
-      ramo_atividade_id: this.data.ramo_atividade_id,
-      obs: this.data.obs,
-      status: this.data.status,
-      enderecos:{
-        id: (this.data.enderecos[0].id != undefined ? this.data.enderecos[0].id : null),
-        cep: (this.data.enderecos[0].cep != undefined ? this.data.enderecos[0].cep : null),
-        logradouro: (this.data.enderecos[0].logradouro != undefined ? this.data.enderecos[0].logradouro : null),
-        numero: (this.data.enderecos[0].numero != undefined ? this.data.enderecos[0].numero : null),
-        complemento: (this.data.enderecos[0].complemento != undefined ? this.data.enderecos[0].complemento : null),
-        bairro: (this.data.enderecos[0].bairro != undefined ? this.data.enderecos[0].bairro : null),
-        cidade: (this.data.enderecos[0].cidade != undefined ? this.data.enderecos[0].cidade : null),
-        estado: (this.data.enderecos[0].estado != undefined ? this.data.enderecos[0].estado : null),  
-        pais: (this.data.enderecos[0].pais != undefined ? this.data.enderecos[0].pais  : null), 
-    }
-  })
-}
+    this.form.patchValue(this.data);
+  }
 
   chargeForm(data) { 
     this.form.get('razao_social').setValue(data.nome);
