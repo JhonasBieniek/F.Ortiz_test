@@ -26,6 +26,30 @@
                               [limit]="20"
                               [rows]='rows'>
 
+                              <ngx-datatable-column [flexGrow]="0.3" name="ID">
+                                <ng-template let-value="id" let-row="row" ngx-datatable-cell-template>
+                                  {{ row.id }}
+                                </ng-template>
+                              </ngx-datatable-column>
+
+                              <ngx-datatable-column [flexGrow]="1.5" name="Nome">
+                                <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
+                                  {{ row.nome }}
+                                </ng-template>
+                              </ngx-datatable-column>
+                              
+                              <ngx-datatable-column [flexGrow]="1.5" name="Usuário">
+                                <ng-template let-value="usuario.email" let-row="row" ngx-datatable-cell-template>
+                                  {{ row.usuario?.email != null ? row.usuario?.email : 'Não possui' }}
+                                </ng-template>
+                              </ngx-datatable-column>  
+
+                              <ngx-datatable-column [flexGrow]="0.5" name="Status">
+                                <ng-template let-value="status" let-row="row" ngx-datatable-cell-template>
+                                  {{ (row.status == true)? "Ativo" : "Inativo" }}
+                                </ng-template>
+                              </ngx-datatable-column>
+
                               <ngx-datatable-column [flexGrow]="0.8" name="Ações">
                                 <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex"
                                   ngx-datatable-cell-template>      
@@ -37,30 +61,7 @@
                                     (click)="delete(row)"></i>
                                 </ng-template>
                               </ngx-datatable-column>
-
-                              <ngx-datatable-column [flexGrow]="1.5" name="Nome">
-                                <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
-                                  {{ row.nome }}
-                                </ng-template>
-                              </ngx-datatable-column>
-                              
-                              <ngx-datatable-column [flexGrow]="0.5" name="Rg">
-                                <ng-template let-value="rg" let-row="row" ngx-datatable-cell-template>
-                                  {{ row.rg }}
-                                </ng-template>
-                              </ngx-datatable-column>  
-
-                              <ngx-datatable-column [flexGrow]="0.3" name="Id do Usuário">
-                                <ng-template let-value="usuario_id" let-row="row" ngx-datatable-cell-template>
-                                  {{ row.usuario_id }}
-                                </ng-template>
-                              </ngx-datatable-column>
-
-                              <ngx-datatable-column [flexGrow]="0.5" name="Status">
-                                <ng-template let-value="status" let-row="row" ngx-datatable-cell-template>
-                                  {{ (row.status == true)? "Ativo" : "Inativo" }}
-                                </ng-template>
-                              </ngx-datatable-column>
+                            
                             </ngx-datatable>
               </mat-card-content></mat-tab>
           </mat-tab-group>

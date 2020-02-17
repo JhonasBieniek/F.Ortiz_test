@@ -3,7 +3,7 @@
   <div fxFlex.gt-sm="100%" fxFlex="100">
       <mat-card>
           <mat-card-content>
-              <mat-card-title >Condicões Comerciais</mat-card-title>
+              <mat-card-title style="font-weight: bold;font-size: x-large;">Condicões Comerciais</mat-card-title>
               <mat-card-actions align="end">
                 <div class="button-row">
                  <button mat-raised-button color="primary" (click)="openDialog()">Nova Condição Comercial</button>
@@ -26,24 +26,6 @@
                               [limit]="20"
                               [rows]='rows'>
 
-                              <ngx-datatable-column [flexGrow]="0.8" name="Ações">
-                                <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex"
-                                  ngx-datatable-cell-template>      
-                                  <i class="fa fa-pencil button" 
-                                    title="Editar" 
-                                    (click)="edit(row);"></i>
-                                  <i class="fa fa-trash-o button2"
-                                    title="Deletar" 
-                                    (click)="delete(row)"></i>                         
-                                </ng-template>
-                              </ngx-datatable-column>
-
-                                <ngx-datatable-column [flexGrow]="0.3" name="Id">
-                                  <ng-template let-value="id" let-row="row" ngx-datatable-cell-template>
-                                    {{ row.id }}
-                                  </ng-template>
-                                </ngx-datatable-column>
-                                
                                 <ngx-datatable-column [flexGrow]="0.8" name="Nome">
                                   <ng-template let-value="sigla" let-row="row" ngx-datatable-cell-template>
                                     {{ row.nome }}
@@ -61,6 +43,19 @@
                                     {{ row.dias }}
                                   </ng-template>
                                 </ngx-datatable-column>
+
+                              <ngx-datatable-column [flexGrow]="0.8" name="Ações">
+                                <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex"
+                                  ngx-datatable-cell-template>      
+                                  <i class="fa fa-pencil button" 
+                                    title="Editar" 
+                                    (click)="edit(row);"></i>
+                                  <i class="fa fa-trash-o button2"
+                                    title="Deletar" 
+                                    (click)="delete(row)"></i>                         
+                                </ng-template>
+                              </ngx-datatable-column>
+
                             </ngx-datatable>
               </mat-card-content></mat-tab>
           </mat-tab-group>

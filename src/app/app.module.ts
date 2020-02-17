@@ -121,13 +121,7 @@ registerLocaleData(ptBr)
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
-    },
-    {provide: MAT_DATE_LOCALE, useValue: 'pt-BR'},
-    { provide: LOCALE_ID, useValue: "pt-BR" },
-    {
-    provide: LocationStrategy,
-    useClass: HashLocationStrategy
-  }
+    }
   ],
   bootstrap: [AppComponent],
   

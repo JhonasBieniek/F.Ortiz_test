@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
 import { ClientService } from '../../../shared/services/client.service.component';
 import { NotificationService } from '../../../shared/messages/notification.service';
 import { CustomValidators } from 'ng2-validation';
 import { DatePipe } from '@angular/common';
-import { MatDialogRef } from "@angular/material";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 
 @Component({
   selector: 'app-dialog-body-funcionario',
@@ -17,7 +17,9 @@ export class DialogBodyFuncionarioComponent implements OnInit {
   cargos;
   funcionario: FormGroup;
   usuario: FormGroup;
-  isLinear: boolean = true
+  isLinear: boolean = false;
+  pageTitle:string = "";
+
 
   isOn = true;
   isOn2 = false;
@@ -26,6 +28,7 @@ export class DialogBodyFuncionarioComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<DialogBodyFuncionarioComponent>,
     private fb: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private clientservice: ClientService,
     private notificationService: NotificationService,
     private datePipe : DatePipe
@@ -38,34 +41,47 @@ export class DialogBodyFuncionarioComponent implements OnInit {
     });            
   }    
   ngOnInit() {
-    this.funcionario = this.fb.group({
-      nome: [null, Validators.compose([Validators.required])],
-      cpf: [null, Validators.compose([Validators.required])],
-      rg: [null],
-      oe: [null],
-      sexo: [null],
-      nascimento: [null],
-      celular: [null],
-      telefone: [null],
-      cargo_id: [null, Validators.compose([Validators.required])],
-      status: [true],
-      endereco: this.fb.group({
-        cep: [null, Validators.compose([Validators.required, CustomValidators.number])],
-        logradouro: [null],
-        numero: [null],
-        complemento: [null],
-        bairro: [null],
-        cidade: [null],
-        estado: [null],
-        pais: ['Brasil']
-      })
-    });
-    this.usuario = this.fb.group({
-      email: [null, Validators.compose([Validators.required])],
-      senha: [null, Validators.compose([Validators.required])],
-      grupo_id: [null, Validators.compose([Validators.required])],
-      status: [null, Validators.compose([Validators.required])],
-    });
+      this.funcionario = this.fb.group({
+        id: null,
+        nome: [null, Validators.compose([Validators.required])],
+        cpf: [null, Validators.compose([Validators.required])],
+        rg: [null],
+        oe: [null],
+        sexo: [null],
+        nascimento: [null],
+        celular: [null],
+        telefone: [null],
+        cargo_id: [null, Validators.compose([Validators.required])],
+        status: [true],
+        endereco: this.fb.group({
+          cep: [null, Validators.compose([Validators.required, CustomValidators.number])],
+          logradouro: [null],
+          numero: [null],
+          complemento: [null],
+          bairro: [null],
+          cidade: [null],
+          estado: [null],
+          pais: ['Brasil']
+        })
+      });
+      this.usuario = this.fb.group({
+        id: null,
+        email: [null, Validators.compose([Validators.required])],
+        senha: [null, Validators.compose([Validators.required])],
+        grupo_id: [null, Validators.compose([Validators.required])],
+        status: [true, Validators.compose([Validators.required])],
+      });
+      if(this.data == null){
+        this.pageTitle = 'Cadastrar Funcionário'
+      }else{
+        this.pageTitle = 'Editar Funcionário'
+        this.funcionario.patchValue(this.data);
+        this.usuario.patchValue(this.data.usuario);
+      }
+  }
+  private chargeForm(){
+    console.log(this.data.usuario);
+    //this.usuario.patchValue(this.data);
   }
   removeSpecialChar(data) {
     return data.toString().replace(/\D+/g, '');
@@ -100,26 +116,8 @@ export class DialogBodyFuncionarioComponent implements OnInit {
       }
     });
   }
-
   close() {
     this.dialogRef.close();
-  }
-  
-  getFormValidationErrors() {
-    const result = [];
-    Object.keys(this.funcionario.controls).forEach(key => {
-      const controlErrors: ValidationErrors = this.funcionario.get(key).errors;
-      if (controlErrors) {
-        Object.keys(controlErrors).forEach(keyError => {
-          result.push({
-            'control': key,
-            'error': keyError,
-            'value': controlErrors[keyError]
-          });
-        });
-      }
-    });
-    console.log(result);
   }
 
 }

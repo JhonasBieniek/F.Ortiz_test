@@ -15,7 +15,7 @@
 
           <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
             <mat-form-field appearance="outline">
-              <input matInput placeholder="Nome da região" [formControl]="form.controls['nome']">
+              <input matInput placeholder="Nome da condição de pagamento" [formControl]="form.controls['nome']">
             </mat-form-field>
             <mat-hint *ngIf="form.controls['nome'].hasError('required') && form.controls['nome'].touched"
               class="text-danger font-14">Condição.</mat-hint>

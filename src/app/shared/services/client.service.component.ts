@@ -53,7 +53,7 @@ export class ClientService {
       .post(uri, obj)
       .subscribe(res =>{
         this.resposta = res
-          if(this.resposta.success == true){
+          if(this.resposta.status || this.resposta.success == true){
             this.notificationService.notify(`Deletado com Sucesso!`)
           }else{
             this.notificationService.notify(this.resposta.data.retornoMsg)

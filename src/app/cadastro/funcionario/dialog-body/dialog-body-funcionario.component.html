@@ -266,8 +266,8 @@
           <mat-form-field [hideRequiredMarker]="true" [floatLabel]="auto" appearance="outline">
             <mat-label>Selecione o status...</mat-label>
             <mat-select required formControlName="status">
-              <mat-option value=1>Ativo</mat-option>
-              <mat-option value=0>Inativo</mat-option>
+              <mat-option [value]=true>Ativo</mat-option>
+              <mat-option [value]=false>Inativo</mat-option>
             </mat-select>
             <mat-placeholder>Status</mat-placeholder>
           </mat-form-field>
@@ -295,5 +295,3 @@
   </mat-step>
 
 </mat-vertical-stepper>
-
-<!-- <a (click) = "getFormValidationErrors()" >errors</a> -->

@@ -24,8 +24,8 @@ export class FuncionarioComponent implements OnInit {
 
   columns = [
       { prop: 'nome' },
-      { prop: 'rg' },
-      { prop: 'usuario_id' },
+      { prop: 'usuario.email' },
+      { prop: 'id' },
       { prop: 'status' },
 
   ];       
@@ -33,10 +33,10 @@ export class FuncionarioComponent implements OnInit {
   @ViewChild(FuncionarioComponent) table: FuncionarioComponent;
   constructor(private clientservice: ClientService, private dialog: MatDialog) {
 
-    this.clientservice.getFuncionarios().subscribe(res =>{
-      this.data = res; 
-      this.rows = this.data.data;
-      this.temp = [...this.data.data];
+    this.clientservice.getFuncionarios().subscribe((res:any) =>{
+      this.data = res.data; 
+      this.rows = this.data.sort((a,b)=> a.id - b.id);
+      this.temp = [...this.data];
       setTimeout(() => { this.loadingIndicator = false; }, 1500); 
     });                                  
   }
@@ -44,9 +44,9 @@ export class FuncionarioComponent implements OnInit {
   updateFilter(event) {
   const val = event.target.value.toLowerCase();
       
-  // filter our data
+  // filter name
   const temp = this.temp.filter(function(d) {
-    if( d.razao_social.toLowerCase().indexOf(val) !== -1 || !val || d.cnpj.toLowerCase().indexOf(val) !== -1 || !val  )
+    if( d.nome.toLowerCase().indexOf(val) !== -1 || !val )
     return d
   }); 
   // update the rows

@@ -3,7 +3,7 @@
   <div fxFlex.gt-sm="100%" fxFlex="100">
     <mat-card>
       <mat-card-content>
-        <mat-card-title>Produtos</mat-card-title>
+        <mat-card-title style="font-weight: bold;font-size: x-large;">Produtos</mat-card-title>
         <mat-card-actions align="end">
           <div class="button-row">
             <button mat-raised-button color="primary" (click)="openDialog()">Novo produto</button>
@@ -20,14 +20,7 @@
             </mat-form-field>
             <ngx-datatable #table class='material striped' [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50"
             [rowHeight]="'auto'" [limit]="10" [rows]='rows'>
-        
-            <ngx-datatable-column [flexGrow]="0.4" name="Ações">
-              <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-                <i class="fa fa-pencil button" title="Editar" (click)="edit(row);"></i>
-                <i class="fa fa-trash-o button2" title="Deletar" (click)="delete(row)"></i>
-              </ng-template>
-            </ngx-datatable-column>
-        
+                
             <ngx-datatable-column [flexGrow]="0.2" name="Id">
               <ng-template let-value="id" let-row="row" ngx-datatable-cell-template>
                 {{ row.id }}
@@ -50,6 +43,14 @@
                 {{ row.representada.nome_fantasia }}
               </ng-template>
             </ngx-datatable-column>
+            
+            <ngx-datatable-column [flexGrow]="0.4" name="Ações">
+              <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                <i class="fa fa-pencil button" title="Editar" (click)="edit(row);"></i>
+                <i class="fa fa-trash-o button2" title="Deletar" (click)="delete(row)"></i>
+              </ng-template>
+            </ngx-datatable-column>
+
           </ngx-datatable>
           </mat-card-content>
         </mat-tab>
