@@ -161,7 +161,6 @@ export class OrcamentoComponent implements OnInit {
   }
   addItem(item: ItemPedido) {
     this.orderservice.addItem(item)
-    this.shoppingCart.addForm()
   }
   chargeAdress() {
     this.clientservice.getClientesId(this.selectedCliente).subscribe((res: any) => {
