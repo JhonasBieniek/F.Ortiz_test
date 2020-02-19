@@ -7,7 +7,8 @@ import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS, HttpClientJsonpModule 
 import { LocationStrategy, HashLocationStrategy, registerLocaleData } from '@angular/common';
 import { AppRoutes } from './app.routing';
 import { AppComponent } from './app.component';
-
+import localept from '@angular/common/locales/pt';
+registerLocaleData(localept, 'pt');
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FullComponent } from './layouts/full/full.component';
@@ -35,6 +36,8 @@ import ptBr from '@angular/common/locales/pt';
 import { NgxCurrencyModule } from "ngx-currency";
 import { NgxSpinnerModule } from "ngx-spinner";
 import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from "ngx-currency/src/currency-mask.config";
+
+import { MAT_DATE_LOCALE } from '@angular/material';
 
 import {
   GoogleApiModule, 
@@ -122,8 +125,10 @@ registerLocaleData(ptBr)
     },
     {
     provide: LocationStrategy,
-    useClass: HashLocationStrategy
-  }
+    useClass: HashLocationStrategy,
+    },
+    { provide: LOCALE_ID, useValue: "pt" },
+    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' }
   ],
   bootstrap: [AppComponent],
   

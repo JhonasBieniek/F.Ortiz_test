@@ -227,7 +227,7 @@
 
     <div>
       <button mat-raised-button color="primary" type="submit" [disabled]="!funcionario.valid" (click)="onSubmit(); close()">Salvar</button>
-      <button mat-raised-button color="warn" >Cancelar</button>
+      <button mat-raised-button color="warn"  (click)="close()" >Cancelar</button>
     </div>
   </form>
 </mat-card-content>
