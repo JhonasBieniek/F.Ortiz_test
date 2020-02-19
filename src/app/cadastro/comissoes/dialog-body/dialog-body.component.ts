@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
-import { FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ValidationErrors, FormArray, FormControl } from '@angular/forms';
 import { ClientService } from '../../../shared/services/client.service.component';
 import { CustomValidators } from 'ng2-validation';
 import { NotificationService } from '../../../shared/messages/notification.service';
@@ -24,6 +24,9 @@ export class DialogBodyComissoesComponent implements OnInit {
   selectedFuncionario: string;
   selectedRepresentada: string;
   pageTitle:string = "";
+  result = []
+  result2 = [];
+  
 
 
   constructor(public dialogRef: MatDialogRef<DialogBodyComissoesComponent>, 
@@ -41,28 +44,64 @@ export class DialogBodyComissoesComponent implements OnInit {
         this.dataRepresentadas = res;
         this.representadas = this.dataRepresentadas.data; 
       }); 
+
+      this.form = this.fb.group({
+        id: null,
+        funcionario_id: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
+        comissoes: this.fb.array([]),
+      });
      
 
   }
                               
   ngOnInit() {
-    this.form = this.fb.group({
-      id: null,
-      funcionario_id: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
-      representada_id: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
-      inicio: [null, Validators.compose([Validators.required, CustomValidators.number])],
-      final: [null, Validators.compose([Validators.required, CustomValidators.number])],
-      percentual: [null, Validators.compose([Validators.required, CustomValidators.number])],
-      hideRequired: true,
-      floatLabel: 'auto',
-    });
+  
     if(this.data == null)
     this.pageTitle = 'Cadastrar Comissão'
     else{
       this.pageTitle = 'Editar Comissão'
       this.form.patchValue(this.data)
     }
+  }
+comissoes(): FormArray{
+  return this.form.get("comissoes") as FormArray
+}
 
+novaComissao(): FormGroup{
+  return this.fb.group({
+    representada_id: '',//new FormControl('', Validators.required),
+    faixas: this.fb.array([]),
+  })
+}
+
+  addComissao(){
+    this.comissoes().push(this.novaComissao());
+  }
+
+  removeComissao(comIndex: number){
+    this.comissoes().removeAt(comIndex);
+  }
+
+
+  
+  comissaoFaixas(comIndex: number) : FormArray{
+    return this.comissoes().at(comIndex).get("faixas") as FormArray
+
+  }
+
+  novaFaixa(): FormGroup {
+    return this.fb.group({
+      inicial: '',//new FormControl('', Validators.required),
+      final: ''//new FormControl('', Validators.required),
+    })
+  }
+
+  addComissaoFaixa(comIndex: number){
+    console.log(comIndex)
+    this.comissaoFaixas(comIndex).push(this.novaFaixa());
+  }
+  removeComissaoFaixa(comIndex: number, faixaIndex: number){
+    this.comissaoFaixas(comIndex).removeAt(faixaIndex)
   }
 
   areaVendasSubmit() { 
@@ -73,23 +112,6 @@ export class DialogBodyComissoesComponent implements OnInit {
     }else{
       this.clientservice.addComissoes(this.form.value)  
     } 
-  }
-
-  getFormValidationErrors() {
-    const result = [];
-    Object.keys(this.form.controls).forEach(key => {
-      const controlErrors: ValidationErrors = this.form.get(key).errors;
-      if (controlErrors) {
-        Object.keys(controlErrors).forEach(keyError => {
-          result.push({
-            'control': key,
-            'error': keyError,
-            'value': controlErrors[keyError]
-          });
-        });
-      }
-    });
-    console.log(result);
   }
 
   close() {

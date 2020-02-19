@@ -29,9 +29,7 @@ import{ LoginService} from './authentication/login/login.service';
 import { AuthGuard } from './guards/auth.guard';
 import { JwtInterceptor } from './guards/jwt.interceptor';
 import { OrderService } from './shared/services/order.service.component';
-import { DialogBodyClienteComponent } from './cadastro/cliente/dialog-body/dialog-body-cliente.component';
 import { DateFormatPipe } from './shared/pipes/dateFormat.pipe';
-import { MAT_DATE_LOCALE } from '@angular/material';
 import ptBr from '@angular/common/locales/pt';
 
 import { NgxCurrencyModule } from "ngx-currency";

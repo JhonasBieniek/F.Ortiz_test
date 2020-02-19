@@ -16,12 +16,6 @@ export const AppRoutes: Routes = [{
   },{
     path: 'dashboards',
     loadChildren: './dashboards/dashboards.module#DashboardsModule'  
-  }, {
-    path: 'material',
-    loadChildren: './material-component/material.module#MaterialComponentsModule',
-  },{
-    path: 'apps',
-    loadChildren: './apps/apps.module#AppsModule'
   },{
     path: 'cadastro',
     loadChildren: './cadastro/cadastro.module#CadastroModule'
@@ -40,21 +34,6 @@ export const AppRoutes: Routes = [{
   },{
     path: 'credito',
     loadChildren: './credito/credito.module#CreditoModule'
-  }, {
-    path: 'tables',
-    loadChildren: './tables/tables.module#TablesModule'
-  }, {
-    path: 'datatables',
-    loadChildren: './datatables/datatables.module#DataTablesModule'
-  }, {
-    path: 'pages',
-    loadChildren: './pages/pages.module#PagesModule'
-  },{
-    path: 'widgets',
-    loadChildren: './widgets/widgets.module#WidgetsModule'
-  }, {
-    path: 'charts',
-    loadChildren: './charts/chartslib.module#ChartslibModule'
   }]
 },{
   path: '',

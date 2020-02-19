@@ -1,6 +1,12 @@
 .demo-tab-group {
     border: 1px solid #e8e8e8;
   }
+
+.dadosCadastro{
+  font-size: larger;
+  align-items: center;
+  margin-top: 16px;
+}
   
   .demo-tab-content {
     padding: 24px;

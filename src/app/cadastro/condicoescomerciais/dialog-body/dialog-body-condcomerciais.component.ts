@@ -28,7 +28,7 @@ export class DialogBodyCondComerciaisComponent implements OnInit {
   ngOnInit() {
     this.form = this.fb.group({
       id: [null],
-      nome: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
+      nome: [null, Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(50)])],
       prazo: [null, Validators.compose([Validators.required ])],
       parcelas: [null, Validators.compose([Validators.required ])],
       cond_id: [null],
@@ -51,8 +51,9 @@ export class DialogBodyCondComerciaisComponent implements OnInit {
   }
 
   addParcela() {
-
     //Pegar o tamanho do form array ao inves de usar função itens
+    this.result = [];
+    this.form.value.parcelas_qtd = [];
     let campos = this.form.controls.parcelas_qtd as FormArray;
     for(let i = 0; i < this.form.value.parcelas; i++){
       campos.push(this.fb.group({
@@ -62,7 +63,7 @@ export class DialogBodyCondComerciaisComponent implements OnInit {
     }
   }
 
-  regioesSubmit() {
+  Submit() {
     if(this.data != undefined){
       this.clientservice.updateCondComerciais(this.form.value).subscribe( () =>{
         this.notificationService.notify("Atualizado com Sucesso!")
