@@ -4,7 +4,6 @@ import { ClientService } from '../../shared/services/client.service.component';
 import { DialogBodyClienteComponent } from './dialog-body/dialog-body-cliente.component';
 import { DialogConfirmarDeleteComponent } from '../dialog-confirmar-delete/confirmar-delete.component';
 
-
 @Component({
   selector: 'app-cliente',
   templateUrl: './cliente.component.html',

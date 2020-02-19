@@ -1,9 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialog, MatDialogConfig } from '@angular/material';
 import { FormBuilder, FormGroup, Validators, ValidationErrors} from '@angular/forms';
 import { ClientService } from '../../../shared/services/client.service.component';
 import { NotificationService } from '../../../shared/messages/notification.service';
 import { CustomValidators } from 'ng2-validation';
+import { AlertComponent } from '../../../alert/alert.component';
+
 
 @Component({
   selector: 'app-dialog-body-representada',
@@ -24,7 +26,8 @@ export class DialogBodyRepresentadaComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any,
               private fb: FormBuilder, 
               private clientservice: ClientService,
-              private notificationService: NotificationService
+              private notificationService: NotificationService,
+              private dialog: MatDialog
               ) {
    
   }
@@ -91,14 +94,14 @@ export class DialogBodyRepresentadaComponent implements OnInit {
     if(this.form.get('endereco.cep').value != null){
       this.clientservice.getCep(this.form.get('endereco.cep').value).subscribe( res => {
         this.cep = res
-        if(this.cep.data != 'error'){
+        if(this.cep.success == true){
         this.notificationService.notify(`Cep inserido com sucesso!`)
         this.form.get('endereco.cidade').setValue(this.cep.data.cidade);
         this.form.get('endereco.estado').setValue(this.cep.data.estado);
         this.form.get('endereco.logradouro').setValue(this.cep.data.logradouro);
         this.form.get('endereco.bairro').setValue(this.cep.data.bairro);
       }else{
-        this.notificationService.notify(`Cep Inválido`)
+        this.openAlert('Erro', 'Cep Inválido');
        }
       })
     }
@@ -111,7 +114,7 @@ export class DialogBodyRepresentadaComponent implements OnInit {
         if(res.status != 'ERROR'){
           this.chargeForm(res);
         }else{
-          this.notificationService.notify(`Cnpj Inválido`)
+          this.openAlert('Erro', 'Cnpj Inválido');
         }
       });
     } 
@@ -175,5 +178,19 @@ export class DialogBodyRepresentadaComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  openAlert(titulo, msg){
+    let dialogConfig = new MatDialogConfig();
+    dialogConfig = {
+      width: '250px',
+      data: {
+        titulo: titulo,
+        msg: msg
+      }
+    }
+    this.dialog.open(
+      AlertComponent, 
+      dialogConfig, 
+    );
+  }
   hide = true;
 }

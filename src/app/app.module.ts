@@ -32,13 +32,10 @@ import { JwtInterceptor } from './guards/jwt.interceptor';
 import { OrderService } from './shared/services/order.service.component';
 import { DateFormatPipe } from './shared/pipes/dateFormat.pipe';
 import ptBr from '@angular/common/locales/pt';
-
 import { NgxCurrencyModule } from "ngx-currency";
 import { NgxSpinnerModule } from "ngx-spinner";
 import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from "ngx-currency/src/currency-mask.config";
-
 import { MAT_DATE_LOCALE } from '@angular/material';
-
 import {
   GoogleApiModule, 
   GoogleApiService, 
@@ -47,6 +44,8 @@ import {
   NG_GAPI_CONFIG,
   GoogleApiConfig
 } from "ng-gapi";
+
+import { AlertComponent } from './alert/alert.component';
 
 
 let gapiClientConfig: NgGapiClientConfig = {
@@ -89,6 +88,7 @@ registerLocaleData(ptBr)
     AppBlankComponent,
     AppSidebarComponent,
     DateFormatPipe,
+    AlertComponent,
   ],
   imports: [
     BrowserModule,
@@ -129,6 +129,9 @@ registerLocaleData(ptBr)
     },
     { provide: LOCALE_ID, useValue: "pt" },
     { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' }
+  ],
+  entryComponents: [
+    AlertComponent
   ],
   bootstrap: [AppComponent],
   
