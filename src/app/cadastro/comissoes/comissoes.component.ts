@@ -65,10 +65,10 @@ export class ComissoesComponent implements OnInit {
   openDialog() {
     let dialogConfig = new MatDialogConfig();
     dialogConfig = {
-      maxWidth: '75vw',
-      maxHeight: '75vh',
-      width: '75vw',
-      height: '65vh'
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      width: '85vw',
+      height: '80vh'
     }
     //dialogConfig.data = this.dados.data;
     let dialogRef = this.dialog.open(

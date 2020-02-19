@@ -8,7 +8,7 @@
             <mat-card-title class="dadosCadastro">{{pageTitle}}</mat-card-title>
           </mat-card-header>
         </div>
-        <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="50">
+        <div class="p-10 font" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="50">
           <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
             [floatLabel]="form.value.floatLabel">
             <mat-label>Selecione um funcionario</mat-label>
@@ -21,13 +21,14 @@
           </mat-form-field>
         </div>
         <div class="p-20" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="50">
-          <button mat-button (click)="addComissao()"><i class="material-icons">add</i> Adicionar Representada</button>
+          <button mat-stroked-button color="primary" (click)="addComissao()"><i class="material-icons">add</i> Representada</button>
         </div>
       </div>
-      <div fxLayout="row" fxLayoutWrap="wrap" class="row" formArrayName="comissoes">
-          <div fxLayout="row" *ngFor="let representada of comissoes().controls; let comIndex = index">
-            <div [formGroupName]="comIndex">
-              <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+      <mat-divider></mat-divider>
+      <div formArrayName="comissoes">
+          <div *ngFor="let representada of comissoes().controls; let comIndex = index">
+            <div [formGroupName]="comIndex" fxLayout="row" fxLayoutWrap="wrap" class="row">
+              <div class="p-10 font" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="50">
                 <mat-form-field appearance="outline">
                   <mat-label>Selecione uma representada</mat-label>
                   <mat-select required formControlName="representada_id">
@@ -38,24 +39,31 @@
                   <mat-placeholder>Representada</mat-placeholder>
                 </mat-form-field>
               </div>
-              <div class="p-20" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
-                <button mat-button (click)="addComissaoFaixa(comIndex)"><i class="material-icons">add</i> Adicionar
-                  Faixa</button>
+              <div class="p-20" fxFlex.gt-sm="40" fxFlex.gt-xs="40" fxFlex="40">
+                <button mat-stroked-button (click)="addComissaoFaixa(comIndex)"><i class="material-icons">add</i> Faixa</button>
+              </div>
+              <div class="p-20" fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="10">
+                <i class="material-icons x-icons" (click)="removeComissao(comIndex); vTotal(); ">highlight_off</i><span class="del">Remover</span>
               </div>
               <div formArrayName="faixas">
-                <div fxLayout="row" *ngFor="let item of comissaoFaixas(comIndex).controls; let faixaIndex = index">
-                  <ng-container [formGroupName]="faixaIndex">
-                    <div class="p-10" fxLayoutGap="10px" fxFlex="100">
+                <div *ngFor="let item of comissaoFaixas(comIndex).controls; let faixaIndex = index">
+                  <div [formGroupName]="faixaIndex" fxLayout="row" fxLayoutGap="20px">
+                    <div class="p-10 top" fxFlex.gt-sm="47" fxFlex.gt-xs="47" fxFlex="47">
                       <mat-form-field appearance="outline">
                         <mat-label>A partir de (%)</mat-label>
                         <input matInput placeholder="a partir de %" formControlName="inicial">
                       </mat-form-field>
+                    </div>
+                    <div class="p-10 top" fxFlex.gt-sm="47" fxFlex.gt-xs="47" fxFlex="47">
                       <mat-form-field appearance="outline">
                         <mat-label>Percentual</mat-label>
                         <input matInput placeholder="Percentual" formControlName="final">
                       </mat-form-field>
                     </div>
-                  </ng-container>
+                    <div class="p-20 top" fxFlex.gt-sm="6" fxFlex.gt-xs="6" fxFlex="6">
+                      <i class="material-icons x-icons" (click)="removeComissaoFaixa(comIndex, faixaIndex); vTotal(); ">highlight_off</i>
+                    </div>
+                </div>
                 </div>
               </div>
             </div>
@@ -70,5 +78,3 @@
   </div>
 </div>
 
-
-{{form.value | json}}

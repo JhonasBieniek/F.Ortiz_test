@@ -82,8 +82,6 @@ novaComissao(): FormGroup{
     this.comissoes().removeAt(comIndex);
   }
 
-
-  
   comissaoFaixas(comIndex: number) : FormArray{
     return this.comissoes().at(comIndex).get("faixas") as FormArray
 
