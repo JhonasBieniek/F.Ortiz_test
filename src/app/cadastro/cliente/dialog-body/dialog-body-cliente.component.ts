@@ -89,7 +89,7 @@ export class DialogBodyClienteComponent implements OnInit {
 
   addEnderecos(data:any){
     data.forEach( async (e:any) => {
-      await this.addEnderecos(e);
+      await this.addEndereco(e);
     })
   }
 
