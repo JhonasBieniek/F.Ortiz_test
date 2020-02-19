@@ -3,6 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ClientService } from '../../../shared/services/client.service.component';
 import { NotificationService } from '../../../shared/messages/notification.service';
 import { CustomValidators } from 'ng2-validation';
+import { AlertComponent } from '../../../alert/alert.component';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialog, MatDialogConfig } from '@angular/material';
+
 
 @Component({
   selector: 'app-dialog-body-fornecedor',
@@ -18,7 +21,8 @@ export class DialogBodyFornecedorComponent implements OnInit {
 
   constructor(private fb: FormBuilder, 
               private clientservice: ClientService,
-              private notificationService: NotificationService
+              private notificationService: NotificationService,
+              private dialog: MatDialog
               ) {
    
   }
@@ -49,15 +53,28 @@ export class DialogBodyFornecedorComponent implements OnInit {
   onBlurMethod(){
     this.clientservice.getCep(this.form.value.cep).subscribe( res => {
       this.cep = res
-        if(this.cep.data != 'error'){
-          this.notificationService.notify(`Cep inserido com sucesso!`)
+        if(this.cep.success == true){
           this.modelCidade = this.cep.data.city.nome
           this.modelEstado = this.cep.data.state.nome
         }else{
-          this.notificationService.notify(`Cep Inválido`)
+          this.openAlert('Erro', 'Cep Inválido');
       }
     })
+  }
 
-}
+  openAlert(titulo, msg){
+    let dialogConfig = new MatDialogConfig();
+    dialogConfig = {
+      width: '250px',
+      data: {
+        titulo: titulo,
+        msg: msg
+      }
+    }
+    this.dialog.open(
+      AlertComponent, 
+      dialogConfig, 
+    );
+  }
   hide = true;
 }

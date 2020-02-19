@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup, Validators, ValidationErrors, FormArray } from 
 import { ClientService } from '../../../shared/services/client.service.component';
 import { NotificationService } from '../../../shared/messages/notification.service';
 import { CustomValidators } from 'ng2-validation';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialog, MatDialogConfig } from '@angular/material';
+import { AlertComponent } from '../../../alert/alert.component';
 
 @Component({
   selector: 'app-dialog-body-cliente',
@@ -27,7 +28,8 @@ export class DialogBodyClienteComponent implements OnInit {
               private clientservice: ClientService,
               public dialogRef: MatDialogRef<DialogBodyClienteComponent>, 
               @Inject(MAT_DIALOG_DATA) public data: any,
-              private notificationService: NotificationService
+              private notificationService: NotificationService,
+              private dialog: MatDialog
               ) {
                 if(data != null){
                   if(data.action != 'edit'){
@@ -126,14 +128,13 @@ export class DialogBodyClienteComponent implements OnInit {
     if( enderecos.at(index).get('cep').value != null && enderecos.at(index).get('cep').value.length == 8 ){
       this.clientservice.getCep(enderecos.at(index).get('cep').value).subscribe( res => {
         this.cep = res
-        if(this.cep.data != 'error'){
-        this.notificationService.notify(`Cep inserido com sucesso!`)
+        if(this.cep.success == true){
         enderecos.at(index).get('cidade').setValue(this.cep.data.cidade);
         enderecos.at(index).get('estado').setValue(this.cep.data.estado);
         enderecos.at(index).get('logradouro').setValue(this.cep.data.logradouro);
         enderecos.at(index).get('bairro').setValue(this.cep.data.bairro);
       }else{
-        this.notificationService.notify(`Cep Inválido`)
+        this.openAlert('Erro', 'Cep Inválido');
        }
       })
     }
@@ -146,7 +147,7 @@ export class DialogBodyClienteComponent implements OnInit {
           if(res.status != 'ERROR'){
             this.chargeForm(res);
           }else{
-            this.notificationService.notify(`Cnpj Inválido`)
+            this.openAlert('Erro', 'Cnpj Inválido');
           }
         });
       } 
@@ -158,10 +159,11 @@ export class DialogBodyClienteComponent implements OnInit {
       if(res.status != 'ERROR'){
         this.chargeForm(res);
       }else{
-        this.notificationService.notify(`Cnpj Inválido`)
+        this.openAlert('Erro', 'Cnpj Inválido');
       }
     });
   }
+
   close() {
     this.dialogRef.close();
   }
@@ -198,6 +200,21 @@ export class DialogBodyClienteComponent implements OnInit {
       }
     });
     console.log(result);
+  }
+
+  openAlert(titulo, msg){
+    let dialogConfig = new MatDialogConfig();
+    dialogConfig = {
+      width: '250px',
+      data: {
+        titulo: titulo,
+        msg: msg
+      }
+    }
+    this.dialog.open(
+      AlertComponent, 
+      dialogConfig, 
+    );
   }
 
   hide = true;
