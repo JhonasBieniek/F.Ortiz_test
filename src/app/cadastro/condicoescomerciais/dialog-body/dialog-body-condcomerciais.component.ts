@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { ClientService } from '../../../shared/services/client.service.component';
 import { NotificationService } from '../../../shared/messages/notification.service';
+import { CustomValidators } from 'ng2-validation';
 
 @Component({
   selector: 'app-dialog-body-condcomerciais',
@@ -15,7 +16,7 @@ export class DialogBodyCondComerciaisComponent implements OnInit {
   dados:any= "";
   pageTitle:string = "";
   result = []
-  condicoesComerciais = [{id:1, nome: "À vista"}, {id:2, nome: "À prazo"}, {id:3, nome: "Parcelado"},]
+  condicoesComerciais = [{id:"vista", nome: "À vista"}, {id:"prazo", nome: "À prazo"}, {id:"parcelado", nome: "Parcelado"},]
   
 
   constructor(public dialogRef: MatDialogRef<DialogBodyCondComerciaisComponent>, 
@@ -23,43 +24,58 @@ export class DialogBodyCondComerciaisComponent implements OnInit {
                                 private fb: FormBuilder,
                                 private clientservice: ClientService,
                                 private notificationService: NotificationService
-                                ){}
+                                ){
+                                  console.log(data, "data");
+                                  if(data != null){
+                                    this.clientservice.viewCondComerciais(data.id).subscribe((res:any) =>{
+                                      this.dados = res.data;
+                                      this.chargeForm();
+                                      this.addParcela("edit");
+                                      this.chargeForm();
+                                    })
+                                  }
+                                  
+                                }
                               
   ngOnInit() {
     this.form = this.fb.group({
       id: [null],
       nome: [null, Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(50)])],
-      prazo: [null, Validators.compose([Validators.required ])],
-      parcelas: [null, Validators.compose([Validators.required ])],
-      cond_id: [null],
-      parcelas_qtd: this.fb.array([]),
+      dias: [null],
+      parcelas_qtd: [null, Validators.compose([Validators.required, CustomValidators.number('IN')])],
+      tipo: [null],
+      parcelas: this.fb.array([]),
     });
     if(this.data == null){
       this.pageTitle = 'Cadastrar Condição Comercial'
     }else{
       this.pageTitle = 'Editar Condição Comercial'
-      this.chargeForm();
     }
   }
 
   private chargeForm(){
-    this.form.patchValue(this.data)
+    console.log(this.dados, "teste");
+    this.form.patchValue(this.dados)
   }
 
-  itens() {
-    return this.result
+  parcelas(): FormArray{
+    return this.form.get("parcelas") as FormArray
   }
+  novaParcela(): FormGroup{
+    return this.fb.group({
+      parcela: [null, Validators.compose([Validators.required, CustomValidators.number('IN')])],
+    })
+  }
+  addParcela(action){
 
-  addParcela() {
-    //Pegar o tamanho do form array ao inves de usar função itens
-    this.result = [];
-    this.form.value.parcelas_qtd = [];
-    let campos = this.form.controls.parcelas_qtd as FormArray;
-    for(let i = 0; i < this.form.value.parcelas; i++){
-      campos.push(this.fb.group({
-        parcela: new FormControl('', Validators.required),
-      }));
-      this.itens().push(1)
+    if(action == 'new'){
+      while (this.parcelas().length) {
+        this.parcelas().removeAt(this.parcelas().length-1)
+      }
+    }
+    
+    for(let i = 0; i < this.form.value.parcelas_qtd; i++){
+      this.parcelas().push(this.novaParcela());
     }
   }
 

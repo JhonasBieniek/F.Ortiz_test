@@ -128,6 +128,15 @@ export class ClientService {
       .subscribe(res =>
           console.log('Done'));
   }
+  viewCondComerciais(id) {
+    const uri = API_URL + 'condicoes-comerciais/view/' + id + ".json";
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
   updateCondComerciais(data): Observable<any>{
     const url = `${API_URL}condicoes-comerciais/edit/${data.id}.json`;
      return this.http.put(url, data).pipe(

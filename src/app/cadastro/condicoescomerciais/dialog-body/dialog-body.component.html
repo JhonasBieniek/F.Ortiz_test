@@ -22,7 +22,7 @@
             <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
               [floatLabel]="form.value.floatLabel">
               <mat-label>Selecione uma forma de pagamento...</mat-label>
-              <mat-select required [formControl]="form.controls['cond_id']">
+              <mat-select required [formControl]="form.controls['tipo']">
                 <mat-option *ngFor="let cond of condicoesComerciais" [value]="cond.id">
                   {{cond.nome}}
                 </mat-option>
@@ -31,27 +31,27 @@
             </mat-form-field>
           </div>
 
-          <div [ngSwitch]="form.controls['cond_id'].value">
-            <div *ngSwitchCase="2" >
+          <div [ngSwitch]="form.controls['tipo'].value">
+            <div *ngSwitchCase="'prazo'" >
               <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
                 <mat-form-field appearance="outline">
-                  <input matInput placeholder="N° de dias" [formControl]="form.controls['prazo']">
+                  <input matInput placeholder="N° de dias" [formControl]="form.controls['dias']">
                 </mat-form-field>
-                <small *ngIf="form.controls['prazo'].hasError('required') && form.controls['prazo'].touched"
-                  class="text-danger font-14">Você precisa deve inserir um Número.</small>
-              </div>
-            </div>
-            <div *ngSwitchCase="3"> 
-              <div class="p-10" fxFlex="none">
-                <mat-form-field appearance="outline" (keyup)="addParcela()" >
-                  <mat-label>Parcelas</mat-label>
-                  <input matInput mask="00" placeholder="Parcelas" [formControl]="form.controls['parcelas']">
-                </mat-form-field>
-                <small *ngIf="form.controls['parcelas'].hasError('required') && form.controls['parcelas'].touched"
+                <small *ngIf="form.controls['dias'].hasError('required') && form.controls['dias'].touched"
                   class="text-danger font-14">Você deve inserir um Número.</small>
               </div>
-              <div fxLayout="row" fxLayoutWrap="wrap" class="row" fxFlex="100"formArrayName="parcelas_qtd">
-                <div *ngFor="let item of itens(); let i = index">
+            </div>
+            <div *ngSwitchCase="'parcelado'"> 
+              <div class="p-10" fxFlex="none">
+                <mat-form-field appearance="outline" (keyup)="addParcela('new')" >
+                  <mat-label>Parcelas</mat-label>
+                  <input matInput mask="99" placeholder="Parcelas" [formControl]="form.controls['parcelas_qtd']">
+                </mat-form-field>
+                <small *ngIf="form.controls['parcelas_qtd'].hasError('required') && form.controls['parcelas_qtd'].touched"
+                  class="text-danger font-14">Você deve inserir um Número.</small>
+              </div>
+              <div fxLayout="row" fxLayoutWrap="wrap" class="row" fxFlex="100"formArrayName="parcelas">
+                <div *ngFor="let item of parcelas().controls; let i = index">
                   <ng-container [formGroupName]="i">
                     <div class="p-10" fxLayoutGap="20px" fxFlex="100">
                       <mat-form-field appearance="outline" >
@@ -71,3 +71,5 @@
         </mat-card-actions>
       </form>
     </div>
+
+    {{this.form.value | json}}
