@@ -26,18 +26,30 @@
                               [limit]="20"
                               [rows]='rows'>
 
-                                <ngx-datatable-column [flexGrow]="0.8" name="Nome">
+                                <ngx-datatable-column [flexGrow]="1" name="Nome">
                                   <ng-template let-value="sigla" let-row="row" ngx-datatable-cell-template>
                                     {{ row.nome }}
                                   </ng-template>
                                 </ngx-datatable-column>  
   
-                                <ngx-datatable-column [flexGrow]="0.5" name="Prazo">
+                                <ngx-datatable-column [flexGrow]="1" name="Tipo da condição">
                                   <ng-template let-value="descricao" let-row="row" ngx-datatable-cell-template>
-                                    {{ row.tipo }}
+                                    {{tipo(row.tipo)}}
                                   </ng-template>
                                 </ngx-datatable-column>
 
+                                <ngx-datatable-column [flexGrow]="1" name="Data de Criação">
+                                  <ng-template let-value="created" let-row="row" ngx-datatable-cell-template>
+                                    {{ row.created | date: 'dd/MM/yyyy HH:mm:ss' }}
+                                  </ng-template>
+                                </ngx-datatable-column>
+
+                                <ngx-datatable-column [flexGrow]="1" name="Data de Alteração">
+                                  <ng-template let-value="modified" let-row="row" ngx-datatable-cell-template>
+                                    {{ row.modified | date: 'dd/MM/yyyy HH:mm:ss'}}
+                                   </ng-template>
+                                </ngx-datatable-column>
+                                
                               <ngx-datatable-column [flexGrow]="0.8" name="Ações">
                                 <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex"
                                   ngx-datatable-cell-template>      

@@ -37,6 +37,15 @@ export class CondicoescomerciaisComponent implements OnInit {
       setTimeout(() => { this.loadingIndicator = false; }, 1500); 
     });                                  
   }
+
+  tipo(tipo){
+    if(tipo == 'vista')
+    return "À vista"
+    else if (tipo == 'prazo')
+    return "À prazo"
+    else
+    return "Parcelado"
+  }
   
   updateFilter(event) {
   const val = event.target.value.toLowerCase();
