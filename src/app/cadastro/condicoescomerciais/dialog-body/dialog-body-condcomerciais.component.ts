@@ -42,7 +42,7 @@ export class DialogBodyCondComerciaisComponent implements OnInit {
       id: [null],
       nome: [null, Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(50)])],
       dias: [null],
-      parcelas_qtd: [null, Validators.compose([Validators.required, CustomValidators.number('IN')])],
+      parcelas_qtd: [null],
       tipo: [null],
       parcelas: this.fb.array([]),
     });
