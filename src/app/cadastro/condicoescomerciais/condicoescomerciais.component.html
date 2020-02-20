@@ -34,13 +34,7 @@
   
                                 <ngx-datatable-column [flexGrow]="0.5" name="Prazo">
                                   <ng-template let-value="descricao" let-row="row" ngx-datatable-cell-template>
-                                    {{ row.prazo }}
-                                  </ng-template>
-                                </ngx-datatable-column>
-  
-                                <ngx-datatable-column [flexGrow]="0.5" name="Dias">
-                                  <ng-template let-value="status" let-row="row" ngx-datatable-cell-template>
-                                    {{ row.dias }}
+                                    {{ row.tipo }}
                                   </ng-template>
                                 </ngx-datatable-column>
 

@@ -22,8 +22,8 @@
             <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
               [floatLabel]="form.value.floatLabel">
               <mat-label>Selecione uma forma de pagamento...</mat-label>
-              <mat-select required [formControl]="form.controls['tipo']">
-                <mat-option *ngFor="let cond of condicoesComerciais" [value]="cond.id">
+              <mat-select required [formControl]="form.controls['tipo']" >
+                <mat-option *ngFor="let cond of condicoesComerciais" [value]="cond.id" (click)="validaDias(cond.id)">
                   {{cond.nome}}
                 </mat-option>
               </mat-select>
@@ -32,7 +32,8 @@
           </div>
 
           <div [ngSwitch]="form.controls['tipo'].value">
-            <div *ngSwitchCase="'prazo'" >
+           <ng-container *ngSwitchCase="'vista'"></ng-container>
+            <div *ngSwitchCase="'prazo'">
               <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
                 <mat-form-field appearance="outline">
                   <input matInput placeholder="N° de dias" [formControl]="form.controls['dias']">

@@ -53,8 +53,26 @@ export class DialogBodyCondComerciaisComponent implements OnInit {
     }
   }
 
+  validaDias(data){
+    this.form.controls['parcelas_qtd'].setValue(null);
+    this.addParcela('new');
+    if(data == 'prazo'){
+      this.form.controls.dias.setValidators(Validators.required);
+      this.form.get('parcelas_qtd').clearValidators();
+      this.form.get('parcelas_qtd').updateValueAndValidity();
+    }else if(data == 'parcelado'){
+      this.form.controls.parcelas_qtd.setValidators(Validators.required);
+      this.form.get('dias').clearValidators();
+      this.form.get('dias').updateValueAndValidity();
+    }else{
+      this.form.get('parcelas_qtd').clearValidators();
+      this.form.get('parcelas_qtd').updateValueAndValidity();
+      this.form.get('dias').clearValidators();
+      this.form.get('dias').updateValueAndValidity();
+    }
+  }
+
   private chargeForm(){
-    console.log(this.dados, "teste");
     this.form.patchValue(this.dados)
   }
 

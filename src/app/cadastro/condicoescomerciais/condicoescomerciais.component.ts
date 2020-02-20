@@ -24,9 +24,7 @@ export class CondicoescomerciaisComponent implements OnInit {
   columns = [
       { prop: 'id' },
       { prop: 'nome' },
-      { prop: 'prazo' },
-      { prop: 'dias' },
-
+      { prop: 'tipo' },
   ];       
 
   @ViewChild(CondicoescomerciaisComponent) table: CondicoescomerciaisComponent;
