@@ -86,7 +86,7 @@ export class DialogBodyFuncionarioComponent implements OnInit {
     let cep = this.funcionario.get('endereco.cep').value;
     if(cep != null && cep.length == 8){
       this.clientservice.getCep(cep).subscribe((res:any) => {
-        if(res.data.success == true){
+        if(res.success == true){
         this.funcionario.get('endereco.cidade').setValue(res.data.cidade);
         this.funcionario.get('endereco.estado').setValue(res.data.estado);
         this.funcionario.get('endereco.logradouro').setValue(res.data.logradouro);
