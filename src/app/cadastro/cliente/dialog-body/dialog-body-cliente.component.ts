@@ -53,8 +53,8 @@ export class DialogBodyClienteComponent implements OnInit {
   ngOnInit() {  
     this.form = this.fb.group({
       id: [null],
-      razao_social: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
-      nome_fantasia: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
+      razao_social: [null, Validators.compose([Validators.required])],
+      nome_fantasia: [null, Validators.compose([Validators.required])],
       cnpj: [null, Validators.compose([Validators.required, Validators.minLength(14), Validators.maxLength(14)])],
       inscricao_estadual: [null, Validators.compose([CustomValidators.digits])],
       email: [null, Validators.compose([CustomValidators.email])],
@@ -99,8 +99,12 @@ export class DialogBodyClienteComponent implements OnInit {
     this.form.get('razao_social').setValue(data.nome);
     this.form.get('nome_fantasia').setValue(data.fantasia);
     this.form.get('email').setValue(data.email);
-    this.form.get('telefone').setValue(this.removeSpecialChar(data.telefone.split("/")[0]));
-    this.form.get('celular').setValue(this.addDigitsNumber(this.removeSpecialChar(data.telefone.split("/")[1])));
+    if(data.telefone.split("/")[0] != null){
+      this.form.get('telefone').setValue(this.removeSpecialChar(data.telefone.split("/")[0]));
+    }
+    if(data.telefone.split("/")[1]){
+      this.form.get('celular').setValue(this.addDigitsNumber(this.removeSpecialChar(data.telefone.split("/")[1])));
+    }
     let endereco = {
       cep: this.removeSpecialChar(data.cep),
       logradouro: data.logradouro,
@@ -157,6 +161,7 @@ export class DialogBodyClienteComponent implements OnInit {
   chargeCnpj(data){
     this.clientservice.getApiCnpj(data).subscribe((res:any) => {
       if(res.status != 'ERROR'){
+        this.form.get('cnpj').setValue(data);
         this.chargeForm(res);
       }else{
         this.openAlert('Erro', 'Cnpj Inválido');
@@ -170,16 +175,18 @@ export class DialogBodyClienteComponent implements OnInit {
 
   onSubmit(){
 
-    if(this.data != undefined){
+    if(this.data != undefined && this.data.action == 'edit'){
       this.clientservice.updateCliente(this.form.value).subscribe( () =>{
         this.notificationService.notify("Atualizado com Sucesso!")
       })
     }else{
       this.clientservice.addCliente(this.form.value).subscribe((res:any) =>{
         if(res.status == 'success'){
-          this.notificationService.notify(`Cadastro Efetuado com Sucesso!`)
+          this.notificationService.notify(`Cadastro Efetuado com Sucesso!`);
+          this.dialogRef.close(res);
         }else{
           this.notificationService.notify(`Erro contate o Administrador`)
+          this.dialogRef.close();
         }}
       );
     } 

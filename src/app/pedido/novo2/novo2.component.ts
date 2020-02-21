@@ -1,14 +1,12 @@
 import { Component, OnInit, Input, EventEmitter, Output, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
 import { ClientService } from '../../shared/services/client.service.component';
 import { NotificationService } from '../../shared/messages/notification.service';
 
 import * as XLSX from 'xlsx'
 
-import { OrderService } from '../../shared/services/order.service.component';
 import { OrderItem } from '../order-item.model';
-import { ShoppingCartComponent } from '../shopping-cart/shopping-cart.component';
 import { MatDialogConfig, MatDialog, MatStepper } from '@angular/material';
 import { DialogCadastroComponent } from '../novo/dialog-cadastro/dialog-cadastro.component';
 import { DialogBodyClienteComponent } from '../../cadastro/cliente/dialog-body/dialog-body-cliente.component';
@@ -61,7 +59,6 @@ export class Novo2Component implements OnInit {
   items = [];
   itemsNew = [];
 
-  selectedRepresentada: any;
   selectedCliente: string;
   selectedCondComerciais: string;
   selectedAreaVenda;
@@ -104,14 +101,14 @@ export class Novo2Component implements OnInit {
   dialogProd: boolean;
   resposta: any;
   selectedAreaVendaID: any;
-  representada: string;
+  representada: any;
   selectRepresentada: string = "Selecione a representada";
   condComercial: any;
+  produto:any ;
 
   incomingfile(event) {
     this.file = event.target.files[0]
     this.importar();
-    this.selectRepresentada = `Representada selecionada: ${this.representada.toUpperCase()}`
   }
 
   importar() {
@@ -125,9 +122,11 @@ export class Novo2Component implements OnInit {
       var workbook = XLSX.read(bstr, { type: "binary", raw: true });
       var first_sheet_name = workbook.SheetNames[0];
       var worksheet = workbook.Sheets[first_sheet_name];
-      console.log(XLSX.utils.sheet_to_json(worksheet, { raw: true, header: 1 }));
+      //console.log(XLSX.utils.sheet_to_json(worksheet, { raw: true, header: 1 }));
       var json = XLSX.utils.sheet_to_json(worksheet, { raw: true, header: 1 });
-      this[this.representada](json);
+      this.createdForm();
+      this.form.get('representada_id').setValue(this.representada.id);
+      this[this.representada.func](json);
     }
     if(this.file != undefined){
       this.spinner.show();
@@ -138,14 +137,14 @@ export class Novo2Component implements OnInit {
   async volk(data) {
     var inicial = 0;
     var final = 0;
-    this.cliente = (data[7][3].toString().length == 13)? "0"+data[7][3]: data[7][3];
-    this.pedido = data[6][1];
-    this.transportadora = data[18][2];
-    this.condComercial = data[12][1];
-    this.emissao = moment(data[6][3].replace(/\//g, "-"), 'DD-MM-YYYY').format("YYYY-MM-DD")
-    this.entrega = moment(data[21][4], 'DD-MM-YYYY').format("YYYY-MM-DD")
-    this.frete = data[17][1] = "C" ? "Cliente" : "Representada";
-    this.selectedRepresentada = this.cnpjFilter((data[3][1].toString().length == 13)? "0"+data[3][1]: data[3][1])[0].id;
+    var clienteCnpj = (data[7][3].toString().length == 13)? "0"+data[7][3]: data[7][3];
+    var condComercial = data[12][1];
+    
+    this.form.get('num_pedido').setValue(data[6][1]);
+    this.form.get('transportadora').setValue(data[18][2]);
+    this.form.get('data_emissao').setValue(moment(data[6][3].replace(/\//g, "-"), 'DD-MM-YYYY').format("YYYY-MM-DD"));
+    this.form.get('data_entrega').setValue(moment(data[21][4], 'DD-MM-YYYY').format("YYYY-MM-DD"));
+    this.form.get('frete').setValue(data[17][1] = "C" ? "Cliente" : "Representada");
 
     while (inicial <= final) {
       while (data[final][0] != "Valor Produtos.....:") {
@@ -179,19 +178,20 @@ export class Novo2Component implements OnInit {
         this.openDialogVolk()
       }
     }
-    // setTimeout(() => {this.chargeItens()}, 2000);
-    if (String(this.cliente).length == 14) {
-      this.clientservice.getClientesCnpj(this.cliente).subscribe((res: any) => {
+
+    if (String(clienteCnpj).length == 14) {
+      this.clientservice.getClientesCnpj(clienteCnpj).subscribe((res: any) => {
         if (res.success == true) {
-          this.selectedCliente = res.data.id;
-          this.selectedAreaVendaID = res.data.area_venda_id;
+          this.form.get('cliente_id').setValue(res.data.id);
+          this.setAreaDeVenda(res.data.area_venda_id);
         } else {
-          this.openDialogCNPJ(this.cliente)
+          this.openDialogCNPJ(clienteCnpj)
         }
       })
     } else {
       this.notificationService.notify("CNPJ INCORRETO!")
     }
+
     this.CarregarProdutosRepresentada();
     this.spinner.hide();
   }
@@ -207,7 +207,6 @@ export class Novo2Component implements OnInit {
     this.entrega = null;
     this.ValorTotal = null;
     this.frete = null;
-    this.selectedRepresentada = 13;
 
     while (inicial <= final) {
       while (data[final][0] != "Peso bruto total:" && data[final][0] != "Valor Total:") {
@@ -272,7 +271,6 @@ export class Novo2Component implements OnInit {
     this.pedido = data[3][0];
     this.condComercial = data[12][0].split(" ")[0]+" "+data[12][0].split(" ")[1];
     this.emissao = moment(data[4][0].match(new RegExp("\\d{2}\\/\\d{2}\\/\\d{4}", "g"))[0].replace(/\//g, "-"), 'DD-MM-YYYY').format("YYYY-MM-DD")
-    this.selectedRepresentada = 21;
 
     while (data[final][0] != "Soma Quant.") {
       final++;
@@ -350,7 +348,6 @@ export class Novo2Component implements OnInit {
     this.condComercial = data[2][31];
     this.emissao = moment(data[3][31].replace(/\//g, "-"), 'DD-MM-YYYY').format("YYYY-MM-DD")
     this.entrega = null;
-    this.selectedRepresentada = 16;
 
     while (inicial <= final) {
       while (data[final][0] != "Texto da nota") {
@@ -416,7 +413,7 @@ export class Novo2Component implements OnInit {
     this.condComercial = data[6][13];
     this.emissao = data[6][4];
     this.entrega = null;
-    this.selectedRepresentada = 12;
+
     inicial = 7;
     while (data[final][16] != "TOTAL:") {
       final++;
@@ -458,19 +455,17 @@ export class Novo2Component implements OnInit {
   }
 
 
-  @ViewChild('shoppingCart') shoppingCart: ShoppingCartComponent;
   @ViewChild(Novo2Component) table: Novo2Component;
 
   constructor(private fb: FormBuilder,
     private clientservice: ClientService,
     private notificationService: NotificationService,
-    private orderservice: OrderService,
     private dateFormatPipe: DateFormatPipe,
     private dialog: MatDialog,
     private router: Router,
     private spinner: NgxSpinnerService,
   ) {
-    this.clientservice.getRepresentadas().subscribe((res: any) => {
+    this.clientservice.getRepresentadasFunc().subscribe((res: any) => {
       this.representadas = res.data;
     });
     this.clientservice.getClientes().subscribe((res: any) => {
@@ -482,29 +477,37 @@ export class Novo2Component implements OnInit {
     this.clientservice.getAreaVenda().subscribe((res: any) => {
       this.areas = res.data;
     });
-    this.orderservice.clear();
   }
 
   ngOnInit() {
+    this.createdForm();
+  }
+
+  createdForm(){
     this.form = this.fb.group({
-      cliente: [null, Validators.compose([Validators.required, CustomValidators.digits])],
-      cep: [null],
-      logradouro: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
-      numero: [null, Validators.compose([Validators.required])],
-      complemento: [null, Validators.compose([Validators.minLength(1), Validators.maxLength(50)])],
-      bairro: [null, Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(50)])],
-      cidade: [null, Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(50)])],
-      estado: [null, Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(50)])],
-      comprador: [null, Validators.compose([Validators.minLength(2), Validators.maxLength(30)])],
-      pedido: [null, Validators.compose([Validators.required])],
-      observacao: [null, Validators.compose([Validators.maxLength(100)])],
-      programado: [null, Validators.compose([Validators.required, CustomValidators.date])],
-      emissao: [null, Validators.compose([Validators.required, CustomValidators.date])],
-      entrega: [null, Validators.compose([Validators.required, CustomValidators.date])],
-      frete: [null, Validators.required],
-      transportadora: [null, Validators.compose([Validators.maxLength(100)])],
-      active: [null, Validators.required],
+      representada_id: [null, Validators.compose([Validators.required])],
+      cliente_id: [null, Validators.compose([Validators.required])],
+      condicao_comercial_id: [null, Validators.compose([Validators.required])],
+      vendedor_id: [null, Validators.compose([Validators.required])],
+      auxiliar_id: [null, Validators.compose([Validators.required])],
+      regiao_id: [null],
+      area_venda_id: [null, Validators.compose([Validators.required])],
+      num_pedido: [null, Validators.compose([Validators.required])],
+      frete: [null],
+      transportadora: [null],
+      valor_total: [null, Validators.compose([Validators.required])],
+      comissao_media: [null, Validators.compose([Validators.required])],
+      comissao_bruto: [null, Validators.compose([Validators.required])],
+      status: [ true, Validators.compose([Validators.required]) ],
+      obs: [ null ],
+      data_emissao: [null, Validators.compose([Validators.required])],
+      data_entrega: [null],
+      data_programada: [null],
+      desconto: [null],
+      situacao: [null],
+      pedido_produtos: this.fb.array([])
     });
+    this.produto = this.form.get('pedido_produtos') as FormArray;
   }
 
   async consultaCod(produto:any): Promise<any> {
@@ -521,7 +524,7 @@ export class Novo2Component implements OnInit {
           newItem = produto;
           newItem.certificado_aprovacao = '';
           newItem.embalagem = '';
-          newItem.representada_id = this.selectedRepresentada;
+          newItem.representada_id = this.representada.id;
           newItem.unidade_id = '';
           newItem.status = 1;
           this.itemsNew.push(newItem);
@@ -530,15 +533,35 @@ export class Novo2Component implements OnInit {
       })
     })
   }
-  // total(): number {
-  //   return this.orderservice.total();
-  // }
-  clear() {
-    this.orderservice.clear();
+
+  addProduto(item:any){
+    this.produto.push(this.fb.group({
+      codigo: item.codigo,
+      nome: item.nome,
+      quantidade: item.quantidade,
+      unidade: {value: item.unidade, disabled: true},
+      embalagem: {value: item.embalagem, disabled: true},
+      tamanho: item.tamanho,
+      ipi: {value: item.ipi, disabled: true},
+      desconto: item.desconto,
+      valorUnitario: item.valorUnitario,
+      valorTotal: {value: 0, disabled: true},
+      comissao: item.comissao,
+      observacao: ''
+    }));
   }
-  removeItem(item: any) {
-    this.orderservice.removeItem(item)
+
+  setAreaDeVenda(id){
+    this.clientservice.getAreaVendaId(id).subscribe((res:any) => {
+      if(res.success == true){
+        this.form.get('area_venda_id').setValue(id);
+        this.form.get('vendedor_id').setValue(res.data.vendedor_id);
+        this.form.get('auxiliar_id').setValue(res.data.auxiliar_id);
+        this.form.get('regiao_id').setValue(res.data.regiao_id);
+      }
+    })
   }
+
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
     const temp = this.temp.filter(function (d) {
@@ -549,31 +572,28 @@ export class Novo2Component implements OnInit {
     this.rows = temp;
     this.table = this.data;
   }
+
   cnpjFilter(cnpj){
     return this.representadas.filter(d => d.cnpj == cnpj);
   }
-  addItemNew(item: ItemPedido) {
-    this.orderservice.addItemNew(item)
-  }
+
   addItem(item: ItemPedido) {
-    this.items.push(item)
-    this.shoppingCart.addForm(item)
+    this.addProduto(item);
   }
+
   addItemPlan(item: ItemPedido) {
-    this.items.push(item)
-    this.shoppingCart.addForm(item)
+    this.addProduto(item);
   }
-  chargeAreaVendas(data) {
-    this.selectedAreaVenda = data
-  }
+
   CarregarProdutosRepresentada() {
-    this.clientservice.getProdutosRepresentada(this.selectedRepresentada).subscribe(res => {
+    this.clientservice.getProdutosRepresentada(this.representada.id).subscribe(res => {
       this.data = res;
       this.rows = this.data.data;
       this.temp = [...this.data.data];
       setTimeout(() => { this.loadingIndicator = false; }, 1500);
     })
   }
+
   openDialogVolk() {
     console.log("dialog")
     let dialogConfig = new MatDialogConfig();
@@ -597,34 +617,31 @@ export class Novo2Component implements OnInit {
       });
     });
   }
+
   openDialogCNPJ(data) {
     let dialogConfig = new MatDialogConfig();
     dialogConfig = {
       maxWidth: '75vw',
       maxHeight: '85vh',
       width: '75vw',
-      height: '75vh'
+      height: '75vh',
+      data: data
     }
-    dialogConfig.data = data;
     let dialogRefCNPJ = this.dialog.open(
       DialogBodyClienteComponent,
       dialogConfig,
     );
-    dialogRefCNPJ.afterClosed().subscribe(value => {
-      console.log(`Dialog sent: ${value}`);
-      this.clientservice.getClientesId(value).subscribe((res: any) => {
-        this.clientservice.getClientes().subscribe((res1: any) => {
-          this.clientes = res1.data;
-          this.selectedCliente = res.data.id;
-        });
-        this.selectedAreaVendaID = res.data.area_venda_id;
-      });
+    dialogRefCNPJ.afterClosed().subscribe((res:any) => {
+      this.form.get('cliente_id').setValue(res.data.id);
+      this.setAreaDeVenda(res.data.area_venda_id);
     });
   }
+
   onSelect({ selected }) {
     let itemSelected = selected[0]
     this.addItem(itemSelected);
   }
+
   comissaoMedia(){
     let i=1;
     let comissao = 0
@@ -634,6 +651,7 @@ export class Novo2Component implements OnInit {
     })
     return comissao/(i-1);
   }
+
   comissaoBruta(){
     let comissao = 0
     this.items.forEach(element => {
@@ -651,9 +669,10 @@ export class Novo2Component implements OnInit {
   }
 
   enviarPedido() {
+    /*
     let pedido;
     pedido = {
-      representada_id: this.selectedRepresentada,
+      representada_id: this.representada.id,
       cliente_id: this.selectedCliente,
       condicao_comercial_id: this.selectedCondComerciais,
       vendedor_id: this.selectedAreaVenda.vendedor_id,
@@ -675,8 +694,9 @@ export class Novo2Component implements OnInit {
       obs: this.form.value.observacao,
       pedido_produtos: this.produtos()
     }
+    */
 
-    this.clientservice.addPedido(pedido).subscribe(res => {
+    this.clientservice.addPedido(this.form.value).subscribe(res => {
       this.resposta = res
       if (this.resposta.status == 'success') {
         this.notificationService.notify(`Pedido Cadastrado com Sucesso!`)
@@ -689,25 +709,21 @@ export class Novo2Component implements OnInit {
 
   }
 
-  produtos() {
-    let produtos = [];
-    this.items.forEach(element => {
-      produtos.push({
-        cliente_id: element.cliente,
-        produto_id: element.id,
-        quantidade: element.quantidade,
-        unidade: element.unidade,
-        embalagem: element.embalagem,
-        tamanho: element.tamanho,
-        ipi: element.ipi,
-        desconto: element.desconto,
-        valor_unitario: element.valorUnitario,
-        valor_total: element.valorTotal,
-        comissao_produto: element.comissao,
-        observacao: element.observacao
-      })
-    })
-    return produtos
+  clearProdutos(){
+
   }
+
+  removeItem(index){
+    this.produto.removeAt(index);
+  }
+  
+  total() {
+    let total = 0;
+    this.produto.controls.forEach(element => {
+      total += element.get('valorTotal').value
+    });
+    return Math.round((total)*100)/100;
+  }
+
   hide = true;
 }

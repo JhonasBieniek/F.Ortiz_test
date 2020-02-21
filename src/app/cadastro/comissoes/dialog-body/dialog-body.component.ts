@@ -50,12 +50,9 @@ export class DialogBodyComissoesComponent implements OnInit {
         funcionario_id: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
         comissoes: this.fb.array([]),
       });
-     
-
   }
                               
   ngOnInit() {
-  
     if(this.data == null)
     this.pageTitle = 'Cadastrar Comissão'
     else{
@@ -63,16 +60,16 @@ export class DialogBodyComissoesComponent implements OnInit {
       this.form.patchValue(this.data)
     }
   }
-comissoes(): FormArray{
-  return this.form.get("comissoes") as FormArray
-}
+  comissoes(): FormArray{
+    return this.form.get("comissoes") as FormArray
+  }
 
-novaComissao(): FormGroup{
-  return this.fb.group({
-    representada_id: '',//new FormControl('', Validators.required),
-    faixas: this.fb.array([]),
-  })
-}
+  novaComissao(): FormGroup{
+    return this.fb.group({
+      representada_id: '',//new FormControl('', Validators.required),
+      faixas: this.fb.array([]),
+    })
+  }
 
   addComissao(){
     this.comissoes().push(this.novaComissao());
