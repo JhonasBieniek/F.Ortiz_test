@@ -58,7 +58,10 @@
           <i class="material-icons plus-icons" (click)="addEndereco()">add_circle_outline</i> <span class="title">Adicionar endereço</span>
         </mat-card-header>
       </div>
-      <div fxLayout="row" fxLayoutWrap="wrap" *ngFor="let endereco of form.get('enderecos').controls; index as i" [formGroupName]="i"  > 
+      <div fxLayout="row" fxLayoutWrap="wrap" *ngFor="let endereco of form.get('enderecos').controls; index as i" [formGroupName]="i"> 
+        <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+          Endereço - {{i + 1}}
+        </div>
         <div class="p-10" fxFlex.gt-sm="5" fxFlex.gt-xs="5" fxFlex="100">
           <button mat-icon-button (click)="delEndereco(i)">
             <mat-icon class="clear">clear</mat-icon>
@@ -107,7 +110,16 @@
           <mat-card-title class="title">Outros</mat-card-title>
         </mat-card-header>
       </div>
-      <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+      <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="34">
+        <mat-form-field appearance="outline">
+          <input matInput placeholder="Representante" formControlName="representante">
+        </mat-form-field>
+        <mat-hint *ngIf="form.get('representante').errors?.minlength && form.get('representante').touched"
+          class="text-danger font-14">O representante tem que conter no mínimo 5 caracteres.</mat-hint>
+        <mat-hint *ngIf="form.get('representante').errors?.maxlength && form.get('representante').touched"
+          class="text-danger font-14">O representante não deve exceder 50 caracteres</mat-hint>
+      </div>
+      <div class="p-10" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="33">
         <mat-form-field appearance="outline">
           <input matInput placeholder="Telefone Fixo" mask="(00) 0000-0000" formControlName="telefone"
             type="text">
@@ -115,7 +127,7 @@
         <small *ngIf="form.get('telefone').errors?.phone && form.get('telefone').touched"
           class="text-danger font-14">O número inserido deve ser válido.</small>
       </div>
-      <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+      <div class="p-10" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="33">
         <mat-form-field appearance="outline">
           <input matInput placeholder="Celular" mask="(00) 0 0000-0000" formControlName="celular"
             type="text">
@@ -123,23 +135,14 @@
         <small *ngIf="form.get('celular').errors?.phone && form.get('celular').touched"
           class="text-danger font-14">O número inserido deve ser válido.</small>
       </div>
-      <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
-        <mat-form-field appearance="outline">
-          <input matInput placeholder="Representante*" formControlName="representante">
-        </mat-form-field>
-        <mat-hint *ngIf="form.get('representante').errors?.minlength && form.get('representante').touched"
-          class="text-danger font-14">O representante tem que conter no mínimo 5 caracteres.</mat-hint>
-        <mat-hint *ngIf="form.get('representante').errors?.maxlength && form.get('representante').touched"
-          class="text-danger font-14">O representante não deve exceder 50 caracteres</mat-hint>
-      </div>
-      <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+      <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="34">
         <mat-form-field appearance="outline">
           <input matInput placeholder="Email" formControlName="email" type="email">
         </mat-form-field>
         <small *ngIf="form.get('email').errors?.email && form.get('email').touched"
           class="text-danger font-14">O endereço de email deve ser valido.</small>
       </div>
-      <div class="p-10" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
+      <div class="p-10" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="33">
         <mat-form-field appearance="outline" [hideRequiredMarker]="true"
           [floatLabel]="auto">
           <mat-label>Área de venda</mat-label>
@@ -151,7 +154,7 @@
           <mat-placeholder>Representada</mat-placeholder>
         </mat-form-field>
       </div>
-      <div class="p-10" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
+      <div class="p-10" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="33">
         <mat-form-field appearance="outline" [hideRequiredMarker]="true"
           [floatLabel]="auto">
           <mat-label>Ramo de Atividade</mat-label>
