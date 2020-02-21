@@ -1,8 +1,7 @@
-<div fxLayout="row" fxLayoutWrap="wrap" [hidden]="true">
   <!-- Card column -->
   <div fxFlex.gt-sm="100%" fxFlex="100">
     <form [formGroup]="form">
-      <div fxLayout="row" fxLayoutWrap="wrap" class="row">
+      <div fxLayout="row wrap" class="row">
         <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
           <mat-card-header class="bg-info text-white">
             <mat-card-title class="dadosCadastro">{{pageTitle}}</mat-card-title>
@@ -27,7 +26,7 @@
       <mat-divider></mat-divider>
       <div formArrayName="comissoes">
           <div *ngFor="let representada of comissoes().controls; let comIndex = index">
-            <div [formGroupName]="comIndex" fxLayout="row" fxLayoutWrap="wrap" class="row">
+            <div [formGroupName]="comIndex" fxLayout="row wrap" class="row">
               <div class="p-10 font" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="50">
                 <mat-form-field appearance="outline">
                   <mat-label>Selecione uma representada</mat-label>
@@ -76,5 +75,4 @@
       </mat-card-actions>
     </form>
   </div>
-</div>
 

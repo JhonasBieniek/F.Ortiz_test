@@ -2,21 +2,20 @@ import * as $ from 'jquery';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS, HttpClientJsonpModule } from '@angular/common/http';
-import { LocationStrategy, HashLocationStrategy, registerLocaleData } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule, HttpClient, HttpClientJsonpModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutes } from './app.routing';
 import { AppComponent } from './app.component';
-import localept from '@angular/common/locales/pt';
-registerLocaleData(localept, 'pt');
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FullComponent } from './layouts/full/full.component';
 import { AppBlankComponent } from './layouts/blank/blank.component';
 import { AppHeaderComponent } from './layouts/full/header/header.component';
 import { AppSidebarComponent } from './layouts/full/sidebar/sidebar.component';
+import { AppBreadcrumbComponent } from './layouts/full/breadcrumb/breadcrumb.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DemoMaterialModule} from './demo-material-module';
+import { DemoMaterialModule } from './demo-material-module';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
@@ -24,18 +23,9 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 import { SharedModule } from './shared/shared.module';
 import { SpinnerComponent } from './shared/spinner.component';
-
-import{ LoginService} from './authentication/login/login.service';
-
-import { AuthGuard } from './guards/auth.guard';
-import { JwtInterceptor } from './guards/jwt.interceptor';
-import { OrderService } from './shared/services/order.service.component';
 import { DateFormatPipe } from './shared/pipes/dateFormat.pipe';
-import ptBr from '@angular/common/locales/pt';
-import { NgxCurrencyModule } from "ngx-currency";
-import { NgxSpinnerModule } from "ngx-spinner";
-import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from "ngx-currency/src/currency-mask.config";
-import { MAT_DATE_LOCALE } from '@angular/material';
+import { AlertComponent } from './alert/alert.component';
+
 import {
   GoogleApiModule, 
   GoogleApiService, 
@@ -44,9 +34,22 @@ import {
   NG_GAPI_CONFIG,
   GoogleApiConfig
 } from "ng-gapi";
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { LoginService } from './authentication/login/login.service';
+import { AuthGuard } from './guards/auth.guard';
+import { OrderService } from './shared/services/order.service.component';
+import { JwtInterceptor } from './guards/jwt.interceptor';
+import { LocationStrategy, HashLocationStrategy, registerLocaleData } from '@angular/common';
+import { MAT_DATE_LOCALE } from '@angular/material';
+import ptBr from '@angular/common/locales/pt';
 
-import { AlertComponent } from './alert/alert.component';
 
+
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+  suppressScrollX: true,
+  wheelSpeed: 2,
+  wheelPropagation: true
+};
 
 let gapiClientConfig: NgGapiClientConfig = {
   client_id: "1078742420525-80sm10jeu87n9bd445bkjaeusdroofer.apps.googleusercontent.com",
@@ -59,24 +62,6 @@ let gapiClientConfig: NgGapiClientConfig = {
   ].join(" ")
 };
 
-const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-  suppressScrollX: true,
-  wheelSpeed: 2,
-  wheelPropagation: true,
-};
-
-export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
-  align: "right",
-  allowNegative: true,
-  allowZero: true,
-  decimal: ",",
-  precision: 2,
-  prefix: "R$ ",
-  suffix: "",
-  thousands: ".",
-  nullable: true
-};
-
 registerLocaleData(ptBr)
 
 @NgModule({
@@ -87,6 +72,7 @@ registerLocaleData(ptBr)
     SpinnerComponent,
     AppBlankComponent,
     AppSidebarComponent,
+  AppBreadcrumbComponent,
     DateFormatPipe,
     AlertComponent,
   ],
@@ -95,7 +81,7 @@ registerLocaleData(ptBr)
     BrowserAnimationsModule,
     DemoMaterialModule,
     FormsModule,
-    FlexLayoutModule,  
+    FlexLayoutModule,
     HttpClientModule,
     GoogleApiModule.forRoot({
       provide: NG_GAPI_CONFIG,
@@ -103,10 +89,10 @@ registerLocaleData(ptBr)
     }),
     HttpClientJsonpModule,
     PerfectScrollbarModule,
-    SharedModule,  
-    RouterModule.forRoot(AppRoutes),
-    NgxCurrencyModule,
-    NgxSpinnerModule
+    SharedModule,
+    NgxSpinnerModule,
+    NgMultiSelectDropDownModule.forRoot(),
+    RouterModule.forRoot(AppRoutes)
   ],
   providers: [
     LoginService,
@@ -118,7 +104,6 @@ registerLocaleData(ptBr)
       useClass: JwtInterceptor,
       multi: true
     },
-    { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig },
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
@@ -133,7 +118,6 @@ registerLocaleData(ptBr)
   entryComponents: [
     AlertComponent
   ],
-  bootstrap: [AppComponent],
-  
+  bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

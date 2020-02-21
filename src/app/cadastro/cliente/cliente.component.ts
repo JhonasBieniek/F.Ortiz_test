@@ -29,7 +29,7 @@ export class ClienteComponent implements OnInit {
       { prop: 'status' },
   ];       
 
-  @ViewChild(ClienteComponent) table: ClienteComponent;
+  @ViewChild(ClienteComponent, {static: false}) table: ClienteComponent;
   constructor(private clientservice: ClientService, private dialog: MatDialog) {
 
     this.clientservice.getClientes().subscribe(res =>{

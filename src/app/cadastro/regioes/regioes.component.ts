@@ -29,7 +29,7 @@ export class RegioesComponent implements OnInit {
 
   ];       
 
-  @ViewChild(RegioesComponent) table: RegioesComponent;
+  @ViewChild(RegioesComponent, {static: false}) table: RegioesComponent;
   constructor(private clientservice: ClientService, private dialog: MatDialog) {
 
     this.clientservice.getRegioes().subscribe(res =>{

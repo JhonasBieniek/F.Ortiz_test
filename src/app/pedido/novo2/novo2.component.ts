@@ -19,7 +19,6 @@ import * as moment from 'moment';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
-import { element } from 'protractor';
 
 export const MY_FORMATS = {
   parse: {
@@ -57,6 +56,7 @@ export class Novo2Component implements OnInit {
   condComerciais = [];
   areas = [];
   upload: any;
+  items = [];
   itemsNew = [];
 
   selectedCliente: string;
@@ -81,6 +81,7 @@ export class Novo2Component implements OnInit {
   ];
 
   arrayBuffer: any;
+  file: File;
   planilha: any;
   linha: any;
   campos = [];
@@ -106,13 +107,11 @@ export class Novo2Component implements OnInit {
   produto:any ;
 
   incomingfile(event) {
-    var file: File;
-    this.itemsNew = [];
-    file = event.target.files[0];
-    this.importar(file);
+    this.file = event.target.files[0]
+    this.importar();
   }
 
-  importar(file) {
+  importar() {
     this.planilha = new FileReader();
     this.planilha.onload = (e) => {
       this.arrayBuffer = this.planilha.result;
@@ -129,9 +128,9 @@ export class Novo2Component implements OnInit {
       this.form.get('representada_id').setValue(this.representada.id);
       this[this.representada.func](json);
     }
-    if(file != undefined){
+    if(this.file != undefined){
       this.spinner.show();
-      this.planilha.readAsArrayBuffer(file);
+      this.planilha.readAsArrayBuffer(this.file);
     }
   }
 
@@ -139,8 +138,7 @@ export class Novo2Component implements OnInit {
     var inicial = 0;
     var final = 0;
     var clienteCnpj = (data[7][3].toString().length == 13)? "0"+data[7][3]: data[7][3];
-    
-    this.condComercial = data[12][1];
+    var condComercial = data[12][1];
     
     this.form.get('num_pedido').setValue(data[6][1]);
     this.form.get('transportadora').setValue(data[18][2]);
@@ -457,7 +455,7 @@ export class Novo2Component implements OnInit {
   }
 
 
-  @ViewChild(Novo2Component) table: Novo2Component;
+  @ViewChild(Novo2Component, {static: false}) table: Novo2Component;
 
   constructor(private fb: FormBuilder,
     private clientservice: ClientService,
@@ -506,7 +504,7 @@ export class Novo2Component implements OnInit {
       data_entrega: [null],
       data_programada: [null],
       desconto: [null],
-      situacao: ['pendente'],
+      situacao: [null],
       pedido_produtos: this.fb.array([])
     });
     this.produto = this.form.get('pedido_produtos') as FormArray;
@@ -540,25 +538,23 @@ export class Novo2Component implements OnInit {
     this.produto.push(this.fb.group({
       codigo: item.codigo,
       nome: item.nome,
-      produto_id: item.id,
       quantidade: item.quantidade,
-      unidade: item.unidade,
-      embalagem: item.embalagem,
+      unidade: {value: item.unidade, disabled: true},
+      embalagem: {value: item.embalagem, disabled: true},
       tamanho: item.tamanho,
-      ipi: item.ipi,
+      ipi: {value: item.ipi, disabled: true},
       desconto: item.desconto,
-      valor_unitario: item.valorUnitario,
-      valor_total: (item.quantidade * item.valorUnitario),
-      comissao_produto: item.comissao,
-      obs: ''
+      valorUnitario: item.valorUnitario,
+      valorTotal: {value: 0, disabled: true},
+      comissao: item.comissao,
+      observacao: ''
     }));
   }
 
   setAreaDeVenda(id){
     this.clientservice.getAreaVendaId(id).subscribe((res:any) => {
       if(res.success == true){
-        console.log(res);
-        this.form.get('area_venda_id').setValue(res.data.id);
+        this.form.get('area_venda_id').setValue(id);
         this.form.get('vendedor_id').setValue(res.data.vendedor_id);
         this.form.get('auxiliar_id').setValue(res.data.auxiliar_id);
         this.form.get('regiao_id').setValue(res.data.regiao_id);
@@ -576,10 +572,7 @@ export class Novo2Component implements OnInit {
     this.rows = temp;
     this.table = this.data;
   }
-  setTotal(i){
-    let  valor = this.produto.at(i).get('quantidade').value * this.produto.at(i).get('valor_unitario').value;
-    this.produto.at(i).get('valor_total').setValue(valor);
-  }
+
   cnpjFilter(cnpj){
     return this.representadas.filter(d => d.cnpj == cnpj);
   }
@@ -617,6 +610,7 @@ export class Novo2Component implements OnInit {
       dialogConfig,
     );
     this.dialogRef.afterClosed().subscribe(value => {
+      let produto;
       console.log(value, "Value retornado")
       value.forEach(element => {
         this.addItemPlan(element)
@@ -649,55 +643,86 @@ export class Novo2Component implements OnInit {
   }
 
   comissaoMedia(){
-    let i=0;
+    let i=1;
     let comissao = 0
-    this.produto.controls.forEach(element => {
-      comissao += element.get('comissao_produto').value;
+    this.items.forEach(element => {
+      comissao = +comissao + +element.comissao
       i++;
     })
-    this.form.get('comissao_media').setValue(comissao/i);
-    return comissao/i;
+    return comissao/(i-1);
   }
 
   comissaoBruta(){
     let comissao = 0
-    this.produto.controls.forEach(element => {
-      comissao += ((element.get('quantidade').value*element.get('valor_unitario').value) * element.get('comissao_produto').value/100)
+    this.items.forEach(element => {
+      comissao = +comissao + +((element.quantidade*element.valorUnitario) * element.comissao/100)
     })
-    this.form.get('comissao_bruto').setValue(comissao);
     return comissao;
   }
 
   valorTotal(){
-   let total = 0;
-   this.produto.controls.forEach(element => {
-     total += element.get('valor_total').value;
-   })
-   this.form.get('valor_total').setValue(total);
-   return total;
+    let valor = 0
+    this.items.forEach(element => {
+      valor = +valor + +((element.quantidade*element.valorUnitario))
+    })
+    return valor.toFixed(2);
   }
 
   enviarPedido() {
-    console.log(this.form.value);
+    /*
+    let pedido;
+    pedido = {
+      representada_id: this.representada.id,
+      cliente_id: this.selectedCliente,
+      condicao_comercial_id: this.selectedCondComerciais,
+      vendedor_id: this.selectedAreaVenda.vendedor_id,
+      auxiliar_id: this.selectedAreaVenda.auxiliar_id,
+      regiao_id: this.selectedAreaVenda.regiao_id,
+      num_pedido: this.form.value.pedido,
+      data_emissao: this.dateFormatPipe.transform(new Date(this.form.value.emissao)),
+      data_entrega: this.dateFormatPipe.transform(new Date(this.form.value.entrega)),
+      data_programada: this.dateFormatPipe.transform(new Date(this.form.value.programado)),
+      desconto: 5,
+      frete: this.form.value.frete,
+      transportadora: this.form.value.transportadora,
+      valor_total: this.ValorTotal,
+      comissao_media: this.comissaoMedia(),
+      comissao_bruto: this.comissaoBruta(),
+      status: true,
+      situacao: "Pendente",
+      entregue: false,
+      obs: this.form.value.observacao,
+      pedido_produtos: this.produtos()
+    }
+    */
+
     this.clientservice.addPedido(this.form.value).subscribe(res => {
       this.resposta = res
       if (this.resposta.status == 'success') {
-        this.notificationService.notify(`Pedido Cadastrado com Sucesso!`);
+        this.notificationService.notify(`Pedido Cadastrado com Sucesso!`)
         setTimeout(() => { this.router.navigate(['/pedido/', 'listar']) }, 1500);
       } else {
         this.notificationService.notify(`Erro contate o Administrador`)
       }
-    });
+    }
+    );
+
   }
 
   clearProdutos(){
-    while (this.produto.controls.length) {
-      this.produto.removeAt(0);
-    }
+
   }
 
   removeItem(index){
     this.produto.removeAt(index);
+  }
+  
+  total() {
+    let total = 0;
+    this.produto.controls.forEach(element => {
+      total += element.get('valorTotal').value
+    });
+    return Math.round((total)*100)/100;
   }
 
   hide = true;

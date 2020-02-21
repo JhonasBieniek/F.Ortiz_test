@@ -30,7 +30,7 @@ export class ComissoesComponent implements OnInit {
       { prop: 'percentual' },
             ];       
 
-  @ViewChild(ComissoesComponent) table: ComissoesComponent;
+  @ViewChild(ComissoesComponent, {static: false}) table: ComissoesComponent;
   constructor(private clientservice: ClientService, private dialog: MatDialog) {
 
     this.clientservice.getComissoes().subscribe(res =>{

@@ -28,7 +28,7 @@ export class GruposComponent implements OnInit {
       { prop: 'modified' },
             ];       
 
-  @ViewChild(GruposComponent) table: GruposComponent;
+  @ViewChild(GruposComponent, {static: false}) table: GruposComponent;
   constructor(private clientservice: ClientService, private dialog: MatDialog) {
 
     this.clientservice.getGrupos().subscribe(res =>{

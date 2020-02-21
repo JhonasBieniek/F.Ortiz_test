@@ -29,7 +29,7 @@ export class AreaVendaComponent implements OnInit {
       { prop: 'status' },
             ];       
 
-  @ViewChild(AreaVendaComponent) table: AreaVendaComponent;
+  @ViewChild(AreaVendaComponent, {static: false}) table: AreaVendaComponent;
   constructor(private clientservice: ClientService, private dialog: MatDialog) {
 
     this.clientservice.getAreaVenda().subscribe(res =>{

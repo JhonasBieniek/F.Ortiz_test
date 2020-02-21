@@ -28,7 +28,7 @@ export class ListarComponent implements OnInit {
 
   isEditable = {};               
   
-  @ViewChild(ListarComponent) table: ListarComponent;
+  @ViewChild(ListarComponent, {static: false}) table: ListarComponent;
   constructor(
     private clientservice: ClientService,
     private router: Router,

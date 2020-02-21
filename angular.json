@@ -27,12 +27,13 @@
               "node_modules/quill/dist/quill.bubble.css",
               "node_modules/angular-calendar/css/angular-calendar.css",
               "node_modules/dragula/dist/dragula.css",
+              "node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
+              "node_modules/@swimlane/ngx-datatable/release/index.css",
+              "node_modules/@swimlane/ngx-datatable/release/themes/material.css",
+              "node_modules/@swimlane/ngx-datatable/release/assets/icons.css",
               "src/assets/styles/style.scss"
             ],
-            "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
-              "src/assets/js/jquery.sparkline.min.js"
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -89,10 +90,15 @@
               "node_modules/quill/dist/quill.bubble.css",
               "node_modules/angular-calendar/css/angular-calendar.css",
               "node_modules/dragula/dist/dragula.css",
+              "node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
+              "node_modules/@swimlane/ngx-datatable/release/index.css",
+              "node_modules/@swimlane/ngx-datatable/release/themes/material.css",
+              "node_modules/@swimlane/ngx-datatable/release/assets/icons.css",
               "src/assets/styles/style.scss"
             ],
             "assets": [
               "src/assets",
+
               "src/favicon.ico"
             ]
           }
@@ -113,7 +119,7 @@
     },
     "material-e2e": {
       "root": "",
-      "sourceRoot": "e2e",
+      "sourceRoot": "",
       "projectType": "application",
       "architect": {
         "e2e": {

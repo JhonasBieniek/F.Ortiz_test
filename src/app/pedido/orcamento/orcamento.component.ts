@@ -88,8 +88,8 @@ export class OrcamentoComponent implements OnInit {
     { prop: 'tamanho' }
   ];
 
-  @ViewChild('shoppingCart') shoppingCart: ShoppingCartComponent;
-  @ViewChild(OrcamentoComponent) table: OrcamentoComponent;
+  @ViewChild('shoppingCart', {static: false}) shoppingCart: ShoppingCartComponent;
+  @ViewChild(OrcamentoComponent, {static: false}) table: OrcamentoComponent;
 
   constructor(private fb: FormBuilder,
     private clientservice: ClientService,

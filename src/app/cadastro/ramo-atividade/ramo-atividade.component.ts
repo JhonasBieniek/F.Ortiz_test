@@ -27,7 +27,7 @@ export class RamoAtividadeComponent implements OnInit {
       { prop: 'modified' },
             ];       
 
-  @ViewChild(RamoAtividadeComponent) table: RamoAtividadeComponent;
+  @ViewChild(RamoAtividadeComponent, {static: false}) table: RamoAtividadeComponent;
   constructor(private clientservice: ClientService, private dialog: MatDialog) {
 
     this.clientservice.getRamos().subscribe(res =>{

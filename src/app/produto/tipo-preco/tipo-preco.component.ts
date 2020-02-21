@@ -25,7 +25,7 @@ export class TipoPrecoComponent implements OnInit {
       { name: 'Ações' } 
   ];       
 
-  @ViewChild(TipoPrecoComponent) table: TipoPrecoComponent;
+  @ViewChild(TipoPrecoComponent, {static: false}) table: TipoPrecoComponent;
   constructor(private fb: FormBuilder) {
       this.rows = data;
       this.temp = [...data];

@@ -27,7 +27,7 @@ export class UsuariosComponent implements OnInit {
       { prop: 'status' },
             ];       
 
-  @ViewChild(UsuariosComponent) table: UsuariosComponent;
+  @ViewChild(UsuariosComponent, {static: false}) table: UsuariosComponent;
   constructor(private clientservice: ClientService, private dialog: MatDialog) {
 
     this.clientservice.getUsuarios().subscribe(res =>{

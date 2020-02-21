@@ -31,7 +31,7 @@ export class ListarComponent implements OnInit {
       { prop: 'modified' },
   ];       
 
-  @ViewChild(ListarComponent) table: ListarComponent;
+  @ViewChild(ListarComponent, {static: false}) table: ListarComponent;
   constructor(private clientservice: ClientService) {
 
     this.clientservice.getProdutos().subscribe(res =>{

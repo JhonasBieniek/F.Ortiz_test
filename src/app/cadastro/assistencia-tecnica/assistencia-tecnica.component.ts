@@ -22,7 +22,7 @@ export class AssistenciaTecnicaComponent implements OnInit {
 
   ];       
 
-  @ViewChild(AssistenciaTecnicaComponent) table: AssistenciaTecnicaComponent;
+  @ViewChild(AssistenciaTecnicaComponent, {static: false}) table: AssistenciaTecnicaComponent;
   constructor(private clientservice: ClientService) {
 
     this.clientservice.getClientes().subscribe(res =>{

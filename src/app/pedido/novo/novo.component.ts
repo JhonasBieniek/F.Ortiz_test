@@ -88,8 +88,8 @@ export class NovoComponent implements OnInit {
     { prop: 'tamanho' }
   ];
 
-  @ViewChild('shoppingCart') shoppingCart: ShoppingCartComponent;
-  @ViewChild(NovoComponent) table: NovoComponent;
+  @ViewChild('shoppingCart', {static: false}) shoppingCart: ShoppingCartComponent;
+  @ViewChild(NovoComponent, {static: false}) table: NovoComponent;
 
   constructor(private fb: FormBuilder,
     private clientservice: ClientService,

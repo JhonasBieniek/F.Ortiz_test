@@ -29,7 +29,7 @@ export class FornecedorComponent implements OnInit {
 
   ];       
 
-  @ViewChild(FornecedorComponent) table: FornecedorComponent;
+  @ViewChild(FornecedorComponent, {static: false}) table: FornecedorComponent;
   constructor(private clientservice: ClientService, private dialog: MatDialog) {
 
     this.clientservice.getForncedores().subscribe(res =>{

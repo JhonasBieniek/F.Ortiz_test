@@ -2,7 +2,7 @@
   <form [formGroup]="funcionario">
     <ng-template matStepLabel>Cadastre o funcionário</ng-template>
 
-    <div fxLayout="row" fxLayoutWrap="wrap" class="row">
+    <div fxLayout="row wrap" class="row">
 
       <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <mat-card-header class="bg-info text-white">
@@ -89,7 +89,7 @@
 
     </div>
 
-    <div formGroupName="endereco" fxLayout="row" fxLayoutWrap="wrap" class="row">
+    <div formGroupName="endereco" fxLayout="row wrap" class="row">
       <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <mat-card-header class="bg-info text-white">
           <mat-card-title class="Endereco">Endereço</mat-card-title>
@@ -160,7 +160,7 @@
       </div>
     </div>
 
-    <div fxLayout="row" fxLayoutWrap="wrap" class="row">
+    <div fxLayout="row wrap" class="row">
       <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <mat-card-header class="bg-info text-white">
           <mat-card-title class="Endereco">Dados de contato</mat-card-title>
@@ -227,7 +227,7 @@
 
     <div>
       <button mat-raised-button color="primary" type="submit" [disabled]="!funcionario.valid" (click)="onSubmit(); close()">Salvar</button>
-      <button mat-raised-button color="warn"  (click)="close()" >Cancelar</button>
+      <button mat-raised-button class="pl-3" color="warn"  (click)="close()" >Cancelar</button>
     </div>
   </form>
 </mat-card-content>

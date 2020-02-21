@@ -31,7 +31,7 @@ export class UnidadeComponent implements OnInit {
 
   ];       
 
-  @ViewChild(UnidadeComponent) table: UnidadeComponent;
+  @ViewChild(UnidadeComponent, {static: false}) table: UnidadeComponent;
   constructor(private clientservice: ClientService, private dialog: MatDialog) {
 
     this.clientservice.getUnidades().subscribe(res =>{

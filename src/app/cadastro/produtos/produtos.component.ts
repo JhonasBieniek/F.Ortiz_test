@@ -28,7 +28,7 @@ export class ProdutosComponent implements OnInit {
       { prop: 'representada.nome_fantasia' }
   ];       
 
-  @ViewChild(ProdutosComponent) table: ProdutosComponent;
+  @ViewChild(ProdutosComponent, {static: false}) table: ProdutosComponent;
   constructor(private clientservice: ClientService, private dialog: MatDialog) {
     this.refreshTable();                            
   }

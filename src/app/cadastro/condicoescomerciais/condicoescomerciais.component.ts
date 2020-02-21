@@ -27,7 +27,7 @@ export class CondicoescomerciaisComponent implements OnInit {
       { prop: 'tipo' },
   ];       
 
-  @ViewChild(CondicoescomerciaisComponent) table: CondicoescomerciaisComponent;
+  @ViewChild(CondicoescomerciaisComponent, {static: false}) table: CondicoescomerciaisComponent;
   constructor(private clientservice: ClientService, private dialog: MatDialog) {
 
     this.clientservice.getCondComerciais().subscribe(res =>{

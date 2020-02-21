@@ -30,7 +30,7 @@ export class RepresentadaComponent implements OnInit {
 
   ];       
 
-  @ViewChild(RepresentadaComponent) table: RepresentadaComponent;
+  @ViewChild(RepresentadaComponent, {static: false}) table: RepresentadaComponent;
   constructor(private clientservice: ClientService, private dialog: MatDialog) {
     this.refreshTable();                               
   }

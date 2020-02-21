@@ -82,7 +82,7 @@
                 [floatLabel]="form.value.floatLabel">
                 <mat-label>Área de venda</mat-label>
                 <mat-select formControlName="area_venda_id">
-                  <mat-option *ngFor="let area of areas" [value]="area.id" (click)="setAreaDeVenda(area.id)">
+                  <mat-option *ngFor="let area of areas" [value]="area.id" (click)="chargeAreaVendas(area)">
                     {{area.nome}}
                   </mat-option>
                 </mat-select>
@@ -156,7 +156,7 @@
                   <div fxLayout="row" fxLayoutWrap="wrap">
                     <mat-form-field fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="10" appearance="outline">
                       <mat-label>Qtd.</mat-label>
-                      <input matInput placeholder="Qtd" formControlName="quantidade" (blur)="setTotal(i)" >
+                      <input matInput (keyup)="totalCalc(produto.get('quantidade').value, produto.get('valorUnitario'), i)" placeholder="Qtd" formControlName="quantidade" >
                     </mat-form-field>
                     <mat-form-field fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="20" appearance="outline">
                       <mat-label>Unidade</mat-label>
@@ -174,24 +174,29 @@
                         >
                     </mat-form-field>
                     <mat-form-field fxFlex.gt-sm="15" fxFlex.gt-xs="13" fxFlex="13" appearance="outline">
-                      <input matInput placeholder="Valor Unit." formControlName="valor_unitario" (blur)="setTotal(i)" currencyMask
+                      <input matInput (keyup)="totalCalc(produto.get('quantidade').value, produto.get('valorUnitario'), i)" placeholder="Valor Unit." formControlName="valorUnitario" currencyMask
                         >
                     </mat-form-field>
                     <mat-form-field fxFlex.gt-sm="13" fxFlex.gt-xs="13" fxFlex="13" appearance="outline">
-                      <input matInput placeholder="Comissão" formControlName="comissao_produto" mask="percent" suffix="%"
+                      <input matInput placeholder="Comissão" formControlName="comissao" mask="percent" suffix="%"
                         >
                     </mat-form-field>
                     <mat-form-field fxFlex.gt-sm="14" fxFlex.gt-xs="14" fxFlex="14" appearance="outline">
                       <input matInput placeholder="Tamanho" formControlName="tamanho" >
                     </mat-form-field>
                     <mat-form-field fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="15" appearance="outline">
-                      <input matInput placeholder="Vlr total" currencyMask formControlName="valor_total" >
+                      <input [disabled]="true" matInput placeholder="Vlr total" formControlName="valorTotal" currencyMask>
                     </mat-form-field>
                     <mat-form-field fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="70" appearance="outline">
-                      <input matInput placeholder="Observação" formControlName="obs" >
+                      <input matInput placeholder="Observação" formControlName="observacao" >
                     </mat-form-field>
                   </div>
                 </ng-container>
+              </div>
+              <div>
+                <tr>
+                  <th>Valor Total: {{total() | currency:'BRL':true:'1.2-2'}}</th>
+                </tr>
               </div>
               <div *ngIf="form.get('pedido_produtos').controls.length > 0" fxLayoutAlign="end center" >
                 <button mat-button color="warn" (click)="clearProdutos()"><i class="material-icons">delete_outline</i>Limpar</button>
@@ -200,9 +205,9 @@
           </div>
         </form>
         
-        <div *ngIf="valorTotal() != 0" style="margin-top: -40px; color: black; text-align: left;">
-          <tr>
-            <th style="color: red;">Valor Total Nota: {{valorTotal() | currency:'BRL':true:'1.2-2'}}</th>
+        <div *ngIf="ValorTotal !=0" style="margin-top: -40px; color: black; text-align: left;">
+          <tr *ngIf="ValorTotal != valorTotal()">
+            <th style="color: red;">Valor Total Nota: {{ValorTotal | currency:'BRL':true:'1.2-2'}}</th>
           </tr>
           <tr>
             <th>Comissão Média: {{comissaoMedia()}}%</th>
@@ -212,7 +217,7 @@
           </tr>
         </div>
         <div style="margin-top: 20px; margin-left:5px">
-          <button mat-stroked-button color="primary" (click)="enviarPedido()" [disabled]="!form.valid">Finalizar</button>
+          <button mat-stroked-button color="primary" (click)="enviarPedido()" [disabled]="form.valid">Finalizar</button>
         </div>
       </mat-card-content>
     </mat-card>

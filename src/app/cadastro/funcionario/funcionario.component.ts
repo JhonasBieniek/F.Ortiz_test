@@ -30,7 +30,7 @@ export class FuncionarioComponent implements OnInit {
 
   ];       
 
-  @ViewChild(FuncionarioComponent) table: FuncionarioComponent;
+  @ViewChild(FuncionarioComponent, {static: false}) table: FuncionarioComponent;
   constructor(private clientservice: ClientService, private dialog: MatDialog) {
 
     this.clientservice.getFuncionarios().subscribe((res:any) =>{

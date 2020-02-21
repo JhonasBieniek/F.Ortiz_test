@@ -41,7 +41,7 @@ export class ListarComponent implements OnInit {
 
   ];       
 
-  @ViewChild(ListarComponent) table: ListarComponent;
+  @ViewChild(ListarComponent, {static: false}) table: ListarComponent;
   constructor(private clientservice: ClientService) {
 
     this.clientservice.getRepresentadas().subscribe(

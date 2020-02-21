@@ -28,4 +28,4 @@ import { UserService } from './services/user.service.component';
                UserService
               ]
 })
-export class SharedModule { }
+export class SharedModule {}

@@ -26,7 +26,7 @@ export interface Menu {
   type: string;
   icon: string;
   badge?: BadgeItem[];
-  saperator?: Saperator[];    
+  saperator?: Saperator[];
   children?: ChildrenItems[];
 }
 
@@ -48,18 +48,18 @@ const MENUITEMS = [
     type: 'sub',
     icon: 'person',
     children: [
-      {state: 'areavenda', name: 'Áreas de Vendas'},
-      {state: 'cargos', name: 'Cargos'},
+      {state: 'areavenda', name: 'Áreas de Vendas', type: 'link' },
+      {state: 'cargos', name: 'Cargos', type: 'link' },
       {state: 'cliente', name: 'Clientes'},
-      {state: 'condicoescomerciais', name: 'Condições Comerciais'},
-      {state: 'comissoes', name: 'Comissões'},
-      {state: 'funcionario', name: 'Funcionários'},
-      {state: 'grupos', name: 'Grupos'},
-      {state: 'produtos', name: 'Produtos'},
-      {state: 'ramo-atividade', name: 'Ramo de Atividade'},
-      {state: 'regioes', name: 'Regiões'},
-      {state: 'representada', name: 'Representadas'},
-      {state: 'unidade', name: 'Unidades'},     
+      {state: 'condicoescomerciais', name: 'Condições Comerciais', type: 'link' },
+      {state: 'comissoes', name: 'Comissões', type: 'link' },
+      {state: 'funcionario', name: 'Funcionários', type: 'link' },
+      {state: 'grupos', name: 'Grupos', type: 'link' },
+      {state: 'produtos', name: 'Produtos', type: 'link' },
+      {state: 'ramo-atividade', name: 'Ramo de Atividade', type: 'link' },
+      {state: 'regioes', name: 'Regiões', type: 'link' },
+      {state: 'representada', name: 'Representadas', type: 'link' },
+      {state: 'unidade', name: 'Unidades', type: 'link' },     
     ]
   },{
     state: 'pedido',
@@ -67,11 +67,11 @@ const MENUITEMS = [
     type: 'sub',
     icon: 'dvr',
     children: [
-      {state: 'importar', name: 'Importar'},
-      {state: 'listar-pedido', name: 'Pedidos'},
-      {state: 'listar-orcamento', name: 'Orçamentos'},
-      {state: 'conciliacao', name: 'Conciliação de Notas'},
-      {state: 'relatorios', name: 'Relatórios'},
+      {state: 'importar', name: 'Importar', type: 'link' },
+      {state: 'listar-pedido', name: 'Pedidos', type: 'link' },
+      {state: 'listar-orcamento', name: 'Orçamentos', type: 'link' },
+      {state: 'conciliacao', name: 'Conciliação de Notas', type: 'link' },
+      {state: 'relatorios', name: 'Relatórios', type: 'link' },
     ]
   },{
     state: 'comissao',
@@ -79,20 +79,20 @@ const MENUITEMS = [
     type: 'sub',
     icon: 'trending_up',
     children: [
-      {state: 'receber', name: 'A receber'},  
-      {state: 'repasses', name: 'Repasses'},  
-      {state: 'recebidos', name: 'Recebidos'},
-      {state: 'recebimentos', name: 'Recebimentos'},
+      {state: 'receber', name: 'A receber', type: 'link' },  
+      {state: 'repasses', name: 'Repasses', type: 'link' },  
+      {state: 'recebidos', name: 'Recebidos', type: 'link' },
+      {state: 'recebimentos', name: 'Recebimentos', type: 'link' },
       {
         state: 'relcomissao',
         name: 'Relatórios',
         type: 'subchild',
         subchildren: [
-            {state: 'comissoes', name: 'Comissoes'},
-            {state: 'acumulado', name: 'Acumulado'},
-            {state: 'checkbox', name: 'Recebimento'},
-            {state: 'datepicker', name: 'Devoluções'},    
-            {state: 'editor', name: 'Estornos'}
+            {state: 'comissoes', name: 'Comissoes', type: 'link' },
+            {state: 'acumulado', name: 'Acumulado', type: 'link' },
+            {state: 'checkbox', name: 'Recebimento', type: 'link' },
+            {state: 'datepicker', name: 'Devoluções', type: 'link' },    
+            {state: 'editor', name: 'Estornos', type: 'link' }
         ]
       }
     ]
@@ -102,55 +102,41 @@ const MENUITEMS = [
     type: 'sub',
     icon: 'monetization_on',
     children: [
-      {state: 'financeiro', name: 'Caixa e Bancos'},
-      {state: 'financeiro', name: 'Criar Banco'},
-      {state: 'financeiro', name: 'Grupo Despesa'},
-      {state: 'financeiro', name: 'Criar Categoria'},
-      {state: 'financeiro', name: 'Contas a Pagar'},
-      {state: 'financeiro', name: 'Contas a Receber'},
-      {state: 'financeiro', name: 'Configurar'},
+      {state: 'financeiro', name: 'Caixa e Bancos', type: 'link' },
+      {state: 'financeiro', name: 'Criar Banco', type: 'link' },
+      {state: 'financeiro', name: 'Grupo Despesa', type: 'link' },
+      {state: 'financeiro', name: 'Criar Categoria', type: 'link' },
+      {state: 'financeiro', name: 'Contas a Pagar', type: 'link' },
+      {state: 'financeiro', name: 'Contas a Receber', type: 'link' },
+      {state: 'financeiro', name: 'Configurar', type: 'link' },
     ]
-  }/*{
-    state: 'configuracao',
-    name: 'Configuração',
-    type: 'sub',
-    icon: 'build',
-    children: [
-      {state: 'configuracao', name: 'Produto'},
-      {state: 'configuracao', name: 'Pedido'},
-      {state: 'configuracao', name: 'PDF'},
-      {state: 'configuracao', name: 'Venda'},
-      {state: 'configuracao', name: 'Crédito'},
-      {state: 'configuracao', name: 'Nota Fiscal'},
-      {state: 'configuracao', name: 'Financeiro'},
-    ]
-  },*/ /*
-    {
+  },
+  {
     state: 'material',
     name: 'Material Ui',
     type: 'sub',
     icon: 'bubble_chart',
-    badge: [
-      {type: 'red', value: '17'}
-    ],
+    badge: [{ type: 'red', value: '17' }],
     children: [
-      {state: 'button', name: 'Buttons'},
-      {state: 'cards', name: 'Cards'},
-      {state: 'grid', name: 'Grid List'},
-      {state: 'lists', name: 'Lists'},
-      {state: 'menu', name: 'Menu'},
-      {state: 'tabs', name: 'Tabs'},
-      {state: 'stepper', name: 'Stepper'},
-      {state: 'expansion', name: 'Expansion Panel'},
-      {state: 'chips', name: 'Chips'},
-      {state: 'toolbar', name: 'Toolbar'},
-      {state: 'progress-snipper', name: 'Progress snipper'},
-      {state: 'progress', name: 'Progress Bar'},
-      {state: 'dialog', name: 'Dialog'},
-      {state: 'tooltip', name: 'Tooltip'},
-      {state: 'snackbar', name: 'Snackbar'},
-      {state: 'slider', name: 'Slider'},
-      {state: 'slide-toggle', name: 'Slide Toggle'}     
+      { state: 'badge', name: 'Badge', type: 'link' },
+      { state: 'button', name: 'Buttons', type: 'link' },
+      { state: 'cards', name: 'Cards', type: 'link' },
+      { state: 'grid', name: 'Grid List', type: 'link' },
+      { state: 'lists', name: 'Lists', type: 'link' },
+      { state: 'menu', name: 'Menu', type: 'link' },
+      { state: 'tabs', name: 'Tabs', type: 'link' },
+      { state: 'stepper', name: 'Stepper', type: 'link' },
+      { state: 'ripples', name: 'Ripples', type: 'link' },
+      { state: 'expansion', name: 'Expansion Panel', type: 'link' },
+      { state: 'chips', name: 'Chips', type: 'link' },
+      { state: 'toolbar', name: 'Toolbar', type: 'link' },
+      { state: 'progress-snipper', name: 'Progress snipper', type: 'link' },
+      { state: 'progress', name: 'Progress Bar', type: 'link' },
+      { state: 'dialog', name: 'Dialog', type: 'link' },
+      { state: 'tooltip', name: 'Tooltip', type: 'link' },
+      { state: 'snackbar', name: 'Snackbar', type: 'link' },
+      { state: 'slider', name: 'Slider', type: 'link' },
+      { state: 'slide-toggle', name: 'Slide Toggle', type: 'link' }
     ]
   },
   {
@@ -159,120 +145,172 @@ const MENUITEMS = [
     type: 'sub',
     icon: 'apps',
     children: [
-      {state: 'calendar', name: 'Calendar'},
-      {state: 'messages', name: 'Mail box'},
-      {state: 'chat', name: 'Chat'},
-      {state: 'taskboard', name: 'Taskboard'}    
+      { state: 'calendar', name: 'Calendar', type: 'link' },
+      { state: 'messages', name: 'Mail box', type: 'link' },
+      { state: 'chat', name: 'Chat', type: 'link' },
+      { state: 'taskboard', name: 'Taskboard', type: 'link' },
+      { state: 'contact', name: 'Contact', type: 'link' },
+      { state: 'ticketlist', name: 'Ticket List', type: 'link' },
+      { state: 'ticketdetails', name: 'Ticket Details', type: 'link' }
     ]
   },
-    {
-    state: '',    
+  {
+    state: '',
     name: 'Forms, Table & Widgets',
     type: 'saperator',
-    icon: 'av_timer'    
-  },{
+    icon: 'av_timer'
+  },
+  {
     state: 'forms',
     name: 'Forms',
     type: 'sub',
     icon: 'insert_drive_file',
-    
     children: [
-      
-      {state: 'form-layout', name: 'Form-Layout'},
-      {state: 'autocomplete', name: 'Autocomplete'},
-      {state: 'checkbox', name: 'Checkbox'},
-      {state: 'datepicker', name: 'Datepicker'},    
-      {state: 'editor', name: 'Editor'},
-      {state: 'form-validation', name: 'Form Validation'},
-      {state: 'file-upload', name: 'File Upload'},
-      {state: 'wizard', name: 'Wizard'}        
-          
+      { state: 'form-layout', name: 'Form-Layout', type: 'link' },
+      { state: 'autocomplete', name: 'Autocomplete', type: 'link' },
+      { state: 'checkbox', name: 'Checkbox', type: 'link' },
+      { state: 'radiobutton', name: 'Radio Button', type: 'link' },
+      { state: 'datepicker', name: 'Datepicker', type: 'link' },
+      { state: 'select', name: 'Select', type: 'link' },
+      { state: 'formfield', name: 'Form Field', type: 'link' },
+      { state: 'input', name: 'Inputs', type: 'link' },
+      { state: 'tree', name: 'Tree', type: 'link' },
+      { state: 'editor', name: 'Editor', type: 'link' },
+      { state: 'form-validation', name: 'Form Validation', type: 'link' },
+      { state: 'file-upload', name: 'File Upload', type: 'link' },
+      { state: 'wizard', name: 'Wizard', type: 'link' },
+      { state: 'paginator', name: 'Paginator', type: 'link' },
+      { state: 'sortheader', name: 'Sort Header', type: 'link' }
     ]
-  },{
+  },
+  {
     state: 'tables',
     name: 'Tables',
     type: 'sub',
     icon: 'web',
-     
     children: [
-      
-      {state: 'basictable', name: 'Basic Table'},
-      {state: 'filterable', name: 'Filterable Table'},
-      {state: 'pagination', name: 'Pagination Table'},
-      {state: 'sortable', name: 'Sortable Table'},
-      {state: 'mix', name: 'Mix Table'}    
-          
+      { state: 'basictable', name: 'Basic Table', type: 'link' },
+      { state: 'filterable', name: 'Filterable Table', type: 'link' },
+      { state: 'pagination', name: 'Pagination Table', type: 'link' },
+      { state: 'sortable', name: 'Sortable Table', type: 'link' },
+      { state: 'mix', name: 'Mix Table', type: 'link' },
+      { state: 'smarttable', name: 'Smart Table', type: 'link' }
     ]
-  },{
+  },
+  {
     state: 'datatables',
     name: 'Data Tables',
     type: 'sub',
     icon: 'border_all',
-    
     children: [
-      {state: 'basicdatatable', name: 'Basic Data Table'},
-      {state: 'filter', name: 'Filterable'},
-      {state: 'editing', name: 'Editing'},
+      { state: 'basicdatatable', name: 'Basic Data Table', type: 'link' },
+      { state: 'filter', name: 'Filterable', type: 'link' },
+      { state: 'editing', name: 'Editing', type: 'link' },
+      { state: 'materialtable', name: 'Material Table', type: 'link' }
     ]
-  },{
+  },
+  {
     state: 'widgets',
     name: 'Widgets',
     type: 'link',
     icon: 'widgets'
-  },{
-    state: '',    
+  },
+  {
+    state: '',
     name: 'Extra Component',
     type: 'saperator',
-    icon: 'av_timer'    
+    icon: 'av_timer'
   },
-    {
+  {
     state: 'authentication',
     name: 'Authentication',
     type: 'sub',
     icon: 'perm_contact_calendar',
-    
     children: [
-      {state: 'login', name: 'Login'},    
-      {state: 'register', name: 'Register'},      
-      {state: 'forgot', name: 'Forgot'},
-      {state: 'lockscreen', name: 'Lockscreen'},
-      {state: '404', name: 'Error'}      
-          
+      { state: 'login', name: 'Login', type: 'link' },
+      { state: 'register', name: 'Register', type: 'link' },
+      { state: 'forgot', name: 'Forgot', type: 'link' },
+      { state: 'lockscreen', name: 'Lockscreen', type: 'link' },
+      { state: '404', name: 'Error', type: 'link' }
     ]
-  },{
+  },
+  {
     state: 'charts',
     name: 'Charts',
     type: 'sub',
     icon: 'insert_chart',
-    
     children: [
-      {state: 'chartjs', name: 'Chart Js'},    
-      {state: 'chartistjs', name: 'Chartist Js'},
-      {state: 'ngxchart', name: 'Ngx Charts'}       
-      
+      { state: 'chartjs', name: 'Chart Js', type: 'link' },
+      { state: 'chartistjs', name: 'Chartist Js', type: 'link' },
+      { state: 'ngxchart', name: 'Ngx Charts', type: 'link' }
     ]
-  },{
+  },
+  {
     state: 'pages',
     name: 'Pages',
     type: 'sub',
     icon: 'content_copy',
-    
     children: [
-      {state: 'icons', name: 'Material Icons'}, 
-      {state: 'timeline', name: 'Timeline'},
-      {state: 'invoice', name: 'Invoice'}, 
-      {state: 'pricing', name: 'Pricing'},
-      {state: 'helper', name: 'Helper Classes'}  
+      { state: 'timeline', name: 'Timeline', type: 'link' },
+      { state: 'invoice', name: 'Invoice', type: 'link' },
+      { state: 'pricing', name: 'Pricing', type: 'link' },
+      { state: 'helper', name: 'Helper Classes', type: 'link' },
+      {
+        state: 'icons',
+        name: 'Icons',
+        type: 'subchild',
+        subchildren: [
+          {
+            state: 'material',
+            name: 'Material Icons',
+            type: 'link'
+          }
+        ]
+      }
     ]
-  }*/
-    
+  },
+  {
+    state: 'multi',
+    name: 'Menu Levels',
+    icon: 'star',
+    type: 'sub',
+    children: [
+      {
+        state: 'second-level',
+        name: 'Second Level',
+        type: 'link'
+      },
+      {
+        state: 'third-level',
+        name: 'Second Level',
+        type: 'subchild',
+        subchildren: [
+          {
+            state: 'third-level',
+            name: 'Third Level',
+            type: 'link'
+          }
+        ]
+      },
+      {
+        state: 'third-level',
+        name: 'aSecond Level',
+        type: 'subchild',
+        subchildren: [
+          {
+            state: 'athird-level',
+            name: 'Third Level',
+            type: 'link'
+          }
+        ]
+      }
+    ]
+  }
 ];
 
 @Injectable()
-
 export class MenuItems {
   getMenuitem(): Menu[] {
     return MENUITEMS;
   }
-
 }

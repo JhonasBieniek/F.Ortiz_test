@@ -30,7 +30,7 @@ export class CargosComponent implements OnInit {
       { prop: 'modified' },
   ];       
 
-  @ViewChild(CargosComponent) table: CargosComponent;
+  @ViewChild(CargosComponent, {static: false}) table: CargosComponent;
   constructor(private clientservice: ClientService, private dialog: MatDialog) {
     this.clientservice.getCargos().subscribe(res =>{
       this.data = res;

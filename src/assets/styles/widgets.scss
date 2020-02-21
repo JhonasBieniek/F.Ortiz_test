@@ -49,7 +49,7 @@ File: scss
                 flex-shrink: 0;
                 margin: 0 10px 0px 0;
             }
-            .mail-contnet{
+            .mail-content{
                 overflow: hidden;
             }
             .user-img {
@@ -82,8 +82,8 @@ File: scss
                     background: $warning;
                 }
             }
-            .mail-contnet {
-               
+            .mail-content {
+
                 h5 {
                     margin: 5px 0px 0;
                 }
@@ -234,13 +234,13 @@ File: scss
 .little-profile{
   .pro-img, .pro-img:first-child {
     margin-top: -110px;
-    margin-bottom: 20px; 
+    margin-bottom: 20px;
   img {
     width: 128px;
     height: 128px;
     -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    border-radius: 100%; 
+    border-radius: 100%;
       }
  }
 }

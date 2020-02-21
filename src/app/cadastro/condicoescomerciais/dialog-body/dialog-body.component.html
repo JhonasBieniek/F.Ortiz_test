@@ -1,6 +1,6 @@
     <div fxFlex.gt-sm="100%" fxFlex="100">
       <form [formGroup]="form">
-        <div fxLayout="row" fxLayoutWrap="wrap" class="row">
+        <div fxLayout="row wrap" class="row">
           <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
             <mat-card-header class="bg-info text-white">
               <mat-card-title class="dadosCadastro">{{pageTitle}}</mat-card-title>
@@ -51,7 +51,7 @@
                 <small *ngIf="form.controls['parcelas_qtd'].hasError('required') && form.controls['parcelas_qtd'].touched"
                   class="text-danger font-14">Você deve inserir um Número.</small>
               </div>
-              <div fxLayout="row" fxLayoutWrap="wrap" class="row" fxFlex="100"formArrayName="parcelas">
+              <div fxLayout="row wrap"class="row" fxFlex="100"formArrayName="parcelas">
                 <div *ngFor="let item of parcelas().controls; let i = index">
                   <ng-container [formGroupName]="i">
                     <div class="p-10" fxLayoutGap="20px" fxFlex="100">
