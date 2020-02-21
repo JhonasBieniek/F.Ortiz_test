@@ -315,8 +315,26 @@ export class ClientService {
               return res;
             });
   }
+  getAreaVendaId(id) {
+    const uri = `${API_URL}` + `area-vendas/view/`+id+`.json`;
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
   getRepresentadas() {
     const uri = `${API_URL}` + `representadas/index.json`;
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
+  getRepresentadasFunc() {
+    const uri = `${API_URL}` + `representadas/getRepresentadasFunc.json`;
     return this
             .http
             .get(uri)

@@ -41,10 +41,6 @@
         </mat-form-field>
         <mat-hint *ngIf="form.get('nome_fantasia').errors?.required && form.get('nome_fantasia').touched"
           class="text-danger font-14">Você deve incluir um nome fantasia.</mat-hint>
-        <mat-hint *ngIf="form.get('nome_fantasia').errors?.minlength && form.get('nome_fantasia').touched"
-          class="text-danger font-14">O nome tem que ter no mínimo 5 caracteres.</mat-hint>
-        <mat-hint *ngIf="form.get('nome_fantasia').errors?.maxlength && form.get('nome_fantasia').touched"
-          class="text-danger font-14">O nome não deve exceder 50 caracteres</mat-hint>
       </div>
       <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
         <mat-form-field appearance="outline">
@@ -52,10 +48,6 @@
         </mat-form-field>
         <mat-hint *ngIf="form.get('razao_social').errors?.required && form.get('razao_social').touched"
           class="text-danger font-14">Você deve incluir uma razão social.</mat-hint>
-        <mat-hint *ngIf="form.get('razao_social').errors?.minlength && form.get('razao_social').touched"
-          class="text-danger font-14">A razão social tem que conter no mínimo 5 caracteres.</mat-hint>
-        <mat-hint *ngIf="form.get('razao_social').errors?.maxlength && form.get('razao_social').touched"
-          class="text-danger font-14">A razão social não deve exceder 50 caracteres</mat-hint>
       </div>
     </div>
     <div formArrayName="enderecos" fxLayout="row" fxLayoutWrap="wrap" class="row">
@@ -185,7 +177,7 @@
       </div>
     </div>
     <mat-card-actions>
-      <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid" (click)="onSubmit(); close()">Salvar</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid" (click)="onSubmit();">Salvar</button>
       <button style="margin-left: 15px;" mat-raised-button color="warn" (click)="close()">Cancelar</button>
     </mat-card-actions>
   </form>
