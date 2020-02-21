@@ -61,27 +61,28 @@
     <div formArrayName="enderecos" fxLayout="row" fxLayoutWrap="wrap" class="row">
       <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <mat-card-header class="bg-info text-white">
-          <mat-card-title class="Endereco">Endereço</mat-card-title>
-          <button mat-icon-button (click)="addEndereco()">
-            <mat-icon>add</mat-icon>
-          </button>
+          <mat-card-title class="title container">Endereço</mat-card-title>
+          <div class="fill"></div>
+          <i class="material-icons plus-icons" (click)="addEndereco()">add_circle_outline</i> <span class="title">Adicionar endereço</span>
         </mat-card-header>
       </div>
       <div fxLayout="row" fxLayoutWrap="wrap" *ngFor="let endereco of form.get('enderecos').controls; index as i" [formGroupName]="i"  > 
-        <button mat-icon-button (click)="delEndereco(i)">
-          <mat-icon>clear</mat-icon>
-        </button>
+        <div class="p-10" fxFlex.gt-sm="5" fxFlex.gt-xs="5" fxFlex="100">
+          <button mat-icon-button (click)="delEndereco(i)">
+            <mat-icon class="clear">clear</mat-icon>
+          </button>
+        </div>  
         <div class="p-10" fxFlex.gt-sm="13" fxFlex.gt-xs="13" fxFlex="100">
           <mat-form-field appearance="outline">
             <input matInput placeholder="CEP" mask="00000-000" (blur)="onBlurMethod(i)" formControlName="cep">
           </mat-form-field>
         </div>
-        <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="55" fxFlex="100">
+        <div class="p-10" fxFlex.gt-sm="52" fxFlex.gt-xs="52" fxFlex="100">
           <mat-form-field appearance="outline">
             <input matInput placeholder="Logradouro" formControlName="logradouro">
           </mat-form-field>
         </div>
-        <div class="p-10" fxFlex.gt-sm="14" fxFlex.gt-xs="14" fxFlex="100">
+        <div class="p-10" fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="100">
           <mat-form-field appearance="outline">
             <input matInput placeholder="Número" formControlName="numero">
           </mat-form-field>
@@ -106,14 +107,12 @@
             <input matInput placeholder="Estado" formControlName="estado">
           </mat-form-field>
         </div>
-        <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="100">  
-        </div>  
       </div>
     </div>
     <div fxLayout="row" fxLayoutWrap="wrap" class="row">
       <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <mat-card-header class="bg-info text-white">
-          <mat-card-title class="Outros">Outros</mat-card-title>
+          <mat-card-title class="title">Outros</mat-card-title>
         </mat-card-header>
       </div>
       <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
@@ -174,7 +173,7 @@
       </div>
       <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <mat-card-header class="bg-info text-white">
-          <mat-card-title class="Endereco">Observação</mat-card-title>
+          <mat-card-title class="title">Observação</mat-card-title>
         </mat-card-header>
       </div>
       <div fxFlex.gt-sm="100" fxFlex="100">
