@@ -67,7 +67,7 @@ export class DialogBodyComissoesComponent implements OnInit {
   novaComissao(): FormGroup{
     return this.fb.group({
       representada_id: '',//new FormControl('', Validators.required),
-      faixas: this.fb.array([]),
+      comissao_faixas: this.fb.array([]),
     })
   }
 
@@ -80,14 +80,14 @@ export class DialogBodyComissoesComponent implements OnInit {
   }
 
   comissaoFaixas(comIndex: number) : FormArray{
-    return this.comissoes().at(comIndex).get("faixas") as FormArray
+    return this.comissoes().at(comIndex).get("comissao_faixas") as FormArray
 
   }
 
   novaFaixa(): FormGroup {
     return this.fb.group({
-      inicial: '',//new FormControl('', Validators.required),
-      final: ''//new FormControl('', Validators.required),
+      faixa: '',//new FormControl('', Validators.required),
+      percentual: ''//new FormControl('', Validators.required),
     })
   }
 

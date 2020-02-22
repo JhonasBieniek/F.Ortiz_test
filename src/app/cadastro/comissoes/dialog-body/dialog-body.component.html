@@ -44,19 +44,19 @@
               <div class="p-20" fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="10">
                 <i class="material-icons x-icons" (click)="removeComissao(comIndex); vTotal(); ">highlight_off</i><span class="del">Remover</span>
               </div>
-              <div formArrayName="faixas">
+              <div formArrayName="comissao_faixas">
                 <div *ngFor="let item of comissaoFaixas(comIndex).controls; let faixaIndex = index">
                   <div [formGroupName]="faixaIndex" fxLayout="row" fxLayoutGap="20px">
                     <div class="p-10 top" fxFlex.gt-sm="47" fxFlex.gt-xs="47" fxFlex="47">
                       <mat-form-field appearance="outline">
                         <mat-label>A partir de (%)</mat-label>
-                        <input matInput placeholder="a partir de %" formControlName="inicial">
+                        <input matInput placeholder="a partir de %" formControlName="faixa">
                       </mat-form-field>
                     </div>
                     <div class="p-10 top" fxFlex.gt-sm="47" fxFlex.gt-xs="47" fxFlex="47">
                       <mat-form-field appearance="outline">
                         <mat-label>Percentual</mat-label>
-                        <input matInput placeholder="Percentual" formControlName="final">
+                        <input matInput placeholder="Percentual" formControlName="percentual">
                       </mat-form-field>
                     </div>
                     <div class="p-20 top" fxFlex.gt-sm="6" fxFlex.gt-xs="6" fxFlex="6">

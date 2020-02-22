@@ -50,7 +50,7 @@ const MENUITEMS = [
     children: [
       {state: 'areavenda', name: 'Áreas de Vendas', type: 'link' },
       {state: 'cargos', name: 'Cargos', type: 'link' },
-      {state: 'cliente', name: 'Clientes'},
+      {state: 'cliente', name: 'Clientes', type: 'link'},
       {state: 'condicoescomerciais', name: 'Condições Comerciais', type: 'link' },
       {state: 'comissoes', name: 'Comissões', type: 'link' },
       {state: 'funcionario', name: 'Funcionários', type: 'link' },
