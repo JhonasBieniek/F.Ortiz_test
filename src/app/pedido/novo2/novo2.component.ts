@@ -123,7 +123,7 @@ export class Novo2Component implements OnInit {
       var workbook = XLSX.read(bstr, { type: "binary", raw: true });
       var first_sheet_name = workbook.SheetNames[0];
       var worksheet = workbook.Sheets[first_sheet_name];
-      //console.log(XLSX.utils.sheet_to_json(worksheet, { raw: true, header: 1 }));
+      console.log(XLSX.utils.sheet_to_json(worksheet, { raw: true, header: 1 }));
       var json = XLSX.utils.sheet_to_json(worksheet, { raw: true, header: 1 });
       this.createdForm();
       this.form.get('representada_id').setValue(this.representada.id);
@@ -202,16 +202,11 @@ export class Novo2Component implements OnInit {
     var inicial = 0;
     var final = 0;
 
-    let cliente = data[2][0].toString().match(new RegExp("\\d{2}\\.\\d{3}\\.\\d{3}\\/\\d{4}\\-\\d{2}", "g"))[0];
-    this.cliente = this.cliente.replace(/[^\d]+/g, '');
-    this.cliente = (this.cliente.length == 13)? "0"+this.cliente: this.cliente;
-
+    let clienteCnpj = data[2][0].toString().match(new RegExp("\\d{2}\\.\\d{3}\\.\\d{3}\\/\\d{4}\\-\\d{2}", "g"))[0];
+    clienteCnpj = clienteCnpj.replace(/[^\d]+/g, '');
+    clienteCnpj = (clienteCnpj.length == 13)? "0"+clienteCnpj:clienteCnpj;
     this.form.get('num_pedido').setValue(data[0][0].toString().match(new RegExp("\\d+", "g"))[0]);
-    this.transportadora = null;
-    this.entrega = null;
-    this.ValorTotal = null;
-    this.frete = null;
-
+    
     while (inicial <= final) {
       while (data[final][0] != "Peso bruto total:" && data[final][0] != "Valor Total:") {
         final++;
@@ -219,45 +214,48 @@ export class Novo2Component implements OnInit {
           inicial++;
         }
       }
+
       if (data[inicial][0] != "Produto" && data[inicial][0] != "Peso bruto total:" && data[final][0] != "Valor Total:") {
         var produto = {
           codigo: data[inicial][0].split(" - ")[0].trim(),
           nome: data[inicial][0].split(" - ")[1],
-          quantidade: data[inicial][1].toString().match(new RegExp("\\d+", "g"))[0],
+          quantidade: parseInt(data[inicial][1].replace(/\./g,'')),
           tamanho: null,
           ipi: null,
-          valorUnitario: data[inicial][3],
+          valorUnitario: data[inicial][3].match(/\d+/g)[0]+"."+ data[inicial][3].match(/\d+/g)[1],
           comissao: null
         }
         await this.consultaCod(produto).then((res: any) => {
           if (res != undefined) {
             this.addItemPlan(res) //* Adiciona item à item que já esteja cadastrado no banco
-          } else {
-            this.dialogProd = true;
           }
         })
       }
       inicial++;
     }
     this.condComercial = data[final+2][0].toString().match(new RegExp("\\d{2}\\/\\d{2}\\/\\d{2}", "g"))[0];
-    this.emissao = moment(data[final+2][0].toString().match(new RegExp("\\d{2}\\/\\d{2}\\/\\d{4}", "g"))[0].replace(/\//g, "-"), 'DD-MM-YYYY').format("YYYY-MM-DD");
+    this.form.get('data_emissao').setValue(moment(data[final+2][0].toString().match(new RegExp("\\d{2}\\/\\d{2}\\/\\d{4}", "g"))[0].replace(/\//g, "-"), 'DD-MM-YYYY').format("YYYY-MM-DD"));
 
+    this.ValorTotal = data[final][1];
     if (inicial > final) {
-      if (this.dialogProd == true) {
+      if (this.itemsNew.length > 0) {
         this.openDialogProdutos()
       }
     }
-    if (String(this.cliente).length == 14) {
-      this.clientservice.getClientesCnpj(this.cliente).subscribe((res: any) => {
+    
+    if (String(clienteCnpj).length == 14) {
+      this.clientservice.getClientesCnpj(clienteCnpj).subscribe((res: any) => {
         if (res.success == true) {
-          this.selectedCliente = res.data.id;
+          this.form.get('cliente_id').setValue(res.data.id);
+          this.setAreaDeVenda(res.data.area_venda_id);
         } else {
-          this.openDialogCNPJ(this.cliente)
+          this.openDialogCNPJ(clienteCnpj);
         }
       })
     } else {
       this.notificationService.notify("CNPJ INCORRETO!")
     }
+
     this.CarregarProdutosRepresentada();
     this.spinner.hide();
   }
@@ -467,9 +465,7 @@ export class Novo2Component implements OnInit {
     this.clientservice.getRepresentadasFunc().subscribe((res: any) => {
       this.representadas = res.data;
     });
-    this.clientservice.getClientes().subscribe((res: any) => {
-      this.clientes = res.data;
-    });
+    this.getClientes();
     this.clientservice.getCondComerciais().subscribe((res: any) => {
       this.condComerciais = res.data;
     });
@@ -480,6 +476,12 @@ export class Novo2Component implements OnInit {
 
   ngOnInit() {
     this.createdForm();
+  }
+
+  getClientes(){
+    this.clientservice.getClientes().subscribe((res: any) => {
+      this.clientes = res.data;
+    }); 
   }
 
   createdForm(){
@@ -517,7 +519,7 @@ export class Novo2Component implements OnInit {
         if (res.success == true) {
           campos = produto;
           campos.embalagem = res.data.embalagem;
-          campos.unidade = res.data.unidade.sigla;
+          campos.unidade = (res.data.unidade != null)?res.data.unidade.sigla: null ;
           campos.id = res.data.id;
         } else {
           newItem = produto;
@@ -586,6 +588,7 @@ export class Novo2Component implements OnInit {
   }
 
   addItemPlan(item: ItemPedido) {
+    console.log(item);
     this.addProduto(item);
   }
 
@@ -636,6 +639,7 @@ export class Novo2Component implements OnInit {
     );
     dialogRefCNPJ.afterClosed().subscribe((res:any) => {
       this.form.get('cliente_id').setValue(res.data.id);
+      this.getClientes();
       this.setAreaDeVenda(res.data.area_venda_id);
     });
   }
