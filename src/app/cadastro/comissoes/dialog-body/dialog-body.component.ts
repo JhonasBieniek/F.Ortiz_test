@@ -26,9 +26,6 @@ export class DialogBodyComissoesComponent implements OnInit {
   pageTitle:string = "";
   result = []
   result2 = [];
-  
-  
-
 
   constructor(public dialogRef: MatDialogRef<DialogBodyComissoesComponent>, 
                                 @Inject(MAT_DIALOG_DATA) public data: any,
@@ -64,10 +61,8 @@ export class DialogBodyComissoesComponent implements OnInit {
         if((i+1) == this.dados.comissoes.length){
           this.form.patchValue(this.dados)
         }
-    }
-  })
-
-      
+      }
+    })    
   }
                               
   ngOnInit() {
@@ -99,7 +94,6 @@ export class DialogBodyComissoesComponent implements OnInit {
 
   comissaoFaixas(comIndex: number) : FormArray{
     return this.comissoes().at(comIndex).get("comissao_faixas") as FormArray
-
   }
 
   novaFaixa(): FormGroup {
@@ -118,13 +112,12 @@ export class DialogBodyComissoesComponent implements OnInit {
   }
 
   areaVendasSubmit() { 
-    if(this.data != undefined){
+    if(this.data != undefined)
       this.clientservice.updateComissoes(this.form.value).subscribe( () =>{
         this.notificationService.notify("Atualizado com Sucesso!")
       })
-    }else{
+    else
       this.clientservice.addComissoes(this.form.value)  
-    } 
   }
 
   close() {
