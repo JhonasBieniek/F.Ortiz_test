@@ -79,6 +79,7 @@ export class DialogBodyComissoesComponent implements OnInit {
 
   novaComissao(): FormGroup{
     return this.fb.group({
+      id: '',
       representada_id: '',//new FormControl('', Validators.required),
       comissao_faixas: this.fb.array([]),
     })
