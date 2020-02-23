@@ -177,7 +177,7 @@ export class Novo2Component implements OnInit {
     this.ValorTotal = data[final][1];
     if (inicial > final) {
       if (this.itemsNew.length > 0) {
-        this.openDialogVolk()
+        this.openDialogProdutos()
       }
     }
 
@@ -201,10 +201,12 @@ export class Novo2Component implements OnInit {
   async camper(data) {
     var inicial = 0;
     var final = 0;
-    this.pedido = data[0][0].toString().match(new RegExp("\\d+", "g"))[0];
-    this.cliente = data[2][0].toString().match(new RegExp("\\d{2}\\.\\d{3}\\.\\d{3}\\/\\d{4}\\-\\d{2}", "g"))[0];
+
+    let cliente = data[2][0].toString().match(new RegExp("\\d{2}\\.\\d{3}\\.\\d{3}\\/\\d{4}\\-\\d{2}", "g"))[0];
     this.cliente = this.cliente.replace(/[^\d]+/g, '');
     this.cliente = (this.cliente.length == 13)? "0"+this.cliente: this.cliente;
+
+    this.form.get('num_pedido').setValue(data[0][0].toString().match(new RegExp("\\d+", "g"))[0]);
     this.transportadora = null;
     this.entrega = null;
     this.ValorTotal = null;
@@ -227,12 +229,9 @@ export class Novo2Component implements OnInit {
           valorUnitario: data[inicial][3],
           comissao: null
         }
-        console.log(produto);
         await this.consultaCod(produto).then((res: any) => {
-          console.log(res, "return promise consulta")
           if (res != undefined) {
             this.addItemPlan(res) //* Adiciona item à item que já esteja cadastrado no banco
-            console.log('oi')
           } else {
             this.dialogProd = true;
           }
@@ -245,12 +244,10 @@ export class Novo2Component implements OnInit {
 
     if (inicial > final) {
       if (this.dialogProd == true) {
-        this.openDialogVolk()
+        this.openDialogProdutos()
       }
     }
-    // setTimeout(() => {this.chargeItens()}, 2000);
     if (String(this.cliente).length == 14) {
-      console.log('14')
       this.clientservice.getClientesCnpj(this.cliente).subscribe((res: any) => {
         if (res.success == true) {
           this.selectedCliente = res.data.id;
@@ -319,7 +316,7 @@ export class Novo2Component implements OnInit {
     this.ValorTotal = data[final][1];
     if (inicial > final) {
       if (this.dialogProd == true) {
-        this.openDialogVolk()
+        this.openDialogProdutos()
       }
     }
     // setTimeout(() => {this.chargeItens()}, 2000);
@@ -386,7 +383,7 @@ export class Novo2Component implements OnInit {
     this.ValorTotal = data[final+9][31];
     if (inicial > final) {
       if (this.dialogProd == true) {
-        this.openDialogVolk()
+        this.openDialogProdutos()
       }
     }
     // setTimeout(() => {this.chargeItens()}, 2000);
@@ -435,7 +432,7 @@ export class Novo2Component implements OnInit {
     
     if (inicial > final) {
       if (this.dialogProd == true) {
-        this.openDialogVolk()
+        this.openDialogProdutos()
       }
     }
     // setTimeout(() => {this.chargeItens()}, 2000);
@@ -601,7 +598,7 @@ export class Novo2Component implements OnInit {
     })
   }
 
-  openDialogVolk() {
+  openDialogProdutos() {
     console.log("dialog")
     let dialogConfig = new MatDialogConfig();
     dialogConfig = {

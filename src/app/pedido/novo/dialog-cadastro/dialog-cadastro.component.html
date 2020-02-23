@@ -2,7 +2,7 @@
   <!-- Card column -->
   <div fxFlex.gt-sm="100%" fxFlex="100">
 
-    <div fxLayout="row" fxLayoutWrap="wrap" class="row">
+    <div fxLayout="row wrap">
 
       <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <mat-card-header class="bg-info text-white">
@@ -11,7 +11,7 @@
       </div>
       <form [formGroup]="form">
         <div formArrayName="camposForm">
-          <div class="campos row" fxLayout="row" fxLayoutWrap="wrap" *ngFor="let c of form.get('camposForm').controls; index as i" [formGroupName]="i">
+          <div class="campos row" div fxLayout="row wrap" *ngFor="let c of form.get('camposForm').controls; index as i" [formGroupName]="i">
             <ng-container >
               <div class="p-10" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="100">
                 <mat-form-field appearance="outline">
@@ -88,7 +88,7 @@
       </form>
     </div>
   </div>
-  <div fxLayout="row" fxLayoutWrap="wrap" class="row">
+  <div fxLayout="row wrap">
     <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
       <mat-card-actions style="margin-left: 15px">
         <button mat-raised-button color="primary" type="submit" (click)="areaVendasSubmit()">Salvar cadastro</button>
