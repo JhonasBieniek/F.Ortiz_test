@@ -50,6 +50,7 @@ export class DialogBodyComissoesComponent implements OnInit {
         funcionario_id: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
         comissoes: this.fb.array([]),
       });
+      console.log(this.clientservice.viewComissoes(12).subscribe(res=>{console.log(res)}))
   }
                               
   ngOnInit() {

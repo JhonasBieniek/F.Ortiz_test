@@ -222,6 +222,15 @@ export class ClientService {
       })
      )
   }
+  viewComissoes(id) {
+    const uri = API_URL + 'comissoes/view/' + id + ".json";
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
   addProdutos(dados) {
     const uri = `${API_URL}` + `produtos/add.json`;
      return this
