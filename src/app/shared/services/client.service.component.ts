@@ -214,7 +214,7 @@ export class ClientService {
           console.log('Done')); 
   }
   updateComissoes(data): Observable<any>{
-    const url = `${API_URL}comissoes/edit/${data.id}.json`;
+    const url = `${API_URL}comissoes/edit/${data.funcionario_id}.json`;
      return this.http.put(url, data).pipe(
       catchError(this.handleError),
       map(res => {

@@ -13,7 +13,7 @@ import { NotificationService } from '../../../shared/messages/notification.servi
 export class DialogBodyComissoesComponent implements OnInit {
 
   public form: FormGroup;
-  dados:any= "";
+  dados:any= null;
   dataAux;
   dataAux1;
   dataFuncionarios;
@@ -51,20 +51,32 @@ export class DialogBodyComissoesComponent implements OnInit {
         funcionario_id: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
         comissoes: this.fb.array([]),
       });
+
+      if(this.data != null)
+      this.clientservice.viewComissoes(this.data.funcionario_id)
+      .subscribe((res:any)=>{
+        this.dados =res.data;
+        for(let i=0; i < this.dados.comissoes.length ; i++){
+        this.addComissao();
+        for(let j=0; j < this.dados.comissoes[i].comissao_faixas.length; j++){
+          this.addComissaoFaixa(i);
+        }
+        if((i+1) == this.dados.comissoes.length){
+          this.form.patchValue(this.dados)
+        }
+    }
+  })
+
+      
   }
                               
   ngOnInit() {
-    if(this.data == null)
-    this.pageTitle = 'Cadastrar Comissão'
-    else{
+    if(this.data == null){
+      this.pageTitle = 'Cadastrar Comissão'
+      //this.formInit();
+    }else
       this.pageTitle = 'Editar Comissão'
-      this.clientservice.viewComissoes(this.data.funcionario_id)
-        .subscribe((res:any)=>{this.form.patchValue(res.data); console.log(res, "res")})
-      //this.form.patchValue(this.dados)
-    }
   }
-
-
 
   comissoes(): FormArray{
     return this.form.get("comissoes") as FormArray
@@ -92,6 +104,7 @@ export class DialogBodyComissoesComponent implements OnInit {
 
   novaFaixa(): FormGroup {
     return this.fb.group({
+      id: null,
       faixa: '',//new FormControl('', Validators.required),
       percentual: ''//new FormControl('', Validators.required),
     })
