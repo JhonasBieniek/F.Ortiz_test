@@ -3,7 +3,7 @@
   <div fxFlex.gt-sm="100%" fxFlex="100">
       <mat-card>
           <mat-card-content>
-              <mat-card-title >Comissões</mat-card-title>
+              <mat-card-title style="font-weight: bold;font-size: x-large;" >Comissões</mat-card-title>
               <mat-card-actions align="end">
                 <div class="button-row">
                  <button mat-raised-button color="primary" (click)="openDialog()">Nova comissão</button>
@@ -48,26 +48,6 @@
                                       {{ row.funcionario.nome }}
                                     </ng-template>
                                   </ngx-datatable-column>  
-                                  <ngx-datatable-column [flexGrow]="1" name="Representada">
-                                    <ng-template let-value="descricao" let-row="row" ngx-datatable-cell-template>
-                                      {{ row.representada.nome_fantasia}}
-                                    </ng-template>
-                                  </ngx-datatable-column>
-                                  <ngx-datatable-column [flexGrow]="0.3" name="Inicial">
-                                    <ng-template let-value="created" let-row="row" ngx-datatable-cell-template>
-                                      {{ row.inicio}}
-                                    </ng-template>
-                                  </ngx-datatable-column>
-                                  <ngx-datatable-column [flexGrow]="0.3" name="Final">
-                                    <ng-template let-value="modified" let-row="row" ngx-datatable-cell-template>
-                                      {{ row.final}}
-                                    </ng-template>
-                                  </ngx-datatable-column>
-                                  <ngx-datatable-column [flexGrow]="0.5" name="Percentual">
-                                    <ng-template let-value="status" let-row="row" ngx-datatable-cell-template>
-                                      {{ row.percentual }}%
-                                    </ng-template>
-                                  </ngx-datatable-column>
                             </ngx-datatable>
               </mat-card-content></mat-tab>
           </mat-tab-group>
