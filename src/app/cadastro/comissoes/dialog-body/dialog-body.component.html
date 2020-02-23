@@ -32,7 +32,7 @@
                   <mat-label>Selecione uma representada</mat-label>
                   <mat-select required formControlName="representada_id">
                     <mat-option *ngFor="let representada of representadas" [value]="representada.id">
-                      {{representada | json}}
+                      {{representada.razao_social}}
                     </mat-option>
                   </mat-select>
                   <mat-placeholder>Representada</mat-placeholder>
@@ -76,3 +76,4 @@
     </form>
   </div>
 
+{{this.form.value | json}}

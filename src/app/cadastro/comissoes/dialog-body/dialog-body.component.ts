@@ -27,6 +27,7 @@ export class DialogBodyComissoesComponent implements OnInit {
   result = []
   result2 = [];
   
+  
 
 
   constructor(public dialogRef: MatDialogRef<DialogBodyComissoesComponent>, 
@@ -50,7 +51,6 @@ export class DialogBodyComissoesComponent implements OnInit {
         funcionario_id: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
         comissoes: this.fb.array([]),
       });
-      console.log(this.clientservice.viewComissoes(12).subscribe(res=>{console.log(res)}))
   }
                               
   ngOnInit() {
@@ -58,9 +58,14 @@ export class DialogBodyComissoesComponent implements OnInit {
     this.pageTitle = 'Cadastrar Comissão'
     else{
       this.pageTitle = 'Editar Comissão'
-      this.form.patchValue(this.data)
+      this.clientservice.viewComissoes(this.data.funcionario_id)
+        .subscribe((res:any)=>{this.form.patchValue(res.data); console.log(res, "res")})
+      //this.form.patchValue(this.dados)
     }
   }
+
+
+
   comissoes(): FormArray{
     return this.form.get("comissoes") as FormArray
   }
@@ -93,7 +98,6 @@ export class DialogBodyComissoesComponent implements OnInit {
   }
 
   addComissaoFaixa(comIndex: number){
-    console.log(comIndex)
     this.comissaoFaixas(comIndex).push(this.novaFaixa());
   }
   removeComissaoFaixa(comIndex: number, faixaIndex: number){
