@@ -7,31 +7,30 @@
   <div fxFlex.gt-sm="100%" fxFlex="100">
     <mat-card>
       <mat-card-content>
-        <mat-card-subtitle class="sub-title">--Dados do Pedido--</mat-card-subtitle>
         <form [formGroup]="form" class="form">
-          <div fxLayout="row" fxLayoutAlign="center center" class="row">
+          <div fxLayout="row" fxLayoutAlign="left center" class="row">
             <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-md="20" fxFlex.gt-xs="20" fxFlex="20">
-              <mat-card-title style="margin-top: 20px;">Importar Pedido:</mat-card-title>
+              <mat-card-title>Importar Pedido:</mat-card-title>
             </div>
-            <div class="p-10" fxFlex.gt-sm="" fxFlex.gt-md="80" fxFlex.gt-xs="80" fxFlex="80">
+            <div class="p-10 select" fxFlex.gt-sm="30" fxFlex.gt-md="30" fxFlex.gt-xs="30" fxFlex="30">
               <mat-form-field appearance="outline">
-                <mat-label style="color: red; border-color: red">{{selectRepresentada}}</mat-label>
+                <mat-label  class="select">{{selectRepresentada}}</mat-label>
                 <mat-select formControlName="representada_id">
                   <mat-option *ngFor="let rep of representadas" [value]="rep.id" (click)="hiddenfileinput.click(rep.func); representada=rep">{{rep.nome_fantasia}}</mat-option>
                 </mat-select>
               </mat-form-field>
             </div> 
           </div>
+          <mat-card-subtitle class="sub-title">--Dados do Pedido--</mat-card-subtitle>
           <div fxLayout="row wrap" class="row">
-
-            <div class="p-10" fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="100">
+            <div class="p-10" fxFlex.gt-sm="16" fxFlex.gt-xs="16" fxFlex="16">
               <mat-form-field appearance="outline">
                 <mat-label>Nº Pedido</mat-label>
                 <input matInput placeholder="Nº Pedido" formControlName="num_pedido">
               </mat-form-field>
             </div>
 
-            <div class="p-10" fxFlex.gt-sm="26" fxFlex.gt-xs="26" fxFlex="100">
+            <div class="p-10" fxFlex.gt-sm="44" fxFlex.gt-xs="44" fxFlex="44">
               <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
                 [floatLabel]="form.value.floatLabel">
                 <mat-label>Cliente</mat-label>
@@ -63,7 +62,7 @@
               </mat-form-field>
             </div>
 
-            <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="20">
+            <div class="p-10 pad" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="20">
               <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
                 [floatLabel]="form.value.floatLabel">
                 <mat-label>Cond. comercial</mat-label>
