@@ -263,11 +263,11 @@ export class Novo2Component implements OnInit {
   async kadesh(data) {
     var inicial = 0;
     var final = 0;
-
-    this.cliente = data[7][0].toString().match(new RegExp("\\d{14}", "g"))[0];
-    this.pedido = data[3][0];
     this.condComercial = data[12][0].split(" ")[0]+" "+data[12][0].split(" ")[1];
-    this.emissao = moment(data[4][0].match(new RegExp("\\d{2}\\/\\d{2}\\/\\d{4}", "g"))[0].replace(/\//g, "-"), 'DD-MM-YYYY').format("YYYY-MM-DD")
+
+    let clienteCnpj = data[7][0].toString().match(new RegExp("\\d{14}", "g"))[0];
+    this.form.get('num_pedido').setValue(data[3][0]);
+    this.form.get('data_emissao').setValue(moment(data[4][0].match(new RegExp("\\d{2}\\/\\d{2}\\/\\d{4}", "g"))[0].replace(/\//g, "-"), 'DD-MM-YYYY').format("YYYY-MM-DD"));
 
     while (data[final][0] != "Soma Quant.") {
       final++;
@@ -278,18 +278,18 @@ export class Novo2Component implements OnInit {
         }
       }
     }
-
-    for(let i=inicial+1; i<final; i+=3){
+    let i = inicial+1;
+    for(i; i<final; i+=3){
       let rowTam = i+1;
       let rowQtd = i+2;
-      let dados = data[i][0].toString();
+      let dados = data[i][0].toString().replace( /  +/g, ' ' );
       let produto = {
         codigo: dados.split(/\s+/g)[1],
-        nome: dados.match(new RegExp("BOT([^.]+)\\PR", "g"))[0],
+        nome: dados.match(new RegExp("(?<=-\\s)([^.]+)(?=PR)"))[0].trim(),
         quantidade: null,
         tamanho: null,
         ipi: 0,
-        valorUnitario: dados.match(new RegExp("\\d{2}\\,\\d{2}"))[0],
+        valorUnitario: dados.split(" ").slice(-2)[0].replace(",", '.'),
         comissao: null
       }
       for(let j=0; j<=data[rowTam].length; j++){
@@ -297,35 +297,33 @@ export class Novo2Component implements OnInit {
           produto.tamanho = data[rowTam][j];
           produto.quantidade = data[rowQtd][j];
           await this.consultaCod(produto).then((res: any) => {
-            console.log(res, "return promise consulta")
             if (res != undefined) {
               this.addItemPlan(res) //* Adiciona item à item que já esteja cadastrado no banco
-              console.log('oi')
-            } else {
-              this.dialogProd = true;
             }
           });
         }
       }
     }
-    this.ValorTotal = data[final+7][0];
-    this.frete = data[final+9][0] = "CIF Destino" ? "Cliente" : "Representada"
-    this.transportadora = data[final+11][0];
-    this.ValorTotal = data[final][1];
-    if (inicial > final) {
-      if (this.dialogProd == true) {
-        this.openDialogProdutos()
+
+    this.form.get('valor_total').setValue(data[final+7][0]);
+    this.form.get('frete').setValue( (data[final+9][0] == "CIF Destino") ? "Cliente" : "Representada");
+    this.form.get('transportadora').setValue(data[final+11][0]);
+
+    if (i == final) {
+      console.log(this.itemsNew.length);
+      if (this.itemsNew.length > 0) {
+        this.openDialogProdutos();
       }
     }
-    // setTimeout(() => {this.chargeItens()}, 2000);
-    if (String(this.cliente).length == 14) {
+    
+    if (String(clienteCnpj).length == 14) {
       console.log('14')
-      this.clientservice.getClientesCnpj(this.cliente).subscribe((res: any) => {
+      this.clientservice.getClientesCnpj(clienteCnpj).subscribe((res: any) => {
         if (res.success == true) {
-          this.selectedCliente = res.data.id;
-          this.selectedAreaVendaID = res.data.area_venda_id;
+          this.form.get('cliente_id').setValue(res.data.id);
+          this.setAreaDeVenda(res.data.area_venda_id);
         } else {
-          this.openDialogCNPJ(this.cliente)
+          this.openDialogCNPJ(clienteCnpj)
         }
       })
     } else {
@@ -514,6 +512,7 @@ export class Novo2Component implements OnInit {
   async consultaCod(produto:any): Promise<any> {
     let campos;
     let newItem;
+    console.log(produto);
     return new Promise(async (resolve, reject) => {
       this.clientservice.getProdutoCode(produto.codigo).subscribe((res: any) => {
         if (res.success == true) {
@@ -588,7 +587,6 @@ export class Novo2Component implements OnInit {
   }
 
   addItemPlan(item: ItemPedido) {
-    console.log(item);
     this.addProduto(item);
   }
 
