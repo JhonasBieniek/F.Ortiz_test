@@ -310,14 +310,12 @@ export class Novo2Component implements OnInit {
     this.form.get('transportadora').setValue(data[final+11][0]);
 
     if (i == final) {
-      console.log(this.itemsNew.length);
       if (this.itemsNew.length > 0) {
         this.openDialogProdutos();
       }
     }
     
     if (String(clienteCnpj).length == 14) {
-      console.log('14')
       this.clientservice.getClientesCnpj(clienteCnpj).subscribe((res: any) => {
         if (res.success == true) {
           this.form.get('cliente_id').setValue(res.data.id);
@@ -336,13 +334,12 @@ export class Novo2Component implements OnInit {
   async betanin(data) {
     var inicial = 0;
     var final = 0;
-
-    this.cliente = data[5][5].replace(/[^\d]+/g, '');
-    this.cliente = (this.cliente.length == 13)? "0"+this.cliente: this.cliente;
-    this.pedido = data[1][31];
     this.condComercial = data[2][31];
-    this.emissao = moment(data[3][31].replace(/\//g, "-"), 'DD-MM-YYYY').format("YYYY-MM-DD")
-    this.entrega = null;
+
+    let clienteCnpj = data[5][5].replace(/[^\d]+/g, '');
+    clienteCnpj = (clienteCnpj.length == 13)? "0"+clienteCnpj: clienteCnpj;
+    this.form.get('num_pedido').setValue(data[1][31]);
+    this.form.get('data_emissao').setValue(moment(data[3][31].replace(/\//g, "-"), 'DD-MM-YYYY').format("YYYY-MM-DD"));
 
     while (inicial <= final) {
       while (data[final][0] != "Texto da nota") {
@@ -356,40 +353,35 @@ export class Novo2Component implements OnInit {
           codigo: data[inicial][3],
           nome: data[inicial][6],
           quantidade: data[inicial][15].split("/")[1],
-          tamanho: null,
-          ipi: data[inicial][33],
-          valorUnitario: data[inicial][27],
-          comissao: null
+          ipi: Number([inicial][34]),
+          valorUnitario: data[inicial][28].match(/\d+/g)[0]+"."+data[inicial][28].match(/\d+/g)[1],
+          desconto: data[inicial][24].match(/\d+/g)[0]+"."+data[inicial][24].match(/\d+/g)[1],
         }
-        console.log(produto);
         await this.consultaCod(produto).then((res: any) => {
-          console.log(res, "return promise consulta")
           if (res != undefined) {
-            this.addItemPlan(res) //* Adiciona item à item que já esteja cadastrado no banco
-            console.log('oi')
-          } else {
-            this.dialogProd = true;
+            this.addItemPlan(res)
           }
         })
       }
       inicial++;
     }
-    this.transportadora = data[final+7][5];
-    this.frete = (data[final+8][5] == "CIF")? "Cliente" : "Representada";
-    this.ValorTotal = data[final+9][31];
+    this.form.get('valor_total').setValue(data[final+9][31]);
+    this.form.get('frete').setValue((data[final+8][5] == "CIF")? "Cliente" : "Representada");
+    this.form.get('transportadora').setValue(data[final+7][5]);
+
     if (inicial > final) {
-      if (this.dialogProd == true) {
+      if (this.itemsNew.length > 0) {
         this.openDialogProdutos()
       }
     }
-    // setTimeout(() => {this.chargeItens()}, 2000);
-    if (String(this.cliente).length == 14) {
-      console.log('14')
-      this.clientservice.getClientesCnpj(this.cliente).subscribe((res: any) => {
+
+    if (String(clienteCnpj).length == 14) {
+      this.clientservice.getClientesCnpj(clienteCnpj).subscribe((res: any) => {
         if (res.success == true) {
-          this.selectedCliente = res.data.id;
+          this.form.get('cliente_id').setValue(res.data.id);
+          this.setAreaDeVenda(res.data.area_venda_id);
         } else {
-          this.openDialogCNPJ(this.cliente)
+          this.openDialogCNPJ(clienteCnpj);
         }
       })
     } else {
@@ -402,44 +394,50 @@ export class Novo2Component implements OnInit {
   async italbotas(data){
     var inicial = 0;
     var final = 0;
-    this.cliente = data[5][13];
-    this.cliente = (this.cliente.length == 13)? "0"+this.cliente: this.cliente;
-    this.pedido = data[5][1]+"/"+data[6][22];
-    this.condComercial = data[6][13];
-    this.emissao = data[6][4];
-    this.entrega = null;
+    this.condComercial = data[6][18];
+
+    let clienteCnpj = data[5][17];
+    clienteCnpj = (clienteCnpj.length == 13)? "0"+clienteCnpj: clienteCnpj;
+    this.form.get('num_pedido').setValue(data[5][1].trim()+"/"+data[6][27].trim());
+    this.form.get('data_emissao').setValue(moment(data[6][4].match(new RegExp("\\d{2}\\/\\d{2}\\/\\d{4}", "g"))[0].replace(/\//g, "-"), 'DD-MM-YYYY').format("YYYY-MM-DD"));
+    this.form.get('data_entrega').setValue(moment(data[6][10].match(new RegExp("\\d{2}\\/\\d{2}\\/\\d{4}", "g"))[0].replace(/\//g, "-"), 'DD-MM-YYYY').format("YYYY-MM-DD"));
 
     inicial = 7;
-    while (data[final][16] != "TOTAL:") {
+    while (data[final][21] != "TOTAL:") {
       final++;
     }
-    for(let i=inicial; i<final; i+=3){
+    let i=inicial;
+    for(i; i<final; i+=3){
       let rowTam = i+2;
       let produto = {
         codigo: data[rowTam][0],
         nome: data[rowTam][1].toString().split(" - ")[0],
-        quantidade: data[i][11],
+        quantidade: data[i][14],
         tamanho: data[rowTam][1].toString().split(" - ")[1],
         ipi: 0,
-        valorUnitario: data[i][14],
-        comissao: data[i][24]
+        valorUnitario: data[i][19],
+        comissao: data[i][29]
       }
+      await this.consultaCod(produto).then((res: any) => {
+        if (res != undefined) {
+          this.addItemPlan(res)
+        }
+      })
     }
     
-    if (inicial > final) {
-      if (this.dialogProd == true) {
+    if (i == final) {
+      if (this.itemsNew.length > 0) {
         this.openDialogProdutos()
       }
     }
-    // setTimeout(() => {this.chargeItens()}, 2000);
-    if (String(this.cliente).length == 14) {
-      console.log('14')
-      this.clientservice.getClientesCnpj(this.cliente).subscribe((res: any) => {
+    
+    if (String(clienteCnpj).length == 14) {
+      this.clientservice.getClientesCnpj(clienteCnpj).subscribe((res: any) => {
         if (res.success == true) {
-          this.selectedCliente = res.data.id;
-          this.selectedAreaVendaID = res.data.area_venda_id;
+          this.form.get('cliente_id').setValue(res.data.id);
+          this.setAreaDeVenda(res.data.area_venda_id);
         } else {
-          this.openDialogCNPJ(this.cliente)
+          this.openDialogCNPJ(clienteCnpj);
         }
       })
     } else {
