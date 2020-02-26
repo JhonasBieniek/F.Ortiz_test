@@ -25,6 +25,9 @@ export const AppRoutes: Routes = [
         path: 'cadastro',
         loadChildren: './cadastro/cadastro.module#CadastroModule'
       },{
+        path: 'comissao',
+        loadChildren: './comissao/comissao.module#ComissaoModule'
+      },{
         path: 'produto',
         loadChildren: './produto/produto.module#ProdutoModule'
       },{

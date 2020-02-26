@@ -65,7 +65,7 @@
       </div>
 
       <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
-        <mat-form-field [hideRequiredMarker]="true" [floatLabel]="auto" appearance="outline">
+        <mat-form-field [hideRequiredMarker]="true" appearance="outline">
           <mat-label>Selecione o cargo...</mat-label>
           <mat-select required formControlName="cargo_id">
             <mat-option *ngFor="let cargo of cargos" [value]="cargo.id">
@@ -189,7 +189,7 @@
       </div>
       
       <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="100">
-        <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
+        <mat-form-field appearance="outline" [hideRequiredMarker]="true">
           <mat-label>Selecione o status...</mat-label>
           <mat-select required formControlName="status">
             <mat-option [value]=true>Ativo</mat-option>
@@ -212,7 +212,7 @@
       </div>
 
       <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
-        <mat-form-field [hideRequiredMarker]="true" [floatLabel]="auto" appearance="outline">
+        <mat-form-field [hideRequiredMarker]="true" appearance="outline">
           <mat-label>Selecione o grupo...</mat-label>
           <mat-select required formControlName="grupo_id">
             <mat-option *ngFor="let grupo of grupos" [value]="grupo.id">

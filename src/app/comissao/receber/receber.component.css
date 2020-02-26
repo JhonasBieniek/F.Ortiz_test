@@ -1,0 +1,36 @@
+.title{
+    font-size: 18px;
+    text-align: center;
+    padding-top: 12px;
+    padding-bottom: -5px;
+  }
+  .clear{
+    color:red;
+    cursor: pointer;
+  }
+  .dadosCadastro{
+    font-size: 28px;
+    padding-top: 10px;
+    padding-bottom: -5px;
+    text-align: center;
+  }
+  .plus-icons{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    color: white;
+    vertical-align: unset !important;
+    cursor: pointer;
+    border: none;
+    border-radius: 15px;
+  }
+  .plus-icons:active {
+    background-color: rgb(21, 115, 255);
+    box-shadow: 0 0px #666;
+    transform: translateY(2px);
+  }
+  .container {
+    display: flex;
+  }
+  .fill {
+    flex: 1;
+  }

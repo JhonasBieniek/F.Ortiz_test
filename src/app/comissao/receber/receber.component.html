@@ -1,0 +1,233 @@
+<mat-card-content>
+    <form [formGroup]="funcionario">
+
+      <div fxLayout="row wrap" class="row">
+  
+        <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+          <mat-card-header class="bg-info text-white">
+            <mat-card-title class="dadosCadastro">Dados de cadastro</mat-card-title>
+          </mat-card-header>
+        </div>
+  
+        <div class="p-10" fxFlex.gt-sm="66" fxFlex.gt-xs="66" fxFlex="100">
+          <mat-form-field appearance="outline">
+            <input matInput placeholder="Nome completo" formControlName="nome">
+          </mat-form-field>
+          <mat-hint *ngIf="funcionario.get('nome').errors?.required && funcionario.get('nome').touched"
+            class="text-danger font-14">Você deve inserir o nome Completo.</mat-hint>
+          <mat-hint *ngIf="funcionario.get('nome').errors?.minlength && funcionario.get('nome').touched"
+            class="text-danger font-14">O nome deve conter no mínimo 5 caracteres.</mat-hint>
+          <mat-hint *ngIf="funcionario.get('nome').errors?.maxlength && funcionario.get('nome').touched"
+            class="text-danger font-14">Seu nome não deve exceder 50 caracteres.</mat-hint>
+        </div>
+  
+        <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="100">
+          <mat-form-field appearance="outline">
+            <input matInput [matDatepicker]="picker" formControlName="nascimento"
+              placeholder="Data de nascimento">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <mat-hint *ngIf="funcionario.get('nascimento').errors?.required && funcionario.get('nascimento').touched"
+            class="text-danger font-14">Você precisa inserir uma data.</mat-hint>
+          <mat-hint *ngIf="funcionario.get('nascimento').errors?.date && funcionario.get('nascimento').touched"
+            class="text-danger font-14">Você precisa inserir uma data válida!</mat-hint>
+        </div>
+  
+        <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="33" fxFlex="100">
+          <mat-form-field appearance="outline"> 
+            <input matInput placeholder="CPF" mask="000.000.000-00" formControlName="cpf"
+              type="digits">
+          </mat-form-field>
+          <small *ngIf="funcionario.get('cpf').errors?.required && funcionario.get('cpf').touched"
+            class="text-danger font-14">Você precisa inserir um CPF.</small>
+          <small *ngIf="funcionario.get('cpf').errors?.digits && funcionario.get('cpf').touched"
+            class="text-danger font-14">Você precisa inserir um CPF válido.</small>
+        </div>
+  
+        <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="33" fxFlex="100">
+          <mat-form-field appearance="outline">
+            <input matInput placeholder="RG" formControlName="rg" type="digits">
+          </mat-form-field>
+          <small *ngIf="funcionario.get('rg').errors?.required && funcionario.get('rg').touched"
+            class="text-danger font-14">Você precisa inserir um RG.</small>
+          <small *ngIf="funcionario.get('rg').errors?.digits && funcionario.get('rg').touched"
+            class="text-danger font-14">Você precisa inserir um RG válido.</small>
+        </div>
+  
+        <div class="p-10" fxFlex.gt-sm="32" fxFlex.gt-xs="33" fxFlex="100">
+          <mat-form-field appearance="outline">
+            <input matInput placeholder="Orgão expedidor" formControlName="oe">
+          </mat-form-field>
+          <small *ngIf="funcionario.get('oe').errors?.required && funcionario.get('oe').touched"
+            class="text-danger font-14">Você precisa inserir um orgão expedidor.</small>
+        </div>
+  
+        <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+          <mat-form-field [hideRequiredMarker]="true" appearance="outline">
+            <mat-label>Selecione o cargo...</mat-label>
+            <mat-select required formControlName="cargo_id">
+              <mat-option *ngFor="let cargo of cargos" [value]="cargo.id">
+                {{cargo.nome}}
+              </mat-option>
+            </mat-select>
+            <mat-placeholder>Cargo</mat-placeholder>
+          </mat-form-field>
+          <small *ngIf="funcionario.get('cargo_id').errors?.required && funcionario.get('cargo_id').touched"
+          class="text-danger font-14">Você precisa selecionar o cargo.</small>
+        </div>
+  
+        <div class="p-10 mt-4" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+          <label class="m-r-20">Gênero :</label>
+          <mat-radio-group formControlName="sexo" appearance="outline">
+            <mat-radio-button value="M" class="m-r-10">Masculino</mat-radio-button>
+            <mat-radio-button value="F">Feminino</mat-radio-button>
+          </mat-radio-group>
+          <small *ngIf="!funcionario.get('sexo').valid && funcionario.get('sexo').touched" class="mat-text-warn">Você precisa selecionar um gênero.</small>
+        </div>
+  
+      </div>
+  
+      <div formGroupName="endereco" fxLayout="row wrap" class="row">
+        <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+          <mat-card-header class="bg-info text-white">
+            <mat-card-title class="Endereco">Endereço</mat-card-title>
+          </mat-card-header>
+        </div>
+        <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
+          <mat-form-field appearance="outline">
+            <input matInput placeholder="CEP" mask="00000-000" (blur)="chargeCep()" formControlName="cep">
+          </mat-form-field>
+          <mat-hint *ngIf="funcionario.get('endereco.cep').errors?.required && funcionario.get('endereco.cep').touched"
+            class="text-danger font-14">Você deve inserir o CEP.</mat-hint>
+          <mat-hint *ngIf="funcionario.get('endereco.cep').errors?.minlength && funcionario.get('endereco.cep').touched"
+            class="text-danger font-14">O nome deve conter no mínimo 8 caracteres.</mat-hint>
+          <mat-hint *ngIf="funcionario.get('endereco.cep').errors?.maxlength && funcionario.get('endereco.cep').touched"
+            class="text-danger font-14">Seu cep não deve exceder 8 caracteres.</mat-hint>
+        </div>
+        <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+          <mat-form-field appearance="outline">
+            <input matInput placeholder="Logradouro" formControlName="logradouro">
+          </mat-form-field>
+          <small *ngIf="funcionario.get('endereco.logradouro').errors?.required && funcionario.get('endereco.logradouro').touched"
+            class="text-danger font-14">Você precisa deve inserir um endereço.</small>
+          <small *ngIf="funcionario.get('endereco.logradouro').errors?.number && funcionario.get('endereco.logradouro').touched"
+            class="text-danger font-14">O endereço precisa ser válido.</small>
+        </div>
+        <div class="p-10" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
+          <mat-form-field appearance="outline">
+            <input matInput placeholder="Número" formControlName="numero">
+          </mat-form-field>
+          <small *ngIf="funcionario.get('endereco.numero').errors?.required && funcionario.get('endereco.numero').touched"
+            class="text-danger font-14">Você precisa deve inserir um Número.</small>
+          <small *ngIf="funcionario.get('endereco.numero').errors?.number && funcionario.get('endereco.numero').touched"
+            class="text-danger font-14">O Número precisa ser válido.</small>
+        </div>
+        <div class="p-10" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
+          <mat-form-field appearance="outline">
+            <input matInput placeholder="Complemento" formControlName="complemento">
+          </mat-form-field>
+          <mat-hint *ngIf="funcionario.get('endereco.complemento').errors?.required && funcionario.get('endereco.complemento').touched"
+            class="text-danger font-14">Você deve incluir um complemento.</mat-hint>
+          <mat-hint *ngIf="funcionario.get('endereco.complemento').errors?.minlength && funcionario.get('endereco.complemento').touched"
+            class="text-danger font-14">O complemento tem que ter no mínimo 5 caracteres.</mat-hint>
+          <mat-hint *ngIf="funcionario.get('endereco.complemento').errors?.maxlength && funcionario.get('endereco.complemento').touched"
+            class="text-danger font-14">O complemento não deve exceder 50 caracteres</mat-hint>
+        </div>
+        <div class="p-10" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
+          <mat-form-field appearance="outline">
+            <input matInput placeholder="Bairro" formControlName="bairro">
+          </mat-form-field>
+          <small *ngIf="funcionario.get('endereco.bairro').errors?.required && funcionario.get('endereco.bairro').touched"
+            class="text-danger font-14">Você precisa deve inserir um bairro.</small>
+        </div>
+        <div class="p-10" fxFlex.gt-sm="36" fxFlex.gt-xs="36" fxFlex="100">
+          <mat-form-field appearance="outline">
+            <input matInput placeholder="Cidade" formControlName="cidade">
+          </mat-form-field>
+          <small *ngIf="funcionario.get('endereco.cidade').errors?.required && funcionario.get('endereco.cidade').touched"
+            class="text-danger font-14">Você precisa deve inserir uma cidade.</small>
+        </div>
+        <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="100">
+          <mat-form-field appearance="outline">
+            <input matInput placeholder="Estado" formControlName="estado">
+          </mat-form-field>
+          <small *ngIf="funcionario.get('endereco.estado').errors?.required && funcionario.get('endereco.estado').touched"
+            class="text-danger font-14">Você precisa deve inserir um estado.</small>
+        </div>
+        <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="100">  
+        </div>
+      </div>
+  
+      <div fxLayout="row wrap" class="row">
+        <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+          <mat-card-header class="bg-info text-white">
+            <mat-card-title class="Endereco">Dados de contato</mat-card-title>
+          </mat-card-header>
+        </div>
+  
+        <div class="p-10" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="100">
+          <mat-form-field appearance="outline">
+            <input matInput placeholder="Telefone fixo" mask="(00) 0000-0000" formControlName="telefone" type="text">
+          </mat-form-field>
+          <small *ngIf="funcionario.get('telefone').errors?.required && funcionario.get('telefone').touched"
+            class="text-danger font-14">Você deve incluir um telefone.</small>
+          <small *ngIf="funcionario.get('telefone').errors?.phone && funcionario.get('telefone').touched"
+            class="text-danger font-14">O telefone deve ser válido.</small>
+        </div>
+  
+        <div class="p-10" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="100">
+          <mat-form-field appearance="outline">
+            <input matInput placeholder="Celular" mask="(00) 0 0000-0000" formControlName="celular"
+              type="text">
+          </mat-form-field>
+          <small *ngIf="funcionario.get('celular').errors?.required  && funcionario.get('celular').touched"
+            class="text-danger font-14">Você deve incluir um telefone.</small>
+          <small *ngIf="funcionario.get('celular').errors?.phone && funcionario.get('celular').touched"
+            class="text-danger font-14">O telefone deve ser válido.</small>
+        </div>
+        
+        <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="100">
+          <mat-form-field appearance="outline" [hideRequiredMarker]="true">
+            <mat-label>Selecione o status...</mat-label>
+            <mat-select required formControlName="status">
+              <mat-option [value]=true>Ativo</mat-option>
+              <mat-option [value]=false>Inativo</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <small *ngIf="funcionario.get('status').errors?.required && funcionario.get('status').touched"
+          class="text-danger font-14">Você precisa selecionar o status.</small>
+        </div>
+  
+        <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+          <mat-form-field appearance="outline">
+            <input matInput placeholder="Email" formControlName="email" type="email">
+          </mat-form-field>
+          <small *ngIf="funcionario.get('email').errors?.required && funcionario.get('email').touched"
+            class="text-danger font-14">Você precisa inserir um endereço de email.</small>
+          <small *ngIf="funcionario.get('email').errors?.email && funcionario.get('email').touched"
+            class="text-danger font-14">Você precisa inserir um endereço válido de email. Ex
+            admin@admin.com.</small>
+        </div>
+  
+        <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+          <mat-form-field [hideRequiredMarker]="true" appearance="outline">
+            <mat-label>Selecione o grupo...</mat-label>
+            <mat-select required formControlName="grupo_id">
+              <mat-option *ngFor="let grupo of grupos" [value]="grupo.id">
+                {{grupo.nome}}
+              </mat-option>
+            </mat-select>
+            <mat-placeholder>Grupo</mat-placeholder>
+          </mat-form-field>
+        </div>
+  
+      </div>
+  
+      <div>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!funcionario.valid" (click)="onSubmit(); close()">Salvar</button>
+        <button mat-raised-button class="pl-3" color="warn"  (click)="close()" >Cancelar</button>
+      </div>
+    </form>
+  </mat-card-content>
+  
