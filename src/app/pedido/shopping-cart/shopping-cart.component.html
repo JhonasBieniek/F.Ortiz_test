@@ -1,4 +1,4 @@
-<div fxLayout="row" fxLayoutWrap="wrap">
+<div fxLayout="row wrap">
   <!-- Card column -->
   <div fxFlex.gt-sm="100%" fxFlex="100">
     <!--INICIO DO CARRINHO-->
@@ -18,7 +18,7 @@
               </button>
             </div>
             <ng-container>
-              <div fxLayout="row" fxLayoutWrap="wrap">
+              <div fxLayout="row wrap">
                 <mat-form-field fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="10" appearance="outline">
                   <mat-label>Qtd.</mat-label>
                   <input matInput (keyup)="totalCalc(campos.get('quantidade').value, campos.get('valorUnitario'), i)" placeholder="Qtd" formControlName="quantidade" >
