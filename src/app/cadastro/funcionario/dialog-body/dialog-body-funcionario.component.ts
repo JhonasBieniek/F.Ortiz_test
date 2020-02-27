@@ -46,19 +46,19 @@ export class DialogBodyFuncionarioComponent implements OnInit {
       this.funcionario = this.fb.group({
         id: null,
         nome: [null, Validators.compose([Validators.required])],
-        cpf: [null, Validators.compose([Validators.required])],
+        cpf: [null],
         rg: [null],
         oe: [null],
         sexo: [null],
         nascimento: [null],
         celular: [null],
         telefone: [null],
-        cargo_id: [null, Validators.compose([Validators.required])],
+        cargo_id: [null],
         status: [true],
-        email: [null , Validators.compose([Validators.required])],
-        grupo_id: [null , Validators.compose([Validators.required])],
+        email: [null],
+        grupo_id: [null],
         endereco: this.fb.group({
-          cep: [null, Validators.compose([Validators.required, CustomValidators.number])],
+          cep: [null],
           logradouro: [null],
           numero: [null],
           complemento: [null],
@@ -93,7 +93,7 @@ export class DialogBodyFuncionarioComponent implements OnInit {
         this.funcionario.get('endereco.bairro').setValue(res.data.bairro);
       }else{
         this.openAlert('Erro', 'Cep Inválido');
-       }
+      }
       })
     }
   }
