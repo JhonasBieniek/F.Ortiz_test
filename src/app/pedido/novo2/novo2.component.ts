@@ -139,10 +139,10 @@ export class Novo2Component implements OnInit {
     var inicial = 0;
     var final = 0;
     var clienteCnpj = (data[7][3].toString().length == 13)? "0"+data[7][3]: data[7][3];
-    
+    var pedido = (data[21][12] != undefined)? data[6][1]+"/"+data[21][12]: data[6][1];
     this.condComercial = data[12][1];
     
-    this.form.get('num_pedido').setValue(data[6][1]);
+    this.form.get('num_pedido').setValue(pedido);
     this.form.get('transportadora').setValue(data[18][2]);
     this.form.get('data_emissao').setValue(moment(data[6][3].replace(/\//g, "-"), 'DD-MM-YYYY').format("YYYY-MM-DD"));
     this.form.get('data_entrega').setValue(moment(data[21][4], 'DD-MM-YYYY').format("YYYY-MM-DD"));
@@ -233,7 +233,7 @@ export class Novo2Component implements OnInit {
       }
       inicial++;
     }
-    this.condComercial = data[final+2][0].toString().match(new RegExp("\\d{2}\\/\\d{2}\\/\\d{2}", "g"))[0];
+    this.condComercial = data[final+2][0].split(':')[1].replace("  Data de Emissão", "").trim();
     this.form.get('data_emissao').setValue(moment(data[final+2][0].toString().match(new RegExp("\\d{2}\\/\\d{2}\\/\\d{4}", "g"))[0].replace(/\//g, "-"), 'DD-MM-YYYY').format("YYYY-MM-DD"));
 
     this.ValorTotal = data[final][1];
@@ -352,8 +352,8 @@ export class Novo2Component implements OnInit {
         var produto = {
           codigo: data[inicial][3],
           nome: data[inicial][6],
-          quantidade: data[inicial][15].split("/")[1],
-          ipi: Number([inicial][34]),
+          quantidade: data[inicial][15].split("/")[1].replace(".", ""),
+          ipi: [inicial][34],
           valorUnitario: data[inicial][28].match(/\d+/g)[0]+"."+data[inicial][28].match(/\d+/g)[1],
           desconto: data[inicial][24].match(/\d+/g)[0]+"."+data[inicial][24].match(/\d+/g)[1],
         }
