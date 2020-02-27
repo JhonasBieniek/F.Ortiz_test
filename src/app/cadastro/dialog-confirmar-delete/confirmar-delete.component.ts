@@ -16,7 +16,7 @@ export class DialogConfirmarDeleteComponent {
     private clienteService: ClientService,
     public dialogRef: MatDialogRef<DialogConfirmarDeleteComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any){ 
-      console.log(this.data)
+      //console.log(this.data)
     }
 
   Cancelar(): void { 
@@ -24,7 +24,7 @@ export class DialogConfirmarDeleteComponent {
   }
   
   Deletar(){
-    console.log(this.data)
+    //console.log(this.data)
     this.clienteService.delete(this.data.tipo, this.data.id)
     this.dialogRef.close();
       }
