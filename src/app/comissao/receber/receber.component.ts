@@ -2,39 +2,31 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ClientService } from '../../shared/services/client.service.component';
 import { NotificationService } from '../../shared/messages/notification.service';
-import { DatePipe } from '@angular/common';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
-import { ActivatedRoute } from '@angular/router';
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
-import { MY_FORMATS } from '../../pedido/novo/novo.component';
 
 @Component({
   selector: 'app-receber',
   templateUrl: './receber.component.html',
-  styleUrls: ['./receber.component.css'],
-  providers: [DatePipe,
-    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }]
+  styleUrls: ['./receber.component.css']
 })
 export class ReceberComponent implements OnInit {
 
-  funcionario: FormGroup;
-  usuario: FormGroup;
-  isLinear: boolean = false;
+  form: FormGroup;
   pageTitle:string = "Comissões a receber";
-  currentAction:string ="";
   showTable:boolean = false;
+  representadas:[] = [];
 
   constructor(
     private fb: FormBuilder,
     private clientservice: ClientService,
-    private route: ActivatedRoute,
     private notificationService: NotificationService,
-    private datePipe : DatePipe,
-  ){}    
+  ){
+    this.clientservice.getRepresentadas().subscribe((res:any)=>{
+      this.representadas = res.data
+    })
+  }    
 
   ngOnInit() {
-    this.funcionario = this.fb.group({
+    this.form = this.fb.group({
       tipo: ["Faturado"],
       dtInicio: [null],
       dtFinal: [null],
@@ -44,18 +36,20 @@ export class ReceberComponent implements OnInit {
   }
 
   clear(){
-
+    this.form.reset();
+    this.form.controls['tipo'].setValue("Faturado");
   }
   
   Submit(){
-    let data = this.funcionario.value;
-    data.nascimento = this.datePipe.transform(data.nascimento, 'yyyy-MM-dd');
-    this.clientservice.addFuncionario(data).subscribe((res:any) => {
-      if(res.success == true){
-        this.notificationService.notify(`Cadastro Efetuado com Sucesso!`)
-      }else{
-        this.notificationService.notify(`Erro contate o Administrador`)
-      }
-    });
+    // this.clientservice.consulta(this.form).subscribe((res:any) => {
+
+
+    //Pensar se notifica, caso não conseguir consultar
+    //   if(res.success == true){
+    //     this.notificationService.notify(`Cadastro Efetuado com Sucesso!`)
+    //   }else{
+    //     this.notificationService.notify(`Erro contate o Administrador`)
+    //   }
+    // });
   }
 }

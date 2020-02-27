@@ -1,43 +1,41 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ClientService } from '../../shared/services/client.service.component';
 import { NotificationService } from '../../shared/messages/notification.service';
-import { CustomValidators } from 'ng2-validation';
-import { DatePipe } from '@angular/common';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
-import { AlertComponent } from '../../alert/alert.component';
-import { ActivatedRoute } from '@angular/router';
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
-import { MY_FORMATS } from '../../pedido/novo/novo.component';
 
 @Component({
   selector: 'app-repasses',
   templateUrl: './repasses.component.html',
-  styleUrls: ['./repasses.component.css'],
-  providers: [DatePipe,
-    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }]
+  styleUrls: ['./repasses.component.css']
 })
 export class RepassesComponent implements OnInit {
 
-  funcionario: FormGroup;
-  usuario: FormGroup;
-  isLinear: boolean = false;
-  pageTitle:string = "";
-  currentAction:string ="";
+  form: FormGroup;
+  pageTitle:string = "Repasses de comissões";
   showTable:boolean = false;
+  representadas:[] = [];
+  vendedores:[] = [];
+  assistentes:[] = [];
+
 
   constructor(
     private fb: FormBuilder,
     private clientservice: ClientService,
-    private route: ActivatedRoute,
     private notificationService: NotificationService,
-    private datePipe : DatePipe,
-  ){}    
+  ){
+    this.clientservice.getRepresentadas().subscribe((res:any)=>{
+      this.representadas = res.data
+    });
+    this.clientservice.getFuncionarios().subscribe((res:any)=>{
+      this.vendedores = res.data.filter(
+        vendedor => vendedor.cargo_id == 1);
+        this.assistentes = res.data.filter(
+          assistente => assistente.cargo_id == 4);
+    });
+  }    
 
   ngOnInit() {
-    this.setCurrentAction();
-    this.funcionario = this.fb.group({
+    this.form = this.fb.group({
       tipo: ["Faturado"],
       dtInicio: [null],
       dtFinal: [null],
@@ -46,41 +44,22 @@ export class RepassesComponent implements OnInit {
       selected: [null]
     });
   }
-  ngAfterContentChecked(): void {
-    //Called after every check of the component's or directive's content.
-    //Add 'implements AfterContentChecked' to the class.
-    this.setPageTitle();
-  }
-
-  //Private Methods
-  private setCurrentAction() {
-    if(this.route.snapshot.url[0].path == "receber")
-      this.currentAction = "receber"
-    else
-      this.currentAction = "repasses"
-  }
-
-  private setPageTitle() {
-    if(this.currentAction == 'receber'){
-      this.pageTitle = 'Comissões a receber'
-    }else{
-      this.pageTitle = 'Repasses de comissões';
-    }
-  }
 
   clear(){
-
+    this.form.reset();
+    this.form.controls['tipo'].setValue("Faturado");
   }
   
   Submit(){
-    let data = this.funcionario.value;
-    data.nascimento = this.datePipe.transform(data.nascimento, 'yyyy-MM-dd');
-    this.clientservice.addFuncionario(data).subscribe((res:any) => {
-      if(res.success == true){
-        this.notificationService.notify(`Cadastro Efetuado com Sucesso!`)
-      }else{
-        this.notificationService.notify(`Erro contate o Administrador`)
-      }
-    });
+    // this.clientservice.consulta(this.form).subscribe((res:any) => {
+
+
+    //Pensar se notifica, caso não conseguir consultar
+    //   if(res.success == true){
+    //     this.notificationService.notify(`Cadastro Efetuado com Sucesso!`)
+    //   }else{
+    //     this.notificationService.notify(`Erro contate o Administrador`)
+    //   }
+    // });
   }
 }

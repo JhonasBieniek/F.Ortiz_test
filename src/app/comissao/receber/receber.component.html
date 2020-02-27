@@ -3,7 +3,7 @@
     <div fxFlex.gt-sm="100%" fxFlex="100">
         <mat-card class="no-shadow">
             <mat-card-content>
-                <form [formGroup]="funcionario">
+                <form [formGroup]="form">
                     <mat-card-title class="title">{{pageTitle}}</mat-card-title>
                     <div fxLayout="row wrap">
                         <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
@@ -15,7 +15,7 @@
                         </div>
                     </div>
                     <div fxLayout="row wrap" class="row">
-                        <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
+                        <div class="p-10 text" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
                             <mat-form-field appearance="outline">
                                 <mat-label>Data inicial</mat-label>
                                 <input matInput [matDatepicker]="picker" formControlName="dtInicio"
@@ -24,7 +24,7 @@
                                 <mat-datepicker #picker></mat-datepicker>
                             </mat-form-field>
                         </div>
-                        <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
+                        <div class="p-10 text" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
                             <mat-form-field appearance="outline">
                                 <mat-label>Data final</mat-label>
                                 <input matInput [matDatepicker]="picker2" formControlName="dtFinal"
@@ -33,18 +33,18 @@
                                 <mat-datepicker #picker2></mat-datepicker>
                             </mat-form-field>
                         </div>
-                        <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
+                        <div class="p-10 text" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
                             <mat-form-field appearance="outline">
                                 <mat-label>Número da nota</mat-label>
                                 <input matInput placeholder="Número da Nota" formControlName="nota" >
                             </mat-form-field>
                         </div>
-                        <div class="p-10" fxFlex.gt-sm="40" fxFlex.gt-xs="40" fxFlex="100">
+                        <div class="p-10 text" fxFlex.gt-sm="40" fxFlex.gt-xs="40" fxFlex="100">
                             <mat-form-field [hideRequiredMarker]="true" appearance="outline">
                                 <mat-label>Selecione a representada...</mat-label>
-                                <mat-select required formControlName="representada">
-                                    <mat-option *ngFor="let cargo of cargos" [value]="cargo.id">
-                                        {{cargo.nome}}
+                                <mat-select formControlName="representada">
+                                    <mat-option *ngFor="let representada of representadas" [value]="representada.id">
+                                        {{representada.nome_fantasia}}
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
