@@ -8,7 +8,7 @@
             <button mat-raised-button color="primary" type="button" (click)="navigate('new')">
               <mat-icon class="example-icon">add_box</mat-icon> {{page.add.titulo}}
             </button>
-            <button mat-raised-button color="warn" type="button" (click)="navigate('import')">
+            <button *ngIf="page.import?.titulo != undefined" mat-raised-button color="warn" type="button" (click)="navigate('import')">
               <mat-icon class="example-icon">add_box</mat-icon> {{page.import.titulo}}
             </button>
           </div> 
