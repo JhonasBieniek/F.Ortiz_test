@@ -34,7 +34,7 @@ export class RegioesComponent implements OnInit {
 
     this.clientservice.getRegioes().subscribe(res =>{
       this.data = res; console.log(this.data.data)
-      this.rows = this.data.data;
+      this.rows = this.data.data.sort((a,b)=> a.id - b.id);
       this.temp = [...this.data.data];
       setTimeout(() => { this.loadingIndicator = false; }, 1500); 
     });                                  
@@ -103,7 +103,7 @@ export class RegioesComponent implements OnInit {
   refreshTable(){
     this.clientservice.getRegioes().subscribe(res =>{
       this.dados = res;
-      this.rows = this.dados.data;
+      this.rows = this.dados.data.sort((a,b)=> a.id - b.id);
       this.temp = [...this.dados.data];
       setTimeout(() => { this.loadingIndicator = false; }, 1500);
       });

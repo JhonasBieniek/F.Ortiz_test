@@ -25,29 +25,27 @@
                                 [rowHeight]="'auto'"
                                 [limit]="20"
                                 [rows]='rows'>
-
-                                <ngx-datatable-column [flexGrow]="0.8" name="Ações">
-                                  <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex"
-                                    ngx-datatable-cell-template>      
-                                    <i class="fa fa-pencil button" 
-                                      title="Editar" 
-                                      (click)="edit(row);"></i>
-                                    <i class="fa fa-trash-o button2"
-                                      title="Deletar" 
-                                      (click)="delete(row)"></i>                         
-                                  </ng-template>
-                                </ngx-datatable-column>
-
                                 <ngx-datatable-column [flexGrow]="0.3" name="Id">
                                     <ng-template  let-value="id" let-row="row" ngx-datatable-cell-template>
                                        {{ row.id }}
                                     </ng-template>
                                   </ngx-datatable-column>
-                                  <ngx-datatable-column [flexGrow]="1" name="Funcionário">
+                                  <ngx-datatable-column [flexGrow]="2" name="Funcionário">
                                     <ng-template let-value="sigla" let-row="row" ngx-datatable-cell-template>
                                       {{ row.funcionario.nome }}
                                     </ng-template>
                                   </ngx-datatable-column>  
+                                  <ngx-datatable-column [flexGrow]="0.8" name="Ações">
+                                    <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex"
+                                      ngx-datatable-cell-template>      
+                                      <i class="fa fa-pencil button" 
+                                        title="Editar" 
+                                        (click)="edit(row);"></i>
+                                      <i class="fa fa-trash-o button2"
+                                        title="Deletar" 
+                                        (click)="delete(row)"></i>                         
+                                    </ng-template>
+                                  </ngx-datatable-column>
                             </ngx-datatable>
               </mat-card-content></mat-tab>
           </mat-tab-group>
