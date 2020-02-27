@@ -55,7 +55,7 @@ export class OrcListarComponent implements OnInit {
       return d
     }); 
   }
-  add(){
+  navigate(path){
     this.router.navigate(['/pedido/orcamento']);
   }
 
