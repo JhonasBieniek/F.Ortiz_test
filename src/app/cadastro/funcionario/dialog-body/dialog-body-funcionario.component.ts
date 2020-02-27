@@ -20,7 +20,7 @@ export class DialogBodyFuncionarioComponent implements OnInit {
   usuario: FormGroup;
   isLinear: boolean = false;
   pageTitle:string = "";
-
+  editar:boolean = false;
 
   isOn = true;
   isOn2 = false;
@@ -53,10 +53,10 @@ export class DialogBodyFuncionarioComponent implements OnInit {
         nascimento: [null],
         celular: [null],
         telefone: [null],
-        cargo_id: [null],
+        cargo_id: [null, Validators.compose([Validators.required])],
         status: [true],
         email: [null],
-        grupo_id: [null],
+        grupo_id: [null, Validators.compose([Validators.required])],
         endereco: this.fb.group({
           cep: [null],
           logradouro: [null],
@@ -73,10 +73,11 @@ export class DialogBodyFuncionarioComponent implements OnInit {
       }else{
         this.pageTitle = 'Editar Funcionário'
         this.funcionario.patchValue(this.data);
+        this.editar  = true;
       }
   }
   private chargeForm(){
-    console.log(this.data.usuario);
+    //console.log(this.data.usuario);
     //this.usuario.patchValue(this.data);
   }
   removeSpecialChar(data) {
@@ -102,7 +103,11 @@ export class DialogBodyFuncionarioComponent implements OnInit {
     data.nascimento = this.datePipe.transform(data.nascimento, 'yyyy-MM-dd');
     this.clientservice.addFuncionario(data).subscribe((res:any) => {
       if(res.success == true){
-        this.notificationService.notify(`Cadastro Efetuado com Sucesso!`)
+        if(this.editar == false){
+          this.notificationService.notify(`Cadastro Efetuado com Sucesso!`)
+        }else {
+          this.notificationService.notify(`Cadastro alterado com Sucesso!`)
+        }
       }else{
         this.notificationService.notify(`Erro contate o Administrador`)
       }

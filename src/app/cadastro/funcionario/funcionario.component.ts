@@ -55,11 +55,11 @@ export class FuncionarioComponent implements OnInit {
   this.table = this.data;
   }
   updateValue(event, cell, rowIndex) {    
-    console.log('inline editing rowIndex', rowIndex)
+    //console.log('inline editing rowIndex', rowIndex)
     this.editing[rowIndex + '-' + cell] = false;
     this.rows[rowIndex][cell] = event.target.value;
     this.rows = [...this.rows];
-    console.log('UPDATED!', this.rows[rowIndex][cell]);
+    //console.log('UPDATED!', this.rows[rowIndex][cell]);
   }
 
   openDialog() {
@@ -79,7 +79,7 @@ export class FuncionarioComponent implements OnInit {
   );
     dialogRef.afterClosed().subscribe(value => {
         this.refreshTable();
-        console.log(`Dialog sent: ${value}`); 
+        //console.log(`Dialog sent: ${value}`); 
       });
   }
   edit(row){
@@ -96,9 +96,9 @@ export class FuncionarioComponent implements OnInit {
     );
     dialogRef.afterClosed().subscribe(value => {
 
-     (value != 1) ? this.refreshTable() : null
+    (value != 1) ? this.refreshTable() : null
 
-      });
+    });
     }
   delete(row){
     const dialogConfig = new MatDialogConfig();
@@ -109,25 +109,21 @@ export class FuncionarioComponent implements OnInit {
       dialogConfig   
     );
     dialogRef.afterClosed().subscribe(value => {
-
-     (value != 1) ? this.refreshTable() : null
+    (value != 1) ? this.refreshTable() : null
 
       });
     }
 
   refreshTable(){
-    this.clientservice.getFuncionarios().subscribe(res =>{
-      this.dados = res;
-      this.rows = this.dados.data;
-      this.temp = [...this.dados.data];
-      setTimeout(() => { this.loadingIndicator = false; }, 1500);
+    this.clientservice.getFuncionarios().subscribe((res:any) =>{
+      this.rows = res.data.sort((a,b)=> a.id - b.id);
+      this.temp = [...res.data];
       });
-      console.log("Rodei")
   }
 
 
   ngOnInit() {
-   
+  
   }
 
 }
