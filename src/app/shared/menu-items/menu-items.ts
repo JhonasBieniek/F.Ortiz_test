@@ -60,6 +60,7 @@ const MENUITEMS = [
       {state: 'regioes', name: 'Regiões', type: 'link' },
       {state: 'representada', name: 'Representadas', type: 'link' },
       {state: 'unidade', name: 'Unidades', type: 'link' },     
+      {state: 'tamanhos', name: 'Tamanhos', type: 'link' }
     ]
   },{
     state: 'pedido',
@@ -68,6 +69,7 @@ const MENUITEMS = [
     icon: 'dvr',
     children: [
       {state: 'importar', name: 'Importar', type: 'link' },
+      {state: 'novo', name: 'Novo', type: 'link' },
       {state: 'listar-pedido', name: 'Pedidos', type: 'link' },
       {state: 'listar-orcamento', name: 'Orçamentos', type: 'link' },
       {state: 'conciliacao', name: 'Conciliação de Notas', type: 'link' },

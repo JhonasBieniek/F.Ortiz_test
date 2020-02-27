@@ -1,7 +1,10 @@
 {
   "titulo": "Pedidos",
+  "import": {
+    "titulo": "Importar"
+  },
   "add": {
-    "titulo": "Cadastrar Pedido"
+    "titulo": "Novo"
   },
     "pedidos": [
       {

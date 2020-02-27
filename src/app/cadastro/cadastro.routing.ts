@@ -16,6 +16,7 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
 import { GruposComponent } from './grupos/grupos.component';
 import { RamoAtividadeComponent } from './ramo-atividade/ramo-atividade.component';
 import { ProdutosComponent } from './produtos/produtos.component';
+import { TamanhosComponent } from './tamanhos/tamanhos.component';
 
 
 export const CadastroRoutes: Routes = [
@@ -42,6 +43,9 @@ export const CadastroRoutes: Routes = [
     },{
       path: 'unidade', 
       component: UnidadeComponent
+    },{
+      path: 'tamanhos', 
+      component: TamanhosComponent
     },{
       path: 'funcionario', 
       component: FuncionarioComponent

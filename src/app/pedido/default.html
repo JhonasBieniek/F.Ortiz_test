@@ -5,8 +5,11 @@
         <mat-card-title >{{page.titulo}}</mat-card-title>
         <mat-card-actions align="end">
           <div class="button-row">
-            <button mat-raised-button color="primary" type="button" (click)="add()">
+            <button mat-raised-button color="primary" type="button" (click)="navigate('new')">
               <mat-icon class="example-icon">add_box</mat-icon> {{page.add.titulo}}
+            </button>
+            <button mat-raised-button color="warn" type="button" (click)="navigate('import')">
+              <mat-icon class="example-icon">add_box</mat-icon> {{page.import.titulo}}
             </button>
           </div> 
         </mat-card-actions> 

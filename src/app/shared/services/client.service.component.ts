@@ -171,6 +171,23 @@ export class ClientService {
       .subscribe(res =>
           console.log('Done Add User!'));
   }
+  addTamanhos(dados) {
+    const uri = `${API_URL}` + `tamanhos/add.json`;
+    this
+      .http
+      .post(uri, dados) 
+      .subscribe(res =>
+          console.log('Done'));
+  }
+  updateTamanhos(data): Observable<any>{
+    const url = `${API_URL}tamanhos/edit/${data.id}.json`;
+     return this.http.put(url, data).pipe(
+      catchError(this.handleError),
+      map(res => {
+        return res;
+      })
+     )
+  }
   addGrupos(dados) {
     const uri = `${API_URL}` + `grupos/add.json`;
     this
@@ -452,6 +469,15 @@ export class ClientService {
   }
   getGrupos() {
     const uri = `${API_URL}` + `grupos/index.json`;
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
+  getTamanhos() {
+    const uri = `${API_URL}` + `tamanhos/index.json`;
     return this
             .http
             .get(uri)

@@ -533,6 +533,7 @@ export class Novo2Component implements OnInit {
   }
 
   addProduto(item:any){
+    console.log(item, "item")
     this.produto.push(this.fb.group({
       codigo: item.codigo,
       nome: item.nome,
@@ -680,7 +681,7 @@ export class Novo2Component implements OnInit {
       this.resposta = res
       if (this.resposta.status == 'success') {
         this.notificationService.notify(`Pedido Cadastrado com Sucesso!`);
-        setTimeout(() => { this.router.navigate(['/pedido/', 'listar']) }, 1500);
+        setTimeout(() => { this.router.navigate(['/pedido/', 'listar-pedido']) }, 1500);
       } else {
         this.notificationService.notify(`Erro contate o Administrador`)
       }

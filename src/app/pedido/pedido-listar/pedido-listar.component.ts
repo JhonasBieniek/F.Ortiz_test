@@ -54,7 +54,10 @@ export class PedidoListarComponent implements OnInit {
       return d
     }); 
   }
-  add(){
+  navigate(path){
+    if(path == 'new')
     this.router.navigate(['/pedido/novo']);
+    else
+    this.router.navigate(['/pedido/importar']);
   }
 }

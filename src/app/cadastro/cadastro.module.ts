@@ -43,6 +43,8 @@ import { DialogBodyFornecedorComponent } from './fornecedor/dialog-body/dialog-b
 import { DialogBodyRepresentadaComponent } from './representada/dialog-body/dialog-body-representada.component';
 import { DialogBodyFuncionarioComponent } from './funcionario/dialog-body/dialog-body-funcionario.component';
 import { DialogBodyClienteComponent } from './cliente/dialog-body/dialog-body-cliente.component';
+import { TamanhosComponent } from './tamanhos/tamanhos.component';
+import { DialogTamanhosComponent } from './tamanhos/dialog-tamanhos/dialog-tamanhoscomponent';
 
 
 
@@ -84,6 +86,7 @@ import { DialogBodyClienteComponent } from './cliente/dialog-body/dialog-body-cl
                   DialogBodyRamoComponent,
                   DialogConfirmarDeleteComponent,
                   CargosComponent,
+                  TamanhosComponent,
                   UnidadeComponent,
                   FuncionarioComponent,
                   ComissoesComponent,
@@ -94,7 +97,8 @@ import { DialogBodyClienteComponent } from './cliente/dialog-body/dialog-body-cl
                   DialogBodyClienteComponent,
                   RamoAtividadeComponent,
                   ProdutosComponent,
-                  DialogBodyProdutoComponent
+                  DialogBodyProdutoComponent,
+                  DialogTamanhosComponent,
   ],
   providers: [
     DatePipe
@@ -113,7 +117,8 @@ import { DialogBodyClienteComponent } from './cliente/dialog-body/dialog-body-cl
                      DialogBodyFornecedorComponent,
                      DialogBodyRamoComponent,
                      DialogConfirmarDeleteComponent,
-                     DialogBodyProdutoComponent
+                     DialogBodyProdutoComponent,
+                     DialogTamanhosComponent
   ],
 })
 

@@ -1,13 +1,12 @@
 <!-- ============================================================== -->
 <!-- row -->
 <!-- ============================================================== -->
-<input type="file" style="display: none" (change)="incomingfile($event)" accept=".xlsx" #hiddenfileinput >
-<div fxLayout="row" fxLayoutWrap="wrap">
+<div fxLayout="row wrap">
   <!-- Card column -->
   <div fxFlex.gt-sm="100%" fxFlex="100">
     <mat-card>
       <mat-card-content>
-        <div fxLayout="row" fxLayoutWrap="wrap" class="row">
+        <div fxLayout="row wrap" class="row">
           <div class="p-10" fxFlex.gt-sm="60" fxFlex.gt-md="60" fxFlex.gt-xs="60" fxFlex="60">
             <div class="p-10" fxFlex.gt-sm="35" fxFlex.gt-md="35" fxFlex.gt-xs="35" fxFlex="35">
                 <mat-card-title style="margin-top: 20px;">Novo Pedido:</mat-card-title>
@@ -16,7 +15,7 @@
         </div>
           <mat-card-subtitle class="sub-title">--Dados do Pedido--</mat-card-subtitle>
           <form [formGroup]="form" class="form">
-            <div fxLayout="row" fxLayoutWrap="wrap" class="row">
+            <div fxLayout="row wrap" class="row">
               <div class="p-10" fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="100">
                 <mat-form-field appearance="outline">
                   <mat-label>Nº Pedido</mat-label>
@@ -142,16 +141,16 @@
               </div>
             </div>
           </form>
-        <div fxLayout="row" fxLayoutWrap="wrap">
+        <div fxLayout="row wrap">
           <!-- Card column -->
           <div fxFlex.gt-sm="100%" fxFlex="100">
-            <mat-card-subtitle class="sub-title">--Selecione o Produto--</mat-card-subtitle>
+            <mat-card-subtitle class="sub-title ">--Selecione o Produto--</mat-card-subtitle>
             <mat-form-field>
-              <input matInput type='text' class="form-control" placeholder='Digite para filtrar...'
+              <input matInput type='text' class="form-control form" placeholder='Digite para filtrar...'
                 (keyup)='updateFilter($event)' />
             </mat-form-field>
-            <ngx-datatable #table class='material' [columns]="columns" [columnMode]="'force'" [headerHeight]="50"
-              [footerHeight]="50" [rowHeight]="'auto'" [limit]="5" [rows]='rows' [loadingIndicator]="loadingIndicator"
+            <ngx-datatable #table class='material' [columns]="columns" [columnMode]="'force'" [headerHeight]="40"
+              [footerHeight]="40" [rowHeight]="'40'" [limit]="5" [rows]='rows' [loadingIndicator]="loadingIndicator"
               [selected]="selected" [selectionType]="'single'" (select)='onSelect($event)'>
             </ngx-datatable>
           </div>
