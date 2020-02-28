@@ -646,7 +646,7 @@ export class Novo2Component implements OnInit {
 
   comissaoMedia(){
     let i=0;
-    let comissao = 0
+    let comissao = 0;
     this.produto.controls.forEach(element => {
       comissao += element.get('comissao_produto').value;
       i++;

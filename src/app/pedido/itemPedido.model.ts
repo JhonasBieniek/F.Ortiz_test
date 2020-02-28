@@ -1,18 +1,17 @@
 export interface ItemPedido{
-    id: string;
+    id: number;
     codigo?:string;
     nome?: string;
     quantidade: number;
     unidade?: {
-        id: 4;
+        id: number;
         sigla: string;
     },
     embalagem?: string;
-    ipi?: string;
-    desconto?: string;
-    valorUnitario;
-    comissao: string;
+    ipi?: number;
+    desconto?: number;
+    valorUnitario: number;
+    comissao: number;
     tamanho?: string;
     obs?: string;
-
 }
