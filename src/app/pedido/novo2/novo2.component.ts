@@ -539,7 +539,7 @@ export class Novo2Component implements OnInit {
       nome: item.nome,
       produto_id: item.id,
       quantidade: item.quantidade,
-      unidade: item.unidade.sigla,
+      unidade: (item.unidade != null)? item.unidade.sigla: null,
       embalagem: item.embalagem,
       tamanho: item.tamanho,
       ipi: item.ipi,
