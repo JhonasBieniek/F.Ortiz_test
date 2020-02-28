@@ -22,6 +22,7 @@
               (keyup)='updateFilter($event)' />
             </mat-form-field>
             <ngx-datatable 
+            #table
             #step.step 
             class='material striped' 
             [columnMode]="'flex'" 
@@ -31,25 +32,18 @@
             [limit]="20"
             [rows]='rows[step.index]' 
             [selected]="selected"
-            [selectionType]="'checkbox'"
             (select)='onSelect($event)' 
             [sorts]="[{prop: 'id', dir: 'asc'}]">
-              <ngx-datatable-column  [flexGrow]="0.3" name="Selecionar" [sortable]="false" [draggable]="false">
-                <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
-                  <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)" />
-                </ng-template>
-                <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected"let-onCheckboxChangeFn="onCheckboxChangeFn">
-                  <input type="checkbox"  [checked]="isSelected" (change)="onCheckboxChangeFn($event)" />
-                </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column *ngFor="let column of step.columns"  [flexGrow]=column.width name="{{column.name}}" prop="{{column.prop}}" [ngSwitch]="column.prop">
-                <ng-template *ngSwitchCase="'data_faturamento'" let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+            <ng-container *ngFor="let col of step.columns"  >
+              <ngx-datatable-column ngSwitch={{col.prop}} [flexGrow]=col.width name="{{col.name}}" prop="{{col.prop}}">
+                <ng-template *ngSwitchCase="'data_emissao'" let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
                   {{value |  date:'dd/MM/yyyy'}}
                 </ng-template>
                 <ng-template ngSwitchDefault let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
                   {{value}}
                 </ng-template>
               </ngx-datatable-column>
+            </ng-container>
             </ngx-datatable>
           </mat-card-content>
         </mat-tab>

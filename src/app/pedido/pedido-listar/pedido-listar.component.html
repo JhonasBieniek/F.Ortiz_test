@@ -19,7 +19,7 @@
               <input matInput type='text' class="form-control" placeholder='Insira um nome para pesquisar...'
                 (keyup)='updateFilter($event)' />
             </mat-form-field>
-            <ngx-datatable #step.step class='material' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+            <ngx-datatable #step.step class='material'[columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
               [rowHeight]="50" [scrollbarH]="true" [limit]="10" [rows]='rows[step.index]' [selected]="selected"
               [selectionType]="'checkbox'" (select)='onSelect($event)' [sorts]="[{prop: 'id', dir: 'asc'}]">
               <ngx-datatable-column [width]="40" name="Selecionar" [sortable]="false" [draggable]="false">

@@ -62,6 +62,9 @@ export class DialogSendNotaComponent implements OnInit {
   cancel(): void {
     this.dialogRef.close();
   }
+  delete(row){
+    
+  }
 
   save(): void {
     this.clientservice.addNota(this.form.value).subscribe((res:any) => {

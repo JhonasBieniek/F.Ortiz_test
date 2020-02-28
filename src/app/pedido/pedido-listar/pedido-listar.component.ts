@@ -26,6 +26,7 @@ export class PedidoListarComponent implements OnInit {
 
   isEditable = {};               
   
+  @ViewChild(PedidoListarComponent, {static: true}) table: PedidoListarComponent;
   constructor(
     private clientservice: ClientService,
     private router: Router,
