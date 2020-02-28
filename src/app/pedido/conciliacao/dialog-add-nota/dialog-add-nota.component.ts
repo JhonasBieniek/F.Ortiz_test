@@ -65,10 +65,10 @@ export class DialogAddNotaComponent implements OnInit {
   onSelect({ selected }) {
     let dialogConfig = new MatDialogConfig();
     dialogConfig = {
-      maxWidth: '55vw',
-      maxHeight: '45vh',
-      width: '55vw',
-      height: '45vh'
+      maxWidth: '95vw',
+      maxHeight: '95vh',
+      width: '90vw',
+      height: '95vh'
     }
     dialogConfig.data = selected[0];
     let dialogRef = this.dialog.open(

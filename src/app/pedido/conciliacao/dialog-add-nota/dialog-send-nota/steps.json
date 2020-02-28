@@ -1,0 +1,36 @@
+{
+"produtos": [
+  {
+    "titulo": "Produtos do Pedido",
+    "step": true,
+    "index": 0,
+    "columns": [
+      {
+        "prop": "produto.codigo",
+        "name": "Código",
+        "width": 0.4
+      },
+      {
+        "prop": "tamanho",
+        "name": "Tamanho",
+        "width": 0.4
+      },
+      {
+        "prop": "produto.nome",
+        "name": "Nome do produto",
+        "width": 1.5
+      },
+      {
+        "prop": "quantidade",
+        "name": "Quantidade",
+        "width": 1
+      },
+      {
+        "prop": "valor_total",
+        "name": "Valor",
+        "width": 1
+      }
+    ]
+  }
+]
+}

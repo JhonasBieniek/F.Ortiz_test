@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
 import { ClientService } from '../../../../shared/services/client.service.component';
 import { NotificationService } from '../../../../shared/messages/notification.service';
+import steps from './steps.json';
 
 @Component({
   selector: 'app-dialog-send-nota',
@@ -13,12 +14,31 @@ import { NotificationService } from '../../../../shared/messages/notification.se
 export class DialogSendNotaComponent implements OnInit {
   public form: FormGroup;
   dados
+  editing = {};
+  rows:any = [];
+  temp:any = [];
+  selected:any = [];
+  steps: any = steps.produtos;
+  defaultTab = 0;
+
+  itemSelected
+
+  loadingIndicator = true;
+  reorderable = true;
+
+  isEditable = {};     
   constructor(
     private fb: FormBuilder,
     private clientservice: ClientService,
     public dialogRef: MatDialogRef<DialogSendNotaComponent>, 
     @Inject(MAT_DIALOG_DATA) public data: any,
-  ) { }
+  ) { 
+    this.clientservice.getPedidoProdutos(this.data.id).subscribe((res:any) => {
+      let i = 0;
+      this.temp[i] = res.data;
+      this.rows = [...this.temp];
+    })
+  }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -27,7 +47,16 @@ export class DialogSendNotaComponent implements OnInit {
       data_faturamento: [null, Validators.compose([Validators.required, CustomValidators.date])],
       obs: [null],
       status: ["aberto"]
-    })
+    });
+  }
+
+  updateFilter(event) {
+    const val = event.target.value.toLowerCase();
+    this.rows[this.defaultTab] = this.temp[this.defaultTab].filter(d => {
+      if( d.num_nota.toLowerCase().indexOf(val) !== -1 || !val 
+      || d.pedido.num_pedido.toLowerCase().indexOf(val) !== -1 || !val)
+      return d
+    });
   }
 
   cancel(): void {

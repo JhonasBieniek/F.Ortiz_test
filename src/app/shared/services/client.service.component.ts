@@ -422,6 +422,15 @@ export class ClientService {
               return res;
             });
   }
+  getPedidoProdutos(id){
+    const uri = `${API_URL}` + `pedidoProdutos/get/`+id+`.json`;
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
   getNotas() {
     const uri = `${API_URL}` + `notas/index.json`;
     return this
