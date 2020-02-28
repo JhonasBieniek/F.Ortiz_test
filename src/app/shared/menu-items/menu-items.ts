@@ -60,7 +60,7 @@ const MENUITEMS = [
       {state: 'regioes', name: 'Regiões', type: 'link' },
       {state: 'representada', name: 'Representadas', type: 'link' },
       {state: 'unidade', name: 'Unidades', type: 'link' },     
-      {state: 'tamanhos', name: 'Tamanhos', type: 'link' }
+      //{state: 'tamanhos', name: 'Tamanhos', type: 'link' }
     ]
   },{
     state: 'pedido',

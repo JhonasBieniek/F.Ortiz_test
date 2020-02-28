@@ -18,11 +18,11 @@
               <input matInput placeholder="Nome do grupo" [formControl]="form.controls['nome']">
             </mat-form-field>
             <mat-hint *ngIf="form.controls['nome'].hasError('required') && form.controls['nome'].touched"
-              class="text-danger font-14">Nome grupo.</mat-hint>
+              class="text-danger font-14">Nome do tamanho.</mat-hint>
             <mat-hint *ngIf="form.controls['nome'].hasError('minlength') && form.controls['nome'].touched"
-              class="text-danger font-14">O nome do grupo deve conter no mínimo 5 caracteres</mat-hint>
+              class="text-danger font-14">O nome do tamanho deve conter no mínimo 5 caracteres</mat-hint>
             <mat-hint *ngIf="form.controls['nome'].hasError('maxlength') && form.controls['nome'].touched"
-              class="text-danger font-14">O nome do grupo não deve exceder 50 caracteres.</mat-hint>
+              class="text-danger font-14">O nome do tamanho não deve exceder 50 caracteres.</mat-hint>
           </div>
         </div>
         <mat-card-actions class="p-10" >

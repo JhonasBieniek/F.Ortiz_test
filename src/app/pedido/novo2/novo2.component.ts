@@ -7,7 +7,7 @@ import { NotificationService } from '../../shared/messages/notification.service'
 import * as XLSX from 'xlsx'
 
 import { OrderItem } from '../order-item.model';
-import { MatDialogConfig, MatDialog, MatStepper } from '@angular/material';
+import { MatDialogConfig, MatDialog } from '@angular/material';
 import { DialogCadastroComponent } from '../novo/dialog-cadastro/dialog-cadastro.component';
 import { DialogBodyClienteComponent } from '../../cadastro/cliente/dialog-body/dialog-body-cliente.component';
 import { ItemPedido } from '../itemPedido.model';
@@ -19,7 +19,6 @@ import * as moment from 'moment';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
-import { element } from 'protractor';
 
 export const MY_FORMATS = {
   parse: {
@@ -533,7 +532,6 @@ export class Novo2Component implements OnInit {
   }
 
   addProduto(item:any){
-    console.log(item, "item")
     this.produto.push(this.fb.group({
       codigo: item.codigo,
       nome: item.nome,
