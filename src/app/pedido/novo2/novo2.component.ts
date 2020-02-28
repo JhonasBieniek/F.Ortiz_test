@@ -2,7 +2,7 @@ import { Component, OnInit, Input, EventEmitter, Output, ViewChild, ViewEncapsul
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ClientService } from '../../shared/services/client.service.component';
 import { NotificationService } from '../../shared/messages/notification.service';
-
+import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 import * as XLSX from 'xlsx'
 
 import { OrderItem } from '../order-item.model';
@@ -11,16 +11,13 @@ import { DialogCadastroComponent } from '../novo/dialog-cadastro/dialog-cadastro
 import { DialogBodyClienteComponent } from '../../cadastro/cliente/dialog-body/dialog-body-cliente.component';
 import { ItemPedido } from '../itemPedido.model';
 import { DateFormatPipe } from '../../shared/pipes/dateFormat.pipe';
-
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
 import * as moment from 'moment';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
 
 export const MY_FORMATS = {
   parse: {
-    dateInput: 'DD/MM/YYYY',
+    dateInput: 'LL',
   },
   display: {
     dateInput: 'DD/MM/YYYY',
@@ -36,9 +33,6 @@ export const MY_FORMATS = {
   templateUrl: './novo2.component.html',
   styleUrls: ['./novo2.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  providers: [
-    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }]
 })
 
 export class Novo2Component implements OnInit {
@@ -46,10 +40,9 @@ export class Novo2Component implements OnInit {
   @Input() item: OrderItem
   @Output() add = new EventEmitter()
 
-
   public form: FormGroup;
   quantidade: any[] = [];
-
+  events: string[] = [];
   representadas = [];
   clientes = [];
   condComerciais = [];
@@ -545,7 +538,9 @@ export class Novo2Component implements OnInit {
     });
     this.produto = this.form.get('pedido_produtos') as FormArray;
   }
-
+  updateDate(input: string, event: MatDatepickerInputEvent<Date>) {
+    this.form.get(input).setValue(moment(event.value, 'DD-MM-YYYY').format("YYYY-MM-DD"));
+  }
   async consultaCod(produto:any): Promise<any> {
     let campos;
     let newItem;

@@ -57,9 +57,9 @@
             </div>
 
             <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="50">
-              <mat-form-field appearance="outline">
+              <mat-form-field appearance="outline" >
                 <mat-label>Data de Emissão</mat-label>
-                <input matInput [matDatepicker]="pickerEmissao"
+                <input matInput  (dateInput)="updateDate('data_emissao', $event)" [matDatepicker]="pickerEmissao"
                 formControlName="data_emissao" placeholder="Data Emissao">
                 <mat-datepicker-toggle matSuffix [for]="pickerEmissao"></mat-datepicker-toggle>
                 <mat-datepicker #pickerEmissao ></mat-datepicker>
@@ -69,7 +69,7 @@
             <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="50">
               <mat-form-field appearance="outline">
                 <mat-label>Data de Entrega</mat-label>
-                <input matInput [matDatepicker]="pickerEntrega" formControlName="data_entrega" placeholder="Data Programada">
+                <input matInput (dateInput)="updateDate('data_emissao', $event)" [matDatepicker]="pickerEntrega" formControlName="data_entrega" placeholder="Data Programada">
                 <mat-datepicker-toggle matSuffix [for]="pickerEntrega"></mat-datepicker-toggle>
                 <mat-datepicker #pickerEntrega></mat-datepicker>
               </mat-form-field>
@@ -137,7 +137,7 @@
             <div *ngIf="checked" class="p-10 pad" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="50">
               <mat-form-field appearance="outline">
                 <mat-label>Data Programada</mat-label>
-                <input matInput [matDatepicker]="picker" formControlName="data_programada"
+                <input matInput (dateInput)="updateDate('data_emissao', $event)" [matDatepicker]="picker" formControlName="data_programada"
                   placeholder="Data Programada">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
