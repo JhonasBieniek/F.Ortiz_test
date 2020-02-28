@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
-import { CustomValidators } from 'ng2-validation';
 import { ClientService } from '../../shared/services/client.service.component';
 import { NotificationService } from '../../shared/messages/notification.service';
 
@@ -16,8 +15,7 @@ import { DateFormatPipe } from '../../shared/pipes/dateFormat.pipe';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
 import * as moment from 'moment';
-import { DatePipe } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
 
 export const MY_FORMATS = {
@@ -32,12 +30,13 @@ export const MY_FORMATS = {
   },
 };
 
+
 @Component({
   selector: 'app-novo2',
   templateUrl: './novo2.component.html',
   styleUrls: ['./novo2.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  providers: [DatePipe,
+  providers: [
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }]
 })
@@ -103,6 +102,10 @@ export class Novo2Component implements OnInit {
   selectRepresentada: string = "Selecione a representada";
   condComercial: any;
   produto:any ;
+  currentAction:string = "";
+  pageTitle:string = "";
+  clientSize:number;
+  pedidoSize:number;
 
   incomingfile(event) {
     var file: File;
@@ -166,7 +169,7 @@ export class Novo2Component implements OnInit {
         }
         await this.consultaCod(produto).then((res: any) => {
           if (res != undefined) {
-            this.addItemPlan(res) //* Adiciona item à item que já esteja cadastrado no banco
+            this.addItem(res) //* Adiciona item à item que já esteja cadastrado no banco
           }
         })
       }
@@ -226,7 +229,7 @@ export class Novo2Component implements OnInit {
         }
         await this.consultaCod(produto).then((res: any) => {
           if (res != undefined) {
-            this.addItemPlan(res) //* Adiciona item à item que já esteja cadastrado no banco
+            this.addItem(res) //* Adiciona item à item que já esteja cadastrado no banco
           }
         })
       }
@@ -297,7 +300,7 @@ export class Novo2Component implements OnInit {
           produto.quantidade = data[rowQtd][j];
           await this.consultaCod(produto).then((res: any) => {
             if (res != undefined) {
-              this.addItemPlan(res) //* Adiciona item à item que já esteja cadastrado no banco
+              this.addItem(res) //* Adiciona item à item que já esteja cadastrado no banco
             }
           });
         }
@@ -358,7 +361,7 @@ export class Novo2Component implements OnInit {
         }
         await this.consultaCod(produto).then((res: any) => {
           if (res != undefined) {
-            this.addItemPlan(res)
+            this.addItem(res)
           }
         })
       }
@@ -419,7 +422,7 @@ export class Novo2Component implements OnInit {
       }
       await this.consultaCod(produto).then((res: any) => {
         if (res != undefined) {
-          this.addItemPlan(res)
+          this.addItem(res)
         }
       })
     }
@@ -455,6 +458,7 @@ export class Novo2Component implements OnInit {
     private dateFormatPipe: DateFormatPipe,
     private dialog: MatDialog,
     private router: Router,
+    private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
   ) {
     this.clientservice.getRepresentadasFunc().subscribe((res: any) => {
@@ -468,9 +472,45 @@ export class Novo2Component implements OnInit {
       this.areas = res.data;
     });
   }
+  
 
   ngOnInit() {
     this.createdForm();
+    this.setCurrentAction();
+  }
+
+  ngAfterContentChecked(): void {
+    //Called after every check of the component's or directive's content.
+    //Add 'implements AfterContentChecked' to the class.
+    this.setPageTitle();
+  }
+
+  private setCurrentAction() {
+    if(this.route.snapshot.url[0].path == "importar"){
+      this.currentAction = "importar"
+      this.clientSize= 44;
+      this.pedidoSize=16;
+    }else if(this.route.snapshot.url[0].path == "novo"){
+      this.currentAction = "novo"
+      this.clientSize= 26;
+      this.pedidoSize=12;
+    }else{
+      this.currentAction = "edit"
+      this.clientSize= 26;
+      this.pedidoSize=12;
+    }
+
+  }
+
+  private setPageTitle() {
+    if(this.currentAction == 'importar'){
+      this.pageTitle = 'Importar Pedido'
+    }else if(this.currentAction == 'novo'){
+      this.pageTitle = 'Novo Pedido'
+    }else{
+      //const pieceNome = this.piece.nome || ''
+      this.pageTitle = 'Editando pedido: ';
+    }
   }
 
   getClientes(){
@@ -583,11 +623,8 @@ export class Novo2Component implements OnInit {
     this.addProduto(item);
   }
 
-  addItemPlan(item: ItemPedido) {
-    this.addProduto(item);
-  }
-
   CarregarProdutosRepresentada() {
+    console.log(this.representada);
     this.clientservice.getProdutosRepresentada(this.representada.id).subscribe(res => {
       this.data = res;
       this.rows = this.data.data;
@@ -614,7 +651,7 @@ export class Novo2Component implements OnInit {
     this.dialogRef.afterClosed().subscribe(value => {
       console.log(value, "Value retornado")
       value.forEach(element => {
-        this.addItemPlan(element)
+        this.addItem(element)
       });
     });
   }
@@ -667,7 +704,7 @@ export class Novo2Component implements OnInit {
   valorTotal(){
    let total = 0;
    this.produto.controls.forEach(element => {
-     total += element.get('valor_total').value;
+     total += element.get('valor_total').value - ((element.get('quantidade').value*element.get('valor_unitario').value) * element.get('desconto').value/100)
    })
    this.form.get('valor_total').setValue(total);
    return total;

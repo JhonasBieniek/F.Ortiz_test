@@ -10,9 +10,9 @@
         <form [formGroup]="form" class="form">
           <div fxLayout="row" fxLayoutAlign="left center" class="row">
             <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-md="20" fxFlex.gt-xs="20" fxFlex="20">
-              <mat-card-title>Importar Pedido:</mat-card-title>
+              <mat-card-title>{{pageTitle}}:</mat-card-title>
             </div>
-            <div class="p-10 select" fxFlex.gt-sm="30" fxFlex.gt-md="30" fxFlex.gt-xs="30" fxFlex="30">
+            <div *ngIf="this.currentAction == 'importar'" class="p-10 select" fxFlex.gt-sm="30" fxFlex.gt-md="30" fxFlex.gt-xs="30" fxFlex="30">
               <mat-form-field appearance="outline">
                 <mat-label  class="select">{{selectRepresentada}}</mat-label>
                 <mat-select formControlName="representada_id">
@@ -23,19 +23,32 @@
           </div>
           <mat-card-subtitle class="sub-title">--Dados do Pedido--</mat-card-subtitle>
           <div fxLayout="row wrap" class="row">
-            <div class="p-10" fxFlex.gt-sm="16" fxFlex.gt-xs="16" fxFlex="16">
+            <div class="p-10" fxFlex.gt-sm={{pedidoSize}} fxFlex.gt-xs={{pedidoSize}} fxFlex="100">
               <mat-form-field appearance="outline">
                 <mat-label>Nº Pedido</mat-label>
                 <input matInput placeholder="Nº Pedido" formControlName="num_pedido">
               </mat-form-field>
             </div>
+            <div class="p-10" *ngIf="this.currentAction == 'novo'" fxFlex.gt-sm="22" fxFlex.gt-xs="2" fxFlex="100">
+              <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+                [floatLabel]="form.value.floatLabel">
+                <mat-label>Representada.</mat-label>
+                <mat-select required formControlName="representada_id">
+                  <mat-option *ngFor="let rep of representadas" [value]="rep.id"
+                    (click)="representada=rep; CarregarProdutosRepresentada()">
+                    {{rep.razao_social}}
+                  </mat-option>
+                </mat-select>
+                <mat-placeholder>Representada</mat-placeholder>
+              </mat-form-field>
+            </div>
 
-            <div class="p-10" fxFlex.gt-sm="44" fxFlex.gt-xs="44" fxFlex="44">
+            <div class="p-10" fxFlex.gt-sm={{clientSize}} fxFlex.gt-xs={{clientSize}}  fxFlex="100">
               <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
                 [floatLabel]="form.value.floatLabel">
                 <mat-label>Cliente</mat-label>
                 <mat-select formControlName="cliente_id">
-                  <mat-option *ngFor="let cliente of clientes" [value]="cliente.id" (click)="selectedAreaVendaID = cliente.area_venda_id">
+                  <mat-option *ngFor="let cliente of clientes" [value]="cliente.id" (click)="setAreaDeVenda(cliente.area_venda_id)">
                     {{cliente.razao_social}}
                   </mat-option>
                 </mat-select>
@@ -49,7 +62,7 @@
                 <input matInput [matDatepicker]="pickerEmissao"
                 formControlName="data_emissao" placeholder="Data Emissao">
                 <mat-datepicker-toggle matSuffix [for]="pickerEmissao"></mat-datepicker-toggle>
-                <mat-datepicker #pickerEmissao></mat-datepicker>
+                <mat-datepicker #pickerEmissao ></mat-datepicker>
               </mat-form-field>
             </div>
 

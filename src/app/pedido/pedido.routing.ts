@@ -18,7 +18,7 @@ export const PedidoRoutes: Routes = [
     }, 
     {
       path: 'novo',
-      component: NovoComponent
+      component: Novo2Component
     },
     {
       path: 'importar',
