@@ -516,7 +516,7 @@ export class Novo2Component implements OnInit {
         if (res.success == true) {
           campos = produto;
           campos.embalagem = res.data.embalagem;
-          campos.unidade = (res.data.unidade != null)?res.data.unidade.sigla: null ;
+          campos.unidade = (res.data.unidade != null)?res.data.unidade: null ;
           campos.id = res.data.id;
         } else {
           newItem = produto;
@@ -539,7 +539,7 @@ export class Novo2Component implements OnInit {
       nome: item.nome,
       produto_id: item.id,
       quantidade: item.quantidade,
-      unidade: item.unidade,
+      unidade: item.unidade.sigla,
       embalagem: item.embalagem,
       tamanho: item.tamanho,
       ipi: item.ipi,
