@@ -22,7 +22,7 @@ export class ConciliacaoComponent implements OnInit {
   steps: any = this.page.concilicacao;
   defaultTab = 0;
 
-  itemSelected
+  action: string = "conciliacao";
 
   loadingIndicator = true;
   reorderable = true;
