@@ -77,7 +77,6 @@ export class DialogAddNotaComponent implements OnInit {
     );
     dialogRef.afterClosed().subscribe(value => {
       if(value == true){
-        this.notificationService.notify("Nota adicionada com sucesso !")
         this.selected = [];
         this.loadData();
       }

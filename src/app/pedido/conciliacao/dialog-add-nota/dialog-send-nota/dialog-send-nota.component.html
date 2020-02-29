@@ -45,19 +45,39 @@
       [footerHeight]="50"
       [rowHeight]="'auto'" 
       [limit]="5"
-      [rows]='rows[step.index]' 
-      [selected]="selected"
-      [selectionType]="'single'"
-      (select)='onSelect($event)' 
+      [rows]='rows[step.index]'
       [sorts]="[{prop: 'id', dir: 'asc'}]">
-        <ngx-datatable-column *ngFor="let column of step.columns"  [flexGrow]=column.width name="{{column.name}}" prop="{{column.prop}}" [ngSwitch]="column.prop">
-          <ng-template *ngSwitchCase="'valor_total'" let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
-            {{ value |  date:'dd/MM/yyyy' }}
-          </ng-template>
-          <ng-template ngSwitchDefault let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
-            {{value}}
+
+        <ngx-datatable-column [flexGrow]="0.4" name="Código" prop="produto.codigo">
+          <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+            {{ value }}
           </ng-template>
         </ngx-datatable-column>
+
+        <ngx-datatable-column [flexGrow]="0.4" name="Tamanho" prop="tamanho">
+          <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+            {{ value }}
+          </ng-template>
+        </ngx-datatable-column>
+        
+        <ngx-datatable-column [flexGrow]="2.5" name="Nome do produto" prop="produto.nome">
+          <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+            {{ value }}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column [flexGrow]="1" name="Quantidade" prop="quantidade">
+          <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+            {{ value }}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column [flexGrow]="1" name="Valor" prop="valor_total">
+          <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+            {{ value | currency:'BRL':true:'1.2-2' }}
+          </ng-template>
+        </ngx-datatable-column>
+
         <ngx-datatable-column [flexGrow]="0.8" name="Ações">
           <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex"
             ngx-datatable-cell-template>      
