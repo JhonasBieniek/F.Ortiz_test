@@ -34,7 +34,7 @@ export const AppRoutes: Routes = [
         path: 'ordem-servico',
         loadChildren: './ordem-servico/ordem-servico.module#OrdemServicoModule'
       },{
-        path: 'pedido',
+        path: 'pedidos',
         loadChildren: './pedido/pedido.module#PedidoModule'
       },{
         path: 'credito',

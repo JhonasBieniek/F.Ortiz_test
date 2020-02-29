@@ -63,18 +63,38 @@ const MENUITEMS = [
       //{state: 'tamanhos', name: 'Tamanhos', type: 'link' }
     ]
   },{
-    state: 'pedido',
+    state: 'pedidos',
     name: 'Pedido e Notas',
     type: 'sub',
     icon: 'dvr',
     children: [
-      {state: 'importar', name: 'Importar', type: 'link' },
-      {state: 'novo', name: 'Novo', type: 'link' },
-      {state: 'listar-pedido', name: 'Pedidos', type: 'link' },
-      {state: 'listar-orcamento', name: 'Orçamentos', type: 'link' },
+      {
+        state: 'pedido',
+        name: 'Pedidos',
+        type: 'subchild',
+        subchildren: [
+            {state: 'novo', name: 'Novo', type: 'link' },
+            {state: 'importar', name: 'Importar', type: 'link' },
+            {state: 'listar', name: 'Listar', type: 'link' },
+        ]
+      },
+      {
+        state: 'orcamento',
+        name: 'Orçamentos',
+        type: 'subchild',
+        subchildren: [
+            {state: 'novo', name: 'Novo', type: 'link' },
+            {state: 'listar', name: 'Listar', type: 'link' },
+        ]
+      },
       {state: 'conciliacao', name: 'Conciliação de Notas', type: 'link' },
       {state: 'relatorios', name: 'Relatórios', type: 'link' },
     ]
+  }, {
+    state: '',
+    name: 'Comissões',
+    type: 'saperator',
+    icon: 'av_timer'
   },{
     state: 'comissao',
     name: 'Comissão',

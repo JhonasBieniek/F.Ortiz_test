@@ -480,11 +480,12 @@ export class Novo2Component implements OnInit {
   }
 
   private setCurrentAction() {
-    if(this.route.snapshot.url[0].path == "importar"){
+    console.log(this.route.snapshot.url[1].path)
+    if(this.route.snapshot.url[1].path == "importar"){
       this.currentAction = "importar"
       this.clientSize= 44;
       this.pedidoSize=16;
-    }else if(this.route.snapshot.url[0].path == "novo"){
+    }else if(this.route.snapshot.url[1].path == "novo"){
       this.currentAction = "novo"
       this.clientSize= 26;
       this.pedidoSize=12;

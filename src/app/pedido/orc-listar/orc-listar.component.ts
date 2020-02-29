@@ -61,7 +61,7 @@ export class OrcListarComponent implements OnInit {
     }); 
   }
   navigate(path){
-    this.router.navigate(['/pedido/listar-orcamento']);
+    this.router.navigate(['/pedidos/orcamento/novo']);
   }
 
 }
