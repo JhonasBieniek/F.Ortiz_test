@@ -34,8 +34,8 @@
             [selected]="selected"
             (select)='onSelect($event)' 
             [sorts]="[{prop: 'id', dir: 'asc'}]">
-            <ng-container *ngFor="let col of step.columns"  >
-              <ngx-datatable-column ngSwitch={{col.prop}} [flexGrow]=col.width name="{{col.name}}" prop="{{col.prop}}">
+            <ng-container *ngFor="let col of step.columns" >
+              <ngx-datatable-column [flexGrow]=col.width name="{{col.name}}" prop="{{col.prop}}" [ngSwitch]="col.prop">
                 <ng-template *ngSwitchCase="'data_emissao'" let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
                   {{value |  date:'dd/MM/yyyy'}}
                 </ng-template>
