@@ -17,7 +17,6 @@
                 <mat-icon>clear</mat-icon>
               </button>
             </div>
-            <ng-container>
               <div fxLayout="row wrap">
                 <mat-form-field fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="10" appearance="outline">
                   <mat-label>Qtd.</mat-label>
@@ -50,13 +49,13 @@
                   <input matInput placeholder="Tamanho" formControlName="tamanho" >
                 </mat-form-field>
                 <mat-form-field fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="15" appearance="outline">
-                  <input [disabled]="true" matInput placeholder="Vlr total" formControlName="valorTotal" currencyMask>
+                  <input disabled 
+                  matInput placeholder="Vlr total" formControlName="valorTotal" currencyMask>
                 </mat-form-field>
                 <mat-form-field fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="70" appearance="outline">
                   <input matInput placeholder="Observação" formControlName="observacao" >
                 </mat-form-field>
               </div>
-            </ng-container>
           </div>
         </div>
         <div>

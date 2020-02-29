@@ -5,8 +5,8 @@
   },
     "pedidos": [
       {
-        "titulo": "Abertos",
-        "step": false,
+        "titulo": "Não Gerados",
+        "step": true,
         "index": 0,
         "columns": [
           {
@@ -25,8 +25,45 @@
             "width": 1
           },
           {
-            "prop": "data_entrega",
-            "name": "Entrega",
+            "prop": "validade",
+            "name": "Validade",
+            "width": 1
+          },
+          {
+            "prop": "status",
+            "name": "Gerado",
+            "width": 1
+          }
+        ]
+      },
+      {
+        "titulo": "Gerados",
+        "step": false,
+        "index": 1,
+        "columns": [
+          {
+            "prop": "representada.nome_fantasia",
+            "name": "Representada",
+            "width": 1.5
+          },
+          {
+            "prop": "cliente.nome_fantasia",
+            "name": "Comprador",
+            "width": 1.5
+          },
+          {
+            "prop": "data_emissao",
+            "name": "Emissão",
+            "width": 1
+          },
+          {
+            "prop": "validade",
+            "name": "Validade",
+            "width": 1
+          },
+          {
+            "prop": "status",
+            "name": "Gerado",
             "width": 1
           }
         ]

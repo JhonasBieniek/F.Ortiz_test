@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
 import { ClientService } from '../../shared/services/client.service.component';
 import { NotificationService } from '../../shared/messages/notification.service';
@@ -7,7 +7,7 @@ import { NotificationService } from '../../shared/messages/notification.service'
 import { OrderService } from '../../shared/services/order.service.component';
 import { OrderItem } from '../order-item.model';
 import { ShoppingCartComponent } from '../shopping-cart/shopping-cart.component';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatDatepickerInputEvent } from '@angular/material';
 import { ItemPedido } from '../itemPedido.model';
 import { DateFormatPipe } from '../../shared/pipes/dateFormat.pipe';
 
@@ -115,17 +115,18 @@ export class OrcamentoComponent implements OnInit {
       cliente_id: [null, Validators.compose([Validators.required])],
       data_emissao: [null, Validators.compose([Validators.required])],
       validade: [null, Validators.compose([Validators.required])],
-      prazoEntrega: [null, Validators.compose([Validators.maxLength(100)])],
+      prazo_entrega: [null, Validators.compose([Validators.maxLength(100)])],
       minimo: [null, Validators.compose([Validators.maxLength(100)])],
       condicao_comercial_id: [null, Validators.compose([Validators.required])],
-      observacao: [null],
+      obs: [null],
       frete: ['Representada', Validators.required],
       transportadora: [null],
-      active: [true, Validators.required],
-      pedido_produtos: this.fb.array([])
+      valor_total: [null],
+      status: [true, Validators.required],
+      orcamento_produtos: this.fb.array([])
     });
 
-    this.produto = this.form.get('pedido_produtos') as FormArray;
+    this.produto = this.form.get('orcamento_produtos') as FormArray;
 
   }
 
@@ -164,14 +165,11 @@ export class OrcamentoComponent implements OnInit {
       nome: item.nome,
       produto_id: item.id,
       quantidade: item.quantidade,
-      unidade: (item.unidade != null)? item.unidade.sigla: null,
-      embalagem: item.embalagem,
       tamanho: item.tamanho,
       ipi: item.ipi,
       desconto: item.desconto,
       valor_unitario: item.valorUnitario,
-      valor_total: (item.quantidade * item.valorUnitario),
-      comissao_produto: item.comissao,
+      valor_total: new FormControl({value: (item.quantidade * item.valorUnitario), disabled: true}),
       obs: ''
     }));
   }
@@ -195,8 +193,8 @@ export class OrcamentoComponent implements OnInit {
     this.produto.at(i).get('valor_total').setValue(valor);
   }
   
-  CarregarProdutosRepresentada() {
-    this.clientservice.getProdutosRepresentada(this.selectedRepresentada).subscribe(res => {
+  CarregarProdutosRepresentada(id) {
+    this.clientservice.getProdutosRepresentada(id).subscribe(res => {
       this.data = res;
       this.rows = this.data.data;
       this.temp = [...this.data.data];
@@ -206,6 +204,10 @@ export class OrcamentoComponent implements OnInit {
   onSelect({ selected }) {
     let itemSelected = selected[0]
     this.addItem(itemSelected);
+  }
+  
+  updateDate(input: string, event: MatDatepickerInputEvent<Date>) {
+    this.form.get(input).setValue(moment(event.value, 'DD-MM-YYYY').format("YYYY-MM-DD"));
   }
 
   valorTotal(){
@@ -219,7 +221,7 @@ export class OrcamentoComponent implements OnInit {
 
   enviarPedido() {
     console.log(this.form.value);
-    this.clientservice.addPedido(this.form.value).subscribe(res => {
+    this.clientservice.addOrcamento(this.form.value).subscribe(res => {
       this.resposta = res
       if (this.resposta.status == 'success') {
         this.notificationService.notify(`Pedido Cadastrado com Sucesso!`);
