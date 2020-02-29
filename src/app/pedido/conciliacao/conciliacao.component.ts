@@ -3,6 +3,7 @@ import { ClientService } from '../../shared/services/client.service.component';
 import { MatDialogConfig, MatDialog, MatTabChangeEvent, MatBottomSheetRef, MatBottomSheet } from '@angular/material';
 import { NotificationService } from '../../shared/messages/notification.service';
 import { DialogAddNotaComponent } from './dialog-add-nota/dialog-add-nota.component';
+import { DialogViewNotaComponent } from './dialog-view-nota/dialog-view-nota.component';
 
 import page from './steps.json';
 
@@ -70,6 +71,24 @@ export class ConciliacaoComponent implements OnInit {
     }
     let dialogRef = this.dialog.open(
       DialogAddNotaComponent, 
+      dialogConfig, 
+    );
+    dialogRef.afterClosed().subscribe(value => {
+      this.loadData();
+    });
+  }
+
+  view(data) {
+    let dialogConfig = new MatDialogConfig();
+    dialogConfig = {
+      maxWidth: '95vw',
+      maxHeight: '95vh',
+      width: '90vw',
+      height: '95vh',
+      data: data
+    }
+    let dialogRef = this.dialog.open(
+      DialogViewNotaComponent, 
       dialogConfig, 
     );
     dialogRef.afterClosed().subscribe(value => {

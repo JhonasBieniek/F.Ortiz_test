@@ -191,12 +191,9 @@
                 <ngx-datatable-column [flexGrow]="0.8" name="Ações">
                   <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex"
                     ngx-datatable-cell-template>      
-                    <i class="fa fa-pencil button" 
+                    <i class="fa fa-search button" 
                       title="Editar" 
-                      (click)="edit(row);"></i>
-                    <i class="fa fa-trash-o button2"
-                      title="Deletar" 
-                      (click)="delete(row)"></i>                         
+                      (click)="view(row);"></i>                     
                   </ng-template>
                 </ngx-datatable-column>
                 </ngx-datatable>

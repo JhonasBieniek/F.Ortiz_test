@@ -1,0 +1,64 @@
+
+<h1 mat-dialog-title>Cadastrar nota fiscal</h1>
+<div mat-dialog-content>
+  <div fxLayout="row wrap">
+    <div fxFlex.gt-sm="100%" fxFlex="100">
+      <div fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="10" >
+        Num. Nota: {{data.num_nota}}
+      </div>
+      <div fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="10" >
+        Num. Nota: {{data.num_nota}}
+      </div>
+    </div>
+  </div>
+  <mat-tab-group (selectedTabChange)="onTabChange($event)">
+    <mat-tab *ngFor="let step of steps " class="aba" label="{{step.titulo}}">
+      <mat-form-field>
+        <input matInput type='text' class="form-control" placeholder='Insira um nome para pesquisar...'
+        (keyup)='updateFilter($event)' />
+      </mat-form-field>
+      <ngx-datatable 
+      #step.step 
+      class='material striped' 
+      [columnMode]="'flex'" 
+      [headerHeight]="50" 
+      [footerHeight]="50"
+      [rowHeight]="'auto'" 
+      [limit]="5"
+      [rows]='rows[step.index]'
+      [sorts]="[{prop: 'id', dir: 'asc'}]">
+
+        <ngx-datatable-column [flexGrow]="0.4" name="Código" prop="produto.codigo">
+          <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+            {{ value }}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column [flexGrow]="0.4" name="Tamanho" prop="tamanho">
+          <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+            {{ value }}
+          </ng-template>
+        </ngx-datatable-column>
+        
+        <ngx-datatable-column [flexGrow]="2.5" name="Nome do produto" prop="produto.nome">
+          <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+            {{ value }}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column [flexGrow]="1" name="Quantidade" prop="quantidade">
+          <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+            {{ value }}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column [flexGrow]="1" name="Valor" prop="valor_total">
+          <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+            {{ value | currency:'BRL':true:'1.2-2' }}
+          </ng-template>
+        </ngx-datatable-column>
+
+      </ngx-datatable>
+    </mat-tab>
+  </mat-tab-group>
+</div>

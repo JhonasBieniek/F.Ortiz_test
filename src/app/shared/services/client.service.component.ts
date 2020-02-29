@@ -447,6 +447,15 @@ export class ClientService {
               return res;
             });
   }
+  getNotasID(id) {
+    const uri = `${API_URL}` + `notas/view/` + id + `.json`;
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
   getPedidoSemNota() {
     const uri = `${API_URL}` + `notas/getPedidoSemNota.json`;
     return this

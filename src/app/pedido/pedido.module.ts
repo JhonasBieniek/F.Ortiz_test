@@ -30,6 +30,7 @@ import { OrcListarComponent } from './orc-listar/orc-listar.component';
 import { PedidoListarComponent } from './pedido-listar/pedido-listar.component';
 import { DialogAddNotaComponent } from './conciliacao/dialog-add-nota/dialog-add-nota.component';
 import { DialogSendNotaComponent } from './conciliacao/dialog-add-nota/dialog-send-nota/dialog-send-nota.component';
+import { DialogViewNotaComponent } from './conciliacao/dialog-view-nota/dialog-view-nota.component';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
 
@@ -51,11 +52,11 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
     NgxSpinnerModule,
     CadastroModule
   ],
-  declarations: [ListarComponent, NovoComponent, ItensPedidoComponent, ShoppingCartComponent, DialogCadastroComponent, Novo2Component, OrcamentoComponent, ConciliacaoComponent, OrcListarComponent, PedidoListarComponent, DialogAddNotaComponent, DialogSendNotaComponent],
+  declarations: [ListarComponent, NovoComponent, ItensPedidoComponent, ShoppingCartComponent, DialogCadastroComponent, Novo2Component, OrcamentoComponent, ConciliacaoComponent, OrcListarComponent, PedidoListarComponent, DialogAddNotaComponent, DialogSendNotaComponent, DialogViewNotaComponent],
   providers: [
     DateFormatPipe,    
   ],
-  entryComponents: [ DialogCadastroComponent, DialogBodyClienteComponent, DialogAddNotaComponent, DialogSendNotaComponent],
+  entryComponents: [ DialogCadastroComponent, DialogBodyClienteComponent, DialogAddNotaComponent, DialogViewNotaComponent, DialogSendNotaComponent],
 
 })
 export class PedidoModule { }
