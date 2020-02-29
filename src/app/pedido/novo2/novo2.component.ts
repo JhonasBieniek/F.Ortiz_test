@@ -100,6 +100,7 @@ export class Novo2Component implements OnInit {
   clientSize:number;
   pedidoSize:number;
 
+
   incomingfile(event) {
     var file: File;
     this.itemsNew = [];

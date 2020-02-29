@@ -36,6 +36,26 @@
             "prop": "data_entrega",
             "name": "Entrega",
             "width": 1
+          },
+          {
+            "prop": "data_entrega",
+            "name": "Cond. Pagamento",
+            "width": 1
+          },
+          {
+            "prop": "frete",
+            "name": "Frete",
+            "width": 1
+          },
+          {
+            "prop": "status",
+            "name": "Status",
+            "width": 1
+          },
+          {
+            "prop": "entregue",
+            "name": "Entregue",
+            "width": 1
           }
         ]
       }

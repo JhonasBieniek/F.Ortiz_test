@@ -18,6 +18,8 @@ export class PedidoListarComponent implements OnInit {
   page:any = page;
   steps: any = this.page.pedidos;
   defaultTab = 0;
+  action: string = "pedido";
+
 
   itemSelected
 

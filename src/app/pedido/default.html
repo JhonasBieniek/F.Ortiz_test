@@ -21,30 +21,142 @@
               <input matInput type='text' class="form-control" placeholder='Insira um nome para pesquisar...'
               (keyup)='updateFilter($event)' />
             </mat-form-field>
-            <ngx-datatable 
-            #table
-            #step.step 
-            class='material striped' 
-            [columnMode]="'flex'" 
-            [headerHeight]="50" 
-            [footerHeight]="50"
-            [rowHeight]="'auto'" 
-            [limit]="20"
-            [rows]='rows[step.index]' 
-            [selected]="selected"
-            (select)='onSelect($event)' 
-            [sorts]="[{prop: 'id', dir: 'asc'}]">
-            <ng-container *ngFor="let col of step.columns" >
-              <ngx-datatable-column [flexGrow]=col.width name="{{col.name}}" prop="{{col.prop}}" [ngSwitch]="col.prop">
-                <ng-template *ngSwitchCase="'data_emissao'" let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
-                  {{value |  date:'dd/MM/yyyy'}}
-                </ng-template>
-                <ng-template ngSwitchDefault let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
-                  {{value}}
-                </ng-template>
-              </ngx-datatable-column>
+            <ng-container [ngSwitch]="action">
+              <ng-template [ngSwitchCase]="'orcamento'">
+                <ngx-datatable 
+                #table
+                #step.step 
+                class='material striped' 
+                [columnMode]="'flex'" 
+                [headerHeight]="50" 
+                [footerHeight]="50"
+                [rowHeight]="'auto'" 
+                [limit]="20"
+                [rows]='rows[step.index]' 
+                [selected]="selected"
+                (select)='onSelect($event)' 
+                [sorts]="[{prop: 'id', dir: 'asc'}]">
+                <!--ng-container *ngFor="let col of step.columns" >
+                  <ngx-datatable-column [flexGrow]=col.width name="{{col.name}}" prop="{{col.prop}}" [ngSwitch]="col.prop">
+                    <ng-template *ngSwitchCase="'data_emissao'" let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+                      {{value |  date:'dd/MM/yyyy'}}
+                    </ng-template>
+                    <ng-template ngSwitchDefault let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+                      {{value}}
+                    </ng-template>
+                  </ngx-datatable-column>
+                </ng-container-->
+                <ngx-datatable-column [flexGrow]="1.5" name="Representada" prop="representada.nome_fantasia">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value }}
+                  </ng-template>
+                </ngx-datatable-column>  
+                <ngx-datatable-column [flexGrow]="1.5" name="Comprador" prop="cliente.nome_fantasia">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value }}
+                  </ng-template>
+                </ngx-datatable-column> 
+                <ngx-datatable-column [flexGrow]="1" name="Emissão" prop="data_emissao">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value |  date:'dd/MM/yyyy'}}
+                  </ng-template>
+                </ngx-datatable-column> 
+                <ngx-datatable-column [flexGrow]="1" name="Validade" prop="validade">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value }}
+                  </ng-template>
+                </ngx-datatable-column> 
+                <ngx-datatable-column [flexGrow]="0.6" name="Gerado" prop="status">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value ? 'Sim' : 'Não'}}
+                  </ng-template>
+                </ngx-datatable-column> 
+                <ngx-datatable-column [flexGrow]="0.8" name="Ações">
+                  <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex"
+                    ngx-datatable-cell-template>      
+                    <i class="fa fa-pencil button" 
+                      title="Editar" 
+                      (click)="edit(row);"></i>
+                    <i class="fa fa-trash-o button2"
+                      title="Deletar" 
+                      (click)="delete(row)"></i>                         
+                  </ng-template>
+                </ngx-datatable-column>
+                </ngx-datatable>
+              </ng-template>
+              <ng-template [ngSwitchCase]="'pedido'">
+                <ngx-datatable 
+                #table
+                #step.step 
+                class='material striped' 
+                [columnMode]="'flex'" 
+                [headerHeight]="50" 
+                [footerHeight]="50"
+                [rowHeight]="'auto'" 
+                [limit]="20"
+                [rows]='rows[step.index]' 
+                [selected]="selected"
+                (select)='onSelect($event)' 
+                [sorts]="[{prop: 'id', dir: 'asc'}]">
+                <ngx-datatable-column [flexGrow]="0.6" name="N° Pedido" prop="num_pedido">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value }}
+                  </ng-template>
+                </ngx-datatable-column>  
+                <ngx-datatable-column [flexGrow]="1" name="Representada" prop="representada.nome_fantasia">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value }}
+                  </ng-template>
+                </ngx-datatable-column> 
+                <ngx-datatable-column [flexGrow]="1.5" name="Comprador" prop="cliente.nome_fantasia">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value }}
+                  </ng-template>
+                </ngx-datatable-column> 
+                <ngx-datatable-column [flexGrow]="0.7" name="Emissão" prop="data_emissao">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value |  date:'dd/MM/yyyy'}}
+                  </ng-template>
+                </ngx-datatable-column> 
+                <ngx-datatable-column [flexGrow]="0.7" name="Entrega" prop="data_entrega">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value |  date:'dd/MM/yyyy'}}
+                  </ng-template>
+                </ngx-datatable-column> 
+                <ngx-datatable-column [flexGrow]="1" name="Cond. Pagamento" prop="condicao_comercial.nome">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value }}
+                  </ng-template>
+                </ngx-datatable-column> 
+                <ngx-datatable-column [flexGrow]="0.8" name="Frete" prop="frete">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value }}
+                  </ng-template>
+                </ngx-datatable-column> 
+                <ngx-datatable-column [flexGrow]="0.5" name="Status" prop="status">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value ? 'Sim' : 'Não'}}
+                  </ng-template>
+                </ngx-datatable-column> 
+                <ngx-datatable-column [flexGrow]="0.5" name="Entregue" prop="entregue">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value ? value != null : 'Não' }}
+                  </ng-template>
+                </ngx-datatable-column> 
+                <ngx-datatable-column [flexGrow]="0.8" name="Ações">
+                  <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex"
+                    ngx-datatable-cell-template>      
+                    <i class="fa fa-pencil button" 
+                      title="Editar" 
+                      (click)="edit(row);"></i>
+                    <i class="fa fa-trash-o button2"
+                      title="Deletar" 
+                      (click)="delete(row)"></i>                         
+                  </ng-template>
+                </ngx-datatable-column>
+                </ngx-datatable>
+              </ng-template>
             </ng-container>
-            </ngx-datatable>
           </mat-card-content>
         </mat-tab>
       </mat-tab-group>

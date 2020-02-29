@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ClientService } from '../../shared/services/client.service.component';
 import { MatDialog } from '@angular/material';
-import { Router} from '@angular/router';
+import { Router, ActivatedRoute} from '@angular/router';
 import page from './steps.json';
 
 @Component({
@@ -20,16 +20,19 @@ export class OrcListarComponent implements OnInit {
   steps: any = this.page.pedidos;
   defaultTab = 0;
 
-  itemSelected
+  action: string = "orcamento";
 
   loadingIndicator = true;
   reorderable = true;
 
-  isEditable = {};               
+  isEditable = {};     
+  
+  
   
   constructor(
     private clientservice: ClientService,
     private router: Router,
+    private route: ActivatedRoute,
     private dialog: MatDialog) {
       this.loadData()      
   }
@@ -44,8 +47,10 @@ export class OrcListarComponent implements OnInit {
       this.rows = [...this.temp];
     });                     
   }
+
   ngOnInit() {
   }
+
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
     this.rows[this.defaultTab] = this.temp[this.defaultTab].filter(function(d) {
@@ -56,7 +61,7 @@ export class OrcListarComponent implements OnInit {
     }); 
   }
   navigate(path){
-    this.router.navigate(['/pedido/orcamento']);
+    this.router.navigate(['/pedido/listar-orcamento']);
   }
 
 }
