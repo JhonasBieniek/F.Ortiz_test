@@ -1,3 +1,6 @@
+.add{
+  margin-top: 20px;
+}
 .demo-tab-group {
     border: 1px solid #e8e8e8;
   }
@@ -34,9 +37,7 @@
     color: rgb(0, 26, 255);
     font-weight: bold;
   }
-  ::ng-deep .datatable-body-cell {
-    font-size: 9px !important;
-  }
+
   .form{
     font-size:12px;
   }

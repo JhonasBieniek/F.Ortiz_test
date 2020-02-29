@@ -1,7 +1,6 @@
 <!-- ============================================================== -->
 <!-- row -->
 <!-- ============================================================== -->
-<input type="file" style="display: none" (change)="incomingfile($event)" accept=".xlsx" #hiddenfileinput>
 <div fxLayout="row wrap">
   <!-- Card column -->
   <div fxFlex.gt-sm="100%" fxFlex="100">
@@ -17,12 +16,11 @@
         <mat-card-subtitle class="sub-title">--Dados do Pedido--</mat-card-subtitle>
         <form [formGroup]="form" class="form">
           <div fxLayout="row wrap" class="row">
-            <div class="p-10" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="30">
+            <div class="p-10" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100">
               <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
                 [floatLabel]="form.value.floatLabel">
                 <mat-label>Representada.</mat-label>
-                <mat-select required [(ngModel)]="selectedRepresentada" [ngModelOptions]="{standalone: true}"
-                  name="representada">
+                <mat-select required formControlName="representada_id" name="representada">
                   <mat-option *ngFor="let representada of representadas" [value]="representada.id"
                     (click)="CarregarProdutosRepresentada()">
                     {{representada.razao_social}}
@@ -31,48 +29,50 @@
                 <mat-placeholder>Representada</mat-placeholder>
               </mat-form-field>
             </div>
-            <div class="p-10" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="30">
+            <div class="p-10" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="90">
               <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
                 [floatLabel]="form.value.floatLabel">
                 <mat-label>Cliente</mat-label>
-                <mat-select required [(ngModel)]="selectedCliente" [ngModelOptions]="{standalone: true}" name="cliente">
-                  <mat-option *ngFor="let cliente of clientes" [value]="cliente.id" (click)="chargeAdress()">
+                <mat-select required formControlName="cliente_id" name="cliente">
+                  <mat-option *ngFor="let cliente of clientes" [value]="cliente.id">
                     {{cliente.razao_social}}
                   </mat-option>
                 </mat-select>
                 <mat-placeholder>Cliente</mat-placeholder>
               </mat-form-field>
             </div>
-            <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="50">
+            <div class="add" fxFlex.gt-sm="5" fxFlex.gt-xs="5" fxFlex="10">
+              <i class="material-icons plus-icons" (click)="addCliente()">add_circle_outline</i>
+            </div>
+            <div class="p-10" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
               <mat-form-field appearance="outline">
                 <mat-label>Data de Emissão</mat-label>
-                <input matInput [matDatepicker]="pickerEmissao" [(ngModel)]="emissao"
-                  [formControl]="form.controls['emissao']" placeholder="Data Programada">
+                <input matInput [matDatepicker]="pickerEmissao"
+                formControlName="data_emissao" placeholder="Data">
                 <mat-datepicker-toggle matSuffix [for]="pickerEmissao"></mat-datepicker-toggle>
                 <mat-datepicker #pickerEmissao></mat-datepicker>
               </mat-form-field>
             </div>
-            <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="50">
+            <div class="p-10" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="50">
               <mat-form-field appearance="outline">
-                <input matInput placeholder="Validade" [formControl]="form.controls['validade']">
+                <input matInput placeholder="Validade" formControlName="validade">
               </mat-form-field>
-              <textarea *ngIf="form.controls['validade'].hasError('maxlength') && form.controls['validade'].touched"
-                class="text-danger font-14">O representante não deve exceder 50 caracteres</textarea>
             </div>
-            <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="50">
+            <div class="p-10" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="50">
               <mat-form-field appearance="outline">
-                <input matInput placeholder="Prazo de Entrega" [formControl]="form.controls['prazoEntrega']">
+                <input matInput placeholder="Prazo de Entrega" formControlName="prazoEntrega">
               </mat-form-field>
-              <textarea
-                *ngIf="form.controls['prazoEntrega'].hasError('maxlength') && form.controls['prazoEntrega'].touched"
-                class="text-danger font-14">O representante não deve exceder 50 caracteres</textarea>
             </div>
-            <div class="p-10 " fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="20">
+            <div class="p-10 pad" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
+              <mat-form-field appearance="outline">
+                <input matInput placeholder="Pedido Mínimo" formControlName="minimo">
+              </mat-form-field>
+            </div>
+            <div class="p-10 pad" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="20">
               <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
                 [floatLabel]="form.value.floatLabel">
                 <mat-label>Cond. comercial</mat-label>
-                <mat-select required [(ngModel)]="selectedCondComerciais" [ngModelOptions]="{standalone: true}"
-                  name="condComercial">
+                <mat-select required formControlName="condicao_comercial_id" name="condComercial">
                   <mat-option *ngFor="let condComercial of condComerciais" [value]="condComercial.id">
                     {{condComercial.nome}}
                   </mat-option>
@@ -83,34 +83,90 @@
             </div>
             <div class="p-10 pad" fxFlex.gt-sm="60" fxFlex.gt-xs="60" fxFlex="50">
               <mat-form-field appearance="outline">
-                <input matInput placeholder="Observação" [formControl]="form.controls['observacao']">
+                <input matInput placeholder="Observação" formControlName="observacao">
               </mat-form-field>
-              <textarea *ngIf="form.controls['observacao'].hasError('maxlength') && form.controls['observacao'].touched"
-                class="text-danger font-14">O representante não deve exceder 50 caracteres</textarea>
             </div>
-
+          </div>
+          <div fxLayout="row wrap">
+            <div fxFlex.gt-sm="100%" fxFlex="100">
+              <mat-card-subtitle class="sub-title">--Selecione o Produto--</mat-card-subtitle>
+              <mat-form-field>
+                <input matInput type='text' class="form-control" placeholder='Digite para filtrar...'
+                  (keyup)='updateFilter($event)' />
+              </mat-form-field>
+              <ngx-datatable #table class='material' [columns]="columns" [columnMode]="'force'" [headerHeight]="50"
+                [footerHeight]="50" [rowHeight]="'auto'" [limit]="5" [rows]='rows' [loadingIndicator]="loadingIndicator"
+                [selected]="selected" [selectionType]="'single'" (select)='onSelect($event)'>
+              </ngx-datatable>
+            </div>
+            <div formArrayName="pedido_produtos">
+              <div *ngFor="let produto of form.get('pedido_produtos').controls; index as i" [formGroupName]="i">
+                <div class="title"> {{produto.get('codigo').value}} - {{produto.get('nome').value | slice:0:55}} | 
+                  <button (click)="removeItem(i)" mat-icon-button color="warn">
+                    <mat-icon>clear</mat-icon>
+                  </button>
+                </div>
+                <ng-container>
+                  <div fxLayout="row wrap">
+                    <mat-form-field fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="10" appearance="outline">
+                      <mat-label>Qtd.</mat-label>
+                      <input matInput placeholder="Qtd" formControlName="quantidade" (blur)="setTotal(i)" >
+                    </mat-form-field>
+                    <mat-form-field fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="20" appearance="outline">
+                      <mat-label>Unidade</mat-label>
+                      <input matInput placeholder="Unidade" formControlName="unidade" >
+                    </mat-form-field>
+                    <mat-form-field fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="20" appearance="outline">
+                      <input matInput placeholder="Embalagem" formControlName="embalagem" >
+                    </mat-form-field>
+                    <mat-form-field fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="10" appearance="outline">
+                      <input matInput placeholder="IPI" formControlName="ipi" mask="percent" suffix="%"
+                        >
+                    </mat-form-field>
+                    <mat-form-field fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="10" appearance="outline">
+                      <input matInput placeholder="Desconto" formControlName="desconto" mask="percent" suffix="%"
+                        >
+                    </mat-form-field>
+                    <mat-form-field fxFlex.gt-sm="15" fxFlex.gt-xs="13" fxFlex="13" appearance="outline">
+                      <input matInput placeholder="Valor Unit." formControlName="valor_unitario" (blur)="setTotal(i)" currencyMask
+                        >
+                    </mat-form-field>
+                    <mat-form-field fxFlex.gt-sm="13" fxFlex.gt-xs="13" fxFlex="13" appearance="outline">
+                      <input matInput placeholder="Comissão" formControlName="comissao_produto" mask="percent" suffix="%"
+                        >
+                    </mat-form-field>
+                    <mat-form-field fxFlex.gt-sm="14" fxFlex.gt-xs="14" fxFlex="14" appearance="outline">
+                      <input matInput placeholder="Tamanho" formControlName="tamanho" >
+                    </mat-form-field>
+                    <mat-form-field fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="15" appearance="outline">
+                      <input matInput placeholder="Vlr total" currencyMask formControlName="valor_total" >
+                    </mat-form-field>
+                    <mat-form-field fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="70" appearance="outline">
+                      <input matInput placeholder="Observação" formControlName="obs" >
+                    </mat-form-field>
+                  </div>
+                </ng-container>
+              </div>
+              <div *ngIf="form.get('pedido_produtos').controls.length > 0" fxLayoutAlign="end center" >
+                <button mat-button color="warn" (click)="clearProdutos()"><i class="material-icons">delete_outline</i>Limpar</button>
+              </div>
+            </div>
           </div>
         </form>
-        <div fxLayout="row wrap">
-          <!-- Card column -->
-          <div fxFlex.gt-sm="100%" fxFlex="100">
-            <mat-card-subtitle class="sub-title">--Selecione o Produto--</mat-card-subtitle>
-            <mat-form-field>
-              <input matInput type='text' class="form-control" placeholder='Digite para filtrar...'
-                (keyup)='updateFilter($event)' />
-            </mat-form-field>
-            <ngx-datatable #table class='material' [columns]="columns" [columnMode]="'force'" [headerHeight]="50"
-              [footerHeight]="50" [rowHeight]="'auto'" [limit]="5" [rows]='rows' [loadingIndicator]="loadingIndicator"
-              [selected]="selected" [selectionType]="'single'" (select)='onSelect($event)'>
-            </ngx-datatable>
-          </div>
-          <div fxFlex.gt-sm="100%" fxFlex="100">
-            <mat-card-subtitle style="margin-top: 2em" class="sub-title">--Produtos Selecionados--</mat-card-subtitle>
-            <mt-shopping-cart #shoppingCart></mt-shopping-cart>
-          </div>
+        
+        <div *ngIf="valorTotal() != 0" style="margin-top: -40px; color: black; text-align: left;">
+          <tr>
+            <th style="color: red;">Valor Total Nota: {{valorTotal() | currency:'BRL':true:'1.2-2'}}</th>
+          </tr>
+          <tr>
+            <th>Comissão Média: {{comissaoMedia()}}%</th>
+          </tr>
+          <tr>
+            <th>Comissão Bruta: {{comissaoBruta() | currency:'BRL':true:'1.2-2'}}</th>
+          </tr>
         </div>
-        <div>
-          <button mat-stroked-button color="primary" (click)="enviarPedido()" [disabled]="form.valid">Finalizar</button>
+        <div style="margin-top: 20px; margin-left:5px">
+          <button mat-stroked-button color="primary" (click)="enviarPedido()" [disabled]="!form.valid">Finalizar</button>
         </div>
       </mat-card-content>
     </mat-card>

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
 import { ClientService } from '../../shared/services/client.service.component';
 import { NotificationService } from '../../shared/messages/notification.service';
@@ -7,7 +7,7 @@ import { NotificationService } from '../../shared/messages/notification.service'
 import { OrderService } from '../../shared/services/order.service.component';
 import { OrderItem } from '../order-item.model';
 import { ShoppingCartComponent } from '../shopping-cart/shopping-cart.component';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ItemPedido } from '../itemPedido.model';
 import { DateFormatPipe } from '../../shared/pipes/dateFormat.pipe';
 
@@ -16,6 +16,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import * as moment from 'moment';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
+import { DialogBodyClienteComponent } from '../../cadastro/cliente/dialog-body/dialog-body-cliente.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -45,19 +46,9 @@ export class OrcamentoComponent implements OnInit {
 
   public form: FormGroup;
   quantidade: any[] = [];
-  cep: any;
-  modelCidade: any;
-  modelEstado: any;
-  modelLogradouro: any;
-  modelBairro: any;
-  modelCEP: any;
-  modelComplemento: any;
-  modelNumero: any;
-
-  dataRepresentadas: any;
-  representadas = [];
-  dataClientes: any;
+  
   clientes = [];
+  representadas:[] = [];
   dataCondComerciais: any;
   condComerciais = [];
   dataAreaVenda: any;
@@ -73,6 +64,9 @@ export class OrcamentoComponent implements OnInit {
   rows = [];
   temp = [...this.data];
   selected = [];
+
+  produto:any;
+
 
   resposta: any;
   selectedAreaVendaID: any;
@@ -99,51 +93,90 @@ export class OrcamentoComponent implements OnInit {
     private dialog: MatDialog,
     private router: Router,
   ) {
-    this.clientservice.getRepresentadas().subscribe(res => {
-      this.dataRepresentadas = res;
-      this.representadas = this.dataRepresentadas.data;
+    this.clientservice.getRepresentadas().subscribe((res:any) => {
+      this.representadas = res.data;
     });
-    this.clientservice.getClientes().subscribe(res => {
-      this.dataClientes = res;
-      this.clientes = this.dataClientes.data;
+
+    this.clientservice.getCondComerciais().subscribe((res:any) => {
+      this.condComerciais = res.data;
     });
-    this.clientservice.getCondComerciais().subscribe(res => {
-      this.dataCondComerciais = res;
-      this.condComerciais = this.dataCondComerciais.data;
+
+    this.clientservice.getAreaVenda().subscribe((res:any) => {
+      this.areas = res.data;
     });
-    this.clientservice.getAreaVenda().subscribe(res => {
-      this.dataAreaVenda = res;
-      this.areas = this.dataAreaVenda.data;
-    });
-    this.orderservice.clear();
+
+    this.getClientes();
+
   }
 
   ngOnInit() {
     this.form = this.fb.group({
-      cliente: [null, Validators.compose([Validators.required, CustomValidators.digits])],
-      observacao: [null, Validators.compose([Validators.maxLength(100)])],
+      representada_id: [null, Validators.compose([Validators.required])],
+      cliente_id: [null, Validators.compose([Validators.required])],
+      data_emissao: [null, Validators.compose([Validators.required])],
+      validade: [null, Validators.compose([Validators.required])],
       prazoEntrega: [null, Validators.compose([Validators.maxLength(100)])],
-      emissao: [null, Validators.compose([Validators.required, CustomValidators.date])],
-      validade: [null, Validators.compose([Validators.maxLength(100)])],
-      frete: [null, Validators.required],
-      transportadora: [null, Validators.compose([Validators.maxLength(100)])],
-      active: [null, Validators.required],
+      minimo: [null, Validators.compose([Validators.maxLength(100)])],
+      condicao_comercial_id: [null, Validators.compose([Validators.required])],
+      observacao: [null],
+      frete: ['Representada', Validators.required],
+      transportadora: [null],
+      active: [true, Validators.required],
+      pedido_produtos: this.fb.array([])
+    });
+
+    this.produto = this.form.get('pedido_produtos') as FormArray;
+
+  }
+
+  private getClientes(){
+    this.clientservice.getClientes().subscribe((res:any) => {
+      this.clientes = res.data;
     });
   }
 
-  items(): any[] {
-    return this.orderservice.items;
+  addCliente() {
+    let dialogConfig = new MatDialogConfig();
+    dialogConfig = {
+      maxWidth: '75vw',
+      maxHeight: '100vh',
+    
+      width: '75vw',
+      height: '90vh'
+    }
+    let dialogRef = this.dialog.open(
+      DialogBodyClienteComponent, 
+      dialogConfig, 
+    
+  );
+    dialogRef.afterClosed().subscribe(() => {
+        this.getClientes();
+      });
   }
-  total(): number {
-    return this.orderservice.total();
+
+  addItem(item: ItemPedido) {
+    this.addProduto(item);
   }
-  clear() {
-    this.orderservice.clear();
+
+  addProduto(item:any){
+    this.produto.push(this.fb.group({
+      codigo: item.codigo,
+      nome: item.nome,
+      produto_id: item.id,
+      quantidade: item.quantidade,
+      unidade: (item.unidade != null)? item.unidade.sigla: null,
+      embalagem: item.embalagem,
+      tamanho: item.tamanho,
+      ipi: item.ipi,
+      desconto: item.desconto,
+      valor_unitario: item.valorUnitario,
+      valor_total: (item.quantidade * item.valorUnitario),
+      comissao_produto: item.comissao,
+      obs: ''
+    }));
   }
-  removeItem(item: any) {
-    this.orderservice.removeItem(item)
-  }
-  updateFilter(event) {
+
+   updateFilter(event) {
     const val = event.target.value.toLowerCase();
     // filter our data
     const temp = this.temp.filter(function (d) {
@@ -156,35 +189,12 @@ export class OrcamentoComponent implements OnInit {
     // Whenever the filter changes, always go back to the first page
     this.table = this.data;
   }
-  addItemNew(item: ItemPedido) {
-    this.orderservice.addItemNew(item)
+
+  setTotal(i){
+    let  valor = this.produto.at(i).get('quantidade').value * this.produto.at(i).get('valor_unitario').value;
+    this.produto.at(i).get('valor_total').setValue(valor);
   }
-  addItem(item: ItemPedido) {
-    this.orderservice.addItem(item)
-  }
-  chargeAdress() {
-    this.clientservice.getClientesId(this.selectedCliente).subscribe((res: any) => {
-      this.selectedAreaVendaID = res.data[0].area_venda_id;
-      this.chargeAreaVendas(res.data[0].area_venda);
-      this.cep = res
-      if (this.cep.data[0].endereco[0].logradouro != 'error') {
-        //this.notificationService.notify(`Endereço inserido com sucesso!`)
-        this.modelLogradouro = this.cep.data[0].endereco[0].logradouro
-        this.modelBairro = this.cep.data[0].endereco[0].bairro
-        this.modelCidade = this.cep.data[0].endereco[0].cidade
-        this.modelEstado = this.cep.data[0].endereco[0].estado
-        this.modelCEP = this.cep.data[0].endereco[0].cep
-        this.modelComplemento = this.cep.data[0].endereco[0].complemento
-        this.modelNumero = this.cep.data[0].endereco[0].numero
-        console.log(this.cep.data[0].endereco[0].logradouro)
-      } else {
-        this.notificationService.notify(`Endereço Inválido`)
-      }
-    })
-  }
-  chargeAreaVendas(data) {
-    this.selectedAreaVenda = data
-  }
+  
   CarregarProdutosRepresentada() {
     this.clientservice.getProdutosRepresentada(this.selectedRepresentada).subscribe(res => {
       this.data = res;
@@ -197,66 +207,36 @@ export class OrcamentoComponent implements OnInit {
     let itemSelected = selected[0]
     this.addItem(itemSelected);
   }
-  onBlurCep() {
-    this.clientservice.getCep(this.form.value.cep).subscribe(res => {
-      this.cep = res
-      if (this.cep.data != 'error') {
-        this.notificationService.notify(`Cep inserido com sucesso!`)
-        this.modelCidade = this.cep.data.cidade
-        this.modelEstado = this.cep.data.estado
-        this.modelLogradouro = this.cep.data.logradouro
-        this.modelBairro = this.cep.data.bairro
-      } else {
-        this.notificationService.notify(`Cep Inválido`)
-      }
+
+  valorTotal(){
+    let total = 0;
+    this.produto.controls.forEach(element => {
+      total += element.get('valor_total').value - ((element.get('quantidade').value*element.get('valor_unitario').value) * element.get('desconto').value/100)
     })
-  }
+    this.form.get('valor_total').setValue(total);
+    return total;
+   }
+
   enviarPedido() {
-    let pedido;
-    pedido = {
-      representada_id: this.selectedRepresentada,
-      cliente_id: this.selectedCliente,
-      condicao_comercial_id: this.selectedCondComerciais,
-      data_emissao: this.dateFormatPipe.transform(new Date(this.form.value.emissao)),
-      validade: this.form.value.validade,
-      valor_total: 1000,
-      comissao_media: 3,
-      comissao_bruto: 93.348,
-      status: true,
-      gerado: true,
-      obs: this.form.value.observacao,
-      orcamento_produtos: this.produtos()
-    }
-    this.clientservice.addOrcamento(pedido).subscribe(res => {
+    console.log(this.form.value);
+    this.clientservice.addPedido(this.form.value).subscribe(res => {
       this.resposta = res
       if (this.resposta.status == 'success') {
-        this.notificationService.notify(`Pedido Cadastrado com Sucesso!`)
-        setTimeout(() => { this.router.navigate(['/pedido/', 'listar']) }, 1500);
+        this.notificationService.notify(`Pedido Cadastrado com Sucesso!`);
+        setTimeout(() => { this.router.navigate(['/pedido/', 'listar-pedido']) }, 1500);
       } else {
         this.notificationService.notify(`Erro contate o Administrador`)
       }
+    });
+  }
+
+  clearProdutos(){
+    while (this.produto.controls.length) {
+      this.produto.removeAt(0);
     }
-    );
   }
-  produtos() {
-    let produtos = [];
-    this.items().forEach(element => {
-      produtos.push({
-        cliente_id: element.cliente,
-        produto_id: element.id,
-        quantidade: element.quantidade,
-        unidade: element.unidade,
-        embalagem: element.embalagem,
-        tamanho: element.tamanho,
-        ipi: element.ipi,
-        desconto: element.desconto,
-        valor_unitario: element.valorUnitario,
-        valor_total: element.valorTotal,
-        comissao_produto: element.comissao,
-        observacao: element.observacao
-      })
-    })
-    return produtos
+
+  removeItem(index){
+    this.produto.removeAt(index);
   }
-  hide = true;
 }
