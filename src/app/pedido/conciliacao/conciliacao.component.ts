@@ -73,10 +73,7 @@ export class ConciliacaoComponent implements OnInit {
       dialogConfig, 
     );
     dialogRef.afterClosed().subscribe(value => {
-      if(value == true){
-        this.notificationService.notify("Nota adicionada com sucesso !")
-        this.selected = [];
-      }
+      this.loadData();
     });
   }
   

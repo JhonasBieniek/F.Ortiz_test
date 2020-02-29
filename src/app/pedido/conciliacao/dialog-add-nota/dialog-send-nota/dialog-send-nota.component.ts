@@ -1,10 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogConfig } from "@angular/material";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
 import { ClientService } from '../../../../shared/services/client.service.component';
 import { NotificationService } from '../../../../shared/messages/notification.service';
-import steps from './steps.json';
+import { DialogConfirmarDeleteComponent } from '../../../../cadastro/dialog-confirmar-delete/confirmar-delete.component';
 
 @Component({
   selector: 'app-dialog-send-nota',
@@ -18,7 +18,15 @@ export class DialogSendNotaComponent implements OnInit {
   rows:any = [];
   temp:any = [];
   selected:any = [];
-  steps: any = steps.produtos;
+  
+  steps: any = [
+    {
+      titulo: "Produtos do Pedido",
+      step: true,
+      index: 0
+    }
+  ];
+
   defaultTab = 0;
 
   itemSelected
@@ -30,14 +38,11 @@ export class DialogSendNotaComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private clientservice: ClientService,
-    public dialogRef: MatDialogRef<DialogSendNotaComponent>, 
+    public dialogRef: MatDialogRef<DialogSendNotaComponent>,
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) { 
-    this.clientservice.getPedidoProdutos(this.data.id).subscribe((res:any) => {
-      let i = 0;
-      this.temp[i] = res.data;
-      this.rows = [...this.temp];
-    })
+    this.refreshTable();
   }
 
   ngOnInit() {
@@ -50,11 +55,19 @@ export class DialogSendNotaComponent implements OnInit {
     });
   }
 
+  refreshTable(){
+    this.clientservice.getPedidoProdutos(this.data.id).subscribe((res:any) => {
+      let i = 0;
+      this.temp[i] = res.data;
+      this.rows = [...this.temp];
+    })
+  }
+
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
     this.rows[this.defaultTab] = this.temp[this.defaultTab].filter(d => {
-      if( d.num_nota.toLowerCase().indexOf(val) !== -1 || !val 
-      || d.pedido.num_pedido.toLowerCase().indexOf(val) !== -1 || !val)
+      if( d.produto.codigo.toLowerCase().indexOf(val) !== -1 || !val 
+      || d.produto.nome.toLowerCase().indexOf(val) !== -1 || !val)
       return d
     });
   }
@@ -62,8 +75,19 @@ export class DialogSendNotaComponent implements OnInit {
   cancel(): void {
     this.dialogRef.close();
   }
+
   delete(row){
-    
+    const dialogConfig = new MatDialogConfig();
+      let tipo = 'pedido-produtos'
+      dialogConfig.data = row;
+      dialogConfig.data.nome = row.produto.nome;
+      dialogConfig.data.tipo = tipo;
+      let dialogRef = this.dialog.open(DialogConfirmarDeleteComponent,
+      dialogConfig   
+    );
+    dialogRef.afterClosed().subscribe(value => {
+      (value != 1) ? this.refreshTable() : null
+    });
   }
 
   save(): void {
@@ -71,5 +95,6 @@ export class DialogSendNotaComponent implements OnInit {
       this.dialogRef.close(res.success);
     });
   }
+
 
 }

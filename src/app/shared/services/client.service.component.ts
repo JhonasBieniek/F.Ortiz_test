@@ -62,6 +62,13 @@ export class ClientService {
       ); 
   }
 
+  delPedidoProdutos(id){
+    const uri = `${API_URL}` +`pedido-produtos/delete/`+id +`.json`;
+    return this
+      .http
+      .delete(uri)
+  }
+
   addAreaVenda(data) {
     const uri = `${API_URL}` + `area-vendas/add.json`;
     this
