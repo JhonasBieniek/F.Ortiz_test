@@ -21,6 +21,10 @@ export const PedidoRoutes: Routes = [
       component: Novo2Component
     },
     {
+      path: 'pedido/:id/edit',
+      component: Novo2Component
+    },
+    {
       path: 'pedido/importar',
       component: Novo2Component
     },
@@ -31,9 +35,6 @@ export const PedidoRoutes: Routes = [
     {
       path: 'conciliacao',
       component: ConciliacaoComponent
-    },{
-      path: 'listar-pedido',
-      component: PedidoListarComponent
     },
     {
       path: 'orcamento/listar',

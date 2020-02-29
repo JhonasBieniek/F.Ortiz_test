@@ -14,6 +14,7 @@ import { DateFormatPipe } from '../../shared/pipes/dateFormat.pipe';
 import * as moment from 'moment';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
+import { switchMap } from 'rxjs/operators';
 
 export const MY_FORMATS = {
   parse: {
@@ -99,6 +100,7 @@ export class Novo2Component implements OnInit {
   pageTitle:string = "";
   clientSize:number;
   pedidoSize:number;
+  pedidoN:any;
 
 
   incomingfile(event) {
@@ -471,6 +473,7 @@ export class Novo2Component implements OnInit {
   ngOnInit() {
     this.createdForm();
     this.setCurrentAction();
+    this.loadPedido();
   }
 
   ngAfterContentChecked(): void {
@@ -480,7 +483,6 @@ export class Novo2Component implements OnInit {
   }
 
   private setCurrentAction() {
-    console.log(this.route.snapshot.url[1].path)
     if(this.route.snapshot.url[1].path == "importar"){
       this.currentAction = "importar"
       this.clientSize= 44;
@@ -499,13 +501,30 @@ export class Novo2Component implements OnInit {
 
   private setPageTitle() {
     if(this.currentAction == 'importar'){
-      this.pageTitle = 'Importar Pedido'
+      this.pageTitle = 'Importar Pedido: '
     }else if(this.currentAction == 'novo'){
-      this.pageTitle = 'Novo Pedido'
+      this.pageTitle = 'Novo Pedido: '
     }else{
-      //const pieceNome = this.piece.nome || ''
-      this.pageTitle = 'Editando pedido: ';
+      const pedido = (this.pedidoN != undefined) ? this.pedidoN.num_pedido : '';
+      this.pageTitle = 'Editando pedido: '+ pedido;
     }
+  }
+
+  private loadPedido(){
+    if(this.currentAction == 'edit')
+    this.route.paramMap.pipe(
+      switchMap(params => this.clientservice.getPedido(+params.get('id')))
+    )
+    .subscribe(
+      (pedido:any) => {
+        this.pedidoN = pedido.data;
+        this.pedidoN.pedido_produtos.forEach(element => {
+          this.addItem(element)
+        });
+        this.form.patchValue(this.pedidoN)
+      },
+      (error) => alert('Ocorreu um erro no servidor, tente mais tarde.')
+    )
   }
 
   getClientes(){
@@ -516,6 +535,7 @@ export class Novo2Component implements OnInit {
 
   createdForm(){
     this.form = this.fb.group({
+      id: null,
       representada_id: [null, Validators.compose([Validators.required])],
       cliente_id: [null, Validators.compose([Validators.required])],
       condicao_comercial_id: [null, Validators.compose([Validators.required])],
@@ -539,6 +559,7 @@ export class Novo2Component implements OnInit {
       pedido_produtos: this.fb.array([])
     });
     this.produto = this.form.get('pedido_produtos') as FormArray;
+
   }
   updateDate(input: string, event: MatDatepickerInputEvent<Date>) {
     this.form.get(input).setValue(moment(event.value, 'DD-MM-YYYY').format("YYYY-MM-DD"));
@@ -569,9 +590,11 @@ export class Novo2Component implements OnInit {
   }
 
   addProduto(item:any){
+    console.log(item)
     this.produto.push(this.fb.group({
-      codigo: item.codigo,
-      nome: item.nome,
+      id: item.produto.id || null,
+      codigo: item.codigo || item.produto.codigo,
+      nome: item.nome || item.produto.nome,
       produto_id: item.id,
       quantidade: item.quantidade,
       unidade: (item.unidade != null)? item.unidade.sigla: null,
@@ -708,8 +731,13 @@ export class Novo2Component implements OnInit {
   }
 
   enviarPedido() {
-    console.log(this.form.value);
-    this.clientservice.addPedido(this.form.value).subscribe(res => {
+
+    if(this.currentAction == 'edit')
+    this.clientservice.updatePedido(this.form.value).subscribe( () =>{
+      this.notificationService.notify("Atualizado com Sucesso!")
+    })
+  else
+     this.clientservice.addPedido(this.form.value).subscribe(res => {
       this.resposta = res
       if (this.resposta.status == 'success') {
         this.notificationService.notify(`Pedido Cadastrado com Sucesso!`);
