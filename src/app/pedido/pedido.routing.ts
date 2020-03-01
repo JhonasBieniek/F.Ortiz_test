@@ -31,6 +31,9 @@ export const PedidoRoutes: Routes = [
     {
       path: 'orcamento/novo',
       component: OrcamentoComponent
+    },{
+      path: 'orcamento/:id/edit',
+      component: OrcamentoComponent
     },
     {
       path: 'conciliacao',

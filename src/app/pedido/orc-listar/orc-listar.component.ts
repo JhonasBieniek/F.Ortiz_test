@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ClientService } from '../../shared/services/client.service.component';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { Router, ActivatedRoute} from '@angular/router';
 import page from './steps.json';
+import { DialogConfirmarDeleteComponent } from '../../cadastro/dialog-confirmar-delete/confirmar-delete.component';
 
 @Component({
   selector: 'app-orc-listar',
@@ -50,6 +51,21 @@ export class OrcListarComponent implements OnInit {
 
   ngOnInit() {
   }
+  edit(row){
+    this.router.navigate(['pedidos/orcamento/', row.id, 'edit'])
+  }
+  delete(row){
+    const dialogConfig = new MatDialogConfig();
+      let tipo = 'orcamentos'
+      dialogConfig.data = row
+      dialogConfig.data.nome = row.id
+      dialogConfig.data.tipo = tipo
+      let dialogRef = this.dialog.open(DialogConfirmarDeleteComponent,
+      dialogConfig   
+    );
+    dialogRef.afterClosed().subscribe(value => 
+      { (value != 1) ? this.loadData() : null });
+    }
 
   updateFilter(event) {
     const val = event.target.value.toLowerCase();

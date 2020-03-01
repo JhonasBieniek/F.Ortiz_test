@@ -291,7 +291,15 @@ export class ClientService {
     return this
       .http
       .post(uri, data) 
-      
+  }
+  updateOrcamento(data): Observable<any>{
+    const url = `${API_URL}prcamentos/edit/${data.id}.json`;
+     return this.http.put(url, data).pipe(
+      catchError(this.handleError),
+      map(res => {
+        return res;
+      })
+     )
   }
   addCliente(data){
     const uri = API_URL+ 'clientes/add.json';
@@ -540,6 +548,15 @@ export class ClientService {
   }
   getPedido(id) {
     const uri = `${API_URL}` +`pedidos/view/` + id + ".json";
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
+  getOrcamento(id) {
+    const uri = `${API_URL}` +`orcamentos/view/` + id + ".json";
     return this
             .http
             .get(uri)

@@ -1,22 +1,20 @@
 import { Component, OnInit, Input, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
-import { CustomValidators } from 'ng2-validation';
 import { ClientService } from '../../shared/services/client.service.component';
 import { NotificationService } from '../../shared/messages/notification.service';
 
-import { OrderService } from '../../shared/services/order.service.component';
 import { OrderItem } from '../order-item.model';
 import { ShoppingCartComponent } from '../shopping-cart/shopping-cart.component';
 import { MatDialog, MatDialogConfig, MatDatepickerInputEvent } from '@angular/material';
 import { ItemPedido } from '../itemPedido.model';
-import { DateFormatPipe } from '../../shared/pipes/dateFormat.pipe';
 
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
 import * as moment from 'moment';
 import { DatePipe } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { DialogBodyClienteComponent } from '../../cadastro/cliente/dialog-body/dialog-body-cliente.component';
+import { switchMap } from 'rxjs/operators';
 
 export const MY_FORMATS = {
   parse: {
@@ -66,6 +64,9 @@ export class OrcamentoComponent implements OnInit {
   selected = [];
 
   produto:any;
+  currentAction:string = "";
+  pageTitle:string = "";
+  orcamento:any;
 
 
   resposta: any;
@@ -88,8 +89,7 @@ export class OrcamentoComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private clientservice: ClientService,
     private notificationService: NotificationService,
-    private orderservice: OrderService,
-    private dateFormatPipe: DateFormatPipe,
+    private route: ActivatedRoute,
     private dialog: MatDialog,
     private router: Router,
   ) {
@@ -127,7 +127,48 @@ export class OrcamentoComponent implements OnInit {
     });
 
     this.produto = this.form.get('orcamento_produtos') as FormArray;
+    this.setCurrentAction();
+    this.loadOrcamento();
+  }
+  ngAfterContentChecked(): void {
+    //Called after every check of the component's or directive's content.
+    //Add 'implements AfterContentChecked' to the class.
+    this.setPageTitle();
+  }
 
+  private loadOrcamento(){
+    console.log(this.currentAction)
+
+    if(this.currentAction == 'edit')
+    this.route.paramMap.pipe(
+      switchMap(params => this.clientservice.getOrcamento(+params.get('id')))
+    )
+    .subscribe(
+      (orcamento:any) => {
+        this.orcamento = orcamento.data;
+        this.orcamento.orcamento_produtos.forEach(element => {
+          this.addItem(element)
+        });
+        this.form.patchValue(this.orcamento)
+      },
+      (error) => alert('Ocorreu um erro no servidor, tente mais tarde.')
+    )
+  }
+
+  private setCurrentAction() {
+    if(this.route.snapshot.url[1].path != "edit"){
+      this.currentAction = "edit"
+    }else{
+      this.currentAction = "edit"
+    }
+  }
+  private setPageTitle() {
+    if(this.currentAction == 'novo'){
+      this.pageTitle = 'Novo Orçamento: '
+    }else{
+      const orc = (this.orcamento != undefined) ? this.orcamento.num_pedido : '';
+      this.pageTitle = 'Editando orçamento: '+ orc;
+    }
   }
 
   private getClientes(){

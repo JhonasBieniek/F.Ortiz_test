@@ -592,7 +592,7 @@ export class Novo2Component implements OnInit {
   addProduto(item:any){
     console.log(item)
     this.produto.push(this.fb.group({
-      id: item.produto.id || null,
+      id: (item.produto != undefined)? item.produto.id : null,
       codigo: item.codigo || item.produto.codigo,
       nome: item.nome || item.produto.nome,
       produto_id: item.id,
