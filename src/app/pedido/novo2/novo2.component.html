@@ -29,7 +29,7 @@
                 <input matInput placeholder="Nº Pedido" formControlName="num_pedido">
               </mat-form-field>
             </div>
-            <div class="p-10" *ngIf="this.currentAction == 'novo' || 'edit'" fxFlex.gt-sm="22" fxFlex.gt-xs="2" fxFlex="100">
+            <div class="p-10" *ngIf="this.currentAction == 'novo' || this.currentAction == 'edit'" fxFlex.gt-sm="22" fxFlex.gt-xs="2" fxFlex="100">
               <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
                 [floatLabel]="form.value.floatLabel">
                 <mat-label>Representada.</mat-label>
