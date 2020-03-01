@@ -419,6 +419,15 @@ export class ClientService {
               return res;
             });
   }
+  getFuncionario(id) {
+    const uri = `${API_URL}` + `funcionarios/view/`+id+`.json`;
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
   getCargos() {
     const uri = `${API_URL}` + `cargos/index.json`;
     return this

@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ValidationErrors, FormArray } from '@angular/forms';
 import { ClientService } from '../../../shared/services/client.service.component';
 import { NotificationService } from '../../../shared/messages/notification.service';
 import { CustomValidators } from 'ng2-validation';
@@ -16,12 +16,13 @@ export class DialogBodyFuncionarioComponent implements OnInit {
 
   grupos;
   cargos;
+  representadas;
   funcionario: FormGroup;
   usuario: FormGroup;
   isLinear: boolean = false;
   pageTitle:string = "";
   editar:boolean = false;
-
+  dados:any;
   isOn = true;
   isOn2 = false;
 
@@ -40,7 +41,10 @@ export class DialogBodyFuncionarioComponent implements OnInit {
     });
     this.clientservice.getCargos().subscribe((res:any) =>{
       this.cargos = res.data;
-    });            
+    });
+    this.clientservice.getRepresentadas().subscribe((res:any) =>{
+      this.representadas = res.data; 
+    });         
   }    
   ngOnInit() {
       this.funcionario = this.fb.group({
@@ -66,13 +70,25 @@ export class DialogBodyFuncionarioComponent implements OnInit {
           cidade: [null],
           estado: [null],
           pais: ['Brasil']
-        })
+        }),
+        comissoes: this.fb.array([]),
       });
       if(this.data == null){
         this.pageTitle = 'Cadastrar Funcionário'
       }else{
-        this.pageTitle = 'Editar Funcionário'
-        this.funcionario.patchValue(this.data);
+        this.pageTitle = 'Editar Funcionário';
+        this.clientservice.getFuncionario(this.data.id).subscribe((res:any) => {
+          this.dados =res.data;
+          for(let i=0; i < this.dados.comissoes.length ; i++){
+          this.addComissao();
+            for(let j=0; j < this.dados.comissoes[i].comissao_faixas.length; j++){
+            this.addComissaoFaixa(i);
+            }
+            if((i+1) == this.dados.comissoes.length){
+            this.funcionario.patchValue(this.dados)
+            }
+          }
+        });
         this.editar  = true;
       }
   }
@@ -129,6 +145,53 @@ export class DialogBodyFuncionarioComponent implements OnInit {
       AlertComponent, 
       dialogConfig, 
     );
+  }
+
+  comissoes(): FormArray{
+    return this.funcionario.get("comissoes") as FormArray
+  }
+
+  novaComissao(): FormGroup{
+    return this.fb.group({
+      id: '',
+      representada_id: '',//new FormControl('', Validators.required),
+      comissao_faixas: this.fb.array([]),
+    })
+  }
+  checkExist(comIndex, id){
+    this.comissoes().controls.forEach((e:any, k:any) => {
+      if(e.get('representada_id').value == id && k != comIndex){
+        this.openAlert(" Error", "Já existe faixa de comissões desta representada para esse usuario"); 
+        this.comissoes().removeAt(comIndex);
+      }
+    })
+  }
+  addComissao(){
+    this.comissoes().push(this.novaComissao());
+  }
+
+  removeComissao(comIndex: number){
+    this.comissoes().removeAt(comIndex);
+  }
+
+  comissaoFaixas(comIndex: number) : FormArray{
+    return this.comissoes().at(comIndex).get("comissao_faixas") as FormArray
+  }
+
+  novaFaixa(): FormGroup {
+    return this.fb.group({
+      id: null,
+      faixa: '',//new FormControl('', Validators.required),
+      percentual: ''//new FormControl('', Validators.required),
+    })
+  }
+
+  addComissaoFaixa(comIndex: number){
+    this.comissaoFaixas(comIndex).push(this.novaFaixa());
+  }
+
+  removeComissaoFaixa(comIndex: number, faixaIndex: number){
+    this.comissaoFaixas(comIndex).removeAt(faixaIndex)
   }
 
 }

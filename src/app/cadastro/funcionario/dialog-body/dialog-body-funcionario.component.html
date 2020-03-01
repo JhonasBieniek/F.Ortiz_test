@@ -221,7 +221,59 @@
         class="text-danger font-14">Você precisa selecionar um grupo.</small>
       </div>
     </div>
-
+    <mat-divider></mat-divider>
+    <div formArrayName="comissoes" fxLayout="row wrap" class="row">
+      <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card-header class="bg-info text-white">
+          <mat-card-title class="Comissões">Comissões</mat-card-title>
+        </mat-card-header>
+      </div>
+      <div class="p-20" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="50">
+        <button mat-stroked-button color="primary" (click)="addComissao()"><i class="material-icons">add</i> Representada</button>
+      </div>
+      <div *ngFor="let representada of comissoes().controls; let comIndex = index">
+        <div [formGroupName]="comIndex" fxLayout="row wrap" class="row">
+          <div class="p-10 font" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="50">
+            <mat-form-field appearance="outline">
+              <mat-label>Selecione uma representada</mat-label>
+              <mat-select required formControlName="representada_id">
+                <mat-option *ngFor="let representada of representadas" [value]="representada.id" (click)="checkExist(comIndex, representada.id)">
+                  {{representada.razao_social}}
+                </mat-option>
+              </mat-select>
+              <mat-placeholder>Representada</mat-placeholder>
+            </mat-form-field>
+          </div>
+          <div class="p-20" fxFlex.gt-sm="40" fxFlex.gt-xs="40" fxFlex="40">
+            <button mat-stroked-button (click)="addComissaoFaixa(comIndex)"><i class="material-icons">add</i> Faixa</button>
+          </div>
+          <div class="p-20" fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="10">
+            <i class="material-icons x-icons" (click)="removeComissao(comIndex); vTotal(); ">highlight_off</i><span class="del"></span>
+          </div>
+          <div formArrayName="comissao_faixas">
+            <div *ngFor="let item of comissaoFaixas(comIndex).controls; let faixaIndex = index">
+              <div [formGroupName]="faixaIndex" fxLayout="row" fxLayoutGap="20px">
+                <div class="p-10 top" fxFlex.gt-sm="47" fxFlex.gt-xs="47" fxFlex="47">
+                  <mat-form-field appearance="outline">
+                    <mat-label>A partir de (%)</mat-label>
+                    <input matInput placeholder="a partir de %" formControlName="faixa">
+                  </mat-form-field>
+                </div>
+                <div class="p-10 top" fxFlex.gt-sm="47" fxFlex.gt-xs="47" fxFlex="47">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Percentual</mat-label>
+                    <input matInput placeholder="Percentual" formControlName="percentual">
+                  </mat-form-field>
+                </div>
+                <div class="p-20 top" fxFlex.gt-sm="6" fxFlex.gt-xs="6" fxFlex="6">
+                  <i class="material-icons x-icons" (click)="removeComissaoFaixa(comIndex, faixaIndex); vTotal(); ">highlight_off</i>
+                </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div>
       <button mat-raised-button color="primary" type="submit" [disabled]="!funcionario.valid" (click)="onSubmit(); close()">Salvar</button>
       <button mat-raised-button class="pl-3" color="warn"  (click)="close()" >Cancelar</button>
