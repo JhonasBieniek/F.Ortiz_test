@@ -6,7 +6,7 @@ import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 import * as XLSX from 'xlsx'
 
 import { OrderItem } from '../order-item.model';
-import { MatDialogConfig, MatDialog } from '@angular/material';
+import { MatDialogConfig, MatDialog, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
 import { DialogCadastroComponent } from '../novo/dialog-cadastro/dialog-cadastro.component';
 import { DialogBodyClienteComponent } from '../../cadastro/cliente/dialog-body/dialog-body-cliente.component';
 import { ItemPedido } from '../itemPedido.model';
@@ -15,6 +15,7 @@ import * as moment from 'moment';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
 import { switchMap } from 'rxjs/operators';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
 export const MY_FORMATS = {
   parse: {
@@ -33,7 +34,9 @@ export const MY_FORMATS = {
   selector: 'app-novo2',
   templateUrl: './novo2.component.html',
   styleUrls: ['./novo2.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+  providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }]
 })
 
 export class Novo2Component implements OnInit {
@@ -741,7 +744,7 @@ export class Novo2Component implements OnInit {
       this.resposta = res
       if (this.resposta.status == 'success') {
         this.notificationService.notify(`Pedido Cadastrado com Sucesso!`);
-        setTimeout(() => { this.router.navigate(['/pedido/', 'listar-pedido']) }, 1500);
+        setTimeout(() => {this.router.navigate(['pedidos/pedido/listar'])}, 1500);
       } else {
         this.notificationService.notify(`Erro contate o Administrador`)
       }

@@ -1,14 +1,21 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ClientService } from '../../shared/services/client.service.component';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig, DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material';
 import { Router} from '@angular/router';
 import page from './steps.json';
 import { DialogConfirmarDeleteComponent } from '../../cadastro/dialog-confirmar-delete/confirmar-delete.component';
+import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+
 
 @Component({
   selector: 'app-pedido-listar',
   templateUrl: '../default.html',
-  styleUrls: ['./pedido-listar.component.css']
+  styleUrls: ['./pedido-listar.component.css'],
+  providers: [
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+
+  ]
 })
 export class PedidoListarComponent implements OnInit {
 

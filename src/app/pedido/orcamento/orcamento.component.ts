@@ -8,7 +8,7 @@ import { ShoppingCartComponent } from '../shopping-cart/shopping-cart.component'
 import { MatDialog, MatDialogConfig, MatDatepickerInputEvent } from '@angular/material';
 import { ItemPedido } from '../itemPedido.model';
 
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
 import * as moment from 'moment';
 import { DatePipe } from '@angular/common';
