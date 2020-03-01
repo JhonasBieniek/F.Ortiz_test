@@ -1,29 +1,26 @@
 
-<h1 mat-dialog-title>Visualizar nota fiscal</h1>
+<h1 mat-dialog-title>Visualizando NF: <span style="font-weight: bolder;">{{dados?.num_nota}}</span></h1>
 <div mat-dialog-content>
   <div fxLayout="row wrap">
     <div fxFlex.gt-sm="100%" fxFlex="100">
-      <div fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="10" >
-        <span> <strong>Nota: </strong> {{dados?.num_nota}}</span> 
-      </div>
-      <div fxFlex.gt-sm="13" fxFlex.gt-xs="13" fxFlex="13" >
+      <div fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100" >
         <span><strong>Cod. Pedido: </strong>{{dados?.pedido.num_pedido}}</span>
       </div>
-      <div fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="30" >
+      <div fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100" >
         <span><strong>Representada:</strong>{{dados?.pedido.representada.nome_fantasia}}</span>
       </div>
-      <div fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="30" >
-        <span><strong>Cliente:</strong> {{dados?.pedido.cliente.nome_fantasia}}</span>
+      <div fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100" >
+        <span><strong>Cliente:</strong> {{dados?.pedido.cliente.razao_social}}</span>
       </div>
-      <div fxFlex.gt-sm="8" fxFlex.gt-xs="8" fxFlex="8" >
+      <div fxFlex.gt-sm="14" fxFlex.gt-xs="14" fxFlex="100" >
         <span><strong>Valor:</strong> {{dados?.pedido.valor_total | currency:'BRL':true:'1.2-2'}}</span>
       </div>
-      <div fxFlex.gt-sm="9" fxFlex.gt-xs="9" fxFlex="9" >
+      <div fxFlex.gt-sm="21" fxFlex.gt-xs="21" fxFlex="100" >
         <span><strong>Dt. Faturamento:</strong> {{dados?.data_faturamento |  date:'dd/MM/yyyy'}}</span>
       </div>
     </div>
   </div>
-  <div fxLayout="row wrap">
+  <div class="p-20" fxLayout="row wrap">
     <div fxFlex.gt-sm="100%" fxFlex="100">
       <div *ngFor="let parcela of dados?.nota_parcelas" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" >
         <span><strong>Dt. Vencimento:</strong> {{parcela?.data_vencimento |  date:'dd/MM/yyyy'}}</span>

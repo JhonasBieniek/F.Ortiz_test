@@ -19,6 +19,7 @@ export class DialogCadastroComponent implements OnInit {
   selectedUnidade: string;
   resposta: any =[];
   prods = [];
+  aux:any = []
 
   constructor(public dialogRef: MatDialogRef<DialogCadastroComponent>, 
                                 @Inject(MAT_DIALOG_DATA) public data: any,
@@ -58,7 +59,7 @@ export class DialogCadastroComponent implements OnInit {
     });
   }
 
-  areaVendasSubmit() : Promise<any> { 
+  submit() : Promise<any> { 
     return new Promise((resolve, reject) => {
     this.form.value.camposForm.forEach(element => {
       let dados = {
@@ -83,8 +84,8 @@ export class DialogCadastroComponent implements OnInit {
   })
 }
   send(dados, valorUnitario, quantidade, desconto, comissao, tamanho){
-    console.log(quantidade, "dados do send");
     this.clientservice.addProdutos(dados).subscribe((res:any) => {
+      this.aux.push(1);
       if(res.success == true){
         res.data.valorUnitario = valorUnitario
         res.data.quantidade = quantidade
@@ -93,11 +94,13 @@ export class DialogCadastroComponent implements OnInit {
         res.data.tamanho = tamanho
         this.resposta.push(res.data);
         this.notificationService.notify(`Produto cadastrado com Sucesso!`)
-        setTimeout(()=>{ this.close(), 1000});
+        if( this.form.value.camposForm.length == this.aux.length ){
+          this.close();
+        }
       }else{
         this.notificationService.notify(`Erro contate o Administrador`)
       }}
-    );
+    )
   }
 
   close() {

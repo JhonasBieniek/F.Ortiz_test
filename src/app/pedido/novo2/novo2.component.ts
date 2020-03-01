@@ -503,7 +503,6 @@ export class Novo2Component implements OnInit {
   }
 
   private setPageTitle() {
-    console.log(this.currentAction)
     if(this.currentAction == 'importar'){
       this.pageTitle = 'Importar Pedido: '
     }else if(this.currentAction == 'novo'){
