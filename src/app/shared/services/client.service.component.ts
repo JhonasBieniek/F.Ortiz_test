@@ -491,6 +491,12 @@ export class ClientService {
               return res;
             });
   }
+  getRecebimentos(data) {
+    const uri = `${API_URL}` + `notas/getRecebimentos.json`;
+    return this
+          .http
+          .post(uri, data);
+  }
   getOrcamentos() {
     const uri = `${API_URL}` + `orcamentos/index.json`;
     return this

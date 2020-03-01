@@ -29,13 +29,13 @@ export class RecebimentosComponent implements OnInit {
   ngOnInit() {
     this.form = this.fb.group({
       tipo: ["Recebimentos"],
-      select: ['Data'],
-      ordem: ['Crescente'],
-      data: ['Faturamento'],
+      campo_ordem: ['Data'],
+      tipo_ordem: ['Crescente'],
+      tipo_data: ['Faturamento'],
       dtInicio: [null],
       dtFinal: [null],
-      nota: [null],
-      representada: [null],
+      num_nota: [null],
+      representada_id: [null],
     });
   }
 
@@ -45,15 +45,14 @@ export class RecebimentosComponent implements OnInit {
   }
   
   Submit(){
-    // this.clientservice.consulta(this.form).subscribe((res:any) => {
-
-
+    this.clientservice.getRecebimentos(this.form.value).subscribe((res:any) => {
+      console.log(res);
     //Pensar se notifica, caso não conseguir consultar
     //   if(res.success == true){
     //     this.notificationService.notify(`Cadastro Efetuado com Sucesso!`)
     //   }else{
     //     this.notificationService.notify(`Erro contate o Administrador`)
     //   }
-    // });
+    });
   }
 }
