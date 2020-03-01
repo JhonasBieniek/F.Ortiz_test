@@ -1,10 +1,4 @@
-<div mat-dialog-actions class="bt_criarpedido" align="end">
-  <button mat-raised-button color="warn" type="button" (click)="close()">
-    <mat-icon class="example-icon">add_box</mat-icon> Fechar
-  </button>
-</div>
 <h1 mat-dialog-title>Cadastrar nota fiscal</h1>
-<div mat-dialog-content >
   <p>Pedidos sem nota fiscal cadastrada</p>
   <mat-tab-group (selectedTabChange)="onTabChange($event)">
     <mat-tab *ngFor="let step of steps " class="aba" label="{{step.titulo}}">
@@ -44,5 +38,7 @@
       </ngx-datatable>
     </mat-tab>
   </mat-tab-group>
-</div>
+  <div class="p-20" fxLayout="row wrap" fxLayoutAlign="end start">
+    <button mat-raised-button color="warn" (click)="close()">Sair</button>
+  </div>
 

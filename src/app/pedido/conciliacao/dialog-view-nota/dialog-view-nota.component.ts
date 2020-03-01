@@ -48,6 +48,15 @@ export class DialogViewNotaComponent implements OnInit {
       return d
     });
   }
+  estorno(){
+
+  }
+  devolucao(){
+
+  }
+  imprimir(){
+    
+  }
   close(){
     this.dialogRef.close();
   }

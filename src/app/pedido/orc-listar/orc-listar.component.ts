@@ -45,7 +45,7 @@ export class OrcListarComponent implements OnInit {
         this.temp[i] = res.data.filter(d => d.status == e.step);
         i++;
       });
-      this.rows = [...this.temp];
+      this.rows = [...this.temp.sort((a,b)=> a.id - b.id)];
     });                     
   }
 

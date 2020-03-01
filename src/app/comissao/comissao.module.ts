@@ -15,10 +15,11 @@ import { ComissaoRoutes } from './comissao.routing';
 import { ReceberComponent } from './receber/receber.component';
 import { RouterModule } from '@angular/router';
 import { RepassesComponent } from './repasses/repasses.component';
+import { RecebimentosComponent } from './recebimentos/recebimentos.component';
 
 
 @NgModule({
-  declarations: [ReceberComponent, RepassesComponent],
+  declarations: [ReceberComponent, RepassesComponent, RecebimentosComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(ComissaoRoutes),

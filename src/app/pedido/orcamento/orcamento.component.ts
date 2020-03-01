@@ -114,7 +114,7 @@ export class OrcamentoComponent implements OnInit {
       representada_id: [null, Validators.compose([Validators.required])],
       cliente_id: [null, Validators.compose([Validators.required])],
       data_emissao: [null, Validators.compose([Validators.required])],
-      validade: [null, Validators.compose([Validators.required])],
+      validade: ['30 dias', Validators.compose([Validators.required])],
       prazo_entrega: [null, Validators.compose([Validators.maxLength(100)])],
       minimo: [null, Validators.compose([Validators.maxLength(100)])],
       condicao_comercial_id: [null, Validators.compose([Validators.required])],
@@ -145,6 +145,7 @@ export class OrcamentoComponent implements OnInit {
     )
     .subscribe(
       (orcamento:any) => {
+        console.log(orcamento)
         this.orcamento = orcamento.data;
         this.orcamento.orcamento_produtos.forEach(element => {
           this.addItem(element)
@@ -156,8 +157,8 @@ export class OrcamentoComponent implements OnInit {
   }
 
   private setCurrentAction() {
-    if(this.route.snapshot.url[1].path != "edit"){
-      this.currentAction = "edit"
+    if(this.route.snapshot.url[1].path == "novo"){
+      this.currentAction = "novo"
     }else{
       this.currentAction = "edit"
     }
@@ -166,7 +167,7 @@ export class OrcamentoComponent implements OnInit {
     if(this.currentAction == 'novo'){
       this.pageTitle = 'Novo Orçamento: '
     }else{
-      const orc = (this.orcamento != undefined) ? this.orcamento.num_pedido : '';
+      const orc = (this.orcamento != undefined) ? this.orcamento.id : '';
       this.pageTitle = 'Editando orçamento: '+ orc;
     }
   }
@@ -201,16 +202,18 @@ export class OrcamentoComponent implements OnInit {
   }
 
   addProduto(item:any){
+    console.log(item);
     this.produto.push(this.fb.group({
-      codigo: item.codigo,
-      nome: item.nome,
+      id: (item.produto != undefined)? item.produto.id : null,
+      codigo: item.codigo || item.produto.codigo,
+      nome: item.nome || item.produto.nome,
       produto_id: item.id,
       quantidade: item.quantidade,
       tamanho: item.tamanho,
       ipi: item.ipi,
       desconto: item.desconto,
       valor_unitario: item.valorUnitario,
-      valor_total: new FormControl({value: (item.quantidade * item.valorUnitario), disabled: true}),
+      valor_total:(item.quantidade * item.valorUnitario),
       obs: ''
     }));
   }
@@ -265,8 +268,8 @@ export class OrcamentoComponent implements OnInit {
     this.clientservice.addOrcamento(this.form.value).subscribe(res => {
       this.resposta = res
       if (this.resposta.status == 'success') {
-        this.notificationService.notify(`Pedido Cadastrado com Sucesso!`);
-        setTimeout(() => { this.router.navigate(['/pedido/', 'listar-pedido']) }, 1500);
+        this.notificationService.notify(`Orçamento Cadastrado com Sucesso!`);
+        setTimeout(() => { this.router.navigate(['/pedidos/orcamento/listar']) }, 1500);
       } else {
         this.notificationService.notify(`Erro contate o Administrador`)
       }

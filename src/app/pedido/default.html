@@ -46,6 +46,11 @@
                     </ng-template>
                   </ngx-datatable-column>
                 </ng-container-->
+                <ngx-datatable-column [flexGrow]="0.5" name="ID" prop="id">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value }}
+                  </ng-template>
+                </ngx-datatable-column>  
                 <ngx-datatable-column [flexGrow]="1.5" name="Representada" prop="representada.nome_fantasia">
                   <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                     {{ value }}
