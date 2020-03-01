@@ -105,14 +105,12 @@ export class RegioesComponent implements OnInit {
       this.dados = res;
       this.rows = this.dados.data.sort((a,b)=> a.id - b.id);
       this.temp = [...this.dados.data];
-      setTimeout(() => { this.loadingIndicator = false; }, 1500);
       });
-      console.log("Rodei")
   }
 
 
   ngOnInit() {
-   
+  
   }
 
 }

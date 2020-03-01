@@ -101,13 +101,12 @@ export class RamoAtividadeComponent implements OnInit {
       this.dados = res;
       this.rows = this.dados.data;
       this.temp = [...this.dados.data];
-      setTimeout(() => { this.loadingIndicator = false; }, 1500);
       });
   }
 
 
   ngOnInit() {
-   
+  
   }
 
 }
