@@ -18,7 +18,7 @@
                         <div class="p-10 text" fxFlex.gt-sm="40" fxFlex.gt-xs="40" fxFlex="100">
                             <mat-form-field [hideRequiredMarker]="true" appearance="outline">
                                 <mat-label>Selecione a representada...</mat-label>
-                                <mat-select formControlName="representada">
+                                <mat-select formControlName="representada_id">
                                     <mat-option *ngFor="let representada of representadas" [value]="representada.id">
                                         {{representada.nome_fantasia}}
                                     </mat-option>
@@ -28,7 +28,7 @@
                         <div class="p-10 text" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
                             <mat-form-field appearance="outline">
                                 <mat-label>Número da nota</mat-label>
-                                <input matInput placeholder="Número da Nota" formControlName="nota" >
+                                <input matInput placeholder="Número da Nota" formControlName="num_nota" >
                             </mat-form-field>
                         </div>
                         <div class="order text" fxFlex.gt-sm="8" fxFlex.gt-xs="8" fxFlex="100">
@@ -37,29 +37,29 @@
                         <div class="p-10 text" fxFlex.gt-sm="16" fxFlex.gt-xs="16" fxFlex="100">
                             <mat-form-field appearance="outline">
                                 <mat-label>Selecione</mat-label>
-                                <mat-select formControlName="select">
+                                <mat-select formControlName="campo_ordem">
                                     <mat-option value="Data">Data</mat-option>
-                                    <mat-option value="Cliente">Cliente</mat-option>
-                                    <mat-option value="Num. Nota">Num. Nota</mat-option>
-                                    <mat-option value="Num. Pedido">Num. Pedido</mat-option>
+                                    <mat-option value="cliente">Cliente</mat-option>
+                                    <mat-option value="num_nota">Num. Nota</mat-option>
+                                    <mat-option value="num_pedido">Num. Pedido</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
                         <div class="p-10 text" fxFlex.gt-sm="16" fxFlex.gt-xs="16" fxFlex="100">
                             <mat-form-field appearance="outline">
                                 <mat-label>Selecione</mat-label>
-                                <mat-select formControlName="ordem">
-                                    <mat-option value="Crescente">Crescente</mat-option>
-                                    <mat-option value="Decrescente">Decrescente</mat-option>
+                                <mat-select formControlName="tipo_ordem">
+                                    <mat-option value="ASC">Crescente</mat-option>
+                                    <mat-option value="DESC">Decrescente</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
                         <div class="p-10 text" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
                             <mat-form-field appearance="outline">
                                 <mat-label>Selecione a Data</mat-label>
-                                <mat-select formControlName="data">
-                                    <mat-option value="Faturamento">Faturamento</mat-option>
-                                    <mat-option value="Vencimento">Vencimento</mat-option>
+                                <mat-select formControlName="tipo_data">
+                                    <mat-option value="faturamento">Faturamento</mat-option>
+                                    <mat-option value="vencimento">Vencimento</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
