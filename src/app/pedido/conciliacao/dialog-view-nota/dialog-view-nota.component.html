@@ -1,34 +1,40 @@
 
-<h1 mat-dialog-title>Visualizando NF: <span style="font-weight: bolder;">{{dados?.num_nota}}</span></h1>
+<h1 mat-dialog-title>Visualizando NF: <span style="font-weight: bolder; color:blue">{{dados?.num_nota}}</span></h1>
 <div mat-dialog-content>
   <div fxLayout="row wrap">
-    <div fxFlex.gt-sm="100%" fxFlex="100">
-      <div fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100" >
+    <div fxFlex.gt-sm="100%" fxFlex="100" style="font-size: small;">
+      <div fxFlex.gt-sm="18" fxFlex.gt-xs="18" fxFlex="100" >
         <span><strong>Cod. Pedido: </strong>{{dados?.pedido.num_pedido}}</span>
       </div>
       <div fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100" >
-        <span><strong>Representada:</strong>{{dados?.pedido.representada.nome_fantasia}}</span>
+        <span><strong>Representada: </strong>{{dados?.pedido.representada.nome_fantasia}}</span>
       </div>
       <div fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100" >
-        <span><strong>Cliente:</strong> {{dados?.pedido.cliente.razao_social}}</span>
+        <span><strong>Cliente: </strong> {{dados?.pedido.cliente.razao_social}}</span>
       </div>
-      <div fxFlex.gt-sm="14" fxFlex.gt-xs="14" fxFlex="100" >
-        <span><strong>Valor:</strong> {{dados?.pedido.valor_total | currency:'BRL':true:'1.2-2'}}</span>
+      <div fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="100" >
+        <span><strong>Valor </strong> {{dados?.pedido.valor_total | currency:'BRL':true:'1.2-2'}}</span>
       </div>
-      <div fxFlex.gt-sm="21" fxFlex.gt-xs="21" fxFlex="100" >
-        <span><strong>Dt. Faturamento:</strong> {{dados?.data_faturamento |  date:'dd/MM/yyyy'}}</span>
-      </div>
-    </div>
-  </div>
-  <div class="p-20" fxLayout="row wrap">
-    <div fxFlex.gt-sm="100%" fxFlex="100">
-      <div *ngFor="let parcela of dados?.nota_parcelas" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" >
-        <span><strong>Dt. Vencimento:</strong> {{parcela?.data_vencimento |  date:'dd/MM/yyyy'}}</span>
-        <span><strong>Recebido:</strong>{{parcela?.status_recebimento}}</span>
+      <div fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100" >
+        <span><strong>Dt. Faturamento: </strong> {{dados?.data_faturamento |  date:'dd/MM/yyyy'}}</span>
       </div>
     </div>
   </div>
-  <mat-tab-group (selectedTabChange)="onTabChange($event)">
+  <div class="p-t-20 text" fxLayout="row wrap">
+    <ng-container *ngFor="let parcela of dados?.nota_parcelas; let num = index" >
+      <div style="margin-right: -10px;" fxFlex.gt-sm="3" fxFlex.gt-xs="3" fxFlex="4">
+        	<span style="color: rgb(57, 57, 233)">{{num+1}}/{{dados?.nota_parcelas.length}} -</span> 
+      </div>
+      <div fxFlex.gt-sm="18" fxFlex.gt-xs="18" fxFlex="48">
+        <span><strong>Data do Vencimento:</strong> {{parcela?.data_vencimento |  date:'dd/MM/yyyy'}} </span>
+      </div>
+      <div fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="48">
+        <span><strong>Recebido: </strong>{{parcela?.status_recebimento ? 'Recebido' : 'Pendente'}}</span>
+      </div>
+    </ng-container>
+
+  </div>
+  <mat-tab-group class="p-t-20" (selectedTabChange)="onTabChange($event)">
     <mat-tab *ngFor="let step of steps " class="aba" label="{{step.titulo}}">
       <mat-form-field>
         <input matInput type='text' class="form-control" placeholder='Insira um nome para pesquisar...'
