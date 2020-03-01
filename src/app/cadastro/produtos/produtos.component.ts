@@ -24,7 +24,6 @@ export class ProdutosComponent implements OnInit {
       { prop: 'id' },
       { prop: 'codigo' },
       { prop: 'nome' },
-      { prop: 'unidade.sigla' },
       { prop: 'representada.nome_fantasia' }
   ];       
 
@@ -38,8 +37,7 @@ export class ProdutosComponent implements OnInit {
   const temp = this.temp.filter(function(d) {
     return d.nome.toLowerCase().indexOf(val) !== -1 || !val 
     || d.representada.nome_fantasia.toLowerCase().indexOf(val) !== -1 || !val
-    || d.codigo.toLowerCase().indexOf(val) !== -1 || !val
-    || d.unidade.sigla.toLowerCase().indexOf(val) !== -1 || !val;
+    || d.codigo.toLowerCase().indexOf(val) !== -1 || !val;
   }); 
   this.rows = temp;
   this.table = this.data;
