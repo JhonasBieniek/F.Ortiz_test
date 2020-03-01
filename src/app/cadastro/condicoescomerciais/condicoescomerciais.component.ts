@@ -52,7 +52,7 @@ export class CondicoescomerciaisComponent implements OnInit {
       
   // filter our data
   const temp = this.temp.filter(function(d) {
-    if( d.prazo.toLowerCase().indexOf(val) !== -1 || !val || d.nome.toLowerCase().indexOf(val) !== -1 || !val  )
+    if( d.tipo.toLowerCase().indexOf(val) !== -1 || !val || d.nome.toLowerCase().indexOf(val) !== -1 || !val  )
     return d
   }); 
   // update the rows
