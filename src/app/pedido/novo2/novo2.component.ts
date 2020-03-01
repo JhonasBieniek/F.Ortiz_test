@@ -607,7 +607,7 @@ export class Novo2Component implements OnInit {
       desconto: item.desconto,
       valor_unitario: item.valorUnitario,
       valor_total: (item.quantidade * item.valorUnitario),
-      comissao_produto: item.comissao,
+      comissao_produto: parseFloat(item.comissao),
       obs: ''
     }));
   }
@@ -708,6 +708,7 @@ export class Novo2Component implements OnInit {
     let i=0;
     let comissao = 0;
     this.produto.controls.forEach(element => {
+      console.log(element)
       comissao += element.get('comissao_produto').value;
       i++;
     })
