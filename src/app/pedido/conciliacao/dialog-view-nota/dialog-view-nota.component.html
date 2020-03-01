@@ -1,5 +1,5 @@
 
-<h1 mat-dialog-title>Visualizando NF: <span style="font-weight: bolder; color:blue">{{dados?.num_nota}}</span></h1>
+<h1 mat-dialog-title style="font-size: x-large;">Visualizando NF: <span style="font-weight: bolder; color:blue">{{dados?.num_nota}}</span></h1>
 <div mat-dialog-content>
   <div fxLayout="row wrap">
     <div fxFlex.gt-sm="100%" fxFlex="100" style="font-size: small;">
@@ -84,4 +84,7 @@
       </ngx-datatable>
     </mat-tab>
   </mat-tab-group>
+  <div class="p-20" fxLayout="row wrap" fxLayoutAlign="end start">
+    <button mat-raised-button color="warn" (click)="close()">Sair</button>
+  </div>
 </div>

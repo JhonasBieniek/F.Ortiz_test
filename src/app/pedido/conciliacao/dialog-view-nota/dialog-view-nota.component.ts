@@ -48,6 +48,9 @@ export class DialogViewNotaComponent implements OnInit {
       return d
     });
   }
+  close(){
+    this.dialogRef.close();
+  }
 
   ngOnInit() {
   }
