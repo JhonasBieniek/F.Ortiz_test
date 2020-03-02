@@ -16,6 +16,11 @@ import { ReceberComponent } from './receber/receber.component';
 import { RouterModule } from '@angular/router';
 import { RepassesComponent } from './repasses/repasses.component';
 import { RecebimentosComponent } from './recebimentos/recebimentos.component';
+import { NgxMaskModule, IConfig} from 'ngx-mask';
+import { NgxCurrencyModule } from 'ngx-currency';
+
+
+export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
 
 
 @NgModule({
@@ -29,6 +34,9 @@ import { RecebimentosComponent } from './recebimentos/recebimentos.component';
     FormsModule,
     ReactiveFormsModule,
     FlexLayoutModule,
+    NgxMaskModule.forRoot(options),
+    NgxCurrencyModule,
+
   ],
   providers: [
     DateFormatPipe,    

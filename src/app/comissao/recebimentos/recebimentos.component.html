@@ -86,15 +86,115 @@
                         </div>
                     </div>
                     <div>
-                        <button mat-raised-button color="primary" type="submit" (click)="Submit()">Filtrar</button>
+                        <button mat-raised-button color="primary" type="submit" (click)="submit()">Filtrar</button>
                         <button mat-raised-button class="m-l-10" color="warn" (click)="clear()">Limpar</button>
                     </div>
                 </form>
             </mat-card-content>
         </mat-card>
         <mat-card *ngIf="showTable">
-            <mat-card-content>
-
+        <mat-card-content>
+        <ngx-datatable
+          #myTable
+          class="material expandable"
+          [columnMode]="'flex'"
+          [headerHeight]="50"
+          [footerHeight]="50"
+          [rowHeight]="50"
+          [scrollbarV]="true"
+          [rows]="rows"
+          (page)="onPage($event)"
+        >
+        <!-- Row Detail Template -->
+        <ngx-datatable-row-detail rowHeight="100" #myDetailRow (toggle)="onDetailToggle($event)">
+          <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+            <div style="padding-left:35px;">
+              <ng-container *ngFor="let col of rows.nota_parcelas" >
+                <ngx-datatable-column name="Parcela" prop="parcela" [flexGrow]="0.5">
+                  <ng-template let-row="row" let-value="value"  ngx-datatable-cell-template>
+                   {{ value }}
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Vencimento" prop="data_vencimento" [flexGrow]="0.6">
+                  <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{ value | date:'dd/MM/yyyy'}}
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Valor" prop="valor" [flexGrow]="0.5">
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                 {{value | currency:'BRL':true:'1.2-2'}}
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Comissão" prop="pedido.valor_total" [flexGrow]="0.5">
+                  <ng-template let-value="value"  ngx-datatable-cell-template>
+                  {{ comissao(row) | currency:'BRL':true:'1.2-2'}}
+                  </ng-template>
+                </ngx-datatable-column>
+                </ng-container>
+            </div>
+          </ng-template>
+        </ngx-datatable-row-detail>
+        <!-- Column Templates -->
+        <ngx-datatable-column
+          [width]="50"
+          [resizeable]="false"
+          [sortable]="false"
+          [draggable]="false"
+          [canAutoResize]="false"
+        >
+          <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+            <a
+              href="javascript:void(0)"
+              [class.datatable-icon-right]="!expanded"
+              [class.datatable-icon-down]="expanded"
+              title="Expand/Collapse Row"
+              (click)="toggleExpandRow(row)"
+            >
+            </a>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Num. Nota" prop="num_nota" [flexGrow]="0.5">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            <strong>{{ value }}</strong>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Num. Pedido" prop="pedido.num_pedido" [flexGrow]="0.6">
+          <ng-template let-row="row" let-value="value"  ngx-datatable-cell-template>
+           {{ value }}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Área venda" prop="pedido.area_venda.nome" [flexGrow]="0.5">
+          <ng-template let-row="row" let-value="value"  ngx-datatable-cell-template>
+           {{ value }}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Cliente" prop="pedido.cliente.razao_social" [flexGrow]="1.5">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <!--<i [innerHTML]="row['name']"></i> and <i>{{ value }}</i>-->
+            {{ value }}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Dt. Faturamento" prop="data_faturamento" [flexGrow]="0.6">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{ value | date:'dd/MM/yyyy'}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Dt. Vencimento" prop="nota_parcelas.data_vencimento" [flexGrow]="0.5">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+         {{vencimento(row) | date:'dd/MM/yyyy'}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Total" prop="pedido.valor_total" [flexGrow]="0.5">
+          <ng-template let-value="value"  ngx-datatable-cell-template>
+          {{ value | currency:'BRL':true:'1.2-2'}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Comissão" prop="pedido.comissao_bruto" [flexGrow]="0.5">
+          <ng-template let-value="value"  ngx-datatable-cell-template>
+         {{ value | currency:'BRL':true:'1.2-2'}}
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
             </mat-card-content>
         </mat-card>
     </div>
