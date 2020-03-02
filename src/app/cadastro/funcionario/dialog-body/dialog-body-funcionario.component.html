@@ -248,7 +248,7 @@
             <button mat-stroked-button (click)="addComissaoFaixa(comIndex)"><i class="material-icons">add</i> Faixa</button>
           </div>
           <div class="p-20" fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="10">
-            <i class="material-icons x-icons" (click)="removeComissao(comIndex); vTotal(); ">highlight_off</i><span class="del"></span>
+            <i class="material-icons x-icons" (click)="removeComissao(comIndex); ">highlight_off</i><span class="del"></span>
           </div>
           <div formArrayName="comissao_faixas">
             <div *ngFor="let item of comissaoFaixas(comIndex).controls; let faixaIndex = index">
@@ -266,7 +266,7 @@
                   </mat-form-field>
                 </div>
                 <div class="p-20 top" fxFlex.gt-sm="6" fxFlex.gt-xs="6" fxFlex="6">
-                  <i class="material-icons x-icons" (click)="removeComissaoFaixa(comIndex, faixaIndex); vTotal(); ">highlight_off</i>
+                  <i class="material-icons x-icons" (click)="removeComissaoFaixa(comIndex, faixaIndex); ">highlight_off</i>
                 </div>
             </div>
             </div>
@@ -276,7 +276,7 @@
     </div>
     <div>
       <button mat-raised-button color="primary" type="submit" [disabled]="!funcionario.valid" (click)="onSubmit(); close()">Salvar</button>
-      <button mat-raised-button class="pl-3" color="warn"  (click)="close()" >Cancelar</button>
+      <button mat-raised-button style="margin-left: 15px;" color="warn"  (click)="close()" >Cancelar</button>
     </div>
   </form>
 </mat-card-content>
