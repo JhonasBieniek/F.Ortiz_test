@@ -212,13 +212,13 @@ export class OrcamentoComponent implements OnInit {
       tamanho: item.tamanho,
       ipi: item.ipi,
       desconto: item.desconto,
-      valor_unitario: item.valorUnitario,
-      valor_total:(item.quantidade * item.valorUnitario),
+      valor_unitario: [item.valorUnitario, Validators.required],
+      valor_total:[(item.quantidade * item.valorUnitario), Validators.required],
       obs: ''
     }));
   }
 
-   updateFilter(event) {
+  updateFilter(event) {
     const val = event.target.value.toLowerCase();
     // filter our data
     const temp = this.temp.filter(function (d) {
