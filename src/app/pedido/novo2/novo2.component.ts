@@ -737,6 +737,8 @@ export class Novo2Component implements OnInit {
    this.form.get('valor_total').setValue(total);
    if(tipo == 'total')
    return total + ipi;
+   else if(tipo == 'ipi')
+   return ipi
    else
    return total;
   }
