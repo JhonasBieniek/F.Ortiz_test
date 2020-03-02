@@ -175,31 +175,39 @@
                       <input matInput placeholder="Unidade" formControlName="unidade" >
                     </mat-form-field>
                     <mat-form-field fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="20" appearance="outline">
+                      <mat-label>Embalagem</mat-label>
                       <input matInput placeholder="Embalagem" formControlName="embalagem" >
                     </mat-form-field>
                     <mat-form-field fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="10" appearance="outline">
+                      <mat-label>IPI</mat-label>
                       <input matInput placeholder="IPI" formControlName="ipi" mask="percent" suffix="%"
                         >
                     </mat-form-field>
                     <mat-form-field fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="10" appearance="outline">
+                      <mat-label>Desconto</mat-label>
                       <input matInput placeholder="Desconto" formControlName="desconto" mask="percent" suffix="%"
                         >
                     </mat-form-field>
                     <mat-form-field fxFlex.gt-sm="15" fxFlex.gt-xs="13" fxFlex="13" appearance="outline">
+                      <mat-label>Valor Unit.</mat-label>
                       <input matInput placeholder="Valor Unit." formControlName="valor_unitario" (blur)="setTotal(i)" currencyMask
                         >
                     </mat-form-field>
                     <mat-form-field fxFlex.gt-sm="13" fxFlex.gt-xs="13" fxFlex="13" appearance="outline">
+                      <mat-label>Comissão</mat-label>
                       <input matInput placeholder="Comissão" formControlName="comissao_produto" mask="percent" suffix="%"
                         >
                     </mat-form-field>
                     <mat-form-field fxFlex.gt-sm="14" fxFlex.gt-xs="14" fxFlex="14" appearance="outline">
+                      <mat-label>Tamanho</mat-label>
                       <input matInput placeholder="Tamanho" formControlName="tamanho" >
                     </mat-form-field>
                     <mat-form-field fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="15" appearance="outline">
+                      <mat-label>Vlr total</mat-label>
                       <input matInput placeholder="Vlr total" currencyMask formControlName="valor_total" >
                     </mat-form-field>
                     <mat-form-field fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="70" appearance="outline">
+                      <mat-label>Observação</mat-label>
                       <input matInput placeholder="Observação" formControlName="obs" >
                     </mat-form-field>
                   </div>
