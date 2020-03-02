@@ -521,6 +521,7 @@ export class Novo2Component implements OnInit {
     .subscribe(
       (pedido:any) => {
         this.pedidoN = pedido.data;
+        this.representada = pedido.data.representada;
         this.pedidoN.pedido_produtos.forEach(element => {
           this.addItem(element)
         });
@@ -607,7 +608,7 @@ export class Novo2Component implements OnInit {
       desconto: item.desconto,
       valor_unitario: item.valorUnitario,
       valor_total: (item.quantidade * item.valorUnitario),
-      comissao_produto: (item.comissao != null)? parseFloat(item.comissao): this.representada.comissao_padrao,
+      comissao_produto: (item.comissao != null)? parseFloat(item.comissao): (this.representada.comissao_padrao != null)? this.representada.comissao_padrao: 0,
       obs: ''
     }));
   }
