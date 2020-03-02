@@ -99,11 +99,6 @@ const MENUITEMS = [
         ]
       }
     ]
-  }, {
-    state: '',
-    name: 'Comissões',
-    type: 'saperator',
-    icon: 'av_timer'
   },{
     state: 'comissao',
     name: 'Comissão',
