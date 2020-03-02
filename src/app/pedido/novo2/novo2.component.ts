@@ -356,7 +356,7 @@ export class Novo2Component implements OnInit {
           codigo: data[inicial][3],
           nome: data[inicial][6],
           quantidade: data[inicial][15].split("/")[1].replace(".", ""),
-          ipi: [inicial][34],
+          ipi: data[inicial][33],
           valorUnitario: data[inicial][28].match(/\d+/g)[0]+"."+data[inicial][28].match(/\d+/g)[1],
           desconto: data[inicial][24].match(/\d+/g)[0]+"."+data[inicial][24].match(/\d+/g)[1],
         }
@@ -604,7 +604,7 @@ export class Novo2Component implements OnInit {
       unidade: (item.unidade != null)? item.unidade.sigla: null,
       embalagem: item.embalagem,
       tamanho: item.tamanho,
-      ipi: item.ipi,
+      ipi: (item.ipi != null)? parseFloat(item.ipi): 0,//item.ipi,
       desconto: 0,
       valor_unitario: item.valorUnitario,
       valor_total: (item.quantidade * item.valorUnitario),
@@ -725,12 +725,19 @@ export class Novo2Component implements OnInit {
     return comissao;
   }
 
-  valorTotal(){
+  valorTotal(tipo){
    let total = 0;
+   let ipi = 0;
    this.produto.controls.forEach(element => {
+     if(element.get('ipi').value > 0 ){
+      ipi += (element.get('quantidade').value * element.get('valor_unitario').value * element.get('ipi').value)/100;
+     }
      total += element.get('quantidade').value * element.get('valor_unitario').value;
    })
    this.form.get('valor_total').setValue(total);
+   if(tipo == 'total')
+   return total + ipi;
+   else
    return total;
   }
 

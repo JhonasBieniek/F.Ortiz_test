@@ -222,7 +222,10 @@
         
         <div *ngIf="valorTotal() != 0" style="margin-top: -40px; color: black; text-align: left;">
           <tr>
-            <th style="color: red;">Valor Total Nota: {{valorTotal() | currency:'BRL':true:'1.2-2'}}</th>
+            <th style="color: red;">Valor Total Nota: {{valorTotal('total') | currency:'BRL':true:'1.2-2'}}</th>
+          </tr>
+          <tr>
+            <th style="color: rgb(199, 97, 97);">Valor Líquido Nota: {{valorTotal('liq') | currency:'BRL':true:'1.2-2'}}</th>
           </tr>
           <tr>
             <th>Comissão Média: {{comissaoMedia()}}%</th>
