@@ -38,9 +38,9 @@
                                 </ng-template>
                               </ngx-datatable-column>
                               
-                              <ngx-datatable-column [flexGrow]="1.5" name="Email">
+                              <ngx-datatable-column [flexGrow]="1.5" name="E-mail">
                                 <ng-template let-value="email" let-row="row" ngx-datatable-cell-template>
-                                  {{ row.email != null ? row.email : 'Não possui' }}
+                                  {{ row.email != "" ? row.email : 'E-mail não cadastrado' }}
                                 </ng-template>
                               </ngx-datatable-column>  
 
