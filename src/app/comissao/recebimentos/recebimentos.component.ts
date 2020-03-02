@@ -13,8 +13,9 @@ export class RecebimentosComponent implements OnInit {
   @ViewChild('myTable', { static: false }) table: any;
 
   rows: any[] = [];
-  expanded: any = {};
   timeout: any;
+
+  selected = [];
 
    
   form: FormGroup;
@@ -65,6 +66,18 @@ export class RecebimentosComponent implements OnInit {
     this.form.reset();
     this.form.controls['tipo'].setValue("Faturado");
   }
+  parcelas(data){
+    let value;
+    value = data.sort((a,b)=> a.id - b.id);
+    return value;
+  }
+  selection(row){
+    console.log(row, 'checked')
+  }
+
+  onCheckboxChangeFn(row){
+    console.log(row)
+  }
 
   vencimento(row){
     let value = 0;
@@ -76,7 +89,6 @@ export class RecebimentosComponent implements OnInit {
     return value
   }
   comissao(row){
-    console.log(row, 'test')
     return "2"
   }
   

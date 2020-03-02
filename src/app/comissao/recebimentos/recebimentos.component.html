@@ -101,35 +101,40 @@
           [headerHeight]="50"
           [footerHeight]="50"
           [rowHeight]="50"
-          [scrollbarV]="true"
           [rows]="rows"
+          [selected]="selected"
+          (select)="onSelect($event)"
           (page)="onPage($event)"
+ 
         >
         <!-- Row Detail Template -->
-        <ngx-datatable-row-detail rowHeight="100" #myDetailRow (toggle)="onDetailToggle($event)">
+        <ngx-datatable-row-detail rowHeight="(row.nota_parcelas.lenght * 70)" #myDetailRow (toggle)="onDetailToggle($event)">
           <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
             <div style="padding-left:35px;">
-              <ng-container *ngFor="let col of rows.nota_parcelas" >
-                <ngx-datatable-column name="Parcela" prop="parcela" [flexGrow]="0.5">
-                  <ng-template let-row="row" let-value="value"  ngx-datatable-cell-template>
-                   {{ value }}
-                  </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="Vencimento" prop="data_vencimento" [flexGrow]="0.6">
-                  <ng-template let-value="value" ngx-datatable-cell-template>
-                    {{ value | date:'dd/MM/yyyy'}}
-                  </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="Valor" prop="valor" [flexGrow]="0.5">
-                  <ng-template let-row="row" ngx-datatable-cell-template>
-                 {{value | currency:'BRL':true:'1.2-2'}}
-                  </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="Comissão" prop="pedido.valor_total" [flexGrow]="0.5">
-                  <ng-template let-value="value"  ngx-datatable-cell-template>
-                  {{ comissao(row) | currency:'BRL':true:'1.2-2'}}
-                  </ng-template>
-                </ngx-datatable-column>
+              <ng-container *ngFor="let cols of parcelas(row.nota_parcelas)" >
+                <div fxLayout="row wrap">
+                  <table class="table table-striped">
+                    <thead>
+                    <tr>
+                      <th scope="col">N° Parcela</th>
+                      <th scope="col">Vencimento</th>
+                      <th scope="col">Valor</th>
+                      <th scope="col">Comissão</th>
+                      <th scope="col">Receber?</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                      <td>{{ cols.parcela }}</td>
+                      <td>{{ cols.data_vencimento }}</td>
+                      <td>{{ cols.valor }}</td>
+                      <td>{{ comissao(row) }}</td>
+                      <td><input type="checkbox" (change)="selection(row)"/>  
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
                 </ng-container>
             </div>
           </ng-template>
@@ -186,12 +191,17 @@
         </ngx-datatable-column>
         <ngx-datatable-column name="Total" prop="pedido.valor_total" [flexGrow]="0.5">
           <ng-template let-value="value"  ngx-datatable-cell-template>
-          {{ value | currency:'BRL':true:'1.2-2'}}
+          {{ value | currency : 'R$'}}
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name="Comissão" prop="pedido.comissao_bruto" [flexGrow]="0.5">
           <ng-template let-value="value"  ngx-datatable-cell-template>
-         {{ value | currency:'BRL':true:'1.2-2'}}
+         {{ value | currency : 'R$'}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column  [flexGrow]="0.4" name="Receber?" [sortable]="false" [draggable]="false">
+          <ng-template ngx-datatable-cell-template let-row="row" let-isSelected="isSelected">
+            <input type="checkbox" (change)="onCheckboxChangeFn(row)" />
           </ng-template>
         </ngx-datatable-column>
       </ngx-datatable>
