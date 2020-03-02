@@ -7,13 +7,13 @@ export const ComissaoRoutes: Routes = [
   {
     path: '',
     children: [{
-      path: 'receber',
+      path: 'listagem/receber',
       component: ReceberComponent
     },{
-      path: 'repasses',
+      path: 'listagem/repasses',
       component: RepassesComponent
     },{
-      path: 'recebidos',
+      path: 'listagem/recebidos',
       component: RepassesComponent
     },{
       path: 'recebimentos',

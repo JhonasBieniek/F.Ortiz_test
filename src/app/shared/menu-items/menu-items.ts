@@ -86,7 +86,18 @@ const MENUITEMS = [
         ]
       },
       {state: 'conciliacao', name: 'Conciliação de Notas', type: 'link' },
-      {state: 'relatorios', name: 'Relatórios', type: 'link' },
+      {
+        state: 'relcomissao',
+        name: 'Relatórios',
+        type: 'subchild',
+        subchildren: [
+            {state: 'comissoes', name: 'Pedidos', type: 'link' },
+            {state: 'acumulado', name: 'Confirm. Recebimento', type: 'link' },
+            {state: 'checkbox', name: 'Pedidos Entregues', type: 'link' },
+            {state: 'datepicker', name: 'Produtos Vendidos', type: 'link' },    
+            {state: 'editor', name: 'Vendidos por cliente', type: 'link' }
+        ]
+      }
     ]
   }, {
     state: '',
@@ -99,10 +110,17 @@ const MENUITEMS = [
     type: 'sub',
     icon: 'trending_up',
     children: [
-      {state: 'receber', name: 'A receber', type: 'link' },  
-      {state: 'repasses', name: 'Repasses', type: 'link' },  
-      {state: 'recebidos', name: 'Recebidos', type: 'link' },
       {state: 'recebimentos', name: 'Recebimentos', type: 'link' },
+      {
+        state: 'listagem',
+        name: 'Listagem',
+        type: 'subchild',
+        subchildren: [
+          {state: 'receber', name: 'A receber', type: 'link' },  
+          {state: 'repasses', name: 'Repasses', type: 'link' },  
+          {state: 'recebidos', name: 'Recebidos', type: 'link' },
+        ]
+      },
       {
         state: 'relcomissao',
         name: 'Relatórios',

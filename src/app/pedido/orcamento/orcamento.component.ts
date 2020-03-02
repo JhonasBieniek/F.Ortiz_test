@@ -208,7 +208,7 @@ export class OrcamentoComponent implements OnInit {
       codigo: item.codigo || item.produto.codigo,
       nome: item.nome || item.produto.nome,
       produto_id: item.id,
-      quantidade: item.quantidade,
+      quantidade: [item.quantidade, Validators.required],
       tamanho: item.tamanho,
       ipi: item.ipi,
       desconto: item.desconto,
