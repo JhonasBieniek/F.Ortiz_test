@@ -234,7 +234,11 @@ export class Novo2Component implements OnInit {
       }
       inicial++;
     }
-    this.condComercial = data[final+2][0].split(':')[1].replace("  Data de Emissão", "").trim();
+    if(data[final+1][0] == 'Valor total em produtos:'){
+      this.condComercial = data[final+3][0].split(':')[1].replace("  Data de Emissão", "").trim();
+    }else{
+      this.condComercial = data[final+2][0].split(':')[1].replace("  Data de Emissão", "").trim();
+    }
     this.form.get('data_emissao').setValue(moment(data[final+2][0].toString().match(new RegExp("\\d{2}\\/\\d{2}\\/\\d{4}", "g"))[0].replace(/\//g, "-"), 'DD-MM-YYYY').format("YYYY-MM-DD"));
 
     this.ValorTotal = data[final][1];
@@ -480,8 +484,6 @@ export class Novo2Component implements OnInit {
   }
 
   ngAfterContentChecked(): void {
-    //Called after every check of the component's or directive's content.
-    //Add 'implements AfterContentChecked' to the class.
     this.setPageTitle();
   }
 
