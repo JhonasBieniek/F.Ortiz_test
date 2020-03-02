@@ -59,9 +59,8 @@ export class DialogCadastroComponent implements OnInit {
     });
   }
 
-  submit() : Promise<any> { 
-    return new Promise((resolve, reject) => {
-    this.form.value.camposForm.forEach(element => {
+    submit(){ 
+    this.form.value.camposForm.forEach(async element => {
       let dados = {
         nome : element.nome,
         embalagem: element.embalagem,
@@ -73,17 +72,18 @@ export class DialogCadastroComponent implements OnInit {
         unidade_id: element.unidade,
         status:element.active,
       }
-    this.send(
+      await this.send(
             dados, 
             element.valorUnitario, 
             element.quantidade, 
             element.desconto, 
             element.comissao,
-            element.tamanho);
+            element.tamanho)
+            .then((res)=> {console.log(res,'teste')})
     })
-  })
 }
-  send(dados, valorUnitario, quantidade, desconto, comissao, tamanho){
+async send(dados, valorUnitario, quantidade, desconto, comissao, tamanho): Promise<any> {
+    return new Promise((resolve, reject) => {
     this.clientservice.addProdutos(dados).subscribe((res:any) => {
       this.aux.push(1);
       if(res.success == true){
@@ -92,7 +92,7 @@ export class DialogCadastroComponent implements OnInit {
         res.data.desconto = desconto
         res.data.comissao = comissao
         res.data.tamanho = tamanho
-        this.resposta.push(res.data);
+        resolve(this.resposta.push(res.data));
         this.notificationService.notify(`Produto cadastrado com Sucesso!`)
         if( this.form.value.camposForm.length == this.aux.length ){
           this.close();
@@ -101,10 +101,10 @@ export class DialogCadastroComponent implements OnInit {
         this.notificationService.notify(`Erro contate o Administrador`)
       }}
     )
-  }
+  })
+}
 
   close() {
-    console.log(this.resposta, "resposta")
     this.dialogRef.close(this.resposta);
   }
   
