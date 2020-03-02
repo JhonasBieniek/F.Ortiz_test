@@ -9,6 +9,7 @@
       </div>
       <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
         <mat-form-field appearance="outline">
+          <mat-label>Nome da área de venda</mat-label>
           <input matInput placeholder="Nome da área de venda" [formControl]="form.controls['nome']">
         </mat-form-field>
         <mat-hint *ngIf="form.controls['nome'].hasError('required') && form.controls['nome'].touched"

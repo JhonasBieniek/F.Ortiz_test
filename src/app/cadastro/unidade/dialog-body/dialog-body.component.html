@@ -15,6 +15,7 @@
 
           <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
             <mat-form-field appearance="outline">
+              <mat-label>Sigla</mat-label>
               <input matInput placeholder="Sigla" [formControl]="form.controls['sigla']">
             </mat-form-field>
             <mat-hint *ngIf="form.controls['sigla'].hasError('required') && form.controls['sigla'].touched"
@@ -26,6 +27,7 @@
           </div>
           <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
             <mat-form-field appearance="outline">
+              <mat-label>Descrição</mat-label>
               <input matInput placeholder="Descrição" [formControl]="form.controls['descricao']">
             </mat-form-field>
             <mat-hint *ngIf="form.controls['descricao'].hasError('required') && form.controls['descricao'].touched"

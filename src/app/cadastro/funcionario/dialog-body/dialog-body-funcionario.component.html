@@ -12,6 +12,7 @@
 
       <div class="p-10" fxFlex.gt-sm="66" fxFlex.gt-xs="66" fxFlex="100">
         <mat-form-field appearance="outline">
+          <mat-label>Nome completo</mat-label>
           <input matInput placeholder="Nome completo" formControlName="nome">
         </mat-form-field>
         <mat-hint *ngIf="funcionario.get('nome').errors?.required && funcionario.get('nome').touched"
@@ -24,6 +25,7 @@
 
       <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="100">
         <mat-form-field appearance="outline">
+          <mat-label>Data de nascimento</mat-label>
           <input matInput [matDatepicker]="picker" formControlName="nascimento"
             placeholder="Data de nascimento">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -37,6 +39,7 @@
 
       <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="33" fxFlex="100">
         <mat-form-field appearance="outline"> 
+          <mat-label>CPF</mat-label>
           <input matInput placeholder="CPF" mask="000.000.000-00" formControlName="cpf"
             type="digits">
         </mat-form-field>
@@ -48,6 +51,7 @@
 
       <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="33" fxFlex="100">
         <mat-form-field appearance="outline">
+          <mat-label>RG</mat-label>
           <input matInput placeholder="RG" formControlName="rg" type="digits">
         </mat-form-field>
         <!-- <small *ngIf="funcionario.get('rg').errors?.required && funcionario.get('rg').touched"
@@ -58,6 +62,7 @@
 
       <div class="p-10" fxFlex.gt-sm="32" fxFlex.gt-xs="33" fxFlex="100">
         <mat-form-field appearance="outline">
+          <mat-label>Orgão expedidor</mat-label>
           <input matInput placeholder="Orgão expedidor" formControlName="oe">
         </mat-form-field>
         <!-- <small *ngIf="funcionario.get('oe').errors?.required && funcionario.get('oe').touched"
@@ -97,6 +102,7 @@
       </div>
       <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
         <mat-form-field appearance="outline">
+          <mat-label>CEP</mat-label>
           <input matInput placeholder="CEP" mask="00000-000" (blur)="chargeCep()" formControlName="cep">
         </mat-form-field>
        <!-- <mat-hint *ngIf="funcionario.get('endereco.cep').errors?.required && funcionario.get('endereco.cep').touched"
@@ -108,6 +114,7 @@
       </div>
       <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
         <mat-form-field appearance="outline">
+          <mat-label>Logradouro</mat-label>
           <input matInput placeholder="Logradouro" formControlName="logradouro">
         </mat-form-field>
         <!-- <small *ngIf="funcionario.get('endereco.logradouro').errors?.required && funcionario.get('endereco.logradouro').touched"
@@ -117,6 +124,7 @@
       </div>
       <div class="p-10" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
         <mat-form-field appearance="outline">
+          <mat-label>Número</mat-label>
           <input matInput placeholder="Número" formControlName="numero">
         </mat-form-field>
         <!-- <small *ngIf="funcionario.get('endereco.numero').errors?.required && funcionario.get('endereco.numero').touched"
@@ -126,6 +134,7 @@
       </div>
       <div class="p-10" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
         <mat-form-field appearance="outline">
+          <mat-label>Complemento</mat-label>
           <input matInput placeholder="Complemento" formControlName="complemento">
         </mat-form-field>
         <!-- <mat-hint *ngIf="funcionario.get('endereco.complemento').errors?.required && funcionario.get('endereco.complemento').touched"
@@ -137,6 +146,7 @@
       </div>
       <div class="p-10" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
         <mat-form-field appearance="outline">
+          <mat-label>Bairro</mat-label>
           <input matInput placeholder="Bairro" formControlName="bairro">
         </mat-form-field>
         <!-- <small *ngIf="funcionario.get('endereco.bairro').errors?.required && funcionario.get('endereco.bairro').touched"
@@ -144,6 +154,7 @@
       </div>
       <div class="p-10" fxFlex.gt-sm="36" fxFlex.gt-xs="36" fxFlex="100">
         <mat-form-field appearance="outline">
+          <mat-label>Cidade</mat-label>
           <input matInput placeholder="Cidade" formControlName="cidade">
         </mat-form-field>
         <!-- <small *ngIf="funcionario.get('endereco.cidade').errors?.required && funcionario.get('endereco.cidade').touched"
@@ -151,6 +162,7 @@
       </div>
       <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="100">
         <mat-form-field appearance="outline">
+          <mat-label>Estado</mat-label>
           <input matInput placeholder="Estado" formControlName="estado">
         </mat-form-field>
         <!-- <small *ngIf="funcionario.get('endereco.estado').errors?.required && funcionario.get('endereco.estado').touched"
@@ -169,6 +181,7 @@
 
       <div class="p-10" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="100">
         <mat-form-field appearance="outline">
+          <mat-label>Telefone fixo</mat-label>
           <input matInput placeholder="Telefone fixo" mask="(00) 0000-0000" formControlName="telefone" type="text">
         </mat-form-field>
         <!-- <small *ngIf="funcionario.get('telefone').errors?.required && funcionario.get('telefone').touched"
@@ -179,6 +192,7 @@
 
       <div class="p-10" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="100">
         <mat-form-field appearance="outline">
+          <mat-label>Celular</mat-label>
           <input matInput placeholder="Celular" mask="(00) 0 0000-0000" formControlName="celular"
             type="text">
         </mat-form-field>       
@@ -198,6 +212,7 @@
 
       <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
         <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
           <input matInput placeholder="Email" formControlName="email" type="email">
         </mat-form-field>
         <!-- <small *ngIf="funcionario.get('email').errors?.required && funcionario.get('email').touched"
