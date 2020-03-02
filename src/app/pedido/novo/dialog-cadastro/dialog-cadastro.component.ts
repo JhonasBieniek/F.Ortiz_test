@@ -59,8 +59,9 @@ export class DialogCadastroComponent implements OnInit {
     });
   }
 
-    submit(){ 
-    this.form.value.camposForm.forEach(async element => {
+  submit() : Promise<any> { 
+    return new Promise((resolve, reject) => {
+    this.form.value.camposForm.forEach(element => {
       let dados = {
         nome : element.nome,
         embalagem: element.embalagem,
@@ -72,18 +73,17 @@ export class DialogCadastroComponent implements OnInit {
         unidade_id: element.unidade,
         status:element.active,
       }
-      await this.send(
+    this.send(
             dados, 
             element.valorUnitario, 
             element.quantidade, 
             element.desconto, 
             element.comissao,
-            element.tamanho)
-            .then((res)=> {console.log(res,'teste')})
+            element.tamanho);
     })
+  })
 }
-async send(dados, valorUnitario, quantidade, desconto, comissao, tamanho): Promise<any> {
-    return new Promise((resolve, reject) => {
+  send(dados, valorUnitario, quantidade, desconto, comissao, tamanho){
     this.clientservice.addProdutos(dados).subscribe((res:any) => {
       this.aux.push(1);
       if(res.success == true){
@@ -92,7 +92,7 @@ async send(dados, valorUnitario, quantidade, desconto, comissao, tamanho): Promi
         res.data.desconto = desconto
         res.data.comissao = comissao
         res.data.tamanho = tamanho
-        resolve(this.resposta.push(res.data));
+        this.resposta.push(res.data);
         this.notificationService.notify(`Produto cadastrado com Sucesso!`)
         if( this.form.value.camposForm.length == this.aux.length ){
           this.close();
@@ -101,10 +101,10 @@ async send(dados, valorUnitario, quantidade, desconto, comissao, tamanho): Promi
         this.notificationService.notify(`Erro contate o Administrador`)
       }}
     )
-  })
-}
+  }
 
   close() {
+    console.log(this.resposta, "resposta")
     this.dialogRef.close(this.resposta);
   }
   
