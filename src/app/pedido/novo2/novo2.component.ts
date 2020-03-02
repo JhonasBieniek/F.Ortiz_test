@@ -239,8 +239,6 @@ export class Novo2Component implements OnInit {
     }else{
       this.condComercial = data[final+2][0].split(':')[1].replace("  Data de Emissão", "").trim();
     }
-    this.form.get('data_emissao').setValue(moment(data[final+2][0].toString().match(new RegExp("\\d{2}\\/\\d{2}\\/\\d{4}", "g"))[0].replace(/\//g, "-"), 'DD-MM-YYYY').format("YYYY-MM-DD"));
-
     this.ValorTotal = data[final][1];
     if (inicial > final) {
       if (this.itemsNew.length > 0) {
