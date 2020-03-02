@@ -44,6 +44,7 @@ export class DialogBodyRepresentadaComponent implements OnInit {
       representante: [null],
       obs: [null, Validators.compose([Validators.maxLength(100)])],
       status: [true],
+      comissao_padrao: [null],
       endereco: this.fb.group({
         cep: [null],
         logradouro: [null],
@@ -75,6 +76,7 @@ export class DialogBodyRepresentadaComponent implements OnInit {
          representante: this.data.representante,
          obs: this.data.obs,
          status: this.data.status,
+         comissao_padrao: this.data.comissao_padrao,
          endereco:{
            id: this.data.endereco.id,
            cep: this.data.endereco.cep,

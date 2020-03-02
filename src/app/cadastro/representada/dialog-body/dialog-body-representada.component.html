@@ -17,14 +17,19 @@
       <small *ngIf="form.get('cnpj').errors?.minlength && form.get('cnpj').touched"
         class="text-danger font-14">Você precisa inserir um CNPJ válido.</small>
     </div>
-    <div class="p-10" fxFlex.gt-sm="35" fxFlex.gt-xs="35" fxFlex="100">
+    <div class="p-10" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
       <mat-form-field appearance="outline">
         <input matInput placeholder="Inscrição estadual" formControlName="inscricao_estadual" type="digits">
       </mat-form-field>
       <small *ngIf="form.get('inscricao_estadual').errors?.required && form.get('inscricao_estadual').touched"
         class="text-danger font-14">Você precisa inserir a inscrição estadual.</small>
     </div>
-    <div class="p-10" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
+    <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
+      <mat-form-field appearance="outline">
+        <input matInput placeholder="Comissão" formControlName="comissao_padrao" type="digits">
+      </mat-form-field>
+    </div>
+    <div class="p-10" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
       <mat-form-field appearance="outline" [hideRequiredMarker]="true">
         <mat-label>Selecione o status</mat-label>
         <mat-select formControlName="status" >
