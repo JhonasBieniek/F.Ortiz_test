@@ -600,14 +600,14 @@ export class Novo2Component implements OnInit {
       codigo: item.codigo || item.produto.codigo,
       nome: item.nome || item.produto.nome,
       produto_id: item.id,
-      quantidade: item.quantidade,
+      quantidade: [item.quantidade, Validators.required],
       unidade: (item.unidade != null)? item.unidade.sigla: null,
       embalagem: item.embalagem,
       tamanho: item.tamanho,
       ipi: (item.ipi != null)? parseFloat(item.ipi): 0,//item.ipi,
       desconto: 0,
-      valor_unitario: item.valorUnitario,
-      valor_total: (item.quantidade * item.valorUnitario),
+      valor_unitario: [item.valorUnitario, Validators.required],
+      valor_total: [(item.quantidade * item.valorUnitario), Validators.required],
       comissao_produto: (item.comissao != null)? parseFloat(item.comissao): (this.representada.comissao_padrao != null)? this.representada.comissao_padrao: 0,
       obs: ''
     }));
