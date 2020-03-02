@@ -88,9 +88,6 @@ export class RecebimentosComponent implements OnInit {
     });
     return value
   }
-  comissao(row){
-    return "2"
-  }
   
   submit(){
     this.clientservice.getRecebimentos(this.form.value).subscribe((res:any) => {

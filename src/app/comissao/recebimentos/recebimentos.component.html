@@ -111,7 +111,7 @@
         <ngx-datatable-row-detail rowHeight="(row.nota_parcelas.lenght * 70)" #myDetailRow (toggle)="onDetailToggle($event)">
           <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
             <div style="padding-left:35px;">
-              <ng-container *ngFor="let cols of parcelas(row.nota_parcelas)" >
+              <ng-container  >
                 <div fxLayout="row wrap">
                   <table class="table table-striped">
                     <thead>
@@ -124,11 +124,11 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
+                    <tr *ngFor="let cols of parcelas(row.nota_parcelas)">
                       <td>{{ cols.parcela }}</td>
                       <td>{{ cols.data_vencimento }}</td>
-                      <td>{{ cols.valor }}</td>
-                      <td>{{ comissao(row) }}</td>
+                      <td>{{ cols.valor | currency : 'R$' }}</td>
+                      <td>{{ (cols.valor * row.pedido.comissao_media)/100 | currency : 'R$'}}</td>
                       <td><input type="checkbox" (change)="selection(row)"/>  
                       </td>
                     </tr>
