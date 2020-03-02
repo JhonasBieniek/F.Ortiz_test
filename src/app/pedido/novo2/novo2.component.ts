@@ -234,9 +234,11 @@ export class Novo2Component implements OnInit {
       }
       inicial++;
     }
-    this.condComercial = data[final+2][0].split(':')[1].replace("  Data de Emissão", "").trim();
-    this.form.get('data_emissao').setValue(moment(data[final+2][0].toString().match(new RegExp("\\d{2}\\/\\d{2}\\/\\d{4}", "g"))[0].replace(/\//g, "-"), 'DD-MM-YYYY').format("YYYY-MM-DD"));
-
+    if(data[final+1][0] == 'Valor total em produtos:'){
+      this.condComercial = data[final+3][0].split(':')[1].replace("  Data de Emissão", "").trim();
+    }else{
+      this.condComercial = data[final+2][0].split(':')[1].replace("  Data de Emissão", "").trim();
+    }
     this.ValorTotal = data[final][1];
     if (inicial > final) {
       if (this.itemsNew.length > 0) {
@@ -480,8 +482,6 @@ export class Novo2Component implements OnInit {
   }
 
   ngAfterContentChecked(): void {
-    //Called after every check of the component's or directive's content.
-    //Add 'implements AfterContentChecked' to the class.
     this.setPageTitle();
   }
 
@@ -605,7 +605,7 @@ export class Novo2Component implements OnInit {
       embalagem: item.embalagem,
       tamanho: item.tamanho,
       ipi: item.ipi,
-      desconto: item.desconto,
+      desconto: 0,
       valor_unitario: item.valorUnitario,
       valor_total: (item.quantidade * item.valorUnitario),
       comissao_produto: (item.comissao != null)? parseFloat(item.comissao): (this.representada.comissao_padrao != null)? this.representada.comissao_padrao: 0,
@@ -709,7 +709,6 @@ export class Novo2Component implements OnInit {
     let i=0;
     let comissao = 0;
     this.produto.controls.forEach(element => {
-      console.log(element)
       comissao += element.get('comissao_produto').value;
       i++;
     })
@@ -729,7 +728,7 @@ export class Novo2Component implements OnInit {
   valorTotal(){
    let total = 0;
    this.produto.controls.forEach(element => {
-     total += element.get('valor_total').value - ((element.get('quantidade').value*element.get('valor_unitario').value) * element.get('desconto').value/100)
+     total += element.get('quantidade').value * element.get('valor_unitario').value;
    })
    this.form.get('valor_total').setValue(total);
    return total;
