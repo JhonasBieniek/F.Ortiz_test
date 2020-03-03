@@ -71,12 +71,12 @@ export class RecebimentosComponent implements OnInit {
     value = data.sort((a,b)=> a.id - b.id);
     return value;
   }
-  selection(row){
+  selection(row:any){
     console.log(row, 'checked')
   }
 
-  onCheckboxChangeFn(row){
-    console.log(row)
+  onCheckboxChangeFn(row:any){
+    console.log(row.currentTarget.checked)
   }
 
   vencimento(row){
@@ -101,5 +101,10 @@ export class RecebimentosComponent implements OnInit {
     //     this.notificationService.notify(`Erro contate o Administrador`)
     //   }
     });
+  }
+  sendBaixa(){
+    this.clientservice.baixaRecebimentos(this.selected).subscribe((res:any) => {
+      console.log(res);
+    })
   }
 }

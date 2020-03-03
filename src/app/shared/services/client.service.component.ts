@@ -497,6 +497,12 @@ export class ClientService {
           .http
           .post(uri, data);
   }
+  baixaRecebimentos(data){
+    const uri = `${API_URL}` + `nota-parcelas/baixaRecebimentos.json`;
+    return this
+          .http
+          .post(uri, data);
+  }
   getOrcamentos() {
     const uri = `${API_URL}` + `orcamentos/index.json`;
     return this
