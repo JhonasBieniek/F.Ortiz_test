@@ -261,6 +261,12 @@ export class ClientService {
       .http
       .post(uri, dados) 
   }
+  addProdutosLote(dados) {
+    const uri = `${API_URL}` + `produtos/add.json`;
+     return this
+      .http
+      .post(uri, dados) 
+  }
   updateProduto(data): Observable<any>{
     const url = `${API_URL}produtos/edit/${data.id}.json`;
      return this.http.put(url, data).pipe(
