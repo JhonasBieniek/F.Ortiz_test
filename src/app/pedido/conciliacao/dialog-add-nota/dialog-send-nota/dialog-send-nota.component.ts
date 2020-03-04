@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogConfig } from "@angular/material";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
@@ -34,7 +34,10 @@ export class DialogSendNotaComponent implements OnInit {
   loadingIndicator = true;
   reorderable = true;
 
-  isEditable = {};     
+  isEditable = {};   
+  
+  @ViewChild(DialogSendNotaComponent, {static:true}) table: DialogSendNotaComponent;
+
   constructor(
     private fb: FormBuilder,
     private clientservice: ClientService,
@@ -70,6 +73,29 @@ export class DialogSendNotaComponent implements OnInit {
       || d.produto.nome.toLowerCase().indexOf(val) !== -1 || !val)
       return d
     });
+  }
+
+  updateValue(event, cell, rowIndex) {
+    this.editing[rowIndex + '-' + cell] = false;
+    this.rows[this.defaultTab][rowIndex][cell] = event.target.value;
+    this.rows[this.defaultTab][rowIndex]['valor_total'] = this.rows[this.defaultTab][rowIndex][cell] * this.rows[this.defaultTab][rowIndex]['valor_unitario'];
+    this.rows[this.defaultTab] = [...this.rows[this.defaultTab]];
+  }
+  total(T){
+    let result:number = 0;
+    let ipi:number = 0;
+      if(this.rows[this.defaultTab] != undefined)
+        this.rows[this.defaultTab].forEach(element => {
+          result += +element.valor_total;
+        });
+        if(this.rows[this.defaultTab] != undefined)
+        this.rows[this.defaultTab].forEach(element => {
+          ipi += (element.quantidade * (element.valor_unitario * element.ipi))/100;
+        });
+    if(T == 'total')
+    return result;
+    else
+    return result+ipi;
   }
 
   cancel(): void {

@@ -38,7 +38,7 @@
         <input matInput type='text' class="form-control" placeholder='Insira um nome para pesquisar...'
         (keyup)='updateFilter($event)' />
       </mat-form-field>
-      <ngx-datatable 
+      <ngx-datatable #mydatatable
       #step.step 
       class='material striped' 
       [columnMode]="'flex'" 
@@ -69,7 +69,20 @@
 
         <ngx-datatable-column [flexGrow]="1" name="Quantidade" prop="quantidade">
           <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
-            {{ value }}
+            <span
+              title="Double click to edit"
+              (dblclick)="editing[rowIndex + '-quantidade'] = true"
+              *ngIf="!editing[rowIndex + '-quantidade']"
+            >
+              {{ value }}
+            </span>
+            <input
+              autofocus
+              (blur)="updateValue($event, 'quantidade', rowIndex, row)"
+              *ngIf="editing[rowIndex + '-quantidade']"
+              type="text"
+              [value]="value"
+            />
           </ng-template>
         </ngx-datatable-column>
 
@@ -91,3 +104,6 @@
     </mat-tab>
   </mat-tab-group>
 </div>
+
+Valor Total Liquído: {{total('liq') | currency:'BRL':true:'1.2-2'}}<br>
+Valor Total: {{total('total') | currency:'BRL':true:'1.2-2'}}
