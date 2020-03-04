@@ -60,7 +60,9 @@ export class DialogCadastroComponent implements OnInit {
   }
 
     submit(){ 
-      this.clientservice.addProdutosLote(this.form.value.camposForm);
+      this.clientservice.addProdutosLote(this.form.value.camposForm).subscribe((res:any)=>{
+        this.dialogRef.close(res.data);
+      });
     // this.form.value.camposForm.forEach(async element => {
     //   let dados = {
     //     nome : element.nome,

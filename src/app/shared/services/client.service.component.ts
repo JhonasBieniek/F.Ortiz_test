@@ -262,7 +262,7 @@ export class ClientService {
       .post(uri, dados) 
   }
   addProdutosLote(dados) {
-    const uri = `${API_URL}` + `produtos/add.json`;
+    const uri = `${API_URL}` + `produtos/addLote.json`;
      return this
       .http
       .post(uri, dados) 
