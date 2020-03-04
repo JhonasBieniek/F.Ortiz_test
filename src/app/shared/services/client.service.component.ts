@@ -262,7 +262,7 @@ export class ClientService {
       .post(uri, dados) 
   }
   addProdutosLote(dados) {
-    const uri = `${API_URL}` + `produtos/add.json`;
+    const uri = `${API_URL}` + `produtos/addLote.json`;
      return this
       .http
       .post(uri, dados) 
@@ -499,6 +499,12 @@ export class ClientService {
   }
   getRecebimentos(data) {
     const uri = `${API_URL}` + `notas/getRecebimentos.json`;
+    return this
+          .http
+          .post(uri, data);
+  }
+  baixaRecebimentos(data){
+    const uri = `${API_URL}` + `nota-parcelas/baixaRecebimentos.json`;
     return this
           .http
           .post(uri, data);
