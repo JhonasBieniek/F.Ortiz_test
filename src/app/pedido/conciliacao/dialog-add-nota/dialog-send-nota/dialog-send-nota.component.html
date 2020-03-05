@@ -39,15 +39,13 @@
         (keyup)='updateFilter($event)' />
       </mat-form-field>
       <ngx-datatable #mydatatable
-      #step.step 
       class='material striped' 
       [columnMode]="'flex'" 
       [headerHeight]="50" 
       [footerHeight]="50"
       [rowHeight]="'auto'" 
       [limit]="5"
-      [rows]='rows[step.index]'
-      [sorts]="[{prop: 'id', dir: 'asc'}]">
+      [rows]='rows'>
 
         <ngx-datatable-column [flexGrow]="0.4" name="Código" prop="produto.codigo">
           <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
@@ -78,7 +76,7 @@
             </span>
             <input
               autofocus
-              (blur)="updateValue($event, 'quantidade', rowIndex, row)"
+              (blur)="updateValue($event, 'quantidade', rowIndex)"
               *ngIf="editing[rowIndex + '-quantidade']"
               type="text"
               [value]="value"
@@ -88,7 +86,7 @@
 
         <ngx-datatable-column [flexGrow]="1" name="Valor" prop="valor_total">
           <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
-            {{ value | currency:'BRL':true:'1.2-2' }}
+            {{ value | currency : 'R$' }}
           </ng-template>
         </ngx-datatable-column>
 
@@ -104,6 +102,6 @@
     </mat-tab>
   </mat-tab-group>
 </div>
-
-Valor Total Liquído: {{total('liq') | currency:'BRL':true:'1.2-2'}}<br>
-Valor Total: {{total('total') | currency:'BRL':true:'1.2-2'}}
+<br>
+Valor Total Liquído: {{total('total') | currency : 'R$' }}<br>
+Valor Total: {{total('liq') | currency : 'R$' }}

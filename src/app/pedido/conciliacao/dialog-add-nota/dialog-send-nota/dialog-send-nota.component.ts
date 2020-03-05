@@ -60,15 +60,14 @@ export class DialogSendNotaComponent implements OnInit {
 
   refreshTable(){
     this.clientservice.getPedidoProdutos(this.data.id).subscribe((res:any) => {
-      let i = 0;
-      this.temp[i] = res.data;
+      this.temp = res.data.sort((a,b)=> a.id - b.id);
       this.rows = [...this.temp];
     })
   }
 
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
-    this.rows[this.defaultTab] = this.temp[this.defaultTab].filter(d => {
+    this.rows = this.temp.filter(d => {
       if( d.produto.codigo.toLowerCase().indexOf(val) !== -1 || !val 
       || d.produto.nome.toLowerCase().indexOf(val) !== -1 || !val)
       return d
@@ -76,26 +75,31 @@ export class DialogSendNotaComponent implements OnInit {
   }
 
   updateValue(event, cell, rowIndex) {
+    console.log('inline editing rowIndex', rowIndex);
+
     this.editing[rowIndex + '-' + cell] = false;
-    this.rows[this.defaultTab][rowIndex][cell] = event.target.value;
-    this.rows[this.defaultTab][rowIndex]['valor_total'] = this.rows[this.defaultTab][rowIndex][cell] * this.rows[this.defaultTab][rowIndex]['valor_unitario'];
-    this.rows[this.defaultTab] = [...this.rows[this.defaultTab]];
+    this.rows[rowIndex][cell] = event.target.value;
+    this.rows[rowIndex]['valor_total'] = this.rows[rowIndex][cell] * this.rows[rowIndex]['valor_unitario'];
+    this.rows = [...this.rows];
+    console.log('UPDATED!', this.rows[rowIndex][cell]);
+
   }
   total(T){
+
     let result:number = 0;
     let ipi:number = 0;
-      if(this.rows[this.defaultTab] != undefined)
-        this.rows[this.defaultTab].forEach(element => {
+      if(this.rows != undefined)
+        this.rows.forEach(element => {
           result += +element.valor_total;
-        });
-        if(this.rows[this.defaultTab] != undefined)
-        this.rows[this.defaultTab].forEach(element => {
-          ipi += (element.quantidade * (element.valor_unitario * element.ipi))/100;
+        }); 
+      if(this.rows!= undefined)
+        this.rows.forEach(element => {
+          ipi += (element.quantidade * element.valor_unitario * element.ipi)/100;
         });
     if(T == 'total')
     return result;
     else
-    return result+ipi;
+    return result + ipi;
   }
 
   cancel(): void {
