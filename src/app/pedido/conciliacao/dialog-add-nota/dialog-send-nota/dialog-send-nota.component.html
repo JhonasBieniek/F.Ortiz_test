@@ -1,6 +1,9 @@
 <h1 mat-dialog-title style="font-weight: bold;font-size: x-large;" >Cadastrar nota fiscal</h1>
 <div mat-dialog-content>
-  <p>Cadastrar nota fiscal para o pedido: <span style="color: blue;">{{data.num_pedido}}</span></p>
+  <p>
+    Cadastrar nota fiscal para o pedido: <span style="color: blue;">{{data.num_pedido}}</span>
+    <i class="fa fa-pencil button" title="Editar" (click)="edit(pedido);"></i>
+  </p>
   <form [formGroup]="form">
     <div fxLayout="row" fxLayoutWrap="wrap" class="row">
       <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
@@ -38,7 +41,7 @@
         <input matInput type='text' class="form-control" placeholder='Insira um nome para pesquisar...'
         (keyup)='updateFilter($event)' />
       </mat-form-field>
-      <ngx-datatable #mydatatable
+      <ngx-datatable
       class='material striped' 
       [columnMode]="'flex'" 
       [headerHeight]="50" 
@@ -67,20 +70,7 @@
 
         <ngx-datatable-column [flexGrow]="1" name="Quantidade" prop="quantidade">
           <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
-            <span
-              title="Double click to edit"
-              (dblclick)="editing[rowIndex + '-quantidade'] = true"
-              *ngIf="!editing[rowIndex + '-quantidade']"
-            >
-              {{ value }}
-            </span>
-            <input
-              autofocus
-              (blur)="updateValue($event, 'quantidade', rowIndex)"
-              *ngIf="editing[rowIndex + '-quantidade']"
-              type="text"
-              [value]="value"
-            />
+            {{ value }}
           </ng-template>
         </ngx-datatable-column>
 
@@ -95,13 +85,15 @@
             ngx-datatable-cell-template>      
             <i class="fa fa-trash-o button2"
               title="Deletar" 
-              (click)="delete(row)"></i>                         
+              (click)=" row.status = false; delete(row); refreshTable();"></i>                         
           </ng-template>
         </ngx-datatable-column>
+        
       </ngx-datatable>
     </mat-tab>
   </mat-tab-group>
 </div>
 <br>
-Valor Total Liquído: {{total('total') | currency : 'R$' }}<br>
-Valor Total: {{total('liq') | currency : 'R$' }}
+Valor Total Liquído: {{pedido?.valor_total | currency:'BRL':true:'1.2-2'}}
+<br>
+Valor Total: {{pedido?.valor_liquido | currency:'BRL':true:'1.2-2'}}

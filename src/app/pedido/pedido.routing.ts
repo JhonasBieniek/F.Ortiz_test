@@ -13,34 +13,15 @@ export const PedidoRoutes: Routes = [
   {
     path: '',
     children: [{
-      path: 'pedido/listar',
+      path: 'pedidos',
       component: PedidoListarComponent
-    }, 
-    {
-      path: 'pedido/novo',
-      component: Novo2Component
-    },
-    {
-      path: 'pedido/:id/edit',
-      component: Novo2Component
-    },
-    {
-      path: 'pedido/importar',
-      component: Novo2Component
-    },
-    {
-      path: 'orcamento/novo',
-      component: OrcamentoComponent
-    },{
-      path: 'orcamento/:id/edit',
-      component: OrcamentoComponent
     },
     {
       path: 'conciliacao',
       component: ConciliacaoComponent
     },
     {
-      path: 'orcamento/listar',
+      path: 'orcamentos',
       component: OrcListarComponent
     }]
   }

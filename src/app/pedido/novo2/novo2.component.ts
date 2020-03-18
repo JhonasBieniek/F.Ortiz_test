@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, ViewChild, ViewEncapsulation, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { ClientService } from '../../shared/services/client.service.component';
 import { NotificationService } from '../../shared/messages/notification.service';
@@ -6,7 +6,7 @@ import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 import * as XLSX from 'xlsx'
 
 import { OrderItem } from '../order-item.model';
-import { MatDialogConfig, MatDialog, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
+import { MatDialogRef, MatDialogConfig, MatDialog, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MAT_DIALOG_DATA } from '@angular/material';
 import { DialogCadastroComponent } from '../novo/dialog-cadastro/dialog-cadastro.component';
 import { DialogBodyClienteComponent } from '../../cadastro/cliente/dialog-body/dialog-body-cliente.component';
 import { ItemPedido } from '../itemPedido.model';
@@ -91,7 +91,6 @@ export class Novo2Component implements OnInit {
   entrega: any;
   frete: any;
   auxI = 0;
-  dialogRef
   dialogProd: boolean;
   resposta: any;
   selectedAreaVendaID: any;
@@ -461,6 +460,8 @@ export class Novo2Component implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
+    public dialogRef: MatDialogRef<Novo2Component>,
+    @Inject(MAT_DIALOG_DATA) public info: any,
   ) {
     this.clientservice.getRepresentadasFunc().subscribe((res: any) => {
       this.representadas = res.data;
@@ -486,11 +487,11 @@ export class Novo2Component implements OnInit {
   }
 
   private setCurrentAction() {
-    if(this.route.snapshot.url[1].path == "importar"){
+    if(this.info.tipo == "importar"){
       this.currentAction = "importar"
       this.clientSize= 44;
       this.pedidoSize=16;
-    }else if(this.route.snapshot.url[1].path == "novo"){
+    }else if(this.info.tipo == "novo"){
       this.currentAction = "novo"
       this.clientSize= 26;
       this.pedidoSize=12;
@@ -515,9 +516,7 @@ export class Novo2Component implements OnInit {
 
   private loadPedido(){
     if(this.currentAction == 'edit')
-    this.route.paramMap.pipe(
-      switchMap(params => this.clientservice.getPedido(+params.get('id')))
-    )
+    this.clientservice.getPedido(this.info.pedido.id)
     .subscribe(
       (pedido:any) => {
         this.pedidoN = pedido.data;
@@ -551,6 +550,7 @@ export class Novo2Component implements OnInit {
       frete: [null],
       transportadora: [null],
       valor_total: [null, Validators.compose([Validators.required])],
+      valor_liquido: [null],
       comissao_media: [null, Validators.compose([Validators.required])],
       comissao_bruto: [null, Validators.compose([Validators.required])],
       status: [ true, Validators.compose([Validators.required]) ],
@@ -605,7 +605,6 @@ export class Novo2Component implements OnInit {
       embalagem: item.embalagem,
       tamanho: item.tamanho,
       ipi: (item.ipi != null)? parseFloat(item.ipi): 0,//item.ipi,
-      desconto: 0,
       valor_unitario: [item.valorUnitario, Validators.required],
       valor_total: [(item.quantidade * item.valorUnitario), Validators.required],
       comissao_produto: (item.comissao != null)? parseFloat(item.comissao): (this.representada.comissao_padrao != null)? this.representada.comissao_padrao: 0,
@@ -616,7 +615,6 @@ export class Novo2Component implements OnInit {
   setAreaDeVenda(id){
     this.clientservice.getAreaVendaId(id).subscribe((res:any) => {
       if(res.success == true){
-        console.log(res);
         this.form.get('area_venda_id').setValue(res.data.id);
         this.form.get('vendedor_id').setValue(res.data.vendedor_id);
         this.form.get('auxiliar_id').setValue(res.data.auxiliar_id);
@@ -668,11 +666,11 @@ export class Novo2Component implements OnInit {
       data: this.itemsNew
     }
     //if (!this.dialog.openDialogs || !this.dialog.openDialogs.length) return;
-    this.dialogRef = this.dialog.open(
+    let dialogRef = this.dialog.open(
       DialogCadastroComponent,
       dialogConfig,
     );
-    this.dialogRef.afterClosed().subscribe(value => {
+    dialogRef.afterClosed().subscribe(value => {
       console.log(value, "Value retornado")
       value.forEach(element => {
         this.addItem(element)
@@ -729,36 +727,38 @@ export class Novo2Component implements OnInit {
    let total = 0;
    let ipi = 0;
    this.produto.controls.forEach(element => {
-     if(element.get('ipi').value > 0 ){
+    if(element.get('ipi').value > 0 ){
       ipi += (element.get('quantidade').value * element.get('valor_unitario').value * element.get('ipi').value)/100;
-     }
-     total += element.get('quantidade').value * element.get('valor_unitario').value;
+    }
+    total += element.get('quantidade').value * element.get('valor_unitario').value;
    })
-   this.form.get('valor_total').setValue(total);
+   this.form.get('valor_liquido').setValue(total);
+   this.form.get('valor_total').setValue(total+ipi);
    if(tipo == 'total')
-   return total + ipi;
+    return total + ipi;
    else if(tipo == 'ipi')
-   return ipi
+    return ipi
    else
-   return total;
+    return total;
   }
 
   enviarPedido() {
-
-    if(this.currentAction == 'edit')
-    this.clientservice.updatePedido(this.form.value).subscribe( () =>{
-      this.notificationService.notify("Atualizado com Sucesso!")
-    })
-  else
-     this.clientservice.addPedido(this.form.value).subscribe(res => {
-      this.resposta = res
-      if (this.resposta.status == 'success') {
-        this.notificationService.notify(`Pedido Cadastrado com Sucesso!`);
-        setTimeout(() => {this.router.navigate(['pedidos/pedido/listar'])}, 1500);
-      } else {
-        this.notificationService.notify(`Erro contate o Administrador`)
-      }
-    });
+    if(this.currentAction == 'edit'){
+      this.clientservice.updatePedido(this.form.value).subscribe((res:any) =>{
+        this.notificationService.notify("Atualizado com Sucesso!");
+        this.dialogRef.close(res.data);
+      })
+    }else{
+      this.clientservice.addPedido(this.form.value).subscribe((res:any) => {
+        if (res.success == true) {
+          this.notificationService.notify(`Pedido Cadastrado com Sucesso!`);
+          this.dialogRef.close(res.data);
+        } else {
+          this.notificationService.notify(`Erro contate o Administrador`)
+          this.dialogRef.close(res.data);
+        }
+      });
+    }
   }
 
   clearProdutos(){

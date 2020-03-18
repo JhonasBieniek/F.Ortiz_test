@@ -56,7 +56,7 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
   providers: [
     DateFormatPipe,    
   ],
-  entryComponents: [ DialogCadastroComponent, DialogBodyClienteComponent, DialogAddNotaComponent, DialogViewNotaComponent, DialogSendNotaComponent],
+  entryComponents: [ DialogCadastroComponent, DialogBodyClienteComponent, DialogAddNotaComponent, DialogViewNotaComponent, DialogSendNotaComponent, Novo2Component, OrcamentoComponent],
 
 })
 export class PedidoModule { }

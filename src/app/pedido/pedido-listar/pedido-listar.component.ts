@@ -4,6 +4,7 @@ import { MatDialog, MatDialogConfig, DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORM
 import { Router} from '@angular/router';
 import page from './steps.json';
 import { DialogConfirmarDeleteComponent } from '../../cadastro/dialog-confirmar-delete/confirmar-delete.component';
+import { Novo2Component } from '../novo2/novo2.component';
 import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 
 
@@ -28,7 +29,6 @@ export class PedidoListarComponent implements OnInit {
   defaultTab = 0;
   action: string = "pedido";
 
-
   itemSelected
 
   loadingIndicator = true;
@@ -39,7 +39,6 @@ export class PedidoListarComponent implements OnInit {
   @ViewChild(PedidoListarComponent, {static: true}) table: PedidoListarComponent;
   constructor(
     private clientservice: ClientService,
-    private router: Router,
     private dialog: MatDialog) {
       this.loadData()      
   }
@@ -54,8 +53,10 @@ export class PedidoListarComponent implements OnInit {
       this.rows = [...this.temp].sort((a,b)=> a.id - b.id);
     });                     
   }
+
   ngOnInit() {
   }
+
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
     this.rows[this.defaultTab] = this.temp[this.defaultTab].filter(function(d) {
@@ -65,9 +66,30 @@ export class PedidoListarComponent implements OnInit {
       return d
     }); 
   }
-  edit(row){
-    this.router.navigate(['pedidos/pedido/', row.id, 'edit'])
+
+  add(tipo){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = { 
+      tipo: tipo
+    };
+    let dialogRef = this.dialog.open(Novo2Component, dialogConfig);
+    dialogRef.afterClosed().subscribe(value => {
+      this.loadData();
+    })
   }
+
+  edit(row){
+    const dialogConfig = new MatDialogConfig()
+    dialogConfig.data = {
+      tipo: 'edit',
+      pedido: row
+    }
+    let dialogRef = this.dialog.open(Novo2Component, dialogConfig);
+    dialogRef.afterClosed().subscribe(value =>{
+      this.loadData();
+    })
+  }
+
   delete(row){
     const dialogConfig = new MatDialogConfig();
       let tipo = 'pedidos'
@@ -79,12 +101,6 @@ export class PedidoListarComponent implements OnInit {
     );
     dialogRef.afterClosed().subscribe(value => 
       { (value != 1) ? this.loadData() : null });
-    }
-
-  navigate(path){
-    if(path == 'new')
-    this.router.navigate(['pedidos/pedido/novo']);
-    else
-    this.router.navigate(['pedidos/pedido/importar']);
   }
+
 }

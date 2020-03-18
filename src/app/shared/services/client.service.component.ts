@@ -299,7 +299,7 @@ export class ClientService {
       .post(uri, data) 
   }
   updateOrcamento(data): Observable<any>{
-    const url = `${API_URL}prcamentos/edit/${data.id}.json`;
+    const url = `${API_URL}orcamentos/edit/${data.id}.json`;
      return this.http.put(url, data).pipe(
       catchError(this.handleError),
       map(res => {

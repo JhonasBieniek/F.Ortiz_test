@@ -19,14 +19,6 @@
       [selectionType]="'single'"
       (select)='onSelect($event)' 
       [sorts]="[{prop: 'id', dir: 'asc'}]">
-        <ngx-datatable-column  [flexGrow]="0.3" name="Selecionar" [sortable]="false" [draggable]="false">
-          <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
-            <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)" />
-          </ng-template>
-          <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected"let-onCheckboxChangeFn="onCheckboxChangeFn">
-            <input type="checkbox"  [checked]="isSelected" (change)="onCheckboxChangeFn($event)" />
-          </ng-template>
-        </ngx-datatable-column>
         <ngx-datatable-column *ngFor="let column of step.columns"  [flexGrow]=column.width name="{{column.name}}" prop="{{column.prop}}" [ngSwitch]="column.prop">
           <ng-template *ngSwitchCase="'data_entrega'" let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
             {{value |  date:'dd/MM/yyyy'}}

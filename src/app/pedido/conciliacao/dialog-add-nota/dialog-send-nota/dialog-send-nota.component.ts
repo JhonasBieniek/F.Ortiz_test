@@ -1,10 +1,11 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogConfig } from "@angular/material";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
 import { ClientService } from '../../../../shared/services/client.service.component';
 import { NotificationService } from '../../../../shared/messages/notification.service';
 import { DialogConfirmarDeleteComponent } from '../../../../cadastro/dialog-confirmar-delete/confirmar-delete.component';
+import { Novo2Component } from '../../../novo2/novo2.component';
 
 @Component({
   selector: 'app-dialog-send-nota',
@@ -13,7 +14,8 @@ import { DialogConfirmarDeleteComponent } from '../../../../cadastro/dialog-conf
 })
 export class DialogSendNotaComponent implements OnInit {
   public form: FormGroup;
-  dados
+  dados;
+  pedido;
   editing = {};
   rows:any = [];
   temp:any = [];
@@ -36,8 +38,6 @@ export class DialogSendNotaComponent implements OnInit {
 
   isEditable = {};   
   
-  @ViewChild(DialogSendNotaComponent, {static:true}) table: DialogSendNotaComponent;
-
   constructor(
     private fb: FormBuilder,
     private clientservice: ClientService,
@@ -45,7 +45,7 @@ export class DialogSendNotaComponent implements OnInit {
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) { 
-    this.refreshTable();
+    this.loadData();
   }
 
   ngOnInit() {
@@ -58,11 +58,12 @@ export class DialogSendNotaComponent implements OnInit {
     });
   }
 
-  refreshTable(){
-    this.clientservice.getPedidoProdutos(this.data.id).subscribe((res:any) => {
-      this.temp = res.data.sort((a,b)=> a.id - b.id);
+  loadData(){
+    this.clientservice.getPedido(this.data.id).subscribe((res:any) =>{
+      this.pedido = res.data;
+      this.temp = this.pedido.pedido_produtos.sort((a,b)=> a.id - b.id);
       this.rows = [...this.temp];
-    })
+    });
   }
 
   updateFilter(event) {
@@ -74,50 +75,12 @@ export class DialogSendNotaComponent implements OnInit {
     });
   }
 
-  updateValue(event, cell, rowIndex) {
-    console.log('inline editing rowIndex', rowIndex);
-
-    this.editing[rowIndex + '-' + cell] = false;
-    this.rows[rowIndex][cell] = event.target.value;
-    this.rows[rowIndex]['valor_total'] = this.rows[rowIndex][cell] * this.rows[rowIndex]['valor_unitario'];
-    this.rows = [...this.rows];
-    console.log('UPDATED!', this.rows[rowIndex][cell]);
-
-  }
-  total(T){
-
-    let result:number = 0;
-    let ipi:number = 0;
-      if(this.rows != undefined)
-        this.rows.forEach(element => {
-          result += +element.valor_total;
-        }); 
-      if(this.rows!= undefined)
-        this.rows.forEach(element => {
-          ipi += (element.quantidade * element.valor_unitario * element.ipi)/100;
-        });
-    if(T == 'total')
-    return result;
-    else
-    return result + ipi;
-  }
-
   cancel(): void {
     this.dialogRef.close();
   }
 
   delete(row){
-    const dialogConfig = new MatDialogConfig();
-      let tipo = 'pedido-produtos'
-      dialogConfig.data = row;
-      dialogConfig.data.nome = row.produto.nome;
-      dialogConfig.data.tipo = tipo;
-      let dialogRef = this.dialog.open(DialogConfirmarDeleteComponent,
-      dialogConfig   
-    );
-    dialogRef.afterClosed().subscribe(value => {
-      (value != 1) ? this.refreshTable() : null
-    });
+    console.log(row);
   }
 
   save(): void {
@@ -126,5 +89,16 @@ export class DialogSendNotaComponent implements OnInit {
     });
   }
 
+  edit(row){
+    const dialogConfig = new MatDialogConfig()
+    dialogConfig.data = {
+      tipo: 'edit',
+      pedido: row
+    }
+    let dialogRef = this.dialog.open(Novo2Component, dialogConfig);
+    dialogRef.afterClosed().subscribe(value =>{
+      this.loadData();
+    })
+  }
 
 }

@@ -1,11 +1,11 @@
-import { Component, OnInit, Input, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, ViewChild, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { ClientService } from '../../shared/services/client.service.component';
 import { NotificationService } from '../../shared/messages/notification.service';
 
 import { OrderItem } from '../order-item.model';
 import { ShoppingCartComponent } from '../shopping-cart/shopping-cart.component';
-import { MatDialog, MatDialogConfig, MatDatepickerInputEvent } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatDatepickerInputEvent, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ItemPedido } from '../itemPedido.model';
 
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
@@ -92,6 +92,9 @@ export class OrcamentoComponent implements OnInit {
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private router: Router,
+    public dialogRef: MatDialogRef<OrcamentoComponent>,
+    @Inject(MAT_DIALOG_DATA) public info: any,
+
   ) {
     this.clientservice.getRepresentadas().subscribe((res:any) => {
       this.representadas = res.data;
@@ -111,6 +114,7 @@ export class OrcamentoComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
+      id: [null],
       representada_id: [null, Validators.compose([Validators.required])],
       cliente_id: [null, Validators.compose([Validators.required])],
       data_emissao: [null, Validators.compose([Validators.required])],
@@ -138,11 +142,8 @@ export class OrcamentoComponent implements OnInit {
 
   private loadOrcamento(){
     console.log(this.currentAction)
-
     if(this.currentAction == 'edit')
-    this.route.paramMap.pipe(
-      switchMap(params => this.clientservice.getOrcamento(+params.get('id')))
-    )
+    this.clientservice.getOrcamento(this.info.orcamento.id)
     .subscribe(
       (orcamento:any) => {
         console.log(orcamento)
@@ -157,7 +158,7 @@ export class OrcamentoComponent implements OnInit {
   }
 
   private setCurrentAction() {
-    if(this.route.snapshot.url[1].path == "novo"){
+    if(this.info.tipo == "novo"){
       this.currentAction = "novo"
     }else{
       this.currentAction = "edit"
@@ -211,7 +212,6 @@ export class OrcamentoComponent implements OnInit {
       quantidade: [item.quantidade, Validators.required],
       tamanho: item.tamanho,
       ipi: item.ipi,
-      desconto: item.desconto,
       valor_unitario: [item.valorUnitario, Validators.required],
       valor_total:[(item.quantidade * item.valorUnitario), Validators.required],
       obs: ''
@@ -264,16 +264,22 @@ export class OrcamentoComponent implements OnInit {
    }
 
   enviarPedido() {
-    console.log(this.form.value);
-    this.clientservice.addOrcamento(this.form.value).subscribe(res => {
-      this.resposta = res
-      if (this.resposta.status == 'success') {
-        this.notificationService.notify(`Orçamento Cadastrado com Sucesso!`);
-        setTimeout(() => { this.router.navigate(['/pedidos/orcamento/listar']) }, 1500);
-      } else {
-        this.notificationService.notify(`Erro contate o Administrador`)
-      }
-    });
+    if(this.currentAction == 'edit'){
+      this.clientservice.updateOrcamento(this.form.value).subscribe((res:any) =>{
+        this.notificationService.notify("Atualizado com Sucesso!");
+        this.dialogRef.close(res.data);
+      })
+    }else{
+      this.clientservice.addOrcamento(this.form.value).subscribe((res:any) => {
+        if (res.status == 'success') {
+          this.notificationService.notify(`Orçamento Cadastrado com Sucesso!`);
+          this.dialogRef.close(res.data);
+        } else {
+          this.notificationService.notify(`Erro contate o Administrador`);
+          this.dialogRef.close(res.data);
+        }
+      });
+    }
   }
 
   clearProdutos(){

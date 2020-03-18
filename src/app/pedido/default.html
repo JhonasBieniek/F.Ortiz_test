@@ -5,10 +5,10 @@
         <mat-card-title style="font-weight: bold;font-size: x-large;">{{page.titulo}}</mat-card-title>
         <mat-card-actions align="end">
           <div class="button-row">
-            <button mat-raised-button color="primary" type="button" (click)="navigate('new')">
+            <button mat-raised-button color="primary" type="button" (click)="add('novo')">
               <mat-icon class="example-icon">add_box</mat-icon> {{page.add.titulo}}
             </button>
-            <button *ngIf="page.import?.titulo != undefined" mat-raised-button color="warn" type="button" (click)="navigate('import')">
+            <button *ngIf="page.import?.titulo != undefined" mat-raised-button color="warn" type="button" (click)="add('importar')">
               <mat-icon class="example-icon">add_box</mat-icon> {{page.import.titulo}}
             </button>
           </div> 
@@ -135,8 +135,7 @@
                 </ngx-datatable-column> 
 
                 <ngx-datatable-column [flexGrow]="0.8" name="Ações">
-                  <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex"
-                    ngx-datatable-cell-template>      
+                  <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>      
                     <i class="fa fa-pencil button" 
                       title="Editar" 
                       (click)="edit(row);"></i>

@@ -1,246 +1,250 @@
-<!-- ============================================================== -->
-<!-- row -->
-<!-- ============================================================== -->
-<input type="file" style="display: none" (change)="incomingfile($event)" accept=".xlsx,.xls" #hiddenfileinput >
-<div fxLayout="row wrap">
-  <!-- Card column -->
-  <div fxFlex.gt-sm="100%" fxFlex="100">
-    <mat-card>
-      <mat-card-content>
-        <form [formGroup]="form" class="form">
-          <div fxLayout="row" fxLayoutAlign="left center" class="row">
-            <div class="p-10" fxFlex.gt-sm="35" fxFlex.gt-md="35" fxFlex.gt-xs="35" fxFlex="100">
-              <mat-card-title>{{pageTitle}}</mat-card-title>
+<div mat-dialog-content>
+  <!-- ============================================================== -->
+  <!-- row -->
+  <!-- ============================================================== -->
+  <input type="file" style="display: none" (change)="incomingfile($event)" accept=".xlsx,.xls" #hiddenfileinput >
+  <div fxLayout="row wrap">
+    <!-- Card column -->
+    <div fxFlex.gt-sm="100%" fxFlex="100">
+      <mat-card>
+        <mat-card-content>
+          <form [formGroup]="form" class="form">
+            <div fxLayout="row" fxLayoutAlign="left center" class="row">
+              <div class="p-10" fxFlex.gt-sm="35" fxFlex.gt-md="35" fxFlex.gt-xs="35" fxFlex="100">
+                <mat-card-title>{{pageTitle}}</mat-card-title>
+              </div>
+              <div *ngIf="this.currentAction == 'importar'" class="p-10 select" fxFlex.gt-sm="30" fxFlex.gt-md="30" fxFlex.gt-xs="30" fxFlex="30">
+                <mat-form-field appearance="outline">
+                  <mat-label  class="select">{{selectRepresentada}}</mat-label>
+                  <mat-select formControlName="representada_id">
+                    <mat-option *ngFor="let rep of representadas" [value]="rep.id" (click)="hiddenfileinput.click(rep.func); representada=rep">{{rep.nome_fantasia}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div> 
             </div>
-            <div *ngIf="this.currentAction == 'importar'" class="p-10 select" fxFlex.gt-sm="30" fxFlex.gt-md="30" fxFlex.gt-xs="30" fxFlex="30">
-              <mat-form-field appearance="outline">
-                <mat-label  class="select">{{selectRepresentada}}</mat-label>
-                <mat-select formControlName="representada_id">
-                  <mat-option *ngFor="let rep of representadas" [value]="rep.id" (click)="hiddenfileinput.click(rep.func); representada=rep">{{rep.nome_fantasia}}</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div> 
-          </div>
-          <mat-card-subtitle class="sub-title">--Dados do Pedido--</mat-card-subtitle>
-          <div fxLayout="row wrap" class="row">
-            <div class="p-10" fxFlex.gt-sm={{pedidoSize}} fxFlex.gt-xs={{pedidoSize}} fxFlex="100">
-              <mat-form-field appearance="outline">
-                <mat-label>Nº Pedido</mat-label>
-                <input matInput placeholder="Nº Pedido" formControlName="num_pedido">
-              </mat-form-field>
-            </div>
-            <div class="p-10" *ngIf="this.currentAction == 'novo' || this.currentAction == 'edit'" fxFlex.gt-sm="22" fxFlex.gt-xs="2" fxFlex="100">
-              <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
-                [floatLabel]="form.value.floatLabel">
-                <mat-label>Representada.</mat-label>
-                <mat-select required formControlName="representada_id">
-                  <mat-option *ngFor="let rep of representadas" [value]="rep.id"
-                    (click)="representada=rep; CarregarProdutosRepresentada()">
-                    {{rep.razao_social}}
-                  </mat-option>
-                </mat-select>
-                <mat-placeholder>Representada</mat-placeholder>
-              </mat-form-field>
-            </div>
+            <mat-card-subtitle class="sub-title">--Dados do Pedido--</mat-card-subtitle>
+            <div fxLayout="row wrap" class="row">
+              <div class="p-10" fxFlex.gt-sm={{pedidoSize}} fxFlex.gt-xs={{pedidoSize}} fxFlex="100">
+                <mat-form-field appearance="outline">
+                  <mat-label>Nº Pedido</mat-label>
+                  <input matInput placeholder="Nº Pedido" formControlName="num_pedido">
+                </mat-form-field>
+              </div>
+              <div class="p-10" *ngIf="this.currentAction == 'novo' || this.currentAction == 'edit'" fxFlex.gt-sm="22" fxFlex.gt-xs="2" fxFlex="100">
+                <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+                  [floatLabel]="form.value.floatLabel">
+                  <mat-label>Representada.</mat-label>
+                  <mat-select required formControlName="representada_id">
+                    <mat-option *ngFor="let rep of representadas" [value]="rep.id"
+                      (click)="representada=rep; CarregarProdutosRepresentada()">
+                      {{rep.razao_social}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-placeholder>Representada</mat-placeholder>
+                </mat-form-field>
+              </div>
 
-            <div class="p-10" fxFlex.gt-sm={{clientSize}} fxFlex.gt-xs={{clientSize}}  fxFlex="100">
-              <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
-                [floatLabel]="form.value.floatLabel">
-                <mat-label>Cliente</mat-label>
-                <mat-select formControlName="cliente_id">
-                  <mat-option *ngFor="let cliente of clientes" [value]="cliente.id" (click)="setAreaDeVenda(cliente.area_venda_id)">
-                    {{cliente.razao_social}}
-                  </mat-option>
-                </mat-select>
-                <mat-placeholder>Cliente</mat-placeholder>
-              </mat-form-field>
-            </div>
+              <div class="p-10" fxFlex.gt-sm={{clientSize}} fxFlex.gt-xs={{clientSize}}  fxFlex="100">
+                <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+                  [floatLabel]="form.value.floatLabel">
+                  <mat-label>Cliente</mat-label>
+                  <mat-select formControlName="cliente_id">
+                    <mat-option *ngFor="let cliente of clientes" [value]="cliente.id" (click)="setAreaDeVenda(cliente.area_venda_id)">
+                      {{cliente.razao_social}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-placeholder>Cliente</mat-placeholder>
+                </mat-form-field>
+              </div>
 
-            <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="50">
-              <mat-form-field appearance="outline" >
-                <mat-label>Data de Emissão</mat-label>
-                <input matInput  (dateInput)="updateDate('data_emissao', $event)" [matDatepicker]="pickerEmissao"
-                formControlName="data_emissao" placeholder="Data Emissao">
-                <mat-datepicker-toggle matSuffix [for]="pickerEmissao"></mat-datepicker-toggle>
-                <mat-datepicker #pickerEmissao ></mat-datepicker>
-              </mat-form-field>
-            </div>
+              <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="50">
+                <mat-form-field appearance="outline" >
+                  <mat-label>Data de Emissão</mat-label>
+                  <input matInput  (dateInput)="updateDate('data_emissao', $event)" [matDatepicker]="pickerEmissao"
+                  formControlName="data_emissao" placeholder="Data Emissao">
+                  <mat-datepicker-toggle matSuffix [for]="pickerEmissao"></mat-datepicker-toggle>
+                  <mat-datepicker #pickerEmissao ></mat-datepicker>
+                </mat-form-field>
+              </div>
 
-            <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="50">
-              <mat-form-field appearance="outline">
-                <mat-label>Data de Entrega</mat-label>
-                <input matInput (dateInput)="updateDate('data_emissao', $event)" [matDatepicker]="pickerEntrega" formControlName="data_entrega" placeholder="Data Programada">
-                <mat-datepicker-toggle matSuffix [for]="pickerEntrega"></mat-datepicker-toggle>
-                <mat-datepicker #pickerEntrega></mat-datepicker>
-              </mat-form-field>
-            </div>
+              <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="50">
+                <mat-form-field appearance="outline">
+                  <mat-label>Data de Entrega</mat-label>
+                  <input matInput (dateInput)="updateDate('data_emissao', $event)" [matDatepicker]="pickerEntrega" formControlName="data_entrega" placeholder="Data Programada">
+                  <mat-datepicker-toggle matSuffix [for]="pickerEntrega"></mat-datepicker-toggle>
+                  <mat-datepicker #pickerEntrega></mat-datepicker>
+                </mat-form-field>
+              </div>
 
-            <div class="p-10 pad" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="20">
-              <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
-                [floatLabel]="form.value.floatLabel">
-                <mat-label>Cond. comercial</mat-label>
-                <mat-select formControlName="condicao_comercial_id">
-                  <mat-option *ngFor="let condComercial of condComerciais" [value]="condComercial.id">
-                    {{condComercial.nome}}
-                  </mat-option>
-                </mat-select>
-                <mat-placeholder>Condição Comercial</mat-placeholder>
-              </mat-form-field>
-              <div style="font-size: 9px; margin-top: -15px; color:red">{{condComercial}}</div>
-            </div>
-            
-            <div class="p-10 pad" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="50">
-              <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
-                [floatLabel]="form.value.floatLabel">
-                <mat-label>Área de venda</mat-label>
-                <mat-select formControlName="area_venda_id">
-                  <mat-option *ngFor="let area of areas" [value]="area.id" (click)="setAreaDeVenda(area.id)">
-                    {{area.nome}}
-                  </mat-option>
-                </mat-select>
-                <mat-placeholder>Região</mat-placeholder>
-              </mat-form-field>
-            </div>
+              <div class="p-10 pad" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="20">
+                <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+                  [floatLabel]="form.value.floatLabel">
+                  <mat-label>Cond. comercial</mat-label>
+                  <mat-select formControlName="condicao_comercial_id">
+                    <mat-option *ngFor="let condComercial of condComerciais" [value]="condComercial.id">
+                      {{condComercial.nome}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-placeholder>Condição Comercial</mat-placeholder>
+                </mat-form-field>
+                <div style="font-size: 9px; margin-top: -15px; color:red">{{condComercial}}</div>
+              </div>
+              
+              <div class="p-10 pad" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="50">
+                <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+                  [floatLabel]="form.value.floatLabel">
+                  <mat-label>Área de venda</mat-label>
+                  <mat-select formControlName="area_venda_id">
+                    <mat-option *ngFor="let area of areas" [value]="area.id" (click)="setAreaDeVenda(area.id)">
+                      {{area.nome}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-placeholder>Região</mat-placeholder>
+                </mat-form-field>
+              </div>
 
-            <div class="p-10 pad" fxFlex.gt-sm="60" fxFlex.gt-xs="60" fxFlex="50">
-              <mat-form-field appearance="outline">
-                <input matInput placeholder="Observação" formControlName="obs">
-              </mat-form-field>
-            </div>
+              <div class="p-10 pad" fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="50">
+                <mat-form-field appearance="outline">
+                  <input matInput placeholder="Desconto" formControlName="desconto">
+                </mat-form-field>
+              </div>
 
-            <div class="p-10" style="margin-top:-15px; margin-right: -10px" fxFlex.gt-sm="30" fxFlex.gt-xs="30"
-              fxFlex="100">
-              <label class="m-r-10">Frete :</label>
-              <mat-radio-group formControlName="frete" >
-                <mat-radio-button value="Representada" class="m-r-10">Representada</mat-radio-button>
-                <mat-radio-button value="Cliente">Cliente</mat-radio-button>
-              </mat-radio-group>
-            </div>
+              <div class="p-10 pad" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="50">
+                <mat-form-field appearance="outline">
+                  <input matInput placeholder="Observação" formControlName="obs">
+                </mat-form-field>
+              </div>
 
-            <div class="p-10 pad" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
-              <mat-form-field appearance="outline">
-                <mat-label>Transportadora</mat-label>
-                <input matInput placeholder="Insira a transportadora" formControlName="transportadora">
-              </mat-form-field>
-            </div>
+              <div class="p-10" style="margin-top:-15px; margin-right: -10px" fxFlex.gt-sm="30" fxFlex.gt-xs="30"
+                fxFlex="100">
+                <label class="m-r-10">Frete :</label>
+                <mat-radio-group formControlName="frete" >
+                  <mat-radio-button value="Representada" class="m-r-10">Representada</mat-radio-button>
+                  <mat-radio-button value="Cliente">Cliente</mat-radio-button>
+                </mat-radio-group>
+              </div>
 
-            <div class="p-10" fxFlex.gt-sm="5" fxFlex.gt-xs="5" fxFlex="15">
-            </div>
+              <div class="p-10 pad" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
+                <mat-form-field appearance="outline">
+                  <mat-label>Transportadora</mat-label>
+                  <input matInput placeholder="Insira a transportadora" formControlName="transportadora">
+                </mat-form-field>
+              </div>
 
-            <div class="p-10" style="margin-top:-15px; margin-right: 10px" fxFlex.gt-sm="15" fxFlex.gt-xs="15"
-              fxFlex="15">
-              <section>
-                <mat-checkbox [(ngModel)]="checked" [ngModelOptions]="{standalone: true}">Pedido Programado
-                </mat-checkbox>
-              </section>
-            </div>
-            <div *ngIf="checked" class="p-10 pad" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="50">
-              <mat-form-field appearance="outline">
-                <mat-label>Data Programada</mat-label>
-                <input matInput (dateInput)="updateDate('data_emissao', $event)" [matDatepicker]="picker" formControlName="data_programada"
-                  placeholder="Data Programada">
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-              </mat-form-field>
-            </div>
+              <div class="p-10" fxFlex.gt-sm="5" fxFlex.gt-xs="5" fxFlex="15">
+              </div>
 
-          </div>
-          <div fxLayout="row wrap">
-            <div fxFlex.gt-sm="100%" fxFlex="100">
-              <mat-card-subtitle class="sub-title">--Selecione o Produto--</mat-card-subtitle>
-              <mat-form-field>
-                <input matInput type='text' class="form-control" placeholder='Digite para filtrar...'
-                  (keyup)='updateFilter($event)' />
-              </mat-form-field>
-              <ngx-datatable #table class='material' [columns]="columns" [columnMode]="'force'" [headerHeight]="50"
-                [footerHeight]="50" [rowHeight]="'auto'" [limit]="5" [rows]='rows' [loadingIndicator]="loadingIndicator"
-                [selected]="selected" [selectionType]="'single'" (select)='onSelect($event)'>
-              </ngx-datatable>
+              <div class="p-10" style="margin-top:-15px; margin-right: 10px" fxFlex.gt-sm="15" fxFlex.gt-xs="15"
+                fxFlex="15">
+                <section>
+                  <mat-checkbox [(ngModel)]="checked" [ngModelOptions]="{standalone: true}">Pedido Programado
+                  </mat-checkbox>
+                </section>
+              </div>
+              <div *ngIf="checked" class="p-10 pad" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="50">
+                <mat-form-field appearance="outline">
+                  <mat-label>Data Programada</mat-label>
+                  <input matInput (dateInput)="updateDate('data_emissao', $event)" [matDatepicker]="picker" formControlName="data_programada"
+                    placeholder="Data Programada">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </div>
+
             </div>
-            <div formArrayName="pedido_produtos">
-              <div *ngFor="let produto of form.get('pedido_produtos').controls; index as i" [formGroupName]="i">
-                <div class="title"> {{produto.get('codigo').value}} - {{produto.get('nome').value | slice:0:55}} | 
-                  <button (click)="removeItem(i)" mat-icon-button color="warn">
-                    <mat-icon>clear</mat-icon>
-                  </button>
-                </div>
-                <ng-container>
-                  <div fxLayout="row wrap">
-                    <mat-form-field fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="10" appearance="outline">
-                      <mat-label>Qtd.</mat-label>
-                      <input matInput placeholder="Qtd" formControlName="quantidade" (blur)="setTotal(i)" >
-                    </mat-form-field>
-                    <mat-form-field fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="20" appearance="outline">
-                      <mat-label>Unidade</mat-label>
-                      <input matInput placeholder="Unidade" formControlName="unidade" >
-                    </mat-form-field>
-                    <mat-form-field fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="20" appearance="outline">
-                      <mat-label>Embalagem</mat-label>
-                      <input matInput placeholder="Embalagem" formControlName="embalagem" >
-                    </mat-form-field>
-                    <mat-form-field fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="10" appearance="outline">
-                      <mat-label>IPI</mat-label>
-                      <input matInput placeholder="IPI" formControlName="ipi" mask="percent" suffix="%"
-                        >
-                    </mat-form-field>
-                    <mat-form-field fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="10" appearance="outline">
-                      <mat-label>Desconto</mat-label>
-                      <input matInput placeholder="Desconto" formControlName="desconto" mask="percent" suffix="%"
-                        >
-                    </mat-form-field>
-                    <mat-form-field fxFlex.gt-sm="15" fxFlex.gt-xs="13" fxFlex="13" appearance="outline">
-                      <mat-label>Valor Unit.</mat-label>
-                      <input matInput placeholder="Valor Unit." formControlName="valor_unitario" (blur)="setTotal(i)" currencyMask
-                        >
-                    </mat-form-field>
-                    <mat-form-field fxFlex.gt-sm="13" fxFlex.gt-xs="13" fxFlex="13" appearance="outline">
-                      <mat-label>Comissão</mat-label>
-                      <input matInput placeholder="Comissão" formControlName="comissao_produto" mask="percent" suffix="%"
-                        >
-                    </mat-form-field>
-                    <mat-form-field fxFlex.gt-sm="14" fxFlex.gt-xs="14" fxFlex="14" appearance="outline">
-                      <mat-label>Tamanho</mat-label>
-                      <input matInput placeholder="Tamanho" formControlName="tamanho" >
-                    </mat-form-field>
-                    <mat-form-field fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="15" appearance="outline">
-                      <mat-label>Vlr total</mat-label>
-                      <input matInput placeholder="Vlr total" currencyMask formControlName="valor_total" >
-                    </mat-form-field>
-                    <mat-form-field fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="70" appearance="outline">
-                      <mat-label>Observação</mat-label>
-                      <input matInput placeholder="Observação" formControlName="obs" >
-                    </mat-form-field>
+            <div fxLayout="row wrap">
+              <div fxFlex.gt-sm="100%" fxFlex="100">
+                <mat-card-subtitle class="sub-title">--Selecione o Produto--</mat-card-subtitle>
+                <mat-form-field>
+                  <input matInput type='text' class="form-control" placeholder='Digite para filtrar...'
+                    (keyup)='updateFilter($event)' />
+                </mat-form-field>
+                <ngx-datatable #table class='material' [columns]="columns" [columnMode]="'force'" [headerHeight]="50"
+                  [footerHeight]="50" [rowHeight]="'auto'" [limit]="5" [rows]='rows' [loadingIndicator]="loadingIndicator"
+                  [selected]="selected" [selectionType]="'single'" (select)='onSelect($event)'>
+                </ngx-datatable>
+              </div>
+              <div formArrayName="pedido_produtos">
+                <div *ngFor="let produto of form.get('pedido_produtos').controls; index as i" [formGroupName]="i">
+                  <div class="title"> {{produto.get('codigo').value}} - {{produto.get('nome').value | slice:0:55}} | 
+                    <button (click)="removeItem(i)" mat-icon-button color="warn">
+                      <mat-icon>clear</mat-icon>
+                    </button>
                   </div>
-                </ng-container>
-              </div>
-              <div *ngIf="form.get('pedido_produtos').controls.length > 0" fxLayoutAlign="end center" >
-                <button mat-button color="warn" (click)="clearProdutos()"><i class="material-icons">delete_outline</i>Limpar</button>
+                  <ng-container>
+                    <div fxLayout="row wrap">
+                      <mat-form-field fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="12" appearance="outline">
+                        <mat-label>Qtd.</mat-label>
+                        <input matInput placeholder="Qtd" formControlName="quantidade" (blur)="setTotal(i)" >
+                      </mat-form-field>
+                      <mat-form-field fxFlex.gt-sm="22" fxFlex.gt-xs="22" fxFlex="22" appearance="outline">
+                        <mat-label>Unidade</mat-label>
+                        <input matInput placeholder="Unidade" formControlName="unidade" >
+                      </mat-form-field>
+                      <mat-form-field fxFlex.gt-sm="22" fxFlex.gt-xs="22" fxFlex="22" appearance="outline">
+                        <mat-label>Embalagem</mat-label>
+                        <input matInput placeholder="Embalagem" formControlName="embalagem" >
+                      </mat-form-field>
+                      <mat-form-field fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="12" appearance="outline">
+                        <mat-label>IPI</mat-label>
+                        <input matInput placeholder="IPI" formControlName="ipi" mask="percent" suffix="%"
+                          >
+                      </mat-form-field>
+                      <mat-form-field fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="15" appearance="outline">
+                        <mat-label>Valor Unit.</mat-label>
+                        <input matInput placeholder="Valor Unit." formControlName="valor_unitario" (blur)="setTotal(i)" currencyMask
+                          >
+                      </mat-form-field>
+                      <mat-form-field fxFlex.gt-sm="16" fxFlex.gt-xs="16" fxFlex="16" appearance="outline">
+                        <mat-label>Comissão</mat-label>
+                        <input matInput placeholder="Comissão" formControlName="comissao_produto" mask="percent" suffix="%"
+                          >
+                      </mat-form-field>
+                      <mat-form-field fxFlex.gt-sm="14" fxFlex.gt-xs="14" fxFlex="14" appearance="outline">
+                        <mat-label>Tamanho</mat-label>
+                        <input matInput placeholder="Tamanho" formControlName="tamanho" >
+                      </mat-form-field>
+                      <mat-form-field fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="15" appearance="outline">
+                        <mat-label>Vlr total</mat-label>
+                        <input matInput placeholder="Vlr total" currencyMask formControlName="valor_total" >
+                      </mat-form-field>
+                      <mat-form-field fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="70" appearance="outline">
+                        <mat-label>Observação</mat-label>
+                        <input matInput placeholder="Observação" formControlName="obs" >
+                      </mat-form-field>
+                    </div>
+                  </ng-container>
+                </div>
+                <div *ngIf="form.get('pedido_produtos').controls.length > 0" fxLayoutAlign="end center" >
+                  <button mat-button color="warn" (click)="clearProdutos()"><i class="material-icons">delete_outline</i>Limpar</button>
+                </div>
               </div>
             </div>
+          </form>
+          
+          <div *ngIf="valorTotal() != 0" style="margin-top: -40px; color: black; text-align: left;">
+            <tr>
+              <th style="color: red;">Valor Total Nota: {{valorTotal('total') | currency:'BRL':true:'1.2-2'}}</th>
+            </tr>
+            <tr>
+              <th style="color: rgb(199, 97, 97);">Valor Líquido Nota: {{valorTotal('liq') | currency:'BRL':true:'1.2-2'}}</th>
+            </tr>
+            <tr>
+              <th>IPI: {{valorTotal('ipi') | currency:'BRL':true:'1.2-2'}}</th>
+            </tr>
+            <tr>
+              <th>Comissão Média: {{comissaoMedia()}}%</th>
+            </tr>
+            <tr>
+              <th>Comissão Bruta: {{comissaoBruta() | currency:'BRL':true:'1.2-2'}}</th>
+            </tr>
           </div>
-        </form>
-        
-        <div *ngIf="valorTotal() != 0" style="margin-top: -40px; color: black; text-align: left;">
-          <tr>
-            <th style="color: red;">Valor Total Nota: {{valorTotal('total') | currency:'BRL':true:'1.2-2'}}</th>
-          </tr>
-          <tr>
-            <th style="color: rgb(199, 97, 97);">Valor Líquido Nota: {{valorTotal('liq') | currency:'BRL':true:'1.2-2'}}</th>
-          </tr>
-          <tr>
-            <th>IPI: {{valorTotal('ipi') | currency:'BRL':true:'1.2-2'}}</th>
-          </tr>
-          <tr>
-            <th>Comissão Média: {{comissaoMedia()}}%</th>
-          </tr>
-          <tr>
-            <th>Comissão Bruta: {{comissaoBruta() | currency:'BRL':true:'1.2-2'}}</th>
-          </tr>
-        </div>
-        <div style="margin-top: 20px; margin-left:5px">
-          <button mat-stroked-button color="primary" (click)="enviarPedido()" [disabled]="!form.valid">Finalizar</button>
-        </div>
-      </mat-card-content>
-    </mat-card>
+          <div style="margin-top: 20px; margin-left:5px">
+            <button mat-stroked-button color="primary" (click)="enviarPedido()" [disabled]="!form.valid">Finalizar</button>
+            <button mat-stroked-button color="warn" (click)="dialogRef.close()" >Cancelar</button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
   </div>
 </div>

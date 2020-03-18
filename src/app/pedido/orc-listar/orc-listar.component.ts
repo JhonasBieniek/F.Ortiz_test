@@ -3,6 +3,7 @@ import { ClientService } from '../../shared/services/client.service.component';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { Router, ActivatedRoute} from '@angular/router';
 import page from './steps.json';
+import { OrcamentoComponent } from '../orcamento/orcamento.component';
 import { DialogConfirmarDeleteComponent } from '../../cadastro/dialog-confirmar-delete/confirmar-delete.component';
 
 @Component({
@@ -52,7 +53,15 @@ export class OrcListarComponent implements OnInit {
   ngOnInit() {
   }
   edit(row){
-    this.router.navigate(['pedidos/orcamento/', row.id, 'edit'])
+    const dialogConfig = new MatDialogConfig()
+    dialogConfig.data = {
+      tipo: 'edit',
+      orcamento: row
+    }
+    let dialogRef = this.dialog.open(OrcamentoComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(value =>{
+      this.loadData();
+    })
   }
   delete(row){
     const dialogConfig = new MatDialogConfig();
@@ -76,8 +85,15 @@ export class OrcListarComponent implements OnInit {
       return d
     }); 
   }
-  navigate(path){
-    this.router.navigate(['/pedidos/orcamento/novo']);
+  add(tipo){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = { 
+      tipo: tipo
+    };
+    let dialogRef = this.dialog.open(OrcamentoComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(value => {
+      this.loadData();
+    })
   }
 
 }

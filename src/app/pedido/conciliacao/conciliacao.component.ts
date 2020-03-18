@@ -53,7 +53,7 @@ export class ConciliacaoComponent implements OnInit {
     });                     
   }
 
-  navigate(path){
+  add(path){
     this.openDialog()
   }
   
