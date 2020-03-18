@@ -79,15 +79,6 @@
             {{ value | currency : 'R$' }}
           </ng-template>
         </ngx-datatable-column>
-
-        <ngx-datatable-column [flexGrow]="0.8" name="Ações">
-          <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex"
-            ngx-datatable-cell-template>      
-            <i class="fa fa-trash-o button2"
-              title="Deletar" 
-              (click)=" row.status = false; delete(row); refreshTable();"></i>                         
-          </ng-template>
-        </ngx-datatable-column>
         
       </ngx-datatable>
     </mat-tab>
