@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule} from '@angular/common';
+
 import { ListarComponent } from './listar/listar.component';
 import { NovoComponent } from './novo/novo.component';
 import { PedidoRoutes } from './pedido.routing';
@@ -32,6 +33,14 @@ import { DialogAddNotaComponent } from './conciliacao/dialog-add-nota/dialog-add
 import { DialogSendNotaComponent } from './conciliacao/dialog-add-nota/dialog-send-nota/dialog-send-nota.component';
 import { DialogViewNotaComponent } from './conciliacao/dialog-view-nota/dialog-view-nota.component';
 
+import {
+  MAT_MOMENT_DATE_FORMATS,
+  MomentDateAdapter,
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+} from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core'; 
+
+
 export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
 
 @NgModule({
@@ -54,7 +63,14 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
   ],
   declarations: [ListarComponent, NovoComponent, ItensPedidoComponent, ShoppingCartComponent, DialogCadastroComponent, Novo2Component, OrcamentoComponent, ConciliacaoComponent, OrcListarComponent, PedidoListarComponent, DialogAddNotaComponent, DialogSendNotaComponent, DialogViewNotaComponent],
   providers: [
-    DateFormatPipe,    
+    DateFormatPipe,
+    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
   ],
   entryComponents: [ DialogCadastroComponent, DialogBodyClienteComponent, DialogAddNotaComponent, DialogViewNotaComponent, DialogSendNotaComponent, Novo2Component, OrcamentoComponent],
 

@@ -1,42 +1,23 @@
-import { Component, OnInit, Input, EventEmitter, Output, ViewChild, ViewEncapsulation, Inject } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, ViewChild, ViewEncapsulation, Inject, LOCALE_ID } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { ClientService } from '../../shared/services/client.service.component';
 import { NotificationService } from '../../shared/messages/notification.service';
-import {MatDatepickerInputEvent} from '@angular/material/datepicker';
-import * as XLSX from 'xlsx'
+import * as XLSX from 'xlsx';
+
 
 import { OrderItem } from '../order-item.model';
-import { MatDialogRef, MatDialogConfig, MatDialog, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MatDialogConfig, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 import { DialogCadastroComponent } from '../novo/dialog-cadastro/dialog-cadastro.component';
 import { DialogBodyClienteComponent } from '../../cadastro/cliente/dialog-body/dialog-body-cliente.component';
 import { ItemPedido } from '../itemPedido.model';
-import { DateFormatPipe } from '../../shared/pipes/dateFormat.pipe';
 import * as moment from 'moment';
-import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
-import { switchMap } from 'rxjs/operators';
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
-
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'LL',
-  },
-  display: {
-    dateInput: 'DD/MM/YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
-
 
 @Component({
   selector: 'app-novo2',
   templateUrl: './novo2.component.html',
   styleUrls: ['./novo2.component.scss'],
-  providers: [
-    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }]
+  providers: []
 })
 
 export class Novo2Component implements OnInit {
@@ -455,10 +436,7 @@ export class Novo2Component implements OnInit {
   constructor(private fb: FormBuilder,
     private clientservice: ClientService,
     private notificationService: NotificationService,
-    private dateFormatPipe: DateFormatPipe,
     private dialog: MatDialog,
-    private router: Router,
-    private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
     public dialogRef: MatDialogRef<Novo2Component>,
     @Inject(MAT_DIALOG_DATA) public info: any,
@@ -525,6 +503,7 @@ export class Novo2Component implements OnInit {
           this.addItem(element)
         });
         this.form.patchValue(this.pedidoN)
+        this.setAreaDeVenda(pedido.data.area_venda_id.id);
       },
       (error) => alert('Ocorreu um erro no servidor, tente mais tarde.')
     )
@@ -565,9 +544,7 @@ export class Novo2Component implements OnInit {
     this.produto = this.form.get('pedido_produtos') as FormArray;
 
   }
-  updateDate(input: string, event: MatDatepickerInputEvent<Date>) {
-    this.form.get(input).setValue(moment(event.value, 'DD-MM-YYYY').format("YYYY-MM-DD"));
-  }
+
   async consultaCod(produto:any): Promise<any> {
     let campos;
     let newItem;
@@ -734,8 +711,9 @@ export class Novo2Component implements OnInit {
    })
    this.form.get('valor_liquido').setValue(total);
    this.form.get('valor_total').setValue(total+ipi);
+   let desconto = ((total + ipi) * this.form.get('desconto').value)/100;
    if(tipo == 'total')
-    return total + ipi;
+    return ((total + ipi) - desconto);
    else if(tipo == 'ipi')
     return ipi
    else

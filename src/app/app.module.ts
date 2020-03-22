@@ -92,7 +92,8 @@ registerLocaleData(ptBr)
     SharedModule,
     NgxSpinnerModule,
     NgMultiSelectDropDownModule.forRoot(),
-    RouterModule.forRoot(AppRoutes)
+    RouterModule.forRoot(AppRoutes),
+    
   ],
   providers: [
     LoginService,
@@ -112,8 +113,6 @@ registerLocaleData(ptBr)
     provide: LocationStrategy,
     useClass: HashLocationStrategy,
     },
-    { provide: LOCALE_ID, useValue: "pt" },
-    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' }
   ],
   entryComponents: [
     AlertComponent
