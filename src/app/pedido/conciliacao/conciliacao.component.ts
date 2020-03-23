@@ -4,6 +4,8 @@ import { MatDialogConfig, MatDialog, MatTabChangeEvent, MatBottomSheetRef, MatBo
 import { NotificationService } from '../../shared/messages/notification.service';
 import { DialogAddNotaComponent } from './dialog-add-nota/dialog-add-nota.component';
 import { DialogViewNotaComponent } from './dialog-view-nota/dialog-view-nota.component';
+import { DialogEditNotaComponent } from './dialog-edit-nota/dialog-edit-nota.component';
+import { DialogConfirmarDeleteComponent } from '../../cadastro/dialog-confirmar-delete/confirmar-delete.component';
 
 import page from './steps.json';
 
@@ -90,6 +92,37 @@ export class ConciliacaoComponent implements OnInit {
     let dialogRef = this.dialog.open(
       DialogViewNotaComponent, 
       dialogConfig, 
+    );
+    dialogRef.afterClosed().subscribe(value => {
+      this.loadData();
+    });
+  }
+
+  edit(data){
+    let dialogConfig = new MatDialogConfig();
+    dialogConfig = {
+      maxWidth: '95vw',
+      maxHeight: '95vh',
+      width: '90vw',
+      height: '95vh',
+      data: data
+    }
+    let dialogRef = this.dialog.open(
+      DialogEditNotaComponent, 
+      dialogConfig, 
+    );
+    dialogRef.afterClosed().subscribe(value => {
+      this.loadData();
+    });
+  }
+  
+  delete(row){
+    const dialogConfig = new MatDialogConfig();
+      let tipo = 'notas'
+      dialogConfig.data = row
+      dialogConfig.data.tipo = tipo
+      let dialogRef = this.dialog.open(DialogConfirmarDeleteComponent,
+      dialogConfig   
     );
     dialogRef.afterClosed().subscribe(value => {
       this.loadData();

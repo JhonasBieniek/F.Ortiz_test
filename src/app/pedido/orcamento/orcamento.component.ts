@@ -7,34 +7,15 @@ import { OrderItem } from '../order-item.model';
 import { ShoppingCartComponent } from '../shopping-cart/shopping-cart.component';
 import { MatDialog, MatDialogConfig, MatDatepickerInputEvent, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ItemPedido } from '../itemPedido.model';
-
-import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
 import * as moment from 'moment';
-import { DatePipe } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DialogBodyClienteComponent } from '../../cadastro/cliente/dialog-body/dialog-body-cliente.component';
 import { switchMap } from 'rxjs/operators';
 
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'DD/MM/YYYY',
-  },
-  display: {
-    dateInput: 'DD/MM/YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
-
 @Component({
   selector: 'app-orcamento',
   templateUrl: './orcamento.component.html',
-  styleUrls: ['./orcamento.component.css'],
-  providers: [DatePipe,
-    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }]
+  styleUrls: ['./orcamento.component.css']
 })
 
 export class OrcamentoComponent implements OnInit {
@@ -89,9 +70,7 @@ export class OrcamentoComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private clientservice: ClientService,
     private notificationService: NotificationService,
-    private route: ActivatedRoute,
     private dialog: MatDialog,
-    private router: Router,
     public dialogRef: MatDialogRef<OrcamentoComponent>,
     @Inject(MAT_DIALOG_DATA) public info: any,
 
@@ -257,7 +236,7 @@ export class OrcamentoComponent implements OnInit {
   valorTotal(){
     let total = 0;
     this.produto.controls.forEach(element => {
-      total += element.get('valor_total').value - ((element.get('quantidade').value*element.get('valor_unitario').value) * element.get('desconto').value/100)
+      total += (element.get('quantidade').value * element.get('valor_unitario').value);
     })
     this.form.get('valor_total').setValue(total);
     return total;

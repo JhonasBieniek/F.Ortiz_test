@@ -2,15 +2,15 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogConfig } from "@angular/material";
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
-import { ClientService } from '../../../../shared/services/client.service.component';
-import { Novo2Component } from '../../../novo2/novo2.component';
+import { ClientService } from '../../../shared/services/client.service.component';
+import { Novo2Component } from '../../novo2/novo2.component';
 
 @Component({
-  selector: 'app-dialog-send-nota',
-  templateUrl: './dialog-send-nota.component.html',
-  styleUrls: ['./dialog-send-nota.component.css']
+  selector: 'app-dialog-edit-nota',
+  templateUrl: './dialog-edit-nota.component.html',
+  styleUrls: ['./dialog-edit-nota.component.css']
 })
-export class DialogSendNotaComponent implements OnInit {
+export class DialogEditNotaComponent implements OnInit {
 
   public form: FormGroup;
   dados;
@@ -20,7 +20,6 @@ export class DialogSendNotaComponent implements OnInit {
   temp:any = [];
   selected:any = [];
   nota_parcelas:any = [];
-  tab3 = false;
   steps: any = [
     {
       titulo: "Produtos do Pedido",
@@ -41,7 +40,7 @@ export class DialogSendNotaComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private clientservice: ClientService,
-    public dialogRef: MatDialogRef<DialogSendNotaComponent>,
+    public dialogRef: MatDialogRef<DialogEditNotaComponent>,
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) { 
@@ -50,7 +49,8 @@ export class DialogSendNotaComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      pedido_id: [this.data.id],
+      id: [null],
+      pedido_id: [null],
       num_nota: [null, Validators.compose([Validators.required])],
       data_faturamento: [null, Validators.compose([Validators.required, CustomValidators.date])],
       obs: [null],
@@ -61,8 +61,9 @@ export class DialogSendNotaComponent implements OnInit {
   }
 
   loadData(){
-    this.clientservice.getPedido(this.data.id).subscribe((res:any) =>{
-      this.pedido = res.data;
+    this.clientservice.getNotasID(this.data.id).subscribe((res:any) =>{
+      this.form.patchValue(res.data);
+      this.pedido = res.data.pedido;
       this.temp = this.pedido.pedido_produtos.sort((a,b)=> a.id - b.id);
       this.rows = [...this.temp];
     });
@@ -88,6 +89,12 @@ export class DialogSendNotaComponent implements OnInit {
     }
   }
 
+  clearParcelas(){
+    while (this.nota_parcelas.controls.length) {
+      this.nota_parcelas.removeAt(0);
+    }
+  }
+
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
     this.rows = this.temp.filter(d => {
@@ -107,15 +114,10 @@ export class DialogSendNotaComponent implements OnInit {
 
   async save() {
     await this.criaParcelas();
-    this.clientservice.addNota(this.form.value).subscribe((res:any) => {
+    console.log(this.form.value);
+    this.clientservice.editNota(this.form.value).subscribe((res:any) => {
       this.dialogRef.close(res.success);
     });
-  }
-
-  clearParcelas(){
-    while (this.nota_parcelas.controls.length) {
-      this.nota_parcelas.removeAt(0);
-    }
   }
 
   edit(row){

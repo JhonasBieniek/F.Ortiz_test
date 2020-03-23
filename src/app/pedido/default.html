@@ -196,8 +196,14 @@
                   <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex"
                     ngx-datatable-cell-template>      
                     <i class="fa fa-search button" 
+                      title="Visualizar" 
+                      (click)="view(row);"></i>
+                    <i class="fa fa-pencil button" 
                       title="Editar" 
-                      (click)="view(row);"></i>                     
+                      (click)="edit(row);"></i>
+                    <i class="fa fa-trash-o button2"
+                      title="Deletar" 
+                      (click)="delete(row)"></i>                   
                   </ng-template>
                 </ngx-datatable-column>
                 </ngx-datatable>

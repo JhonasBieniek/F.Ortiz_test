@@ -93,6 +93,12 @@ export class ClientService {
       .http
       .post(uri, data) 
   }
+  editNota(data){
+    const uri = `${API_URL}` + `notas/edit/`+data.id+`.json`;
+    return this
+      .http
+      .post(uri, data) 
+  }
   addRegiao(data) {
     const uri = `${API_URL}` + `regioes/add.json`;
     this

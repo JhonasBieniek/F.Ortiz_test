@@ -80,11 +80,11 @@ export class OrcListarComponent implements OnInit {
     const val = event.target.value.toLowerCase();
     this.rows[this.defaultTab] = this.temp[this.defaultTab].filter(function(d) {
       if( d.cliente.nome_fantasia.toLowerCase().indexOf(val) !== -1 || !val ||
-          d.representada.nome_fantasia.toLowerCase().indexOf(val) !== -1 || !val ||
-          d.num_pedido.toLowerCase().indexOf(val) !== -1 || !val )
+          d.representada.nome_fantasia.toLowerCase().indexOf(val) !== -1 || !val)
       return d
     }); 
   }
+
   add(tipo){
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = { 

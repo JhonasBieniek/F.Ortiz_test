@@ -187,7 +187,7 @@ export class Novo2Component implements OnInit {
     clienteCnpj = clienteCnpj.replace(/[^\d]+/g, '');
     clienteCnpj = (clienteCnpj.length == 13)? "0"+clienteCnpj:clienteCnpj;
     this.form.get('num_pedido').setValue(data[0][0].toString().match(new RegExp("\\d+", "g"))[0]);
-    
+    this.form.get('frete').setValue('Representada');
     while (inicial <= final) {
       while (data[final][0] != "Peso bruto total:" && data[final][0] != "Valor Total:") {
         final++;
@@ -216,8 +216,12 @@ export class Novo2Component implements OnInit {
     }
     if(data[final+1][0] == 'Valor total em produtos:'){
       this.condComercial = data[final+3][0].split(':')[1].replace("  Data de Emissão", "").trim();
+      this.form.get('data_emissao').setValue( moment(data[final+3][0].split(':')[2], 'DD-MM-YYYY').format("YYYY-MM-DD") );
+      this.form.get('obs').setValue(data[final+5][0].split(':')[1]);
     }else{
       this.condComercial = data[final+2][0].split(':')[1].replace("  Data de Emissão", "").trim();
+      this.form.get('data_emissao').setValue(moment(data[final+2][0].split(':')[2], 'DD-MM-YYYY').format("YYYY-MM-DD") );
+      this.form.get('obs').setValue(data[final+4][0].split(':')[1]);
     }
     this.ValorTotal = data[final][1];
     if (inicial > final) {
@@ -709,9 +713,9 @@ export class Novo2Component implements OnInit {
     }
     total += element.get('quantidade').value * element.get('valor_unitario').value;
    })
-   this.form.get('valor_liquido').setValue(total);
-   this.form.get('valor_total').setValue(total+ipi);
    let desconto = ((total + ipi) * this.form.get('desconto').value)/100;
+   this.form.get('valor_liquido').setValue(total);
+   this.form.get('valor_total').setValue( ((total+ipi)-desconto) );
    if(tipo == 'total')
     return ((total + ipi) - desconto);
    else if(tipo == 'ipi')

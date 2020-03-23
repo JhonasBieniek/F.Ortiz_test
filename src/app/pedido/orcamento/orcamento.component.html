@@ -43,7 +43,7 @@
               <div class="p-10" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
                 <mat-form-field appearance="outline">
                   <mat-label>Data de Emissão</mat-label>
-                  <input matInput [matDatepicker]="pickerEmissao" (dateInput)="updateDate('data_emissao', $event)"
+                  <input matInput [matDatepicker]="pickerEmissao"
                   formControlName="data_emissao" placeholder="Data">
                   <mat-datepicker-toggle matSuffix [for]="pickerEmissao"></mat-datepicker-toggle>
                   <mat-datepicker #pickerEmissao></mat-datepicker>

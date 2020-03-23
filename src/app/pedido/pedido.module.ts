@@ -32,13 +32,13 @@ import { PedidoListarComponent } from './pedido-listar/pedido-listar.component';
 import { DialogAddNotaComponent } from './conciliacao/dialog-add-nota/dialog-add-nota.component';
 import { DialogSendNotaComponent } from './conciliacao/dialog-add-nota/dialog-send-nota/dialog-send-nota.component';
 import { DialogViewNotaComponent } from './conciliacao/dialog-view-nota/dialog-view-nota.component';
-
 import {
   MAT_MOMENT_DATE_FORMATS,
   MomentDateAdapter,
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
 } from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core'; 
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { DialogEditNotaComponent } from './conciliacao/dialog-edit-nota/dialog-edit-nota.component'; 
 
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
@@ -61,7 +61,22 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
     NgxSpinnerModule,
     CadastroModule
   ],
-  declarations: [ListarComponent, NovoComponent, ItensPedidoComponent, ShoppingCartComponent, DialogCadastroComponent, Novo2Component, OrcamentoComponent, ConciliacaoComponent, OrcListarComponent, PedidoListarComponent, DialogAddNotaComponent, DialogSendNotaComponent, DialogViewNotaComponent],
+  declarations: [
+    ListarComponent, 
+    NovoComponent, 
+    ItensPedidoComponent, 
+    ShoppingCartComponent, 
+    DialogCadastroComponent, 
+    Novo2Component, 
+    OrcamentoComponent, 
+    ConciliacaoComponent, 
+    OrcListarComponent, 
+    PedidoListarComponent, 
+    DialogAddNotaComponent, 
+    DialogSendNotaComponent, 
+    DialogViewNotaComponent, 
+    DialogEditNotaComponent
+  ],
   providers: [
     DateFormatPipe,
     { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
@@ -72,7 +87,16 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
     },
     {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
   ],
-  entryComponents: [ DialogCadastroComponent, DialogBodyClienteComponent, DialogAddNotaComponent, DialogViewNotaComponent, DialogSendNotaComponent, Novo2Component, OrcamentoComponent],
+  entryComponents: [ 
+    DialogCadastroComponent, 
+    DialogBodyClienteComponent, 
+    DialogAddNotaComponent, 
+    DialogViewNotaComponent, 
+    DialogSendNotaComponent, 
+    DialogEditNotaComponent, 
+    Novo2Component, 
+    OrcamentoComponent
+  ],
 
 })
 export class PedidoModule { }
