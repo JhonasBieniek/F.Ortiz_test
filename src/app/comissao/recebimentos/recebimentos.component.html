@@ -102,37 +102,36 @@
               [rowHeight]="50"
               [rows]="rows"
               [selected]="selected"
-              (select)="onSelect($event)"
+              [selectionType]="SelectionType.checkbox"
               (page)="onPage($event)">
               <!-- Row Detail Template -->
               <ngx-datatable-row-detail rowHeight="(row.nota_parcelas.lenght * 70)" #myDetailRow (toggle)="onDetailToggle($event)">
-                <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+                <ng-template ngx-datatable-row-detail-template let-row="row" let-expanded="expanded" >
                   <div style="padding-left:35px;">
-                    <ng-container  >
-                      <div fxLayout="row wrap">
-                        <table class="table table-striped">
-                          <thead>
-                          <tr>
-                            <th scope="col">N° Parcela</th>
-                            <th scope="col">Vencimento</th>
-                            <th scope="col">Valor</th>
-                            <th scope="col">Comissão</th>
-                            <th scope="col">Receber?</th>
-                          </tr>
-                          </thead>
-                          <tbody>
-                          <tr *ngFor="let cols of parcelas(row.nota_parcelas)">
-                            <td>{{ cols.parcela }}</td>
-                            <td>{{ cols.data_vencimento }}</td>
-                            <td>{{ cols.valor | currency : 'R$' }}</td>
-                            <td>{{ (cols.valor * row.pedido.comissao_media)/100 | currency : 'R$'}}</td>
-                            <td><input type="checkbox" (change)="selection(row)"/>  
-                            </td>
-                          </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      </ng-container>
+                    <div fxLayout="row wrap">
+                      <table class="table table-striped">
+                        <thead>
+                        <tr>
+                          <th scope="col">N° Parcela</th>
+                          <th scope="col">Vencimento</th>
+                          <th scope="col">Valor</th>
+                          <th scope="col">Comissão</th>
+                          <th scope="col">Receber?</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr  *ngFor="let cols of parcelas(row.nota_parcelas) index as i" >
+                          <td>{{ cols.parcela }}</td>
+                          <td>{{ cols.data_vencimento }}</td>
+                          <td>{{ cols.valor | currency : 'R$' }}</td>
+                          <td>{{ (cols.valor * row.pedido.comissao_media)/100 | currency : 'R$'}}</td>
+                          <td>
+                            <input #Parcela type="checkbox" [(ngModel)]="cols.status_recebimento" (change)="selectParcela($event, cols)"/>  
+                          </td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </ng-template>
               </ngx-datatable-row-detail>
@@ -197,8 +196,8 @@
                 </ng-template>
               </ngx-datatable-column>
               <ngx-datatable-column  [flexGrow]="0.4" name="Receber?" [sortable]="false" [draggable]="false">
-                <ng-template ngx-datatable-cell-template let-row="row" let-isSelected="isSelected">
-                  <input type="checkbox" (change)="onCheckboxChangeFn(row, $event)" />
+                <ng-template ngx-datatable-cell-template let-row="row" let-isSelected="isSelected" let-onCheckboxChangeFn="onCheckboxChangeFn">
+                  <input type="checkbox" [checked]="isSelected" (change)="selectNota($event, row)" />
                 </ng-template>
               </ngx-datatable-column>
             </ngx-datatable>

@@ -1,16 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { DemoMaterialModule} from '../demo-material-module';
 import { CdkTableModule } from '@angular/cdk/table';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
-
 import { DateFormatPipe } from '../shared/pipes/dateFormat.pipe';
-
-
 import { ComissaoRoutes } from './comissao.routing';
 import { ReceberComponent } from './receber/receber.component';
 import { RouterModule } from '@angular/router';
@@ -18,6 +13,12 @@ import { RepassesComponent } from './repasses/repasses.component';
 import { RecebimentosComponent } from './recebimentos/recebimentos.component';
 import { NgxMaskModule, IConfig} from 'ngx-mask';
 import { NgxCurrencyModule } from 'ngx-currency';
+import {
+  MAT_MOMENT_DATE_FORMATS,
+  MomentDateAdapter,
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+} from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
@@ -39,7 +40,14 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
 
   ],
   providers: [
-    DateFormatPipe,    
+    DateFormatPipe,
+    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
   ],
 })
 export class ComissaoModule { }

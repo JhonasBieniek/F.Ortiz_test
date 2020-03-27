@@ -1,7 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ClientService } from '../../shared/services/client.service.component';
 import { NotificationService } from '../../shared/messages/notification.service';
+import { SelectionType } from '@swimlane/ngx-datatable';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-recebimentos',
@@ -11,12 +13,12 @@ import { NotificationService } from '../../shared/messages/notification.service'
 export class RecebimentosComponent implements OnInit {
   
   @ViewChild('myTable', { static: false }) table: any;
+  @ViewChildren('Parcela') parcela: QueryList<ElementRef>;
 
   rows: any[] = [];
   timeout: any;
-
+  SelectionType = SelectionType;
   selected = [];
-
    
   form: FormGroup;
   pageTitle:string = "Receber Comissões";
@@ -45,6 +47,7 @@ export class RecebimentosComponent implements OnInit {
       representada_id: [null],
     });
   }
+
   onPage(event) {
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
@@ -52,31 +55,50 @@ export class RecebimentosComponent implements OnInit {
     }, 100);
   }
 
-
   toggleExpandRow(row) {
-    console.log('Toggled Expand Row!', row);
     this.table.rowDetail.toggleExpandRow(row);
   }
 
   onDetailToggle(event) {
-    console.log('Detail Toggled', event);
   }
 
   clear(){
     this.form.reset();
     this.form.controls['tipo'].setValue("Faturado");
   }
+
   parcelas(data){
     let value;
     value = data.sort((a,b)=> a.id - b.id);
     return value;
   }
-  selection(row:any){
-    console.log(row, 'checked')
+
+  selectNota(ev:any, data:any){
+    if(ev.currentTarget.checked){
+      data.nota_parcelas.forEach(e => {
+        e.status_recebimento = true;
+        e.data_recebimento = new Date();
+      });
+    }else{
+      data.nota_parcelas.forEach(e => {
+        e.status_recebimento = false;
+        e.data_recebimento = "";
+      });
+    }
   }
 
-  onCheckboxChangeFn(row:any){
-    console.log(row.currentTarget.checked)
+  selectParcela(ev:any, row:any){
+    if(ev.currentTarget.checked){
+      row.status_recebimento = true;
+      row.data_recebimento = new Date();
+    }else{
+      row.status_recebimento = false;
+      row.data_recebimento = "";
+    }
+  }
+
+  onActivate(event) {
+    console.log('Activate Event', event);
   }
 
   vencimento(row){
@@ -94,17 +116,29 @@ export class RecebimentosComponent implements OnInit {
       console.log(res);
       this.rows = res.data;
       this.showTable = true;
-    //Pensar se notifica, caso não conseguir consultar
-    //   if(res.success == true){
-    //     this.notificationService.notify(`Cadastro Efetuado com Sucesso!`)
-    //   }else{
-    //     this.notificationService.notify(`Erro contate o Administrador`)
-    //   }
     });
+
   }
+  checkRecebido = new Observable((observer) => {
+    this.rows.forEach(e => {
+      if(e.nota_parcelas.every(el => el.status_recebimento === true)){
+        e.status = "recebido";
+      }else{
+        e.status = "aberto";
+      }
+    });
+    observer.next(this.rows);
+  })
+
   sendBaixa(){
-    this.clientservice.baixaRecebimentos(this.selected).subscribe((res:any) => {
-      console.log(res);
-    })
+    this.checkRecebido.subscribe((res:any) => {
+      this.clientservice.baixaRecebimentos(res).subscribe((res:any) => {
+        if(res.success ==  true){
+          this.rows = [];
+          this.submit();
+          this.notificationService.notify("Parcelas Recebidas com sucesso !");
+        }
+      })
+    });
   }
 }
