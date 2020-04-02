@@ -1,5 +1,5 @@
 <h1 mat-dialog-title style="font-weight: bold;font-size: x-large;" >Cadastrar nota fiscal</h1>
-  <p>Pedidos sem nota fiscal cadastrada:</p>
+  <p>Pedidos sem nota fiscal cadastrada <span style="font-style:italic; color: blue;">(Clique em uma linha da tabela abaixo p/ cadastar a NF)</span>:</p>
   <mat-tab-group (selectedTabChange)="onTabChange($event)">
     <mat-tab *ngFor="let step of steps " class="aba" label="{{step.titulo}}">
       <mat-form-field>

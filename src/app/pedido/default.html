@@ -160,39 +160,39 @@
                 [selected]="selected"
                 (select)='onSelect($event)' 
                 [sorts]="[{prop: 'id', dir: 'asc'}]">
-                <ngx-datatable-column [flexGrow]="1" name="N° Nota" prop="num_nota">
+                <ngx-datatable-column [flexGrow]="0.8" name="N° Nota" prop="num_nota">
                   <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                     {{ value }}
                   </ng-template>
                 </ngx-datatable-column>  
-                <ngx-datatable-column [flexGrow]="1" name="Pedido" prop="pedido.num_pedido">
+                <ngx-datatable-column [flexGrow]="1.2" name="Pedido" prop="pedido.num_pedido">
                   <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                     {{ value }}
                   </ng-template>
                 </ngx-datatable-column> 
-                <ngx-datatable-column [flexGrow]="2" name="representada" prop="pedido.representada.nome_fantasia">
+                <ngx-datatable-column [flexGrow]="1" name="Representada" prop="pedido.representada.nome_fantasia">
                   <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                     {{ value }}
                   </ng-template>
                 </ngx-datatable-column> 
-                <ngx-datatable-column [flexGrow]="2" name="Comprador" prop="pedido.cliente.nome_fantasia">
+                <ngx-datatable-column [flexGrow]="1.5" name="Comprador" prop="pedido.cliente.nome_fantasia">
                   <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                     {{ value }}
                   </ng-template>
                 </ngx-datatable-column> 
-                <ngx-datatable-column [flexGrow]="0.7" name="Data faturamento" prop="data_faturamento">
+                <ngx-datatable-column [flexGrow]="0.9" name="Dt. faturamento" prop="data_faturamento">
                   <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                     {{ value |  date:'dd/MM/yyyy'}}
                   </ng-template>
                 </ngx-datatable-column> 
 
-                <ngx-datatable-column [flexGrow]="1" name="Status" prop="status">
+                <ngx-datatable-column [flexGrow]="0.6" name="Status" prop="status">
                   <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                     {{ value }}
                   </ng-template>
                 </ngx-datatable-column> 
 
-                <ngx-datatable-column [flexGrow]="0.8" name="Ações">
+                <ngx-datatable-column [flexGrow]="0.9" name="Ações">
                   <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex"
                     ngx-datatable-cell-template>      
                     <i class="fa fa-search button" 

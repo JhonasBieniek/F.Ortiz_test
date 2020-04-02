@@ -4,7 +4,7 @@
     Cliente: <strong>{{pedido?.cliente.razao_social}}</strong>
   </p>
   <p>
-    Cadastrar nota fiscal para o pedido: <span style="color: blue;">{{data.num_pedido}}</span>
+    Cadastrar nota fiscal para o pedido: <span style="color: blue;">{{data.num_pedido }} </span>
     <i class="fa fa-pencil button" title="Editar" (click)="edit(pedido);"></i>
   </p>
   <form [formGroup]="form">
@@ -32,12 +32,7 @@
     </div>
   </form>
 </div>
-<div mat-dialog-actions>
-  <button mat-raised-button color="primary" (click)="save()" cdkFocusInitial [disabled]="!form.valid">Salvar</button>
-  <button mat-raised-button color="warn" (click)="cancel()" >Cancelar</button>
-</div>
-<br>
-<div mat-dialog-content *ngIf="rows.length > 0">
+<div *ngIf="rows.length > 0">
   <mat-tab-group (selectedTabChange)="onTabChange($event)">
     <mat-tab *ngFor="let step of steps " class="aba" label="{{step.titulo}}">
       <mat-form-field>
@@ -51,7 +46,6 @@
       [footerHeight]="50"
       [rowHeight]="50"
       [rows]='rows'>
-      
 
         <ngx-datatable-column [flexGrow]="0.4" name="Código" prop="produto.codigo">
           <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
@@ -91,4 +85,10 @@
 Valor Total: {{pedido?.valor_total | currency:'BRL':true:'1.2-2'}}
 <br>
 Valor Total Liquído: {{pedido?.valor_liquido | currency:'BRL':true:'1.2-2'}}
+<br>
+<br>
+<div mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="save()" cdkFocusInitial [disabled]="!form.valid">Salvar</button>
+  <button mat-raised-button color="warn" (click)="cancel()" >Cancelar</button>
+</div>
 

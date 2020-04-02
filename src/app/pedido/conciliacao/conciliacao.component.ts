@@ -120,7 +120,7 @@ export class ConciliacaoComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
       let tipo = 'notas'
       dialogConfig.data = row
-      dialogConfig.data.tipo = tipo
+      dialogConfig.data.nome = row.num_nota
       let dialogRef = this.dialog.open(DialogConfirmarDeleteComponent,
       dialogConfig   
     );

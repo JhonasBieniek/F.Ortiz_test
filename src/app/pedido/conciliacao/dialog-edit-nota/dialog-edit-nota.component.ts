@@ -121,7 +121,14 @@ export class DialogEditNotaComponent implements OnInit {
   }
 
   edit(row){
-    const dialogConfig = new MatDialogConfig()
+    let dialogConfig = new MatDialogConfig()
+    dialogConfig = {
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+    
+      width: '95vw',
+      height: '95vh'
+    }
     dialogConfig.data = {
       tipo: 'edit',
       pedido: row
