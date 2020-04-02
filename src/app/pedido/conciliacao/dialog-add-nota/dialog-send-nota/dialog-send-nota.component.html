@@ -9,13 +9,13 @@
   </p>
   <form [formGroup]="form">
     <div fxLayout="row" fxLayoutWrap="wrap" class="row">
-      <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+      <div class="p-10" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Numero da nota</mat-label>
           <input matInput placeholder="Numero da nota" [formControl]="form.controls['num_nota']" type="numbers">
         </mat-form-field>
       </div>
-      <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+      <div class="p-10" fxFlex.gt-sm="24" fxFlex.gt-xs="24" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Data de Faturamento</mat-label>
           <input matInput [matDatepicker]="pickerEntrega"
@@ -32,12 +32,16 @@
     </div>
   </form>
 </div>
+<<<<<<< HEAD
+<div mat-dialog-content>
+=======
 <div mat-dialog-actions>
   <button mat-raised-button color="primary" (click)="save()" cdkFocusInitial [disabled]="!form.valid">Salvar</button>
   <button mat-raised-button color="warn" (click)="cancel()" >Cancelar</button>
 </div>
 <br>
 <div mat-dialog-content *ngIf="rows.length > 0">
+>>>>>>> b5ea18f04fd6797695d13d9c75141e3715a100c6
   <mat-tab-group (selectedTabChange)="onTabChange($event)">
     <mat-tab *ngFor="let step of steps " class="aba" label="{{step.titulo}}">
       <mat-form-field>
@@ -88,6 +92,16 @@
   </mat-tab-group>
 </div>
 <br>
+<<<<<<< HEAD
+Valor Total Liquído: {{total('total') | currency : 'R$' }}<br>
+Valor Total: {{total('liq') | currency : 'R$' }}
+
+<div mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="save()" cdkFocusInitial [disabled]="!form.valid">Salvar</button>
+  <button mat-raised-button color="warn" (click)="cancel()" >Cancelar</button>
+</div>
+=======
 Valor Total Liquído: {{pedido?.valor_total | currency:'BRL':true:'1.2-2'}}
 <br>
 Valor Total: {{pedido?.valor_liquido | currency:'BRL':true:'1.2-2'}}
+>>>>>>> b5ea18f04fd6797695d13d9c75141e3715a100c6
