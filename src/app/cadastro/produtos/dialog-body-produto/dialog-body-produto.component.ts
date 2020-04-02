@@ -35,7 +35,7 @@ export class DialogBodyProdutoComponent implements OnInit {
     this.form = this.fb.group({
       id: [null],
       nome: [null, Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(50)])],
-      ipi: [null, Validators.compose([Validators.minLength(1), Validators.maxLength(3)])],
+      ipi: [null,],
       certificado_aprovacao: [null],
       codigo: [null],
       embalagem: [null],

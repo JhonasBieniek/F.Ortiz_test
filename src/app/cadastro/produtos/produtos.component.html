@@ -33,12 +33,12 @@
               </ng-template>
             </ngx-datatable-column>
         
-            <ngx-datatable-column [flexGrow]="1" name="Nome">
+            <ngx-datatable-column [flexGrow]="1.5" name="Nome">
               <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
                 {{ row.nome }}
               </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column [flexGrow]="1.5" name="Nome Fantasia">
+            <ngx-datatable-column [flexGrow]="1" name="Nome Fantasia">
               <ng-template let-value="representada.nome_fantasia" let-row="row" ngx-datatable-cell-template>
                 {{ row.representada.nome_fantasia }}
               </ng-template>

@@ -14,7 +14,7 @@
               <mat-tab label="Representada cadastradas"><mat-card-content>
                           <mat-card-title>Buscar</mat-card-title>
                           <mat-form-field>
-                             <input matInput  type='text' class="form-control"  placeholder='Digite um nome para filtrar...' (keyup)='updateFilter($event)'   />
+                             <input matInput  type='text' class="form-control"  placeholder='Digite um nome ou um CNPJ(sem pontos) para filtrar...' (keyup)='updateFilter($event)'   />
                           </mat-form-field>
                           <ngx-datatable
                               #table

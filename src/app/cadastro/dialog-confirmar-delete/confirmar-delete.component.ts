@@ -7,6 +7,8 @@ import { ClientService } from '../../shared/services/client.service.component';
 @Component({
   selector: 'app-confirmar-delete',
   templateUrl: './confirmar-delete.component.html',
+  styleUrls: ['./confirmar-delete.component.css']
+
 })
 export class DialogConfirmarDeleteComponent {
   resposta:any;

@@ -13,7 +13,7 @@
           <input matInput placeholder="Nome da área de venda" [formControl]="form.controls['nome']">
         </mat-form-field>
         <mat-hint *ngIf="form.controls['nome'].hasError('required') && form.controls['nome'].touched"
-          class="text-danger font-14">Nome Completo.</mat-hint>
+          class="text-danger font-14">Nome área de venda.</mat-hint>
         <mat-hint *ngIf="form.controls['nome'].hasError('minlength') && form.controls['nome'].touched"
           class="text-danger font-14">O nome deve conter no mínimo 5 caracteres</mat-hint>
         <mat-hint *ngIf="form.controls['nome'].hasError('maxlength') && form.controls['nome'].touched"

@@ -40,13 +40,13 @@
   
                               <ngx-datatable-column [flexGrow]="1" name="Data de Criação">
                                 <ng-template let-value="created" let-row="row" ngx-datatable-cell-template>
-                                  {{ row.created | date: 'dd/MM/yyyy HH:mm:ss' }}
+                                  {{ row.created | date: 'dd/MM/yyyy' }}
                                 </ng-template>
                               </ngx-datatable-column>
                               
                               <ngx-datatable-column [flexGrow]="1" name="Data de Alteração">
                                 <ng-template let-value="modified" let-row="row" ngx-datatable-cell-template>
-                                  {{ row.modified | date: 'dd/MM/yyyy HH:mm:ss'}}
+                                  {{ row.modified | date: 'dd/MM/yyyy'}}
                                 </ng-template>
                               </ngx-datatable-column> 
 

@@ -65,19 +65,17 @@
       <div fxLayout="row wrap" *ngFor="let endereco of form.get('enderecos').controls; index as i" [formGroupName]="i"> 
         <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
           Endereço - {{i + 1}}
-        </div>
-        <div class="p-10" fxFlex.gt-sm="5" fxFlex.gt-xs="5" fxFlex="100">
           <button mat-icon-button (click)="delEndereco(i)">
             <mat-icon class="clear">clear</mat-icon>
           </button>
-        </div>  
-        <div class="p-10" fxFlex.gt-sm="13" fxFlex.gt-xs="13" fxFlex="100">
+        </div>
+        <div class="p-10" fxFlex.gt-sm="15" fxFlex.gt-xs="13" fxFlex="100">
           <mat-form-field appearance="outline">
             <mat-label>CEP</mat-label>
             <input matInput placeholder="CEP" mask="00000-000" (blur)="onBlurMethod(i)" formControlName="cep">
           </mat-form-field>
         </div>
-        <div class="p-10" fxFlex.gt-sm="52" fxFlex.gt-xs="52" fxFlex="100">
+        <div class="p-10" fxFlex.gt-sm="55" fxFlex.gt-xs="52" fxFlex="100">
           <mat-form-field appearance="outline">
             <mat-label>Logradouro</mat-label>
             <input matInput placeholder="Logradouro" formControlName="logradouro">

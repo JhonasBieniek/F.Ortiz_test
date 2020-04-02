@@ -237,12 +237,14 @@
       </div>
     </div>
     <mat-divider></mat-divider>
-    <div formArrayName="comissoes" fxLayout="row wrap" class="row">
+    <div formArrayName="comissoes" fxLayout="row wrap">
       <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-        <mat-card-header class="bg-info text-white">
-          <mat-card-title class="Comissões">Comissões</mat-card-title>
-        </mat-card-header>
-      </div>
+        <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+          <mat-card-header class="bg-info text-white">
+            <mat-card-title class="Comissões">Comissões</mat-card-title>
+          </mat-card-header>
+        </div>
+      </div>  
       <div class="p-20" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <button mat-stroked-button color="primary" (click)="addComissao()"><i class="material-icons">add</i> Representada</button>
       </div>
@@ -259,11 +261,11 @@
               <mat-placeholder>Representada</mat-placeholder>
             </mat-form-field>
           </div>
-          <div class="p-20" fxFlex.gt-sm="40" fxFlex.gt-xs="40" fxFlex="40">
+          <div class="p-20" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="50">
             <button mat-stroked-button (click)="addComissaoFaixa(comIndex)"><i class="material-icons">add</i> Faixa</button>
-          </div>
-          <div class="p-20" fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="10">
-            <i class="material-icons x-icons" (click)="removeComissao(comIndex); ">highlight_off</i><span class="del"></span>
+            <button mat-icon-button (click)="delEndereco(i)">
+              <mat-icon class="material-icons  x-icons" (click)="removeComissao(comIndex)">highlight_off</mat-icon>
+            </button>
           </div>
           <div formArrayName="comissao_faixas">
             <div *ngFor="let item of comissaoFaixas(comIndex).controls; let faixaIndex = index">

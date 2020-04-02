@@ -65,11 +65,11 @@ export class ClienteComponent implements OnInit {
   openDialog() {
     let dialogConfig = new MatDialogConfig();
     dialogConfig = {
-      maxWidth: '75vw',
+      maxWidth: '100vw',
       maxHeight: '100vh',
     
-      width: '75vw',
-      height: '90vh'
+      width: '95vw',
+      height: '95vh'
     }
     let dialogRef = this.dialog.open(
       DialogBodyClienteComponent, 

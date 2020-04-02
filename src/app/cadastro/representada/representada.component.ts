@@ -53,10 +53,10 @@ export class RepresentadaComponent implements OnInit {
   openDialog() {
     let dialogConfig = new MatDialogConfig();
     dialogConfig = {
-      maxWidth: '75vw',
-      maxHeight: '95vh',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
     
-      width: '75vw',
+      width: '95vw',
       height: '95vh'
     }
     //dialogConfig.data = this.dados.data;
@@ -71,9 +71,10 @@ export class RepresentadaComponent implements OnInit {
   edit(row){
     let dialogConfig = new MatDialogConfig();
       dialogConfig = {
-        maxWidth: '75vw',
-        maxHeight: '95vh',
-        width: '75vw',
+        maxWidth: '100vw',
+        maxHeight: '100vh',
+      
+        width: '95vw',
         height: '95vh'
       }
       dialogConfig.data = row

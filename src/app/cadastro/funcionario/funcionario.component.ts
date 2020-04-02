@@ -68,7 +68,7 @@ export class FuncionarioComponent implements OnInit {
       maxWidth: '100vw',
       maxHeight: '100vh',
     
-      width: '85vw',
+      width: '95vw',
       height: '95vh'
     }
     //dialogConfig.data = this.dados.data;

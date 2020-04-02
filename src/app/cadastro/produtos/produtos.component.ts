@@ -52,10 +52,10 @@ export class ProdutosComponent implements OnInit {
   openDialog() {
     let dialogConfig = new MatDialogConfig();
     dialogConfig = {
-      maxWidth: '75vw',
-      maxHeight: '95vh',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
     
-      width: '75vw',
+      width: '95vw',
       height: '95vh'
     }
     //dialogConfig.data = this.dados.data;
@@ -90,7 +90,14 @@ export class ProdutosComponent implements OnInit {
     });
   }
   edit(row){
-    const dialogConfig = new MatDialogConfig();
+    let dialogConfig = new MatDialogConfig();
+    dialogConfig = {
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+    
+      width: '95vw',
+      height: '95vh'
+    }
       dialogConfig.data = row
       dialogConfig.data.action = 'edit'
       let dialogRef = this.dialog.open(DialogBodyProdutoComponent,
