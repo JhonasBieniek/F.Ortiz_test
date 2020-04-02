@@ -32,16 +32,7 @@
     </div>
   </form>
 </div>
-<<<<<<< HEAD
-<div mat-dialog-content>
-=======
-<div mat-dialog-actions>
-  <button mat-raised-button color="primary" (click)="save()" cdkFocusInitial [disabled]="!form.valid">Salvar</button>
-  <button mat-raised-button color="warn" (click)="cancel()" >Cancelar</button>
-</div>
-<br>
-<div mat-dialog-content *ngIf="rows.length > 0">
->>>>>>> b5ea18f04fd6797695d13d9c75141e3715a100c6
+<div *ngIf="rows.length > 0">
   <mat-tab-group (selectedTabChange)="onTabChange($event)">
     <mat-tab *ngFor="let step of steps " class="aba" label="{{step.titulo}}">
       <mat-form-field>
@@ -56,7 +47,6 @@
       [rowHeight]="50"
       [rows]='rows'>
       
-
         <ngx-datatable-column [flexGrow]="0.4" name="Código" prop="produto.codigo">
           <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
             {{ value }}
@@ -86,22 +76,19 @@
             {{ value | currency : 'R$' }}
           </ng-template>
         </ngx-datatable-column>
-        
+
       </ngx-datatable>
     </mat-tab>
   </mat-tab-group>
 </div>
 <br>
-<<<<<<< HEAD
-Valor Total Liquído: {{total('total') | currency : 'R$' }}<br>
-Valor Total: {{total('liq') | currency : 'R$' }}
-
+Valor Total Liquído: {{pedido?.valor_total | currency:'BRL':true:'1.2-2'}}
+<br>
+Valor Total: {{pedido?.valor_liquido | currency:'BRL':true:'1.2-2'}}
+<br>
 <div mat-dialog-actions>
   <button mat-raised-button color="primary" (click)="save()" cdkFocusInitial [disabled]="!form.valid">Salvar</button>
   <button mat-raised-button color="warn" (click)="cancel()" >Cancelar</button>
 </div>
-=======
-Valor Total Liquído: {{pedido?.valor_total | currency:'BRL':true:'1.2-2'}}
-<br>
-Valor Total: {{pedido?.valor_liquido | currency:'BRL':true:'1.2-2'}}
->>>>>>> b5ea18f04fd6797695d13d9c75141e3715a100c6
+
+
