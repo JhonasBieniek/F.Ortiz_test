@@ -8,6 +8,7 @@ import { UserService } from '../../../shared/services/user.service.component';
 })
 export class AppHeaderComponent {
   public config: PerfectScrollbarConfigInterface = {};
+  currentUser: any;
 
 
   // This is for Notifications
@@ -75,7 +76,10 @@ export class AppHeaderComponent {
   ];
   constructor(
     private userService: UserService,
-  ) {}
+  ) {
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'))
+
+  }
 
   public signOut() {
     this.userService.signOut();

@@ -76,15 +76,16 @@ Profile - style you can find in header.scss
   -->
 <!-- Profile - style you can find in header.scss -->
 <!-- ============================================================== -->
-<button [matMenuTriggerFor]="profile" mat-icon-button class="m-r-5">
-    <img src="assets/images/users/1.jpg" alt="user" class="profile-pic"> </button>
-<mat-menu #profile="matMenu" class="mymegamenu">
+<div class="profile-text">
+    <a [matMenuTriggerFor]="sdprofile" class=""> {{currentUser.usuario.funcionario.nome}}
+        <i class="ti-angle-down font-12 m-l-5"></i>
+    </a>
+</div>
+<mat-menu #sdprofile="matMenu" class="mymegamenu">
     <button mat-menu-item>
-        <mat-icon>settings</mat-icon> Settings </button>
+        <mat-icon>settings</mat-icon> Settings
+    </button>
     <button mat-menu-item>
-        <mat-icon>account_box</mat-icon> Profile </button>
-    <button mat-menu-item>
-        <mat-icon>notifications_off</mat-icon> Disable notifications </button>
-    <button mat-menu-item (click)="signOut()">
-        <mat-icon>exit_to_app</mat-icon> Sign Out </button>
+        <mat-icon>exit_to_app</mat-icon> Sign Out
+    </button>
 </mat-menu>
