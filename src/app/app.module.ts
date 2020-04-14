@@ -17,6 +17,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DemoMaterialModule } from './demo-material-module';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
+
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
@@ -34,10 +35,12 @@ import {
   NG_GAPI_CONFIG,
   GoogleApiConfig
 } from "ng-gapi";
+
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoginService } from './authentication/login/login.service';
 import { AuthGuard } from './guards/auth.guard';
 import { OrderService } from './shared/services/order.service.component';
+import { UserService } from './shared/services/user.service.component';
 import { JwtInterceptor } from './guards/jwt.interceptor';
 import { LocationStrategy, HashLocationStrategy, registerLocaleData } from '@angular/common';
 import { MAT_DATE_LOCALE } from '@angular/material';
@@ -72,7 +75,7 @@ registerLocaleData(ptBr)
     SpinnerComponent,
     AppBlankComponent,
     AppSidebarComponent,
-  AppBreadcrumbComponent,
+    AppBreadcrumbComponent,
     DateFormatPipe,
     AlertComponent,
   ],
@@ -100,6 +103,7 @@ registerLocaleData(ptBr)
     HttpClientModule,
     AuthGuard,
     OrderService,
+    UserService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,

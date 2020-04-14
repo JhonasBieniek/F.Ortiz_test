@@ -50,6 +50,7 @@ export class UserService {
             localStorage.removeItem('currentUser');
             this.router.navigate(['glogin']);
         });
+        
     }
 
     public isUserSignedIn(): boolean {

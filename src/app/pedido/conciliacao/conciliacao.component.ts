@@ -52,6 +52,7 @@ export class ConciliacaoComponent implements OnInit {
         i++;
       });
       this.rows = [...this.temp];
+      console.log(this.rows);
     });                     
   }
 

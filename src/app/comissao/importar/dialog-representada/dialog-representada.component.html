@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Selecione a representada</h1>
+<div mat-dialog-content>
+  <mat-form-field appearance="outline">
+    <mat-label  class="select">Representadas</mat-label>
+    <mat-select [(ngModel)]="representada">
+      <mat-option *ngFor="let rep of representadas" [value]="rep.id">{{rep.nome_fantasia}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions  class="bt_criarpedido" align="end">
+  <button mat-button [mat-dialog-close]="">Cancelar</button>
+  <button mat-button [mat-dialog-close]="representada" cdkFocusInitial>Ok</button>
+</div>

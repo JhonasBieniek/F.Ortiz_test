@@ -88,6 +88,7 @@ const MENUITEMS = [
     type: 'sub',
     icon: 'trending_up',
     children: [
+      {state: 'importar', name: 'Importar', type: 'link' },
       {state: 'recebimentos', name: 'Recebimentos', type: 'link' },
       {
         state: 'listagem',

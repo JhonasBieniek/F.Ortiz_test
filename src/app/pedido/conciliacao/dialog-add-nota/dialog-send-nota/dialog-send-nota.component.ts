@@ -81,7 +81,7 @@ export class DialogSendNotaComponent implements OnInit {
             data_vencimento: new Date (vencimento.setDate(vencimento.getDate() + parseInt(parcelas[i]))),
             valor: valor,
             status_recebimento: false,
-            parcela: i
+            parcela: (i == 0)? 1: i
           }))
         }
       }
