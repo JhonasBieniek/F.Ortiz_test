@@ -1,9 +1,7 @@
 export interface User{
-    
-    data:{
-            username: string,
-            email: string,
-            token: string,
-            usuario: {funcionario: {nome}},
-        }
+    token: string,
+    usuario: {
+        email: string,
+        nome: string
+    },
 }

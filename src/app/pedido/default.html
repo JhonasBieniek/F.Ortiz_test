@@ -156,7 +156,7 @@
                 [footerHeight]="50"
                 [rowHeight]="'auto'" 
                 [limit]="20"
-                [rows]='rows[step.index]' 
+                [rows]='rows | async' 
                 [selected]="selected"
                 (select)='onSelect($event)' 
                 [sorts]="[{prop: 'id', dir: 'asc'}]">

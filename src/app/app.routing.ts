@@ -80,20 +80,10 @@ export const AppRoutes: Routes = [
     ]
   },
   {
-    path: '',
-    component: AppBlankComponent,
-    children: [
-      {
-        path: 'glogin',
-        loadChildren: './glogin/glogin.module#GloginModule'
-      }
-    ]
-  },
-  {
     path: '**',
     redirectTo: 'authentication/404'
   },
   { 
-    path: 'glogin', 
-    redirectTo: './glogin/glogin.module#GloginModule' 
+    path: 'login', 
+    redirectTo: './authentication/authentication.module#AuthenticationModule' 
   }];

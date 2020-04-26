@@ -28,6 +28,8 @@
     "@angular/router": "^8.1.0",
     "@swimlane/ngx-charts": "^12.0.1",
     "@swimlane/ngx-datatable": "^16.0.3",
+    "@types/gapi": "0.0.39",
+    "@types/gapi.auth2": "0.0.51",
     "ajv": "^6.10.1",
     "angular-calendar": "^0.27.12",
     "c3": "^0.4.23",
