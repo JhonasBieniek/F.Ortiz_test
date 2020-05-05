@@ -1,8 +1,8 @@
 import { Component, OnInit, ElementRef, ViewChild, Injectable } from '@angular/core';
-import {Location} from '@angular/common';
 import { MatDialog, MatTabChangeEvent } from '@angular/material';
-import { DialogRepresentadaComponent } from './dialog-representada/dialog-representada.component'
 import { ClientService } from '../../shared/services/client.service.component';
+import { ExcelService } from '../../shared/services/excel.service';
+import { NgxSpinnerService } from "ngx-spinner";
 
 import * as XLSX from 'xlsx';
 
@@ -15,11 +15,9 @@ import * as XLSX from 'xlsx';
 
 export class ImportarComponent implements OnInit {
   page = {
-    titulo: "Importar lista de recebimentos",
-    add: {
-      titulo: "Nova lista"
-    }
+    titulo: "Importar lista de recebimentos"
   }
+  representadas:any;
   representada:any;
   rows:any = [];
   temp:any = [];
@@ -29,30 +27,16 @@ export class ImportarComponent implements OnInit {
   defaultTab = 0;
 
   @ViewChild("fileInput", { static: true }) fileInput: ElementRef;
-
   constructor(
     public dialog: MatDialog,
     public clientService: ClientService,
-    private _location: Location ) { }
+    private spinner:NgxSpinnerService,
+    private excelService:ExcelService) { }
  
   ngOnInit() {
-    this.loadDialog();
-  }
-
-  loadDialog(){
-    const dialogRef = this.dialog.open(DialogRepresentadaComponent, {
-      width: '50vw',
-      disableClose: true
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if(result != null){
-        this.representada = result;
-        this.loadFile();
-      }else{
-        this._location.back();
-      }
-    });
+    this.clientService.getRepresentadas().subscribe((res:any) => {
+      this.representadas = res.data;
+    })
   }
 
   loadFile(){
@@ -63,6 +47,7 @@ export class ImportarComponent implements OnInit {
   }
 
   incomingfile(evt) {
+    this.spinner.show();
     const target: DataTransfer = <DataTransfer>(evt.target);
     if (target.files.length !== 1) throw new Error('Não utilize multiplos arquivos');
     const reader: FileReader = new FileReader();
@@ -71,6 +56,7 @@ export class ImportarComponent implements OnInit {
       const wb: XLSX.WorkBook = XLSX.read(bstr, {type: 'binary', cellDates: true});
       const wsname: string = wb.SheetNames[1];
       const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+      this.spinner.hide();
       this.clientService.chkParcelas(this.representada, XLSX.utils.sheet_to_json(ws, { header: 1, range:8, dateNF:'dd/MM/YYYY' }) ).subscribe((res:any) => {
         let stemp = [...new Set (res.data.map(obj => obj.status))];
         stemp.forEach(e => {
@@ -102,6 +88,10 @@ export class ImportarComponent implements OnInit {
       default:
     }
     return res;
+  }
+
+  clickExcel(){
+    this.excelService.exportAsExcelFile(this.steps, this.rows, 'fibo');
   }
 
   onTabChange(event: MatTabChangeEvent) {

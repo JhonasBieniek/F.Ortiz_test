@@ -20,14 +20,18 @@ import {
 } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { ImportarComponent } from './importar/importar.component';
-import { DialogRepresentadaComponent } from './importar/dialog-representada/dialog-representada.component';
 
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
 
 
 @NgModule({
-  declarations: [ReceberComponent, RepassesComponent, RecebimentosComponent, ImportarComponent, DialogRepresentadaComponent],
+  declarations: [
+    ReceberComponent, 
+    RepassesComponent, 
+    RecebimentosComponent, 
+    ImportarComponent
+  ],
   imports: [
     CommonModule,
     RouterModule.forChild(ComissaoRoutes),
@@ -51,8 +55,6 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
     },
     {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
   ], 
-  entryComponents: [ 
-    DialogRepresentadaComponent
-  ]
+  entryComponents: [ ]
 })
 export class ComissaoModule { }

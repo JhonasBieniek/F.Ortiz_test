@@ -1,18 +1,25 @@
+
 <input #fileInput type="file" (change)="incomingfile($event)" accept=".xlsx,.xls" hidden />
-<div *ngIf="rows.length > 0" fxLayout="row" fxLayoutWrap="wrap">
+<div  fxLayout="row" fxLayoutWrap="wrap">
   <div fxFlex.gt-sm="100%" fxFlex="100">
     <mat-card>
       <mat-card-content>
         <mat-card-title style="font-weight: bold;font-size: x-large;">{{page.titulo}}</mat-card-title>
         <mat-card-actions align="end">
           <div class="button-row">
-            <button mat-raised-button color="primary" type="button" (click)="loadDialog()">
-              <mat-icon class="example-icon">add_box</mat-icon> {{page.add.titulo}}
+            <button mat-raised-button color="primary" [disabled]="!rows.length" type="button" (click)="clickExcel()">
+              <mat-icon class="example-icon">add_box</mat-icon> Exportar Excel
             </button>
           </div> 
-        </mat-card-actions> 
+        </mat-card-actions>
+        <mat-form-field appearance="outline">
+          <mat-label  class="select">Representadas</mat-label>
+          <mat-select [(ngModel)]="representada" >
+            <mat-option *ngFor="let rep of representadas" [value]="rep.id" (click)="loadFile()" >{{rep.nome_fantasia}}</mat-option>
+          </mat-select>
+        </mat-form-field>
       </mat-card-content>
-      <mat-tab-group (selectedTabChange)="onTabChange($event)">
+      <mat-tab-group (selectedTabChange)="onTabChange($event)" *ngIf="rows.length > 0">
         <mat-tab *ngFor="let step of steps let i = index" class="aba" label="{{step.titulo}}" >
           <mat-card-content>
             <mat-form-field >
