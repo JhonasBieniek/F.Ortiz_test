@@ -48,6 +48,7 @@ export class AppSidebarComponent implements OnDestroy {
     this.mobileQuery = media.matchMedia('(min-width: 768px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
+    const teste = this.menuItems    
   }
 
   ngOnDestroy(): void {
