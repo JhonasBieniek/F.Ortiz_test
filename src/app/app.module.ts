@@ -17,6 +17,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DemoMaterialModule } from './demo-material-module';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
+
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
@@ -26,40 +27,19 @@ import { SpinnerComponent } from './shared/spinner.component';
 import { DateFormatPipe } from './shared/pipes/dateFormat.pipe';
 import { AlertComponent } from './alert/alert.component';
 
-import {
-  GoogleApiModule, 
-  GoogleApiService, 
-  GoogleAuthService, 
-  NgGapiClientConfig, 
-  NG_GAPI_CONFIG,
-  GoogleApiConfig
-} from "ng-gapi";
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { LoginService } from './authentication/login/login.service';
+import { AuthenticationModule } from './authentication/authentication.module';
 import { AuthGuard } from './guards/auth.guard';
 import { OrderService } from './shared/services/order.service.component';
 import { JwtInterceptor } from './guards/jwt.interceptor';
 import { LocationStrategy, HashLocationStrategy, registerLocaleData } from '@angular/common';
-import { MAT_DATE_LOCALE } from '@angular/material';
 import ptBr from '@angular/common/locales/pt';
-
-
-
+import { CadastroModule } from './cadastro/cadastro.module';
+ 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
   wheelSpeed: 2,
   wheelPropagation: true
-};
-
-let gapiClientConfig: NgGapiClientConfig = {
-  client_id: "1078742420525-80sm10jeu87n9bd445bkjaeusdroofer.apps.googleusercontent.com",
-  discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest"],
-  scope: [
-    "https://mail.google.com/",
-    "https://www.googleapis.com/auth/gmail.modify",
-    "https://www.googleapis.com/auth/gmail.compose",
-    "https://www.googleapis.com/auth/gmail.send"
-  ].join(" ")
 };
 
 registerLocaleData(ptBr)
@@ -72,7 +52,7 @@ registerLocaleData(ptBr)
     SpinnerComponent,
     AppBlankComponent,
     AppSidebarComponent,
-  AppBreadcrumbComponent,
+    AppBreadcrumbComponent,
     DateFormatPipe,
     AlertComponent,
   ],
@@ -83,20 +63,16 @@ registerLocaleData(ptBr)
     FormsModule,
     FlexLayoutModule,
     HttpClientModule,
-    GoogleApiModule.forRoot({
-      provide: NG_GAPI_CONFIG,
-      useValue: gapiClientConfig
-    }),
     HttpClientJsonpModule,
     PerfectScrollbarModule,
     SharedModule,
     NgxSpinnerModule,
     NgMultiSelectDropDownModule.forRoot(),
     RouterModule.forRoot(AppRoutes),
-    
+    AuthenticationModule,
+    CadastroModule
   ],
   providers: [
-    LoginService,
     HttpClientModule,
     AuthGuard,
     OrderService,

@@ -349,6 +349,13 @@ export class ClientService {
       .http
       .post(uri, data) 
   }
+
+  chkParcelas(id, data){
+    const uri = `${API_URL}` + `notas/chk/${id}.json`;
+    return this
+      .http
+      .post(uri, data)
+  }
   
   getProdutos() {
     const uri = `${API_URL}` + `produtos/index.json`;

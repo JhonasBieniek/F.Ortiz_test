@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-import { UserService } from '../../../shared/services/user.service.component';
+import { LoginService } from '../../../authentication/login/login.service'
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -75,13 +76,13 @@ export class AppHeaderComponent {
     }
   ];
   constructor(
-    private userService: UserService,
+    private loginService: LoginService,
   ) {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'))
 
   }
 
-  public signOut() {
-    this.userService.signOut();
+  public signOut(): void {
+    this.loginService.signOut()
   }
 }

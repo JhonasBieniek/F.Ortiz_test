@@ -1,49 +1,85 @@
-import {Injectable} from '@angular/core'
-import {HttpClient, HttpHeaders} from '@angular/common/http'
-import {Headers, RequestOptions} from '@angular/http'
-import {Observable} from 'rxjs/Observable'
-import {User} from '../user.model';
-
-import 'rxjs/add/operator/map'
+import {Injectable, NgZone} from "@angular/core";
+import * as _ from "lodash";
+import {GoogleAuthService} from "ng-gapi/lib/GoogleAuthService";
+import GoogleUser = gapi.auth2.GoogleUser;
+import GoogleAuth = gapi.auth2.GoogleAuth;
+import { Router } from '@angular/router';
+import { Observable } from "rxjs";
+import { User } from '../user.model'
 
 @Injectable()
 export class LoginService{
+    public static readonly SESSION_STORAGE_KEY: string = "accessToken";
+    private user: GoogleUser = undefined;
 
-    user: User    
+    constructor(
+        private googleAuthService: GoogleAuthService,
+        private ngZone: NgZone,
+        private router: Router
+        ) {}
 
-    public token_id: string
-
-    constructor(private http:HttpClient){
-
+    public setUser(user: GoogleUser): void {
+        this.user = user;
     }
-    
-    isLoggedIn(): boolean{
-        return this.user !== undefined
+
+    public getCurrentUser(): Observable<GoogleAuth> {
+        return  this.googleAuthService.getAuth();
     }
 
-    login(email: string, password: string): Observable<User>{
+    public getToken(): string {
+        let token: string = sessionStorage.getItem(LoginService.SESSION_STORAGE_KEY);
+        if (!token) {
+            throw new Error("no token set , authentication required");
+        }
+        return sessionStorage.getItem(LoginService.SESSION_STORAGE_KEY);
+    }
+
+    public signIn() {
+        this.googleAuthService.getAuth().subscribe((auth) => {
+            auth.signIn().then(res => this.signInSuccessHandler(res), err => this.signInErrorHandler(err));
+        });
+    }
+
+
+
+    //TODO: Rework
+    public signOut(): void {
+        this.googleAuthService.getAuth().subscribe((auth) => {
+            try {
+                auth.signOut();
+            } catch (e) {
+                console.error(e);
+            }
+            sessionStorage.removeItem(LoginService.SESSION_STORAGE_KEY)
+            localStorage.removeItem('currentUser');
+            this.router.navigate(['login']);
+        });
         
-        let body = JSON.stringify({email: email, senha: password});
-        const ParseHeaders = {
-            headers: new HttpHeaders({
-             'Content-Type'  : 'application/json'
-            })
-           };
-        return this.http.post<any>('http://test2.fortiz.com.br/api/usuarios/token.json',
-                                            body, ParseHeaders)
-                                            .map(user => {
-                                                // login successful if there's a jwt token in the response
-                                                if (user.data && user.data.token) {
-                                                    // store user details and jwt token in local storage to keep user logged in between page refreshes
-                                                    localStorage.setItem('currentUser', JSON.stringify(user.data));
-                                                    localStorage.setItem('TOKEN_NAME', JSON.stringify(user.data.token));                                                }
-                                                return user;
-                                            });
-                                        }
-    
-    logout() {
-        // remove user from local storage to log user out
-        localStorage.removeItem('currentUser');
-        localStorage.removeItem('TOKEN_NAME');    }                                    
-                                            
+    }
+
+    public isUserSignedIn(): boolean {
+        return !_.isEmpty(sessionStorage.getItem(LoginService.SESSION_STORAGE_KEY));
+    }
+
+    public signInSuccessHandler(res: GoogleUser) {
+        this.ngZone.run(() => {
+            this.user = res;
+            sessionStorage.setItem(
+                LoginService.SESSION_STORAGE_KEY, res.getAuthResponse().access_token
+            );
+            let dados = {
+                "token": res.getAuthResponse().id_token,
+                "usuario":{
+                    "email": res.getBasicProfile().getEmail(),
+                    "nome": res.getBasicProfile().getName()
+                } 
+            }
+            localStorage.setItem('currentUser', JSON.stringify(dados));
+            this.router.navigate(['dashboards']);
+        });
+    }
+
+    private signInErrorHandler(err) {
+        console.warn(err);
+    }
 }

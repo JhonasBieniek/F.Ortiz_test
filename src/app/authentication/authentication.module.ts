@@ -11,6 +11,28 @@ import { ForgotComponent } from './forgot/forgot.component';
 import { LockscreenComponent } from './lockscreen/lockscreen.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { LoginService } from './login/login.service';
+
+import {
+  GoogleApiModule, 
+  GoogleApiService, 
+  GoogleAuthService, 
+  NgGapiClientConfig, 
+  NG_GAPI_CONFIG,
+  GoogleApiConfig
+} from "ng-gapi";
+
+let gapiClientConfig: NgGapiClientConfig = {
+  client_id: "1078742420525-80sm10jeu87n9bd445bkjaeusdroofer.apps.googleusercontent.com",
+  discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest"],
+  scope: [
+    "https://mail.google.com/",
+    "https://www.googleapis.com/auth/gmail.modify",
+    "https://www.googleapis.com/auth/gmail.compose",
+    "https://www.googleapis.com/auth/gmail.send"
+  ].join(" ")
+};
+
 
 @NgModule({
   imports: [ 
@@ -23,7 +45,14 @@ import { RegisterComponent } from './register/register.component';
     MatButtonModule,
     FlexLayoutModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    GoogleApiModule.forRoot({
+      provide: NG_GAPI_CONFIG,
+      useValue: gapiClientConfig
+    }),
+  ],
+  providers:[
+    LoginService
   ],
   declarations: [
     ErrorComponent,

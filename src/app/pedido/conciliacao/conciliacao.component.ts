@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Injectable } from '@angular/core';
+import { Component, OnInit, ViewChild, Injectable, ChangeDetectorRef } from '@angular/core';
 import { ClientService } from '../../shared/services/client.service.component';
 import { MatDialogConfig, MatDialog, MatTabChangeEvent, MatBottomSheetRef, MatBottomSheet } from '@angular/material';
 import { NotificationService } from '../../shared/messages/notification.service';
@@ -8,6 +8,9 @@ import { DialogEditNotaComponent } from './dialog-edit-nota/dialog-edit-nota.com
 import { DialogConfirmarDeleteComponent } from '../../cadastro/dialog-confirmar-delete/confirmar-delete.component';
 
 import page from './steps.json';
+import { Observable } from 'rxjs';
+import {pluck, switchMap, map} from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-conciliacao',
@@ -18,7 +21,7 @@ import page from './steps.json';
 @Injectable()
 export class ConciliacaoComponent implements OnInit {
   editing = {};
-  rows:any = [];
+  rows:any;
   temp:any = [];
   selected:any = [];
   page:any = page;
@@ -35,25 +38,24 @@ export class ConciliacaoComponent implements OnInit {
   constructor(
     private notificationService: NotificationService,
     private clientservice: ClientService, 
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private cd: ChangeDetectorRef
   ) {
-      this.loadData();
+      this.rows = this.clientservice.getNotas().pipe(
+        map((res:any) => {
+          return res.data.filter(d => d.status == this.steps[this.defaultTab].step).sort((a,b)=> a.id - b.id);
+        })
+      );
     }
 
   ngOnInit() {
    
   }
 
-  loadData(){
-    this.clientservice.getNotas().subscribe((res:any) =>{
-      let i = 0;
-      this.steps.forEach(e => {
-        this.temp[i] = res.data.filter(d => d.status == e.step);
-        i++;
-      });
-      this.rows = [...this.temp];
-    });                     
+  loadData() {
+  
   }
+
 
   add(path){
     this.openDialog()
