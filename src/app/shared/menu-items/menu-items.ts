@@ -127,7 +127,6 @@ const MENUITEMS = [
       {state: 'financeiro', name: 'Configurar', type: 'link' },
     ]
   },
-
 ];
 
 @Injectable()
