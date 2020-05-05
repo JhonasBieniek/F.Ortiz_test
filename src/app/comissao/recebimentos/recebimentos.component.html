@@ -136,13 +136,17 @@
                 </ng-template>
               </ngx-datatable-row-detail>
               <!-- Column Templates -->
-              <ngx-datatable-column
-                [width]="50"
-                [resizeable]="false"
-                [sortable]="false"
-                [draggable]="false"
-                [canAutoResize]="false"
-              >
+              <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false" [canAutoResize]="false" >
+                <ng-template let-value="value" let-expanded="expandedAll" ngx-datatable-header-template>
+                  <a
+                    href="javascript:void(0)"
+                    [class.datatable-icon-right]="!expandedAll"
+                    [class.datatable-icon-down]="expandedAll"
+                    title="Expand/Collapse Row"
+                    (click)="toggleExpandRowAll(value)"
+                  >
+                  </a>
+                </ng-template>
                 <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
                   <a
                     href="javascript:void(0)"

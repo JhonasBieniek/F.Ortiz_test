@@ -19,7 +19,7 @@ export class RecebimentosComponent implements OnInit {
   timeout: any;
   SelectionType = SelectionType;
   selected = [];
-   
+  expandedAll = false;
   form: FormGroup;
   pageTitle:string = "Receber Comissões";
   showTable:boolean = false;
@@ -57,6 +57,16 @@ export class RecebimentosComponent implements OnInit {
 
   toggleExpandRow(row) {
     this.table.rowDetail.toggleExpandRow(row);
+  }
+
+  toggleExpandRowAll(){
+    if(this.expandedAll){
+      this.expandedAll = false;
+      this.table.rowDetail.collapseAllRows()
+    }else{
+      this.expandedAll = true;
+      this.table.rowDetail.expandAllRows();
+    }
   }
 
   onDetailToggle(event) {
