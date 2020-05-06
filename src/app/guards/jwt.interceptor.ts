@@ -8,7 +8,7 @@ import {
     HttpResponse
 } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { filter, switchMap, take, tap, finalize, catchError, map } from 'rxjs/operators';
+import { filter, mergeMap, take, tap, finalize, catchError, map } from 'rxjs/operators';
 import { NgxSpinnerService } from "ngx-spinner";
 import { Router } from '@angular/router';
 import { LoginService } from '../authentication/login/login.service';
@@ -27,17 +27,20 @@ export class JwtInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler):  Observable<HttpEvent<any>>  {
         return this.loginService.getCurrentUser().pipe(
-            map(auth => { 
+            mergeMap( auth => { 
                 this.spinner.show();
                 this.count++;
-                return request.clone({
-                    setHeaders: {
-                        'Authorization': `Bearer ${auth.currentUser.get().getAuthResponse().id_token}`
-                    }
-                });
-            }),
-            switchMap((request) => { 
-                return next.handle(request).pipe(tap(() => {},
+                
+                if(auth.currentUser.get().getAuthResponse().id_token){
+                    request = request.clone({
+                        setHeaders: {
+                            'Authorization': `Bearer ${auth.currentUser.get().getAuthResponse().id_token}`
+                        }
+                    });
+                }
+                
+                return next.handle(request).pipe(
+                    tap(() => {},
                     (err: any) => {
                         if (err instanceof HttpErrorResponse) {
                             if (err.status !== 401) {
