@@ -63,6 +63,7 @@ export class DialogBodyClienteComponent implements OnInit {
       representante: [null, Validators.compose([Validators.minLength(5), Validators.maxLength(50)])],
       area_venda_id: [null, Validators.compose([Validators.required])],
       ramo_atividade_id: [null],
+      limite: null,
       obs: [null, Validators.compose([Validators.maxLength(100)])],
       status: true,
       enderecos:this.fb.array([])

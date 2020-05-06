@@ -119,7 +119,7 @@
           <mat-card-title class="title">Outros</mat-card-title>
         </mat-card-header>
       </div>
-      <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="34">
+      <div class="p-10" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25">
         <mat-form-field appearance="outline">
           <mat-label>Representante</mat-label>
           <input matInput placeholder="Representante" formControlName="representante">
@@ -129,7 +129,7 @@
         <mat-hint *ngIf="form.get('representante').errors?.maxlength && form.get('representante').touched"
           class="text-danger font-14">O representante não deve exceder 50 caracteres</mat-hint>
       </div>
-      <div class="p-10" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="33">
+      <div class="p-10" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25">
         <mat-form-field appearance="outline">
           <mat-label>Telefone fixo</mat-label>
           <input matInput placeholder="Telefone Fixo" mask="(00) 0000-0000" formControlName="telefone"
@@ -138,7 +138,7 @@
         <small *ngIf="form.get('telefone').errors?.phone && form.get('telefone').touched"
           class="text-danger font-14">O número inserido deve ser válido.</small>
       </div>
-      <div class="p-10" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="33">
+      <div class="p-10" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25">
         <mat-form-field appearance="outline">
           <mat-label>Celular</mat-label>
           <input matInput placeholder="Celular" mask="(00) 0 0000-0000" formControlName="celular"
@@ -146,6 +146,12 @@
         </mat-form-field>
         <small *ngIf="form.get('celular').errors?.phone && form.get('celular').touched"
           class="text-danger font-14">O número inserido deve ser válido.</small>
+      </div>
+      <div class="p-10" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25">
+        <mat-form-field appearance="outline">
+          <mat-label>Limite de Crédito</mat-label>
+          <input matInput placeholder="Limite de crédito" formControlName="limite" currencyMask>
+        </mat-form-field>
       </div>
       <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="34">
         <mat-form-field appearance="outline">
