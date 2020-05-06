@@ -45,6 +45,7 @@ import { DialogBodyFuncionarioComponent } from './funcionario/dialog-body/dialog
 import { DialogBodyClienteComponent } from './cliente/dialog-body/dialog-body-cliente.component';
 import { TamanhosComponent } from './tamanhos/tamanhos.component';
 import { DialogTamanhosComponent } from './tamanhos/dialog-tamanhos/dialog-tamanhoscomponent';
+import { NgxCurrencyModule } from 'ngx-currency';
 
 
 
@@ -62,6 +63,7 @@ import { DialogTamanhosComponent } from './tamanhos/dialog-tamanhos/dialog-taman
     QuillModule,
     FileUploadModule,
     NgxDatatableModule,
+    NgxCurrencyModule,
     NgxMaskModule.forRoot(),
 
   ],
