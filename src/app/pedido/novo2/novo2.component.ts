@@ -4,7 +4,6 @@ import { ClientService } from '../../shared/services/client.service.component';
 import { NotificationService } from '../../shared/messages/notification.service';
 import * as XLSX from 'xlsx';
 
-
 import { OrderItem } from '../order-item.model';
 import { MatDialogRef, MatDialogConfig, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 import { DialogCadastroComponent } from '../novo/dialog-cadastro/dialog-cadastro.component';
@@ -12,6 +11,9 @@ import { DialogBodyClienteComponent } from '../../cadastro/cliente/dialog-body/d
 import { ItemPedido } from '../itemPedido.model';
 import * as moment from 'moment';
 import { NgxSpinnerService } from "ngx-spinner";
+
+import { switchMap, catchError } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-novo2',
@@ -78,13 +80,14 @@ export class Novo2Component implements OnInit {
   representada: any;
   selectRepresentada: string = "Selecione a representada";
   condComercial: any;
-  produto:any ;
-  currentAction:string = "";
-  pageTitle:string = "";
-  clientSize:number;
-  pedidoSize:number;
-  pedidoN:any;
-
+  produto: any;
+  currentAction: string = "";
+  pageTitle: string = "";
+  clientSize: number;
+  pedidoSize: number;
+  pedidoN: any;
+  comissao_vendedor:any = [];
+  comissao_auxiliar:[] = [];
 
   incomingfile(event) {
     var file: File;
@@ -110,7 +113,7 @@ export class Novo2Component implements OnInit {
       this.form.get('representada_id').setValue(this.representada.id);
       this[this.representada.func](json);
     }
-    if(file != undefined){
+    if (file != undefined) {
       this.spinner.show();
       this.planilha.readAsArrayBuffer(file);
     }
@@ -119,10 +122,10 @@ export class Novo2Component implements OnInit {
   async volk(data) {
     var inicial = 0;
     var final = 0;
-    var clienteCnpj = (data[7][3].toString().length == 13)? "0"+data[7][3]: data[7][3];
-    var pedido = (data[21][12] != undefined)? data[6][1]+"/"+data[21][12]: data[6][1];
+    var clienteCnpj = (data[7][3].toString().length == 13) ? "0" + data[7][3] : data[7][3];
+    var pedido = (data[21][12] != undefined) ? data[6][1] + "/" + data[21][12] : data[6][1];
     this.condComercial = data[12][1];
-    
+
     this.form.get('num_pedido').setValue(pedido);
     this.form.get('transportadora').setValue(data[18][2]);
     this.form.get('data_emissao').setValue(moment(data[6][3].replace(/\//g, "-"), 'DD-MM-YYYY').format("YYYY-MM-DD"));
@@ -138,13 +141,13 @@ export class Novo2Component implements OnInit {
       }
       if (data[inicial][0] != "Produto" && data[inicial][0] != "Valor Produtos.....:") {
         var produto = {
-            codigo: data[inicial][0],
-            nome: data[inicial][2],
-            quantidade: data[inicial][5],
-            tamanho: data[inicial][1],
-            ipi: data[inicial][9],
-            valorUnitario: data[inicial][6],
-            comissao: data[inicial][11]
+          codigo: data[inicial][0],
+          nome: data[inicial][2],
+          quantidade: data[inicial][5],
+          tamanho: data[inicial][1],
+          ipi: data[inicial][9],
+          valorUnitario: data[inicial][6],
+          comissao: data[inicial][11]
         }
         await this.consultaCod(produto).then((res: any) => {
           if (res != undefined) {
@@ -185,7 +188,7 @@ export class Novo2Component implements OnInit {
 
     let clienteCnpj = data[2][0].toString().match(new RegExp("\\d{2}\\.\\d{3}\\.\\d{3}\\/\\d{4}\\-\\d{2}", "g"))[0];
     clienteCnpj = clienteCnpj.replace(/[^\d]+/g, '');
-    clienteCnpj = (clienteCnpj.length == 13)? "0"+clienteCnpj:clienteCnpj;
+    clienteCnpj = (clienteCnpj.length == 13) ? "0" + clienteCnpj : clienteCnpj;
     this.form.get('num_pedido').setValue(data[0][0].toString().match(new RegExp("\\d+", "g"))[0]);
     this.form.get('frete').setValue('Representada');
     while (inicial <= final) {
@@ -200,10 +203,10 @@ export class Novo2Component implements OnInit {
         var produto = {
           codigo: data[inicial][0].split(" - ")[0].trim(),
           nome: data[inicial][0].split(" - ")[1],
-          quantidade: parseInt(data[inicial][1].replace(/\./g,'')),
+          quantidade: parseInt(data[inicial][1].replace(/\./g, '')),
           tamanho: null,
           ipi: null,
-          valorUnitario: data[inicial][3].match(/\d+/g)[0]+"."+ data[inicial][3].match(/\d+/g)[1],
+          valorUnitario: data[inicial][3].match(/\d+/g)[0] + "." + data[inicial][3].match(/\d+/g)[1],
           comissao: null
         }
         await this.consultaCod(produto).then((res: any) => {
@@ -214,14 +217,14 @@ export class Novo2Component implements OnInit {
       }
       inicial++;
     }
-    if(data[final+1][0] == 'Valor total em produtos:'){
-      this.condComercial = data[final+3][0].split(':')[1].replace("  Data de Emissão", "").trim();
-      this.form.get('data_emissao').setValue( moment(data[final+3][0].split(':')[2], 'DD-MM-YYYY').format("YYYY-MM-DD") );
-      this.form.get('obs').setValue(data[final+5][0].split(':')[1]);
-    }else{
-      this.condComercial = data[final+2][0].split(':')[1].replace("  Data de Emissão", "").trim();
-      this.form.get('data_emissao').setValue(moment(data[final+2][0].split(':')[2], 'DD-MM-YYYY').format("YYYY-MM-DD") );
-      this.form.get('obs').setValue(data[final+4][0].split(':')[1]);
+    if (data[final + 1][0] == 'Valor total em produtos:') {
+      this.condComercial = data[final + 3][0].split(':')[1].replace("  Data de Emissão", "").trim();
+      this.form.get('data_emissao').setValue(moment(data[final + 3][0].split(':')[2], 'DD-MM-YYYY').format("YYYY-MM-DD"));
+      this.form.get('obs').setValue(data[final + 5][0].split(':')[1]);
+    } else {
+      this.condComercial = data[final + 2][0].split(':')[1].replace("  Data de Emissão", "").trim();
+      this.form.get('data_emissao').setValue(moment(data[final + 2][0].split(':')[2], 'DD-MM-YYYY').format("YYYY-MM-DD"));
+      this.form.get('obs').setValue(data[final + 4][0].split(':')[1]);
     }
     this.ValorTotal = data[final][1];
     if (inicial > final) {
@@ -229,7 +232,7 @@ export class Novo2Component implements OnInit {
         this.openDialogProdutos()
       }
     }
-    
+
     if (String(clienteCnpj).length == 14) {
       this.clientservice.getClientesCnpj(clienteCnpj).subscribe((res: any) => {
         if (res.success == true) {
@@ -250,7 +253,7 @@ export class Novo2Component implements OnInit {
   async kadesh(data) {
     var inicial = 0;
     var final = 0;
-    this.condComercial = data[12][0].split(" ")[0]+" "+data[12][0].split(" ")[1];
+    this.condComercial = data[12][0].split(" ")[0] + " " + data[12][0].split(" ")[1];
 
     let clienteCnpj = data[7][0].toString().match(new RegExp("\\d{14}", "g"))[0];
     this.form.get('num_pedido').setValue(data[3][0]);
@@ -260,16 +263,16 @@ export class Novo2Component implements OnInit {
       final++;
       while (data[inicial][0].toString().split(" ", 1)[0] != "Descrição") {
         inicial++;
-        if(data[inicial+1][0] === undefined){
-          inicial+=2;
+        if (data[inicial + 1][0] === undefined) {
+          inicial += 2;
         }
       }
     }
-    let i = inicial+1;
-    for(i; i<final; i+=3){
-      let rowTam = i+1;
-      let rowQtd = i+2;
-      let dados = data[i][0].toString().replace( /  +/g, ' ' );
+    let i = inicial + 1;
+    for (i; i < final; i += 3) {
+      let rowTam = i + 1;
+      let rowQtd = i + 2;
+      let dados = data[i][0].toString().replace(/  +/g, ' ');
       let produto = {
         codigo: dados.split(/\s+/g)[1],
         nome: dados.match(new RegExp("(?<=-\\s)([^.]+)(?=PR)"))[0].trim(),
@@ -279,8 +282,8 @@ export class Novo2Component implements OnInit {
         valorUnitario: dados.split(" ").slice(-2)[0].replace(",", '.'),
         comissao: null
       }
-      for(let j=0; j<=data[rowTam].length; j++){
-        if(data[rowTam][j] != undefined || data[rowQtd][j] != undefined ){
+      for (let j = 0; j <= data[rowTam].length; j++) {
+        if (data[rowTam][j] != undefined || data[rowQtd][j] != undefined) {
           produto.tamanho = data[rowTam][j];
           produto.quantidade = data[rowQtd][j];
           await this.consultaCod(produto).then((res: any) => {
@@ -292,16 +295,16 @@ export class Novo2Component implements OnInit {
       }
     }
 
-    this.form.get('valor_total').setValue(data[final+7][0]);
-    this.form.get('frete').setValue( (data[final+9][0] == "CIF Destino") ? "Cliente" : "Representada");
-    this.form.get('transportadora').setValue(data[final+11][0]);
+    this.form.get('valor_total').setValue(data[final + 7][0]);
+    this.form.get('frete').setValue((data[final + 9][0] == "CIF Destino") ? "Cliente" : "Representada");
+    this.form.get('transportadora').setValue(data[final + 11][0]);
 
     if (i == final) {
       if (this.itemsNew.length > 0) {
         this.openDialogProdutos();
       }
     }
-    
+
     if (String(clienteCnpj).length == 14) {
       this.clientservice.getClientesCnpj(clienteCnpj).subscribe((res: any) => {
         if (res.success == true) {
@@ -324,7 +327,7 @@ export class Novo2Component implements OnInit {
     this.condComercial = data[2][31];
 
     let clienteCnpj = data[5][5].replace(/[^\d]+/g, '');
-    clienteCnpj = (clienteCnpj.length == 13)? "0"+clienteCnpj: clienteCnpj;
+    clienteCnpj = (clienteCnpj.length == 13) ? "0" + clienteCnpj : clienteCnpj;
     this.form.get('num_pedido').setValue(data[1][31]);
     this.form.get('data_emissao').setValue(moment(data[3][31].replace(/\//g, "-"), 'DD-MM-YYYY').format("YYYY-MM-DD"));
 
@@ -341,8 +344,8 @@ export class Novo2Component implements OnInit {
           nome: data[inicial][6],
           quantidade: data[inicial][15].split("/")[1].replace(".", ""),
           ipi: data[inicial][33],
-          valorUnitario: data[inicial][28].match(/\d+/g)[0]+"."+data[inicial][28].match(/\d+/g)[1],
-          desconto: data[inicial][24].match(/\d+/g)[0]+"."+data[inicial][24].match(/\d+/g)[1],
+          valorUnitario: data[inicial][28].match(/\d+/g)[0] + "." + data[inicial][28].match(/\d+/g)[1],
+          desconto: data[inicial][24].match(/\d+/g)[0] + "." + data[inicial][24].match(/\d+/g)[1],
         }
         await this.consultaCod(produto).then((res: any) => {
           if (res != undefined) {
@@ -352,9 +355,9 @@ export class Novo2Component implements OnInit {
       }
       inicial++;
     }
-    this.form.get('valor_total').setValue(data[final+9][31]);
-    this.form.get('frete').setValue((data[final+8][5] == "CIF")? "Cliente" : "Representada");
-    this.form.get('transportadora').setValue(data[final+7][5]);
+    this.form.get('valor_total').setValue(data[final + 9][31]);
+    this.form.get('frete').setValue((data[final + 8][5] == "CIF") ? "Cliente" : "Representada");
+    this.form.get('transportadora').setValue(data[final + 7][5]);
 
     if (inicial > final) {
       if (this.itemsNew.length > 0) {
@@ -378,14 +381,14 @@ export class Novo2Component implements OnInit {
     this.spinner.hide();
   }
 
-  async italbotas(data){
+  async italbotas(data) {
     var inicial = 0;
     var final = 0;
     this.condComercial = data[6][18];
 
     let clienteCnpj = data[5][17];
-    clienteCnpj = (clienteCnpj.length == 13)? "0"+clienteCnpj: clienteCnpj;
-    this.form.get('num_pedido').setValue(data[5][1].trim()+"/"+data[6][27].trim());
+    clienteCnpj = (clienteCnpj.length == 13) ? "0" + clienteCnpj : clienteCnpj;
+    this.form.get('num_pedido').setValue(data[5][1].trim() + "/" + data[6][27].trim());
     this.form.get('data_emissao').setValue(moment(data[6][4].match(new RegExp("\\d{2}\\/\\d{2}\\/\\d{4}", "g"))[0].replace(/\//g, "-"), 'DD-MM-YYYY').format("YYYY-MM-DD"));
     this.form.get('data_entrega').setValue(moment(data[6][10].match(new RegExp("\\d{2}\\/\\d{2}\\/\\d{4}", "g"))[0].replace(/\//g, "-"), 'DD-MM-YYYY').format("YYYY-MM-DD"));
 
@@ -393,9 +396,9 @@ export class Novo2Component implements OnInit {
     while (data[final][21] != "TOTAL:") {
       final++;
     }
-    let i=inicial;
-    for(i; i<final; i+=3){
-      let rowTam = i+2;
+    let i = inicial;
+    for (i; i < final; i += 3) {
+      let rowTam = i + 2;
       let produto = {
         codigo: data[rowTam][0],
         nome: data[rowTam][1].toString().split(" - ")[0],
@@ -411,13 +414,13 @@ export class Novo2Component implements OnInit {
         }
       })
     }
-    
+
     if (i == final) {
       if (this.itemsNew.length > 0) {
         this.openDialogProdutos()
       }
     }
-    
+
     if (String(clienteCnpj).length == 14) {
       this.clientservice.getClientesCnpj(clienteCnpj).subscribe((res: any) => {
         if (res.success == true) {
@@ -435,7 +438,7 @@ export class Novo2Component implements OnInit {
   }
 
 
-  @ViewChild(Novo2Component,  {static: false}) table: Novo2Component;
+  @ViewChild(Novo2Component, { static: false }) table: Novo2Component;
 
   constructor(private fb: FormBuilder,
     private clientservice: ClientService,
@@ -456,7 +459,7 @@ export class Novo2Component implements OnInit {
       this.areas = res.data;
     });
   }
-  
+
 
   ngOnInit() {
     this.createdForm();
@@ -469,57 +472,57 @@ export class Novo2Component implements OnInit {
   }
 
   private setCurrentAction() {
-    if(this.info.tipo == "importar"){
+    if (this.info.tipo == "importar") {
       this.currentAction = "importar"
-      this.clientSize= 44;
-      this.pedidoSize=16;
-    }else if(this.info.tipo == "novo"){
+      this.clientSize = 44;
+      this.pedidoSize = 16;
+    } else if (this.info.tipo == "novo") {
       this.currentAction = "novo"
-      this.clientSize= 26;
-      this.pedidoSize=12;
-    }else{
+      this.clientSize = 26;
+      this.pedidoSize = 12;
+    } else {
       this.currentAction = "edit"
-      this.clientSize= 26;
-      this.pedidoSize=12;
+      this.clientSize = 26;
+      this.pedidoSize = 12;
     }
 
   }
 
   private setPageTitle() {
-    if(this.currentAction == 'importar'){
+    if (this.currentAction == 'importar') {
       this.pageTitle = 'Importar Pedido: '
-    }else if(this.currentAction == 'novo'){
+    } else if (this.currentAction == 'novo') {
       this.pageTitle = 'Novo Pedido: '
-    }else{
+    } else {
       const pedido = (this.pedidoN != undefined) ? this.pedidoN.num_pedido : '';
-      this.pageTitle = 'Editando pedido: '+ pedido;
+      this.pageTitle = 'Editando pedido: ' + pedido;
     }
   }
 
-  private loadPedido(){
-    if(this.currentAction == 'edit')
-    this.clientservice.getPedido(this.info.pedido.id)
-    .subscribe(
-      (pedido:any) => {
-        this.pedidoN = pedido.data;
-        this.representada = pedido.data.representada;
-        this.pedidoN.pedido_produtos.forEach(element => {
-          this.addItem(element)
-        });
-        this.form.patchValue(this.pedidoN)
-        this.setAreaDeVenda(pedido.data.area_venda_id.id);
-      },
-      (error) => alert('Ocorreu um erro no servidor, tente mais tarde.')
-    )
+  private loadPedido() {
+    if (this.currentAction == 'edit')
+      this.clientservice.getPedido(this.info.pedido.id)
+        .subscribe(
+          (pedido: any) => {
+            this.pedidoN = pedido.data;
+            this.representada = pedido.data.representada;
+            this.pedidoN.pedido_produtos.forEach(element => {
+              this.addItem(element)
+            });
+            this.form.patchValue(this.pedidoN)
+            this.setAreaDeVenda(pedido.data.area_venda_id.id);
+          },
+          (error) => alert('Ocorreu um erro no servidor, tente mais tarde.')
+        )
   }
 
-  getClientes(){
+  getClientes() {
     this.clientservice.getClientes().subscribe((res: any) => {
       this.clientes = res.data;
-    }); 
+    });
   }
 
-  createdForm(){
+  createdForm() {
     this.form = this.fb.group({
       id: null,
       representada_id: [null, Validators.compose([Validators.required])],
@@ -536,8 +539,10 @@ export class Novo2Component implements OnInit {
       valor_liquido: [null],
       comissao_media: [null, Validators.compose([Validators.required])],
       comissao_bruto: [null, Validators.compose([Validators.required])],
-      status: [ true, Validators.compose([Validators.required]) ],
-      obs: [ null ],
+      comissao_auxiliar: [null, Validators.compose([Validators.required])],
+      comissao_vendedor: [null, Validators.compose([Validators.required])],
+      status: [true, Validators.compose([Validators.required])],
+      obs: [null],
       data_emissao: [null, Validators.compose([Validators.required])],
       data_entrega: [null],
       data_programada: [null],
@@ -549,7 +554,7 @@ export class Novo2Component implements OnInit {
 
   }
 
-  async consultaCod(produto:any): Promise<any> {
+  async consultaCod(produto: any): Promise<any> {
     let campos;
     let newItem;
     console.log(produto);
@@ -558,7 +563,7 @@ export class Novo2Component implements OnInit {
         if (res.success == true) {
           campos = produto;
           campos.embalagem = res.data.embalagem;
-          campos.unidade = (res.data.unidade != null)?res.data.unidade: null ;
+          campos.unidade = (res.data.unidade != null) ? res.data.unidade : null;
           campos.id = res.data.id;
         } else {
           newItem = produto;
@@ -574,32 +579,34 @@ export class Novo2Component implements OnInit {
     })
   }
 
-  addProduto(item:any){
-    console.log(item)
+  addProduto(item: any) {
     this.produto.push(this.fb.group({
-      id: (item.produto != undefined)? item.produto.id : null,
+      id: (item.produto != undefined) ? item.produto.id : null,
       codigo: item.codigo || item.produto.codigo,
       nome: item.nome || item.produto.nome,
       produto_id: item.id,
       quantidade: [item.quantidade, Validators.required],
-      unidade: (item.unidade != null)? item.unidade.sigla: null,
+      unidade: (item.unidade != null) ? item.unidade.sigla : null,
       embalagem: item.embalagem,
       tamanho: item.tamanho,
-      ipi: (item.ipi != null)? parseFloat(item.ipi): 0,//item.ipi,
+      ipi: (item.ipi != null) ? parseFloat(item.ipi) : 0,//item.ipi,
       valor_unitario: [item.valorUnitario, Validators.required],
       valor_total: [(item.quantidade * item.valorUnitario), Validators.required],
-      comissao_produto: (item.comissao != null)? parseFloat(item.comissao): (this.representada.comissao_padrao != null)? this.representada.comissao_padrao: 0,
+      comissao_produto: (item.comissao != null) ? parseFloat(item.comissao) : (this.representada.comissao_padrao != null) ? this.representada.comissao_padrao : 0,
       obs: ''
     }));
   }
 
-  setAreaDeVenda(id){
-    this.clientservice.getAreaVendaId(id).subscribe((res:any) => {
-      if(res.success == true){
+  setAreaDeVenda(id) {
+    this.clientservice.getAreaVendaId(id).subscribe((res: any) => {
+      if (res.success == true) {
+        console.log(res.data, 'teste de area')
         this.form.get('area_venda_id').setValue(res.data.id);
         this.form.get('vendedor_id').setValue(res.data.vendedor_id);
         this.form.get('auxiliar_id').setValue(res.data.auxiliar_id);
         this.form.get('regiao_id').setValue(res.data.regiao_id);
+        this.comissao_auxiliar = res.data.auxiliar.comissoes;
+        this.comissao_vendedor = res.data.vendedor.comissoes;
       }
     })
   }
@@ -614,11 +621,11 @@ export class Novo2Component implements OnInit {
     this.rows = temp;
     this.table = this.data;
   }
-  setTotal(i){
-    let  valor = this.produto.at(i).get('quantidade').value * this.produto.at(i).get('valor_unitario').value;
+  setTotal(i) {
+    let valor = this.produto.at(i).get('quantidade').value * this.produto.at(i).get('valor_unitario').value;
     this.produto.at(i).get('valor_total').setValue(valor);
   }
-  cnpjFilter(cnpj){
+  cnpjFilter(cnpj) {
     return this.representadas.filter(d => d.cnpj == cnpj);
   }
 
@@ -672,7 +679,7 @@ export class Novo2Component implements OnInit {
       DialogBodyClienteComponent,
       dialogConfig,
     );
-    dialogRefCNPJ.afterClosed().subscribe((res:any) => {
+    dialogRefCNPJ.afterClosed().subscribe((res: any) => {
       this.form.get('cliente_id').setValue(res.data.id);
       this.getClientes();
       this.setAreaDeVenda(res.data.area_venda_id);
@@ -684,54 +691,63 @@ export class Novo2Component implements OnInit {
     this.addItem(itemSelected);
   }
 
-  comissaoMedia(){
-    let i=0;
+  comissaoMedia() {
+    let i = 0;
     let comissao = 0;
     this.produto.controls.forEach(element => {
       comissao += element.get('comissao_produto').value;
       i++;
     })
-    this.form.get('comissao_media').setValue(comissao/i);
-    return comissao/i;
-  }
-
-  comissaoBruta(){
+    this.form.get('comissao_media').setValue(comissao / i);
+    return comissao / i;
+  }    
+  
+  comissaoBruta() {
     let comissao = 0
+    let comissao_vendedor = 0;
     this.produto.controls.forEach(element => {
-      comissao += ((element.get('quantidade').value*element.get('valor_unitario').value) * element.get('comissao_produto').value/100)
+      comissao += ((element.get('quantidade').value * element.get('valor_unitario').value) * element.get('comissao_produto').value / 100);
+      comissao_vendedor += ((element.get('quantidade').value * element.get('valor_unitario').value)
+       * this.comissaoCalcFaixa(element.get('comissao_produto').value) / 100);
     })
     this.form.get('comissao_bruto').setValue(comissao);
     return comissao;
   }
 
-  valorTotal(tipo){
-   let total = 0;
-   let ipi = 0;
-   this.produto.controls.forEach(element => {
-    if(element.get('ipi').value > 0 ){
-      ipi += (element.get('quantidade').value * element.get('valor_unitario').value * element.get('ipi').value)/100;
-    }
-    total += element.get('quantidade').value * element.get('valor_unitario').value;
-   })
-   let desconto = ((total + ipi) * this.form.get('desconto').value)/100;
-   this.form.get('valor_liquido').setValue(total);
-   this.form.get('valor_total').setValue( ((total+ipi)-desconto) );
-   if(tipo == 'total')
-    return ((total + ipi) - desconto);
-   else if(tipo == 'ipi')
-    return ipi
-   else
-    return total;
+  comissaoCalcFaixa(comissaoProduto){
+    let comissao = 0;
+    //this.comissao_vendedor
+    return comissao
+  }
+
+  valorTotal(tipo) {
+    let total = 0;
+    let ipi = 0;
+    this.produto.controls.forEach(element => {
+      if (element.get('ipi').value > 0) {
+        ipi += (element.get('quantidade').value * element.get('valor_unitario').value * element.get('ipi').value) / 100;
+      }
+      total += element.get('quantidade').value * element.get('valor_unitario').value;
+    })
+    let desconto = ((total + ipi) * this.form.get('desconto').value) / 100;
+    this.form.get('valor_liquido').setValue(total);
+    this.form.get('valor_total').setValue(((total + ipi) - desconto));
+    if (tipo == 'total')
+      return ((total + ipi) - desconto);
+    else if (tipo == 'ipi')
+      return ipi
+    else
+      return total;
   }
 
   enviarPedido() {
-    if(this.currentAction == 'edit'){
-      this.clientservice.updatePedido(this.form.value).subscribe((res:any) =>{
+    if (this.currentAction == 'edit') {
+      this.clientservice.updatePedido(this.form.value).subscribe((res: any) => {
         this.notificationService.notify("Atualizado com Sucesso!");
         this.dialogRef.close(res.data);
       })
-    }else{
-      this.clientservice.addPedido(this.form.value).subscribe((res:any) => {
+    } else {
+      this.clientservice.addPedido(this.form.value).subscribe((res: any) => {
         if (res.success == true) {
           this.notificationService.notify(`Pedido Cadastrado com Sucesso!`);
           this.dialogRef.close(res.data);
@@ -743,13 +759,13 @@ export class Novo2Component implements OnInit {
     }
   }
 
-  clearProdutos(){
+  clearProdutos() {
     while (this.produto.controls.length) {
       this.produto.removeAt(0);
     }
   }
 
-  removeItem(index){
+  removeItem(index) {
     this.produto.removeAt(index);
   }
 
