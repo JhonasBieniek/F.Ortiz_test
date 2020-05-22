@@ -87,7 +87,7 @@ export class Novo2Component implements OnInit {
   pedidoSize: number;
   pedidoN: any;
   comissao_vendedor:any = [];
-  comissao_auxiliar:[] = [];
+  comissao_auxiliar:any = [];
 
   incomingfile(event) {
     var file: File;
@@ -605,8 +605,8 @@ export class Novo2Component implements OnInit {
         this.form.get('vendedor_id').setValue(res.data.vendedor_id);
         this.form.get('auxiliar_id').setValue(res.data.auxiliar_id);
         this.form.get('regiao_id').setValue(res.data.regiao_id);
-        this.comissao_auxiliar = res.data.auxiliar.comissoes;
-        this.comissao_vendedor = res.data.vendedor.comissoes;
+        this.comissao_auxiliar = res.data.auxiliar.comissoes.find(e => e.representada_id == this.representada.id);;
+        this.comissao_vendedor = res.data.vendedor.comissoes.find(e => e.representada_id == this.representada.id);
       }
     })
   }
@@ -705,19 +705,31 @@ export class Novo2Component implements OnInit {
   comissaoBruta() {
     let comissao = 0
     let comissao_vendedor = 0;
+    let comissao_auxiliar = 0;
     this.produto.controls.forEach(element => {
       comissao += ((element.get('quantidade').value * element.get('valor_unitario').value) * element.get('comissao_produto').value / 100);
-      comissao_vendedor += ((element.get('quantidade').value * element.get('valor_unitario').value)
-       * this.comissaoCalcFaixa(element.get('comissao_produto').value) / 100);
+      //comissao_vendedor += ((element.get('quantidade').value * element.get('valor_unitario').value) * this.comissaoCalcFaixa(element.get('comissao_produto').value) / 100);
+      comissao_vendedor += this.comissaoCalcFaixa( this.comissao_vendedor, element.get('quantidade').value, element.get('valor_unitario').value, element.get('comissao_produto').value )
+      comissao_auxiliar += this.comissaoCalcFaixa( this.comissao_auxiliar, element.get('quantidade').value, element.get('valor_unitario').value, element.get('comissao_produto').value )
+
     })
+    console.log(comissao_vendedor);
     this.form.get('comissao_bruto').setValue(comissao);
     return comissao;
   }
 
-  comissaoCalcFaixa(comissaoProduto){
-    let comissao = 0;
-    //this.comissao_vendedor
-    return comissao
+  comissaoCalcFaixa(f, q, v, c){
+    if(f.comissao_faixas != undefined){
+      let percentual = 0;
+      f.comissao_faixas.map((res) => {
+        if(c >= res.faixa){
+          percentual = res.percentual;
+        }
+      })
+      return (((q * v * c)/100)*percentual/100)
+    }else{
+      return 0
+    }
   }
 
   valorTotal(tipo) {

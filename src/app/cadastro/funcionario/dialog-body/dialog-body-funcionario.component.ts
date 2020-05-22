@@ -85,9 +85,9 @@ export class DialogBodyFuncionarioComponent implements OnInit {
             this.addComissaoFaixa(i);
             }
             if((i+1) == this.dados.comissoes.length){
-            this.funcionario.patchValue(this.dados)
             }
           }
+          this.funcionario.patchValue(this.dados)
         });
         this.editar  = true;
       }
