@@ -539,8 +539,8 @@ export class Novo2Component implements OnInit {
       valor_liquido: [null],
       comissao_media: [null, Validators.compose([Validators.required])],
       comissao_bruto: [null, Validators.compose([Validators.required])],
-      comissao_auxiliar: [null, Validators.compose([Validators.required])],
-      comissao_vendedor: [null, Validators.compose([Validators.required])],
+      comissao_auxiliar: [null],
+      comissao_vendedor: [null],
       status: [true, Validators.compose([Validators.required])],
       obs: [null],
       data_emissao: [null, Validators.compose([Validators.required])],
@@ -713,8 +713,9 @@ export class Novo2Component implements OnInit {
       comissao_auxiliar += this.comissaoCalcFaixa( this.comissao_auxiliar, element.get('quantidade').value, element.get('valor_unitario').value, element.get('comissao_produto').value )
 
     })
-    console.log(comissao_vendedor);
     this.form.get('comissao_bruto').setValue(comissao);
+    this.form.get('comissao_vendedor').setValue(comissao_vendedor);
+    this.form.get('comissao_auxiliar').setValue(comissao_auxiliar);
     return comissao;
   }
 
