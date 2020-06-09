@@ -41,15 +41,12 @@ export class ReceberComponent implements OnInit {
   }
   
   Submit(){
-    // this.clientservice.consulta(this.form).subscribe((res:any) => {
-
-
-    //Pensar se notifica, caso não conseguir consultar
-    //   if(res.success == true){
-    //     this.notificationService.notify(`Cadastro Efetuado com Sucesso!`)
-    //   }else{
-    //     this.notificationService.notify(`Erro contate o Administrador`)
-    //   }
-    // });
+    this.clientservice.areceber(this.form.value).subscribe((res:any) => { 
+      if(res.success == true){
+        this.notificationService.notify(`Cadastro Efetuado com Sucesso!`)
+      }else{
+        this.notificationService.notify(`Erro contate o Administrador`)
+      }
+    });
   }
 }

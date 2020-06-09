@@ -658,7 +658,10 @@ export class ClientService {
               return res;
             });
   }
-
+  areceber(data){
+    const uri = `${API_URL}` + `pedidos/receber.json`;
+    return this.http.post(uri, data);
+  }
   getApiCnpj(cnpj){
     console.log(String(cnpj).length)
     const uri = 'https://www.receitaws.com.br/v1/cnpj/';
