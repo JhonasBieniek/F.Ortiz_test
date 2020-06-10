@@ -117,6 +117,7 @@ export class JwtInterceptor implements HttpInterceptor {
                 filter(token => token != null),
                 take(1),
                 switchMap(jwt => {
+                    this.spinner.hide ();
                     return next.handle(this.addToken(request, jwt));
                 })
             );
