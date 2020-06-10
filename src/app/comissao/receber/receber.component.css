@@ -6,3 +6,6 @@
   .text{
     font-size: small;
     }  
+.center {
+  text-align: left;
+}    

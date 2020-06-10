@@ -86,8 +86,8 @@ export class Novo2Component implements OnInit {
   clientSize: number;
   pedidoSize: number;
   pedidoN: any;
-  comissao_vendedor:any = [];
-  comissao_auxiliar:any = [];
+  comissao_vendedor: any = [];
+  comissao_auxiliar: any = [];
 
   incomingfile(event) {
     var file: File;
@@ -700,8 +700,8 @@ export class Novo2Component implements OnInit {
     })
     this.form.get('comissao_media').setValue(comissao / i);
     return comissao / i;
-  }    
-  
+  }
+
   comissaoBruta() {
     let comissao = 0
     let comissao_vendedor = 0;
@@ -709,8 +709,8 @@ export class Novo2Component implements OnInit {
     this.produto.controls.forEach(element => {
       comissao += ((element.get('quantidade').value * element.get('valor_unitario').value) * element.get('comissao_produto').value / 100);
       //comissao_vendedor += ((element.get('quantidade').value * element.get('valor_unitario').value) * this.comissaoCalcFaixa(element.get('comissao_produto').value) / 100);
-      comissao_vendedor += this.comissaoCalcFaixa( this.comissao_vendedor, element.get('quantidade').value, element.get('valor_unitario').value, element.get('comissao_produto').value )
-      comissao_auxiliar += this.comissaoCalcFaixa( this.comissao_auxiliar, element.get('quantidade').value, element.get('valor_unitario').value, element.get('comissao_produto').value )
+      comissao_vendedor += this.comissaoCalcFaixa(this.comissao_vendedor, element.get('quantidade').value, element.get('valor_unitario').value, element.get('comissao_produto').value)
+      comissao_auxiliar += this.comissaoCalcFaixa(this.comissao_auxiliar, element.get('quantidade').value, element.get('valor_unitario').value, element.get('comissao_produto').value)
 
     })
     this.form.get('comissao_bruto').setValue(comissao);
@@ -719,16 +719,16 @@ export class Novo2Component implements OnInit {
     return comissao;
   }
 
-  comissaoCalcFaixa(f, q, v, c){
-    if(f.comissao_faixas != undefined){
+  comissaoCalcFaixa(f, q, v, c) {
+    if (f.comissao_faixas != undefined) {
       let percentual = 0;
       f.comissao_faixas.map((res) => {
-        if(c >= res.faixa){
+        if (c >= res.faixa) {
           percentual = res.percentual;
         }
       })
-      return (((q * v * c)/100)*percentual/100)
-    }else{
+      return (((q * v) / 100) * percentual)
+    } else {
       return 0
     }
   }
