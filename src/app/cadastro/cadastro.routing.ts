@@ -17,6 +17,7 @@ import { GruposComponent } from './grupos/grupos.component';
 import { RamoAtividadeComponent } from './ramo-atividade/ramo-atividade.component';
 import { ProdutosComponent } from './produtos/produtos.component';
 import { TamanhosComponent } from './tamanhos/tamanhos.component';
+import { ContaBancoComponent } from './conta-banco/conta-banco.component';
 
 
 export const CadastroRoutes: Routes = [
@@ -73,6 +74,9 @@ export const CadastroRoutes: Routes = [
     },{
     path: 'produtos', 
     component: ProdutosComponent
+    },{
+    path: 'conta', 
+    component: ContaBancoComponent
     }]
   }
 ];

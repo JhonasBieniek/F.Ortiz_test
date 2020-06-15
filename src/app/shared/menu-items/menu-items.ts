@@ -59,6 +59,7 @@ const MENUITEMS = [
       {state: 'regioes', name: 'Regiões', type: 'link' },
       {state: 'representada', name: 'Representadas', type: 'link' },
       {state: 'unidade', name: 'Unidades', type: 'link' },     
+      {state: 'conta', name: 'Conta bancária', type: 'link' },     
     ]
   },{
     state: 'pedidos',

@@ -22,6 +22,7 @@ export class DialogBodyClienteComponent implements OnInit {
   dados: any = [];
   areas: any=[];
   ramos: any=[];
+  bancos: any=[];
   pageTitle:string = 'Cadastrar Cliente';
 
   constructor(private fb: FormBuilder, 
@@ -48,6 +49,9 @@ export class DialogBodyClienteComponent implements OnInit {
                 this.clientservice.getRamos().subscribe((res:any) =>{
                   this.ramos = res.data; 
                 });
+                this.clientservice.getContas().subscribe((res:any) =>{
+                  this.bancos = res.data; 
+                });
   }
 
   ngOnInit() {  
@@ -64,6 +68,7 @@ export class DialogBodyClienteComponent implements OnInit {
       area_venda_id: [null, Validators.compose([Validators.required])],
       ramo_atividade_id: [null],
       limite: null,
+      banco: null,
       obs: [null, Validators.compose([Validators.maxLength(100)])],
       status: true,
       enderecos:this.fb.array([])

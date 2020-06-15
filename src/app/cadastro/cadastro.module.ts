@@ -46,6 +46,8 @@ import { DialogBodyClienteComponent } from './cliente/dialog-body/dialog-body-cl
 import { TamanhosComponent } from './tamanhos/tamanhos.component';
 import { DialogTamanhosComponent } from './tamanhos/dialog-tamanhos/dialog-tamanhoscomponent';
 import { NgxCurrencyModule } from 'ngx-currency';
+import { ContaBancoComponent } from './conta-banco/conta-banco.component';
+import { DialogContaComponent } from './conta-banco/dialog-conta/dialog-conta.component';
 
 
 
@@ -101,6 +103,8 @@ import { NgxCurrencyModule } from 'ngx-currency';
                   ProdutosComponent,
                   DialogBodyProdutoComponent,
                   DialogTamanhosComponent,
+                  ContaBancoComponent,
+                  DialogContaComponent,
   ],
   providers: [
     DatePipe
@@ -120,7 +124,8 @@ import { NgxCurrencyModule } from 'ngx-currency';
                      DialogBodyRamoComponent,
                      DialogConfirmarDeleteComponent,
                      DialogBodyProdutoComponent,
-                     DialogTamanhosComponent
+                     DialogTamanhosComponent,
+                     DialogContaComponent
   ],
 })
 

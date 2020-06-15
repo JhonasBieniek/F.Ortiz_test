@@ -133,6 +133,23 @@ export class ClientService {
       })
      )
   }
+  addConta(dados) {
+    const uri = `${API_URL}` + `contas/add.json`;
+    this
+      .http
+      .post(uri, dados) 
+      .subscribe(res =>
+          console.log('Done'));
+  }
+  updateConta(data): Observable<any>{
+    const url = `${API_URL}contas/edit/${data.id}.json`;
+     return this.http.put(url, data).pipe(
+      catchError(this.handleError),
+      map(res => {
+        return res;
+      })
+     )
+  }
   addCondComerciais(dados) {
     const uri = `${API_URL}` + `condicoes-comerciais/add.json`;
     this
@@ -449,6 +466,15 @@ export class ClientService {
   }
   getCargos() {
     const uri = `${API_URL}` + `cargos/index.json`;
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
+  getContas() {
+    const uri = `${API_URL}` + `contas/index.json`;
     return this
             .http
             .get(uri)

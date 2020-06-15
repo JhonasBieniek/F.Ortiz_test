@@ -1,0 +1,64 @@
+<div fxLayout="row" fxLayoutWrap="wrap">
+    <!-- Card column -->
+    <div fxFlex.gt-sm="100%" fxFlex="100">
+        <mat-card>
+            <mat-card-content>
+                <mat-card-title style="font-weight: bold;font-size: x-large;">Cargos</mat-card-title>
+                <mat-card-actions align="end">
+                  <div class="button-row">
+                   <button mat-raised-button color="primary" (click)="openDialog()">Novo Cargo</button>
+                  </div> 
+                </mat-card-actions> 
+            </mat-card-content>
+            <mat-tab-group>
+                <mat-tab label="Cargos cadastrados"><mat-card-content>
+                            <mat-card-title>Buscar</mat-card-title>
+                            <mat-form-field>
+                               <input matInput  type='text' class="form-control"  placeholder='Digite um nome para filtrar...' (keyup)='updateFilter($event)'   />
+                            </mat-form-field>
+                            <ngx-datatable
+                                #table
+                                class='material striped'
+                                [columnMode]="'flex'"
+                                [headerHeight]="50"
+                                [footerHeight]="50"
+                                [rowHeight]="'auto'"
+                                [limit]="20"
+                                [rows]='rows'>
+  
+                                <ngx-datatable-column [flexGrow]="1.2" name="Banco">
+                                  <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
+                                    {{ row.banco }}
+                                  </ng-template>
+                                </ngx-datatable-column>  
+  
+                                <ngx-datatable-column [flexGrow]="1" name="Agência">
+                                  <ng-template let-value="created" let-row="row" ngx-datatable-cell-template>
+                                    {{ row.agencia}}
+                                  </ng-template>
+                                </ngx-datatable-column>
+                                
+                                <ngx-datatable-column [flexGrow]="1" name="Conta">
+                                  <ng-template let-value="modified" let-row="row" ngx-datatable-cell-template>
+                                    {{ row.conta}}
+                                  </ng-template>
+                                </ngx-datatable-column> 
+  
+                                <ngx-datatable-column [flexGrow]="0.8" name="Ações">
+                                  <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex"
+                                    ngx-datatable-cell-template>      
+                                    <i class="fa fa-pencil button" 
+                                      title="Editar" 
+                                      (click)="edit(row);"></i>
+                                    <i class="fa fa-trash-o button2"
+                                      title="Deletar" 
+                                      (click)="delete(row)"></i>                               
+                                  </ng-template>
+                                </ngx-datatable-column>
+  
+                              </ngx-datatable>
+                </mat-card-content></mat-tab>
+            </mat-tab-group>
+        </mat-card>    
+    </div>
+  </div>
