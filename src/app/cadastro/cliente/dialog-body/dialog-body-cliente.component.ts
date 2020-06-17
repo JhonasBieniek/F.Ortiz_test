@@ -38,7 +38,8 @@ export class DialogBodyClienteComponent implements OnInit {
                   }else{
                     this.pageTitle = 'Editar Cliente';
                     this.clientservice.getClientesId(data.id).subscribe((res:any) => {
-                      this.addEnderecos(res.data.enderecos);
+                      this.addEnderecos(res.data.enderecos_clientes);
+                      this.addVencimentos(res.data.cliente_vencimentos);
                       this.form.patchValue(res.data);
                     })
                   }
@@ -65,31 +66,33 @@ export class DialogBodyClienteComponent implements OnInit {
       area_venda_id: [null, Validators.compose([Validators.required])],
       ramo_atividade_id: [null],
       limite: null,
-      pagamentoTipo: null,
+      pagamento_tipo: null,
       obs: [null, Validators.compose([Validators.maxLength(100)])],
       status: true,
-      enderecos:this.fb.array([]),
-      vencimentos:this.fb.array([]),
+      enderecos_clientes:this.fb.array([]),
+      cliente_vencimentos:this.fb.array([]),
     });
   }
 
   addEndereco (data:any = null ){
-    const endereco = this.form.controls.enderecos as FormArray;
+    const endereco = this.form.controls.enderecos_clientes as FormArray;
     endereco.push(this.fb.group({
-      id: data?data.id:null,
-      cep: data?data.cep:null,
-      logradouro: data?data.logradouro:null,
-      numero: data?data.numero:null,
-      complemento: data?data.complemento:null,
-      bairro: data?data.bairro:null,
-      cidade: data?data.cidade:null,
-      estado: data?data.estado:null,  
-      pais: 'Brasil',  
+      endereco: this.fb.group({
+        id: data?data.id:null,
+        cep: data?data.cep:null,
+        logradouro: data?data.logradouro:null,
+        numero: data?data.numero:null,
+        complemento: data?data.complemento:null,
+        bairro: data?data.bairro:null,
+        cidade: data?data.cidade:null,
+        estado: data?data.estado:null,  
+        pais: 'Brasil',
+      })
     }))
   }
 
   delEndereco(index){
-    const endereco = this.form.controls.enderecos as FormArray;
+    const endereco = this.form.controls.enderecos_clientes as FormArray;
     endereco.removeAt(index);
   }
 
@@ -100,12 +103,12 @@ export class DialogBodyClienteComponent implements OnInit {
   }
 
   clearVencimento(){
-    const endereco = this.form.controls.vencimentos as FormArray;
+    const endereco = this.form.controls.cliente_vencimentos as FormArray;
     endereco.clear()
   }
 
   addVencimento(data:any = null, type ){
-    const endereco = this.form.controls.vencimentos as FormArray;
+    const endereco = this.form.controls.cliente_vencimentos as FormArray;
 
     if(type == 'v'){
       endereco.clear()
@@ -119,7 +122,7 @@ export class DialogBodyClienteComponent implements OnInit {
   }
 
   delVencimento(index){
-    const vencimento = this.form.controls.vencimentos as FormArray;
+    const vencimento = this.form.controls.cliente_vencimentos as FormArray;
     vencimento.removeAt(index);
   }
 
@@ -148,11 +151,7 @@ export class DialogBodyClienteComponent implements OnInit {
       cidade: data.municipio,
       estado: data.uf
     };
-    let vencimentos ={
-      vencimento: data.vencimento
-    }
     this.addEndereco(endereco);
-    this.addVencimentos(vencimentos);
   }
   
   removeSpecialChar(data) {
@@ -166,15 +165,15 @@ export class DialogBodyClienteComponent implements OnInit {
   }
 
   onBlurMethod(index){
-    const enderecos = this.form.controls.enderecos as FormArray;
-    if( enderecos.at(index).get('cep').value != null && enderecos.at(index).get('cep').value.length == 8 ){
-      this.clientservice.getCep(enderecos.at(index).get('cep').value).subscribe( res => {
+    const enderecos = this.form.controls.enderecos_clientes as FormArray;
+    if( enderecos.at(index).get('endereco').get('cep').value != null && enderecos.at(index).get('endereco').get('cep').value.length == 8 ){
+      this.clientservice.getCep(enderecos.at(index).get('endereco').get('cep').value).subscribe( res => {
         this.cep = res
         if(this.cep.success == true){
-        enderecos.at(index).get('cidade').setValue(this.cep.data.cidade);
-        enderecos.at(index).get('estado').setValue(this.cep.data.estado);
-        enderecos.at(index).get('logradouro').setValue(this.cep.data.logradouro);
-        enderecos.at(index).get('bairro').setValue(this.cep.data.bairro);
+        enderecos.at(index).get('endereco').get('cidade').setValue(this.cep.data.cidade);
+        enderecos.at(index).get('endereco').get('estado').setValue(this.cep.data.estado);
+        enderecos.at(index).get('endereco').get('logradouro').setValue(this.cep.data.logradouro);
+        enderecos.at(index).get('endereco').get('bairro').setValue(this.cep.data.bairro);
       }else{
         this.openAlert('Erro', 'Cep Inválido');
        }

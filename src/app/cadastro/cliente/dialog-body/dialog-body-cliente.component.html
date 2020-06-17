@@ -54,7 +54,7 @@
           class="text-danger font-14">Você deve incluir uma razão social.</mat-hint>
       </div>
     </div>
-    <div formArrayName="enderecos" fxLayout="row wrap" class="row">
+    <div formArrayName="enderecos_clientes" fxLayout="row wrap" class="row">
       <div class="p-10 aj" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <mat-card-header class="bg-info text-white">
           <mat-card-title class="title container">Endereço</mat-card-title>
@@ -62,54 +62,56 @@
           <i class="material-icons plus-icons" (click)="addEndereco()">add_circle_outline</i> <span class="title">Adicionar endereço</span>
         </mat-card-header>
       </div>
-      <div fxLayout="row wrap" *ngFor="let endereco of form.get('enderecos').controls; index as i" [formGroupName]="i"> 
-        <div class="p-10 aj" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-          Endereço - {{i + 1}}
-          <button mat-icon-button (click)="delEndereco(i)">
-            <mat-icon class="clear">clear</mat-icon>
-          </button>
-        </div>
-        <div class="p-10 aj" fxFlex.gt-sm="15" fxFlex.gt-xs="13" fxFlex="100">
-          <mat-form-field appearance="outline">
-            <mat-label>CEP</mat-label>
-            <input matInput placeholder="CEP" mask="00000-000" (blur)="onBlurMethod(i)" formControlName="cep">
-          </mat-form-field>
-        </div>
-        <div class="p-10 aj" fxFlex.gt-sm="55" fxFlex.gt-xs="52" fxFlex="100">
-          <mat-form-field appearance="outline">
-            <mat-label>Logradouro</mat-label>
-            <input matInput placeholder="Logradouro" formControlName="logradouro">
-          </mat-form-field>
-        </div>
-        <div class="p-10 aj" fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="100">
-          <mat-form-field appearance="outline">
-            <mat-label>Número</mat-label>
-            <input matInput placeholder="Número" formControlName="numero">
-          </mat-form-field>
-        </div>
-        <div class="p-10 aj" fxFlex.gt-sm="20" fxFlex.gt-xs="21" fxFlex="100">
-          <mat-form-field appearance="outline">
-            <mat-label>Complemento</mat-label>
-            <input matInput placeholder="Complemento" formControlName="complemento">
-          </mat-form-field>
-        </div>
-        <div class="p-10 aj" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
-          <mat-form-field appearance="outline">
-            <mat-label>Bairro</mat-label>
-            <input matInput placeholder="Bairro" formControlName="bairro">
-          </mat-form-field>
-        </div>
-        <div class="p-10 aj" fxFlex.gt-sm="36" fxFlex.gt-xs="36" fxFlex="100">
-          <mat-form-field appearance="outline">
-            <mat-label>Cidade</mat-label>
-            <input matInput placeholder="Cidade" formControlName="cidade">
-          </mat-form-field>
-        </div>
-        <div class="p-10 aj" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="100">
-          <mat-form-field appearance="outline">
-            <mat-label>Estado</mat-label>
-            <input matInput placeholder="Estado" formControlName="estado">
-          </mat-form-field>
+      <div fxLayout="row wrap" *ngFor="let e of form.get('enderecos_clientes').controls; index as i" [formGroupName]="i"> 
+        <div fxLayout="row wrap" formGroupName="endereco" >
+          <div class="p-10 aj" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+            Endereço - {{i + 1}}
+            <button mat-icon-button (click)="delEndereco(i)">
+              <mat-icon class="clear">clear</mat-icon>
+            </button>
+          </div>
+          <div class="p-10 aj" fxFlex.gt-sm="15" fxFlex.gt-xs="13" fxFlex="100">
+            <mat-form-field appearance="outline">
+              <mat-label>CEP</mat-label>
+              <input matInput placeholder="CEP" mask="00000-000" (blur)="onBlurMethod(i)" formControlName="cep">
+            </mat-form-field>
+          </div>
+          <div class="p-10 aj" fxFlex.gt-sm="55" fxFlex.gt-xs="52" fxFlex="100">
+            <mat-form-field appearance="outline">
+              <mat-label>Logradouro</mat-label>
+              <input matInput placeholder="Logradouro" formControlName="logradouro">
+            </mat-form-field>
+          </div>
+          <div class="p-10 aj" fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="100">
+            <mat-form-field appearance="outline">
+              <mat-label>Número</mat-label>
+              <input matInput placeholder="Número" formControlName="numero">
+            </mat-form-field>
+          </div>
+          <div class="p-10 aj" fxFlex.gt-sm="20" fxFlex.gt-xs="21" fxFlex="100">
+            <mat-form-field appearance="outline">
+              <mat-label>Complemento</mat-label>
+              <input matInput placeholder="Complemento" formControlName="complemento">
+            </mat-form-field>
+          </div>
+          <div class="p-10 aj" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
+            <mat-form-field appearance="outline">
+              <mat-label>Bairro</mat-label>
+              <input matInput placeholder="Bairro" formControlName="bairro">
+            </mat-form-field>
+          </div>
+          <div class="p-10 aj" fxFlex.gt-sm="36" fxFlex.gt-xs="36" fxFlex="100">
+            <mat-form-field appearance="outline">
+              <mat-label>Cidade</mat-label>
+              <input matInput placeholder="Cidade" formControlName="cidade">
+            </mat-form-field>
+          </div>
+          <div class="p-10 aj" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="100">
+            <mat-form-field appearance="outline">
+              <mat-label>Estado</mat-label>
+              <input matInput placeholder="Estado" formControlName="estado">
+            </mat-form-field>
+          </div>
         </div>
       </div>
     </div>
@@ -189,19 +191,19 @@
         <mat-form-field appearance="outline" [hideRequiredMarker]="true"
           [floatLabel]="auto">
           <mat-label>Tipo de Pagamento</mat-label>
-          <mat-select required formControlName="pagamentoTipo">
+          <mat-select required formControlName="pagamento_tipo">
             <mat-option value="Faturamento" (click)="clearVencimento()">Faturamento</mat-option>
             <mat-option value="Vencimento" (click)="addVencimento(null, 'v')">Vencimento</mat-option>
           </mat-select>
         </mat-form-field>
-        <small *ngIf="form.get('pagamentoTipo').errors?.required && form.get('pagamentoTipo').touched"
+        <small *ngIf="form.get('pagamento_tipo').errors?.required && form.get('pagamento_tipo').touched"
         class="text-danger font-14">Você precisa selecionar o tipo de pagamento.</small>
       </div>
-      <div *ngIf="form.controls['pagamentoTipo'].value == 'Vencimento'" class="p-10 aj" style="margin-left: -5px;" fxFlex.gt-sm="5" fxFlex.gt-xs="5" fxFlex="5">
+      <div *ngIf="form.controls['pagamento_tipo'].value == 'Vencimento'" class="p-10 aj" style="margin-left: -5px;" fxFlex.gt-sm="5" fxFlex.gt-xs="5" fxFlex="5">
        <i style="color: blue;" class="material-icons plus-icons" (click)="addVencimento()">add_circle_outline</i>
       </div>
-      <div formArrayName="vencimentos" class="p-10 aj" fxFlex.gt-sm="55" fxFlex.gt-xs="55" fxFlex="55">
-        <div *ngFor="let endereco of form.get('vencimentos').controls; index as j" 
+      <div formArrayName="cliente_vencimentos" class="p-10 aj" fxFlex.gt-sm="55" fxFlex.gt-xs="55" fxFlex="55">
+        <div *ngFor="let v of form.get('cliente_vencimentos').controls; index as j" 
         [formGroupName]="j" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="20">
         <div fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="70">
           <mat-form-field appearance="outline" style="position: relative;">
