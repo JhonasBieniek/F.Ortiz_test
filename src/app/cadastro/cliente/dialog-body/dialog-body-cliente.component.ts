@@ -68,7 +68,7 @@ export class DialogBodyClienteComponent implements OnInit {
       area_venda_id: [null, Validators.compose([Validators.required])],
       ramo_atividade_id: [null],
       limite: null,
-      banco: null,
+      banco_id: null,
       pagamentoTipo: null,
       obs: [null, Validators.compose([Validators.maxLength(100)])],
       status: true,

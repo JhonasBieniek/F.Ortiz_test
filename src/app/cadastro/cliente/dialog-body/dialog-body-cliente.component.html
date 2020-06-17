@@ -189,7 +189,7 @@
         <mat-form-field appearance="outline" [hideRequiredMarker]="true"
           [floatLabel]="auto">
           <mat-label>Banco p/ Pagamento</mat-label>
-          <mat-select formControlName="banco">
+          <mat-select formControlName="banco_id">
             <mat-option *ngFor="let banco of bancos" [value]="banco.id">
               {{banco.banco}} - Ag: {{banco.agencia}} / Cc: {{banco.conta}}
             </mat-option>
