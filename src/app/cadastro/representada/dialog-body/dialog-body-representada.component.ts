@@ -21,6 +21,8 @@ export class DialogBodyRepresentadaComponent implements OnInit {
   modelBairro;
   modelLogradouro;
   pageTitle:string = "";
+  bancos: any=[];
+
 
   constructor(public dialogRef: MatDialogRef<DialogBodyRepresentadaComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
@@ -29,7 +31,9 @@ export class DialogBodyRepresentadaComponent implements OnInit {
               private notificationService: NotificationService,
               private dialog: MatDialog
               ) {
-   
+              this.clientservice.getContas().subscribe((res:any) =>{
+                this.bancos = res.data; 
+              });
   }
   ngOnInit() {  
     this.form = this.fb.group({
@@ -44,6 +48,7 @@ export class DialogBodyRepresentadaComponent implements OnInit {
       representante: [null],
       obs: [null, Validators.compose([Validators.maxLength(100)])],
       status: [true],
+      banco_id: null,
       comissao_padrao: [null],
       endereco: this.fb.group({
         cep: [null],

@@ -185,18 +185,6 @@
           <mat-placeholder>Ramo de Atividade</mat-placeholder>
         </mat-form-field>
       </div>
-      <div class="p-10 aj" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25">
-        <mat-form-field appearance="outline" [hideRequiredMarker]="true"
-          [floatLabel]="auto">
-          <mat-label>Banco p/ Pagamento</mat-label>
-          <mat-select formControlName="banco_id">
-            <mat-option *ngFor="let banco of bancos" [value]="banco.id">
-              {{banco.banco}} - Ag: {{banco.agencia}} / Cc: {{banco.conta}}
-            </mat-option>
-          </mat-select>
-          <mat-placeholder>Banco p/ Pagamento</mat-placeholder>
-        </mat-form-field>
-      </div>
       <div class="p-10 aj" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="15">
         <mat-form-field appearance="outline" [hideRequiredMarker]="true"
           [floatLabel]="auto">

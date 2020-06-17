@@ -49,9 +49,6 @@ export class DialogBodyClienteComponent implements OnInit {
                 this.clientservice.getRamos().subscribe((res:any) =>{
                   this.ramos = res.data; 
                 });
-                this.clientservice.getContas().subscribe((res:any) =>{
-                  this.bancos = res.data; 
-                });
   }
 
   ngOnInit() {  
@@ -68,7 +65,6 @@ export class DialogBodyClienteComponent implements OnInit {
       area_venda_id: [null, Validators.compose([Validators.required])],
       ramo_atividade_id: [null],
       limite: null,
-      banco_id: null,
       pagamentoTipo: null,
       obs: [null, Validators.compose([Validators.maxLength(100)])],
       status: true,
@@ -113,7 +109,9 @@ export class DialogBodyClienteComponent implements OnInit {
 
     if(type == 'v'){
       endereco.clear()
-    }
+    }else if(endereco.length == 3){
+      alert('Número limite de vencimentos')
+    }else
     endereco.push(this.fb.group({
       id: data?data.id:null,
       vencimento: data?data.vencimento:null, 

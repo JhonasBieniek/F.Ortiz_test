@@ -151,7 +151,7 @@
         <mat-card-title class="Outros">Outros</mat-card-title>
       </mat-card-header>
     </div>
-    <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+    <div class="p-10" fxFlex.gt-sm="33.33" fxFlex.gt-xs="33.33" fxFlex="100">
       <mat-form-field appearance="outline">
         <mat-label>Telefone Fixo</mat-label>
         <input matInput placeholder="Telefone Fixo" mask="(00) 0000-0000" formControlName="telefone"
@@ -160,7 +160,7 @@
       <small *ngIf="form.get('telefone').errors?.phone && form.get('telefone').touched"
         class="text-danger font-14">O número inserido deve ser válido.</small>
     </div>
-    <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+    <div class="p-10" fxFlex.gt-sm="33.33" fxFlex.gt-xs="33.33" fxFlex="100">
       <mat-form-field appearance="outline">
         <mat-label>Celular</mat-label>
         <input matInput placeholder="Celular" mask="(00) 0 0000-0000" formControlName="celular"
@@ -169,7 +169,7 @@
       <small *ngIf="form.get('celular').errors?.phone && form.get('celular').touched"
         class="text-danger font-14">O número inserido deve ser válido.</small>
     </div>
-    <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+    <div class="p-10" fxFlex.gt-sm="33.33" fxFlex.gt-xs="33.33" fxFlex="100">
       <mat-form-field appearance="outline">
         <mat-label>Representante</mat-label>
         <input matInput placeholder="Representante*" formControlName="representante">
@@ -179,13 +179,25 @@
       <mat-hint *ngIf="form.get('representante').errors?.maxlength && form.get('representante').touched"
         class="text-danger font-14">O representante não deve exceder 50 caracteres</mat-hint>
     </div>
-    <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+    <div class="p-10" fxFlex.gt-sm="65" fxFlex.gt-xs="65" fxFlex="100">
       <mat-form-field appearance="outline">
         <mat-label>Email</mat-label>
         <input matInput placeholder="Email" formControlName="email" type="email">
       </mat-form-field>
       <small *ngIf="form.get('email').errors?.email && form.get('email').touched"
         class="text-danger font-14">O endereço de email deve ser valido.</small>
+    </div>
+    <div class="p-10 aj" fxFlex.gt-sm="35" fxFlex.gt-xs="35" fxFlex="100">
+      <mat-form-field appearance="outline" [hideRequiredMarker]="true"
+        [floatLabel]="auto">
+        <mat-label>Banco p/ Pagamento</mat-label>
+        <mat-select formControlName="banco_id">
+          <mat-option *ngFor="let banco of bancos" [value]="banco.id">
+            {{banco.banco}} - Ag: {{banco.agencia}} / Cc: {{banco.conta}}
+          </mat-option>
+        </mat-select>
+        <mat-placeholder>Banco p/ Pagamento</mat-placeholder>
+      </mat-form-field>
     </div>
     <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
       <mat-card-header class="bg-info text-white">
