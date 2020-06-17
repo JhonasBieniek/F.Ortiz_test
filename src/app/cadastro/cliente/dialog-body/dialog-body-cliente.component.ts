@@ -69,9 +69,11 @@ export class DialogBodyClienteComponent implements OnInit {
       ramo_atividade_id: [null],
       limite: null,
       banco: null,
+      pagamentoTipo: null,
       obs: [null, Validators.compose([Validators.maxLength(100)])],
       status: true,
-      enderecos:this.fb.array([])
+      enderecos:this.fb.array([]),
+      vencimentos:this.fb.array([]),
     });
   }
 
@@ -101,6 +103,34 @@ export class DialogBodyClienteComponent implements OnInit {
     })
   }
 
+  clearVencimento(){
+    const endereco = this.form.controls.vencimentos as FormArray;
+    endereco.clear()
+  }
+
+  addVencimento(data:any = null, type ){
+    const endereco = this.form.controls.vencimentos as FormArray;
+
+    if(type == 'v'){
+      endereco.clear()
+    }
+    endereco.push(this.fb.group({
+      id: data?data.id:null,
+      vencimento: data?data.vencimento:null, 
+    }))
+  }
+
+  delVencimento(index){
+    const vencimento = this.form.controls.vencimentos as FormArray;
+    vencimento.removeAt(index);
+  }
+
+  addVencimentos(data:any){
+    data.forEach( async (e:any) => {
+      await this.addVencimento(e, 'i');
+    })
+  }
+
   chargeForm(data) { 
     this.form.get('razao_social').setValue(data.nome);
     this.form.get('nome_fantasia').setValue(data.fantasia);
@@ -120,7 +150,11 @@ export class DialogBodyClienteComponent implements OnInit {
       cidade: data.municipio,
       estado: data.uf
     };
+    let vencimentos ={
+      vencimento: data.vencimento
+    }
     this.addEndereco(endereco);
+    this.addVencimentos(vencimentos);
   }
   
   removeSpecialChar(data) {
