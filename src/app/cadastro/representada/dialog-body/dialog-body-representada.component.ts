@@ -48,7 +48,7 @@ export class DialogBodyRepresentadaComponent implements OnInit {
       representante: [null],
       obs: [null, Validators.compose([Validators.maxLength(100)])],
       status: [true],
-      banco_id: null,
+      conta_id: null,
       comissao_padrao: [null],
       endereco: this.fb.group({
         cep: [null],
