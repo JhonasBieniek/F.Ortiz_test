@@ -69,31 +69,7 @@ export class DialogBodyRepresentadaComponent implements OnInit {
     }
   }
   editCharge(){
-       this.form.patchValue({
-         id: this.data.id,
-         razao_social: this.data.razao_social,
-         nome_fantasia: this.data.nome_fantasia,
-         cnpj: this.data.cnpj,
-         inscricao_estadual: this.data.inscricao_estadual,
-         email: this.data.email,
-         telefone: this.data.telefone,
-         celular: this.data.celular,
-         representante: this.data.representante,
-         obs: this.data.obs,
-         status: this.data.status,
-         comissao_padrao: this.data.comissao_padrao,
-         endereco:{
-           id: this.data.endereco.id,
-           cep: this.data.endereco.cep,
-           logradouro: this.data.endereco.logradouro,
-           numero: this.data.endereco.numero,
-           complemento: this.data.endereco.complemento,
-           bairro: this.data.endereco.bairro,
-           cidade: this.data.endereco.cidade,
-           estado: this.data.endereco.estado,  
-           pais: this.data.endereco.pais, 
-       }
-     })
+       this.form.patchValue(this.data)
    }
 
 
