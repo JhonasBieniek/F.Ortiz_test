@@ -38,7 +38,9 @@ import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
 } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { DialogEditNotaComponent } from './conciliacao/dialog-edit-nota/dialog-edit-nota.component'; 
+import { DialogEditNotaComponent } from './conciliacao/dialog-edit-nota/dialog-edit-nota.component';
+import { DialogEstornarComponent } from './conciliacao/dialog-view-nota/dialog-estornar/dialog-estornar.component';
+import { DialogDevolucaoComponent } from './conciliacao/dialog-view-nota/dialog-devolucao/dialog-devolucao.component'; 
 
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
@@ -75,7 +77,7 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
     DialogAddNotaComponent, 
     DialogSendNotaComponent, 
     DialogViewNotaComponent, 
-    DialogEditNotaComponent
+    DialogEditNotaComponent, DialogEstornarComponent, DialogDevolucaoComponent
   ],
   providers: [
     DateFormatPipe,
@@ -95,7 +97,9 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
     DialogSendNotaComponent, 
     DialogEditNotaComponent, 
     Novo2Component, 
-    OrcamentoComponent
+    OrcamentoComponent,
+    DialogEstornarComponent, 
+    DialogDevolucaoComponent
   ],
 
 })

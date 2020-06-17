@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogConfig } from "@angular/material";
 import { ClientService } from '../../../shared/services/client.service.component';
+import { DialogEstornarComponent } from './dialog-estornar/dialog-estornar.component';
 
 @Component({
   selector: 'app-dialog-view-nota',
@@ -12,6 +13,8 @@ export class DialogViewNotaComponent implements OnInit {
   rows:any = [];
   temp:any = [];
   selected:any = [];
+
+  dialogConfig = new MatDialogConfig();
   
   steps: any = [
     {
@@ -25,9 +28,16 @@ export class DialogViewNotaComponent implements OnInit {
 
   constructor(
     private clientservice: ClientService,
+    private dialog: MatDialog,
     public dialogRef: MatDialogRef<DialogViewNotaComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
+    this.dialogConfig = {
+      maxWidth: '95vw',
+      maxHeight: '95vh',
+      width: '70vw',
+      height: '70vh'
+    }
     this.loadData();
    }
   
@@ -49,7 +59,15 @@ export class DialogViewNotaComponent implements OnInit {
     });
   }
   estorno(){
-
+    this.dialogConfig.data = this.dados
+    let dialogRef = this.dialog.open(
+      DialogEstornarComponent, 
+      this.dialogConfig, 
+      
+    );
+    dialogRef.afterClosed().subscribe(value => {
+      console.log(value)
+    });
   }
   devolucao(){
 

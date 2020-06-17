@@ -38,6 +38,7 @@ export class DialogBodyClienteComponent implements OnInit {
                   }else{
                     this.pageTitle = 'Editar Cliente';
                     this.clientservice.getClientesId(data.id).subscribe((res:any) => {
+
                       this.addEnderecos(res.data.enderecos);
                       this.form.patchValue(res.data);
                     })
