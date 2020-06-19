@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogConfig } from "@angular/material";
 import { ClientService } from '../../../shared/services/client.service.component';
 import { DialogEstornarComponent } from './dialog-estornar/dialog-estornar.component';
+import { DialogDevolucaoComponent } from './dialog-devolucao/dialog-devolucao.component';
 
 @Component({
   selector: 'app-dialog-view-nota',
@@ -36,7 +37,7 @@ export class DialogViewNotaComponent implements OnInit {
       maxWidth: '95vw',
       maxHeight: '95vh',
       width: '70vw',
-      height: '70vh'
+      height: '80vh'
     }
     this.loadData();
    }
@@ -70,7 +71,15 @@ export class DialogViewNotaComponent implements OnInit {
     });
   }
   devolucao(){
-
+    this.dialogConfig.data = this.dados
+    let dialogRef = this.dialog.open(
+      DialogDevolucaoComponent, 
+      this.dialogConfig, 
+      
+    );
+    dialogRef.afterClosed().subscribe(value => {
+      console.log(value)
+    });
   }
   imprimir(){
     

@@ -1,1 +1,65 @@
-<p>dialog-devolucao works!</p>
+<div fxLayout="row wrap">
+    <div class="p-t-30" fxFlex.gt-sm="100%" fxFlex="100" >
+      <h1 mat-dialog-title style="font-size: x-large;">Cadastrar Estorno - NF: <span style="font-weight: bolder; color:blue">{{data?.num_nota}}</span></h1>
+    </div>
+    <div *ngIf="rows.length == 0" class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        Nnehum parcela recebida até o momento!
+    </div>
+    <div *ngIf="rows.length != 0" class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <ngx-datatable #table
+        class='material' 
+        [columnMode]="'flex'" 
+        [headerHeight]="50" 
+        [footerHeight]="50"
+        [rowHeight]="'auto'" 
+        [limit]="10" 
+        [rows]='rows' 
+        [selected]="selected"
+        [selectionType]="'checkbox'"
+        (select)='onSelect($event)'>
+            <ngx-datatable-column  [flexGrow]="1" name="Selecionar" [sortable]="false">
+            <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected"
+                let-selectFn="selectFn">
+                <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)" />
+            </ng-template>
+            <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected"
+                let-onCheckboxChangeFn="onCheckboxChangeFn">
+                <input type="checkbox"  [checked]="isSelected" (change)="onCheckboxChangeFn($event)" />
+            </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [flexGrow]="1.5" name="Núm. parcela">
+                <ng-template let-value="parcela" let-row="row" ngx-datatable-cell-template>
+                  {{ row.parcela }}
+                </ng-template>
+              </ngx-datatable-column>  
+
+              <ngx-datatable-column [flexGrow]="2.5" name="Data de Vencimento">
+                <ng-template let-value="data_vencimento" let-row="row" ngx-datatable-cell-template>
+                  {{ row.data_vencimento | date: 'dd/MM/yyyy' }}
+                </ng-template>
+              </ngx-datatable-column>
+              
+              <ngx-datatable-column [flexGrow]="1.5" name="Valor">
+                <ng-template let-value="valor" let-row="row" ngx-datatable-cell-template>
+                  {{ row.valor | currency:'BRL':true:'1.2-2'}}
+                </ng-template>
+              </ngx-datatable-column> 
+
+              <ngx-datatable-column [flexGrow]="1" name="Estornado ?">
+                <ng-template let-value="estorno" let-row="row" ngx-datatable-cell-template>
+                  {{row.estorno != null ? 'Sim' : 'Não'}}
+                </ng-template>
+              </ngx-datatable-column> 
+        </ngx-datatable>
+    </div>    
+    <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-form-field appearance="outline">
+          <textarea matInput placeholder="Observação" [formControl]="form.controls['obs']"></textarea>
+        </mat-form-field>
+      </div>
+  </div>
+
+  <div class="p-20" fxLayout="row wrap" fxLayoutAlign="end start">
+    <button mat-raised-button color="primary" class="m-r-5" (click)="save()">Confirmar</button>
+    <button mat-raised-button color="warn" (click)="close()">Sair</button>
+  </div>

@@ -9,7 +9,6 @@ import { DateFormatPipe } from '../shared/pipes/dateFormat.pipe';
 import { ComissaoRoutes } from './comissao.routing';
 import { ReceberComponent } from './receber/receber.component';
 import { RouterModule } from '@angular/router';
-import { RepassesComponent } from './repasses/repasses.component';
 import { RecebimentosComponent } from './recebimentos/recebimentos.component';
 import { NgxMaskModule, IConfig} from 'ngx-mask';
 import { NgxCurrencyModule } from 'ngx-currency';
@@ -28,7 +27,6 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
 @NgModule({
   declarations: [
     ReceberComponent, 
-    RepassesComponent, 
     RecebimentosComponent, 
     ImportarComponent
   ],

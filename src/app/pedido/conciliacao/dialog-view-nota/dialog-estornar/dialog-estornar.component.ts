@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-dialog-estornar',
@@ -8,28 +9,32 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 })
 export class DialogEstornarComponent implements OnInit {
 
-  rows:any = [];
+  public form: FormGroup;
 
-  editing = {};
-  selected:any = [];
+  rows: any = [];
+  selected: any = [];
 
-  itemSelected
+  isSelected
 
-  columns = [{ prop: 'parcela', name: 'Núm parcela', width: "200" }, 
-             { prop: 'data_vencimento',name: 'Data Vencimento',width: "300" }, 
-             { prop: 'valor',name: 'Valor', width: "200"},
-             { name: 'Estornado', width: "400"}]
-
-@ViewChild(DialogEstornarComponent, {static: false}) table: DialogEstornarComponent;
+  @ViewChild(DialogEstornarComponent, { static: false }) table: DialogEstornarComponent;
   constructor(
+    private fb: FormBuilder,
     public dialogRef: MatDialogRef<DialogEstornarComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-  ) {
-    this.rows = this.data.nota_parcelas
-   }
+  ) {}
 
   ngOnInit() {
+    setTimeout(() => this.rows = this.data.nota_parcelas.filter(e => 
+      e.status_recebimento == true), 300) 
+
     console.log(this.data)
+    this.form = this.fb.group({
+      obs: null,
+    });
   }
+  close(){
+    this.dialogRef.close();
+  }
+
 
 }

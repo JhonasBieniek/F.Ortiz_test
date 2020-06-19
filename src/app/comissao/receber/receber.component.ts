@@ -4,6 +4,7 @@ import { ClientService } from '../../shared/services/client.service.component';
 import { NotificationService } from '../../shared/messages/notification.service';
 import { SelectionType } from '@swimlane/ngx-datatable';
 import { Observable } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -14,134 +15,102 @@ import { Observable } from 'rxjs';
 export class ReceberComponent implements OnInit {
   @ViewChild('myTable', { static: false }) table: any;
 
-  rows: any[] = [];
-  produtos: any[] = [];
-
   form: FormGroup;
   pageTitle:string = "Comissões a receber";
   showTable:boolean = false;
+  resposta:[] = [];
   representadas:[] = [];
+  areas:[] = [];
+  funcionarios:[] = [];
+  clientes:[] = [];
+  rota:string
+  show:boolean = true
 
-  timeout: any;
-  SelectionType = SelectionType;
-  selected = [];
-  expandedAll = false;
 
   constructor(
     private fb: FormBuilder,
     private clientservice: ClientService,
     private notificationService: NotificationService,
+    private route: ActivatedRoute,
   ){
-    this.clientservice.getRepresentadas().subscribe((res:any)=>{
-      this.representadas = res.data
-    })
-  }    
+    this.rota = this.route.snapshot.url[1].path;
+    if(this.rota == 'acumulado'){
+      this.show = false
+      this.getConsults('representadas');
+      this.getConsults('areas');
+    }
+    if(this.rota == 'comissoes'){
+      this.show = false
+      this.getConsults('representadas');
+      this.getConsults('areas');
+      this.getConsults('funcionarios');
+    }
+    if(this.rota == 'recebimento'){
+      this.getConsults('representadas');
+      this.getConsults('areas');
+      this.getConsults('clientes');
+    }
+    if(this.rota == 'devolucoes'){
+      this.getConsults('representadas');
+      this.getConsults('areas');
+      this.getConsults('clientes');
+    }
+    if(this.rota == 'estorno'){
+      this.getConsults('representadas');
+      this.getConsults('areas');
+      this.getConsults('clientes');
+    }
+  }  
 
+  getConsults(consulta){
+    if(consulta == 'representadas')
+    this.clientservice.getRepresentadas().subscribe((res:any)=>{
+      this.representadas = res.data;
+    })
+    else if(consulta == 'areas')
+    this.clientservice.getAreaVenda().subscribe((res:any)=>{
+      this.areas = res.data;
+    })
+    else if(consulta == 'funcionarios')
+    this.clientservice.getFuncionarios().subscribe((res:any)=>{
+      this.funcionarios = res.data;
+    })
+    else if(consulta == 'clientes')
+    this.clientservice.getClientes().subscribe((res:any)=>{
+      this.clientes = res.data;
+    })
+  }
+
+  Clientes(area){
+    return this.clientes.filter((e:any) =>
+      e.area_venda_id == area
+    )
+     
+  }
   ngOnInit() {
     this.form = this.fb.group({
-      tipo: ["Faturado"],
+      tipo: [null],
       dtInicio: [null],
       dtFinal: [null],
       nota: [null],
       representada: [null],
+      area: [null],
+      funcionario: [null],
+      cliente: [null],
     });
-  }
-
-  onPage(event) {
-    clearTimeout(this.timeout);
-    this.timeout = setTimeout(() => {
-      console.log('paged!', event);
-    }, 100);
-  }
-
-  toggleExpandRow(row) {
-    this.table.rowDetail.toggleExpandRow(row);
-  }
-
-  toggleExpandRowAll(){
-    if(this.expandedAll){
-      this.expandedAll = false;
-      this.table.rowDetail.collapseAllRows()
-    }else{
-      this.expandedAll = true;
-      this.table.rowDetail.expandAllRows();
-    }
-  }
-
-  onDetailToggle(event) {
-    this.clientservice.getPedido(event.value.id).subscribe((res:any) =>{
-      this.produtos = res.data.pedido_produtos
-      console.log(this.produtos)
-    })
   }
 
   clear(){
     this.form.reset();
-    this.form.controls['tipo'].setValue("Faturado");
   }
-  parcelas(data){
-    let value;
-    value = data.sort((a,b)=> a.id - b.id);
-    return value;
-  }
-
-  selectNota(ev:any, data:any){
-    if(ev.currentTarget.checked){
-      data.nota_parcelas.forEach(e => {
-        e.status_recebimento = true;
-        e.data_recebimento = new Date();
-      });
-    }else{
-      data.nota_parcelas.forEach(e => {
-        e.status_recebimento = false;
-        e.data_recebimento = "";
-      });
-    }
-  }
-
-  selectParcela(ev:any, row:any){
-    if(ev.currentTarget.checked){
-      row.status_recebimento = true;
-      row.data_recebimento = new Date();
-    }else{
-      row.status_recebimento = false;
-      row.data_recebimento = "";
-    }
-  }
-
-  onActivate(event) {
-    console.log('Activate Event', event);
-  }
-
-  vencimento(row){
-    let value = 0;
-    row.nota_parcelas.forEach(element => {
-      if(element.data_recebimento == null && value == 0){
-        value = element.data_vencimento
-      }
-    });
-    return value
-  }
-  checkRecebido = new Observable((observer) => {
-    this.rows.forEach(e => {
-      if(e.nota_parcelas.every(el => el.status_recebimento === true)){
-        e.status = "recebido";
-      }else{
-        e.status = "aberto";
-      }
-    });
-    observer.next(this.rows);
-  })
   
   Submit(){
     this.clientservice.areceber(this.form.value).subscribe((res:any) => { 
       if(res.success == true){
-        this.rows = res.data;
-        this.notificationService.notify(`Cadastro Efetuado com Sucesso!`)
+        this.resposta = res.data;
       }else{
         this.notificationService.notify(`Erro contate o Administrador`)
       }
-      this.showTable = true;
     });
   }
 }

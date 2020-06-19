@@ -92,25 +92,15 @@ const MENUITEMS = [
       {state: 'importar', name: 'Importar', type: 'link' },
       {state: 'recebimentos', name: 'Recebimentos', type: 'link' },
       {
-        state: 'listagem',
-        name: 'Listagem',
-        type: 'subchild',
-        subchildren: [
-          {state: 'receber', name: 'A receber', type: 'link' },  
-          {state: 'repasses', name: 'Repasses', type: 'link' },  
-          {state: 'recebidos', name: 'Recebidos', type: 'link' },
-        ]
-      },
-      {
-        state: 'relcomissao',
+        state: 'relatorios',
         name: 'Relatórios',
         type: 'subchild',
         subchildren: [
-            {state: 'comissoes', name: 'Comissoes', type: 'link' },
-            {state: 'acumulado', name: 'Acumulado', type: 'link' },
-            {state: 'checkbox', name: 'Recebimento', type: 'link' },
-            {state: 'datepicker', name: 'Devoluções', type: 'link' },    
-            {state: 'editor', name: 'Estornos', type: 'link' }
+          {state: 'acumulado', name: 'Acumulado', type: 'link' },  
+          {state: 'comissoes', name: 'Comissôes', type: 'link' },  
+          {state: 'recebimento', name: 'Recebimento', type: 'link' },
+          {state: 'devolucoes', name: 'Devoluções', type: 'link' },
+          {state: 'estorno', name: 'Estornos', type: 'link' },
         ]
       }
     ]
