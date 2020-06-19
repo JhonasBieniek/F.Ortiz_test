@@ -1,4 +1,3 @@
-
 <div fxLayout="row wrap">
   <!-- Card column -->
   <div fxFlex.gt-sm="100%" fxFlex="100">
@@ -17,8 +16,7 @@
                 </mat-select>
               </mat-form-field>
             </div>
-            <div *ngIf="areas.length != 0" class="p-10 text" fxFlex.gt-sm="33.33"
-              fxFlex.gt-xs="33.33" fxFlex="100">
+            <div *ngIf="areas.length != 0" class="p-10 text" fxFlex.gt-sm="33.33" fxFlex.gt-xs="33.33" fxFlex="100">
               <mat-form-field [hideRequiredMarker]="true" appearance="outline">
                 <mat-label>Selecione a área de venda...</mat-label>
                 <mat-select formControlName="area">
@@ -28,8 +26,8 @@
                 </mat-select>
               </mat-form-field>
             </div>
-            <div *ngIf="funcionarios.length != 0" class="p-10 text" fxFlex.gt-sm="33.33"
-              fxFlex.gt-xs="33.33" fxFlex="100">
+            <div *ngIf="funcionarios.length != 0" class="p-10 text" fxFlex.gt-sm="33.33" fxFlex.gt-xs="33.33"
+              fxFlex="100">
               <mat-form-field [hideRequiredMarker]="true" appearance="outline">
                 <mat-label>Selecione um funcionário...</mat-label>
                 <mat-select formControlName="funcionario">
@@ -39,31 +37,19 @@
                 </mat-select>
               </mat-form-field>
             </div>
-            <div *ngIf="clientes.length != 0 && form.controls['area'].value != null" class="p-10 text" fxFlex.gt-sm="33.33"
-            fxFlex.gt-xs="33.33" fxFlex="100">
-            <mat-form-field [hideRequiredMarker]="true" appearance="outline">
-              <mat-label>Selecione um cliente...</mat-label>
-              <mat-select formControlName="cliente">
-                <mat-option *ngFor="let cliente of Clientes(form.controls['area'].value)" [value]="cliente.id">
-                  {{cliente.razao_social}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
+            <div *ngIf="clientes.length != 0 && form.controls['area'].value != null" class="p-10 text"
+              fxFlex.gt-sm="33.33" fxFlex.gt-xs="33.33" fxFlex="100">
+              <mat-form-field [hideRequiredMarker]="true" appearance="outline">
+                <mat-label>Selecione um cliente...</mat-label>
+                <mat-select formControlName="cliente">
+                  <mat-option *ngFor="let cliente of Clientes(form.controls['area'].value)" [value]="cliente.id">
+                    {{cliente.razao_social}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
           </div>
           Periodo:
-          <div *ngIf="show" fxLayout="row wrap">
-            <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
-                <mat-radio-group formControlName="tipo" appearance="outline">
-                    <mat-radio-button  value="todas" class="m-r-10">Todas</mat-radio-button>
-                    <mat-radio-button *ngIf="rota != 'recebimento'"value="abertas" class="m-r-10">Abertas</mat-radio-button>
-                    <mat-radio-button *ngIf="rota == 'recebimento'"value="vencidas" class="m-r-10">Vencidas</mat-radio-button>
-                    <mat-radio-button *ngIf="rota == 'devolucoes'"value="Descontadas" class="m-r-10">Descontadas</mat-radio-button>
-                    <mat-radio-button *ngIf="rota == 'estorno'"value="Estornadas" class="m-r-10">Estornadas</mat-radio-button>
-                    <mat-radio-button *ngIf="rota == 'recebimento'"value="recebidas">Recebidas</mat-radio-button>
-                </mat-radio-group>
-            </div>
-        </div>
           <div fxLayout="row wrap" class="row">
             <div class="p-10 text" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
               <mat-form-field appearance="outline">
@@ -80,6 +66,20 @@
                 <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                 <mat-datepicker #picker2></mat-datepicker>
               </mat-form-field>
+            </div>
+            <div class="p-10 m-t-15" *ngIf="show" fxFlex.gt-sm="60" fxFlex.gt-xs="60" fxFlex="100">
+              <mat-radio-group formControlName="tipo" appearance="outline">
+                <mat-radio-button value="todas" class="m-r-10">Todas</mat-radio-button>
+                <mat-radio-button *ngIf="rota != 'recebimento'" value="abertas" class="m-r-10">Abertas
+                </mat-radio-button>
+                <mat-radio-button *ngIf="rota == 'recebimento'" value="vencidas" class="m-r-10">Vencidas
+                </mat-radio-button>
+                <mat-radio-button *ngIf="rota == 'devolucoes'" value="Descontadas" class="m-r-10">Descontadas
+                </mat-radio-button>
+                <mat-radio-button *ngIf="rota == 'estorno'" value="Estornadas" class="m-r-10">Estornadas
+                </mat-radio-button>
+                <mat-radio-button *ngIf="rota == 'recebimento'" value="recebidas">Recebidas</mat-radio-button>
+              </mat-radio-group>
             </div>
           </div>
           <div>
