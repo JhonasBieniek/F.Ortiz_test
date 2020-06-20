@@ -16,7 +16,7 @@ export class RelatoriosComponent implements OnInit {
   @ViewChild('myTable', { static: false }) table: any;
 
   form: FormGroup;
-  pageTitle:string = "Comissões a receber";
+  pageTitle:string;
   showTable:boolean = false;
   resposta:[] = [];
   representadas:[] = [];
@@ -35,17 +35,32 @@ export class RelatoriosComponent implements OnInit {
   ){
     this.rota = this.route.snapshot.url[1].path;
     if(this.rota == 'acumulado'){
+      this.pageTitle = 'Relatório Acumulado de Comissões';
       this.show = false
       this.getConsults('representadas');
       this.getConsults('areas');
     }
     if(this.rota == 'comissoes'){
+      this.pageTitle = 'Relatório de Comissões';
       this.show = false
       this.getConsults('representadas');
       this.getConsults('areas');
       this.getConsults('funcionarios');
     }
-    if(this.rota == 'recebimento' || this.rota == 'devolucoes' || this.rota == 'estorno'){
+    if(this.rota == 'recebimento'){
+      this.pageTitle = 'Relatório de Recebimento';
+      this.getConsults('representadas');
+      this.getConsults('areas');
+      this.getConsults('clientes');
+    }
+    if(this.rota == 'devolucoes'){
+      this.pageTitle = 'Relatório de Devoluções';
+      this.getConsults('representadas');
+      this.getConsults('areas');
+      this.getConsults('clientes');
+    }
+    if(this.rota == 'estorno'){
+      this.pageTitle = 'Relatório de Estornos';
       this.getConsults('representadas');
       this.getConsults('areas');
       this.getConsults('clientes');
