@@ -8,11 +8,11 @@ import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
-  selector: 'app-receber',
-  templateUrl: './receber.component.html',
-  styleUrls: ['./receber.component.css']
+  selector: 'app-relatorios',
+  templateUrl: './relatorios.component.html',
+  styleUrls: ['./relatorios.component.css']
 })
-export class ReceberComponent implements OnInit {
+export class RelatoriosComponent implements OnInit {
   @ViewChild('myTable', { static: false }) table: any;
 
   form: FormGroup;
@@ -105,12 +105,12 @@ export class ReceberComponent implements OnInit {
   }
   
   Submit(){
-    this.clientservice.areceber(this.form.value).subscribe((res:any) => { 
-      if(res.success == true){
-        this.resposta = res.data;
-      }else{
-        this.notificationService.notify(`Erro contate o Administrador`)
-      }
-    });
+    // this.clientservice.areceber(this.form.value).subscribe((res:any) => { 
+    //   if(res.success == true){
+    //     this.resposta = res.data;
+    //   }else{
+    //     this.notificationService.notify(`Erro contate o Administrador`)
+    //   }
+    // });
   }
 }

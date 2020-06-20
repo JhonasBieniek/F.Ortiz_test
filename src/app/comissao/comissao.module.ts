@@ -7,7 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { DateFormatPipe } from '../shared/pipes/dateFormat.pipe';
 import { ComissaoRoutes } from './comissao.routing';
-import { ReceberComponent } from './receber/receber.component';
+import { RelatoriosComponent } from './relatorios/relatorios.component';
 import { RouterModule } from '@angular/router';
 import { RecebimentosComponent } from './recebimentos/recebimentos.component';
 import { NgxMaskModule, IConfig} from 'ngx-mask';
@@ -26,7 +26,7 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
 
 @NgModule({
   declarations: [
-    ReceberComponent, 
+    RelatoriosComponent, 
     RecebimentosComponent, 
     ImportarComponent
   ],

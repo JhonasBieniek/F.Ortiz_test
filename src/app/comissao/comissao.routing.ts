@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { ReceberComponent } from './receber/receber.component';
+import { RelatoriosComponent } from './relatorios/relatorios.component';
 import { RecebimentosComponent } from './recebimentos/recebimentos.component';
 import { ImportarComponent } from './importar/importar.component';
 
@@ -8,19 +8,19 @@ export const ComissaoRoutes: Routes = [
     path: '',
     children: [{
       path: 'relatorios/acumulado',
-      component: ReceberComponent
+      component: RelatoriosComponent
     },{
       path: 'relatorios/comissoes',
-      component: ReceberComponent
+      component: RelatoriosComponent
     },{
       path: 'relatorios/recebimento',
-      component: ReceberComponent
+      component: RelatoriosComponent
     },{
       path: 'relatorios/devolucoes',
-      component: ReceberComponent
+      component: RelatoriosComponent
     },{
       path: 'relatorios/estorno',
-      component: ReceberComponent
+      component: RelatoriosComponent
     },{
       path: 'recebimentos',
       component: RecebimentosComponent
