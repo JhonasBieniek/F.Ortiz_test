@@ -45,17 +45,7 @@ export class RelatoriosComponent implements OnInit {
       this.getConsults('areas');
       this.getConsults('funcionarios');
     }
-    if(this.rota == 'recebimento'){
-      this.getConsults('representadas');
-      this.getConsults('areas');
-      this.getConsults('clientes');
-    }
-    if(this.rota == 'devolucoes'){
-      this.getConsults('representadas');
-      this.getConsults('areas');
-      this.getConsults('clientes');
-    }
-    if(this.rota == 'estorno'){
+    if(this.rota == 'recebimento' || this.rota == 'devolucoes' || this.rota == 'estorno'){
       this.getConsults('representadas');
       this.getConsults('areas');
       this.getConsults('clientes');
