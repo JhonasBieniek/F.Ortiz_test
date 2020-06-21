@@ -10,7 +10,7 @@
         </mat-card-header>
       </div>
 
-      <div class="p-10" fxFlex.gt-sm="66" fxFlex.gt-xs="66" fxFlex="100">
+      <div class="p-10 aj" fxFlex.gt-sm="40" fxFlex.gt-xs="40" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Nome completo</mat-label>
           <input matInput placeholder="Nome completo" formControlName="nome">
@@ -23,7 +23,7 @@
           class="text-danger font-14">Seu nome não deve exceder 50 caracteres.</mat-hint> -->
       </div>
 
-      <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="100">
+      <div class="p-10 aj" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Data de nascimento</mat-label>
           <input matInput [matDatepicker]="picker" formControlName="nascimento"
@@ -37,7 +37,7 @@
           class="text-danger font-14">Você precisa inserir uma data válida!</mat-hint> -->
       </div>
 
-      <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="33" fxFlex="100">
+      <div class="p-10 aj" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
         <mat-form-field appearance="outline"> 
           <mat-label>CPF</mat-label>
           <input matInput placeholder="CPF" mask="000.000.000-00" formControlName="cpf"
@@ -49,7 +49,7 @@
           class="text-danger font-14">Você precisa inserir um CPF válido.</small> -->
       </div>
 
-      <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="33" fxFlex="100">
+      <div class="p-10 aj" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>RG</mat-label>
           <input matInput placeholder="RG" formControlName="rg" type="digits">
@@ -60,7 +60,7 @@
           class="text-danger font-14">Você precisa inserir um RG válido.</small> -->
       </div>
 
-      <div class="p-10" fxFlex.gt-sm="32" fxFlex.gt-xs="33" fxFlex="100">
+      <div class="p-10 aj" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Orgão expedidor</mat-label>
           <input matInput placeholder="Orgão expedidor" formControlName="oe">
@@ -69,7 +69,7 @@
           class="text-danger font-14">Você precisa inserir um orgão expedidor.</small> -->
       </div>
 
-      <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+      <div class="p-10 aj" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
         <mat-form-field [hideRequiredMarker]="true" appearance="outline">
           <mat-label>Selecione o cargo...</mat-label>
           <mat-select required formControlName="cargo_id">
@@ -83,24 +83,23 @@
         class="text-danger font-14">Você precisa selecionar o cargo.</small>
       </div>
 
-      <div class="p-10 mt-4" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+      <div class="p-10 mt-15" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
         <label class="m-r-20">Gênero :</label>
         <mat-radio-group formControlName="sexo" appearance="outline">
           <mat-radio-button value="M" class="m-r-10">Masculino</mat-radio-button>
           <mat-radio-button value="F">Feminino</mat-radio-button>
         </mat-radio-group>
-        <!-- <small *ngIf="!funcionario.get('sexo').valid && funcionario.get('sexo').touched" class="mat-text-warn">Você precisa selecionar um gênero.</small> -->
       </div>
 
     </div>
 
     <div formGroupName="endereco" fxLayout="row wrap" class="row">
-      <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+      <div class="p-10 aj" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <mat-card-header class="bg-info text-white">
           <mat-card-title class="Endereco">Endereço</mat-card-title>
         </mat-card-header>
       </div>
-      <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
+      <div class="p-10 aj" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>CEP</mat-label>
           <input matInput placeholder="CEP" mask="00000-000" (blur)="chargeCep()" formControlName="cep">
@@ -112,7 +111,7 @@
         <mat-hint *ngIf="funcionario.get('endereco.cep').errors?.maxlength && funcionario.get('endereco.cep').touched"
           class="text-danger font-14">Seu cep não deve exceder 8 caracteres.</mat-hint> -->
       </div>
-      <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+      <div class="p-10 aj" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Logradouro</mat-label>
           <input matInput placeholder="Logradouro" formControlName="logradouro">
@@ -122,7 +121,7 @@
         <small *ngIf="funcionario.get('endereco.logradouro').errors?.number && funcionario.get('endereco.logradouro').touched"
           class="text-danger font-14">O endereço precisa ser válido.</small> -->
       </div>
-      <div class="p-10" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
+      <div class="p-10 aj" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Número</mat-label>
           <input matInput placeholder="Número" formControlName="numero">
@@ -132,7 +131,7 @@
         <small *ngIf="funcionario.get('endereco.numero').errors?.number && funcionario.get('endereco.numero').touched"
           class="text-danger font-14">O Número precisa ser válido.</small> -->
       </div>
-      <div class="p-10" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
+      <div class="p-10 aj" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Complemento</mat-label>
           <input matInput placeholder="Complemento" formControlName="complemento">
@@ -144,7 +143,7 @@
         <mat-hint *ngIf="funcionario.get('endereco.complemento').errors?.maxlength && funcionario.get('endereco.complemento').touched"
           class="text-danger font-14">O complemento não deve exceder 50 caracteres</mat-hint> -->
       </div>
-      <div class="p-10" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
+      <div class="p-10 aj" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Bairro</mat-label>
           <input matInput placeholder="Bairro" formControlName="bairro">
@@ -152,7 +151,7 @@
         <!-- <small *ngIf="funcionario.get('endereco.bairro').errors?.required && funcionario.get('endereco.bairro').touched"
           class="text-danger font-14">Você precisa deve inserir um bairro.</small> -->
       </div>
-      <div class="p-10" fxFlex.gt-sm="36" fxFlex.gt-xs="36" fxFlex="100">
+      <div class="p-10 aj" fxFlex.gt-sm="36" fxFlex.gt-xs="36" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Cidade</mat-label>
           <input matInput placeholder="Cidade" formControlName="cidade">
@@ -160,7 +159,7 @@
         <!-- <small *ngIf="funcionario.get('endereco.cidade').errors?.required && funcionario.get('endereco.cidade').touched"
           class="text-danger font-14">Você precisa deve inserir uma cidade.</small> -->
       </div>
-      <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="100">
+      <div class="p-10 aj" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Estado</mat-label>
           <input matInput placeholder="Estado" formControlName="estado">
@@ -168,18 +167,16 @@
         <!-- <small *ngIf="funcionario.get('endereco.estado').errors?.required && funcionario.get('endereco.estado').touched"
           class="text-danger font-14">Você precisa deve inserir um estado.</small> -->
       </div>
-      <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="100">  
-      </div>
     </div>
 
-    <div fxLayout="row wrap" class="row">
+    <div fxLayout="row wrap aj" class="row">
       <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <mat-card-header class="bg-info text-white">
           <mat-card-title class="Endereco">Dados de contato</mat-card-title>
         </mat-card-header>
       </div>
 
-      <div class="p-10" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="100">
+      <div class="p-10 aj" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Telefone fixo</mat-label>
           <input matInput placeholder="Telefone fixo" mask="(00) 0000-0000" formControlName="telefone" type="text">
@@ -190,7 +187,7 @@
           class="text-danger font-14">O telefone deve ser válido.</small> -->
       </div>
 
-      <div class="p-10" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="100">
+      <div class="p-10 aj" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Celular</mat-label>
           <input matInput placeholder="Celular" mask="(00) 0 0000-0000" formControlName="celular"
@@ -198,7 +195,7 @@
         </mat-form-field>       
       </div>
       
-      <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="100">
+      <div class="p-10 aj" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="100">
         <mat-form-field appearance="outline" [hideRequiredMarker]="true">
           <mat-label>Selecione o status...</mat-label>
           <mat-select required formControlName="status">
@@ -210,7 +207,7 @@
         class="text-danger font-14">Você precisa selecionar o status.</small> -->
       </div>
 
-      <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+      <div class="p-10 aj" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Email</mat-label>
           <input matInput placeholder="Email" formControlName="email" type="email">
@@ -222,7 +219,7 @@
           admin@admin.com.</small> -->
       </div>
 
-      <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+      <div class="p-10 aj" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
         <mat-form-field [hideRequiredMarker]="true" appearance="outline">
           <mat-label>Selecione o grupo...</mat-label>
           <mat-select required formControlName="grupo_id">
@@ -236,14 +233,11 @@
         class="text-danger font-14">Você precisa selecionar um grupo.</small>
       </div>
     </div>
-    <mat-divider></mat-divider>
     <div formArrayName="comissoes" fxLayout="row wrap">
-      <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-        <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+      <div class="p-10 aj" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
           <mat-card-header class="bg-info text-white">
             <mat-card-title class="Comissões">Comissões</mat-card-title>
           </mat-card-header>
-        </div>
       </div>  
       <div class="p-20" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <button mat-stroked-button color="primary" (click)="addComissao()"><i class="material-icons">add</i> Representada</button>

@@ -70,7 +70,7 @@ export class UnidadeComponent implements OnInit {
       maxHeight: '75vh',
     
       width: '75vw',
-      height: '65vh'
+      height: '45vh'
     }
     //dialogConfig.data = this.dados.data;
     let dialogRef = this.dialog.open(

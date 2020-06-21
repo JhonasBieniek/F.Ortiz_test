@@ -5,13 +5,13 @@
         <mat-card-title class="dadosCadastro">{{pageTitle}}</mat-card-title>
       </mat-card-header>
     </div>
-    <div class="p-10" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
+    <div class="p-10 aj" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
       <mat-form-field appearance="outline">
         <mat-label>Código do produto</mat-label>
         <input matInput placeholder="Código do produto" formControlName="codigo">
       </mat-form-field>
     </div>
-    <div class="p-10" fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="100">
+    <div class="p-10 aj" fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="100">
       <mat-form-field appearance="outline">
         <mat-label>Nome do produto</mat-label>
         <input matInput placeholder="Nome do produto" formControlName="nome">
@@ -21,7 +21,7 @@
       <small *ngIf="form.get('nome').errors?.minlength && form.get('nome').touched"
         class="text-danger font-14">Você precisa inserir um nome para o produto.</small>
     </div>
-    <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+    <div class="p-10 aj" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
       <mat-form-field appearance="outline" [hideRequiredMarker]="true"
         [floatLabel]="auto">
         <mat-label>Selecione a representada</mat-label>
@@ -33,13 +33,13 @@
         <mat-placeholder>Representada</mat-placeholder>
       </mat-form-field>
     </div>
-    <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
+    <div class="p-10 aj" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
       <mat-form-field appearance="outline">
         <mat-label>Ipi</mat-label>
         <input matInput placeholder="Ipi" formControlName="ipi" type="digits"mask="percent" suffix="%" >
       </mat-form-field>
     </div>
-    <div class="p-10" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
+    <div class="p-10 aj" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
       <mat-form-field appearance="outline" [hideRequiredMarker]="true"
         [floatLabel]="auto">
         <mat-label>Selecione o status</mat-label>
@@ -49,19 +49,19 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <div class="p-10" fxFlex.gt-sm="45" fxFlex.gt-xs="35" fxFlex="100">
+    <div class="p-10 aj" fxFlex.gt-sm="45" fxFlex.gt-xs="35" fxFlex="100">
       <mat-form-field appearance="outline">
         <mat-label>Certificado de Aprovação</mat-label>
         <input matInput placeholder="Certificado de aprovação" formControlName="certificado_aprovacao">
       </mat-form-field>
     </div>
-    <div class="p-10" fxFlex.gt-sm="35" fxFlex.gt-xs="35" fxFlex="100">
+    <div class="p-10 aj" fxFlex.gt-sm="35" fxFlex.gt-xs="35" fxFlex="100">
       <mat-form-field appearance="outline">
         <mat-label>Embalagem do prduto</mat-label>
         <input matInput placeholder="Embalagem do produto" formControlName="embalagem">
       </mat-form-field>
     </div>  
-    <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="15" fxFlex="100">
+    <div class="p-10 aj" fxFlex.gt-sm="20" fxFlex.gt-xs="15" fxFlex="100">
       <mat-form-field appearance="outline" [hideRequiredMarker]="true"
         [floatLabel]="auto">
         <mat-label>Unidade</mat-label>

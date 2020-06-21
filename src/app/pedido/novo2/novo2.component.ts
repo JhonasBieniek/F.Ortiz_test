@@ -51,12 +51,14 @@ export class Novo2Component implements OnInit {
   reorderable: boolean = true;
 
   columns = [
-    { prop: 'codigo' },
-    { prop: 'nome' },
-    { prop: 'unidade.descricao' },
-    { prop: 'embalagem' },
-    { prop: 'tamanho' }
+    { prop: 'codigo', width:100},
+    { prop: 'nome', width:500  },
+    { prop: 'unidade.descricao', width:500 },
+    { prop: 'embalagem', width:120  },
+    { prop: 'tamanho', width:50  }
   ];
+
+  
 
   arrayBuffer: any;
   planilha: any;
@@ -506,6 +508,7 @@ export class Novo2Component implements OnInit {
           (pedido: any) => {
             this.pedidoN = pedido.data;
             this.representada = pedido.data.representada;
+            this.CarregarProdutosRepresentada();
             this.pedidoN.pedido_produtos.forEach(element => {
               this.addItem(element)
             });
@@ -634,7 +637,6 @@ export class Novo2Component implements OnInit {
   }
 
   CarregarProdutosRepresentada() {
-    console.log(this.representada);
     this.clientservice.getProdutosRepresentada(this.representada.id).subscribe(res => {
       this.data = res;
       this.rows = this.data.data;
@@ -771,6 +773,13 @@ export class Novo2Component implements OnInit {
       });
     }
   }
+
+  // if (this.resposta.status == 'success') {
+  //   this.notificationService.notify(`Pedido Cadastrado com Sucesso!`)
+  //   setTimeout(() => { this.router.navigate(['/pedido/', 'listar']) }, 1500);
+  // } else {
+  //   this.notificationService.notify(`Erro contate o Administrador`)
+  // }
 
   clearProdutos() {
     while (this.produto.controls.length) {
