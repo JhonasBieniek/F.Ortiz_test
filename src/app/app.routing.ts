@@ -28,9 +28,6 @@ export const AppRoutes: Routes = [
         path: 'comissao',
         loadChildren: './comissao/comissao.module#ComissaoModule'
       },{
-        path: 'produto',
-        loadChildren: './produto/produto.module#ProdutoModule'
-      },{
         path: 'ordem-servico',
         loadChildren: './ordem-servico/ordem-servico.module#OrdemServicoModule'
       },{

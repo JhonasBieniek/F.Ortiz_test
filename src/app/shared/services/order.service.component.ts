@@ -1,5 +1,4 @@
 import { OrderItem } from "../../pedido/order-item.model";
-import { Produto } from "../../produto/produto.model";
 import { NotificationService } from "../messages/notification.service";
 import { Injectable } from "@angular/core";
 import { ItemPedido } from "../../pedido/itemPedido.model";

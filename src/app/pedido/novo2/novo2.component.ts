@@ -19,7 +19,7 @@ import { switchMap, catchError } from 'rxjs/operators';
   selector: 'app-novo2',
   templateUrl: './novo2.component.html',
   styleUrls: ['./novo2.component.scss'],
-  providers: []
+  encapsulation: ViewEncapsulation.None
 })
 
 export class Novo2Component implements OnInit {
@@ -51,14 +51,11 @@ export class Novo2Component implements OnInit {
   reorderable: boolean = true;
 
   columns = [
-    { prop: 'codigo', width:100},
-    { prop: 'nome', width:500  },
-    { prop: 'unidade.descricao', width:500 },
-    { prop: 'embalagem', width:120  },
-    { prop: 'tamanho', width:50  }
+    { prop: 'codigo', flexGrow:0.3},
+    { prop: 'nome', flexGrow:1.5  },
+    { prop: 'unidade.descricao', flexGrow:1.2, name: 'Descrição unitária'},
+    { prop: 'embalagem', flexGrow:0.3  },
   ];
-
-  
 
   arrayBuffer: any;
   planilha: any;
@@ -487,14 +484,13 @@ export class Novo2Component implements OnInit {
       this.clientSize = 26;
       this.pedidoSize = 12;
     }
-
   }
 
   private setPageTitle() {
     if (this.currentAction == 'importar') {
       this.pageTitle = 'Importar Pedido: '
     } else if (this.currentAction == 'novo') {
-      this.pageTitle = 'Novo Pedido: '
+      this.pageTitle = 'Novo Pedido'
     } else {
       const pedido = (this.pedidoN != undefined) ? this.pedidoN.num_pedido : '';
       this.pageTitle = 'Editando pedido: ' + pedido;

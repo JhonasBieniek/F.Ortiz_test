@@ -34,7 +34,10 @@ export class PedidoListarComponent implements OnInit {
   loadingIndicator = true;
   reorderable = true;
 
-  isEditable = {};               
+  isEditable = {};    
+  
+  dialogConfig = new MatDialogConfig();
+
   
   @ViewChild(PedidoListarComponent, {static: true}) table: PedidoListarComponent;
   constructor(
@@ -55,6 +58,10 @@ export class PedidoListarComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.dialogConfig= {
+      width: '98vw',
+      height: '98vh'
+    }
   }
 
   updateFilter(event) {
@@ -68,23 +75,21 @@ export class PedidoListarComponent implements OnInit {
   }
 
   add(tipo){
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.data = { 
+    this.dialogConfig.data = { 
       tipo: tipo
     };
-    let dialogRef = this.dialog.open(Novo2Component, dialogConfig);
+    let dialogRef = this.dialog.open(Novo2Component, this.dialogConfig);
     dialogRef.afterClosed().subscribe(value => {
       this.loadData();
     })
   }
 
   edit(row){
-    const dialogConfig = new MatDialogConfig()
-    dialogConfig.data = {
+    this.dialogConfig.data = {
       tipo: 'edit',
       pedido: row
     }
-    let dialogRef = this.dialog.open(Novo2Component, dialogConfig);
+    let dialogRef = this.dialog.open(Novo2Component, this.dialogConfig);
     dialogRef.afterClosed().subscribe(value =>{
       this.loadData();
     })

@@ -1,7 +1,7 @@
   <!-- ============================================================== -->
   <!-- row -->
   <!-- ============================================================== -->
-  <mat-dialog-content>
+
   <input type="file" style="display: none" (change)="incomingfile($event)" accept=".xlsx,.xls" #hiddenfileinput >
   <div fxLayout="row wrap">
     <!-- Card column -->
@@ -20,7 +20,7 @@
                 </mat-form-field>
               </div> 
             </div>
-            <mat-card-subtitle class="sub-title">--Dados do Pedido--</mat-card-subtitle>
+            <h4 color="primary" class="dialog-headline">Dados do Pedido</h4>
             <div fxLayout="row wrap" class="row">
               <div class="p-10" fxFlex.gt-sm={{pedidoSize}} fxFlex.gt-xs={{pedidoSize}} fxFlex="100">
                 <mat-form-field appearance="outline">
@@ -152,15 +152,15 @@
             </div>
             <div fxLayout="row wrap">
               <div fxFlex.gt-sm="100%" fxFlex="100">
-                <mat-card-subtitle class="sub-title">--Selecione o Produto--</mat-card-subtitle>
+                <h4 color="primary" class="dialog-headline">Selecione o Produto</h4>
                 <mat-form-field>
                   <input matInput type='text' class="form-control" placeholder='Digite para filtrar...'
                     (keyup)='updateFilter($event)' />
                 </mat-form-field>
                 <ngx-datatable #table 
-                  class='material'
+                  class='material font'
                   [columns]="columns" 
-                  [columnMode]="'standard'" 
+                  [columnMode]="'flex'" 
                   [headerHeight]="50"
                   [footerHeight]="50" 
                   [rowHeight]="'auto'" 
@@ -172,11 +172,14 @@
                   (select)='onSelect($event)'>
                 </ngx-datatable>
               </div>
+              <div *ngIf="form.get('pedido_produtos').controls.length !=0" fxFlex.gt-sm="100%" class="m-t-30" fxFlex="100">
+                <h4 color="primary" class="dialog-headline">Itens do pedido</h4>
+              </div>
               <div formArrayName="pedido_produtos">
                 <div *ngFor="let produto of form.get('pedido_produtos').controls; index as i" [formGroupName]="i">
-                  <div class="title"> {{produto.get('codigo').value}} - {{produto.get('nome').value | slice:0:55}} | 
+                  <div class="cart"> {{produto.get('codigo').value}} - {{produto.get('nome').value | slice:0:55}}
                     <button (click)="removeItem(i)" mat-icon-button color="warn">
-                      <mat-icon>clear</mat-icon>
+                      <mat-icon class="remove">clear</mat-icon>
                     </button>
                   </div>
                   <ng-container>
@@ -208,15 +211,15 @@
                         <input matInput placeholder="Comissão" formControlName="comissao_produto" mask="percent" suffix="%"
                           >
                       </mat-form-field>
-                      <mat-form-field fxFlex.gt-sm="14" fxFlex.gt-xs="14" fxFlex="14" appearance="outline">
+                      <mat-form-field fxFlex.gt-sm="14" class="itens" fxFlex.gt-xs="14" fxFlex="14" appearance="outline">
                         <mat-label>Tamanho</mat-label>
                         <input matInput placeholder="Tamanho" formControlName="tamanho" >
                       </mat-form-field>
-                      <mat-form-field fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="15" appearance="outline">
+                      <mat-form-field fxFlex.gt-sm="15" class="itens"  fxFlex.gt-xs="15" fxFlex="15" appearance="outline">
                         <mat-label>Vlr total</mat-label>
                         <input matInput placeholder="Vlr total" currencyMask formControlName="valor_total" >
                       </mat-form-field>
-                      <mat-form-field fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="70" appearance="outline">
+                      <mat-form-field fxFlex.gt-sm="70" class="itens" fxFlex.gt-xs="70" fxFlex="70" appearance="outline">
                         <mat-label>Observação</mat-label>
                         <input matInput placeholder="Observação" formControlName="obs" >
                       </mat-form-field>
@@ -230,21 +233,21 @@
             </div>
           </form>
           
-          <div *ngIf="valorTotal() != 0" style="margin-top: -40px; color: black; text-align: left;">
+          <div class="geral" *ngIf="valorTotal() != 0">
             <tr>
-              <th style="color: red;">Valor Total Nota: {{valorTotal('total') | currency:'BRL':true:'1.2-2'}}</th>
+              <th style="color: green;">Valor Total da Nota: {{valorTotal('total') | currency:'BRL':true:'1.2-2'}}</th>
             </tr>
             <tr>
-              <th style="color: rgb(199, 97, 97);">Valor Líquido Nota: {{valorTotal('liq') | currency:'BRL':true:'1.2-2'}}</th>
+              <th style="color: rgb(97, 199, 122);">Valor Líquido da Nota: {{valorTotal('liq') | currency:'BRL':true:'1.2-2'}}</th>
             </tr>
             <tr>
               <th>IPI: {{valorTotal('ipi') | currency:'BRL':true:'1.2-2'}}</th>
             </tr>
             <tr>
-              <th>Comissão Média: {{comissaoMedia()}}%</th>
+              <th>Comissão Média(%): {{comissaoMedia()}}%</th>
             </tr>
             <tr>
-              <th>Comissão Bruta: {{comissaoBruta() | currency:'BRL':true:'1.2-2'}}</th>
+              <th>Comissão Bruta($): {{comissaoBruta() | currency:'BRL':true:'1.2-2'}}</th>
             </tr>
           </div>
           <div style="margin-top: 20px; margin-left:5px">
@@ -253,4 +256,3 @@
           </div>
     </div>
   </div>
-  </mat-dialog-content>
