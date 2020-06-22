@@ -6,8 +6,6 @@
   <div fxLayout="row wrap">
     <!-- Card column -->
     <div fxFlex.gt-sm="100%" fxFlex="100">
-      <mat-card>
-        <mat-card-content>
           <form [formGroup]="form" class="form">
             <div fxLayout="row" fxLayoutAlign="left center" class="row">
               <div class="p-10" fxFlex.gt-sm="35" fxFlex.gt-md="35" fxFlex.gt-xs="35" fxFlex="100">
@@ -159,9 +157,19 @@
                   <input matInput type='text' class="form-control" placeholder='Digite para filtrar...'
                     (keyup)='updateFilter($event)' />
                 </mat-form-field>
-                <ngx-datatable #table class='material' [columns]="columns" [columnMode]="'force'" [headerHeight]="50"
-                  [footerHeight]="50" [rowHeight]="'auto'" [limit]="5" [rows]='rows' [loadingIndicator]="loadingIndicator"
-                  [selected]="selected" [selectionType]="'single'" (select)='onSelect($event)'>
+                <ngx-datatable #table 
+                  class='material'
+                  [columns]="columns" 
+                  [columnMode]="'standard'" 
+                  [headerHeight]="50"
+                  [footerHeight]="50" 
+                  [rowHeight]="'auto'" 
+                  [limit]="5" 
+                  [rows]='rows' 
+                  [loadingIndicator]="loadingIndicator"
+                  [selected]="selected" 
+                  [selectionType]="'single'" 
+                  (select)='onSelect($event)'>
                 </ngx-datatable>
               </div>
               <div formArrayName="pedido_produtos">
@@ -243,8 +251,6 @@
             <button mat-stroked-button color="primary" (click)="enviarPedido()" [disabled]="!form.valid">Finalizar</button>
             <button mat-stroked-button color="warn" (click)="dialogRef.close()" >Cancelar</button>
           </div>
-        </mat-card-content>
-      </mat-card>
     </div>
   </div>
   </mat-dialog-content>

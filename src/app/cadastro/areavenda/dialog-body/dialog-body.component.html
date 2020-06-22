@@ -1,5 +1,5 @@
-  <!-- Card column -->
-  <mat-dialog-content class="dialog">
+<!-- Card column -->
+<mat-dialog-content class="dialog">
   <form [formGroup]="form">
     <div fxLayout="row wrap" class="row">
       <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
@@ -7,17 +7,35 @@
           <mat-card-title class="dadosCadastro">{{pageTitle}}</mat-card-title>
         </mat-card-header>
       </div>
-      <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+      <div class="p-10" fxFlex.gt-sm="33.33" fxFlex.gt-xs="33.33" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Nome da área de venda</mat-label>
           <input matInput placeholder="Nome da área de venda" [formControl]="form.controls['nome']">
         </mat-form-field>
-        <mat-hint *ngIf="form.controls['nome'].hasError('required') && form.controls['nome'].touched"
-          class="text-danger font-14">Nome área de venda.</mat-hint>
-        <mat-hint *ngIf="form.controls['nome'].hasError('minlength') && form.controls['nome'].touched"
-          class="text-danger font-14">O nome deve conter no mínimo 5 caracteres</mat-hint>
-        <mat-hint *ngIf="form.controls['nome'].hasError('maxlength') && form.controls['nome'].touched"
-          class="text-danger font-14">Seu nome não deve exceder 50 caracteres.</mat-hint>
+      </div>
+      <div class="p-10" fxFlex.gt-sm="33.33" fxFlex.gt-xs="33.33" fxFlex="100">
+        <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+          [floatLabel]="form.value.floatLabel">
+          <mat-label>Selecione a região...</mat-label>
+          <mat-select required [formControl]="form.controls['regiao_id']">
+            <mat-option *ngFor="let regiao of regioes" [value]="regiao.id">
+              {{regiao.nome}}
+            </mat-option>
+          </mat-select>
+          <mat-placeholder>Unidade</mat-placeholder>
+        </mat-form-field>
+      </div>
+      <div class="p-10" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="100">
+        <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+          [floatLabel]="form.value.floatLabel">
+          <mat-label>Status.</mat-label>
+          <mat-select required [formControl]="form.controls['status']">
+            <mat-option>-- Selecione... --</mat-option>
+            <mat-option [value]=true>Ativo</mat-option>
+            <mat-option [value]=false>Inativo</mat-option>
+          </mat-select>
+          <mat-placeholder>Status</mat-placeholder>
+        </mat-form-field>
       </div>
       <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
         <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
@@ -43,33 +61,10 @@
           <mat-placeholder>Auxiliar</mat-placeholder>
         </mat-form-field>
       </div>
-      <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
-        <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
-          [floatLabel]="form.value.floatLabel">
-          <mat-label>Selecione a região...</mat-label>
-          <mat-select required [formControl]="form.controls['regiao_id']">
-            <mat-option *ngFor="let regiao of regioes" [value]="regiao.id">
-              {{regiao.nome}}
-            </mat-option>
-          </mat-select>
-          <mat-placeholder>Unidade</mat-placeholder>
-        </mat-form-field>
-      </div>
-      <div class="p-10" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="100">
-        <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
-          [floatLabel]="form.value.floatLabel">
-          <mat-label>Status.</mat-label>
-          <mat-select required [formControl]="form.controls['status']">
-            <mat-option>-- Selecione... --</mat-option>
-            <mat-option [value]=true>Ativo</mat-option>
-            <mat-option [value]=false>Inativo</mat-option>
-          </mat-select>
-          <mat-placeholder>Status</mat-placeholder>
-        </mat-form-field>
-      </div>
     </div>
-    <mat-card-actions fxLayout="row" fxLayoutAlign="end center" >
-      <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid" (click)="areaVendasSubmit(); close()"> Salvar </button>
+    <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
+      <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid"
+        (click)="areaVendasSubmit(); close()"> Salvar </button>
       <button mat-raised-button color="warn" (click)="close()">Cancelar</button>
     </mat-card-actions>
   </form>

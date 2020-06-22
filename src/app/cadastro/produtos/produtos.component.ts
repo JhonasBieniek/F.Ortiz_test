@@ -56,7 +56,7 @@ export class ProdutosComponent implements OnInit {
       maxHeight: '100vh',
     
       width: '95vw',
-      height: '95vh'
+      height: '75vh'
     }
     //dialogConfig.data = this.dados.data;
     let dialogRef = this.dialog.open(

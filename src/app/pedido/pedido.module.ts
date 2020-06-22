@@ -15,7 +15,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { QuillModule } from 'ngx-quill';
 import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
-import { ItensPedidoComponent } from './itens-pedido/itens-pedido.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { DialogCadastroComponent } from './novo/dialog-cadastro/dialog-cadastro.component';
 import { MatDialogModule } from '@angular/material';
@@ -66,7 +65,6 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
   declarations: [
     ListarComponent, 
     NovoComponent, 
-    ItensPedidoComponent, 
     ShoppingCartComponent, 
     DialogCadastroComponent, 
     Novo2Component, 
