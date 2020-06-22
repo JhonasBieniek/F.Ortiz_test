@@ -22,7 +22,9 @@ export class JwtInterceptor implements HttpInterceptor {
         private router: Router,
         private loginService: LoginService,
         private spinner: NgxSpinnerService
-        ) { }
+        ) {
+            this.spinner.hide();
+         }
 
     intercept(request: HttpRequest<any>, next: HttpHandler):  Observable<HttpEvent<any>>  {
         this.spinner.show();
@@ -100,15 +102,14 @@ export class JwtInterceptor implements HttpInterceptor {
                     (err: any) => {
                         if (err instanceof HttpErrorResponse) {
                             if (err.status !== 401) {
+                                console.log(1);
+                                this.spinner.hide ();
                                 return;
                             }
+                            console.log(2);
                             this.spinner.hide ()
                             this.router.navigate(['login']);
                         }
-                    }),
-                    finalize(() =>{
-                        this.count--;
-                        if ( this.count == 0 ) this.spinner.hide ();
                     })
                 );
             }));
@@ -117,6 +118,7 @@ export class JwtInterceptor implements HttpInterceptor {
                 filter(token => token != null),
                 take(1),
                 switchMap(jwt => {
+                    console.log(4);
                     this.spinner.hide ();
                     return next.handle(this.addToken(request, jwt));
                 })
