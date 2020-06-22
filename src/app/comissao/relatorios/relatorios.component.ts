@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { ClientService } from '../../shared/services/client.service.component';
 import { NotificationService } from '../../shared/messages/notification.service';
 import { SelectionType } from '@swimlane/ngx-datatable';
-import { Observable } from 'rxjs';
+import { Observable, of, from } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { share, pluck, map, distinct, concatMap, reduce } from 'rxjs/operators';
 
 
 @Component({
@@ -19,13 +20,16 @@ export class RelatoriosComponent implements OnInit {
   pageTitle:string;
   showTable:boolean = false;
   resposta:[] = [];
-  representadas:[] = [];
-  areas:[] = [];
-  funcionarios:[] = [];
-  clientes:[] = [];
+  representadas = [];
+  vendedores$:Observable<any[]>;
+  auxiliares$:Observable<any[]>;
+  clientes$:Observable<any[]>;
   rota:string
-  show:boolean = true
-
+  show:boolean = true;
+  vendedor_id = new FormControl(null);
+  auxiliar_id = new FormControl(null);
+  cliente_id = new FormControl(null);
+  tipo = new FormControl(null);
 
   constructor(
     private fb: FormBuilder,
@@ -33,76 +37,39 @@ export class RelatoriosComponent implements OnInit {
     private notificationService: NotificationService,
     private route: ActivatedRoute,
   ){
-    this.rota = this.route.snapshot.url[1].path;
-    if(this.rota == 'acumulado'){
-      this.pageTitle = 'Relatório Acumulado de Comissões';
-      this.show = false
-      this.getConsults('representadas');
-      this.getConsults('areas');
-    }
-    if(this.rota == 'comissoes'){
-      this.pageTitle = 'Relatório de Comissões';
-      this.show = false
-      this.getConsults('representadas');
-      this.getConsults('areas');
-      this.getConsults('funcionarios');
-    }
-    if(this.rota == 'recebimento'){
-      this.pageTitle = 'Relatório de Recebimento';
-      this.getConsults('representadas');
-      this.getConsults('areas');
-      this.getConsults('clientes');
-    }
-    if(this.rota == 'devolucoes'){
-      this.pageTitle = 'Relatório de Devoluções';
-      this.getConsults('representadas');
-      this.getConsults('areas');
-      this.getConsults('clientes');
-    }
-    if(this.rota == 'estorno'){
-      this.pageTitle = 'Relatório de Estornos';
-      this.getConsults('representadas');
-      this.getConsults('areas');
-      this.getConsults('clientes');
-    }
   }  
 
-  getConsults(consulta){
-    if(consulta == 'representadas')
-    this.clientservice.getRepresentadas().subscribe((res:any)=>{
-      this.representadas = res.data;
-    })
-    else if(consulta == 'areas')
-    this.clientservice.getAreaVenda().subscribe((res:any)=>{
-      this.areas = res.data;
-    })
-    else if(consulta == 'funcionarios')
-    this.clientservice.getFuncionarios().subscribe((res:any)=>{
-      this.funcionarios = res.data;
-    })
-    else if(consulta == 'clientes')
-    this.clientservice.getClientes().subscribe((res:any)=>{
-      this.clientes = res.data;
-    })
+  setTitulo(rota){
+    if(rota == 'acumulado'){
+      this.pageTitle = 'Relatório Acumulado de Comissões';
+      this.show = false;
+      this.form.get('tipo').setValue('recebimento');
+    }
+    if(rota == 'comissoes'){
+      this.pageTitle = 'Relatório de Comissões';
+      this.show = false;
+      this.form.get('tipo').setValue('recebimento');
+    }
+    if(rota == 'recebimento'){
+      this.pageTitle = 'Relatório de Recebimento';
+    }
+    if(rota == 'devolucoes'){
+      this.pageTitle = 'Relatório de Devoluções';
+    }
+    if(rota == 'estorno'){
+      this.pageTitle = 'Relatório de Estornos';
+    }
   }
 
-  Clientes(area){
-    return this.clientes.filter((e:any) =>
-      e.area_venda_id == area
-    )
-     
-  }
   ngOnInit() {
+    this.clientservice.getRepresentadas().subscribe((res:any) => this.representadas = res.data);
     this.form = this.fb.group({
-      tipo: [null],
       dtInicio: [null],
       dtFinal: [null],
-      nota: [null],
-      representada: [null],
-      area: [null],
-      funcionario: [null],
-      cliente: [null],
+      representada_id: [null],
+      tipo: ['faturamento']
     });
+    this.setTitulo(this.route.snapshot.url[1].path);
   }
 
   clear(){
@@ -110,12 +77,27 @@ export class RelatoriosComponent implements OnInit {
   }
   
   Submit(){
-    // this.clientservice.areceber(this.form.value).subscribe((res:any) => { 
-    //   if(res.success == true){
-    //     this.resposta = res.data;
-    //   }else{
-    //     this.notificationService.notify(`Erro contate o Administrador`)
-    //   }
-    // });
+    const source = this.clientservice.getNotasRelatorios(this.form.value).pipe(
+      pluck('data'),
+      share()
+    );
+    this.vendedores$ = source.pipe(
+      concatMap(from),
+      map(e => e.pedido.vendedor),
+      distinct(e => e.id),
+      reduce((data, e) => [...data, e], []),
+    )
+    this.auxiliares$ = source.pipe(
+      concatMap(from),
+      map(e => e.pedido.auxiliar),
+      distinct(e => e.id),
+      reduce((data, e) => [...data, e], []),
+    )
+    this.clientes$ = source.pipe(
+      concatMap(from),
+      map(e => e.pedido.cliente),
+      distinct(e => e.id),
+      reduce((data, e) => [...data, e], []),
+    )
   }
 }

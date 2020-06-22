@@ -410,14 +410,9 @@ export class ClientService {
               return res;
             });
   }
-  getRepresentadas() {
+  getRepresentadas(): Observable<any[]>{
     const uri = `${API_URL}` + `representadas/index.json`;
-    return this
-            .http
-            .get(uri)
-            .map(res => {
-              return res;
-            });
+    return this.http.get<any[]>(uri);
   }
   getRepresentadasFunc() {
     const uri = `${API_URL}` + `representadas/getRepresentadasFunc.json`;
@@ -526,6 +521,10 @@ export class ClientService {
             .map(res => {
               return res;
             });
+  }
+  getNotasRelatorios(data): Observable<Object>{
+    const uri = `${API_URL}` + `notas/relatorios.json`;
+    return this.http.post<Object>(uri, data);
   }
   getPedidoSemNota() {
     const uri = `${API_URL}` + `notas/getPedidoSemNota.json`;
