@@ -30,9 +30,10 @@ export class RelatoriosComponent implements OnInit {
   cliente_id = new FormControl(null);
   tipo = new FormControl(null);
   result: any;
-  rows = [];
+  rows:any = [];
+  temp = [];
 
-  //@ViewChild(RelatoriosComponent, {static: false}) table: RelatoriosComponent;
+  @ViewChild(RelatoriosComponent, {static: false}) table: RelatoriosComponent;
 
   constructor(
     private fb: FormBuilder,
@@ -75,6 +76,21 @@ export class RelatoriosComponent implements OnInit {
     this.setTitulo(this.route.snapshot.url[1].path);
   }
 
+  updateFilter(event) {
+    const val = event.target.value.toLowerCase();
+        
+    // filter our data
+    // const temp = this.temp.filter(function(d) {
+    //   if( d.nome.toLowerCase().indexOf(val) !== -1 || !val 
+
+    //   return d
+    // }); 
+    // update the rows
+    // this.rows = temp;
+    // Whenever the filter changes, always go back to the first page
+    this.table = this.rows;
+    }
+
   clear(){
     this.form.reset();
   }
@@ -104,6 +120,7 @@ export class RelatoriosComponent implements OnInit {
     )
     source.subscribe( (res:[]) => {
       this.rows = res ;
+      this.temp = [...this.rows];
       console.log(res)})
     
   }
