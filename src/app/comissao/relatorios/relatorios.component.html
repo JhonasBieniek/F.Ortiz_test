@@ -91,50 +91,50 @@
     <ngx-datatable
       #table 
       class="material" 
-      [columnMode]="flex" 
+      [columnMode]="'flex'" 
       [headerHeight]="50" 
       [footerHeight]="50"
       [rowHeight]="'auto'" 
       [rows]="rows" 
       [scrollbarH]="true">
-      <ngx-datatable-column [flexGrow]="0.3" [maxWidth]="110" prop="pedido.representada.nome_fantasia" name="Representada" >
+      <ngx-datatable-column [flexGrow]="0.6"  prop="pedido.representada.nome_fantasia" name="Representada" >
       </ngx-datatable-column>
-      <ngx-datatable-column prop="pedido.cliente.razao_social" name="Cliente" [flexGrow]="1"></ngx-datatable-column>
-      <ngx-datatable-column [flexGrow]="0.3" name="Núm. Nota">
+      <ngx-datatable-column prop="pedido.cliente.razao_social" name="Cliente" [flexGrow]="0.8"></ngx-datatable-column>
+      <ngx-datatable-column [flexGrow]="0.5" name="Núm. Nota">
         <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
           <div>{{row.num_nota}}</div>
-          <div class="inner-col-header b">Parcela</div>
+          <div class="inner-col-header">Parcela</div>
           <div *ngFor=" let parcela of row.nota_parcelas">{{parcela.parcela}}</div>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [flexGrow]="0.3" name="Núm. Pedido">
+      <ngx-datatable-column [flexGrow]="0.6" name="Núm. Pedido">
         <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
           <div>{{row.pedido.num_pedido}}</div>
-          <div class="inner-col-header b">Vencimento</div>
+          <div class="inner-col-header">Vencimento</div>
           <div *ngFor=" let parcela of row.nota_parcelas">
             {{parcela.data_vencimento | date: 'dd/MM/yyyy'}}</div>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [flexGrow]="0.3" name="Data">
+      <ngx-datatable-column [flexGrow]="0.6" name="Data">
         <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
           <div>{{row.data_faturamento | date: 'dd/MM/yyyy'}}</div>
-          <div class="inner-col-header b">Vencimento</div>
+          <div class="inner-col-header">Vencimento</div>
           <div *ngFor=" let parcela of row.nota_parcelas">
             {{parcela.data_vencimento | date: 'dd/MM/yyyy'}}</div>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [flexGrow]="0.3" name="Valor Total">
+      <ngx-datatable-column name="Valor Total" [flexGrow]="0.6" >
         <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
           <div>{{row.pedido.valor_total | currency:'BRL':true:'1.2-2'}}</div>
-          <div class="inner-col-header b">Valor Parcela</div>
+          <div class="inner-col-header">Valor Parcela</div>
           <div *ngFor=" let parcela of row.nota_parcelas">
             {{parcela.valor | currency:'BRL':true:'1.2-2'}}</div>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [flexGrow]="1" name="Comissão">
+      <ngx-datatable-column [flexGrow]="0.7" name="Comissão">
         <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
           <div >{{row.pedido.comissao_bruto | currency:'BRL':true:'1.2-2'}}</div>
-          <div class="inner-col-header b">Comissão parcela</div>
+          <div class="inner-col-header">Comissão parcela</div>
           <div *ngFor=" let parcela of row.nota_parcelas">
             {{parcela.valor * row.pedido.comissao_media / 100 | currency:'BRL':true:'1.2-2'}}</div>
         </ng-template>

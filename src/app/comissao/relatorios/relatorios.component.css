@@ -13,10 +13,9 @@
   margin-left: 16px;
 }
 .inner-col-header{
+  font-size: 9pt;
   font-weight: 500;
   color: rgb(0, 0, 99);
-}
-.b{
   border-top: 1px solid black;
   width: max-content;
 }
