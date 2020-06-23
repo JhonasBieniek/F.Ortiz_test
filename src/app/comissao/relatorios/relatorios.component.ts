@@ -2,10 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { ClientService } from '../../shared/services/client.service.component';
 import { NotificationService } from '../../shared/messages/notification.service';
-import { SelectionType } from '@swimlane/ngx-datatable';
-import { Observable, of, from } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { share, pluck, map, distinct, concatMap, reduce } from 'rxjs/operators';
+import { MatTableDataSource } from '@angular/material';
 
 
 @Component({
@@ -14,7 +14,6 @@ import { share, pluck, map, distinct, concatMap, reduce } from 'rxjs/operators';
   styleUrls: ['./relatorios.component.css']
 })
 export class RelatoriosComponent implements OnInit {
-  @ViewChild('myTable', { static: false }) table: any;
 
   form: FormGroup;
   pageTitle:string;
@@ -30,6 +29,10 @@ export class RelatoriosComponent implements OnInit {
   auxiliar_id = new FormControl(null);
   cliente_id = new FormControl(null);
   tipo = new FormControl(null);
+  result: any;
+  rows = [];
+
+  //@ViewChild(RelatoriosComponent, {static: false}) table: RelatoriosComponent;
 
   constructor(
     private fb: FormBuilder,
@@ -99,5 +102,9 @@ export class RelatoriosComponent implements OnInit {
       distinct(e => e.id),
       reduce((data, e) => [...data, e], []),
     )
+    source.subscribe( (res:[]) => {
+      this.rows = res ;
+      console.log(res)})
+    
   }
 }
