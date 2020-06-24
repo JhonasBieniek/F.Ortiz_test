@@ -42,7 +42,7 @@
               </mat-form-field>
             </div>
           </div>
-          <div style="margin-top: -15px; margin-bottom: 10px;">
+          <div class="button">
             <button mat-raised-button color="primary" type="submit" (click)="Submit()">Buscar</button>
             <button mat-raised-button class="m-l-10" color="warn" (click)="clear()">Limpar</button>
           </div>
@@ -52,7 +52,7 @@
               <mat-form-field [hideRequiredMarker]="true" appearance="outline">
                 <mat-label>Selecione um Vendedor...</mat-label>
                 <mat-select [formControl]="vendedor_id">
-                  <mat-option *ngFor="let vendedor of (vendedores$ | async)" [value]="vendedor.id" updateFilter(value)>
+                  <mat-option *ngFor="let vendedor of (vendedores$ | async)" [value]="vendedor.id"(click)="updateFilter('vendedor')" >
                     {{vendedor.nome}}
                   </mat-option>
                 </mat-select>
@@ -63,7 +63,7 @@
               <mat-form-field [hideRequiredMarker]="true" appearance="outline">
                 <mat-label>Selecione um Auxiliar...</mat-label>
                 <mat-select [formControl]="auxiliar_id">
-                  <mat-option *ngFor="let auxiliar of (auxiliares$ | async)" [value]="auxiliar.id" updateFilter(value)>
+                  <mat-option *ngFor="let auxiliar of (auxiliares$ | async)" [value]="auxiliar.id" (click)='updateFilter("auxiliar")'>
                     {{auxiliar.nome}}
                   </mat-option>
                 </mat-select>
@@ -74,12 +74,15 @@
               <mat-form-field [hideRequiredMarker]="true" appearance="outline">
                 <mat-label>Selecione um cliente...</mat-label>
                 <mat-select [formControl]="cliente_id">
-                  <mat-option *ngFor="let cliente of (clientes$ | async)" [value]="cliente.id" updateFilter(value)>
+                  <mat-option *ngFor="let cliente of (clientes$ | async)" [value]="cliente.id" (click)="updateFilter('cliente')">
                     {{cliente.razao_social}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
+          </div>
+          <div *ngIf="(clientes$ | async)?.length > 0" fxLayout="row" fxLayoutAlign="end center" class="button" >
+            <button mat-raised-button color="warn" (click)="updateFilter('limpar')">Limpar</button>
           </div>
         </form>
       </mat-card-content>

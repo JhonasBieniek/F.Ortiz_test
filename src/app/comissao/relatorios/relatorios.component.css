@@ -19,3 +19,7 @@
   border-top: 1px solid black;
   width: 300px;
 }
+.button{
+  margin-top: -15px; 
+  margin-bottom: 10px;
+}

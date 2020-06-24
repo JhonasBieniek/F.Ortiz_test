@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { ClientService } from '../../shared/services/client.service.component';
 import { NotificationService } from '../../shared/messages/notification.service';
@@ -11,7 +11,9 @@ import { MatTableDataSource } from '@angular/material';
 @Component({
   selector: 'app-relatorios',
   templateUrl: './relatorios.component.html',
-  styleUrls: ['./relatorios.component.css']
+  styleUrls: ['./relatorios.component.css'],
+  encapsulation: ViewEncapsulation.None
+
 })
 export class RelatoriosComponent implements OnInit {
 
@@ -31,7 +33,8 @@ export class RelatoriosComponent implements OnInit {
   tipo = new FormControl(null);
   result: any;
   rows:any = [];
-  temp = [];
+  temp:any = [];
+  data:any = [];
 
   @ViewChild(RelatoriosComponent, {static: false}) table: RelatoriosComponent;
 
@@ -76,19 +79,33 @@ export class RelatoriosComponent implements OnInit {
     this.setTitulo(this.route.snapshot.url[1].path);
   }
 
-  updateFilter(event) {
-    const val = event.target.value.toLowerCase();
-        
-    // filter our data
-    // const temp = this.temp.filter(function(d) {
-    //   if( d.nome.toLowerCase().indexOf(val) !== -1 || !val 
-
-    //   return d
-    // }); 
-    // update the rows
-    // this.rows = temp;
-    // Whenever the filter changes, always go back to the first page
-    this.table = this.rows;
+  updateFilter(tipo) {
+    if(tipo == 'cliente'){
+      this.auxiliar_id.reset()
+      this.vendedor_id.reset()
+    }else if(tipo == 'vendedor'){
+      this.auxiliar_id.reset()
+      this.cliente_id.reset()
+    }else if(tipo == 'auxiliar'){
+      this.vendedor_id.reset()
+      this.cliente_id.reset()
+    }else{
+      this.auxiliar_id.reset()
+      this.vendedor_id.reset()
+      this.cliente_id.reset()
+    }
+    // filter  data
+    if(tipo == 'limpar'){
+      this.rows = this.data
+    }else{
+      const temp = this.temp.filter(d =>
+        d.pedido.auxiliar.id  == this.auxiliar_id.value ||
+        d.pedido.cliente.id  == this.cliente_id.value ||
+        d.pedido.vendedor.id  == this.vendedor_id.value 
+      ); 
+      // update the rows
+      this.rows = temp;
+     }
     }
 
   clear(){
@@ -119,8 +136,9 @@ export class RelatoriosComponent implements OnInit {
       reduce((data, e) => [...data, e], []),
     )
     source.subscribe( (res:[]) => {
-      this.rows = res ;
-      this.temp = [...this.rows];
+      this.data = res
+      this.rows = this.data ;
+      this.temp = [...this.data];
       console.log(res)})
     
   }
