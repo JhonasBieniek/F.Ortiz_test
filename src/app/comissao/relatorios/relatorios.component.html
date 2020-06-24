@@ -81,7 +81,7 @@
               </mat-form-field>
             </div>
           </div>
-          <div *ngIf="(clientes$ | async)?.length > 0" fxLayout="row" fxLayoutAlign="end center" class="button" >
+          <div *ngIf="(clientes$ | async)?.length > 0" fxLayout="row" fxLayoutAlign="end center" class="button" style="margin-bottom: -20px;">
             <button mat-raised-button color="warn" (click)="updateFilter('limpar')">Limpar</button>
           </div>
         </form>
@@ -98,9 +98,8 @@
       [headerHeight]="50" 
       [footerHeight]="50"
       [rowHeight]="'auto'" 
-      [rows]="rows" 
-      [scrollbarH]="true">
-      <ngx-datatable-column [flexGrow]="0.6"  prop="pedido.representada.nome_fantasia" name="Representada" >
+      [rows]="rows">
+      <ngx-datatable-column [flexGrow]="0.6" prop="pedido.representada.nome_fantasia" name="Representada" >
       </ngx-datatable-column>
       <ngx-datatable-column prop="pedido.cliente.razao_social" name="Cliente" [flexGrow]="0.8"></ngx-datatable-column>
       <ngx-datatable-column [flexGrow]="0.5" name="Núm. Nota">
@@ -145,5 +144,23 @@
         </ng-template>
       </ngx-datatable-column>
     </ngx-datatable>
+  </mat-card-content>
+</mat-card>
+<mat-card *ngIf="rows.length > 0" style="margin-top: -10px;">
+  <mat-card-content>
+    <div fxLayout="row wrap" class="row">
+      <div class="p-10 vt" fxFlex.gt-sm="75" fxFlex.gt-xs="75" fxFlex="100" fxLayoutAlign="end start">
+        Valor Total: {{valorTotal() | currency:'BRL':true:'1.2-2'}}
+      </div>
+      <div class="p-10 vt" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100" fxLayoutAlign="end start">
+        Comissão Total: {{comissaoTotal() | currency:'BRL':true:'1.2-2'}} 
+      </div>
+      <div class="p-10 ct" fxFlex.gt-sm="75" fxFlex.gt-xs="75" fxFlex="100" fxLayoutAlign="end start">
+        Valor Parcelas {{valorParcelas() | currency:'BRL':true:'1.2-2'}} 
+      </div>
+      <div class="p-10 ct" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100" fxLayoutAlign="end start">
+        Comissão Parcelas: {{comissaoParcelas() | currency:'BRL':true:'1.2-2'}}      
+      </div>                    
+    </div>
   </mat-card-content>
 </mat-card>

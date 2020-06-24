@@ -23,3 +23,10 @@
   margin-top: -15px; 
   margin-bottom: 10px;
 }
+.vt{
+  font-weight: bold;
+}
+.ct{
+  font-weight: bold;
+  color: darkgreen;
+}

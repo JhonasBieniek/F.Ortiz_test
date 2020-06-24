@@ -80,29 +80,33 @@ export class RelatoriosComponent implements OnInit {
   }
 
   updateFilter(tipo) {
+    var temp = 0;
+    if(tipo == 'limpar'){
+      this.rows = this.data
+    }else{
     if(tipo == 'cliente'){
       this.auxiliar_id.reset()
       this.vendedor_id.reset()
+      temp = this.temp.filter(d =>
+        d.pedido.cliente.id  == this.cliente_id.value
+      ); 
     }else if(tipo == 'vendedor'){
       this.auxiliar_id.reset()
       this.cliente_id.reset()
+      temp = this.temp.filter(d =>
+        d.pedido.vendedor.id  == this.vendedor_id.value 
+      ); 
     }else if(tipo == 'auxiliar'){
       this.vendedor_id.reset()
       this.cliente_id.reset()
+      temp = this.temp.filter(d =>
+        d.pedido.auxiliar.id  == this.auxiliar_id.value
+      ); 
     }else{
       this.auxiliar_id.reset()
       this.vendedor_id.reset()
       this.cliente_id.reset()
     }
-    // filter  data
-    if(tipo == 'limpar'){
-      this.rows = this.data
-    }else{
-      const temp = this.temp.filter(d =>
-        d.pedido.auxiliar.id  == this.auxiliar_id.value ||
-        d.pedido.cliente.id  == this.cliente_id.value ||
-        d.pedido.vendedor.id  == this.vendedor_id.value 
-      ); 
       // update the rows
       this.rows = temp;
      }
@@ -110,6 +114,40 @@ export class RelatoriosComponent implements OnInit {
 
   clear(){
     this.form.reset();
+  }
+
+  valorTotal(){
+    let vlrTotal:number = 0;
+    this.rows.forEach(element => {
+      vlrTotal += element.pedido.valor_total 
+    });
+    return vlrTotal;
+  }
+  valorParcelas(){
+    let vlrTotal:number = 0;
+    this.rows.forEach(e => {
+      e.nota_parcelas.forEach(element => {
+        vlrTotal += element.valor
+      });
+    });
+    return vlrTotal;
+  }
+  comissaoTotal(){
+    let vlrTotal:number = 0;
+    this.rows.forEach(element => {
+      vlrTotal += element.pedido.comissao_bruto 
+    });
+    return vlrTotal;
+  }
+  comissaoParcelas(){
+    let vlrTotal:number = 0;
+    this.rows.forEach(e => {
+      e.nota_parcelas.forEach(element => {
+        console.log(e.pedido.comissao_media)
+        vlrTotal += (element.valor * e.pedido.comissao_media /100)
+      });
+    });
+    return vlrTotal;
   }
   
   Submit(){
