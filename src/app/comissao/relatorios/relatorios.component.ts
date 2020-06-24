@@ -24,6 +24,7 @@ export class RelatoriosComponent implements OnInit {
   representadas = [];
   vendedores$:Observable<any[]>;
   auxiliares$:Observable<any[]>;
+  acumulados = [];
   clientes$:Observable<any[]>;
   rota:string
   show:boolean = true;
@@ -50,12 +51,12 @@ export class RelatoriosComponent implements OnInit {
     if(rota == 'acumulado'){
       this.pageTitle = 'Relatório Acumulado de Comissões';
       this.show = false;
-      this.form.get('tipo').setValue('recebimento');
+      this.form.get('tipo').setValue('data_recebimento');
     }
     if(rota == 'comissoes'){
       this.pageTitle = 'Relatório de Comissões';
       this.show = false;
-      this.form.get('tipo').setValue('recebimento');
+      this.form.get('tipo').setValue('data_recebimento');
     }
     if(rota == 'recebimento'){
       this.pageTitle = 'Relatório de Recebimento';
@@ -149,35 +150,61 @@ export class RelatoriosComponent implements OnInit {
     });
     return vlrTotal;
   }
+
   
   Submit(){
     const source = this.clientservice.getNotasRelatorios(this.form.value).pipe(
       pluck('data'),
       share()
     );
-    this.vendedores$ = source.pipe(
-      concatMap(from),
-      map(e => e.pedido.vendedor),
-      distinct(e => e.id),
-      reduce((data, e) => [...data, e], []),
-    )
-    this.auxiliares$ = source.pipe(
-      concatMap(from),
-      map(e => e.pedido.auxiliar),
-      distinct(e => e.id),
-      reduce((data, e) => [...data, e], []),
-    )
-    this.clientes$ = source.pipe(
-      concatMap(from),
-      map(e => e.pedido.cliente),
-      distinct(e => e.id),
-      reduce((data, e) => [...data, e], []),
-    )
-    source.subscribe( (res:[]) => {
-      this.data = res
-      this.rows = this.data ;
-      this.temp = [...this.data];
-      console.log(res)})
-    
+    if(this.route.snapshot.url[1].path == 'acumulado'){
+      source.subscribe((res:any) => {
+         res.map(e => {
+           let id = e.pedido.vendedor_id+"-"+e.pedido.auxiliar_id+"-"+e.pedido.regiao_id;
+           let idx = this.acumulados.findIndex(e => e.id == id);
+           if(idx != -1){
+            this.acumulados[idx].valor += e.pedido.valor_total;
+            this.acumulados[idx].comissao_recebido += e.pedido.comissao_bruto;
+            this.acumulados[idx].comissao_paga += +e.pedido.comissao_vendedor +e.pedido.comissao_auxiliar;
+           }else{
+            this.acumulados.push({
+              id: id,
+              vendedor: e.pedido.vendedor,
+              auxiliar: e.pedido.auxiliar,
+              regiao: e.pedido.regiao,
+              valor: e.pedido.valor_total,
+              comissao_recebido: e.pedido.comissao_bruto,
+              comissao_paga: +e.pedido.comissao_vendedor +e.pedido.comissao_auxiliar  
+            })
+           }
+         })
+         console.log(this.acumulados);
+      });
+    }
+    if(this.show == true){
+      this.vendedores$ = source.pipe(
+        concatMap(from),
+        map(e => e.pedido.vendedor),
+        distinct(e => e.id),
+        reduce((data, e) => [...data, e], []),
+      )
+      this.auxiliares$ = source.pipe(
+        concatMap(from),
+        map(e => e.pedido.auxiliar),
+        distinct(e => e.id),
+        reduce((data, e) => [...data, e], []),
+      )
+      this.clientes$ = source.pipe(
+        concatMap(from),
+        map(e => e.pedido.cliente),
+        distinct(e => e.id),
+        reduce((data, e) => [...data, e], []),
+      )
+      source.subscribe( (res:[]) => {
+        this.data = res
+        this.rows = this.data ;
+        this.temp = [...this.data];
+      })
+    }
   }
 }
