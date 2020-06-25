@@ -143,7 +143,6 @@ export class RelatoriosComponent implements OnInit {
     let vlrTotal:number = 0;
     this.rows.forEach(e => {
       e.nota_parcelas.forEach(element => {
-        console.log(e.pedido.comissao_media)
         vlrTotal += (element.valor * e.pedido.comissao_media /100)
       });
     });
@@ -177,7 +176,7 @@ export class RelatoriosComponent implements OnInit {
       this.data = res
       this.rows = this.data ;
       this.temp = [...this.data];
-      console.log(res)})
-    
+      console.log(res)
+    })
   }
 }

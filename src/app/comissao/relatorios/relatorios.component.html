@@ -149,20 +149,20 @@
 <mat-card *ngIf="rows.length > 0" style="margin-top: -10px;">
   <mat-card-content>
     <div fxLayout="row wrap" class="row" style="margin-top: -10px; margin-bottom: -10px;">
-      <div class="p-10 vt" fxFlex.gt-sm="60" fxFlex.gt-xs="60" fxFlex="100" fxLayoutAlign="start center">
+      <div class="p-10 vt" fxFlex.gt-sm="55" fxFlex.gt-xs="55" fxFlex="100" fxLayoutAlign="start center">
       </div>
       <div class="p-10 vt" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100" fxLayoutAlign="start center">
         Valor Total: {{valorTotal() | currency:'BRL':true:'1.2-2'}}
       </div>
-      <div class="p-10 vt" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100" fxLayoutAlign="start center">
+      <div class="p-10 vt" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100" fxLayoutAlign="start center">
         Comissão Total: {{comissaoTotal() | currency:'BRL':true:'1.2-2'}} 
       </div>
-      <div class="p-10 vt" fxFlex.gt-sm="60" fxFlex.gt-xs="60" fxFlex="100" fxLayoutAlign="start center">
+      <div class="p-10 vt" fxFlex.gt-sm="55" fxFlex.gt-xs="55" fxFlex="100" fxLayoutAlign="start center">
       </div>
       <div class="p-10 ct" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100" fxLayoutAlign="start center">
         Valor Parcelas: {{valorParcelas() | currency:'BRL':true:'1.2-2'}} 
       </div>
-      <div class="p-10 ct" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100" fxLayoutAlign="start center">
+      <div class="p-10 ct" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100" fxLayoutAlign="start center">
         Comissão Parcelas: {{comissaoParcelas() | currency:'BRL':true:'1.2-2'}}      
       </div>                    
     </div>
