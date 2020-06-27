@@ -89,7 +89,7 @@
     </mat-card>
   </div>
 </div>
-<mat-card *ngIf="rows.length > 0" style="margin-top: -10px;">
+<mat-card *ngIf="rows.length && this.route.snapshot.url[1].path == 'recebimento'> 0" style="margin-top: -10px;">
   <mat-card-content>
     <ngx-datatable
       #table 
@@ -146,7 +146,50 @@
     </ngx-datatable>
   </mat-card-content>
 </mat-card>
-<mat-card *ngIf="rows.length > 0" style="margin-top: -10px;">
+<mat-card *ngIf="rows.length > 0 && this.route.snapshot.url[1].path == 'acumulado'" style="margin-top: -10px;">
+  <mat-card-content>
+    <ngx-datatable
+      #table 
+      class="material" 
+      [columnMode]="'flex'" 
+      [headerHeight]="50" 
+      [footerHeight]="50"
+      [rowHeight]="'auto'" 
+      [rows]="rows">
+      <ngx-datatable-column [flexGrow]="2" name="Área de Venda">
+        <ng-template let-value="area" let-row="row" ngx-datatable-cell-template>
+        {{row.vendedor.nome}} - {{row.auxiliar.nome}} - {{row.regiao.nome}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [flexGrow]="0.5" name="Valor Notas">
+        <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
+          <div>{{row.valor | currency:'BRL':true:'1.2-2'}}</div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [flexGrow]="0.6" name="Comissão Rec.">
+        <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
+          <div class="inner-col-data">{{row.comissao_recebido | currency:'BRL':true:'1.2-2'}}</div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [flexGrow]="0.5" name="Perc. Rec.">
+        <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
+          <div class="inner-col-data">{{(row.comissao_recebido*100)/(row.valor) | number : '1.2-2'}}%</div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [flexGrow]="0.6" name="Comissão Paga">
+        <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
+          <div class="inner-col-data">{{row.comissao_paga | currency:'BRL':true:'1.2-2'}}</div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [flexGrow]="0.5" name="Perc. Rec.">
+        <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
+          <div class="inner-col-data">{{(row.comissao_paga*100 )/row.valor   | number : '1.2-2'}}%</div>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </mat-card-content>
+</mat-card>
+<mat-card *ngIf="rows.length > 0 && this.route.snapshot.url[1].path == 'recebido'" style="margin-top: -10px;">
   <mat-card-content>
     <div fxLayout="row wrap" class="row" style="margin-top: -10px; margin-bottom: -10px;">
       <div class="p-10 vt" fxFlex.gt-sm="55" fxFlex.gt-xs="55" fxFlex="100" fxLayoutAlign="start center">
@@ -165,6 +208,28 @@
       <div class="p-10 ct" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100" fxLayoutAlign="start center">
         Comissão Parcelas: {{comissaoParcelas() | currency:'BRL':true:'1.2-2'}}      
       </div>                    
+    </div>
+  </mat-card-content>
+</mat-card>
+<mat-card *ngIf="rows.length > 0 && this.route.snapshot.url[1].path == 'acumulado'" style="margin-top: -10px;">
+  <mat-card-content>
+    <div fxLayout="row wrap" class="row" style="margin-top: -10px; margin-bottom: -10px;">
+      <div class="p-10 vt" fxFlex.gt-sm="55" fxFlex.gt-xs="55" fxFlex="100" fxLayoutAlign="start center">
+      </div>
+      <div class="p-10 vt" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100" fxLayoutAlign="start center">
+        Valor Total: {{vTotal | currency:'BRL':true:'1.2-2'}}
+      </div>
+      <div class="p-10 vt" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100" fxLayoutAlign="start center">
+        Comissão Total: {{cTotal | currency:'BRL':true:'1.2-2'}} 
+      </div>
+      <div class="p-10 vt" fxFlex.gt-sm="55" fxFlex.gt-xs="55" fxFlex="100" fxLayoutAlign="start center">
+      </div>
+      <div class="p-10 ct" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100" fxLayoutAlign="start center">
+        Comissão Paga: {{cPaga | currency:'BRL':true:'1.2-2'}} 
+      </div>
+      <div class="p-10 vt" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100" fxLayoutAlign="start center">
+        Percentual Recebido %: {{(cPaga*100)/vTotal | currency:'BRL':true:'1.2-2'}} 
+      </div>                   
     </div>
   </mat-card-content>
 </mat-card>

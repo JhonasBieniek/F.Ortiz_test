@@ -38,6 +38,9 @@ export class RelatoriosComponent implements OnInit {
   data:any = [];
 
   @ViewChild(RelatoriosComponent, {static: false}) table: RelatoriosComponent;
+  vTotal: any = 0;
+  cTotal: any = 0;
+  cPaga: any = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -161,6 +164,9 @@ export class RelatoriosComponent implements OnInit {
          res.map(e => {
            let id = e.pedido.vendedor_id+"-"+e.pedido.auxiliar_id+"-"+e.pedido.regiao_id;
            let idx = this.acumulados.findIndex(e => e.id == id);
+           this.vTotal += e.pedido.valor_total;
+           this.cTotal += e.pedido.comissao_bruto;
+           this.cPaga += +e.pedido.comissao_vendedor +e.pedido.comissao_auxiliar;
            if(idx != -1){
             this.acumulados[idx].valor += e.pedido.valor_total;
             this.acumulados[idx].comissao_recebido += e.pedido.comissao_bruto;
@@ -173,11 +179,14 @@ export class RelatoriosComponent implements OnInit {
               regiao: e.pedido.regiao,
               valor: e.pedido.valor_total,
               comissao_recebido: e.pedido.comissao_bruto,
-              comissao_paga: +e.pedido.comissao_vendedor +e.pedido.comissao_auxiliar  
+              comissao_paga: +e.pedido.comissao_vendedor +e.pedido.comissao_auxiliar
             })
            }
          })
          console.log(this.acumulados);
+         this.data = this.acumulados;
+         this.rows = this.data ;
+         this.temp = [...this.data];
       });
     }
     if(this.show == true){

@@ -606,6 +606,7 @@ export class Novo2Component implements OnInit {
         this.form.get('regiao_id').setValue(res.data.regiao_id);
         this.comissao_auxiliar = res.data.auxiliar.comissoes.find(e => e.representada_id == this.representada.id);;
         this.comissao_vendedor = res.data.vendedor.comissoes.find(e => e.representada_id == this.representada.id);
+        this.comissaoVendedorAuxiliar();
       }
     })
   }
@@ -699,21 +700,26 @@ export class Novo2Component implements OnInit {
     this.form.get('comissao_media').setValue(comissao / i);
     return comissao / i;
   }
-
-  comissaoBruta() {
-    let comissao = 0
+  comissaoVendedorAuxiliar(){
     let comissao_vendedor = 0;
     let comissao_auxiliar = 0;
     this.produto.controls.forEach(element => {
-      comissao += ((element.get('quantidade').value * element.get('valor_unitario').value) * element.get('comissao_produto').value / 100);
       //comissao_vendedor += ((element.get('quantidade').value * element.get('valor_unitario').value) * this.comissaoCalcFaixa(element.get('comissao_produto').value) / 100);
       comissao_vendedor += this.comissaoCalcFaixa(this.comissao_vendedor, element.get('quantidade').value, element.get('valor_unitario').value, element.get('comissao_produto').value)
       comissao_auxiliar += this.comissaoCalcFaixa(this.comissao_auxiliar, element.get('quantidade').value, element.get('valor_unitario').value, element.get('comissao_produto').value)
 
     })
-    this.form.get('comissao_bruto').setValue(comissao);
     this.form.get('comissao_vendedor').setValue(comissao_vendedor);
     this.form.get('comissao_auxiliar').setValue(comissao_auxiliar);
+  }
+
+  comissaoBruta() {
+    let comissao = 0
+    this.produto.controls.forEach(element => {
+      comissao += ((element.get('quantidade').value * element.get('valor_unitario').value) * element.get('comissao_produto').value / 100);
+
+    })
+    this.form.get('comissao_bruto').setValue(comissao);
     return comissao;
   }
 
