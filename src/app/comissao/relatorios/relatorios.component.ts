@@ -51,6 +51,7 @@ export class RelatoriosComponent implements OnInit {
   }  
 
   setTitulo(rota){
+    console.log(rota)
     if(rota == 'acumulado'){
       this.pageTitle = 'Relatório Acumulado de Comissões';
       this.show = false;
