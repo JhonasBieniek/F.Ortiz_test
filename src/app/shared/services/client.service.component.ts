@@ -683,6 +683,10 @@ export class ClientService {
               return res;
             });
   }
+  getEstorno(data){
+    const uri = API_URL + 'notas/estorno/' + data + ".json";
+    return this.http.get(data);
+  }
   areceber(data){
     const uri = `${API_URL}` + `pedidos/receber.json`;
     return this.http.post(uri, data);
