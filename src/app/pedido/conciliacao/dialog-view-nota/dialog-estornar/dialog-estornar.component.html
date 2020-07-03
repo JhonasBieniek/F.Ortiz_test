@@ -17,7 +17,7 @@
         [selected]="selected"
         [selectionType]="'checkbox'"
         (select)='onSelect($event)'>
-            <ngx-datatable-column  [flexGrow]="1" name="Selecionar" [sortable]="false">
+            <ngx-datatable-column  [flexGrow]="0.5" name="Selecionar" [sortable]="false">
             <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected"
                 let-selectFn="selectFn">
                 <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)" />
@@ -27,15 +27,21 @@
                 <input type="checkbox"  [checked]="isSelected" (change)="onCheckboxChangeFn($event)" />
             </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column [flexGrow]="1.5" name="Núm. parcela">
+            <ngx-datatable-column [flexGrow]="1" name="Núm. parcela">
                 <ng-template let-value="parcela" let-row="row" ngx-datatable-cell-template>
                   {{ row.parcela }}
                 </ng-template>
               </ngx-datatable-column>  
 
-              <ngx-datatable-column [flexGrow]="2.5" name="Data de Vencimento">
+              <ngx-datatable-column [flexGrow]="1" name="Data de Vencimento">
                 <ng-template let-value="data_vencimento" let-row="row" ngx-datatable-cell-template>
                   {{ row.data_vencimento | date: 'dd/MM/yyyy' }}
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column [flexGrow]="1" name="Data de Recebimento">
+                <ng-template let-value="data_recebimento" let-row="row" ngx-datatable-cell-template>
+                  {{ row.data_recebimento | date: 'dd/MM/yyyy' }}
                 </ng-template>
               </ngx-datatable-column>
               

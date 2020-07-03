@@ -43,7 +43,7 @@
     },
     {
       "titulo": "Baixados",
-      "step": "baixado",
+      "step": "recebido",
       "index": 1,
       "columns": [
         {

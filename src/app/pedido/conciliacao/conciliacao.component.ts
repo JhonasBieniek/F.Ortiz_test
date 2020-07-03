@@ -41,11 +41,14 @@ export class ConciliacaoComponent implements OnInit {
     private dialog: MatDialog,
     private cd: ChangeDetectorRef
   ) {
-      this.rows = this.clientservice.getNotas().pipe(
-        map((res:any) => {
-          return res.data.filter(d => d.status == this.steps[this.defaultTab].step).sort((a,b)=> a.id - b.id);
-        })
-      );
+    this.clientservice.getNotas().subscribe((res:any) =>{
+      let i = 0;
+      this.steps.forEach(e => {
+        this.temp[i] = res.data.filter(d => d.status == e.step);
+        i++;
+      });
+      this.rows = [...this.temp].sort((a,b)=> a.id - b.id);
+    });
     }
 
   ngOnInit() {
