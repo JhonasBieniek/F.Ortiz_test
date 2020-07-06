@@ -94,6 +94,7 @@ export class ClientService {
       .post(uri, data) 
   }
   editNota(data){
+    console.log(data)
     const uri = `${API_URL}` + `notas/edit/`+data.id+`.json`;
     return this
       .http
@@ -685,7 +686,7 @@ export class ClientService {
   }
   getEstorno(data){
     const uri = API_URL + 'notas/estorno/' + data + ".json";
-    return this.http.get(data);
+    return this.http.get(uri);
   }
   areceber(data){
     const uri = `${API_URL}` + `pedidos/receber.json`;

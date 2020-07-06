@@ -612,14 +612,15 @@ export class Novo2Component implements OnInit {
   }
 
   updateFilter(event) {
+    console.log(event.target.value.toLowerCase())
     const val = event.target.value.toLowerCase();
     const temp = this.temp.filter(function (d) {
+      console.log(d)
       return d.codigo.toLowerCase().indexOf(val) !== -1 || !val ||
-        d.nome.toLowerCase().indexOf(val) !== -1 || !val ||
-        d.unidade.descricao.toLowerCase().indexOf(val) !== -1 || !val
+        d.nome.toLowerCase().indexOf(val) !== -1 || !val 
     });
     this.rows = temp;
-    this.table = this.data;
+    this.table = this.data.data;
   }
   setTotal(i) {
     let valor = this.produto.at(i).get('quantidade').value * this.produto.at(i).get('valor_unitario').value;
@@ -747,14 +748,14 @@ export class Novo2Component implements OnInit {
       total += element.get('quantidade').value * element.get('valor_unitario').value;
     })
     let desconto = ((total + ipi) * this.form.get('desconto').value) / 100;
-    this.form.get('valor_liquido').setValue(total);
+    this.form.get('valor_liquido').setValue(total - desconto);
     this.form.get('valor_total').setValue(((total + ipi) - desconto));
     if (tipo == 'total')
       return ((total + ipi) - desconto);
     else if (tipo == 'ipi')
       return ipi
     else
-      return total;
+      return total - desconto;
   }
 
   enviarPedido() {
