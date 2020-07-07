@@ -1,13 +1,15 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewEncapsulation } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogConfig } from "@angular/material";
 import { ClientService } from '../../../shared/services/client.service.component';
 import { DialogEstornarComponent } from './dialog-estornar/dialog-estornar.component';
 import { DialogDevolucaoComponent } from './dialog-devolucao/dialog-devolucao.component';
+import { DialogEditNotaComponent } from '../dialog-edit-nota/dialog-edit-nota.component';
 
 @Component({
   selector: 'app-dialog-view-nota',
   templateUrl: './dialog-view-nota.component.html',
-  styleUrls: ['./dialog-view-nota.component.css']
+  styleUrls: ['./dialog-view-nota.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class DialogViewNotaComponent implements OnInit {
   dados:any ;
@@ -90,6 +92,16 @@ export class DialogViewNotaComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  editar(){
+    this.dialogConfig.data = this.dados
+    let dialogRef = this.dialog.open(
+      DialogEditNotaComponent, 
+      this.dialogConfig, 
+      
+    );
+    dialogRef.afterClosed().subscribe(value => {
+      console.log(value)
+    });
+  }
 
 }

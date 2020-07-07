@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Injectable, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, Injectable, ChangeDetectorRef, ViewEncapsulation } from '@angular/core';
 import { ClientService } from '../../shared/services/client.service.component';
 import { MatDialogConfig, MatDialog, MatTabChangeEvent, MatBottomSheetRef, MatBottomSheet } from '@angular/material';
 import { NotificationService } from '../../shared/messages/notification.service';
@@ -15,13 +15,15 @@ import {pluck, switchMap, map} from 'rxjs/operators';
 @Component({
   selector: 'app-conciliacao',
   templateUrl: '../default.html',
-  styleUrls: ['./conciliacao.component.css']
+  styleUrls: ['./conciliacao.component.css'],
+  encapsulation: ViewEncapsulation.None
+
 })
 
 @Injectable()
 export class ConciliacaoComponent implements OnInit {
   editing = {};
-  rows:any;
+  rows:any = [];
   temp:any = [];
   selected:any = [];
   page:any = page;
@@ -72,9 +74,9 @@ export class ConciliacaoComponent implements OnInit {
     let dialogConfig = new MatDialogConfig();
     dialogConfig = {
       maxWidth: '95vw',
-      maxHeight: '95vh',
+      maxHeight: '85vh',
       width: '90vw',
-      height: '95vh'
+      height: '85vh'
     }
     let dialogRef = this.dialog.open(
       DialogAddNotaComponent, 
@@ -103,23 +105,6 @@ export class ConciliacaoComponent implements OnInit {
     });
   }
 
-  edit(data){
-    let dialogConfig = new MatDialogConfig();
-    dialogConfig = {
-      maxWidth: '95vw',
-      maxHeight: '95vh',
-      width: '90vw',
-      height: '95vh',
-      data: data
-    }
-    let dialogRef = this.dialog.open(
-      DialogEditNotaComponent, 
-      dialogConfig, 
-    );
-    dialogRef.afterClosed().subscribe(value => {
-      this.loadData();
-    });
-  }
   
   delete(row){
     const dialogConfig = new MatDialogConfig();

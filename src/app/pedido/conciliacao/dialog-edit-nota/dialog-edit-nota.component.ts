@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewEncapsulation } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogConfig } from "@angular/material";
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
@@ -8,7 +8,9 @@ import { Novo2Component } from '../../novo2/novo2.component';
 @Component({
   selector: 'app-dialog-edit-nota',
   templateUrl: './dialog-edit-nota.component.html',
-  styleUrls: ['./dialog-edit-nota.component.css']
+  styleUrls: ['./dialog-edit-nota.component.css'],
+  encapsulation: ViewEncapsulation.None
+
 })
 export class DialogEditNotaComponent implements OnInit {
 

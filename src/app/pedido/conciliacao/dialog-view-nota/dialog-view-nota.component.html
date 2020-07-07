@@ -1,13 +1,15 @@
 <div fxLayout="row wrap">
   <div class="p-t-30" fxFlex.gt-sm="50%" fxFlex="50" >
-    <h1 mat-dialog-title style="font-size: x-large;">Visualizando NF: <span style="font-weight: bolder; color:blue">{{dados?.num_nota}}</span></h1>
+    <h1 mat-dialog-title style="font-size: x-large;">
+      Visualizando NF: <span style="font-weight: bolder; color:blue">{{dados?.num_nota}}</span>
+      <i class="fa fa-pencil button m-l-10" 
+      title="Editar" 
+      (click)="editar(row);"></i></h1>
   </div>
   <div fxFlex.gt-sm="50%" fxFlex="50" class="p-20" fxLayoutAlign="end start" fxLayoutGap="10px">
-    <button mat-stroked-button color="warn" class="p-10" (click)="estorno()">
-      <i class="material-icons">clear</i>Cancelar Pedido</button>
-      <button mat-stroked-button color="warn" class="p-10" (click)="estorno()">
+      <button *ngIf="dados?.status == 'aberto'" mat-stroked-button color="warn" class="p-10" (click)="removerNf()">
         <i class="material-icons">close_fullscreen</i>Remover NF</button>
-      <button mat-stroked-button color="primary" class="p-10" (click)="estorno()">
+      <button *ngIf="dados?.status == 'recebido'" mat-stroked-button color="primary" class="p-10" (click)="estorno()">
         <i class="material-icons">restore</i>Estorno</button>
       <button mat-stroked-button color="primary" class="p-10"  (click)="imprimir()">
         <i class="material-icons">print</i>Imprimir

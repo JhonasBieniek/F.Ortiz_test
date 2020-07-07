@@ -1,10 +1,10 @@
-<h1 mat-dialog-title style="font-weight: bold;font-size: x-large;" >Cadastrar nota fiscal</h1>
+<h1 mat-dialog-title style="font-weight: bold;font-size: x-large;" >Editar nota fiscal</h1>
 <div mat-dialog-content>
   <p>
     Cliente: <strong>{{pedido?.cliente.razao_social}}</strong>
   </p>
   <p>
-    Cadastrar nota fiscal para o pedido: <span style="color: blue;">{{data.num_pedido }} </span>
+    Editar PEDIDO: <span style="color: blue;">{{data.pedido.num_pedido }} </span>
     <i class="fa fa-pencil button" title="Editar" (click)="edit(pedido);"></i>
   </p>
   <form [formGroup]="form">
@@ -32,7 +32,7 @@
     </div>
   </form>
 </div>
-<div *ngIf="rows.length > 0">
+<div *ngIf="rows.length > 0" style="margin-top: -55px;">
   <mat-tab-group (selectedTabChange)="onTabChange($event)">
     <mat-tab *ngFor="let step of steps " class="aba" label="{{step.titulo}}">
       <mat-form-field>
@@ -82,9 +82,9 @@
   </mat-tab-group>
 </div>
 <br>
-Valor Total: {{pedido?.valor_total | currency:'BRL':true:'1.2-2'}}
+<b>Valor Total: {{pedido?.valor_total | currency:'BRL':true:'1.2-2'}}</b>
 <br>
-Valor Total Liquído: {{pedido?.valor_liquido | currency:'BRL':true:'1.2-2'}}
+<b>Valor Total Liquído: {{pedido?.valor_liquido | currency:'BRL':true:'1.2-2'}}</b>
 <br>
 <br>
 <div mat-dialog-actions>

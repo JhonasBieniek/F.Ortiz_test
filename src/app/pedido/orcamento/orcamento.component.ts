@@ -145,7 +145,7 @@ export class OrcamentoComponent implements OnInit {
   }
   private setPageTitle() {
     if(this.currentAction == 'novo'){
-      this.pageTitle = 'Novo Orçamento: '
+      this.pageTitle = 'Novo Orçamento '
     }else{
       const orc = (this.orcamento != undefined) ? this.orcamento.id : '';
       this.pageTitle = 'Editando orçamento: '+ orc;

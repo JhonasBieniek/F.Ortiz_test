@@ -51,10 +51,10 @@ export class Novo2Component implements OnInit {
   reorderable: boolean = true;
 
   columns = [
-    { prop: 'codigo', flexGrow:0.3},
-    { prop: 'nome', flexGrow:1.5  },
-    { prop: 'unidade.descricao', flexGrow:1.2, name: 'Descrição unitária'},
-    { prop: 'embalagem', flexGrow:0.3  },
+    { prop: 'codigo', flexGrow:1},
+    { prop: 'nome', flexGrow:2},
+    { prop: 'unidade.descricao', flexGrow:1, name: 'Descrição unitária'},
+    { prop: 'embalagem', flexGrow:1},
   ];
 
   arrayBuffer: any;

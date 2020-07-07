@@ -3,7 +3,7 @@
   <mat-tab-group (selectedTabChange)="onTabChange($event)">
     <mat-tab *ngFor="let step of steps " class="aba" label="{{step.titulo}}">
       <mat-form-field>
-        <input matInput type='text' class="form-control" placeholder='Insira um nome para pesquisar...'
+        <input matInput type='text' class="form-control" placeholder='Pesquisar...'
         (keyup)='updateFilter($event)' />
       </mat-form-field>
       <ngx-datatable 
@@ -13,7 +13,7 @@
       [headerHeight]="50" 
       [footerHeight]="50"
       [rowHeight]="'auto'" 
-      [limit]="5"
+      [limit]="10"
       [rows]='rows[step.index]' 
       [selected]="selected"
       [selectionType]="'single'"
