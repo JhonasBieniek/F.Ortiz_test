@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, ViewEncapsulation } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogConfig } from "@angular/material";
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatSnackBar } from "@angular/material";
 import { ClientService } from '../../../shared/services/client.service.component';
 import { DialogEstornarComponent } from './dialog-estornar/dialog-estornar.component';
 import { DialogDevolucaoComponent } from './dialog-devolucao/dialog-devolucao.component';
@@ -33,6 +33,7 @@ export class DialogViewNotaComponent implements OnInit {
     private clientservice: ClientService,
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<DialogViewNotaComponent>,
+    private _snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     this.dialogConfig = {
@@ -61,6 +62,18 @@ export class DialogViewNotaComponent implements OnInit {
       return d
     });
   }
+  removerNf(){
+    this.clientservice.removeNota(this.data.id).subscribe((res:any) => {
+      if(res.success == true){
+      this._snackBar.open('Nota removida com sucesso!', 'OK', {
+        duration: 3000,
+      })}else{
+        this._snackBar.open('Erro ao remover nota', 'OK', {
+          duration: 3000,
+      })}
+      this.close();
+    })
+  }
   estorno(){
     this.dialogConfig.data = this.dados
     let dialogRef = this.dialog.open(
@@ -87,7 +100,7 @@ export class DialogViewNotaComponent implements OnInit {
     
   }
   close(){
-    this.dialogRef.close();
+    this.dialogRef.close('done');
   }
 
   ngOnInit() {

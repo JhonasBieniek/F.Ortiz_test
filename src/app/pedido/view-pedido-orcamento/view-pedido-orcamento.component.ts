@@ -33,7 +33,7 @@ export class ViewPedidoOrcamentoComponent implements OnInit {
    }
   
   loadData(){
-    this.clientservice.getPedidoProdutos(this.data.pedido.id).subscribe((res:any)=> {
+    this.clientservice.getPedidoId(this.data.pedido.id).subscribe((res:any)=> {
       this.dados = res.data;
       let i = 0;
       this.temp = res.data.pedido.pedido_produtos;

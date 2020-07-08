@@ -43,6 +43,14 @@ export class ConciliacaoComponent implements OnInit {
     private dialog: MatDialog,
     private cd: ChangeDetectorRef
   ) {
+    this.loadData();
+    }
+
+  ngOnInit() {
+   
+  }
+
+  loadData() {
     this.clientservice.getNotas().subscribe((res:any) =>{
       let i = 0;
       this.steps.forEach(e => {
@@ -51,14 +59,6 @@ export class ConciliacaoComponent implements OnInit {
       });
       this.rows = [...this.temp].sort((a,b)=> a.id - b.id);
     });
-    }
-
-  ngOnInit() {
-   
-  }
-
-  loadData() {
-  
   }
 
 

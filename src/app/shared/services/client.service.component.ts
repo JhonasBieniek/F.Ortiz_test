@@ -496,6 +496,15 @@ export class ClientService {
               return res;
             });
   }
+  getPedidoId(id){
+    const uri = `${API_URL}` + `pedidos/view/`+ id +`.json`;
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
   getPedidoProdutos(id){
     const uri = `${API_URL}` + `pedidoProdutos/get/`+id+`.json`;
     return this
@@ -516,6 +525,15 @@ export class ClientService {
   }
   getNotasID(id) {
     const uri = `${API_URL}` + `notas/view/` + id + `.json`;
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
+  removeNota(id){
+    const uri = `${API_URL}` + `notas/delete/` + id + `.json`;
     return this
             .http
             .get(uri)
