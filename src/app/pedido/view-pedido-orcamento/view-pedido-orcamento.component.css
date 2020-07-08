@@ -1,6 +1,9 @@
-.button {
-    padding: 6px 9px;
-    font-size: 14px;
+.text {
+    font-size: 11pt;
+  }
+  .button {
+    padding: 3px 4px;
+    font-size: 19px;
     text-align: center;
     cursor: pointer;
     outline: none;
@@ -16,25 +19,6 @@
     box-shadow: 0 2px #666;
     transform: translateY(2px);
   }
-  .button2 {
-    padding: 6px 9px;
-    font-size: 18px;
-    text-align: center;
-    cursor: pointer;
-    outline: none;
-    color: rgb(3, 3, 3);
-    border: none;
-    border-radius: 10px;
-  }
-  
-  .button2:hover {background-color: red}
-  
-  .button2:active {
-    background-color:red;
-    box-shadow: 0 2px #666;
-    transform: translateY(2px);
-  }
-
   .ngx-datatable.material .datatable-body .datatable-body-row .datatable-body-cell {
     text-align: left;
     padding: 0.3rem 1.2rem;

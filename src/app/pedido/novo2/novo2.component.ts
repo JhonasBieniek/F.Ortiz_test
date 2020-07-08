@@ -108,7 +108,6 @@ export class Novo2Component implements OnInit {
       var workbook = XLSX.read(bstr, { type: "binary", raw: true });
       var first_sheet_name = workbook.SheetNames[0];
       var worksheet = workbook.Sheets[first_sheet_name];
-      console.log(XLSX.utils.sheet_to_json(worksheet, { raw: true, header: 1 }));
       var json = XLSX.utils.sheet_to_json(worksheet, { raw: true, header: 1 });
       this.createdForm();
       this.form.get('representada_id').setValue(this.representada.id);
@@ -477,7 +476,7 @@ export class Novo2Component implements OnInit {
     }else{
       this.clientes = termo;
     }
-    console.log(this.clientes)
+
   }
 
   getRazaoSocial(clienteId: string) {
@@ -582,7 +581,6 @@ export class Novo2Component implements OnInit {
   async consultaCod(produto: any): Promise<any> {
     let campos;
     let newItem;
-    console.log(produto);
     return new Promise(async (resolve, reject) => {
       this.clientservice.getProdutoCode(produto.codigo).subscribe((res: any) => {
         if (res.success == true) {
@@ -614,7 +612,7 @@ export class Novo2Component implements OnInit {
       unidade: (item.unidade != null) ? item.unidade.sigla : null,
       embalagem: item.embalagem,
       tamanho: item.tamanho,
-      ipi: (item.ipi != null) ? parseFloat(item.ipi) : 0,//item.ipi,
+      ipi: (item.ipi != null) ? parseFloat(item.ipi) : 0,
       valor_unitario: [item.valorUnitario, Validators.required],
       valor_total: [(item.quantidade * item.valorUnitario), Validators.required],
       comissao_produto: (item.comissao != null) ? parseFloat(item.comissao) : (this.representada.comissao_padrao != null) ? this.representada.comissao_padrao : 0,
@@ -625,7 +623,6 @@ export class Novo2Component implements OnInit {
   setAreaDeVenda(id) {
     this.clientservice.getAreaVendaId(id).subscribe((res: any) => {
       if (res.success == true) {
-        console.log(res.data, 'teste de area')
         this.form.get('area_venda_id').setValue(res.data.id);
         this.form.get('vendedor_id').setValue(res.data.vendedor_id);
         this.form.get('auxiliar_id').setValue(res.data.auxiliar_id);
@@ -638,10 +635,8 @@ export class Novo2Component implements OnInit {
   }
 
   updateFilter(event) {
-    console.log(event.target.value.toLowerCase())
     const val = event.target.value.toLowerCase();
     const temp = this.temp.filter(function (d) {
-      console.log(d)
       return d.codigo.toLowerCase().indexOf(val) !== -1 || !val ||
         d.nome.toLowerCase().indexOf(val) !== -1 || !val 
     });
@@ -670,7 +665,6 @@ export class Novo2Component implements OnInit {
   }
 
   openDialogProdutos() {
-    console.log("dialog")
     let dialogConfig = new MatDialogConfig();
     dialogConfig = {
       maxWidth: '75vw',
@@ -685,7 +679,6 @@ export class Novo2Component implements OnInit {
       dialogConfig,
     );
     dialogRef.afterClosed().subscribe(value => {
-      console.log(value, "Value retornado")
       value.forEach(element => {
         this.addItem(element)
       });

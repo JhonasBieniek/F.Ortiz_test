@@ -6,6 +6,7 @@ import page from './steps.json';
 import { DialogConfirmarDeleteComponent } from '../../cadastro/dialog-confirmar-delete/confirmar-delete.component';
 import { Novo2Component } from '../novo2/novo2.component';
 import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import { ViewPedidoOrcamentoComponent } from '../view-pedido-orcamento/view-pedido-orcamento.component';
 
 
 @Component({
@@ -94,6 +95,16 @@ export class PedidoListarComponent implements OnInit {
     let dialogRef = this.dialog.open(Novo2Component, this.dialogConfig);
     dialogRef.afterClosed().subscribe(value =>{
       this.loadData();
+    })
+  }
+  view(row){
+    this.dialogConfig.data = {
+      tipo: 'view',
+      pedido: row
+    }
+    let dialogRef = this.dialog.open(ViewPedidoOrcamentoComponent, this.dialogConfig);
+    dialogRef.afterClosed().subscribe(value =>{
+     // this.loadData();
     })
   }
 

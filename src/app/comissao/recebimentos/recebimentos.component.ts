@@ -36,6 +36,10 @@ export class RecebimentosComponent implements OnInit {
   }    
 
   ngOnInit() {
+    this.formInit();
+  }
+
+  formInit(){
     this.form = this.fb.group({
       tipo: ["Recebimentos"],
       campo_ordem: ['Data'],
@@ -75,6 +79,8 @@ export class RecebimentosComponent implements OnInit {
   clear(){
     this.form.reset();
     this.form.controls['tipo'].setValue("Faturado");
+    this.showTable = false;
+    this.formInit();
   }
 
   parcelas(data){
