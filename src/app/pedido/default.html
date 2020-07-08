@@ -108,7 +108,7 @@
                     {{ value }}
                   </ng-template>
                 </ngx-datatable-column>  
-                <ngx-datatable-column [flexGrow]="1" name="Representada" prop="representada.nome_fantasia">
+                <ngx-datatable-column [flexGrow]="0.7" name="Representada" prop="representada.nome_fantasia">
                   <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                     {{ value }}
                   </ng-template>
@@ -116,6 +116,11 @@
                 <ngx-datatable-column [flexGrow]="2" name="Comprador" prop="cliente.nome_fantasia">
                   <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                     {{ value }}
+                  </ng-template>
+                </ngx-datatable-column> 
+                <ngx-datatable-column [flexGrow]="1.3" name="CNPJ" prop="cliente.cnpj">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template >
+                    {{ value | mask:'00.000.000/0000-00' }}
                   </ng-template>
                 </ngx-datatable-column> 
                 <ngx-datatable-column [flexGrow]="0.7" name="Emissão" prop="data_emissao">
@@ -128,7 +133,7 @@
                     {{ value |  date:'dd/MM/yyyy'}}
                   </ng-template>
                 </ngx-datatable-column> 
-                <ngx-datatable-column [flexGrow]="1" name="Cond. Pagamento" prop="condicao_comercial.nome">
+                <ngx-datatable-column [flexGrow]="0.8" name="Cond. Pagamento" prop="condicao_comercial.nome">
                   <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                     {{ value }}
                   </ng-template>

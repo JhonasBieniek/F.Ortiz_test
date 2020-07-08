@@ -8,7 +8,7 @@
       </div>
       <div class="p-10 aj" fxFlex.gt-sm="35" fxFlex.gt-xs="30" fxFlex="100">
         <mat-form-field appearance="outline">
-          <mat-label>CNPJ</mat-label>
+          <mat-label>CNPJ*</mat-label>
           <input matInput placeholder="CNPJ" mask="00.000.000/0000-00" formControlName="cnpj" (blur)="onBlurCnpj()" type="digits">
         </mat-form-field>
         <small *ngIf="form.get('cnpj').errors?.required && form.get('cnpj').touched"
@@ -39,7 +39,7 @@
       </div>
       <div class="p-10 aj" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
         <mat-form-field appearance="outline">
-          <mat-label>Nome fantasia</mat-label>
+          <mat-label>Nome fantasia*</mat-label>
           <input matInput placeholder="Nome fantasia" formControlName="nome_fantasia">
         </mat-form-field>
         <mat-hint *ngIf="form.get('nome_fantasia').errors?.required && form.get('nome_fantasia').touched"
@@ -166,7 +166,7 @@
       <div class="p-10 aj" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="33">
         <mat-form-field appearance="outline" [hideRequiredMarker]="true"
           [floatLabel]="auto">
-          <mat-label>Área de venda</mat-label>
+          <mat-label>Área de venda*</mat-label>
           <mat-select formControlName="area_venda_id" >
             <mat-option *ngFor="let area of areas" [value]="area.id">
               {{area.nome}}
@@ -190,7 +190,7 @@
       <div class="p-10 aj" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="15">
         <mat-form-field appearance="outline" [hideRequiredMarker]="true"
           [floatLabel]="auto">
-          <mat-label>Tipo de Pagamento</mat-label>
+          <mat-label>Tipo de Pagamento*</mat-label>
           <mat-select required formControlName="pagamento_tipo">
             <mat-option value="Faturamento" (click)="clearVencimento()">Faturamento</mat-option>
             <mat-option value="Vencimento" (click)="addVencimento(null, 'v')">Vencimento</mat-option>

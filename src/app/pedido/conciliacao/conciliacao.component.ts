@@ -105,20 +105,7 @@ export class ConciliacaoComponent implements OnInit {
     });
   }
 
-  
-  delete(row){
-    const dialogConfig = new MatDialogConfig();
-      let tipo = 'notas'
-      dialogConfig.data = row
-      dialogConfig.data.nome = row.num_nota
-      let dialogRef = this.dialog.open(DialogConfirmarDeleteComponent,
-      dialogConfig   
-    );
-    dialogRef.afterClosed().subscribe(value => {
-      this.loadData();
-    });
-  }
-  
+    
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
     this.rows[this.defaultTab] = this.temp[this.defaultTab].filter(d => {

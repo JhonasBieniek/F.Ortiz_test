@@ -42,20 +42,18 @@
                 </mat-form-field>
               </div>
 
-              <div class="p-10" fxFlex.gt-sm={{clientSize}} fxFlex.gt-xs={{clientSize}}  fxFlex="100">
-                <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
-                  [floatLabel]="form.value.floatLabel">
+              <div class="p-10" *ngIf="form.controls['representada_id'].value != null" fxFlex.gt-sm={{clientSize}} fxFlex.gt-xs={{clientSize}}  fxFlex="100">
+                <mat-form-field appearance="outline">
                   <mat-label>Cliente</mat-label>
-                  <mat-select formControlName="cliente_id">
-                    <mat-option *ngFor="let cliente of clientes" [value]="cliente.id" (click)="setAreaDeVenda(cliente.area_venda_id)">
-                      {{cliente.razao_social}}
-                    </mat-option>
-                  </mat-select>
-                  <mat-placeholder>Cliente</mat-placeholder>
+                  <input matInput (keyup)="searchClientes($event)" [matAutocomplete]="auto">
+                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="getRazaoSocial.bind(this)">
+                    <mat-option style="font-size:7.5pt;" *ngFor="let cliente of clientes" [value]="cliente.id"
+                    (click)="setAreaDeVenda(cliente.area_venda_id)"> <span>{{cliente.razao_social}} - {{cliente.cnpj}}</span></mat-option>
+                  </mat-autocomplete>
                 </mat-form-field>
               </div>
 
-              <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="50">
+              <div class="p-10" fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="50">
                 <mat-form-field appearance="outline" >
                   <mat-label>Data de Emissão</mat-label>
                   <input matInput  [matDatepicker]="pickerEmissao"
@@ -65,7 +63,7 @@
                 </mat-form-field>
               </div>
 
-              <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="50">
+              <div class="p-10" fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="50">
                 <mat-form-field appearance="outline">
                   <mat-label>Data de Entrega</mat-label>
                   <input matInput  [matDatepicker]="pickerEntrega" formControlName="data_entrega" placeholder="Data Programada">
@@ -73,7 +71,8 @@
                   <mat-datepicker #pickerEntrega></mat-datepicker>
                 </mat-form-field>
               </div>
-
+            </div>
+            <div fxLayout="row wrap" class="row">
               <div class="p-10 pad" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="20">
                 <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
                   [floatLabel]="form.value.floatLabel">

@@ -13,6 +13,7 @@ import * as moment from 'moment';
 import { NgxSpinnerService } from "ngx-spinner";
 
 import { switchMap, catchError } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -31,7 +32,7 @@ export class Novo2Component implements OnInit {
   quantidade: any[] = [];
   events: string[] = [];
   representadas = [];
-  clientes = [];
+  clientes:any = [];
   condComerciais = [];
   areas = [];
   upload: any;
@@ -63,7 +64,7 @@ export class Novo2Component implements OnInit {
   campos = [];
   dialogDados = [];
   dialogCNPJ = [];
-  cliente: string;
+  cliente: string=''
   clienteId: Object;
   pedido: string;
   transportadora: string;
@@ -87,6 +88,7 @@ export class Novo2Component implements OnInit {
   pedidoN: any;
   comissao_vendedor: any = [];
   comissao_auxiliar: any = [];
+  clientes$: any;
 
   incomingfile(event) {
     var file: File;
@@ -459,6 +461,30 @@ export class Novo2Component implements OnInit {
     });
   }
 
+  searchClientes(event) {
+    let termo: Observable<any[]>;
+    if(event.target.value.toLowerCase() != "" ){
+      const val = event.target.value.toLowerCase().split(" ");
+      let xp = "";
+      val.forEach(e => {
+        xp += `(?=.*${e})`;
+      });
+      const re = new RegExp(xp, 'g');
+      this.clientes = this.clientes$.filter(function(d) {
+        if( d.razao_social.toLowerCase().match(re) || d.cnpj.match(re) || !val)
+        return d
+      });
+    }else{
+      this.clientes = termo;
+    }
+    console.log(this.clientes)
+  }
+
+  getRazaoSocial(clienteId: string) {
+    let cliente = this.clientes.find(cliente => cliente.id === clienteId);
+    return cliente.razao_social + ' - ' + cliente.cnpj;
+  }
+
 
   ngOnInit() {
     this.createdForm();
@@ -473,15 +499,15 @@ export class Novo2Component implements OnInit {
   private setCurrentAction() {
     if (this.info.tipo == "importar") {
       this.currentAction = "importar"
-      this.clientSize = 44;
+      this.clientSize = 56;
       this.pedidoSize = 16;
     } else if (this.info.tipo == "novo") {
       this.currentAction = "novo"
-      this.clientSize = 26;
+      this.clientSize = 42;
       this.pedidoSize = 12;
     } else {
       this.currentAction = "edit"
-      this.clientSize = 26;
+      this.clientSize = 42;
       this.pedidoSize = 12;
     }
   }
@@ -517,7 +543,7 @@ export class Novo2Component implements OnInit {
 
   getClientes() {
     this.clientservice.getClientes().subscribe((res: any) => {
-      this.clientes = res.data;
+      this.clientes$ = res.data;
     });
   }
 

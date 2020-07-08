@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, ViewEncapsulation } from '@angular/core';
 import { ClientService } from '../../shared/services/client.service.component';
 import { MatDialog, MatDialogConfig, DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material';
 import { Router} from '@angular/router';
@@ -15,8 +15,9 @@ import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-mo
   providers: [
     {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
     {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+  ],
+  encapsulation: ViewEncapsulation.None
 
-  ]
 })
 export class PedidoListarComponent implements OnInit {
 
@@ -69,6 +70,7 @@ export class PedidoListarComponent implements OnInit {
     this.rows[this.defaultTab] = this.temp[this.defaultTab].filter(function(d) {
       if( d.cliente.nome_fantasia.toLowerCase().indexOf(val) !== -1 || !val ||
           d.representada.nome_fantasia.toLowerCase().indexOf(val) !== -1 || !val ||
+          d.cliente.cnpj.toLowerCase().indexOf(val) !== -1 || !val ||
           d.num_pedido.toLowerCase().indexOf(val) !== -1 || !val )
       return d
     }); 
