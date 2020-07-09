@@ -89,6 +89,7 @@ export class Novo2Component implements OnInit {
   comissao_vendedor: any = [];
   comissao_auxiliar: any = [];
   clientes$: any;
+  razaoSocial: string = ''
 
   incomingfile(event) {
     var file: File;
@@ -460,6 +461,76 @@ export class Novo2Component implements OnInit {
     });
   }
 
+
+  ngOnInit() {
+    this.createdForm();
+    this.setCurrentAction();
+    this.loadPedido();
+  }
+
+  ngAfterContentChecked(): void {
+    this.setPageTitle();
+  }
+  
+  private setCurrentAction() {
+    if (this.info.tipo == "importar") {
+        this.currentAction = "importar"
+        this.clientSize = 56;
+        this.pedidoSize = 16;
+    } else if (this.info.tipo == "novo") {
+        this.currentAction = "novo"
+        this.clientSize = 42;
+        this.pedidoSize = 12;
+    } else if (this.info.tipo == "clone") {
+        this.currentAction = "clone"
+        this.clientSize = 42;
+        this.pedidoSize = 12;
+    } else {
+        this.currentAction = "edit"
+        this.clientSize = 42;
+        this.pedidoSize = 12;
+    }
+  }
+
+  private setPageTitle() {
+    console.log(this.currentAction)
+    if (this.currentAction == 'importar') {
+      this.pageTitle = 'Importar Pedido: '
+    } else if (this.currentAction == 'novo') {
+      this.pageTitle = 'Novo Pedido'
+    } else if (this.currentAction == 'clone') {
+      const pedido = (this.pedidoN != undefined) ? this.pedidoN.num_pedido : '';
+      this.pageTitle = 'Clonando pedido: ' + pedido;
+    } else {
+      const pedido = (this.pedidoN != undefined) ? this.pedidoN.num_pedido : '';
+      this.pageTitle = 'Editando pedido: ' + pedido;
+    }
+  }
+
+  private loadPedido() {
+    if(this.currentAction == 'edit' || this.currentAction == 'clone'){
+      this.clientservice.getPedido(this.info.pedido.id)
+        .subscribe(
+          (pedido: any) => {
+            this.pedidoN = pedido.data;
+            this.representada = pedido.data.representada;
+            this.CarregarProdutosRepresentada();
+            this.pedidoN.pedido_produtos.forEach(element => {
+              this.addItem(element)
+            });
+            this.form.patchValue(this.pedidoN)
+            if(this.currentAction == 'clone'){
+              this.form.controls['num_pedido'].setValue('');
+            }
+            this.setAreaDeVenda(pedido.data.area_venda_id.id);
+            this.razaoSocial = pedido.data.cliente.razao_social + ' - ' + pedido.data.cliente.cnpj
+          },
+          (error) => alert('Ocorreu um erro no servidor, tente mais tarde.')
+        )
+    }
+  }
+
+  
   searchClientes(event) {
     let termo: Observable<any[]>;
     if(event.target.value.toLowerCase() != "" ){
@@ -476,68 +547,11 @@ export class Novo2Component implements OnInit {
     }else{
       this.clientes = termo;
     }
-
   }
 
   getRazaoSocial(clienteId: string) {
-    let cliente = this.clientes.find(cliente => cliente.id === clienteId);
+   let cliente = this.clientes$.find(cliente => cliente.id === clienteId);
     return cliente.razao_social + ' - ' + cliente.cnpj;
-  }
-
-
-  ngOnInit() {
-    this.createdForm();
-    this.setCurrentAction();
-    this.loadPedido();
-  }
-
-  ngAfterContentChecked(): void {
-    this.setPageTitle();
-  }
-
-  private setCurrentAction() {
-    if (this.info.tipo == "importar") {
-      this.currentAction = "importar"
-      this.clientSize = 56;
-      this.pedidoSize = 16;
-    } else if (this.info.tipo == "novo") {
-      this.currentAction = "novo"
-      this.clientSize = 42;
-      this.pedidoSize = 12;
-    } else {
-      this.currentAction = "edit"
-      this.clientSize = 42;
-      this.pedidoSize = 12;
-    }
-  }
-
-  private setPageTitle() {
-    if (this.currentAction == 'importar') {
-      this.pageTitle = 'Importar Pedido: '
-    } else if (this.currentAction == 'novo') {
-      this.pageTitle = 'Novo Pedido'
-    } else {
-      const pedido = (this.pedidoN != undefined) ? this.pedidoN.num_pedido : '';
-      this.pageTitle = 'Editando pedido: ' + pedido;
-    }
-  }
-
-  private loadPedido() {
-    if (this.currentAction == 'edit')
-      this.clientservice.getPedido(this.info.pedido.id)
-        .subscribe(
-          (pedido: any) => {
-            this.pedidoN = pedido.data;
-            this.representada = pedido.data.representada;
-            this.CarregarProdutosRepresentada();
-            this.pedidoN.pedido_produtos.forEach(element => {
-              this.addItem(element)
-            });
-            this.form.patchValue(this.pedidoN)
-            this.setAreaDeVenda(pedido.data.area_venda_id.id);
-          },
-          (error) => alert('Ocorreu um erro no servidor, tente mais tarde.')
-        )
   }
 
   getClientes() {

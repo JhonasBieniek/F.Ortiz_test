@@ -97,6 +97,18 @@ export class PedidoListarComponent implements OnInit {
       this.loadData();
     })
   }
+
+  clone(row){
+    this.dialogConfig.data = {
+      tipo: 'clone',
+      pedido: row
+    }
+    let dialogRef = this.dialog.open(Novo2Component, this.dialogConfig);
+    dialogRef.afterClosed().subscribe(value =>{
+      this.loadData();
+    })
+  }
+
   view(row){
     this.dialogConfig.data = {
       tipo: 'view',
