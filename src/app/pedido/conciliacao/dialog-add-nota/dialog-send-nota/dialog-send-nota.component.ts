@@ -74,6 +74,8 @@ export class DialogSendNotaComponent implements OnInit {
     if(this.pedido.condicao_comercial.dias != null){
       let parcelas = this.pedido.condicao_comercial.dias.split("/");
       let valor = this.pedido.valor_total / parcelas.length;
+      let auxValor = this.pedido.comissao_auxiliar / parcelas.length;
+      let venValor = this.pedido.comissao_vendedor / parcelas.length;
       for(let i=0; i<parcelas.length; i++){
         if(parcelas[i] != ""){
           let vencimento = new Date(data)
@@ -81,7 +83,9 @@ export class DialogSendNotaComponent implements OnInit {
             data_vencimento: new Date (vencimento.setDate(vencimento.getDate() + parseInt(parcelas[i]))),
             valor: valor,
             status_recebimento: false,
-            parcela: (i == 0)? 1: i
+            parcela: (i == 0)? 1: i,
+            auxiliar_valor: auxValor,
+            vendedor_valor: venValor
           }))
         }
       }
