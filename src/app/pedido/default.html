@@ -77,12 +77,17 @@
                   </ng-template>
                 </ngx-datatable-column> 
                 <ngx-datatable-column [flexGrow]="0.8" name="Ações">
-                  <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex"
-                    ngx-datatable-cell-template>      
-                    <i class="fa fa-pencil button" 
+                  <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                    <i class="fa fa-search buttonP" 
+                      title="Visualizar" 
+                      (click)="view(row);"></i>     
+                    <i class="fa fa-briefcase buttonP" 
+                      title="Gerar Pedido" 
+                      (click)="generateRequest(row);"></i>      
+                    <i class="fa fa-pencil buttonP" 
                       title="Editar" 
                       (click)="edit(row);"></i>
-                    <i class="fa fa-trash-o button2"
+                    <i class="fa fa-trash-o buttonP2"
                       title="Deletar" 
                       (click)="delete(row)"></i>                         
                   </ng-template>
@@ -118,7 +123,7 @@
                     {{ value }}
                   </ng-template>
                 </ngx-datatable-column> 
-                <ngx-datatable-column [flexGrow]="1.3" name="CNPJ" prop="cliente.cnpj">
+                <ngx-datatable-column [flexGrow]="1" name="CNPJ" prop="cliente.cnpj">
                   <ng-template let-value="value" let-row="row" ngx-datatable-cell-template >
                     {{ value | mask:'00.000.000/0000-00' }}
                   </ng-template>
@@ -139,7 +144,7 @@
                   </ng-template>
                 </ngx-datatable-column> 
 
-                <ngx-datatable-column [flexGrow]="1" name="Ações">
+                <ngx-datatable-column [flexGrow]="1.2"  name="Ações">
                   <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
                     <i class="fa fa-search buttonP" 
                       title="Visualizar" 
@@ -147,10 +152,10 @@
                     <i class="fa fa-clone buttonP" 
                       title="Clonar Pedido" 
                       (click)="clone(row);"></i>      
-                    <i class="fa fa-pencil buttonP" 
+                    <i *ngIf="row.situacao != 'faturado'" class="fa fa-pencil buttonP" 
                       title="Editar" 
                       (click)="edit(row);"></i>
-                    <i class="fa fa-trash-o buttonP2"
+                    <i *ngIf="row.situacao != 'faturado'" class="fa fa-trash-o buttonP2"
                       title="Deletar" 
                       (click)="delete(row)"></i>                         
                   </ng-template>

@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewChild, Input, ViewEncapsulation } from '@angular/core';
 import { ClientService } from '../../shared/services/client.service.component';
-import { MatDialog, MatDialogConfig, DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material';
+import { MatDialog, MatDialogConfig, DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS, MatTabChangeEvent } from '@angular/material';
 import { Router} from '@angular/router';
 import page from './steps.json';
 import { DialogConfirmarDeleteComponent } from '../../cadastro/dialog-confirmar-delete/confirmar-delete.component';
 import { Novo2Component } from '../novo2/novo2.component';
 import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 import { ViewPedidoOrcamentoComponent } from '../view-pedido-orcamento/view-pedido-orcamento.component';
+import { ExcelService } from '../../shared/services/excel.service';
 
 
 @Component({
@@ -52,7 +53,7 @@ export class PedidoListarComponent implements OnInit {
     this.clientservice.getPedidos().subscribe((res:any) =>{
       let i = 0;
       this.steps.forEach(e => {
-        this.temp[i] = res.data.filter(d => d.status == e.step);
+        this.temp[i] = res.data.filter(d => d.situacao == e.step);
         i++;
       });
       this.rows = [...this.temp].sort((a,b)=> a.id - b.id);
@@ -131,6 +132,14 @@ export class PedidoListarComponent implements OnInit {
     );
     dialogRef.afterClosed().subscribe(value => 
       { (value != 1) ? this.loadData() : null });
+  }
+
+
+  onTabChange(event: MatTabChangeEvent) {
+    this.defaultTab = event.index;
+    console.log(this.defaultTab, "tab change");
+    window.dispatchEvent(new Event('resize'));
+    this.selected =[];
   }
 
 }

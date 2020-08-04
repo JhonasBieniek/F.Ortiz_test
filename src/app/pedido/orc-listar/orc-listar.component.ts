@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import page from './steps.json';
 import { OrcamentoComponent } from '../orcamento/orcamento.component';
 import { DialogConfirmarDeleteComponent } from '../../cadastro/dialog-confirmar-delete/confirmar-delete.component';
+import { ViewPedidoOrcamentoComponent } from '../view-pedido-orcamento/view-pedido-orcamento.component';
 
 @Component({
   selector: 'app-orc-listar',
@@ -67,6 +68,19 @@ export class OrcListarComponent implements OnInit {
     dialogRef.afterClosed().subscribe(value => {
       this.loadData();
     })
+  }
+  view(row){
+    this.dialogConfig.data = {
+      tipo: 'view',
+      pedido: row
+    }
+    let dialogRef = this.dialog.open(ViewPedidoOrcamentoComponent, this.dialogConfig);
+    dialogRef.afterClosed().subscribe(value =>{
+     // this.loadData();
+    })
+  }
+  generateRequest(row){
+
   }
   delete(row) {
     const dialogConfig = new MatDialogConfig();

@@ -521,6 +521,7 @@ export class Novo2Component implements OnInit {
             this.form.patchValue(this.pedidoN)
             if(this.currentAction == 'clone'){
               this.form.controls['num_pedido'].setValue('');
+              this.form.controls['situacao'].setValue('pendente');
             }
             this.setAreaDeVenda(pedido.data.area_venda_id.id);
             this.razaoSocial = pedido.data.cliente.razao_social + ' - ' + pedido.data.cliente.cnpj
