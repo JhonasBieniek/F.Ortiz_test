@@ -32,7 +32,7 @@ export class Novo2Component implements OnInit {
   quantidade: any[] = [];
   events: string[] = [];
   representadas = [];
-  clientes:any = [];
+  clientes: any = [];
   condComerciais = [];
   areas = [];
   upload: any;
@@ -52,10 +52,10 @@ export class Novo2Component implements OnInit {
   reorderable: boolean = true;
 
   columns = [
-    { prop: 'codigo', flexGrow:1},
-    { prop: 'nome', flexGrow:2},
-    { prop: 'unidade.descricao', flexGrow:1, name: 'Descrição unitária'},
-    { prop: 'embalagem', flexGrow:1},
+    { prop: 'codigo', flexGrow: 1 },
+    { prop: 'nome', flexGrow: 2 },
+    { prop: 'unidade.descricao', flexGrow: 1, name: 'Descrição unitária' },
+    { prop: 'embalagem', flexGrow: 1 },
   ];
 
   arrayBuffer: any;
@@ -64,7 +64,7 @@ export class Novo2Component implements OnInit {
   campos = [];
   dialogDados = [];
   dialogCNPJ = [];
-  cliente: string=''
+  cliente: string = '';
   clienteId: Object;
   pedido: string;
   transportadora: string;
@@ -461,7 +461,6 @@ export class Novo2Component implements OnInit {
     });
   }
 
-
   ngOnInit() {
     this.createdForm();
     this.setCurrentAction();
@@ -471,24 +470,24 @@ export class Novo2Component implements OnInit {
   ngAfterContentChecked(): void {
     this.setPageTitle();
   }
-  
+
   private setCurrentAction() {
     if (this.info.tipo == "importar") {
-        this.currentAction = "importar"
-        this.clientSize = 56;
-        this.pedidoSize = 16;
+      this.currentAction = "importar"
+      this.clientSize = 56;
+      this.pedidoSize = 16;
     } else if (this.info.tipo == "novo") {
-        this.currentAction = "novo"
-        this.clientSize = 42;
-        this.pedidoSize = 12;
+      this.currentAction = "novo"
+      this.clientSize = 42;
+      this.pedidoSize = 12;
     } else if (this.info.tipo == "clone") {
-        this.currentAction = "clone"
-        this.clientSize = 42;
-        this.pedidoSize = 12;
+      this.currentAction = "clone"
+      this.clientSize = 42;
+      this.pedidoSize = 12;
     } else {
-        this.currentAction = "edit"
-        this.clientSize = 42;
-        this.pedidoSize = 12;
+      this.currentAction = "edit"
+      this.clientSize = 42;
+      this.pedidoSize = 12;
     }
   }
 
@@ -508,7 +507,7 @@ export class Novo2Component implements OnInit {
   }
 
   private loadPedido() {
-    if(this.currentAction == 'edit' || this.currentAction == 'clone'){
+    if (this.currentAction == 'edit' || this.currentAction == 'clone') {
       this.clientservice.getPedido(this.info.pedido.id)
         .subscribe(
           (pedido: any) => {
@@ -519,7 +518,7 @@ export class Novo2Component implements OnInit {
               this.addItem(element)
             });
             this.form.patchValue(this.pedidoN)
-            if(this.currentAction == 'clone'){
+            if (this.currentAction == 'clone') {
               this.form.controls['num_pedido'].setValue('');
               this.form.controls['situacao'].setValue('pendente');
             }
@@ -531,27 +530,27 @@ export class Novo2Component implements OnInit {
     }
   }
 
-  
   searchClientes(event) {
     let termo: Observable<any[]>;
-    if(event.target.value.toLowerCase() != "" ){
+    if (event.target.value.toLowerCase() != "") {
       const val = event.target.value.toLowerCase().split(" ");
       let xp = "";
       val.forEach(e => {
         xp += `(?=.*${e})`;
       });
       const re = new RegExp(xp, 'g');
-      this.clientes = this.clientes$.filter(function(d) {
-        if( d.razao_social.toLowerCase().match(re) || d.cnpj.match(re) || !val)
-        return d
+      this.clientes = this.clientes$.filter(function (d) {
+        if (d.razao_social.toLowerCase().match(re) || d.cnpj.match(re) || !val)
+          return d
       });
-    }else{
+    } else {
       this.clientes = termo;
     }
   }
 
   getRazaoSocial(clienteId: string) {
-   let cliente = this.clientes$.find(cliente => cliente.id === clienteId);
+    let cliente = this.clientes$.find(cliente => cliente.id === clienteId);
+    console.log(cliente)
     return cliente.razao_social + ' - ' + cliente.cnpj;
   }
 
@@ -590,7 +589,6 @@ export class Novo2Component implements OnInit {
       pedido_produtos: this.fb.array([])
     });
     this.produto = this.form.get('pedido_produtos') as FormArray;
-
   }
 
   async consultaCod(produto: any): Promise<any> {
@@ -601,14 +599,14 @@ export class Novo2Component implements OnInit {
         if (res.success == true) {
           campos = produto;
           campos.embalagem = res.data.embalagem;
-          campos.unidade = (res.data.unidade != null) ? res.data.unidade : null;
+          //campos.unidade = (res.data.unidade != null) ? res.data.unidade : null;
           campos.id = res.data.id;
         } else {
           newItem = produto;
           newItem.certificado_aprovacao = '';
           newItem.embalagem = '';
           newItem.representada_id = this.representada.id;
-          newItem.unidade_id = '';
+          //newItem.unidade_id = '';
           newItem.status = 1;
           this.itemsNew.push(newItem);
         }
@@ -653,7 +651,7 @@ export class Novo2Component implements OnInit {
     const val = event.target.value.toLowerCase();
     const temp = this.temp.filter(function (d) {
       return d.codigo.toLowerCase().indexOf(val) !== -1 || !val ||
-        d.nome.toLowerCase().indexOf(val) !== -1 || !val 
+        d.nome.toLowerCase().indexOf(val) !== -1 || !val
     });
     this.rows = temp;
     this.table = this.data.data;
@@ -735,7 +733,7 @@ export class Novo2Component implements OnInit {
     this.form.get('comissao_media').setValue(comissao / i);
     return comissao / i;
   }
-  comissaoVendedorAuxiliar(){
+  comissaoVendedorAuxiliar() {
     let comissao_vendedor = 0;
     let comissao_auxiliar = 0;
     this.produto.controls.forEach(element => {

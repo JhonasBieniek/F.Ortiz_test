@@ -1,37 +1,44 @@
-.demo-tab-group {
-  border: 1px solid #e8e8e8;
+image-wrap {
+  padding: 10px;
+  border: solid 1px #e0e0e0;
 }
 
-.demo-tab-content {
-  padding: 24px;
+.img-space {
+  border: dashed 1px #d3d3d3;
+  border-radius: 8px;
+  background-color: #f2f2f2;
+  height: 100%;
+  width: 100%;
+  padding: 10px;
 }
 
-.example-form {
-min-width: 150px;
-max-width: 500px;
-width: 100%;
+.img-space img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  cursor: pointer;
 }
 
-.example-full-width {
-width: 90%;
-}
-.u {
-text-decoration: underline;
+.fileInputProfileWrap {
+  width: 100%;
+  height: 100%;
 }
 
-.example-form {
-min-width: 150px;
-max-width: 500px;
-width: 100%;
+.fileInputProfile {
+  position: absolute;
+  height: 25%;
+  width: 20%;
+  opacity: 0;
 }
-
-.example-full-width {
-width: 90%;
+.fileInputProfile[disabled] + .img-space{
+  pointer-events: none;
+  cursor: not-allowed!important;
 }
 .dadosCadastro{
   font-size: 16pt;
   margin-top: 10px;
 }
 .aj{
-  margin-top: -20px;
+  margin-top: -21.5px;
 }

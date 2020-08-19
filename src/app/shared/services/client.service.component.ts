@@ -584,6 +584,24 @@ export class ClientService {
               return res;
             });
   }
+  getProdutoTamanhos() {
+    const uri = `${API_URL}` + `produtoTamanhos/index.json`;
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
+  getProdutoCores() {
+    const uri = `${API_URL}` + `produtoCores/index.json`;
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
   getRegioes() {
     const uri = `${API_URL}` + `regioes/index.json`;
     return this

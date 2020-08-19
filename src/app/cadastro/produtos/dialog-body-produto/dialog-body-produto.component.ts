@@ -1,9 +1,15 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
-import { FormBuilder, FormGroup, Validators, ValidationErrors} from '@angular/forms';
+import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA, MatChipInputEvent, MatAutocomplete, MatAutocompleteSelectedEvent } from "@angular/material";
+import { FormBuilder, FormGroup, Validators, ValidationErrors, FormControl } from '@angular/forms';
 import { ClientService } from '../../../shared/services/client.service.component';
 import { NotificationService } from '../../../shared/messages/notification.service';
 import { CustomValidators } from 'ng2-validation';
+import { map, startWith } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import * as _ from 'lodash';
+import { DomSanitizer } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-dialog-body-produto',
@@ -15,61 +21,261 @@ export class DialogBodyProdutoComponent implements OnInit {
   public form: FormGroup;
   representadas = [];
   unidades = [];
-  pageTitle:string = "";
+  pageTitle: string = "";
+  sizeCtrl = new FormControl();
+  colorCtrl = new FormControl();
+  visible = true;
+  selectable = true;
+  removable = true;
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  filteredSizes: Observable<any[]>;
+  filteredColors: Observable<any[]>;
+  sizes: any[] = [];
+  tamanhos: any = [];
+  colors: any = [];
+  cores: any[] = [];
+
+  imageError: string;
+  isImageSaved: boolean;
+  cardImageBase64: string;
+
+  @ViewChild('sizeInput', { static: false }) sizeInput: ElementRef<HTMLInputElement>;
+  @ViewChild('colorInput', { static: false }) colorInput: ElementRef<HTMLInputElement>;
+  @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
+  @ViewChild('autoColor', { static: false }) matAutocompleteColor: MatAutocomplete;
 
   constructor(public dialogRef: MatDialogRef<DialogBodyProdutoComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any,
-              private fb: FormBuilder, 
-              private clientservice: ClientService,
-              private notificationService: NotificationService) 
-   { 
-    this.clientservice.getRepresentadas().subscribe((res:any) =>{
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private fb: FormBuilder,
+    private sanitizer: DomSanitizer,
+    private clientservice: ClientService,
+    private notificationService: NotificationService) {
+
+    this.clientservice.getRepresentadas().subscribe((res: any) => {
       this.representadas = res.data;
-    }); 
-    this.clientservice.getUnidades().subscribe((res:any) =>{
-      this.unidades = res.data;
     });
-   }
+    this.clientservice.getProdutoTamanhos().subscribe((res: any) => {
+      this.tamanhos = res.data;
+    });
+    this.clientservice.getProdutoCores().subscribe((res: any) => {
+      this.cores = res.data;
+    });
+  }
+
+  transform() {
+    if (this.data === null || this.data.imagem === null ) {
+      return "./../../../../assets/images/placeholder.png"
+    }else{
+      return this.sanitizer.bypassSecurityTrustResourceUrl(this.data.imagem);
+    }
+  }
 
   ngOnInit() {
     this.form = this.fb.group({
       id: [null],
-      nome: [null, Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(50)])],
-      ipi: [null,],
+      nome: [null, Validators.compose([Validators.required])],
+      descricao: [null],
+      indicacao: [null],
+      ipi: [null],
+      produto_tamanhos: null,
+      produto_cores: null,
       certificado_aprovacao: [null],
-      codigo: [null],
+      codigo_catalogo: [null],
+      codigo_importacao: [null, Validators.compose([Validators.required])],
       embalagem: [null],
       representada_id: [null, Validators.compose([Validators.required])],
-      unidade_id: [null],
+      imagem: [null],
       status: [true],
     });
-    if(this.data == null){
+    if (this.data == null) {
       this.pageTitle = 'Cadastrar Produto'
-    }else{
-      this.pageTitle = 'Editar Produto'
+    } else {
+      this.pageTitle = 'Editar Produto';
       this.form.patchValue(this.data);
+      this.sizes = this.data.produto_tamanhos;
+      this.colors = this.data.produto_cores;
+      this.cardImageBase64 = this.data.imagem;
     }
+    this.filteredSizes = this.sizeCtrl.valueChanges.pipe(
+      startWith(null),
+      map((size: any | null) => size ? this._filter(size) : this.tamanhos.slice()));
+
+    this.filteredColors = this.colorCtrl.valueChanges.pipe(
+      startWith(null),
+      map((color: any | null) => color ? this._filterColor(color) : this.cores.slice()));  
+  }
+  add(event: MatChipInputEvent): void {
+    if (!this.matAutocomplete.isOpen) {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our size
+    if ((value || '').trim()) {
+      this.sizes.push({nome:value.trim()});
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+    this.sizeCtrl.setValue(null);
+  }
+  }
+
+  remove(size: string): void {
+    const index = this.sizes.indexOf(size);
+
+    if (index >= 0) {
+      this.sizes.splice(index, 1);
+    }
+  }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    this.sizes.push(event.option.value);
+    this.sizeInput.nativeElement.value = '';
+    this.sizeCtrl.setValue(null);
+  }
+  addColor(event: MatChipInputEvent): void {
+    if (!this.matAutocompleteColor.isOpen) {
+
+    const input = event.input;
+    const value = event.value;
+
+    // Add our color
+    if ((value || '').trim()) {
+      this.colors.push({nome:value.trim()});
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+    this.colorCtrl.setValue(null);
+  }
+  }
+
+  removeColor(color: string): void {
+    const index = this.colors.indexOf(color);
+
+    if (index >= 0) {
+      this.colors.splice(index, 1);
+    }
+  }
+
+  selectedColor(event: MatAutocompleteSelectedEvent): void {
+    this.colors.push(event.option.value);
+    this.colorInput.nativeElement.value = '';
+    this.colorCtrl.setValue(null);
+  }
+
+  private _filterColor(value: any): string[] {
+    const filterValue = value.length == undefined ? null : value.toLowerCase();
+    return this.cores.filter((color: any) => color.nome.toLowerCase().indexOf(filterValue) === 0);
+  }
+
+  private _filter(value: any): string[] {
+    const filterValue = value.length == undefined ? null : value.toLowerCase();
+    return this.tamanhos.filter((size: any) => size.nome.toLowerCase().indexOf(filterValue) === 0);
+
   }
   close() {
     this.dialogRef.close(
     );
   }
+  fileChangeEvent(fileInput: any) {
+    this.imageError = null;
+    if (fileInput.target.files && fileInput.target.files[0]) {
+      // Size Filter Bytes
+      const max_size = 20971520;
+      const allowed_types = ['image/png', 'image/jpeg', 'image/jpg'];
+      const max_height = 15200;
+      const max_width = 25600;
 
-  onSubmit(){
-      if(this.data == null){
-      this.clientservice.addProdutos(this.form.value).subscribe((res:any) =>{
-        if(res.success == true){
+      if (fileInput.target.files[0].size > max_size) {
+        this.imageError =
+          'Maximum size allowed is ' + max_size / 1000 + 'Mb';
+
+        return false;
+      }
+
+      if (!_.includes(allowed_types, fileInput.target.files[0].type)) {
+        this.imageError = 'Only Images are allowed ( JPG | PNG )';
+        return false;
+      }
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        const image = new Image();
+        image.src = e.target.result;
+        image.onload = rs => {
+          const img_height = rs.currentTarget['height'];
+          const img_width = rs.currentTarget['width'];
+
+          console.log(img_height, img_width);
+
+
+          if (img_height > max_height && img_width > max_width) {
+            this.imageError =
+              'Maximum dimentions allowed ' +
+              max_height +
+              '*' +
+              max_width +
+              'px';
+            return false;
+          } else {
+            const imgBase64Path = e.target.result;
+            this.cardImageBase64 = imgBase64Path;
+            this.isImageSaved = true;
+            // this.previewImagePath = imgBase64Path;
+          }
+        };
+      };
+
+      reader.readAsDataURL(fileInput.target.files[0]);
+    }
+  }
+
+  removeImage() {
+    this.cardImageBase64 = null;
+    this.isImageSaved = false;
+  }
+
+  onSubmit() {
+    let tamanhos = [];
+    this.sizes.forEach(element => {
+      tamanhos.push({ 
+        id: element.id,
+        nome: element.nome,
+       })
+    })
+    let cores = [];
+    this.colors.forEach(element => {
+      cores.push({ 
+        id: element.id,
+        nome: element.nome,
+       })
+    })
+
+    this.form.patchValue({
+      imagem: this.cardImageBase64,
+      produto_tamanhos: tamanhos,
+      produto_cores : cores
+    })
+    console.log(this.form.value)
+    if (this.data == null) {
+      this.clientservice.addProdutos(this.form.value).subscribe((res: any) => {
+        if (res.success == true) {
           this.notificationService.notify(`Cadastro Efetuado com Sucesso!`)
           this.close();
-        }else{
+        } else {
           this.notificationService.notify(`Erro contate o Administrador`)
-        }}
+        }
+      }
       );
-     }else{
-      this.clientservice.updateProduto(this.form.value).subscribe( () =>{
+    } else {
+      this.clientservice.updateProduto(this.form.value).subscribe(() => {
         this.notificationService.notify("Atualizado com Sucesso!")
         this.close();
       })
-     }
+    }
   }
 }
