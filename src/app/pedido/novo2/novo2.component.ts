@@ -52,7 +52,7 @@ export class Novo2Component implements OnInit {
   reorderable: boolean = true;
 
   columns = [
-    { prop: 'codigo', flexGrow: 1 },
+    { prop: 'codigo_catalogo', flexGrow: 1 },
     { prop: 'nome', flexGrow: 2 },
     { prop: 'unidade.descricao', flexGrow: 1, name: 'Descrição unitária' },
     { prop: 'embalagem', flexGrow: 1 },
@@ -131,7 +131,7 @@ export class Novo2Component implements OnInit {
     this.form.get('transportadora').setValue(data[18][2]);
     this.form.get('data_emissao').setValue(moment(data[6][3].replace(/\//g, "-"), 'DD-MM-YYYY').format("YYYY-MM-DD"));
     this.form.get('data_entrega').setValue(moment(data[21][4], 'DD-MM-YYYY').format("YYYY-MM-DD"));
-    this.form.get('frete').setValue(data[17][1] = "C" ? "Cliente" : "Representada");
+    this.form.get('frete').setValue(data[17][1] == "C" ? "Cliente" : "Representada");
 
     while (inicial <= final) {
       while (data[final][0] != "Valor Produtos.....:") {
@@ -142,7 +142,7 @@ export class Novo2Component implements OnInit {
       }
       if (data[inicial][0] != "Produto" && data[inicial][0] != "Valor Produtos.....:") {
         var produto = {
-          codigo: data[inicial][0],
+          codigo_catalogo: data[inicial][0],
           nome: data[inicial][2],
           quantidade: data[inicial][5],
           tamanho: data[inicial][1],
@@ -202,7 +202,7 @@ export class Novo2Component implements OnInit {
 
       if (data[inicial][0] != "Produto" && data[inicial][0] != "Peso bruto total:" && data[final][0] != "Valor Total:") {
         var produto = {
-          codigo: data[inicial][0].split(" - ")[0].trim(),
+          codigo_catalogo: data[inicial][0].split(" - ")[0].trim(),
           nome: data[inicial][0].split(" - ")[1],
           quantidade: parseInt(data[inicial][1].replace(/\./g, '')),
           tamanho: null,
@@ -275,7 +275,7 @@ export class Novo2Component implements OnInit {
       let rowQtd = i + 2;
       let dados = data[i][0].toString().replace(/  +/g, ' ');
       let produto = {
-        codigo: dados.split(/\s+/g)[1],
+        codigo_catalogo: dados.split(/\s+/g)[1],
         nome: dados.match(new RegExp("(?<=-\\s)([^.]+)(?=PR)"))[0].trim(),
         quantidade: null,
         tamanho: null,
@@ -341,7 +341,7 @@ export class Novo2Component implements OnInit {
       }
       if (data[inicial][0] != "Item" && data[inicial][0] != "Texto da nota" && data[inicial][0] != undefined) {
         var produto = {
-          codigo: data[inicial][3],
+          codigo_catalogo: data[inicial][3],
           nome: data[inicial][6],
           quantidade: data[inicial][15].split("/")[1].replace(".", ""),
           ipi: data[inicial][33],
@@ -401,7 +401,7 @@ export class Novo2Component implements OnInit {
     for (i; i < final; i += 3) {
       let rowTam = i + 2;
       let produto = {
-        codigo: data[rowTam][0],
+        codigo_catalogo: data[rowTam][0],
         nome: data[rowTam][1].toString().split(" - ")[0],
         quantidade: data[i][14],
         tamanho: data[rowTam][1].toString().split(" - ")[1],
@@ -595,7 +595,7 @@ export class Novo2Component implements OnInit {
     let campos;
     let newItem;
     return new Promise(async (resolve, reject) => {
-      this.clientservice.getProdutoCode(produto.codigo).subscribe((res: any) => {
+      this.clientservice.getProdutoCode(produto.codigo_catalogo).subscribe((res: any) => {
         if (res.success == true) {
           campos = produto;
           campos.embalagem = res.data.embalagem;
@@ -618,7 +618,7 @@ export class Novo2Component implements OnInit {
   addProduto(item: any) {
     this.produto.push(this.fb.group({
       id: (item.produto != undefined) ? item.produto.id : null,
-      codigo: item.codigo || item.produto.codigo,
+      codigo_catalogo: item.codigo_catalogo || item.produto.codigo_catalogo,
       nome: item.nome || item.produto.nome,
       produto_id: item.id,
       quantidade: [item.quantidade, Validators.required],
@@ -650,7 +650,7 @@ export class Novo2Component implements OnInit {
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
     const temp = this.temp.filter(function (d) {
-      return d.codigo.toLowerCase().indexOf(val) !== -1 || !val ||
+      return d.codigo_catalogo.toLowerCase().indexOf(val) !== -1 || !val ||
         d.nome.toLowerCase().indexOf(val) !== -1 || !val
     });
     this.rows = temp;

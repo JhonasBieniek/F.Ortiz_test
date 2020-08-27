@@ -1,0 +1,38 @@
+<div fxLayout="row wrap">
+    <!-- Card column -->
+    <div fxFlex.gt-sm="100%" fxFlex="100">
+      <h4 color="primary" class="dialog-headline">Selecione a Cor e o Tamanho</h4>
+      <form [formGroup]="form" class="form">
+        <div fxLayout="row wrap" class="row">
+          <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+            <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+              [floatLabel]="form.value.floatLabel">
+              <mat-label>Cores do produto</mat-label>
+              <mat-select required formControlName="cor" name="cores">
+                <mat-option *ngFor="let cor of cores" [value]="cor.nome">
+                  {{cor.nome}}
+                </mat-option>
+              </mat-select>
+              <mat-placeholder>Cores</mat-placeholder>
+            </mat-form-field>
+          </div>
+          <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+            <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+              [floatLabel]="form.value.floatLabel">
+              <mat-label>Tamanhos do produto</mat-label>
+              <mat-select required formControlName="tamanho" name="tamanho">
+                <mat-option *ngFor="let tamanho of tamanhos" [value]="tamanho.nome">
+                  {{tamanho.nome}}
+                </mat-option>
+              </mat-select>
+              <mat-placeholder>Tamanho</mat-placeholder>
+            </mat-form-field>
+          </div>
+        </div> 
+      </form>
+      <div style="margin-top: 10px; margin-left:5px">
+        <button mat-stroked-button color="primary" (click)="save()" [disabled]="!form.valid">Salvar</button>
+        <button mat-stroked-button color="warn" (click)="dialogRef.close()">Cancelar</button>
+      </div>
+    </div>
+</div>  

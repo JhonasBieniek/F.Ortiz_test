@@ -63,9 +63,9 @@ export class DialogBodyProdutoComponent implements OnInit {
   }
 
   transform() {
-    if (this.data === null || this.data.imagem === null ) {
+    if (this.data === null || this.data.imagem === null) {
       return "./../../../../assets/images/placeholder.png"
-    }else{
+    } else {
       return this.sanitizer.bypassSecurityTrustResourceUrl(this.data.imagem);
     }
   }
@@ -80,8 +80,8 @@ export class DialogBodyProdutoComponent implements OnInit {
       produto_tamanhos: null,
       produto_cores: null,
       certificado_aprovacao: [null],
-      codigo_catalogo: [null],
-      codigo_importacao: [null, Validators.compose([Validators.required])],
+      codigo_catalogo: [null, Validators.compose([Validators.required])],
+      codigo_importacao: [null],
       embalagem: [null],
       representada_id: [null, Validators.compose([Validators.required])],
       imagem: [null],
@@ -102,16 +102,15 @@ export class DialogBodyProdutoComponent implements OnInit {
 
     this.filteredColors = this.colorCtrl.valueChanges.pipe(
       startWith(null),
-      map((color: any | null) => color ? this._filterColor(color) : this.cores.slice()));  
+      map((color: any | null) => color ? this._filterColor(color) : this.cores.slice()));
   }
   add(event: MatChipInputEvent): void {
-    if (!this.matAutocomplete.isOpen) {
     const input = event.input;
     const value = event.value;
 
     // Add our size
     if ((value || '').trim()) {
-      this.sizes.push({nome:value.trim()});
+      this.sizes.push({ nome: value.trim() });
     }
 
     // Reset the input value
@@ -119,7 +118,7 @@ export class DialogBodyProdutoComponent implements OnInit {
       input.value = '';
     }
     this.sizeCtrl.setValue(null);
-  }
+
   }
 
   remove(size: string): void {
@@ -136,14 +135,13 @@ export class DialogBodyProdutoComponent implements OnInit {
     this.sizeCtrl.setValue(null);
   }
   addColor(event: MatChipInputEvent): void {
-    if (!this.matAutocompleteColor.isOpen) {
 
     const input = event.input;
     const value = event.value;
 
     // Add our color
     if ((value || '').trim()) {
-      this.colors.push({nome:value.trim()});
+      this.colors.push({ nome: value.trim() });
     }
 
     // Reset the input value
@@ -151,7 +149,7 @@ export class DialogBodyProdutoComponent implements OnInit {
       input.value = '';
     }
     this.colorCtrl.setValue(null);
-  }
+
   }
 
   removeColor(color: string): void {
@@ -241,24 +239,39 @@ export class DialogBodyProdutoComponent implements OnInit {
 
   onSubmit() {
     let tamanhos = [];
-    this.sizes.forEach(element => {
-      tamanhos.push({ 
-        id: element.id,
-        nome: element.nome,
-       })
-    })
     let cores = [];
-    this.colors.forEach(element => {
-      cores.push({ 
+    if (this.data != null) {
+    this.sizes.forEach(element => {
+      tamanhos.push({
         id: element.id,
         nome: element.nome,
-       })
+        produto_id: element.produto_id
+      })
     })
+    this.colors.forEach(element => {
+      cores.push({
+        id: element.id,
+        nome: element.nome,
+        produto_id: element.produto_id
+      })
+    })
+  }else{
+    this.sizes.forEach(element => {
+      tamanhos.push({
+        nome: element.nome,
+      })
+    })
+    this.colors.forEach(element => {
+      cores.push({
+        nome: element.nome,
+      })
+    })
+  }
 
     this.form.patchValue({
       imagem: this.cardImageBase64,
       produto_tamanhos: tamanhos,
-      produto_cores : cores
+      produto_cores: cores
     })
     console.log(this.form.value)
     if (this.data == null) {

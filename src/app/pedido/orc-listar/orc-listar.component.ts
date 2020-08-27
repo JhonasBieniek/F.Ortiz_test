@@ -80,7 +80,7 @@ export class OrcListarComponent implements OnInit {
     })
   }
   generateRequest(row){
-
+    console.log(row)
   }
   delete(row) {
     const dialogConfig = new MatDialogConfig();
