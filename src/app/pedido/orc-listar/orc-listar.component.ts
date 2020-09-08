@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ClientService } from '../../shared/services/client.service.component';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatTabChangeEvent } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
 import page from './steps.json';
 import { OrcamentoComponent } from '../orcamento/orcamento.component';
 import { DialogConfirmarDeleteComponent } from '../../cadastro/dialog-confirmar-delete/confirmar-delete.component';
 import { ViewPedidoOrcamentoComponent } from '../view-pedido-orcamento/view-pedido-orcamento.component';
+import { Novo2Component } from '../novo2/novo2.component';
 
 @Component({
   selector: 'app-orc-listar',
@@ -58,14 +59,37 @@ export class OrcListarComponent implements OnInit {
       height: '98vh'
     }
   }
+  add(tipo) {
+    this.dialogConfig.data = {
+      tipo: tipo
+    };
+    let dialogRef = this.dialog.open(OrcamentoComponent, this.dialogConfig);
+    dialogRef.afterClosed().subscribe(value => {
+      this.loadData();
+    })
+  }
   edit(row) {
-    const dialogConfig = new MatDialogConfig()
-    dialogConfig.data = {
+    this.dialogConfig.data = {
       tipo: 'edit',
       orcamento: row
     }
-    let dialogRef = this.dialog.open(OrcamentoComponent, dialogConfig);
+    let dialogRef = this.dialog.open(OrcamentoComponent, this.dialogConfig);
     dialogRef.afterClosed().subscribe(value => {
+      this.loadData();
+    })
+  }
+  gerar(row){
+    this.dialogConfig.data = {
+      tipo: 'orc',
+      orc: row
+    }
+    let dialogRef = this.dialog.open(Novo2Component, this.dialogConfig);
+    dialogRef.afterClosed().subscribe(value =>{
+      if(value != undefined){
+        this.clientservice.updateOrcamento(
+          {id: row.id, status: true}
+        ).subscribe( res => console.log(res))
+      }
       this.loadData();
     })
   }
@@ -79,9 +103,7 @@ export class OrcListarComponent implements OnInit {
      // this.loadData();
     })
   }
-  generateRequest(row){
-    console.log(row)
-  }
+
   delete(row) {
     const dialogConfig = new MatDialogConfig();
     let tipo = 'orcamentos'
@@ -103,14 +125,10 @@ export class OrcListarComponent implements OnInit {
     });
   }
 
-  add(tipo) {
-    this.dialogConfig.data = {
-      tipo: tipo
-    };
-    let dialogRef = this.dialog.open(OrcamentoComponent, this.dialogConfig);
-    dialogRef.afterClosed().subscribe(value => {
-      this.loadData();
-    })
+  onTabChange(event: MatTabChangeEvent) {
+    this.defaultTab = event.index;
+    window.dispatchEvent(new Event('resize'));
+    this.selected =[];
   }
 
 }

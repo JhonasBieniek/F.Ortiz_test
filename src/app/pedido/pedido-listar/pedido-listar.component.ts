@@ -137,7 +137,6 @@ export class PedidoListarComponent implements OnInit {
 
   onTabChange(event: MatTabChangeEvent) {
     this.defaultTab = event.index;
-    console.log(this.defaultTab, "tab change");
     window.dispatchEvent(new Event('resize'));
     this.selected =[];
   }

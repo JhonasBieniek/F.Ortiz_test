@@ -30,6 +30,7 @@ export class DialogProdPedidoComponent implements OnInit {
       id: this.data.id,
       codigo_catalogo: this.data.codigo_catalogo,
       nome: this.data.nome,
+      embalagem: this.data.embalagem,
       ipi: this.data.ipi,
       valor_unitario: [this.data.valorUnitario],
       tamanho: [null],

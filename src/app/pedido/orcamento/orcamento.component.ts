@@ -42,7 +42,6 @@ export class OrcamentoComponent implements OnInit {
   dataCondComerciais: any;
   condComerciais = [];
   dataAreaVenda: any;
-  areas = [];
 
   selectedRepresentada: any;
   selectedCliente: string;
@@ -93,10 +92,6 @@ export class OrcamentoComponent implements OnInit {
       this.condComerciais = res.data;
     });
 
-    this.clientservice.getAreaVenda().subscribe((res: any) => {
-      this.areas = res.data;
-    });
-
     this.getClientes();
 
   }
@@ -115,7 +110,7 @@ export class OrcamentoComponent implements OnInit {
       frete: ['Representada', Validators.required],
       transportadora: [null],
       valor_total: [null],
-      status: [true, Validators.required],
+      status: [false, Validators.required],
       orcamento_produtos: this.fb.array([])
     });
 
@@ -130,7 +125,7 @@ export class OrcamentoComponent implements OnInit {
   }
 
   private loadOrcamento() {
-    if (this.currentAction == 'edit')
+    if (this.currentAction == 'edit'){
       this.clientservice.getOrcamento(this.info.orcamento.id)
         .subscribe(
           (orcamento: any) => {
@@ -138,10 +133,12 @@ export class OrcamentoComponent implements OnInit {
             this.orcamento.orcamento_produtos.forEach(element => {
               this.addItem(element)
             });
-            this.form.patchValue(this.orcamento)
+            this.form.patchValue(this.orcamento);
+            this.CarregarProdutosRepresentada(this.orcamento.representada_id);
           },
           (error) => alert('Ocorreu um erro no servidor, tente mais tarde.')
         )
+    }
   }
 
   private setCurrentAction() {
@@ -199,6 +196,7 @@ export class OrcamentoComponent implements OnInit {
       produto_id: item.id,
       quantidade: [item.quantidade, Validators.required],
       tamanho: item.tamanho,
+      embalagem: item.embalagem,
       cor: item.cor,
       ipi: item.ipi,
       valor_unitario: [item.valorUnitario, Validators.required],
@@ -222,8 +220,9 @@ export class OrcamentoComponent implements OnInit {
   }
 
   setTotal(i) {
-    let valor = this.produtos.at(i).get('quantidade').value * this.produtos.at(i).get('valor_unitario').value;
-    this.produtos.at(i).get('valor_total').setValue(valor);
+    const valor = this.produtos.at(i).get('quantidade').value * this.produtos.at(i).get('valor_unitario').value;
+    const ipi = this.produtos.at(i).get('quantidade').value * this.produtos.at(i).get('valor_unitario').value * this.produtos.at(i).get('ipi').value / 100;
+    this.produtos.at(i).get('valor_total').setValue(valor + ipi);
   }
 
   CarregarProdutosRepresentada(id) {
@@ -260,14 +259,19 @@ export class OrcamentoComponent implements OnInit {
 
   valorTotal() {
     let total = 0;
+    let ipi = 0;
     this.produtos.controls.forEach(element => {
-      total += (element.get('quantidade').value * element.get('valor_unitario').value);
+      if (element.get('ipi').value > 0) {
+        ipi += (element.get('quantidade').value * element.get('valor_unitario').value * element.get('ipi').value) / 100;
+      }
+      total += element.get('quantidade').value * element.get('valor_unitario').value;
     })
-    this.form.get('valor_total').setValue(total);
-    return total;
+    this.form.get('valor_total').setValue(total + ipi);
+    return total + ipi;
   }
 
   enviarPedido() {
+    console.log(this.form.value)
     if (this.currentAction == 'edit') {
       this.clientservice.updateOrcamento(this.form.value).subscribe((res: any) => {
         this.notificationService.notify("Atualizado com Sucesso!");

@@ -2,7 +2,7 @@
   <!-- Card column -->
   <div fxFlex.gt-sm="100%" fxFlex="100">
     <div fxLayout="row wrap" class="row">
-      <div style="margin-top: -15px;" class="p-10" fxFlex.gt-sm="100" fxFlex.gt-md="100" fxFlex.gt-xs="100" fxFlex="100">
+      <div style="margin-top: -25px;" class="p-10" fxFlex.gt-sm="100" fxFlex.gt-md="100" fxFlex.gt-xs="100" fxFlex="100">
         <mat-card-title style="margin-top: 20px;">{{pageTitle}}</mat-card-title>
       </div>
     </div>
@@ -160,7 +160,6 @@
         </div>
       </div>
     </form>
-
     <div *ngIf="valorTotal() != 0" style="margin-top: -40px; color: black; text-align: left;">
       <tr>
         <th style="color: red;">Valor Total: {{valorTotal() | currency:'BRL':true:'1.2-2'}}</th>

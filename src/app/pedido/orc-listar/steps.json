@@ -6,7 +6,7 @@
     "pedidos": [
       {
         "titulo": "Não Gerados",
-        "step": true,
+        "step": false,
         "index": 0,
         "columns": [
           {
@@ -38,7 +38,7 @@
       },
       {
         "titulo": "Gerados",
-        "step": false,
+        "step": true,
         "index": 1,
         "columns": [
           {

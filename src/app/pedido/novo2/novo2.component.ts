@@ -52,10 +52,10 @@ export class Novo2Component implements OnInit {
   reorderable: boolean = true;
 
   columns = [
-    { prop: 'codigo_catalogo', flexGrow: 1 },
-    { prop: 'nome', flexGrow: 2 },
-    { prop: 'unidade.descricao', flexGrow: 1, name: 'Descrição unitária' },
-    { prop: 'embalagem', flexGrow: 1 },
+    { prop: 'codigo_catalogo', flexGrow: 0.5, name: 'Cod. Catálogo' },
+    { prop: 'nome', flexGrow: 0.8 },
+    { prop: 'descricao', flexGrow: 2, name: 'Descrição' },
+    { prop: 'embalagem', flexGrow: 1.2 },
   ];
 
   arrayBuffer: any;
@@ -113,6 +113,7 @@ export class Novo2Component implements OnInit {
       this.createdForm();
       this.form.get('representada_id').setValue(this.representada.id);
       this[this.representada.func](json);
+      console.log(json)
     }
     if (file != undefined) {
       this.spinner.show();
@@ -484,6 +485,10 @@ export class Novo2Component implements OnInit {
       this.currentAction = "clone"
       this.clientSize = 42;
       this.pedidoSize = 12;
+    }else if (this.info.tipo == "orc") {
+      this.currentAction = "orc"
+      this.clientSize = 42;
+      this.pedidoSize = 12;
     } else {
       this.currentAction = "edit"
       this.clientSize = 42;
@@ -492,7 +497,6 @@ export class Novo2Component implements OnInit {
   }
 
   private setPageTitle() {
-    console.log(this.currentAction)
     if (this.currentAction == 'importar') {
       this.pageTitle = 'Importar Pedido: '
     } else if (this.currentAction == 'novo') {
@@ -500,6 +504,8 @@ export class Novo2Component implements OnInit {
     } else if (this.currentAction == 'clone') {
       const pedido = (this.pedidoN != undefined) ? this.pedidoN.num_pedido : '';
       this.pageTitle = 'Clonando pedido: ' + pedido;
+    }else if (this.currentAction == 'orc') {
+      this.pageTitle = 'Gerando pedido'
     } else {
       const pedido = (this.pedidoN != undefined) ? this.pedidoN.num_pedido : '';
       this.pageTitle = 'Editando pedido: ' + pedido;
@@ -515,7 +521,7 @@ export class Novo2Component implements OnInit {
             this.representada = pedido.data.representada;
             this.CarregarProdutosRepresentada();
             this.pedidoN.pedido_produtos.forEach(element => {
-              this.addItem(element)
+              this.addItemEdit(element)
             });
             this.form.patchValue(this.pedidoN)
             if (this.currentAction == 'clone') {
@@ -527,8 +533,42 @@ export class Novo2Component implements OnInit {
           },
           (error) => alert('Ocorreu um erro no servidor, tente mais tarde.')
         )
-    }
-  }
+    }else if(this.currentAction == 'clone') {
+      this.clientservice.getPedido(this.info.pedido.id)
+        .subscribe(
+          (pedido: any) => {
+            this.pedidoN = pedido.data;
+            this.representada = pedido.data.representada;
+            this.CarregarProdutosRepresentada();
+            this.pedidoN.pedido_produtos.forEach(element => {
+              this.addItem(element)
+            });
+            this.form.patchValue(this.pedidoN);
+            this.form.controls['num_pedido'].setValue('');
+            this.form.controls['situacao'].setValue('pendente');
+            this.setAreaDeVenda(pedido.data.area_venda_id.id);
+            this.razaoSocial = pedido.data.cliente.razao_social + ' - ' + pedido.data.cliente.cnpj
+          },
+          (error) => alert('Ocorreu um erro no servidor, tente mais tarde.')
+        )
+    }else if(this.currentAction == 'orc'){
+      console.log(this.info)
+      this.clientservice.getOrcamento(this.info.orc.id)
+        .subscribe(
+          (pedido: any) => {
+            this.pedidoN = pedido.data;
+            this.representada = pedido.data.representada;
+            this.CarregarProdutosRepresentada();
+            this.pedidoN.orcamento_produtos.forEach(element => {
+              this.addItem(element)
+            });
+            this.form.patchValue(this.pedidoN);
+            this.form.controls['data_emissao'].setValue(moment(new Date).format());
+
+          },
+          (error) => alert('Ocorreu um erro no servidor, tente mais tarde.')
+        )
+  }}
 
   searchClientes(event) {
     let termo: Observable<any[]>;
@@ -550,7 +590,6 @@ export class Novo2Component implements OnInit {
 
   getRazaoSocial(clienteId: string) {
     let cliente = this.clientes$.find(cliente => cliente.id === clienteId);
-    console.log(cliente)
     return cliente.razao_social + ' - ' + cliente.cnpj;
   }
 
@@ -615,23 +654,40 @@ export class Novo2Component implements OnInit {
     })
   }
 
-  addProduto(item: any) {
+  addProdutoEdit(item: any) {
     this.produto.push(this.fb.group({
-      id: (item.produto != undefined) ? item.produto.id : null,
+      id: item.produto.id,
       codigo_catalogo: item.codigo_catalogo || item.produto.codigo_catalogo,
       nome: item.nome || item.produto.nome,
-      produto_id: item.id,
+      produto_id: item.produto_id,
       quantidade: [item.quantidade, Validators.required],
-      unidade: (item.unidade != null) ? item.unidade.sigla : null,
+      cor: (item.cor != null) ? item.cor : null,
       embalagem: item.embalagem,
       tamanho: item.tamanho,
       ipi: (item.ipi != null) ? parseFloat(item.ipi) : 0,
-      valor_unitario: [item.valorUnitario, Validators.required],
-      valor_total: [(item.quantidade * item.valorUnitario), Validators.required],
+      valor_unitario: [item.valor_unitario, Validators.required],
+      valor_total: [(item.quantidade * item.valor_unitario), Validators.required],
       comissao_produto: (item.comissao != null) ? parseFloat(item.comissao) : (this.representada.comissao_padrao != null) ? this.representada.comissao_padrao : 0,
       obs: ''
     }));
   }
+  addProduto(item: any) {
+    this.produto.push(this.fb.group({
+      codigo_catalogo: item.codigo_catalogo || item.produto.codigo_catalogo,
+      nome: item.nome || item.produto.nome,
+      produto_id: item.produto_id,
+      quantidade: [item.quantidade, Validators.required],
+      cor: (item.cor != null) ? item.cor : null,
+      embalagem: item.embalagem,
+      tamanho: item.tamanho,
+      ipi: (item.ipi != null) ? parseFloat(item.ipi) : 0,
+      valor_unitario: [item.valor_unitario, Validators.required],
+      valor_total: [(item.quantidade * item.valor_unitario), Validators.required],
+      comissao_produto: (item.comissao != null) ? parseFloat(item.comissao) : (this.representada.comissao_padrao != null) ? this.representada.comissao_padrao : 0,
+      obs: ''
+    }));
+  }
+  
 
   setAreaDeVenda(id) {
     this.clientservice.getAreaVendaId(id).subscribe((res: any) => {
@@ -666,6 +722,9 @@ export class Novo2Component implements OnInit {
 
   addItem(item: ItemPedido) {
     this.addProduto(item);
+  }
+  addItemEdit(item: ItemPedido) {
+    this.addProdutoEdit(item);
   }
 
   CarregarProdutosRepresentada() {
