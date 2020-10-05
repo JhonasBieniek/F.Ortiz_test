@@ -58,13 +58,6 @@ export class ContaBancoComponent implements OnInit {
   }
   openDialog() {
     let dialogConfig = new MatDialogConfig();
-    dialogConfig = {
-      maxWidth: '75vw',
-      maxHeight: '45vh',
-    
-      width: '75vw',
-      height: '45vh'
-    }
     let dialogRef = this.dialog.open(
       DialogContaComponent, 
       dialogConfig, 

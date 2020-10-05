@@ -5,6 +5,7 @@ import { NotificationService } from '../../../shared/messages/notification.servi
 import { CustomValidators } from 'ng2-validation';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog, MatDialogConfig } from '@angular/material';
 import { AlertComponent } from '../../../alert/alert.component';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dialog-body-cliente',
@@ -23,6 +24,7 @@ export class DialogBodyClienteComponent implements OnInit {
   areas: any=[];
   ramos: any=[];
   bancos: any=[];
+  estados: any=[];
   pageTitle:string = 'Cadastrar Cliente';
 
   constructor(private fb: FormBuilder, 
@@ -51,6 +53,9 @@ export class DialogBodyClienteComponent implements OnInit {
                 this.clientservice.getRamos().subscribe((res:any) =>{
                   this.ramos = res.data; 
                 });
+                this.clientservice.getEstados().subscribe((res:any) =>{
+                  this.estados = res.data; 
+                });
   }
 
   ngOnInit() {  
@@ -59,7 +64,7 @@ export class DialogBodyClienteComponent implements OnInit {
       razao_social: [null, Validators.compose([Validators.required])],
       nome_fantasia: [null, Validators.compose([Validators.required])],
       cnpj: [null, Validators.compose([Validators.required, Validators.minLength(14), Validators.maxLength(14)])],
-      inscricao_estadual: [null, Validators.compose([CustomValidators.digits])],
+      inscricao_estadual: [null],
       email: [null, Validators.compose([CustomValidators.email])],
       telefone: [null],
       celular: [null],
@@ -67,6 +72,8 @@ export class DialogBodyClienteComponent implements OnInit {
       area_venda_id: [null, Validators.compose([Validators.required])],
       ramo_atividade_id: [null],
       limite: null,
+      categoria_volk: null,
+      tipo_cliente: null,
       pagamento_tipo: null,
       obs: [null, Validators.compose([Validators.maxLength(100)])],
       status: true,
@@ -86,7 +93,7 @@ export class DialogBodyClienteComponent implements OnInit {
         complemento: data?data.complemento:null,
         bairro: data?data.bairro:null,
         cidade: data?data.cidade:null,
-        estado: data?data.estado:null,  
+        estado_id: data?data.estado_id:null,  
         pais: 'Brasil',
       })
     }))
@@ -144,13 +151,13 @@ export class DialogBodyClienteComponent implements OnInit {
       this.form.get('celular').setValue(this.addDigitsNumber(this.removeSpecialChar(data.telefone.split("/")[1])));
     }
     let endereco = {
-      cep: this.removeSpecialChar(data.cep),
+      cep: data.cep,
       logradouro: data.logradouro,
       numero: data.numero,
       complemnto: data.complemento,
+      estado_id: this.getIdEstado(data.uf),
       bairro: data.bairro,
       cidade: data.municipio,
-      estado: data.uf
     };
     this.addEndereco(endereco);
   }
@@ -172,13 +179,20 @@ export class DialogBodyClienteComponent implements OnInit {
         this.cep = res
         if(this.cep.success == true){
         enderecos.at(index).get('endereco').get('cidade').setValue(this.cep.data.cidade);
-        enderecos.at(index).get('endereco').get('estado').setValue(this.cep.data.estado);
+        enderecos.at(index).get('endereco').get('estado_id').setValue(this.getIdEstado(this.cep.data.estado));
         enderecos.at(index).get('endereco').get('logradouro').setValue(this.cep.data.logradouro);
         enderecos.at(index).get('endereco').get('bairro').setValue(this.cep.data.bairro);
       }else{
         this.openAlert('Erro', 'Cep Inválido');
        }
       })
+    }
+  }
+
+  getIdEstado(data){
+   const estado =  this.estados.filter((e:any) => e.sigla.toLowerCase() === data.toLowerCase())
+    if(estado.length != 0){
+      return estado[0].id 
     }
   }
 

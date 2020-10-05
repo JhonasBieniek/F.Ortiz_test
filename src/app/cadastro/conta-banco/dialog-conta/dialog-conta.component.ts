@@ -27,7 +27,7 @@ export class DialogContaComponent implements OnInit {
                               
   ngOnInit() {
     if(this.data != null){
-      this.pageTitle = 'Editar Cargos'
+      this.pageTitle = 'Editar Conta Bancária'
       console.log(this.data)
       this.form = this.fb.group({
         id: this.data.id,
@@ -37,7 +37,7 @@ export class DialogContaComponent implements OnInit {
       });
     }else{
       console.log(this.data)
-      this.pageTitle = 'Cadastrar Cargos'
+      this.pageTitle = 'Cadastrar Conta Bancária'
       this.form = this.fb.group({
         banco: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
         agencia: [null, Validators.compose([Validators.required])],

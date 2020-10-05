@@ -346,6 +346,15 @@ export class ClientService {
       })
      )
   }
+  updateProdutoEstadoPreco(data): Observable<any>{
+    const url = `${API_URL}produtoEstadosPrecos/edit/${data.id}.json`;
+     return this.http.put(url, data).pipe(
+      catchError(this.handleError),
+      map(res => {
+        return res;
+      })
+     )
+  }
   addRepresenta(data){
     const uri = API_URL+ 'representadas/add.json';
     return this
@@ -638,6 +647,15 @@ export class ClientService {
               return res;
             });
   }
+  getEstados() {
+    const uri = `${API_URL}` + `estados/index.json`;
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
 
   getClientesId(id) {
     const uri = `${API_URL}` +`clientes/view/` + id + ".json";
@@ -686,6 +704,15 @@ export class ClientService {
   }
   getClientes() {
     const uri = `${API_URL}` + `clientes/index.json`;
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
+  getProdutosEstado() {
+    const uri = `${API_URL}` + `produtoEstadosPrecos/index.json`;
     return this
             .http
             .get(uri)

@@ -78,6 +78,11 @@ export class DialogBodyProdutoComponent implements OnInit {
       indicacao: [null],
       ipi: [null],
       produto_tamanhos: null,
+      produto_estados_precos: null,
+      preco_pr_final: null,
+      preco_pr_revenda: null,
+      preco_sc: null,
+      preco_sp: null,
       produto_cores: null,
       certificado_aprovacao: [null],
       codigo_catalogo: [null, Validators.compose([Validators.required])],
@@ -90,8 +95,20 @@ export class DialogBodyProdutoComponent implements OnInit {
     if (this.data == null) {
       this.pageTitle = 'Cadastrar Produto'
     } else {
+      console.log(this.data)
       this.pageTitle = 'Editar Produto';
       this.form.patchValue(this.data);
+      this.data.produto_estados_precos.filter(e => {
+        if(e.estado_id === 16 && e.tipo === 'final'){
+          this.form.get('preco_pr_final').setValue(e.preco)
+        }if(e.estado_id === 16 && e.tipo === 'revendedor'){
+          this.form.get('preco_pr_revenda').setValue(e.preco)
+        }if(e.estado_id === 24){
+          this.form.get('preco_sc').setValue(e.preco)
+        }if(e.estado_id === 25){
+          this.form.get('preco_sp').setValue(e.preco)
+        }
+      })
       this.sizes = this.data.produto_tamanhos;
       this.colors = this.data.produto_cores;
       this.cardImageBase64 = this.data.imagem;
@@ -240,6 +257,8 @@ export class DialogBodyProdutoComponent implements OnInit {
   onSubmit() {
     let tamanhos = [];
     let cores = [];
+    let precos = [];
+
     if (this.data != null) {
     this.sizes.forEach(element => {
       tamanhos.push({
@@ -255,6 +274,12 @@ export class DialogBodyProdutoComponent implements OnInit {
         produto_id: element.produto_id
       })
     })
+    precos = [
+      {"preco": this.form.value.preco_pr_final , "produto_id": this.data.id, "estado_id": 16, "tipo": "final"},
+      {"preco": this.form.value.preco_pr_revenda , "produto_id": this.data.id, "estado_id": 16, "tipo": "revendedor"},
+      {"preco": this.form.value.preco_sc , "produto_id": this.data.id, "estado_id": 24, "tipo": null},
+      {"preco": this.form.value.preco_sp , "produto_id": this.data.id, "estado_id": 25, "tipo": null}
+    ]
   }else{
     this.sizes.forEach(element => {
       tamanhos.push({
@@ -266,12 +291,19 @@ export class DialogBodyProdutoComponent implements OnInit {
         nome: element.nome,
       })
     })
+    precos = [
+      {"preco": this.form.value.preco_pr_final , "estado_id": 16, "tipo": "final"},
+      {"preco": this.form.value.preco_pr_revenda , "estado_id": 16, "tipo": "revendedor"},
+      {"preco": this.form.value.preco_sc , "estado_id": 24, "tipo": null},
+      {"preco": this.form.value.preco_sp , "estado_id": 25, "tipo": null}
+    ]
   }
 
     this.form.patchValue({
       imagem: this.cardImageBase64,
       produto_tamanhos: tamanhos,
-      produto_cores: cores
+      produto_cores: cores,
+      produto_estados_precos: precos
     })
     console.log(this.form.value)
     if (this.data == null) {

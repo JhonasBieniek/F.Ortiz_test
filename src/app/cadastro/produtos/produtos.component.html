@@ -1,3 +1,5 @@
+<input type="file" style="display: none" (change)="incomingfile($event)" accept=".xlsx,.xls" #hiddenfileinput >
+
 <div fxLayout="row" fxLayoutWrap="wrap">
   <!-- Card column -->
   <div fxFlex.gt-sm="100%" fxFlex="100">
@@ -7,6 +9,9 @@
         <mat-card-actions align="end">
           <div class="button-row">
             <button mat-raised-button color="primary" (click)="openDialog()">Novo produto</button>
+          </div>
+          <div class="button-row m-l-10">
+            <button mat-raised-button color="warn" (click)="hiddenfileinput.click(); representada='volk'">Atualizar Preços</button>
           </div>
         </mat-card-actions>
       </mat-card-content>
@@ -27,20 +32,21 @@
               </ng-template>
             </ngx-datatable-column>
         
-            <ngx-datatable-column [flexGrow]="0.4" name="Codigo">
+            <ngx-datatable-column [flexGrow]="0.5" name="Codigo">
               <ng-template let-value="codigo" let-row="row" ngx-datatable-cell-template>
-                {{ row.codigo }}
+                {{ row.codigo_importacao }}
               </ng-template>
             </ngx-datatable-column>
         
+            <ngx-datatable-column [flexGrow]="0.5" name="Rrepresentada">
+              <ng-template let-value="representada.nome_fantasia" let-row="row" ngx-datatable-cell-template>
+                {{ row.representada.nome_fantasia }}
+              </ng-template>
+            </ngx-datatable-column>
+            
             <ngx-datatable-column [flexGrow]="1.5" name="Nome">
               <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
                 {{ row.nome }}
-              </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column [flexGrow]="1" name="Nome Fantasia">
-              <ng-template let-value="representada.nome_fantasia" let-row="row" ngx-datatable-cell-template>
-                {{ row.representada.nome_fantasia }}
               </ng-template>
             </ngx-datatable-column>
             
@@ -58,3 +64,5 @@
     </mat-card>
   </div>
 </div>
+
+teste: {{produtos}}

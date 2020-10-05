@@ -150,6 +150,42 @@
             </mat-autocomplete>
           </mat-form-field>
         </div>
+        <div fxLayout="row">
+          <div fxFlex.gt-sm="33.33" fxFlex.gt-xs="33.33" fxFlex="100">
+
+            <div class="p-10 aj" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+              <div fxLayoutAlign="center start" fxLayout="row">
+                <h3 >Preços Paraná</h3>
+              </div>
+              <mat-form-field appearance="outline">
+                <mat-label>Preço - Final</mat-label>
+                <input matInput placeholder="Preço PR- Final" formControlName="preco_pr_final" currencyMask>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Preço - Revenda</mat-label>
+                <input matInput placeholder="Preço PR - Revenda" formControlName="preco_pr_revenda" currencyMask>
+              </mat-form-field>
+            </div>
+            </div>
+            <div class="p-10 aj" fxFlex.gt-sm="33.33" fxFlex.gt-xs="33.33" fxFlex="100">
+              <div fxLayoutAlign="center start" fxLayout="row">
+                <h3 >Preço SP</h3>
+              </div>
+              <mat-form-field appearance="outline">
+                <mat-label>Preço</mat-label>
+                <input matInput placeholder="Preço" formControlName="preco_sp"  currencyMask>
+              </mat-form-field>
+            </div>
+            <div class="p-10 aj" fxFlex.gt-sm="33.34" fxFlex.gt-xs="33.34" fxFlex="100">
+              <div fxLayoutAlign="center start" fxLayout="row">
+                <h3 >Preço SC</h3>
+              </div>
+              <mat-form-field appearance="outline">
+                <mat-label>Preço</mat-label>
+                <input matInput placeholder="Preço" formControlName="preco_sc"  currencyMask>
+              </mat-form-field>
+            </div>
+        </div>
       </div>
     </div>
     <!-- Column-3 -->

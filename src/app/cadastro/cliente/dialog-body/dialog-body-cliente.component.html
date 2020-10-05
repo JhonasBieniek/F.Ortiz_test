@@ -19,7 +19,7 @@
       <div class="p-10 aj" fxFlex.gt-sm="35" fxFlex.gt-xs="35" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Inscrição estadual</mat-label>
-          <input matInput placeholder="Inscrição estadual" formControlName="inscricao_estadual" type="digits">
+          <input matInput placeholder="Inscrição estadual" formControlName="inscricao_estadual">
         </mat-form-field>
         <small *ngIf="form.get('inscricao_estadual').errors?.required && form.get('inscricao_estadual').touched"
           class="text-danger font-14">Você precisa inserir a inscrição estadual.</small>
@@ -107,9 +107,15 @@
             </mat-form-field>
           </div>
           <div class="p-10 aj" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="100">
-            <mat-form-field appearance="outline">
-              <mat-label>Estado</mat-label>
-              <input matInput placeholder="Estado" formControlName="estado">
+            <mat-form-field appearance="outline" [hideRequiredMarker]="true"
+              [floatLabel]="auto">
+              <mat-label>Estado*</mat-label>
+              <mat-select formControlName="estado_id" >
+                <mat-option *ngFor="let estado of estados" [value]="estado.id">
+                  {{estado.nome}}
+                </mat-option>
+              </mat-select>
+              <mat-placeholder>Representada</mat-placeholder>
             </mat-form-field>
           </div>
         </div>
@@ -186,6 +192,33 @@
           </mat-select>
           <mat-placeholder>Ramo de Atividade</mat-placeholder>
         </mat-form-field>
+      </div>
+      <div class="p-10 aj" fxFlex.gt-sm="16" fxFlex.gt-xs="16" fxFlex="100">
+        <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+          [floatLabel]="form.value.floatLabel">
+          <mat-label>Tipo de Cliente</mat-label>
+            <mat-select required formControlName="tipo_cliente">
+              <mat-option>-- Selecione... --</mat-option>
+              <mat-option value="final">Final</mat-option>
+              <mat-option value="revendedor">Revendedor</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <small *ngIf="form.get('tipo_cliente').errors?.required && form.get('tipo_cliente').touched"
+          class="text-danger font-14">Você precisa selecionar a tipo.</small>
+      </div>
+      <div class="p-10 aj" fxFlex.gt-sm="16" fxFlex.gt-xs="16" fxFlex="100">
+        <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+          [floatLabel]="form.value.floatLabel">
+          <mat-label>Categoria Volk</mat-label>
+          <mat-select formControlName="categoria_volk">
+            <mat-option>-- Selecione... --</mat-option>
+            <mat-option value="A">A</mat-option>
+            <mat-option value="B">B</mat-option>
+            <mat-option value="C">C</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <small *ngIf="form.get('categoria_volk').errors?.required && form.get('categoria_volk').touched"
+          class="text-danger font-14">Você precisa selecionar a categoria.</small>
       </div>
       <div class="p-10 aj" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="15">
         <mat-form-field appearance="outline" [hideRequiredMarker]="true"
