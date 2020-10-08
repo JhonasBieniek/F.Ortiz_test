@@ -6,7 +6,7 @@
 
       <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <mat-card-header class="bg-info text-white">
-          <mat-card-title class="titulo">Cadastrar Produto</mat-card-title>
+          <mat-card-title class="titulo">Produtos não cadastrados</mat-card-title>
         </mat-card-header>
       </div>
       <form [formGroup]="form">
@@ -15,20 +15,20 @@
             <ng-container >
               <div class="p-10" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="100">
                 <mat-form-field appearance="outline">
-                  <input matInput placeholder="Código do produto" formControlName="codigo">
+                  <input matInput disabled placeholder="Código do produto" formControlName="codigo">
                 </mat-form-field>
               </div>
               <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="34">
                 <mat-form-field appearance="outline">
-                  <input matInput placeholder="Nome do produto" formControlName="nome">
+                  <input matInput disabled placeholder="Nome do produto" formControlName="nome">
                 </mat-form-field>
               </div>
-              <div class="p-10" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="33">
+              <!-- <div class="p-10" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="33">
                 <mat-form-field appearance="outline">
                   <input matInput placeholder="Embalagem" formControlName="embalagem">
                 </mat-form-field>
-              </div>
-              <div class="p-10" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25">
+              </div> -->
+              <!-- <div class="p-10" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25">
                 <mat-form-field appearance="outline">
                   <input matInput placeholder="IPI" formControlName="ipi">
                 </mat-form-field>
@@ -61,7 +61,7 @@
                   </mat-select>
                   <mat-placeholder>Status</mat-placeholder>
                 </mat-form-field>
-              </div>
+              </div>-->
               <div class="p-10 invisible" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25">
                 <mat-form-field appearance="outline">
                   <input matInput placeholder="Tamanho" formControlName="valorUnitario" >
@@ -81,7 +81,7 @@
                 <mat-form-field appearance="outline">
                   <input matInput  placeholder="Tamanho" formControlName="comissao" >
                 </mat-form-field>
-              </div>
+              </div> 
             </ng-container>
           </div>
         </div>
@@ -91,8 +91,8 @@
   <div fxLayout="row wrap">
     <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
       <mat-card-actions style="margin-left: 15px">
-        <button mat-raised-button color="primary" type="submit" (click)="submit()">Salvar cadastro</button>
-        <button mat-raised-button style="margin-left: 10px" color="primary" (click)="close()">Cancelar</button>
+        <button mat-raised-button color="primary" [routerLink]="['/cadastro/produtos']" (click)="close()">Ir para produtos</button> 
+        <button mat-raised-button style="margin-left: 10px" color="warn" (click)="close()">Cancelar</button>
       </mat-card-actions>
     </div>
   </div>

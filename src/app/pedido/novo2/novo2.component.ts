@@ -148,7 +148,7 @@ export class Novo2Component implements OnInit {
           quantidade: data[inicial][5],
           tamanho: data[inicial][1],
           ipi: data[inicial][9],
-          valorUnitario: data[inicial][6],
+          valor_unitario: data[inicial][6],
           comissao: data[inicial][11]
         }
         await this.consultaCod(produto).then((res: any) => {
@@ -590,7 +590,11 @@ export class Novo2Component implements OnInit {
 
   getRazaoSocial(clienteId: string) {
     let cliente = this.clientes$.find(cliente => cliente.id === clienteId);
-    return cliente.razao_social + ' - ' + cliente.cnpj;
+    if(cliente != undefined){
+      return cliente.razao_social + ' - ' + cliente.cnpj;
+    }else{
+      return '';
+    }
   }
 
   getClientes() {
@@ -659,7 +663,7 @@ export class Novo2Component implements OnInit {
       id: item.produto.id,
       codigo_catalogo: item.codigo_catalogo || item.produto.codigo_catalogo,
       nome: item.nome || item.produto.nome,
-      produto_id: item.produto_id,
+      produto_id: item.id,
       quantidade: [item.quantidade, Validators.required],
       cor: (item.cor != null) ? item.cor : null,
       embalagem: item.embalagem,
@@ -672,10 +676,11 @@ export class Novo2Component implements OnInit {
     }));
   }
   addProduto(item: any) {
+    console.log(item,'item')
     this.produto.push(this.fb.group({
       codigo_catalogo: item.codigo_catalogo || item.produto.codigo_catalogo,
       nome: item.nome || item.produto.nome,
-      produto_id: item.produto_id,
+      produto_id: item.id,
       quantidade: [item.quantidade, Validators.required],
       cor: (item.cor != null) ? item.cor : null,
       embalagem: item.embalagem,
@@ -751,9 +756,11 @@ export class Novo2Component implements OnInit {
       dialogConfig,
     );
     dialogRef.afterClosed().subscribe(value => {
-      value.forEach(element => {
-        this.addItem(element)
-      });
+      this.dialogRef.close();
+      // antiga função de adição
+      // value.forEach(element => {
+      //   this.addItem(element)
+      // });
     });
   }
 

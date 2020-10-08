@@ -46,7 +46,7 @@ export class DialogCadastroComponent implements OnInit {
         nome: element.nome,
         embalagem: element.embalagem,
         tamanho: element.tamanho,
-        codigo: element.codigo,
+        codigo: element.codigo_catalogo,
         ipi: element.ipi,
         unidade: '',
         active: 1,
@@ -87,7 +87,8 @@ export class DialogCadastroComponent implements OnInit {
   }
 
   close() {
-    this.dialogRef.close(this.resposta);
+    // this.dialogRef.close(this.resposta);
+    this.dialogRef.close('fechar');
   }
   
 }
