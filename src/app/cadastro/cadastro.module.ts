@@ -48,6 +48,10 @@ import { DialogTamanhosComponent } from './tamanhos/dialog-tamanhos/dialog-taman
 import { NgxCurrencyModule } from 'ngx-currency';
 import { ContaBancoComponent } from './conta-banco/conta-banco.component';
 import { DialogContaComponent } from './conta-banco/dialog-conta/dialog-conta.component';
+import { TipoProdutoComponent } from './tipo-produto/tipo-produto.component';
+import { DialogBodyTipoProdutoComponent } from './tipo-produto/dialog-body/dialog-body.component';
+import { ProdutoMateriaisComponent } from './produto-materiais/produto-materiais.component';
+import { DialogBodyProdutoMateriaisComponent } from './produto-materiais/dialog-body/dialog-body.component';
 
 
 
@@ -105,6 +109,10 @@ import { DialogContaComponent } from './conta-banco/dialog-conta/dialog-conta.co
                   DialogTamanhosComponent,
                   ContaBancoComponent,
                   DialogContaComponent,
+                  TipoProdutoComponent,
+                  DialogBodyTipoProdutoComponent,
+                  DialogBodyProdutoMateriaisComponent,
+                  ProdutoMateriaisComponent
   ],
   providers: [
     DatePipe
@@ -125,7 +133,9 @@ import { DialogContaComponent } from './conta-banco/dialog-conta/dialog-conta.co
                      DialogConfirmarDeleteComponent,
                      DialogBodyProdutoComponent,
                      DialogTamanhosComponent,
-                     DialogContaComponent
+                     DialogContaComponent,
+                     DialogBodyProdutoMateriaisComponent,
+                     DialogBodyTipoProdutoComponent
   ],
 })
 

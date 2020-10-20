@@ -73,14 +73,38 @@
                 placeholder="Descrição do produto" formControlName="descricao"></textarea>
             </mat-form-field>
           </div>
-          <div class="p-10 aj" fxFlex.gt-sm="60" fxFlex.gt-xs="60" fxFlex="100">
-            <mat-form-field appearance="outline">
-              <mat-label>Indicação de uso</mat-label>
-              <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="7"
-                placeholder="Indicação do produto" formControlName="indicacao"></textarea>
+          <div class="p-10 aj" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
+            <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
+              <mat-label>Selecione o tipo do produto</mat-label>
+              <mat-select formControlName="tipo_produto_id">
+                <mat-option *ngFor="let tipo of tiposProduto" [value]="tipo.id">
+                  {{tipo.nome}}
+                </mat-option>
+              </mat-select>
+              <mat-placeholder>Tipo do Produto</mat-placeholder>
+            </mat-form-field>
+          </div>
+          <div class="p-10 aj" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
+            <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
+              <mat-label>Selecione o material do produto</mat-label>
+              <mat-select formControlName="material_produto_id">
+                <mat-option *ngFor="let material of materiaisProduto" [value]="material.id">
+                  {{material.nome}}
+                </mat-option>
+              </mat-select>
+              <mat-placeholder>Material do Produto</mat-placeholder>
             </mat-form-field>
           </div>
         </div>
+        <div fxLayout="row">
+          <div class="p-10 aj" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+            <mat-form-field appearance="outline">
+              <mat-label>Indicação de uso</mat-label>
+              <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="7"
+                placeholder="Indicação do produto" formControlName="aplicacao_produto"></textarea>
+            </mat-form-field>
+          </div>
+        </div>  
         <div fxLayout="row">
           <div class="p-10 aj" fxFlex.gt-sm="35" fxFlex.gt-xs="35" fxFlex="100">
             <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">

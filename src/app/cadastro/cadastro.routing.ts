@@ -18,6 +18,8 @@ import { RamoAtividadeComponent } from './ramo-atividade/ramo-atividade.componen
 import { ProdutosComponent } from './produtos/produtos.component';
 import { TamanhosComponent } from './tamanhos/tamanhos.component';
 import { ContaBancoComponent } from './conta-banco/conta-banco.component';
+import { TipoProdutoComponent } from './tipo-produto/tipo-produto.component';
+import { ProdutoMateriaisComponent } from './produto-materiais/produto-materiais.component';
 
 
 export const CadastroRoutes: Routes = [
@@ -74,6 +76,12 @@ export const CadastroRoutes: Routes = [
     },{
     path: 'produtos', 
     component: ProdutosComponent
+    },{
+      path: 'produto-tipos', 
+      component: TipoProdutoComponent
+    },{
+      path: 'produto-materiais', 
+      component: ProdutoMateriaisComponent
     },{
     path: 'conta', 
     component: ContaBancoComponent

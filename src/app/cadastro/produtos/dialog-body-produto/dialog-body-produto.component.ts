@@ -20,6 +20,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class DialogBodyProdutoComponent implements OnInit {
   public form: FormGroup;
   representadas = [];
+  tiposProduto = [];
+  materiaisProduto = [];
   unidades = [];
   pageTitle: string = "";
   sizeCtrl = new FormControl();
@@ -54,6 +56,12 @@ export class DialogBodyProdutoComponent implements OnInit {
     this.clientservice.getRepresentadas().subscribe((res: any) => {
       this.representadas = res.data;
     });
+    this.clientservice.getProdutoTipos().subscribe((res: any) => {
+      this.tiposProduto = res.data;
+    });
+    this.clientservice.getProdutoMateriais().subscribe((res: any) => {
+      this.materiaisProduto = res.data;
+    });
     this.clientservice.getProdutoTamanhos().subscribe((res: any) => {
       this.tamanhos = res.data;
     });
@@ -75,7 +83,9 @@ export class DialogBodyProdutoComponent implements OnInit {
       id: [null],
       nome: [null, Validators.compose([Validators.required])],
       descricao: [null],
-      indicacao: [null],
+      aplicacao_produto: [null],
+      tipo_produto_id: [null],
+      material_produto_id: [null],
       ipi: [null],
       produto_tamanhos: null,
       produto_estados_precos: null,
