@@ -32,7 +32,7 @@ export class ProdutoMateriaisComponent implements OnInit {
 
   @ViewChild(ProdutoMateriaisComponent, {static: false}) table: ProdutoMateriaisComponent;
   constructor(private clientservice: ClientService, private dialog: MatDialog) {
-    this.clientservice.getProdutoMateriais().subscribe(res =>{
+    this.clientservice.getProdutoMaterials().subscribe(res =>{
       this.data = res;
       this.rows = this.data.data.sort((a,b)=> a.id - b.id);
       this.temp = [...this.data.data];
@@ -77,7 +77,7 @@ export class ProdutoMateriaisComponent implements OnInit {
       });
   }
   refreshTable(){
-    this.clientservice.getProdutoMateriais().subscribe(res =>{
+    this.clientservice.getProdutoMaterials().subscribe(res =>{
       this.dados = res;
       this.rows = this.dados.data.sort((a,b)=> a.id - b.id);
       this.temp = [...this.dados.data];

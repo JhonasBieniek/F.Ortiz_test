@@ -134,16 +134,16 @@ export class ClientService {
       })
      )
   }
-  addProdutoMateriais(dados) {
-    const uri = `${API_URL}` + `produto-materiais/add.json`;
+  addProdutoMaterials(dados) {
+    const uri = `${API_URL}` + `produto-materials/add.json`;
     this
       .http
       .post(uri, dados) 
       .subscribe(res =>
           console.log('Done'));
   }
-  updateProdutoMateriais(data): Observable<any>{
-    const url = `${API_URL}produto-materiais/edit/${data.id}.json`;
+  updateProdutoMaterials(data): Observable<any>{
+    const url = `${API_URL}produto-materials/edit/${data.id}.json`;
      return this.http.put(url, data).pipe(
       catchError(this.handleError),
       map(res => {
@@ -521,8 +521,8 @@ export class ClientService {
               return res;
             });
   }
-  getProdutoMateriais() {
-    const uri = `${API_URL}` + `produto-materiais/index.json`;
+  getProdutoMaterials() {
+    const uri = `${API_URL}` + `produto-materials/index.json`;
     return this
             .http
             .get(uri)

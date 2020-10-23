@@ -42,7 +42,7 @@ export class ProdutosComponent implements OnInit {
   @ViewChild(ProdutosComponent, {static: false}) table: ProdutosComponent;
   constructor(private clientservice: ClientService, private dialog: MatDialog, private spinner: NgxSpinnerService,) {
     this.refreshTable();                    
-    this.clientservice.getProdutosEstado().subscribe((res:any) => {
+    this.clientservice.getProdutos().subscribe((res:any) => {
       this.prods = res.data;
     })        
   }

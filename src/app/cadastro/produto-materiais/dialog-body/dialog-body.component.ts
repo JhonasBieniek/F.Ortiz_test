@@ -44,11 +44,11 @@ export class DialogBodyProdutoMateriaisComponent implements OnInit {
 
   areaVendasSubmit() { 
     if(this.data != undefined){
-      this.clientservice.updateProdutoMateriais(this.form.value).subscribe( () =>{
+      this.clientservice.updateProdutoMaterials(this.form.value).subscribe( () =>{
         this.notificationService.notify("Atualizado com Sucesso!")
       })
     }else{
-      this.clientservice.addProdutoMateriais(this.form.value)   
+      this.clientservice.addProdutoMaterials(this.form.value)   
     } 
   }
 

@@ -59,7 +59,7 @@ export class DialogBodyProdutoComponent implements OnInit {
     this.clientservice.getProdutoTipos().subscribe((res: any) => {
       this.tiposProduto = res.data;
     });
-    this.clientservice.getProdutoMateriais().subscribe((res: any) => {
+    this.clientservice.getProdutoMaterials().subscribe((res: any) => {
       this.materiaisProduto = res.data;
     });
     this.clientservice.getProdutoTamanhos().subscribe((res: any) => {
@@ -87,8 +87,9 @@ export class DialogBodyProdutoComponent implements OnInit {
       tipo_produto_id: [null],
       material_produto_id: [null],
       ipi: [null],
-      produto_tamanhos: null,
       produto_estados_precos: null,
+      produto_tamanhos: null,
+      produto_embalagems: null,
       preco_pr_final: null,
       preco_pr_revenda: null,
       preco_sc: null,
@@ -97,7 +98,9 @@ export class DialogBodyProdutoComponent implements OnInit {
       certificado_aprovacao: [null],
       codigo_catalogo: [null, Validators.compose([Validators.required])],
       codigo_importacao: [null],
-      embalagem: [null],
+      embalagem_nome: null,
+      embalagem_qtd: [null],
+      embalagem_min: [null],
       representada_id: [null, Validators.compose([Validators.required])],
       imagem: [null],
       status: [true],
@@ -118,6 +121,11 @@ export class DialogBodyProdutoComponent implements OnInit {
         }if(e.estado_id === 25){
           this.form.get('preco_sp').setValue(e.preco)
         }
+      })
+      this.data.produto_embalagems.map(e => {
+        this.form.get('embalagem_nome').setValue(e.nome);
+        this.form.get('embalagem_qtd').setValue(e.quantidade);
+        this.form.get('embalagem_min').setValue(e.minimo)
       })
       this.sizes = this.data.produto_tamanhos;
       this.colors = this.data.produto_cores;
@@ -268,6 +276,23 @@ export class DialogBodyProdutoComponent implements OnInit {
     let tamanhos = [];
     let cores = [];
     let precos = [];
+    let embalagem = [];
+    if(this.data !=null){
+     embalagem = [{
+        "nome": this.form.value.embalagem_nome,
+        "quantidade": this.form.value.embalagem_qtd,
+        "minimo": this.form.value.embalagem_min,
+        "produto_id": this.data.id,
+        //"id": this.data.produto_embalagems[0].id
+      }];
+    }else{
+      embalagem = [{
+        "nome": this.form.value.embalagem_nome,
+        "quantidade": this.form.value.embalagem_qtd,
+        "minimo": this.form.value.embalagem_min,
+      }];
+    }
+
 
     if (this.data != null) {
     this.sizes.forEach(element => {
@@ -308,10 +333,11 @@ export class DialogBodyProdutoComponent implements OnInit {
       {"preco": this.form.value.preco_sp , "estado_id": 25, "tipo": null}
     ]
   }
-
+    console.log(embalagem)
     this.form.patchValue({
       imagem: this.cardImageBase64,
       produto_tamanhos: tamanhos,
+      produto_embalagems: embalagem,
       produto_cores: cores,
       produto_estados_precos: precos
     })
