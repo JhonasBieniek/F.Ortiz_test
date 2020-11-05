@@ -76,7 +76,7 @@
           <div class="p-10 aj" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
             <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
               <mat-label>Selecione o tipo do produto</mat-label>
-              <mat-select formControlName="tipo_produto_id">
+              <mat-select formControlName="produto_tipo_id">
                 <mat-option *ngFor="let tipo of tiposProduto" [value]="tipo.id">
                   {{tipo.nome}}
                 </mat-option>
@@ -87,7 +87,7 @@
           <div class="p-10 aj" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
             <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
               <mat-label>Selecione o material do produto</mat-label>
-              <mat-select formControlName="material_produto_id">
+              <mat-select formControlName="produto_material_id">
                 <mat-option *ngFor="let material of materiaisProduto" [value]="material.id">
                   {{material.nome}}
                 </mat-option>
