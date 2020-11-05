@@ -41,7 +41,17 @@ import { DialogEditNotaComponent } from './conciliacao/dialog-edit-nota/dialog-e
 import { DialogEstornarComponent } from './conciliacao/dialog-view-nota/dialog-estornar/dialog-estornar.component';
 import { DialogDevolucaoComponent } from './conciliacao/dialog-view-nota/dialog-devolucao/dialog-devolucao.component';
 import { ViewPedidoOrcamentoComponent } from './view-pedido-orcamento/view-pedido-orcamento.component';
-import { DialogProdPedidoComponent } from './orcamento/dialog-prod-pedido/dialog-prod-pedido.component'; 
+import { DialogProdPedidoComponent } from './orcamento/dialog-prod-pedido/dialog-prod-pedido.component';
+import { PedidosComponent } from './relatorios/pedidos/pedidos.component';
+import { ProdutosVendidosComponent } from './relatorios/produtos-vendidos/produtos-vendidos.component';
+import { ProdutosVendidosPorClientesComponent } from './relatorios/produtos-vendidos-por-clientes/produtos-vendidos-por-clientes.component';
+import { RankingComponent } from './relatorios/ranking/ranking.component';
+import { ClientesSemCompraComponent } from './relatorios/clientes-sem-compra/clientes-sem-compra.component';
+import { ComparativoVendasComponent } from './relatorios/comparativo-vendas/comparativo-vendas.component';
+import { ComparativoVendasClientesComponent } from './relatorios/comparativo-vendas-clientes/comparativo-vendas-clientes.component';
+import { NotasComponent } from './relatorios/notas/notas.component';
+import { ConsumoComponent } from './relatorios/consumo/consumo.component';
+import { FaturamentoComponent } from './relatorios/faturamento/faturamento.component'; 
 
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
@@ -80,7 +90,7 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
     DialogEditNotaComponent, 
     DialogEstornarComponent, 
     DialogDevolucaoComponent, 
-    ViewPedidoOrcamentoComponent, DialogProdPedidoComponent
+    ViewPedidoOrcamentoComponent, DialogProdPedidoComponent, PedidosComponent, ProdutosVendidosComponent, ProdutosVendidosPorClientesComponent, RankingComponent, ClientesSemCompraComponent, ComparativoVendasComponent, ComparativoVendasClientesComponent, NotasComponent, ConsumoComponent, FaturamentoComponent
   ],
   providers: [
     DateFormatPipe,

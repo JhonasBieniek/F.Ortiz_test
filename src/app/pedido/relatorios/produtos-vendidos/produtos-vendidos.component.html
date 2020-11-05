@@ -1,0 +1,94 @@
+<div fxLayout="row wrap">
+    <div fxFlex.gt-sm="100%" fxFlex="100">
+        <mat-card class="no-shadow">
+            <mat-card-content>
+                <form [formGroup]="form">
+                    <mat-card-title class="title">Relatório de Produtos Vendidos</mat-card-title>
+                    <div fxLayout="row wrap" class="row">
+                        <div class="p-10 text" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Representada</mat-label>
+                                <mat-select>
+                                    <!--mat-option *ngFor="let representada of representadas" [value]="representada.id">
+                                        {{representada.nome_fantasia}}
+                                    </mat-option-->
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="p-10 text" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Cliente</mat-label>
+                                <mat-select>
+                                    <mat-option value=""></mat-option>
+                                    <mat-option value=""></mat-option>
+                                    <mat-option value=""></mat-option>
+                                    <mat-option value=""></mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="order text" fxFlex.gt-sm="8" fxFlex.gt-xs="8" fxFlex="100">
+                            Período:
+                        </div>
+                        <div class="p-10 text" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Data inicial</mat-label>
+                                <input matInput [matDatepicker]="" 
+                                    placeholder="Data inicial">
+                                <mat-datepicker-toggle matSuffix [for]=""></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="p-10 text" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Data final</mat-label>
+                                <input matInput [matDatepicker]="" 
+                                    placeholder="Data final">
+                                <mat-datepicker-toggle matSuffix [for]=""></mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+                            <mat-radio-group appearance="outline">
+                                <mat-radio-button value="" class="m-r-10">Código de Produto</mat-radio-button>
+                                <mat-radio-button value="" class="m-r-10">Código SAP</mat-radio-button>
+                                <mat-radio-button value="" class="m-r-10">Código CPP</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                        <div class="p-10 text" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Relatório de produto específico</mat-label>
+                                <mat-select>
+                                    <mat-option value=""></mat-option>
+                                    <mat-option value=""></mat-option>
+                                    <mat-option value=""></mat-option>
+                                    <mat-option value=""></mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div fxLayout="row wrap">
+                        <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+                            <mat-radio-group appearance="outline">
+                                <mat-radio-button value="" class="m-r-10">Código</mat-radio-button>
+                                <mat-radio-button value="" class="m-r-10">Nome</mat-radio-button>
+                                <mat-radio-button value="" class="m-r-10">Qtde Total de Vendida</mat-radio-button>
+                                <mat-radio-button value="" class="m-r-10">Valor Total Vendido</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                        <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+                            <mat-radio-group appearance="outline">
+                                <mat-radio-button value="" class="m-r-10">Crescente</mat-radio-button>
+                                <mat-radio-button value="" class="m-r-10">Decrescente</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                    <div>
+                        <button mat-raised-button color="primary" type="submit" (click)="submit()">Filtrar</button>
+                        <button mat-raised-button class="m-l-10" color="warn" (click)="clear()">Limpar</button>
+                    </div>
+                </form>
+            </mat-card-content>
+        </mat-card>
+        
+    </div>
+</div>
