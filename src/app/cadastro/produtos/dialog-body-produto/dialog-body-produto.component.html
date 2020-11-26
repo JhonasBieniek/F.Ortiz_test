@@ -66,14 +66,21 @@
           </div>
         </div>
         <div fxLayout="row">
-          <div class="p-10 aj" fxFlex.gt-sm="40" fxFlex.gt-xs="40" fxFlex="100">
+          <div class="p-10 aj" fxFlex.gt-sm="35" fxFlex.gt-xs="35" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Descrição do produto</mat-label>
               <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="7"
                 placeholder="Descrição do produto" formControlName="descricao"></textarea>
             </mat-form-field>
           </div>
-          <div class="p-10 aj" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
+          <div class="p-10 aj" fxFlex.gt-sm="35" fxFlex.gt-xs="35" fxFlex="100">
+            <mat-form-field appearance="outline">
+              <mat-label>Descrição resumida</mat-label>
+              <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="7"
+                placeholder="Descrição resumida" formControlName="descricao_resumida"></textarea>
+            </mat-form-field>
+          </div>
+          <div class="p-10 aj" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
             <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
               <mat-label>Selecione o tipo do produto</mat-label>
               <mat-select formControlName="produto_tipo_id">
@@ -84,7 +91,7 @@
               <mat-placeholder>Tipo do Produto</mat-placeholder>
             </mat-form-field>
           </div>
-          <div class="p-10 aj" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
+          <div class="p-10 aj" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
             <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
               <mat-label>Selecione o material do produto</mat-label>
               <mat-select formControlName="produto_material_id">
