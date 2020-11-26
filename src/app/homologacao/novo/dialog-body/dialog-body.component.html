@@ -1,0 +1,125 @@
+<!-- Card column -->
+  <form [formGroup]="form">
+    <div fxLayout="row wrap" class="row">
+      <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card-header class="bg-info text-white">
+          <mat-card-title class="dadosCadastro">{{pageTitle}}</mat-card-title>
+        </mat-card-header>
+      </div>
+      <div class="p-10" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100">
+        <mat-form-field appearance="outline">
+          <mat-label>Num. Pedido</mat-label>
+          <input matInput placeholder="Número do Pedido" formControlName="num_pedido">
+        </mat-form-field>
+      </div>
+      <div class="p-10" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="50">
+        <mat-form-field appearance="outline">
+          <mat-label>Data Inicial</mat-label>
+          <input matInput [matDatepicker]="pickerIncial" formControlName="data_inicial" placeholder="Data Incial">
+          <mat-datepicker-toggle matSuffix [for]="pickerIncial"></mat-datepicker-toggle>
+          <mat-datepicker #pickerIncial></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="p-10" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="50">
+        <mat-form-field appearance="outline">
+          <mat-label>Data Final</mat-label>
+          <input matInput [matDatepicker]="pickerFinal" formControlName="data_final" placeholder="Data Final">
+          <mat-datepicker-toggle matSuffix [for]="pickerFinal"></mat-datepicker-toggle>
+          <mat-datepicker #pickerFinal></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="p-10" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100">
+        <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+          [floatLabel]="form.value.floatLabel">
+          <mat-label>Status</mat-label>
+          <mat-select required formControlName="status">
+            <mat-option>-- Selecione... --</mat-option>
+            <mat-option value="Homologado">Homologado</mat-option>
+            <mat-option value="Não Homologado">Não Homologado</mat-option>
+            <mat-option value="Em teste">Em teste</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <small *ngIf="form.get('status').errors?.required && form.get('status').touched"
+          class="text-danger font-14">Você precisa selecionar o status.</small>
+      </div>
+      <div class="p-10" fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="100">
+        <mat-form-field appearance="outline">
+          <input type="text" placeholder="Busque o cliente" aria-label="Cliente" matInput [formControl]="clienteBusca"
+            (keyup)="searchCliente()" [matAutocomplete]="auto">
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-option *ngFor="let cliente of $clientes" (click)="setCliente(cliente)"
+              (onSelectionChange)="setCliente(cliente)" [value]="cliente.razao_social">
+              {{cliente.razao_social}} - CNPJ: {{cliente.cnpj | mask:'00.000.000/0000-00'}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="p-10" fxFlex.gt-sm="16" fxFlex.gt-xs="16" fxFlex="100">
+        <mat-form-field appearance="outline">
+          <mat-label>CNPJ</mat-label>
+          <input matInput placeholder="CNPJ" mask="00.000.000/0000-00" [formControl]="cnpj" readonly>
+        </mat-form-field>
+      </div>
+      <div class="p-10" fxFlex.gt-sm="14" fxFlex.gt-xs="14" fxFlex="100">
+        <mat-form-field appearance="outline">
+          <mat-label>Tipo do Cliente</mat-label>
+          <input matInput placeholder="Tipo do Cliente" [formControl]="tipoCliente" readonly>
+        </mat-form-field>
+      </div>
+      <div class="p-10" fxFlex.gt-sm={{size}} fxFlex.gt-xs={{size}} fxFlex="100">
+        <mat-form-field appearance="outline">
+          <input type="text" placeholder="Busque o produto" aria-label="produto" matInput [formControl]="produtoBusca"
+            (keyup)="searchProduto()" [matAutocomplete]="autoProduto">
+          <mat-autocomplete autoActiveFirstOption #autoProduto="matAutocomplete">
+            <mat-option *ngFor="let produto of $produtos" (click)="setProduto(produto)"
+              (onSelectionChange)="setProduto(produto)" [value]="produto.nome">
+              {{produto.codigo_catalogo}} - {{produto.nome}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div *ngIf="fieldTipoVolk" class="p-10" fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="100">
+        <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+        [floatLabel]="form.value.floatLabel">
+        <mat-label>Tipo</mat-label>
+        <mat-select  formControlName="tipo_volk">
+          <mat-option>-- Selecione... --</mat-option>
+          <mat-option value="PLUS">PLUS</mat-option>
+          <mat-option value="STANDARD">STANDARD</mat-option>
+          <mat-option value="SLIM">SLIM</mat-option>
+        </mat-select>
+      </mat-form-field>
+      </div>
+      <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
+        <mat-form-field appearance="outline">
+          <mat-label>Código</mat-label>
+          <input matInput placeholder="Código" [formControl]="codigo" readonly>
+        </mat-form-field>
+      </div>
+      <div class="p-10" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
+        <mat-form-field appearance="outline">
+          <mat-label>CA</mat-label>
+          <input matInput placeholder="CA" [formControl]="ca" readonly>
+        </mat-form-field>
+      </div>
+      <div class="p-10" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
+        <mat-form-field appearance="outline">
+          <mat-label>Representada</mat-label>
+          <input matInput placeholder="Representada" [formControl]="representada" readonly>
+        </mat-form-field>
+      </div>
+      <div fxFlex.gt-sm="100" fxFlex="100">
+        <mat-form-field appearance="outline">
+          <input matInput formControlName="obs" placeholder="Observação">
+        </mat-form-field>
+        <textarea *ngIf="form.get('obs').errors?.maxlength && form.get('obs').touched"
+          class="text-danger font-14">A observação não deve exceder 50 caracteres</textarea>
+      </div>
+    </div>
+    <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
+      <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid" (click)="Submit(); close()">
+        Salvar </button>
+      <button mat-raised-button color="warn" (click)="close()">Cancelar</button>
+    </mat-card-actions>
+  </form>
+<!-- <a (click) = "getFormValidationErrors()" >errors</a> -->

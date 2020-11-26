@@ -127,6 +127,14 @@ const MENUITEMS = [
       {state: 'financeiro', name: 'Contas a Receber', type: 'link' },
       {state: 'financeiro', name: 'Configurar', type: 'link' },
     ]
+  },{
+    state: 'homologacao',
+    name: 'Homologação',
+    type: 'sub',
+    icon: 'engineering',
+    children: [
+      {state: 'novo', name: 'Novo', type: 'link' },
+    ]
   },
 ];
 

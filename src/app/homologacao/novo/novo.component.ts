@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialogConfig, MatDialog } from "@angular/material";
-import { DialogBodyComponent } from './dialog-body/dialog-body.component';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { DialogConfirmarDeleteComponent } from '../../cadastro/dialog-confirmar-delete/confirmar-delete.component';
 import { ClientService } from '../../shared/services/client.service.component';
-import { DialogConfirmarDeleteComponent } from '../dialog-confirmar-delete/confirmar-delete.component';
+import { DialogBodyComponent } from './dialog-body/dialog-body.component';
 
 @Component({
-  selector: 'app-areavenda',
-  templateUrl: './areavenda.component.html',
-  styleUrls: ['./areavenda.component.scss']
+  selector: 'app-novo',
+  templateUrl: './novo.component.html',
+  styleUrls: ['./novo.component.css']
 })
-export class AreaVendaComponent implements OnInit {
+export class NovoComponent implements OnInit {
   data:any = [];
   dados:any = [];
   editing = {};
@@ -20,19 +20,10 @@ export class AreaVendaComponent implements OnInit {
   loadingIndicator: boolean = true;
   reorderable: boolean = true;                           
 
-  columns = [
-      { prop: 'id' },
-      { prop: 'nome' },
-      { prop: 'vendedor.nome' },
-      { prop: 'auxiliar.nome' },
-      { prop: 'regio.nome' },
-      { prop: 'status' },
-            ];       
-
-  @ViewChild(AreaVendaComponent, {static: false}) table: AreaVendaComponent;
+  @ViewChild(NovoComponent, {static: false}) table: NovoComponent;
   constructor(private clientservice: ClientService, private dialog: MatDialog) {
 
-    this.clientservice.getAreaVenda().subscribe(res =>{
+    this.clientservice.getHomologacoes().subscribe(res =>{
       this.data = res; console.log(this.data.data)
       this.rows = this.data.data.sort((a,b)=> a.id - b.id);
       this.temp = [...this.data.data];
@@ -66,10 +57,10 @@ export class AreaVendaComponent implements OnInit {
   openDialog() {
     let dialogConfig = new MatDialogConfig();
     dialogConfig = {
-      maxWidth: '75vw',
-      maxHeight: '85vh',
-      width: '75vw',
-      height: '55vh'
+      maxWidth: '90vw',
+      maxHeight: '90vh',
+      width: '90vw',
+      height: '70vh'
     }
     //dialogConfig.data = this.dados.data;
     let dialogRef = this.dialog.open(
@@ -84,7 +75,7 @@ export class AreaVendaComponent implements OnInit {
   }
 
   refreshTable(){
-    this.clientservice.getAreaVenda().subscribe(res =>{
+    this.clientservice.getHomologacoes().subscribe(res =>{
       this.dados = res;
       this.rows = this.dados.data.sort((a,b)=> a.id - b.id);
       this.temp = [...this.dados.data];

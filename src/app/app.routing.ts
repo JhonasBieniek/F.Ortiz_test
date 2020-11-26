@@ -41,6 +41,10 @@ export const AppRoutes: Routes = [
         path: 'material',
         loadChildren:
           './material-component/material.module#MaterialComponentsModule'
+      },{
+        path: 'homologacao',
+        loadChildren:
+          './homologacao/homologacao.module#HomologacaoModule'
       },
       {
         path: 'apps',

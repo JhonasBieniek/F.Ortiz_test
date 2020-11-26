@@ -26,13 +26,17 @@ export class DialogBodyProdutoComponent implements OnInit {
   pageTitle: string = "";
   sizeCtrl = new FormControl();
   colorCtrl = new FormControl();
+  aplicationCtrl = new FormControl();
   visible = true;
   selectable = true;
   removable = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
   filteredSizes: Observable<any[]>;
   filteredColors: Observable<any[]>;
+  filteredAplications: Observable<any[]>;
   sizes: any[] = [];
+  aplications: any[] = [];
+  aplicacoes: any[] = [];
   tamanhos: any = [];
   colors: any = [];
   cores: any[] = [];
@@ -43,8 +47,10 @@ export class DialogBodyProdutoComponent implements OnInit {
 
   @ViewChild('sizeInput', { static: false }) sizeInput: ElementRef<HTMLInputElement>;
   @ViewChild('colorInput', { static: false }) colorInput: ElementRef<HTMLInputElement>;
+  @ViewChild('aplicationInput', { static: false }) aplicationInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
   @ViewChild('autoColor', { static: false }) matAutocompleteColor: MatAutocomplete;
+  @ViewChild('autoAplication', { static: false }) matAutocompleteAplication: MatAutocomplete;
 
   constructor(public dialogRef: MatDialogRef<DialogBodyProdutoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -67,6 +73,9 @@ export class DialogBodyProdutoComponent implements OnInit {
     });
     this.clientservice.getProdutoCores().subscribe((res: any) => {
       this.cores = res.data;
+    });
+    this.clientservice.getProdutoAplications().subscribe((res: any) => {
+      this.aplicacoes = res.data;
     });
   }
 
@@ -95,6 +104,7 @@ export class DialogBodyProdutoComponent implements OnInit {
       preco_sc: null,
       preco_sp: null,
       produto_cores: null,
+      produto_aplications: null,
       certificado_aprovacao: [null],
       codigo_catalogo: [null, Validators.compose([Validators.required])],
       codigo_importacao: [null],
@@ -129,6 +139,7 @@ export class DialogBodyProdutoComponent implements OnInit {
       })
       this.sizes = this.data.produto_tamanhos;
       this.colors = this.data.produto_cores;
+      this.aplications = this.data.produto_aplications;
       this.cardImageBase64 = this.data.imagem;
     }
     this.filteredSizes = this.sizeCtrl.valueChanges.pipe(
@@ -138,6 +149,10 @@ export class DialogBodyProdutoComponent implements OnInit {
     this.filteredColors = this.colorCtrl.valueChanges.pipe(
       startWith(null),
       map((color: any | null) => color ? this._filterColor(color) : this.cores.slice()));
+    
+    this.filteredAplications = this.aplicationCtrl.valueChanges.pipe(
+      startWith(null),
+      map((aplication: any | null) => aplication ? this._filterAplication(aplication) : this.aplicacoes.slice()));
   }
   add(event: MatChipInputEvent): void {
     const input = event.input;
@@ -169,6 +184,39 @@ export class DialogBodyProdutoComponent implements OnInit {
     this.sizeInput.nativeElement.value = '';
     this.sizeCtrl.setValue(null);
   }
+
+  addAplication(event: MatChipInputEvent): void {
+
+    const input = event.input;
+    const value = event.value;
+
+    // Add our aplication
+    if ((value || '').trim()) {
+      this.aplications.push({ nome: value.trim() });
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+    this.aplicationCtrl.setValue(null);
+
+  }
+
+  removeAplication(aplication: string): void {
+    const index = this.aplications.indexOf(aplication);
+
+    if (index >= 0) {
+      this.aplications.splice(index, 1);
+    }
+  }
+
+  selectedAplication(event: MatAutocompleteSelectedEvent): void {
+    this.aplications.push(event.option.value);
+    this.aplicationInput.nativeElement.value = '';
+    this.aplicationCtrl.setValue(null);
+  }
+
   addColor(event: MatChipInputEvent): void {
 
     const input = event.input;
@@ -201,15 +249,19 @@ export class DialogBodyProdutoComponent implements OnInit {
     this.colorCtrl.setValue(null);
   }
 
+  private _filter(value: any): string[] {
+    const filterValue = value.length == undefined ? null : value.toLowerCase();
+    return this.tamanhos.filter((size: any) => size.nome.toLowerCase().indexOf(filterValue) === 0);
+  }
+
   private _filterColor(value: any): string[] {
     const filterValue = value.length == undefined ? null : value.toLowerCase();
     return this.cores.filter((color: any) => color.nome.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  private _filter(value: any): string[] {
+  private _filterAplication(value: any): string[] {
     const filterValue = value.length == undefined ? null : value.toLowerCase();
-    return this.tamanhos.filter((size: any) => size.nome.toLowerCase().indexOf(filterValue) === 0);
-
+    return this.aplicacoes.filter((aplication: any) => aplication.nome.toLowerCase().indexOf(filterValue) === 0);
   }
   close() {
     this.dialogRef.close(
@@ -275,6 +327,7 @@ export class DialogBodyProdutoComponent implements OnInit {
   onSubmit() {
     let tamanhos = [];
     let cores = [];
+    let aplicacoes = [];
     let precos = [];
     let embalagem = [];
     if(this.data !=null){
@@ -309,6 +362,13 @@ export class DialogBodyProdutoComponent implements OnInit {
         produto_id: element.produto_id
       })
     })
+    this.aplications.forEach(element => {
+      aplicacoes.push({
+        id: element.id,
+        nome: element.nome,
+        produto_id: element.produto_id
+      })
+    })
     precos = [
       {"preco": this.form.value.preco_pr_final , "produto_id": this.data.id, "estado_id": 16, "tipo": "final"},
       {"preco": this.form.value.preco_pr_revenda , "produto_id": this.data.id, "estado_id": 16, "tipo": "revendedor"},
@@ -326,6 +386,11 @@ export class DialogBodyProdutoComponent implements OnInit {
         nome: element.nome,
       })
     })
+    this.aplications.forEach(element => {
+      aplicacoes.push({
+        nome: element.nome,
+      })
+    })
     precos = [
       {"preco": this.form.value.preco_pr_final , "estado_id": 16, "tipo": "final"},
       {"preco": this.form.value.preco_pr_revenda , "estado_id": 16, "tipo": "revendedor"},
@@ -339,6 +404,7 @@ export class DialogBodyProdutoComponent implements OnInit {
       produto_tamanhos: tamanhos,
       produto_embalagems: embalagem,
       produto_cores: cores,
+      produto_aplications: aplicacoes,
       produto_estados_precos: precos
     })
     console.log(this.form.value)

@@ -427,6 +427,15 @@ export class ClientService {
               return res;
             });
   }
+  getProdutosHomologation() {
+    const uri = `${API_URL}` + `produtos/index2.json`;
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
   getUsuarios() {
     const uri = `${API_URL}` + `usuarios/index.json`;
     return this
@@ -663,6 +672,15 @@ export class ClientService {
               return res;
             });
   }
+  getProdutoAplications() {
+    const uri = `${API_URL}` + `produtoAplications/index.json`;
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
   getRegioes() {
     const uri = `${API_URL}` + `regioes/index.json`;
     return this
@@ -827,6 +845,49 @@ export class ClientService {
     }else{
       this.notificationService.notify("CNPJ INCORRETO!")
     }
+  }
+
+  getHomologacoes() {
+    const uri = `${API_URL}` + `homologations/index.json`;
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
+
+  addHomogacao(dados) {
+    const uri = `${API_URL}` + `homologations/add.json`;
+    this
+      .http
+      .post(uri, dados) 
+      .subscribe(res =>
+          console.log('Done')); 
+  }
+  updateHomologacao(data): Observable<any>{
+    const url = `${API_URL}homologations/edit/${data.id}.json`;
+     return this.http.put(url, data).pipe(
+      catchError(this.handleError),
+      map(res => {
+        return res;
+      })
+     )
+  }
+  viewHomogacao(id) {
+    const uri = API_URL + 'homologations/view/' + id + ".json";
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
+  delHomologacao(id){
+    const uri = `${API_URL}` +`homologations/delete/`+id +`.json`;
+    return this
+      .http
+      .delete(uri)
   }
   private handleError(error: any): Observable<any>{
     console.log("ERRO NA REQUISIÇÃO => ", error);
