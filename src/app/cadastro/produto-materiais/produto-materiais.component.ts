@@ -86,7 +86,7 @@ export class ProdutoMateriaisComponent implements OnInit {
   }
   delete(row){
     const dialogConfig = new MatDialogConfig();
-      let tipo = 'produto-materiais'
+      let tipo = 'produto-materials'
       dialogConfig.data = row
       dialogConfig.data.tipo = tipo
       let dialogRef = this.dialog.open(DialogConfirmarDeleteComponent,

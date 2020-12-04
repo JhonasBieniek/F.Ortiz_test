@@ -131,12 +131,15 @@ export class DialogSendNotaComponent implements OnInit {
       this.nota_produtos.push(
         this.fb.group({
           nota_id: null,
+          pedido_id: e.pedido_id,
           produto_id: e.produto_id,
+          pedido_produto_id: e.id,
           qtd: e.quantidade_recebida,
           parcial: e.quantidade_recebida != e.quantidade ? this.checkParcial() : false
       }))
     });
     await this.criaParcelas();
+    console.log(this.form.value)
     this.clientservice.addNota(this.form.value).subscribe((res: any) => {
       this.dialogRef.close(res.success);
     });

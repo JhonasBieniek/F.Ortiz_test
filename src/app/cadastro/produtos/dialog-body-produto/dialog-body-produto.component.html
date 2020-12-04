@@ -102,22 +102,7 @@
               <mat-placeholder>Material do Produto</mat-placeholder>
             </mat-form-field>
           </div>
-        </div>
-        <div fxLayout="row">
-          <div class="p-10 aj" fxFlex.gt-sm="76" fxFlex.gt-xs="76" fxFlex="100">
-            <mat-form-field appearance="outline">
-              <mat-label>Indicação de uso</mat-label>
-              <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="7"
-                placeholder="Indicação do produto" formControlName="aplicacao_produto"></textarea>
-            </mat-form-field>
-          </div>
-          <div class="p-10 aj" fxFlex.gt-sm="24" fxFlex.gt-xs="24" fxFlex="100">
-            <mat-form-field appearance="outline">
-              <mat-label>Certificado de Aprovação</mat-label>
-              <input matInput placeholder="Certificado de aprovação" formControlName="certificado_aprovacao">
-            </mat-form-field>
-          </div>
-        </div>  
+        </div> 
         <div fxLayout="row">
           <div class="p-10 aj" fxFlex.gt-sm="35" fxFlex.gt-xs="35" fxFlex="100">
             <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
@@ -130,25 +115,31 @@
               <mat-placeholder>Representada</mat-placeholder>
             </mat-form-field>
           </div>
-          <div class="p-10 aj" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
+          <div class="p-10 aj" fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Ipi</mat-label>
               <input matInput placeholder="Ipi" formControlName="ipi" type="digits" mask="percent" suffix="%">
             </mat-form-field>
           </div>
-          <div class="p-10 aj" fxFlex.gt-sm="26" fxFlex.gt-xs="26" fxFlex="100">
+          <div class="p-10 aj" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
+            <mat-form-field appearance="outline">
+              <mat-label>Certificado de Aprovação</mat-label>
+              <input matInput placeholder="Certificado de aprovação" formControlName="certificado_aprovacao">
+            </mat-form-field>
+          </div>
+          <div class="p-10 aj" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Embalagem do produto</mat-label>
               <input matInput placeholder="Embalagem do produto" formControlName="embalagem_nome">
             </mat-form-field>
           </div>
-          <div class="p-10 aj" fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="100">
+          <div class="p-10 aj" fxFlex.gt-sm="10" fxFlex.gt-xs="12" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Quantidade</mat-label>
               <input matInput placeholder="Quantidade" formControlName="embalagem_qtd">
             </mat-form-field>
           </div>
-          <div class="p-10 aj" fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="100">
+          <div class="p-10 aj" fxFlex.gt-sm="10" fxFlex.gt-xs="12" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Pedido Minímo</mat-label>
               <input matInput placeholder="Pedido Minímo" formControlName="embalagem_min">

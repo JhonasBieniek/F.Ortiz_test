@@ -6,11 +6,14 @@
       Área de Venda: {{dados?.regiao.nome}} - Vendedor: {{dados?.vendedor.nome}} - Auxiliar: {{dados?.auxiliar.nome}}
     </div>
     <div>
-      Cliente: {{dados?.cliente.razao_social}}<br>
+      Cliente: {{dados?.cliente.razao_social}} - CNPJ: {{dados?.cliente.cnpj}}<br>
       Cidade: {{dados?.cliente?.enderecos_clientes[0]?.endereco.cidade}}<br>
       Condição de Pagamento: {{dados?.condicao_comercial.nome}}<br>
+      Data de Emissão: {{dados?.data_emissao}}<br>
       Transportadora: {{dados?.transportadora}}<br>
-      Frete: {{dados?.frete}} Data de Entrega: {{dados?.data_entrega}}
+      Frete: {{dados?.frete}} Data de Entrega: {{dados?.data_entrega}}<br>
+      Valor Total: {{dados?.valor_total}}<br>
+      Comissão Média: {{dados?.comissao_media}}% 
     </div>
   </div>
   <div fxFlex.gt-sm="20%" fxFlex="20" class="p-20" fxLayoutAlign="end start" fxLayoutGap="10px">
@@ -63,8 +66,4 @@
 </ngx-datatable>
 <div class="p-20" fxLayout="row wrap" fxLayoutAlign="end start">
   <button mat-raised-button color="warn" (click)="close()">Sair</button>
-</div>
-
-<div fxLayout="row wrap" style="font-size: xx-large;">
-  Em desenvolvimento
 </div>

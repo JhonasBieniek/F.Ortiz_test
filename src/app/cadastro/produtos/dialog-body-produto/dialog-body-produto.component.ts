@@ -93,7 +93,6 @@ export class DialogBodyProdutoComponent implements OnInit {
       nome: [null, Validators.compose([Validators.required])],
       descricao: [null],
       descricao_resumida: [null],
-      aplicacao_produto: [null],
       produto_tipo_id: [null],
       produto_material_id: [null],
       ipi: [null],
