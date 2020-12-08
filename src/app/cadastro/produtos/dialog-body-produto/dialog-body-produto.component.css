@@ -52,3 +52,20 @@ image-wrap {
   padding-top: 20px;
   padding-bottom: -20px;
 }
+.x-icons{
+  color: red;
+  margin-left: -10px !important;
+  vertical-align: unset !important;
+  cursor: pointer;
+  border: none;
+  border-radius: 15px;
+  position: absolute;
+
+}
+.x-icons:hover {background-color: #d6d7d8}
+
+.x-icons:active {
+  background-color: #df6969;
+  box-shadow: 0 2px #666;
+  transform: translateY(2px);
+}

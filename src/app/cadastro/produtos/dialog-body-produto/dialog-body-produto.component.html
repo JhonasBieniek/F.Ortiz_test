@@ -81,26 +81,27 @@
             </mat-form-field>
           </div>
           <div class="p-10 aj" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
-            <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
-              <mat-label>Selecione o tipo do produto</mat-label>
-              <mat-select formControlName="produto_tipo_id">
-                <mat-option *ngFor="let tipo of tiposProduto" [value]="tipo.id">
-                  {{tipo.nome}}
-                </mat-option>
-              </mat-select>
-              <mat-placeholder>Tipo do Produto</mat-placeholder>
-            </mat-form-field>
+              <mat-select-autocomplete appearance="outline"
+              [placeholder]="'Tipo do Produto'"
+              [options]="tiposProduto"
+              [multiple]='false'
+              name="optionsSelector"
+              ngDefaultControl
+              [formControl]="form.controls['produto_tipo_id']">
+            </mat-select-autocomplete>
           </div>
           <div class="p-10 aj" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
-            <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
-              <mat-label>Selecione o material do produto</mat-label>
-              <mat-select formControlName="produto_material_id">
-                <mat-option *ngFor="let material of materiaisProduto" [value]="material.id">
-                  {{material.nome}}
-                </mat-option>
-              </mat-select>
-              <mat-placeholder>Material do Produto</mat-placeholder>
-            </mat-form-field>
+              <mat-select-autocomplete appearance="outline"
+              [placeholder]="'Material do Produto'"
+              [options]="materiaisProduto"
+              [multiple]='false'
+              name="optionsSelector"
+              ngDefaultControl
+              [formControl]="form.controls['produto_material_id']">
+            </mat-select-autocomplete>
+            <!-- <button mat-icon-button (click)="dialogAddMaterial()">
+              <mat-icon class="material-icons  x-icons">add</mat-icon>
+            </button> -->
           </div>
         </div> 
         <div fxLayout="row">

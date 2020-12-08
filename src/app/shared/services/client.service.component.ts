@@ -427,6 +427,15 @@ export class ClientService {
               return res;
             });
   }
+  getProdutosSoft() {
+    const uri = `${API_URL}` + `produtos/index2.json`;
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
   getProdutosHomologation() {
     const uri = `${API_URL}` + `produtos/index2.json`;
     return this
@@ -801,6 +810,15 @@ export class ClientService {
   }
   getProduto(id) {
     const uri = API_URL + 'produtos/get/' + id + ".json";
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
+  viewProduto(id) {
+    const uri = API_URL + 'produtos/view/' + id + ".json";
     return this
             .http
             .get(uri)

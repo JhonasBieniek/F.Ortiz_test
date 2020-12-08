@@ -33,33 +33,63 @@
 <ngx-datatable #step.step class='material striped' [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50"
   [rowHeight]="'auto'" [limit]="5" [rows]='rows' [sorts]="[{prop: 'id', dir: 'asc'}]">
 
-  <ngx-datatable-column [flexGrow]="0.4" name="Código" prop="produto.codigo">
+  <ngx-datatable-column [flexGrow]="0.8" name="Código" prop="produto.codigo_catalogo">
     <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
       {{ value }}
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column [flexGrow]="0.4" name="Tamanho" prop="tamanho">
+  <ngx-datatable-column [flexGrow]="1.8" name="Nome do produto" prop="produto.nome">
     <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
       {{ value }}
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column [flexGrow]="2.5" name="Nome do produto" prop="produto.nome">
+  <ngx-datatable-column [flexGrow]="0.7" name="Tamanho" prop="tamanho">
     <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
       {{ value }}
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column [flexGrow]="1" name="Quantidade" prop="quantidade">
+  <ngx-datatable-column [flexGrow]="0.6" name="Qtd" prop="quantidade">
     <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
       {{ value }}
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column [flexGrow]="1" name="Valor" prop="valor_total">
+  <ngx-datatable-column [flexGrow]="1" name="Qtd Faturado" prop="qtd_faturado">
+    <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+      {{ value }}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column [flexGrow]="1" name="Qtd Restante" prop="qtd_restante">
+    <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+      {{ value }}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column [flexGrow]="1" name="Vlr Unitário" prop="valor_unitario">
     <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
       {{ value | currency:'BRL':true:'1.2-2' }}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column [flexGrow]="1" name="Vlr Total" prop="total">
+    <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+      {{ value | currency:'BRL':true:'1.2-2' }}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column [flexGrow]="0.7" name="Desconto" prop="desconto">
+    <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+      {{ value ? value : 0  }} %
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column [flexGrow]="0.8" name="Comisão" prop="comissao_produto">
+    <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+      {{ value }} %
     </ng-template>
   </ngx-datatable-column>
 

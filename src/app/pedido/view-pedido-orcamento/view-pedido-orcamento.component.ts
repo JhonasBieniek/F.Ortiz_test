@@ -35,10 +35,21 @@ export class ViewPedidoOrcamentoComponent implements OnInit {
   loadData(){
     this.clientservice.getPedidoId(this.data.pedido.id).subscribe((res:any)=> {
       this.dados = res.data;
-      let i = 0;
       this.temp = res.data.pedido_produtos;
+      let qtd = res.data.nota_produtos
+      this.temp.map( e => {
+        qtd.map( f => {
+          if(e.id === f.pedido_produto_id){
+            e.qtd_restante = e.quantidade - f.qtd
+            e.qtd_faturado = f.qtd
+            e.total = f.qtd * e.valor_unitario
+            e.desconto = res.data.desconto
+          }
+        })
+      })
       this.rows = [...this.temp];
-      console.log(this.rows, 'Olá')
+      console.log(this.rows, 'Rows')
+      console.log(res.data.nota_produtos, 'Rows2')
     })
   }
 

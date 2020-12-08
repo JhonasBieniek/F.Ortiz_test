@@ -20,7 +20,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class DialogBodyProdutoComponent implements OnInit {
   public form: FormGroup;
   representadas = [];
-  tiposProduto = [];
+  tiposProduto: any = [];
   materiaisProduto = [];
   unidades = [];
   pageTitle: string = "";
@@ -40,6 +40,7 @@ export class DialogBodyProdutoComponent implements OnInit {
   tamanhos: any = [];
   colors: any = [];
   cores: any[] = [];
+  produto:any = [];
 
   imageError: string;
   isImageSaved: boolean;
@@ -64,9 +65,17 @@ export class DialogBodyProdutoComponent implements OnInit {
     });
     this.clientservice.getProdutoTipos().subscribe((res: any) => {
       this.tiposProduto = res.data;
+      this.tiposProduto.map(e => {
+        e.display = e.nome
+        e.value = e.id.toString()
+      })
     });
     this.clientservice.getProdutoMaterials().subscribe((res: any) => {
       this.materiaisProduto = res.data;
+      this.materiaisProduto.map(e => {
+        e.display = e.nome
+        e.value = e.id.toString()
+      })
     });
     this.clientservice.getProdutoTamanhos().subscribe((res: any) => {
       this.tamanhos = res.data;
@@ -83,7 +92,7 @@ export class DialogBodyProdutoComponent implements OnInit {
     if (this.data === null || this.data.imagem === null) {
       return "./../../../../assets/images/placeholder.png"
     } else {
-      return this.sanitizer.bypassSecurityTrustResourceUrl(this.data.imagem);
+      return this.sanitizer.bypassSecurityTrustResourceUrl(this.produto.imagem) 
     }
   }
 
@@ -118,30 +127,36 @@ export class DialogBodyProdutoComponent implements OnInit {
     if (this.data == null) {
       this.pageTitle = 'Cadastrar Produto'
     } else {
-      console.log(this.data)
+      this.clientservice.viewProduto(this.data.id).subscribe( (res:any) => {
+        this.produto = res.data[0];
+        console.log(this.produto);
+        this.produto.produto_tipo_id = this.produto.produto_tipo_id.toString();
+        this.produto.produto_material_id = this.produto.produto_material_id.toString();
+        this.form.patchValue(this.produto);
+        this.produto.produto_estados_precos.filter(e => {
+          if(e.estado_id === 16 && e.tipo === 'final'){
+            this.form.get('preco_pr_final').setValue(e.preco)
+          }if(e.estado_id === 16 && e.tipo === 'revendedor'){
+            this.form.get('preco_pr_revenda').setValue(e.preco)
+          }if(e.estado_id === 24){
+            this.form.get('preco_sc').setValue(e.preco)
+          }if(e.estado_id === 25){
+            this.form.get('preco_sp').setValue(e.preco)
+          }
+        })
+        this.produto.produto_embalagems.map(e => {
+          this.form.get('embalagem_nome').setValue(e.nome);
+          this.form.get('embalagem_qtd').setValue(e.quantidade);
+          this.form.get('embalagem_min').setValue(e.minimo)
+        })
+        this.sizes = this.produto.produto_tamanhos;
+        this.colors = this.produto.produto_cores;
+        this.aplications = this.produto.produto_aplications;
+        this.cardImageBase64 = this.produto.imagem;
+      })
       this.pageTitle = 'Editar Produto';
-      this.form.patchValue(this.data);
-      this.data.produto_estados_precos.filter(e => {
-        if(e.estado_id === 16 && e.tipo === 'final'){
-          this.form.get('preco_pr_final').setValue(e.preco)
-        }if(e.estado_id === 16 && e.tipo === 'revendedor'){
-          this.form.get('preco_pr_revenda').setValue(e.preco)
-        }if(e.estado_id === 24){
-          this.form.get('preco_sc').setValue(e.preco)
-        }if(e.estado_id === 25){
-          this.form.get('preco_sp').setValue(e.preco)
-        }
-      })
-      this.data.produto_embalagems.map(e => {
-        this.form.get('embalagem_nome').setValue(e.nome);
-        this.form.get('embalagem_qtd').setValue(e.quantidade);
-        this.form.get('embalagem_min').setValue(e.minimo)
-      })
-      this.sizes = this.data.produto_tamanhos;
-      this.colors = this.data.produto_cores;
-      this.aplications = this.data.produto_aplications;
-      this.cardImageBase64 = this.data.imagem;
     }
+
     this.filteredSizes = this.sizeCtrl.valueChanges.pipe(
       startWith(null),
       map((size: any | null) => size ? this._filter(size) : this.tamanhos.slice()));
@@ -263,6 +278,7 @@ export class DialogBodyProdutoComponent implements OnInit {
     const filterValue = value.length == undefined ? null : value.toLowerCase();
     return this.aplicacoes.filter((aplication: any) => aplication.nome.toLowerCase().indexOf(filterValue) === 0);
   }
+
   close() {
     this.dialogRef.close(
     );
@@ -317,6 +333,12 @@ export class DialogBodyProdutoComponent implements OnInit {
 
       reader.readAsDataURL(fileInput.target.files[0]);
     }
+  }
+
+
+
+  dialogAddMaterial() {
+
   }
 
   removeImage() {
@@ -398,7 +420,8 @@ export class DialogBodyProdutoComponent implements OnInit {
       {"preco": this.form.value.preco_sp , "estado_id": 25, "tipo": null}
     ]
   }
-    console.log(embalagem)
+  this.form.get('produto_tipo_id').setValue(parseInt(this.form.value.produto_tipo_id));
+  this.form.get('produto_material_id').setValue(parseInt(this.form.value.produto_material_id));
     this.form.patchValue({
       imagem: this.cardImageBase64,
       produto_tamanhos: tamanhos,
@@ -407,7 +430,6 @@ export class DialogBodyProdutoComponent implements OnInit {
       produto_aplications: aplicacoes,
       produto_estados_precos: precos
     })
-    console.log(this.form.value)
     if (this.data == null) {
       this.clientservice.addProdutos(this.form.value).subscribe((res: any) => {
         if (res.success == true) {

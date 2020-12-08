@@ -42,7 +42,7 @@ export class ProdutosComponent implements OnInit {
   @ViewChild(ProdutosComponent, {static: false}) table: ProdutosComponent;
   constructor(private clientservice: ClientService, private dialog: MatDialog, private spinner: NgxSpinnerService,) {
     this.refreshTable();                    
-    this.clientservice.getProdutos().subscribe((res:any) => {
+    this.clientservice.getProdutosSoft().subscribe((res:any) => {
       this.prods = res.data;
     })        
   }
@@ -175,7 +175,7 @@ export class ProdutosComponent implements OnInit {
       });
   }
   refreshTable(){
-    this.clientservice.getProdutos().subscribe(res =>{
+    this.clientservice.getProdutosSoft().subscribe(res =>{
       this.data = res;
       this.rows = this.data.data.sort((a,b)=> a.id - b.id);;
       this.temp = [...this.data.data];

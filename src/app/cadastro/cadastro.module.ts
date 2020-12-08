@@ -52,8 +52,7 @@ import { TipoProdutoComponent } from './tipo-produto/tipo-produto.component';
 import { DialogBodyTipoProdutoComponent } from './tipo-produto/dialog-body/dialog-body.component';
 import { ProdutoMateriaisComponent } from './produto-materiais/produto-materiais.component';
 import { DialogBodyProdutoMateriaisComponent } from './produto-materiais/dialog-body/dialog-body.component';
-
-
+import { SelectAutocompleteModule } from 'mat-select-autocomplete';
 
 
 
@@ -70,6 +69,7 @@ import { DialogBodyProdutoMateriaisComponent } from './produto-materiais/dialog-
     FileUploadModule,
     NgxDatatableModule,
     NgxCurrencyModule,
+    SelectAutocompleteModule,
     NgxMaskModule.forRoot(),
 
   ],
