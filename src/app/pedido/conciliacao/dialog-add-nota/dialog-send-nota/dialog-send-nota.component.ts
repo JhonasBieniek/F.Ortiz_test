@@ -122,7 +122,6 @@ export class DialogSendNotaComponent implements OnInit {
   }
 
   checkParcial() {
-    this.form.get('status').setValue('parcial');
     return true;
   }
 
@@ -135,12 +134,19 @@ export class DialogSendNotaComponent implements OnInit {
           produto_id: e.produto_id,
           pedido_produto_id: e.id,
           qtd: e.quantidade_recebida,
-          parcial: e.quantidade_recebida != e.quantidade ? this.checkParcial() : false
+          parcial: e.quantidade_recebida != e.quantidade ? true : false
       }))
     });
     await this.criaParcelas();
-    console.log(this.form.value)
-    this.clientservice.addNota(this.form.value).subscribe((res: any) => {
+    let dados:any = this.form.value;
+      dados.parcial = false
+      dados.nota_produtos.map((e:any)=> {
+        if(e.parcial == true){
+          dados.parcial = true
+        }
+      })
+
+    this.clientservice.addNota(dados).subscribe((res: any) => {
       this.dialogRef.close(res.success);
     });
   }

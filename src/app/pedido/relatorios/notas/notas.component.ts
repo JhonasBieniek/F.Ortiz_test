@@ -6,7 +6,7 @@ import { NotificationService } from '../../../shared/messages/notification.servi
 import { ClientService } from '../../../shared/services/client.service.component';
 
 @Component({
-  selector: 'app-pedidos',
+  selector: 'app-notas',
   templateUrl: './notas.component.html',
   styleUrls: ['./notas.component.css']
 

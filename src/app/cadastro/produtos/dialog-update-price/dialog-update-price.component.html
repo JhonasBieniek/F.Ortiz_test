@@ -1,0 +1,22 @@
+<input type="file" style="display: none" (change)="incomingfile($event)" accept=".xlsx,.xls" #hiddenfileinput>
+<div fxLayout="row wrap">
+    <!-- Card column -->
+    <div fxFlex.gt-sm="100%" fxFlex="100">
+        <div fxLayout="row" fxLayoutAlign="left center" class="row">
+            <div class="p-10" fxFlex.gt-sm="40" fxFlex.gt-md="40" fxFlex.gt-xs="40" fxFlex="100">
+                <mat-card-title>Atualizar Preços dos Produtos</mat-card-title>
+            </div>
+            <div class="p-10 select" fxFlex.gt-sm="30" fxFlex.gt-md="30" fxFlex.gt-xs="30" fxFlex="30">
+                <mat-form-field appearance="outline">
+                    <mat-label class="select">Selecione a Representada</mat-label>
+                    <mat-select>
+                        <mat-option *ngFor="let rep of representadas" [value]="rep.id"
+                            (click)="hiddenfileinput.click(rep.func); representada=rep">{{rep.nome_fantasia}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+</div>
+<button (click)="teste()"> teste</button>

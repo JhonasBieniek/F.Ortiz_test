@@ -171,6 +171,9 @@ export class DialogBodyClienteComponent implements OnInit {
       return cell.substr(0, 2) + "9" + cell.substr(2);
     }
   }
+  consultPriceTable(){
+    this.notificationService.notify("Nada ainda!")
+  }
 
   onBlurMethod(index){
     const enderecos = this.form.controls.enderecos_clientes as FormArray;

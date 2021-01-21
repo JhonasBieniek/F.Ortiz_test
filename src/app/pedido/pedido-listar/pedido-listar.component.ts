@@ -112,7 +112,7 @@ export class PedidoListarComponent implements OnInit {
 
   view(row){
     this.dialogConfig.data = {
-      tipo: 'view',
+      tipo: 'pedidos',
       pedido: row
     }
     let dialogRef = this.dialog.open(ViewPedidoOrcamentoComponent, this.dialogConfig);

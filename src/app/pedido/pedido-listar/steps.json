@@ -110,6 +110,58 @@
             "width": 1
           }
         ]
+      },
+      {
+        "titulo": "Parciais",
+        "step": "parcial",
+        "index": 2,
+        "columns": [
+          {
+            "prop": "num_pedido",
+            "name": "N° Pedido",
+            "width": 0.6
+          },
+          {
+            "prop": "representada.nome_fantasia",
+            "name": "Representada",
+            "width": 1.5
+          },
+          {
+            "prop": "cliente.nome_fantasia",
+            "name": "Comprador",
+            "width": 1.5
+          },
+          {
+            "prop": "data_emissao",
+            "name": "Emissão",
+            "width": 1
+          },
+          {
+            "prop": "data_entrega",
+            "name": "Entrega",
+            "width": 1
+          },
+          {
+            "prop": "data_entrega",
+            "name": "Cond. Pagamento",
+            "width": 1
+          },
+          {
+            "prop": "frete",
+            "name": "Frete",
+            "width": 1
+          },
+          {
+            "prop": "status",
+            "name": "Status",
+            "width": 1
+          },
+          {
+            "prop": "entregue",
+            "name": "Entregue",
+            "width": 1
+          }
+        ]
       }
     ]
   }

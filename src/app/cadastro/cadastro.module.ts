@@ -53,6 +53,11 @@ import { DialogBodyTipoProdutoComponent } from './tipo-produto/dialog-body/dialo
 import { ProdutoMateriaisComponent } from './produto-materiais/produto-materiais.component';
 import { DialogBodyProdutoMateriaisComponent } from './produto-materiais/dialog-body/dialog-body.component';
 import { SelectAutocompleteModule } from 'mat-select-autocomplete';
+import { DateFormatPipe } from '../shared/pipes/dateFormat.pipe';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
+import { DateAdapter } from 'angular-calendar';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DialogUpdatePriceComponent } from './produtos/dialog-update-price/dialog-update-price.component';
 
 
 
@@ -112,10 +117,18 @@ import { SelectAutocompleteModule } from 'mat-select-autocomplete';
                   TipoProdutoComponent,
                   DialogBodyTipoProdutoComponent,
                   DialogBodyProdutoMateriaisComponent,
-                  ProdutoMateriaisComponent
+                  ProdutoMateriaisComponent,
+                  DialogUpdatePriceComponent
   ],
   providers: [
-    DatePipe
+    DateFormatPipe,
+    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
   ],
   entryComponents: [ DialogBodyComponent, 
                      DialogBodyCargosComponent, 
@@ -135,7 +148,8 @@ import { SelectAutocompleteModule } from 'mat-select-autocomplete';
                      DialogTamanhosComponent,
                      DialogContaComponent,
                      DialogBodyProdutoMateriaisComponent,
-                     DialogBodyTipoProdutoComponent
+                     DialogBodyTipoProdutoComponent,
+                     DialogUpdatePriceComponent
   ],
 })
 

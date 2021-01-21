@@ -14,10 +14,21 @@
           <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
             <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
               <mat-label>Status</mat-label>
-              <mat-select formControlName="status" [value]="1">
-                <mat-option [value]=true>Ativo</mat-option>
-                <mat-option [value]=false>Inativo</mat-option>
+              <mat-select formControlName="status">
+                <mat-option value='ativo'>Ativo</mat-option>
+                <mat-option value='inativo'>Inativo</mat-option>
+                <mat-option value='indisponivel'>Indisponível</mat-option>
               </mat-select>
+            </mat-form-field>
+          </div>
+          </div>
+          <div fxLayout="row">
+          <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+            <mat-form-field appearance="outline">
+              <mat-label>Previsão de retorno</mat-label>
+              <input matInput  [matDatepicker]="pickerPrevisao" formControlName="previsao_retorno" placeholder="Previsão de Retorno">
+              <mat-datepicker-toggle matSuffix [for]="pickerPrevisao"></mat-datepicker-toggle>
+              <mat-datepicker #pickerPrevisao></mat-datepicker>
             </mat-form-field>
           </div>
         </div>
@@ -69,14 +80,14 @@
           <div class="p-10 aj" fxFlex.gt-sm="35" fxFlex.gt-xs="35" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Descrição do produto</mat-label>
-              <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="7"
+              <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="2" cdkAutosizeMaxRows="7"
                 placeholder="Descrição do produto" formControlName="descricao"></textarea>
             </mat-form-field>
           </div>
           <div class="p-10 aj" fxFlex.gt-sm="35" fxFlex.gt-xs="35" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Descrição resumida</mat-label>
-              <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="7"
+              <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="2" cdkAutosizeMaxRows="7"
                 placeholder="Descrição resumida" formControlName="descricao_resumida"></textarea>
             </mat-form-field>
           </div>
@@ -99,9 +110,6 @@
               ngDefaultControl
               [formControl]="form.controls['produto_material_id']">
             </mat-select-autocomplete>
-            <!-- <button mat-icon-button (click)="dialogAddMaterial()">
-              <mat-icon class="material-icons  x-icons">add</mat-icon>
-            </button> -->
           </div>
         </div> 
         <div fxLayout="row">
@@ -205,7 +213,7 @@
           </mat-form-field>
         </div>
         <div fxLayout="row">
-          <div fxFlex.gt-sm="33.33" fxFlex.gt-xs="33.33" fxFlex="100">
+          <div fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100">
 
             <div class="p-10 aj" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
               <div fxLayoutAlign="center start" fxLayout="row">
@@ -221,22 +229,31 @@
               </mat-form-field>
             </div>
             </div>
-            <div class="p-10 aj" fxFlex.gt-sm="33.33" fxFlex.gt-xs="33.33" fxFlex="100">
+            <div class="p-10 aj" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100">
               <div fxLayoutAlign="center start" fxLayout="row">
                 <h3 >Preço SP</h3>
               </div>
               <mat-form-field appearance="outline">
                 <mat-label>Preço</mat-label>
-                <input matInput placeholder="Preço" formControlName="preco_sp"  currencyMask>
+                <input matInput placeholder="Preço" formControlName="preco_sp" currencyMask>
               </mat-form-field>
             </div>
-            <div class="p-10 aj" fxFlex.gt-sm="33.34" fxFlex.gt-xs="33.34" fxFlex="100">
+            <div class="p-10 aj" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100">
               <div fxLayoutAlign="center start" fxLayout="row">
                 <h3 >Preço SC</h3>
               </div>
               <mat-form-field appearance="outline">
                 <mat-label>Preço</mat-label>
-                <input matInput placeholder="Preço" formControlName="preco_sc"  currencyMask>
+                <input matInput placeholder="Preço" formControlName="preco_sc" currencyMask>
+              </mat-form-field>
+            </div>
+            <div class="p-10 aj" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100">
+              <div fxLayoutAlign="center start" fxLayout="row">
+                <h3 >Preço MS</h3>
+              </div>
+              <mat-form-field appearance="outline">
+                <mat-label>Preço</mat-label>
+                <input matInput placeholder="Preço" formControlName="preco_ms" currencyMask>
               </mat-form-field>
             </div>
         </div>

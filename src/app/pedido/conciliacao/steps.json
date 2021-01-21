@@ -40,43 +40,7 @@
           "width": 0.5
         }
       ]
-    }, {
-      "titulo": "Parciais",
-      "step": "parcial",
-      "index": 1,
-      "columns": [
-        {
-          "prop": "num_nota",
-          "name": "N° nota",
-          "width": 0.4
-        },
-        {
-          "prop": "pedido.num_pedido",
-          "name": "Pedido",
-          "width": 0.4
-        },
-        {
-          "prop": "pedido.representada.nome_fantasia",
-          "name": "Representada",
-          "width": 1.5
-        },
-        {
-          "prop": "pedido.cliente.nome_fantasia",
-          "name": "Cliente",
-          "width": 1.5
-        },
-        {
-          "prop": "data_faturamento",
-          "name": "Data faturamento",
-          "width": 1
-        },
-        {
-          "prop": "status",
-          "name": "Status",
-          "width": 0.5
-        }
-      ]
-    },
+    }, 
     {
       "titulo": "Baixados",
       "step": "recebido",

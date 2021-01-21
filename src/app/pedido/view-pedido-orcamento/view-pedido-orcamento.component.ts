@@ -12,7 +12,9 @@ import { ClientService } from '../../shared/services/client.service.component';
 export class ViewPedidoOrcamentoComponent implements OnInit {
   dados:any ;
   rows:any = [];
+  rows2:any = [];
   temp:any = [];
+  temp2:any = [];
   selected:any = [];
 
   dialogConfig = new MatDialogConfig();
@@ -33,10 +35,11 @@ export class ViewPedidoOrcamentoComponent implements OnInit {
    }
   
   loadData(){
-    this.clientservice.getPedidoId(this.data.pedido.id).subscribe((res:any)=> {
+    this.clientservice.getOrcPedido(this.data.pedido.id, this.data.tipo).subscribe((res:any)=> {
       this.dados = res.data;
       this.temp = res.data.pedido_produtos;
-      let qtd = res.data.nota_produtos
+      this.temp2 = res.data.notas;
+      let qtd = res.data.nota_produtos;
       this.temp.map( e => {
         qtd.map( f => {
           if(e.id === f.pedido_produto_id){
@@ -47,9 +50,17 @@ export class ViewPedidoOrcamentoComponent implements OnInit {
           }
         })
       })
+      this.dados.notas.map(e => e.nota_total = 0);
+      this.temp.forEach(element => {
+        this.dados.notas.map(e => {
+          e.nota_total += element.valor_unitario * element.qtd_faturado
+        })
+      });
       this.rows = [...this.temp];
       console.log(this.rows, 'Rows')
-      console.log(res.data.nota_produtos, 'Rows2')
+      console.log(res.data, 'Rows2')
+      this.rows2 = [...this.temp2];
+
     })
   }
 

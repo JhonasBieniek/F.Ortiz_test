@@ -30,7 +30,7 @@
   <input matInput type='text' class="form-control" placeholder='Insira um nome para pesquisar...'
     (keyup)='updateFilter($event)' />
 </mat-form-field>
-<ngx-datatable #step.step class='material striped' [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50"
+<ngx-datatable class='material striped' [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50"
   [rowHeight]="'auto'" [limit]="5" [rows]='rows' [sorts]="[{prop: 'id', dir: 'asc'}]">
 
   <ngx-datatable-column [flexGrow]="0.8" name="Código" prop="produto.codigo_catalogo">
@@ -93,7 +93,38 @@
     </ng-template>
   </ngx-datatable-column>
 
+</ngx-datatable> <br>
+<h4>Notas Relacionadas</h4>
+
+<ngx-datatable  class='material striped' [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50"
+  [rowHeight]="'auto'" [limit]="5" [rows]='rows2' [sorts]="[{prop: 'id', dir: 'asc'}]">
+
+  <ngx-datatable-column [flexGrow]="0.8" name="Número da Nota" prop="num_nota">
+    <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+      {{ value }}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column [flexGrow]="1.8" name="Data de Faturamento" prop="data_faturamento">
+    <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+      {{ value }}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column [flexGrow]="1" name="Valor" prop="nota_total">
+    <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+      {{ value | currency:'BRL':true:'1.2-2' }}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column [flexGrow]="0.8" name="Status" prop="status">
+    <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+      {{ value }} 
+    </ng-template>
+  </ngx-datatable-column>
+
 </ngx-datatable>
+
 <div class="p-20" fxLayout="row wrap" fxLayoutAlign="end start">
   <button mat-raised-button color="warn" (click)="close()">Sair</button>
 </div>

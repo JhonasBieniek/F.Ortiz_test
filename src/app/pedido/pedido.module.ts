@@ -51,7 +51,8 @@ import { ComparativoVendasComponent } from './relatorios/comparativo-vendas/comp
 import { ComparativoVendasClientesComponent } from './relatorios/comparativo-vendas-clientes/comparativo-vendas-clientes.component';
 import { NotasComponent } from './relatorios/notas/notas.component';
 import { ConsumoComponent } from './relatorios/consumo/consumo.component';
-import { FaturamentoComponent } from './relatorios/faturamento/faturamento.component'; 
+import { FaturamentoComponent } from './relatorios/faturamento/faturamento.component';
+import { BaseComponent } from './relatorios/base/base.component'; 
 
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
@@ -90,7 +91,7 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
     DialogEditNotaComponent, 
     DialogEstornarComponent, 
     DialogDevolucaoComponent, 
-    ViewPedidoOrcamentoComponent, DialogProdPedidoComponent, PedidosComponent, ProdutosVendidosComponent, ProdutosVendidosPorClientesComponent, RankingComponent, ClientesSemCompraComponent, ComparativoVendasComponent, ComparativoVendasClientesComponent, NotasComponent, ConsumoComponent, FaturamentoComponent
+    ViewPedidoOrcamentoComponent, DialogProdPedidoComponent, PedidosComponent, ProdutosVendidosComponent, ProdutosVendidosPorClientesComponent, RankingComponent, ClientesSemCompraComponent, ComparativoVendasComponent, ComparativoVendasClientesComponent, NotasComponent, ConsumoComponent, FaturamentoComponent, BaseComponent
   ],
   providers: [
     DateFormatPipe,

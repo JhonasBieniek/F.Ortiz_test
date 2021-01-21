@@ -72,25 +72,7 @@ const MENUITEMS = [
       { state: 'pedidos', name: 'Pedidos', type: 'link' },
       { state: 'orcamentos', name: 'Orçamentos', type: 'link' },
       { state: 'conciliacao', name: 'Conciliação de Notas', type: 'link' },
-      {
-        state: 'relcomissao',
-        name: 'Relatórios',
-        type: 'subchild',
-        subchildren: [
-            {state: 'comissoes', name: 'Pedidos', type: 'link' },
-            {state: 'acumulado', name: 'rel Valeria cod prod + areavenda =clientes que comprarm 90 dias', type: 'link' },
-            {state: 'checkbox', name: 'Pedidos Vendidos', type: 'link' },
-            {state: 'datepicker', name: 'Produtos Vendidos p/ CLiente', type: 'link' },    
-            {state: 'editor', name: 'Ranking', type: 'link' },
-            {state: 'editor', name: 'Clientes SEM compra', type: 'link' },
-            {state: 'editor', name: 'Comparativo de vendas', type: 'link' },
-            {state: 'editor', name: 'Comparativo de vendas cliente', type: 'link' },
-            {state: 'editor', name: 'Notas', type: 'link' },
-            {state: 'editor', name: 'Consumo', type: 'link' },
-            {state: 'editor', name: 'Grupo Corporativo', type: 'link' },
-            {state: 'editor', name: 'Área de vendas', type: 'link' },
-        ]
-      }
+      { state: 'relatorios', name: 'Relatórios', type: 'link' }
     ]
   },{
     state: 'comissao',

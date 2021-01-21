@@ -111,25 +111,26 @@ export class DialogBodyProdutoComponent implements OnInit {
       preco_pr_final: null,
       preco_pr_revenda: null,
       preco_sc: null,
+      preco_ms: null,
       preco_sp: null,
       produto_cores: null,
       produto_aplications: null,
       certificado_aprovacao: [null],
       codigo_catalogo: [null, Validators.compose([Validators.required])],
       codigo_importacao: [null],
+      previsao_retorno: [null],
       embalagem_nome: null,
       embalagem_qtd: [null],
       embalagem_min: [null],
       representada_id: [null, Validators.compose([Validators.required])],
       imagem: [null],
-      status: [true],
+      status: ['ativo'],
     });
     if (this.data == null) {
       this.pageTitle = 'Cadastrar Produto'
     } else {
       this.clientservice.viewProduto(this.data.id).subscribe( (res:any) => {
         this.produto = res.data[0];
-        console.log(this.produto);
         this.produto.produto_tipo_id = this.produto.produto_tipo_id.toString();
         this.produto.produto_material_id = this.produto.produto_material_id.toString();
         this.form.patchValue(this.produto);
@@ -142,6 +143,8 @@ export class DialogBodyProdutoComponent implements OnInit {
             this.form.get('preco_sc').setValue(e.preco)
           }if(e.estado_id === 25){
             this.form.get('preco_sp').setValue(e.preco)
+          }if(e.estado_id === 12){
+            this.form.get('preco_ms').setValue(e.preco)
           }
         })
         this.produto.produto_embalagems.map(e => {
@@ -392,6 +395,7 @@ export class DialogBodyProdutoComponent implements OnInit {
       })
     })
     precos = [
+      {"preco": this.form.value.preco_ms , "produto_id": this.data.id, "estado_id": 12, "tipo": null},
       {"preco": this.form.value.preco_pr_final , "produto_id": this.data.id, "estado_id": 16, "tipo": "final"},
       {"preco": this.form.value.preco_pr_revenda , "produto_id": this.data.id, "estado_id": 16, "tipo": "revendedor"},
       {"preco": this.form.value.preco_sc , "produto_id": this.data.id, "estado_id": 24, "tipo": null},
@@ -414,6 +418,7 @@ export class DialogBodyProdutoComponent implements OnInit {
       })
     })
     precos = [
+      {"preco": this.form.value.preco_ms , "estado_id": 12, "tipo": null},
       {"preco": this.form.value.preco_pr_final , "estado_id": 16, "tipo": "final"},
       {"preco": this.form.value.preco_pr_revenda , "estado_id": 16, "tipo": "revendedor"},
       {"preco": this.form.value.preco_sc , "estado_id": 24, "tipo": null},

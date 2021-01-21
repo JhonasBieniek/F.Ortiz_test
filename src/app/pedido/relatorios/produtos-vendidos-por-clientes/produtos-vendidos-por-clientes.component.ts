@@ -6,7 +6,7 @@ import { NotificationService } from '../../../shared/messages/notification.servi
 import { ClientService } from '../../../shared/services/client.service.component';
 
 @Component({
-  selector: 'app-pedidos',
+  selector: 'app-pedidos-vendidos-clientes',
   templateUrl: './produtos-vendidos-por-clientes.component.html',
   styleUrls: ['./produtos-vendidos-por-clientes.component.css']
 

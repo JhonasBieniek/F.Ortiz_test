@@ -1,0 +1,34 @@
+<div fxLayout="row wrap">
+    <div fxFlex.gt-sm="100%" fxFlex="100">
+        <mat-card class="no-shadow">
+            <mat-card-content>
+                <div fxLayout="row wrap">
+                    <div fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100" class="title">Selecione o tipo de Relatório: </div>
+                    <div fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
+                        <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+                          [floatLabel]="form.value.floatLabel">
+                          <mat-label>Relatório</mat-label>
+                          <mat-select required  [(ngModel)]="type">
+                            <mat-option *ngFor="let rel of relatorios" [value]="rel">
+                              {{rel.name}}
+                            </mat-option>
+                          </mat-select>
+                          <mat-placeholder>Relatório</mat-placeholder>
+                        </mat-form-field>
+                      </div>
+                </div>   
+                <mat-divider></mat-divider>
+                <div fxLayout="row wrap" class="row" *ngIf="type.length != 0 ">
+                    <app-pedidos *ngIf="type.value == 1"></app-pedidos>
+                    <app-clientes-sem-compra *ngIf="type.value == 2"></app-clientes-sem-compra>
+                    <app-comparativo-vendas *ngIf="type.value == 3"></app-comparativo-vendas>
+                    <app-consumo *ngIf="type.value == 4"></app-consumo>
+                    <app-faturamento *ngIf="type.value == 5"></app-faturamento>
+                    <app-notas *ngIf="type.value == 6"></app-notas>
+                    <app-produtos-vendidos *ngIf="type.value == 7"></app-produtos-vendidos>
+                    <app-ranking *ngIf="type.value == 8"></app-ranking>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

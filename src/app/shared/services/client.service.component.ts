@@ -575,6 +575,15 @@ export class ClientService {
               return res;
             });
   }
+  getOrcPedido(id, tipo){
+    const uri = `${API_URL}` + tipo + `/view/`+ id +`.json`;
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
   getPedidoId(id){
     const uri = `${API_URL}` + `pedidos/view/`+ id +`.json`;
     return this
