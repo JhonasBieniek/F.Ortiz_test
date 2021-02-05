@@ -58,7 +58,6 @@ import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
 import { DateAdapter } from 'angular-calendar';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DialogUpdatePriceComponent } from './produtos/dialog-update-price/dialog-update-price.component';
-import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
 
 
@@ -76,7 +75,6 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
     NgxDatatableModule,
     NgxCurrencyModule,
     SelectAutocompleteModule,
-    NgxExtendedPdfViewerModule,
     NgxMaskModule.forRoot(),
 
   ],

@@ -186,6 +186,7 @@ export class DialogBodyProdutoComponent implements OnInit {
         this.colors = this.produto.produto_cores;
         this.aplications = this.produto.produto_aplications;
         this.cardImageBase64 = this.produto.imagem;
+        this.fichaBase64 = this.produto.imagem_ficha;
       });
       this.pageTitle = "Editar Produto";
     }
