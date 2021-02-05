@@ -15,7 +15,7 @@
             <mat-label>Representada.</mat-label>
             <mat-select required formControlName="representada_id" name="representada">
               <mat-option *ngFor="let representada of representadas" [value]="representada.id"
-                (click)="CarregarProdutosRepresentada(representada.id)">
+                (click)="this.form.get('cliente_id').enable()">
                 {{representada.razao_social}}
               </mat-option>
             </mat-select>
@@ -23,15 +23,16 @@
           </mat-form-field>
         </div>
         <div class="p-10" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="90">
-          <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
-            [floatLabel]="form.value.floatLabel">
+          <mat-form-field appearance="outline">
             <mat-label>Cliente</mat-label>
-            <mat-select required formControlName="cliente_id" name="cliente">
-              <mat-option *ngFor="let cliente of clientes" [value]="cliente.id">
+            <input matInput (keyup)="searchClientes()" [(ngModel)]="searchValue" [matAutocomplete]="auto"
+            formControlName="cliente_id">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let cliente of results" [value]="cliente.razao_social" 
+              (click)="cliente_id = cliente.id; CarregarProdutosRepresentada(cliente.id, this.form.get('representada_id').value)">
                 {{cliente.razao_social}}
               </mat-option>
-            </mat-select>
-            <mat-placeholder>Cliente</mat-placeholder>
+            </mat-autocomplete>
           </mat-form-field>
         </div>
         <div class="add" fxFlex.gt-sm="5" fxFlex.gt-xs="5" fxFlex="10">
@@ -105,9 +106,41 @@
             <input matInput type='text' class="form-control" placeholder='Digite para filtrar...'
               (keyup)='updateFilter($event)' />
           </mat-form-field>
-          <ngx-datatable #table class='material striped' [columns]="columns" [columnMode]="'flex'" [headerHeight]="50"
+          <ngx-datatable #table class='material striped' [columnMode]="'flex'" [headerHeight]="50"
             [footerHeight]="50" [rowHeight]="'auto'" [limit]="5" [rows]='rows' [loadingIndicator]="loadingIndicator"
             [selected]="selected" [selectionType]="'single'" (select)='onSelect($event)'>
+
+            <ngx-datatable-column [flexGrow]="0.5" name="Código" prop="codigo_catalogo">
+              <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                {{ value }}
+              </ng-template>
+            </ngx-datatable-column>  
+            <ngx-datatable-column [flexGrow]="1" name="Nome" prop="nome">
+              <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                {{ value }}
+              </ng-template>
+            </ngx-datatable-column>  
+            <ngx-datatable-column [flexGrow]="1" name="Embalagem" prop="produto_embalagems">
+              <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                {{ value[0].nome }}
+              </ng-template>
+            </ngx-datatable-column> 
+            <ngx-datatable-column [flexGrow]="1" name="Cores" prop="produto_cores">
+              <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                {{ transform(value) }}
+              </ng-template>
+            </ngx-datatable-column> 
+            <ngx-datatable-column [flexGrow]="1" name="Tamanhos" prop="produto_tamanhos">
+              <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                {{ transform(value) }}
+              </ng-template>
+            </ngx-datatable-column> 
+            <ngx-datatable-column [flexGrow]="1" name="Preço" prop="produto_estados_precos">
+              <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                {{ value[0].preco  | currency:'BRL':true:'1.2-2' }}
+              </ng-template>
+            </ngx-datatable-column> 
+
           </ngx-datatable>
         </div>
         <div formArrayName="orcamento_produtos">

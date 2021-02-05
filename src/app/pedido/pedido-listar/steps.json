@@ -60,9 +60,9 @@
         ]
       },
       {
-        "titulo": "Faturados",
-        "step": "faturado",
-        "index": 1,
+        "titulo": "Parciais",
+        "step": "parcial",
+        "index": 2,
         "columns": [
           {
             "prop": "num_pedido",
@@ -112,9 +112,9 @@
         ]
       },
       {
-        "titulo": "Parciais",
-        "step": "parcial",
-        "index": 2,
+        "titulo": "Faturados",
+        "step": "faturado",
+        "index": 1,
         "columns": [
           {
             "prop": "num_pedido",

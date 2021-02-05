@@ -32,10 +32,29 @@
             </mat-form-field>
           </div>
         </div>
+        <div fxLayout="row" style="margin-top: -15px;">
+          <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="prodTitle">
+            Ficha Técnica:
+          </div>  
+          </div>  
+          <div fxLayout="row">
+          <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+            <input type="file" (change)="uploadFicha($event)" >
+          </div>
+        </div>
+        <div fxLayout="row">
+          <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+           <button (click)="printPreview(fichaBase64)"> Upload</button>
+          </div>
+        </div>
+        <div fxLayout="row">
+          <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="prodTitle">
+            Imagem do produto:
+          </div>  
+          </div>  
         <div fxLayout="row">
           <div fxFlex="100">
             <fieldset>
-              <label>Imagem do Produto</label>
               {{imageError}}
               <div class="custom-file fileInputProfileWrap">
                 <input type="file" (change)="fileChangeEvent($event)" class="fileInputProfile">

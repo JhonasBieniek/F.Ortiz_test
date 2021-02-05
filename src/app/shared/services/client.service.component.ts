@@ -790,6 +790,17 @@ export class ClientService {
               return res;
             });
   }
+
+  getProdRepCli(representada_id, cliente_id) {
+    const uri = `${API_URL}` +`produtos/download/` + representada_id + "/" + cliente_id + ".json";
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
+
   getClientes() {
     const uri = `${API_URL}` + `clientes/index.json`;
     return this

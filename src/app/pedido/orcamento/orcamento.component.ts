@@ -12,6 +12,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { DialogBodyClienteComponent } from '../../cadastro/cliente/dialog-body/dialog-body-cliente.component';
 import { switchMap } from 'rxjs/operators';
 import { DialogProdPedidoComponent } from './dialog-prod-pedido/dialog-prod-pedido.component';
+import { Observable } from 'rxjs/Observable';
 
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -37,6 +38,9 @@ export class OrcamentoComponent implements OnInit {
   public form: FormGroup;
   quantidade: any[] = [];
 
+
+  cliente_id;
+
   clientes = [];
   representadas: [] = [];
   dataCondComerciais: any;
@@ -55,10 +59,13 @@ export class OrcamentoComponent implements OnInit {
   selected = [];
 
   produtos: any = [];
+  clientes$:any= [];
   currentAction: string = "";
   pageTitle: string = "";
   orcamento: any;
+  searchValue: string ="";
 
+  results: Observable<any[]>;
 
   resposta: any;
   selectedAreaVendaID: any;
@@ -69,8 +76,8 @@ export class OrcamentoComponent implements OnInit {
   columns = [
     { prop: 'codigo_catalogo', flexGrow: 0.5, name: 'Cod. Catalogo' },
     { prop: 'nome', flexGrow: 0.8 },
-    { prop: 'descricao', flexGrow: 2, name: 'Descrição' },
-    { prop: 'embalagem', flexGrow: 1.2 }
+    { prop: 'produto_embalagems[0].nome', flexGrow: 2, name: 'Emalagem'},
+    { prop: 'produto_embalagems.nome', flexGrow: 1.2 }
   ];
 
   @ViewChild('shoppingCart', { static: false }) shoppingCart: ShoppingCartComponent;
@@ -100,7 +107,7 @@ export class OrcamentoComponent implements OnInit {
     this.form = this.fb.group({
       id: [null],
       representada_id: [null, Validators.compose([Validators.required])],
-      cliente_id: [null, Validators.compose([Validators.required])],
+      cliente_id: [{value: null, disabled: true}, Validators.compose([Validators.required])],
       data_emissao: [null, Validators.compose([Validators.required])],
       validade: ['30 dias', Validators.compose([Validators.required])],
       prazo_entrega: [null, Validators.compose([Validators.maxLength(100)])],
@@ -124,6 +131,24 @@ export class OrcamentoComponent implements OnInit {
     this.setPageTitle();
   }
 
+  searchClientes() {
+    let cliente: Observable<any[]>;
+    if(this.searchValue != "" ){
+      const val = this.searchValue.toLowerCase().split(" ");
+      let xp = "";
+      val.forEach(e => {
+        xp += `(?=.*${e})`;
+      });
+      const re = new RegExp(xp, 'g');
+      this.results = this.clientes$.filter(function(d) {
+        if( d.razao_social.toLowerCase().match(re) || !val)
+        return d
+      });
+    }else{
+      this.results = cliente;
+    }
+  }
+
   private loadOrcamento() {
     if (this.currentAction == 'edit'){
       this.clientservice.getOrcamento(this.info.orcamento.id)
@@ -134,11 +159,26 @@ export class OrcamentoComponent implements OnInit {
               this.addItem(element)
             });
             this.form.patchValue(this.orcamento);
-            this.CarregarProdutosRepresentada(this.orcamento.representada_id);
+            this.cliente_id = this.orcamento.cliente_id;
+            this.form.get('cliente_id').setValue(this.orcamento.cliente.razao_social);
+            this.form.get('cliente_id').enable();
+            this.CarregarProdutosRepresentada(this.orcamento.cliente_id, this.orcamento.representada_id);
           },
           (error) => alert('Ocorreu um erro no servidor, tente mais tarde.')
         )
     }
+  }
+
+  private transform (data) {
+      let result = "";
+      data.forEach(function (element, index) {
+          if (index == 0){
+            result += element.nome
+          }else{
+            result += " ," + element.nome
+          }
+      });
+    return result;
   }
 
   private setCurrentAction() {
@@ -160,6 +200,7 @@ export class OrcamentoComponent implements OnInit {
   private getClientes() {
     this.clientservice.getClientes().subscribe((res: any) => {
       this.clientes = res.data;
+      this.clientes$ = res.data;
     });
   }
 
@@ -225,11 +266,10 @@ export class OrcamentoComponent implements OnInit {
     this.produtos.at(i).get('valor_total').setValue(valor + ipi);
   }
 
-  CarregarProdutosRepresentada(id) {
-    this.clientservice.getProdutosRepresentada(id).subscribe(res => {
-      this.data = res;
-      this.rows = this.data.data;
-      this.temp = [...this.data.data];
+  CarregarProdutosRepresentada(cliente_id, representada_id) {
+    this.clientservice.getProdRepCli(representada_id, cliente_id ).subscribe((res:any) => {
+      this.rows = res.data;
+      this.temp = [...this.rows];
       setTimeout(() => { this.loadingIndicator = false; }, 1500);
     })
   }
@@ -271,7 +311,9 @@ export class OrcamentoComponent implements OnInit {
   }
 
   enviarPedido() {
+    this.form.get('cliente_id').setValue(this.cliente_id);
     console.log(this.form.value)
+    stop;
     if (this.currentAction == 'edit') {
       this.clientservice.updateOrcamento(this.form.value).subscribe((res: any) => {
         this.notificationService.notify("Atualizado com Sucesso!");

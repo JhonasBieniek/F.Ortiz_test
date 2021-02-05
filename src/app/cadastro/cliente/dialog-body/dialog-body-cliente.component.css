@@ -1,24 +1,32 @@
 .title{
   font-size: 18px;
   text-align: center;
-  padding-top: 12px;
-  padding-bottom: -5px;
 }
 .clear{
   color:red;
   cursor: pointer;
 }
+.tableOfPrice {
+  font-weight: 700;
+  margin-right: 10px;
+  margin-top: 20px;
+}
+.select{
+  color: red;
+  font-size: 11pt;
+}
 .dadosCadastro{
-  font-size: 28px;
-  padding-top: 10px;
-  padding-bottom: -5px;
+  font-weight: 800;
+  margin-bottom: 10px;
+  padding: 0.2em;
   text-align: center;
+  font-size: 1.5em;
+  background-color: dodgerblue;
+  color:white;
 }
 .plus-icons{
-  margin-top: 15px;
-  margin-bottom: 15px;
-  color: white;
-  vertical-align: unset !important;
+  color: whitesmoke;
+  vertical-align: text-bottom !important;
   cursor: pointer;
   border: none;
   border-radius: 15px;
