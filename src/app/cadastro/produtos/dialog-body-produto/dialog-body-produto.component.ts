@@ -120,6 +120,7 @@ export class DialogBodyProdutoComponent implements OnInit {
       return this.sanitizer.bypassSecurityTrustResourceUrl(this.produto.imagem);
     }
   }
+  
 
   ngOnInit() {
     this.form = this.fb.group({

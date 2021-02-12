@@ -1,6 +1,9 @@
 <form [formGroup]="form">
   <div fxLayout="column">
     <!-- Column-1 -->
+    <button (click)="print()">
+      Print
+    </button>
     <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
       <mat-card-header class="bg-info text-white">
         <mat-card-title class="dadosCadastro">{{pageTitle}}</mat-card-title>
