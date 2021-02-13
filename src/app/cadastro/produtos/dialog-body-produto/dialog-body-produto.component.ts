@@ -110,7 +110,6 @@ export class DialogBodyProdutoComponent implements OnInit {
       this.aplicacoes = res.data;
     });
     this.fichaBase64 = this.produto.imagem_ficha;
-
   }
 
   transform() {

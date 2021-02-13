@@ -1,9 +1,6 @@
 <form [formGroup]="form">
   <div fxLayout="column">
     <!-- Column-1 -->
-    <button (click)="print()">
-      Print
-    </button>
     <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
       <mat-card-header class="bg-info text-white">
         <mat-card-title class="dadosCadastro">{{pageTitle}}</mat-card-title>
@@ -41,13 +38,14 @@
           </div>  
           </div>  
           <div fxLayout="row">
-          <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-            <input type="file" (change)="uploadFicha($event)" >
+          <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="fichaBase64 == undefined">
+            <input type="file" style="display: none"  (change)="uploadFicha($event)" #hiddenfileinput >
+            <button button mat-raised-button color="primary" (click)="hiddenfileinput.click()"><mat-icon aria-hidden="false" aria-label="Upload icon">file_upload</mat-icon>Upload</button>
           </div>
         </div>
         <div fxLayout="row">
-          <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-           <button (click)="printPreview(fichaBase64)"> Upload</button>
+          <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="fichaBase64 != undefined">
+           <button (click)="printPreview(fichaBase64)">Visualizar</button>
           </div>
         </div>
         <div fxLayout="row">
