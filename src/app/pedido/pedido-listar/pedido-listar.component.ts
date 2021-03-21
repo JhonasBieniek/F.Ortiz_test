@@ -6,7 +6,7 @@ import page from './steps.json';
 import { DialogConfirmarDeleteComponent } from '../../cadastro/dialog-confirmar-delete/confirmar-delete.component';
 import { Novo2Component } from '../novo2/novo2.component';
 import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
-import { ViewPedidoOrcamentoComponent } from '../view-pedido-orcamento/view-pedido-orcamento.component';
+import { ViewPedidoOrcamentoComponent } from '../view-pedido/view-pedido.component';
 import { ExcelService } from '../../shared/services/excel.service';
 
 

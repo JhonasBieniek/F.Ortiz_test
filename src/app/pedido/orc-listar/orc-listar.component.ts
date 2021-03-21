@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import page from './steps.json';
 import { OrcamentoComponent } from '../orcamento/orcamento.component';
 import { DialogConfirmarDeleteComponent } from '../../cadastro/dialog-confirmar-delete/confirmar-delete.component';
-import { ViewPedidoOrcamentoComponent } from '../view-pedido-orcamento/view-pedido-orcamento.component';
+import { ViewPedidoOrcamentoComponent } from '../view-pedido/view-pedido.component';
 import { Novo2Component } from '../novo2/novo2.component';
 
 @Component({
@@ -87,7 +87,7 @@ export class OrcListarComponent implements OnInit {
     dialogRef.afterClosed().subscribe(value =>{
       if(value != undefined){
         this.clientservice.updateOrcamento(
-          {id: row.id, status: true}
+          {id: row.id, orderGen: true}
         ).subscribe( res => console.log(res))
       }
       this.loadData();

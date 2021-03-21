@@ -63,16 +63,16 @@ export class DialogViewNotaComponent implements OnInit {
     });
   }
   removerNf(){
-    this.clientservice.removeNota(this.data.id).subscribe((res:any) => {
-      if(res.success == true){
-      this._snackBar.open('Nota removida com sucesso!', 'OK', {
-        duration: 3000,
-      })}else{
-        this._snackBar.open('Erro ao remover nota', 'OK', {
-          duration: 3000,
-      })}
-      this.close();
-    })
+     this.clientservice.removeNota(this.data.id)//.subscribe((res:any) => {
+    //   if(res.success == true){
+    //   this._snackBar.open('Nota removida com sucesso!', 'OK', {
+    //     duration: 3000,
+    //   })}else{
+    //     this._snackBar.open('Erro ao remover nota', 'OK', {
+    //       duration: 3000,
+    //   })}
+    //   this.close();
+    // })
   }
   estorno(){
     this.dialogConfig.data = this.dados

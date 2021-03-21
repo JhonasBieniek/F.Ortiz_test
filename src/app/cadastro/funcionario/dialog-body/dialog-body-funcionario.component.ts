@@ -3,9 +3,9 @@ import { FormBuilder, FormGroup, Validators, ValidationErrors, FormArray } from 
 import { ClientService } from '../../../shared/services/client.service.component';
 import { NotificationService } from '../../../shared/messages/notification.service';
 import { CustomValidators } from 'ng2-validation';
-import { DatePipe } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog, MatDialogConfig } from '@angular/material';
 import { AlertComponent } from '../../../alert/alert.component';
+import moment from 'moment';
 
 @Component({
   selector: 'app-dialog-body-funcionario',
@@ -33,7 +33,6 @@ export class DialogBodyFuncionarioComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private clientservice: ClientService,
     private notificationService: NotificationService,
-    private datePipe : DatePipe,
     private dialog: MatDialog
   ){ 
     this.clientservice.getGrupos().subscribe((res:any) =>{
@@ -87,7 +86,10 @@ export class DialogBodyFuncionarioComponent implements OnInit {
             if((i+1) == this.dados.comissoes.length){
             }
           }
-          this.funcionario.patchValue(this.dados)
+          this.funcionario.patchValue(this.dados);
+          this.funcionario.controls['nascimento'].setValue(
+            moment(this.dados.nascimento).format()
+          );
         });
         this.editar  = true;
       }
@@ -116,7 +118,7 @@ export class DialogBodyFuncionarioComponent implements OnInit {
   }
   onSubmit(){
     let data = this.funcionario.value;
-    data.nascimento = this.datePipe.transform(data.nascimento, 'yyyy-MM-dd');
+    data.nascimento = data.nascimento;
     this.clientservice.addFuncionario(data).subscribe((res:any) => {
       if(res.success == true){
         if(this.editar == false){

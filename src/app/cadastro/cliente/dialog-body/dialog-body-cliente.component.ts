@@ -14,14 +14,47 @@ import {
   MatDialogRef,
   MatDialog,
   MatDialogConfig,
+  MAT_DATE_FORMATS,
+  DateAdapter,
+  MAT_DATE_LOCALE,
 } from "@angular/material";
 import { AlertComponent } from "../../../alert/alert.component";
 import { map } from "rxjs/operators";
+import moment from "moment";
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from "@angular/material-moment-adapter";
+
+export const MY_FORMATS = {
+  parse: {
+      dateInput: 'S'
+  },
+  display: {
+      dateInput: 'DD-MM-YYYY',
+      monthYearLabel: 'YYYY',
+      dateA11yLabel: 'S',
+      monthYearA11yLabel: 'YYYY'
+  }
+};
 
 @Component({
   selector: "app-dialog-body-cliente",
   templateUrl: "./dialog-body-cliente.component.html",
   styleUrls: ["./dialog-body-cliente.component.css"],
+  providers: [
+    {
+      provide: MAT_DATE_FORMATS,
+      useValue: {
+        parse: {
+          dateInput: ['S'],
+        },
+        display: {
+          dateInput: 'S',
+          monthYearLabel: 'MMM YYYY',
+          dateA11yLabel: 'SS',
+          monthYearA11yLabel: 'MMMM YYYY',
+        },
+      },
+    },
+  ]
 })
 export class DialogBodyClienteComponent implements OnInit {
   public form: FormGroup;
@@ -52,7 +85,9 @@ export class DialogBodyClienteComponent implements OnInit {
         this.pageTitle = "Editar Cliente";
         this.clientservice.getClientesId(data.id).subscribe((res: any) => {
           this.addEnderecos(res.data.enderecos_clientes);
+          this.addAreaVendas(res.data.cliente_representada_area_vendas);
           this.addVencimentos(res.data.cliente_vencimentos);
+          this.addContatos(res.data.cliente_contatos);
           this.form.patchValue(res.data);
         });
       }
@@ -92,7 +127,6 @@ export class DialogBodyClienteComponent implements OnInit {
         null,
         Validators.compose([Validators.minLength(5), Validators.maxLength(50)]),
       ],
-      area_venda_id: [null, Validators.compose([Validators.required])],
       ramo_atividade_id: [null],
       limite: null,
       categoria_volk: null,
@@ -102,10 +136,29 @@ export class DialogBodyClienteComponent implements OnInit {
       status: true,
       enderecos_clientes: this.fb.array([]),
       cliente_vencimentos: this.fb.array([]),
+      cliente_representada_area_vendas: this.fb.array([]),
+      cliente_contatos: this.fb.array([]),
     });
   }
 
   addEndereco(data: any = null) {
+    const endereco = this.form.controls.enderecos_clientes as FormArray;
+    endereco.push(
+      this.fb.group({
+        endereco: this.fb.group({
+          cep: data ? data.cep : null,
+          logradouro: data ? data.logradouro : null,
+          numero: data ? data.numero : null,
+          complemento: data ? data.complemento : null,
+          bairro: data ? data.bairro : null,
+          cidade: data ? data.cidade : null,
+          estado_id: data ? data.estado_id : null,
+          pais: "Brasil",
+        }),
+      })
+    );
+  }
+  addEnderecoEdit(data: any = null) {
     const endereco = this.form.controls.enderecos_clientes as FormArray;
     endereco.push(
       this.fb.group({
@@ -124,6 +177,60 @@ export class DialogBodyClienteComponent implements OnInit {
     );
   }
 
+  addAreaVenda(data: any = null) {
+    const area_venda = this.form.controls.cliente_representada_area_vendas as FormArray;
+    area_venda.push(
+      this.fb.group({
+          id: data ? data.id : null,
+          cliente_id: data ? data.cliente_id : null,
+          area_venda_id: data ? data.area_venda_id: null,
+          representada_id: data ? data.representada_id : null,
+      })
+    );
+  }
+
+
+  addAreaVendaEdit(data: any = null) {
+    const area_venda = this.form.controls.cliente_representada_area_vendas as FormArray;
+    area_venda.push(
+      this.fb.group({
+          id: data ? data.id : null,
+          cliente_id: data ? data.cliente_id : null,
+          area_venda_id: data ? data.area_venda_id: null,
+          representada_id: data ? data.representada_id : null,
+      })
+    );
+  }
+
+  addContato(data: any = null) {
+    const contato = this.form.controls.cliente_contatos as FormArray;
+    contato.push(
+      this.fb.group({
+          id: data ? data.id : '',
+          nome: data ? data.nome : null,
+          cargo: data ? data.cargo: null,
+          celular: data ? data.celular : null,
+          email: data ? data.email : null,
+          aniversario: data ? moment(data.aniversario).format() : null,
+          cliente_id: this.data ? this.data.id : null,
+      })
+    );
+  }
+  addContatoEdit(data: any = null) {
+    const contato = this.form.controls.cliente_contatos as FormArray;
+    contato.push(
+      this.fb.group({
+          id: data ? data.id : null,
+          nome: data ? data.nome : null,
+          cargo: data ? data.cargo: null,
+          celular: data ? data.celular : null,
+          email: data ? data.email : null,
+          aniversario: data ? moment(data.aniversario).format() : null,
+          cliente_id: data ? data.cliente_id : null,
+      })
+    );
+  }
+
   delEndereco(index) {
     const endereco = this.form.controls.enderecos_clientes as FormArray;
     endereco.removeAt(index);
@@ -131,7 +238,41 @@ export class DialogBodyClienteComponent implements OnInit {
 
   addEnderecos(data: any) {
     data.forEach(async (e: any) => {
-      await this.addEndereco(e);
+      if(this.data.action == 'edit') {
+       this.addEnderecoEdit(e);
+      } else {
+       this.addEndereco(e);
+      }
+    });
+  }
+
+  delAreaVenda(index) {
+    const area_venda = this.form.controls.cliente_representada_area_vendas as FormArray;
+    area_venda.removeAt(index);
+  }
+
+  addAreaVendas(data: any) {
+    data.forEach(async (e: any) => {
+      if(this.data.action == 'edit') {
+       this.addAreaVendaEdit(e);
+      } else {
+       this.addAreaVenda(e);
+      }
+    });
+  }
+
+  delContato(index) {
+    const contato = this.form.controls.cliente_contatos as FormArray;
+    contato.removeAt(index);
+  }
+
+  addContatos(data: any) {
+    data.forEach(async (e: any) => {
+      if(this.data.action == 'edit') {
+         this.addContatoEdit(e);
+      } else {
+         this.addContato(e);
+      }
     });
   }
 
@@ -208,7 +349,7 @@ export class DialogBodyClienteComponent implements OnInit {
   }
   consultPriceTable(representada_id) {
     window.open(
-      `test2.fortiz.com.br/api/produtos/download/${representada_id}/${this.data.id}.pdf`,
+      `/api/produtos/download/${representada_id}/${this.data.id}.pdf`,
       "_blank"
     );
   }
@@ -293,8 +434,17 @@ export class DialogBodyClienteComponent implements OnInit {
 
   onSubmit() {
     if (this.data != undefined && this.data.action == "edit") {
-      this.clientservice.updateCliente(this.form.value).subscribe(() => {
-        this.notificationService.notify("Atualizado com Sucesso!");
+      this.form.value.cliente_contatos.forEach(element => {
+        element.aniversario = moment(element.aniversario).format('YYYY-MM-DD')      
+      });
+      this.clientservice.updateCliente(this.form.value).subscribe((res) => {
+        if(res.status == "error"){
+          this.notificationService.notify("Falha ao atualizar!");
+        }else{
+          this.notificationService.notify("Atualizado com Sucesso!");
+
+        }
+        this.dialogRef.close(res);
       });
     } else {
       this.clientservice.addCliente(this.form.value).subscribe((res: any) => {

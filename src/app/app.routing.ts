@@ -31,6 +31,9 @@ export const AppRoutes: Routes = [
         path: 'ordem-servico',
         loadChildren: './ordem-servico/ordem-servico.module#OrdemServicoModule'
       },{
+        path: 'cotacoes',
+        loadChildren: './cotacoes/cotacoes.module#CotacoesModule'
+      },{
         path: 'pedidos',
         loadChildren: './pedido/pedido.module#PedidoModule'
       },{
@@ -53,10 +56,6 @@ export const AppRoutes: Routes = [
       {
         path: 'forms',
         loadChildren: './forms/forms.module#FormModule'
-      },
-      {
-        path: 'tables',
-        loadChildren: './tables/tables.module#TablesModule'
       },
       {
         path: 'datatables',

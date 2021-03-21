@@ -26,8 +26,7 @@
       <div class="p-10 aj" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Data de nascimento</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="nascimento"
-            placeholder="Data de nascimento">
+          <input matInput [matDatepicker]="picker" formControlName="nascimento" placeholder="Data de nascimento">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
@@ -38,10 +37,9 @@
       </div>
 
       <div class="p-10 aj" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
-        <mat-form-field appearance="outline"> 
+        <mat-form-field appearance="outline">
           <mat-label>CPF</mat-label>
-          <input matInput placeholder="CPF" mask="000.000.000-00" formControlName="cpf"
-            type="digits">
+          <input matInput placeholder="CPF" mask="000.000.000-00" formControlName="cpf" type="digits">
         </mat-form-field>
         <!-- <small *ngIf="funcionario.get('cpf').errors?.required && funcionario.get('cpf').touched"
           class="text-danger font-14">Você precisa inserir um CPF.</small>
@@ -80,7 +78,7 @@
           <mat-placeholder>Cargo</mat-placeholder>
         </mat-form-field>
         <small *ngIf="funcionario.get('cargo_id').errors?.required && funcionario.get('cargo_id').touched"
-        class="text-danger font-14">Você precisa selecionar o cargo.</small>
+          class="text-danger font-14">Você precisa selecionar o cargo.</small>
       </div>
 
       <div class="p-10 mt-15" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
@@ -104,7 +102,7 @@
           <mat-label>CEP</mat-label>
           <input matInput placeholder="CEP" mask="00000-000" (blur)="chargeCep()" formControlName="cep">
         </mat-form-field>
-       <!-- <mat-hint *ngIf="funcionario.get('endereco.cep').errors?.required && funcionario.get('endereco.cep').touched"
+        <!-- <mat-hint *ngIf="funcionario.get('endereco.cep').errors?.required && funcionario.get('endereco.cep').touched"
           class="text-danger font-14">Você deve inserir o CEP.</mat-hint>
         <mat-hint *ngIf="funcionario.get('endereco.cep').errors?.minlength && funcionario.get('endereco.cep').touched"
           class="text-danger font-14">O nome deve conter no mínimo 8 caracteres.</mat-hint>
@@ -190,11 +188,10 @@
       <div class="p-10 aj" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Celular</mat-label>
-          <input matInput placeholder="Celular" mask="(00) 0 0000-0000" formControlName="celular"
-            type="text">
-        </mat-form-field>       
+          <input matInput placeholder="Celular" mask="(00) 0 0000-0000" formControlName="celular" type="text">
+        </mat-form-field>
       </div>
-      
+
       <div class="p-10 aj" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="100">
         <mat-form-field appearance="outline" [hideRequiredMarker]="true">
           <mat-label>Selecione o status...</mat-label>
@@ -230,17 +227,18 @@
           <mat-placeholder>Grupo</mat-placeholder>
         </mat-form-field>
         <small *ngIf="funcionario.get('grupo_id').errors?.required && funcionario.get('grupo_id').touched"
-        class="text-danger font-14">Você precisa selecionar um grupo.</small>
+          class="text-danger font-14">Você precisa selecionar um grupo.</small>
+      </div>
+      <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card-header class="bg-info text-white">
+          <mat-card-title class="Endereco">Comissões</mat-card-title>
+        </mat-card-header>
       </div>
     </div>
     <div formArrayName="comissoes" fxLayout="row wrap">
-      <div class="p-10 aj" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-          <mat-card-header class="bg-info text-white">
-            <mat-card-title class="Comissões">Comissões</mat-card-title>
-          </mat-card-header>
-      </div>  
       <div class="p-20" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-        <button mat-stroked-button color="primary" (click)="addComissao()"><i class="material-icons">add</i> Representada</button>
+        <button mat-stroked-button color="primary" (click)="addComissao()"><i class="material-icons">add</i>
+          Representada</button>
       </div>
       <div *ngFor="let representada of comissoes().controls; let comIndex = index">
         <div [formGroupName]="comIndex" fxLayout="row wrap" class="row">
@@ -248,7 +246,8 @@
             <mat-form-field appearance="outline">
               <mat-label>Selecione uma representada</mat-label>
               <mat-select required formControlName="representada_id">
-                <mat-option *ngFor="let representada of representadas" [value]="representada.id" (click)="checkExist(comIndex, representada.id)">
+                <mat-option *ngFor="let representada of representadas" [value]="representada.id"
+                  (click)="checkExist(comIndex, representada.id)">
                   {{representada.razao_social}}
                 </mat-option>
               </mat-select>
@@ -256,7 +255,8 @@
             </mat-form-field>
           </div>
           <div class="p-20" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="50">
-            <button mat-stroked-button (click)="addComissaoFaixa(comIndex)"><i class="material-icons">add</i> Faixa</button>
+            <button mat-stroked-button (click)="addComissaoFaixa(comIndex)"><i class="material-icons">add</i>
+              Faixa</button>
             <button mat-icon-button (click)="delEndereco(i)">
               <mat-icon class="material-icons  x-icons" (click)="removeComissao(comIndex)">highlight_off</mat-icon>
             </button>
@@ -277,17 +277,19 @@
                   </mat-form-field>
                 </div>
                 <div class="p-20 top" fxFlex.gt-sm="6" fxFlex.gt-xs="6" fxFlex="6">
-                  <i class="material-icons x-icons" (click)="removeComissaoFaixa(comIndex, faixaIndex); ">highlight_off</i>
+                  <i class="material-icons x-icons"
+                    (click)="removeComissaoFaixa(comIndex, faixaIndex); ">highlight_off</i>
                 </div>
-            </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div>
-      <button mat-raised-button color="primary" type="submit" [disabled]="!funcionario.valid" (click)="onSubmit(); close()">Salvar</button>
-      <button mat-raised-button style="margin-left: 15px;" color="warn"  (click)="close()" >Cancelar</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!funcionario.valid"
+        (click)="onSubmit(); close()">Salvar</button>
+      <button mat-raised-button style="margin-left: 15px;" color="warn" (click)="close()">Cancelar</button>
     </div>
   </form>
 </mat-card-content>

@@ -186,8 +186,7 @@
         class="text-danger font-14">O endereço de email deve ser valido.</small>
     </div>
     <div class="p-10 aj" fxFlex.gt-sm="35" fxFlex.gt-xs="35" fxFlex="100">
-      <mat-form-field appearance="outline" [hideRequiredMarker]="true"
-        [floatLabel]="auto">
+      <mat-form-field appearance="outline" [hideRequiredMarker]="true">
         <mat-label>Banco p/ Pagamento</mat-label>
         <mat-select formControlName="conta_id">
           <mat-option *ngFor="let banco of bancos" [value]="banco.id">

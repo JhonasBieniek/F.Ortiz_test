@@ -4,9 +4,9 @@ import { ClientService } from '../../shared/services/client.service.component';
 
 
 @Component({
-  selector: 'app-view-pedido-orcamento',
-  templateUrl: './view-pedido-orcamento.component.html',
-  styleUrls: ['./view-pedido-orcamento.component.css'],
+  selector: 'app-view-pedido',
+  templateUrl: './view-pedido.component.html',
+  styleUrls: ['./view-pedido.component.css'],
   encapsulation:ViewEncapsulation.None
 })
 export class ViewPedidoOrcamentoComponent implements OnInit {

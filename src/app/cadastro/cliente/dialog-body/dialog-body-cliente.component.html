@@ -3,7 +3,7 @@
     <div fxLayout="row wrap" class="row">
       <div *ngIf="data != null" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" fxLayoutAlign="end start">
         <span class="tableOfPrice">Consultar tabela de Preços: </span>
-        <mat-form-field appearance="outline" style="width: 20%;">
+        <mat-form-field appearance="outline" style="width: 20%; margin-right: 10px;">
           <mat-label class="select">Selecione a Representada</mat-label>
           <mat-select>
             <mat-option *ngFor="let rep of representadas" (click)="consultPriceTable(rep.id)">{{rep.nome_fantasia}}
@@ -64,7 +64,7 @@
       </div>
     </div>
     <div formArrayName="enderecos_clientes" fxLayout="row wrap" class="row">
-      <div class="p-10 aj" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+      <div class="p-10 aj1" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <h4 class="dadosCadastro"><span style="margin-left: 10%;">Endereço</span>
           <a style="float: right;" (click)="addEndereco()"><i class="material-icons plus-icons">add_circle_outline</i>
             <span class="title">Novo Endereço</span></a>
@@ -129,8 +129,98 @@
         </div>
       </div>
     </div>
+    <div formArrayName="cliente_representada_area_vendas" fxLayout="row wrap" class="row">
+      <div class="p-10 aj1" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <h4 class="dadosCadastro"><span style="margin-left: 10%;">Área de Venda</span>
+          <a style="float: right;" (click)="addAreaVenda()"><i class="material-icons plus-icons">add_circle_outline</i>
+            <span class="title">Nova Área de Venda</span></a>
+        </h4>
+      </div>
+      <div fxLayout="row wrap" *ngFor="let e of form.get('cliente_representada_area_vendas').controls; index as i"
+        [formGroupName]="i">
+        <div fxLayout="row wrap">
+          <div class="p-10 aj ml-5" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+            Área de venda - {{i + 1}}
+            <button mat-icon-button (click)="delAreaVenda(i)">
+              <mat-icon class="clear">clear</mat-icon>
+            </button>
+          </div>
+            <div class="p-10 aj" fxFlex.gt-sm="35" fxFlex.gt-xs="35" fxFlex="100" style="margin-left: 10px;">
+              <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
+                <mat-label>Área de venda*</mat-label>
+                <mat-select formControlName="area_venda_id">
+                  <mat-option *ngFor="let area of areas" [value]="area.id">
+                    {{area.nome}}
+                  </mat-option>
+                </mat-select>
+                <mat-placeholder>Área de venda</mat-placeholder>
+              </mat-form-field>
+            </div>
+            <div class="p-10 aj" fxFlex.gt-sm="35" fxFlex.gt-xs="35" fxFlex="100" style="margin-left: 10px;">
+              <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
+                <mat-label>Representada*</mat-label>
+                <mat-select formControlName="representada_id">
+                  <mat-option *ngFor="let representada of representadas" [value]="representada.id">
+                    {{representada.nome_fantasia}}
+                  </mat-option>
+                </mat-select>
+                <mat-placeholder>Representada</mat-placeholder>
+              </mat-form-field>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div formArrayName="cliente_contatos" fxLayout="row wrap" class="row">
+      <div class="p-10 aj1" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <h4 class="dadosCadastro"><span style="margin-left: 10%;">Contatos</span>
+          <a style="float: right;" (click)="addContato()"><i class="material-icons plus-icons">add_circle_outline</i>
+            <span class="title">Novo Contato</span></a>
+        </h4>
+      </div>
+      <div fxLayout="row wrap" *ngFor="let e of form.get('cliente_contatos').controls; index as i"
+        [formGroupName]="i">
+          <div class="p-10 aj" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+            Contato - {{i + 1}}
+            <button mat-icon-button (click)="delContato(i)">
+              <mat-icon class="clear">clear</mat-icon>
+            </button>
+          </div>
+          <div class="p-10 aj" fxFlex.gt-sm="60" fxFlex.gt-xs="60" fxFlex="100">
+            <mat-form-field appearance="outline">
+              <mat-label>Nome</mat-label>
+              <input matInput placeholder="Nome" formControlName="nome">
+            </mat-form-field>
+          </div>
+          <div class="p-10 aj" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
+            <mat-form-field appearance="outline">
+              <mat-label>Cargo</mat-label>
+              <input matInput placeholder="Cargo" formControlName="cargo">
+            </mat-form-field>
+          </div>
+          <div class="p-10 aj" fxFlex.gt-sm="20" fxFlex.gt-xs="21" fxFlex="100">
+            <mat-form-field appearance="outline">
+              <mat-label>Celular</mat-label>
+              <input matInput placeholder="Celular" formControlName="celular"  mask="(00) 0 0000-0000">
+            </mat-form-field>
+          </div>
+          <div class="p-10 aj" fxFlex.gt-sm="40" fxFlex.gt-xs="40" fxFlex="100">
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput placeholder="Email" formControlName="email">
+            </mat-form-field>
+          </div>
+          <div class="p-10 aj" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
+            <mat-form-field appearance="outline">
+              <mat-label>Aniversário</mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="aniversario" placeholder="Aniversário">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+      </div>
+    </div>
     <div fxLayout="row wrap" class="row">
-      <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+      <div class="p-10 aj1" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <h4 class="dadosCadastro">Outros</h4>
       </div>
       <div class="p-10 aj" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25">
@@ -172,17 +262,6 @@
         </mat-form-field>
         <small *ngIf="form.get('email').errors?.email && form.get('email').touched" class="text-danger font-14">O
           endereço de email deve ser valido.</small>
-      </div>
-      <div class="p-10 aj" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="33">
-        <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
-          <mat-label>Área de venda*</mat-label>
-          <mat-select formControlName="area_venda_id">
-            <mat-option *ngFor="let area of areas" [value]="area.id">
-              {{area.nome}}
-            </mat-option>
-          </mat-select>
-          <mat-placeholder>Representada</mat-placeholder>
-        </mat-form-field>
       </div>
       <div class="p-10 aj" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="33">
         <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
@@ -251,7 +330,7 @@
           </div>
         </div>
       </div>
-      <div class="p-10 aj" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+      <div class="p-10 aj1" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <h4 class="dadosCadastro">Observação</h4>
       </div>
       <div fxFlex.gt-sm="100" fxFlex="100">

@@ -65,12 +65,12 @@ const MENUITEMS = [
     ]
   },{
     state: 'pedidos',
-    name: 'Pedido e Notas',
+    name: 'Pedido e Cotações',
     type: 'sub',
     icon: 'dvr',
     children: [
       { state: 'pedidos', name: 'Pedidos', type: 'link' },
-      { state: 'orcamentos', name: 'Orçamentos', type: 'link' },
+      { state: 'cotacoes', name: 'Cotações', type: 'link' },
       { state: 'conciliacao', name: 'Conciliação de Notas', type: 'link' },
       { state: 'relatorios', name: 'Relatórios', type: 'link' }
     ]

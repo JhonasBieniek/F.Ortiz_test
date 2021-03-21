@@ -114,10 +114,14 @@ export class OrcamentoComponent implements OnInit {
       minimo: [null, Validators.compose([Validators.maxLength(100)])],
       condicao_comercial_id: [null, Validators.compose([Validators.required])],
       obs: [null],
+      quotation : [null],
+      quotation_name : [null],
+      quotation_phone : [null],
       frete: ['Representada', Validators.required],
       transportadora: [null],
       valor_total: [null],
       status: [false, Validators.required],
+      situation: 1,
       orcamento_produtos: this.fb.array([])
     });
 
@@ -149,20 +153,27 @@ export class OrcamentoComponent implements OnInit {
     }
   }
 
-  private loadOrcamento() {
+ public loadOrcamento() {
     if (this.currentAction == 'edit'){
       this.clientservice.getOrcamento(this.info.orcamento.id)
         .subscribe(
           (orcamento: any) => {
             this.orcamento = orcamento.data;
-            this.orcamento.orcamento_produtos.forEach(element => {
-              this.addItem(element)
-            });
             this.form.patchValue(this.orcamento);
             this.cliente_id = this.orcamento.cliente_id;
             this.form.get('cliente_id').setValue(this.orcamento.cliente.razao_social);
             this.form.get('cliente_id').enable();
             this.CarregarProdutosRepresentada(this.orcamento.cliente_id, this.orcamento.representada_id);
+            setTimeout(() => {
+              this.orcamento.orcamento_produtos.forEach(element => {
+                this.rows.filter(produto => {
+                  if(produto.id == element.produto_id){
+                   element.valor_unitario = produto.produto_estados_precos[0].preco;
+                  }
+                })
+                this.addItem(element)
+              });
+            }, 3000);
           },
           (error) => alert('Ocorreu um erro no servidor, tente mais tarde.')
         )
@@ -190,10 +201,10 @@ export class OrcamentoComponent implements OnInit {
   }
   private setPageTitle() {
     if (this.currentAction == 'novo') {
-      this.pageTitle = 'Novo Orçamento '
+      this.pageTitle = 'Nova cotação '
     } else {
       const orc = (this.orcamento != undefined) ? this.orcamento.id : '';
-      this.pageTitle = 'Editando orçamento: ' + orc;
+      this.pageTitle = 'Editando cotação: ' + orc;
     }
   }
 
@@ -234,14 +245,14 @@ export class OrcamentoComponent implements OnInit {
       id: (item.produto != undefined) ? item.produto.id : null,
       codigo_catalogo: item.codigo_catalogo || item.produto.codigo_catalogo,
       nome: item.nome || item.produto.nome,
-      produto_id: item.id,
+      produto_id: (item.produto != undefined) ? item.produto.id : item.id,
       quantidade: [item.quantidade, Validators.required],
       tamanho: item.tamanho,
       embalagem: item.embalagem,
       cor: item.cor,
       ipi: item.ipi,
-      valor_unitario: [item.valorUnitario, Validators.required],
-      valor_total: [(item.quantidade * item.valorUnitario), Validators.required],
+      valor_unitario: [item.valor_unitario, Validators.required],
+      valor_total: [(item.quantidade * item.valor_unitario + item.quantidade * item.valor_unitario* (item.ipi/100)), Validators.required],
       obs: ''
     }));
   }
@@ -251,8 +262,7 @@ export class OrcamentoComponent implements OnInit {
     // filter our datas
     const temp = this.temp.filter(e => e.nome || e.descricao != null).filter(function (d) {
       return d.codigo_catalogo.toLowerCase().indexOf(val) !== -1 || !val ||
-        d.nome.toLowerCase().indexOf(val) !== -1 || !val ||
-        d.descricao.toLowerCase().indexOf(val) !== -1 || !val
+             d.nome.toLowerCase().indexOf(val) !== -1 || !val 
     });
     // update the rows
     this.rows = temp;
@@ -270,7 +280,6 @@ export class OrcamentoComponent implements OnInit {
     this.clientservice.getProdRepCli(representada_id, cliente_id ).subscribe((res:any) => {
       this.rows = res.data;
       this.temp = [...this.rows];
-      setTimeout(() => { this.loadingIndicator = false; }, 1500);
     })
   }
   onSelect({ selected }) {

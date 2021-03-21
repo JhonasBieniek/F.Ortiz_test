@@ -27,7 +27,7 @@ export class DialogBodyRegioesComponent implements OnInit {
     this.form = this.fb.group({
       id: [null],
       nome: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
-      descricao: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
+      descricao: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(100)])],
       status: [true, Validators.required],
     });
     if(this.data == null)

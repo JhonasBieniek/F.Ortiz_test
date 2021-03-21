@@ -2,7 +2,8 @@
   <!-- Card column -->
   <div fxFlex.gt-sm="100%" fxFlex="100">
     <div fxLayout="row wrap" class="row">
-      <div style="margin-top: -25px;" class="p-10" fxFlex.gt-sm="100" fxFlex.gt-md="100" fxFlex.gt-xs="100" fxFlex="100">
+      <div style="margin-top: -25px;" class="p-10 m-b-5" fxFlex.gt-sm="100" fxFlex.gt-md="100" fxFlex.gt-xs="100"
+        fxFlex="100">
         <mat-card-title style="margin-top: 20px;">{{pageTitle}}</mat-card-title>
       </div>
     </div>
@@ -15,7 +16,7 @@
             <mat-label>Representada.</mat-label>
             <mat-select required formControlName="representada_id" name="representada">
               <mat-option *ngFor="let representada of representadas" [value]="representada.id"
-                (click)="this.form.get('cliente_id').enable()">
+                (click)="this.form.get('cliente_id').enable();this.form.get('cliente_id').setValue('');">
                 {{representada.razao_social}}
               </mat-option>
             </mat-select>
@@ -26,10 +27,10 @@
           <mat-form-field appearance="outline">
             <mat-label>Cliente</mat-label>
             <input matInput (keyup)="searchClientes()" [(ngModel)]="searchValue" [matAutocomplete]="auto"
-            formControlName="cliente_id">
+              formControlName="cliente_id">
             <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let cliente of results" [value]="cliente.razao_social" 
-              (click)="cliente_id = cliente.id; CarregarProdutosRepresentada(cliente.id, this.form.get('representada_id').value)">
+              <mat-option *ngFor="let cliente of results" [value]="cliente.razao_social"
+                (click)="cliente_id = cliente.id; CarregarProdutosRepresentada(cliente.id, this.form.get('representada_id').value)">
                 {{cliente.razao_social}}
               </mat-option>
             </mat-autocomplete>
@@ -58,7 +59,7 @@
             <input matInput placeholder="Prazo de Entrega" formControlName="prazo_entrega">
           </mat-form-field>
         </div>
-        <div class="p-10 pad" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
+        <div class="p-10 pad" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
           <mat-form-field appearance="outline">
             <mat-label>Pedido Mínimo</mat-label>
             <input matInput placeholder="Pedido Mínimo" formControlName="minimo" currencyMask>
@@ -77,7 +78,6 @@
           </mat-form-field>
           <div style="font-size: 9px; margin-top: -15px; color:red">{{condComercial}}</div>
         </div>
-
         <div class="p-10" style="margin-top:-15px" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
           <label class="m-r-10">Frete :</label>
           <mat-radio-group formControlName="frete">
@@ -85,13 +85,64 @@
             <mat-radio-button value="Cliente">Cliente</mat-radio-button>
           </mat-radio-group>
         </div>
-
-        <div class="p-10 pad" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
+        <div class="p-10 pad" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
           <mat-form-field appearance="outline">
             <mat-label>Transportadora</mat-label>
             <input matInput placeholder="Insira a transportadora" formControlName="transportadora">
           </mat-form-field>
         </div>
+        <div class="p-10 pad" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
+          <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+            [floatLabel]="form.value.floatLabel">
+            <mat-label>Status</mat-label>
+            <mat-select required formControlName="status">
+              <mat-option>-- Selecione... --</mat-option>
+              <mat-option [value]=true>Aprovado</mat-option>
+              <mat-option [value]=false>Aberto</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <small *ngIf="form.get('status').errors?.required && form.get('status').touched"
+            class="text-danger font-14">Você precisa selecionar o status.</small>
+        </div>
+          <div class="m-t-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="this.form.get('quotation').value != null">
+            <mat-divider></mat-divider>
+          </div>
+          <div class="p-10" fxFlex.gt-sm="16" fxFlex.gt-md="13" fxFlex.gt-xs="13" fxFlex="100"
+            style="margin-top: -10px;" *ngIf="this.form.get('quotation').value != null">
+            <span style="font-weight: 600;">Cotação Charlie:</span>
+          </div>
+          <div class="p-10 pad" fxFlex.gt-sm="20" fxFlex.gt-md="21" fxFlex.gt-xs="21" fxFlex="100" *ngIf="this.form.get('quotation').value != null">
+            <mat-form-field appearance="outline">
+              <mat-label>Número</mat-label>
+              <input matInput placeholder="Número" formControlName="quotation">
+            </mat-form-field>
+          </div>
+          <div class="p-10 pad" fxFlex.gt-sm="20" fxFlex.gt-md="21" fxFlex.gt-xs="21" fxFlex="100" *ngIf="this.form.get('quotation').value != null">
+            <mat-form-field appearance="outline">
+              <mat-label>Nome do responsável</mat-label>
+              <input matInput placeholder="Nome do responsável" formControlName="quotation_name">
+            </mat-form-field>
+          </div>
+          <div class="p-10 pad" fxFlex.gt-sm="20" fxFlex.gt-md="21" fxFlex.gt-xs="21" fxFlex="100" *ngIf="this.form.get('quotation').value != null">
+            <mat-form-field appearance="outline">
+              <mat-label>N° WhatsApp</mat-label>
+              <input matInput placeholder="N° WhatsApp" formControlName="quotation_phone" mask="(00) 0 0000-0000">
+            </mat-form-field>
+          </div>
+          <div class="p-10 pad" fxFlex.gt-sm="24" fxFlex.gt-md="24" fxFlex.gt-xs="24" fxFlex="100" *ngIf="this.form.get('quotation').value != null">
+            <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+            [floatLabel]="form.value.floatLabel">
+              <mat-label>Charlie Status</mat-label>
+              <mat-select formControlName="situation">
+                <mat-option>-- Selecione... --</mat-option>
+                <mat-option [value]=0>Em Análise</mat-option>
+                <mat-option [value]=1>Ag. Aprovação</mat-option>
+                <mat-option [value]=2>Aprovado</mat-option>
+                <mat-option [value]=3>Indisponível</mat-option>
+                <mat-option [value]=4>Cancelado</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
         <div class="p-10 pad" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
           <mat-form-field appearance="outline">
             <mat-label>Observação</mat-label>
@@ -106,40 +157,40 @@
             <input matInput type='text' class="form-control" placeholder='Digite para filtrar...'
               (keyup)='updateFilter($event)' />
           </mat-form-field>
-          <ngx-datatable #table class='material striped' [columnMode]="'flex'" [headerHeight]="50"
-            [footerHeight]="50" [rowHeight]="'auto'" [limit]="5" [rows]='rows' [loadingIndicator]="loadingIndicator"
-            [selected]="selected" [selectionType]="'single'" (select)='onSelect($event)'>
+          <ngx-datatable #table class='material striped' [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50"
+            [rowHeight]="'auto'" [limit]="5" [rows]='rows' [loadingIndicator]="loadingIndicator" [selected]="selected"
+            [selectionType]="'single'" (select)='onSelect($event)'>
 
             <ngx-datatable-column [flexGrow]="0.5" name="Código" prop="codigo_catalogo">
               <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                 {{ value }}
               </ng-template>
-            </ngx-datatable-column>  
-            <ngx-datatable-column [flexGrow]="1" name="Nome" prop="nome">
+            </ngx-datatable-column>
+            <ngx-datatable-column [flexGrow]="1.5" name="Nome" prop="nome">
               <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                 {{ value }}
               </ng-template>
-            </ngx-datatable-column>  
-            <ngx-datatable-column [flexGrow]="1" name="Embalagem" prop="produto_embalagems">
+            </ngx-datatable-column>
+            <ngx-datatable-column [flexGrow]="0.5" name="Embalagem" prop="produto_embalagems">
               <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                 {{ value[0].nome }}
               </ng-template>
-            </ngx-datatable-column> 
+            </ngx-datatable-column>
             <ngx-datatable-column [flexGrow]="1" name="Cores" prop="produto_cores">
               <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                 {{ transform(value) }}
               </ng-template>
-            </ngx-datatable-column> 
+            </ngx-datatable-column>
             <ngx-datatable-column [flexGrow]="1" name="Tamanhos" prop="produto_tamanhos">
               <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                 {{ transform(value) }}
               </ng-template>
-            </ngx-datatable-column> 
-            <ngx-datatable-column [flexGrow]="1" name="Preço" prop="produto_estados_precos">
+            </ngx-datatable-column>
+            <ngx-datatable-column [flexGrow]="0.5" name="Preço" prop="produto_estados_precos">
               <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                 {{ value[0].preco  | currency:'BRL':true:'1.2-2' }}
               </ng-template>
-            </ngx-datatable-column> 
+            </ngx-datatable-column>
 
           </ngx-datatable>
         </div>
@@ -199,8 +250,8 @@
       </tr>
     </div>
     <div style="margin-top: 20px; margin-left:5px">
-      <button mat-stroked-button color="primary" (click)="enviarPedido()" [disabled]="!form.valid">Finalizar</button>
-      <button mat-stroked-button color="warn" (click)="dialogRef.close()">Cancelar</button>
+      <button mat-raised-button color="primary" (click)="enviarPedido()" [disabled]="!form.valid">Finalizar</button>
+      <button mat-raised-button color="warn" (click)="dialogRef.close()" style="margin-left: 10px;">Cancelar</button>
     </div>
   </div>
 </div>

@@ -40,7 +40,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { DialogEditNotaComponent } from './conciliacao/dialog-edit-nota/dialog-edit-nota.component';
 import { DialogEstornarComponent } from './conciliacao/dialog-view-nota/dialog-estornar/dialog-estornar.component';
 import { DialogDevolucaoComponent } from './conciliacao/dialog-view-nota/dialog-devolucao/dialog-devolucao.component';
-import { ViewPedidoOrcamentoComponent } from './view-pedido-orcamento/view-pedido-orcamento.component';
+import { ViewPedidoOrcamentoComponent } from './view-pedido/view-pedido.component';
 import { DialogProdPedidoComponent } from './orcamento/dialog-prod-pedido/dialog-prod-pedido.component';
 import { PedidosComponent } from './relatorios/pedidos/pedidos.component';
 import { ProdutosVendidosComponent } from './relatorios/produtos-vendidos/produtos-vendidos.component';

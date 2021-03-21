@@ -48,6 +48,9 @@ export class ClientService {
     const obj = {
       id
     };
+
+    // this.notificationService.notify(`Você não possui permissão para excluir dados!`)
+    // Removida a func de delete
     this
       .http
       .post(uri, obj)
@@ -63,10 +66,12 @@ export class ClientService {
   }
 
   delPedidoProdutos(id){
-    const uri = `${API_URL}` +`pedido-produtos/delete/`+id +`.json`;
-    return this
-      .http
-      .delete(uri)
+    this.notificationService.notify(`Você não possui permissão para excluir dados!`)
+
+    // const uri = `${API_URL}` +`pedido-produtos/delete/`+id +`.json`;
+    // return this
+    //   .http
+    //   .delete(uri)
   }
 
   addAreaVenda(data) {
@@ -621,13 +626,17 @@ export class ClientService {
             });
   }
   removeNota(id){
-    const uri = `${API_URL}` + `notas/delete/` + id + `.json`;
-    return this
-            .http
-            .get(uri)
-            .map(res => {
-              return res;
-            });
+   this.notificationService.notify(`Você não possui permissão para excluir dados!`)
+
+    // const uri = `${API_URL}` + `notas/delete/` + id + `.json`;
+    // return this
+    //         .http
+    //         .get(uri)
+    //         .map(res => {
+    //           return res;
+    //         });
+
+    
   }
   getNotasRelatorios(data): Observable<Object>{
     const uri = `${API_URL}` + `notas/relatorios.json`;
@@ -790,6 +799,15 @@ export class ClientService {
               return res;
             });
   }
+  getProdutosRep(id) {
+    const uri = `${API_URL}` +`produtos/produtosRep/` + id + ".json";
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
 
   getProdRepCli(representada_id, cliente_id) {
     const uri = `${API_URL}` +`produtos/download/` + representada_id + "/" + cliente_id + ".json";
@@ -922,10 +940,12 @@ export class ClientService {
             });
   }
   delHomologacao(id){
-    const uri = `${API_URL}` +`homologations/delete/`+id +`.json`;
-    return this
-      .http
-      .delete(uri)
+    this.notificationService.notify(`Você não possui permissão para excluir dados!`)
+
+    // const uri = `${API_URL}` +`homologations/delete/`+id +`.json`;
+    // return this
+    //   .http
+    //   .delete(uri)
   }
   private handleError(error: any): Observable<any>{
     console.log("ERRO NA REQUISIÇÃO => ", error);

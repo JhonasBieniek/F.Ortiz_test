@@ -22,7 +22,7 @@
             </mat-form-field>
           </div>
           </div>
-          <div fxLayout="row">
+         <div fxLayout="row" ><!--*ngIf="form.controls.get('status') =='indisponivel' " -->
           <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Previsão de retorno</mat-label>
@@ -33,21 +33,23 @@
           </div>
         </div>
         <div fxLayout="row" style="margin-top: -15px;">
-          <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="prodTitle">
-            Ficha Técnica:
-          </div>  
+          <div fxFlex.gt-sm="60" fxFlex.gt-xs="60" fxFlex="60" class="prodTitle">
+            Ficha Técnica: 
+          </div>
+          <div fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="10"class="material-icons visibility-icons" *ngIf="fichaBase64 != undefined" (click)="printPreview(fichaBase64)">visibility</div>  
+          <div fxFlex.gt-sm="10" style="color: red !important;" fxFlex.gt-xs="10" fxFlex="10"class="material-icons visibility-icons ml-5" *ngIf="fichaBase64 != undefined" (click)="removeFicha()">delete_outline</div>  
           </div>  
           <div fxLayout="row">
           <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="fichaBase64 == undefined">
-            <input type="file" style="display: none"  (change)="uploadFicha($event)" #hiddenfileinput >
+            <input type="file" style="display: none" (change)="uploadFicha($event)" #hiddenfileinput >
             <button button mat-raised-button color="primary" (click)="hiddenfileinput.click()"><mat-icon aria-hidden="false" aria-label="Upload icon">file_upload</mat-icon>Upload</button>
           </div>
         </div>
-        <div fxLayout="row">
+        <!-- <div fxLayout="row">
           <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="fichaBase64 != undefined">
            <button (click)="printPreview(fichaBase64)">Visualizar</button>
           </div>
-        </div>
+        </div> -->
         <div fxLayout="row">
           <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="prodTitle">
             Imagem do produto:
@@ -133,7 +135,7 @@
           </div>
         </div> 
         <div fxLayout="row">
-          <div class="p-10 aj" fxFlex.gt-sm="35" fxFlex.gt-xs="35" fxFlex="100">
+          <div class="p-10 aj" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
             <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
               <mat-label>Selecione a representada</mat-label>
               <mat-select formControlName="representada_id">
@@ -156,22 +158,33 @@
               <input matInput placeholder="Certificado de aprovação" formControlName="certificado_aprovacao">
             </mat-form-field>
           </div>
-          <div class="p-10 aj" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
+          <div class="p-10 aj" fxFlex.gt-sm="16" fxFlex.gt-xs="16" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Embalagem do produto</mat-label>
               <input matInput placeholder="Embalagem do produto" formControlName="embalagem_nome">
             </mat-form-field>
           </div>
-          <div class="p-10 aj" fxFlex.gt-sm="10" fxFlex.gt-xs="12" fxFlex="100">
+          <div class="p-10 aj" fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Quantidade</mat-label>
               <input matInput placeholder="Quantidade" formControlName="embalagem_qtd">
             </mat-form-field>
           </div>
-          <div class="p-10 aj" fxFlex.gt-sm="10" fxFlex.gt-xs="12" fxFlex="100">
+          <div class="p-10 aj" fxFlex.gt-sm="19" fxFlex.gt-xs="19" fxFlex="100">
+            <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
+              <mat-label>Selecione a unidade</mat-label>
+              <mat-select formControlName="embalagem_un">
+                <mat-option *ngFor="let unidade of unidades" [value]="unidade.id">
+                  {{unidade.sigla}}
+                </mat-option>
+              </mat-select>
+              <mat-placeholder>Representada</mat-placeholder>
+            </mat-form-field>
+          </div>
+          <div class="p-10 aj" fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="100">
             <mat-form-field appearance="outline">
-              <mat-label>Pedido Minímo</mat-label>
-              <input matInput placeholder="Pedido Minímo" formControlName="embalagem_min">
+              <mat-label>Quantidade Min</mat-label>
+              <input matInput placeholder="Quantidade" formControlName="embalagem_min">
             </mat-form-field>
           </div>
         </div>

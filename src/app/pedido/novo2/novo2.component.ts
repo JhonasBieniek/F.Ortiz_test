@@ -710,9 +710,10 @@ export class Novo2Component implements OnInit {
   }
 
   getRazaoSocial(clienteId: string) {
+    console.log(this.clientes$.find((cliente) => cliente.id === clienteId))
     let cliente = this.clientes$.find((cliente) => cliente.id === clienteId);
     if (cliente != undefined) {
-      return cliente.razao_social + " - " + cliente.cnpj;
+      return cliente.razao_social  + " - " + cliente.cnpj;
     } else {
       return "";
     }
@@ -886,7 +887,7 @@ export class Novo2Component implements OnInit {
 
   CarregarProdutosRepresentada() {
     this.clientservice
-      .getProdutosRepresentada(this.representada.id)
+      .getProdRepCli(this.representada.id, this.pedidoN.cliente_id)
       .subscribe((res) => {
         this.data = res;
         this.rows = this.data.data;

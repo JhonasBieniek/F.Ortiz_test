@@ -86,6 +86,9 @@ export class DialogBodyProdutoComponent implements OnInit {
     this.clientservice.getRepresentadas().subscribe((res: any) => {
       this.representadas = res.data;
     });
+    this.clientservice.getUnidades().subscribe((res: any) => {
+      this.unidades = res.data;
+    });
     this.clientservice.getProdutoTipos().subscribe((res: any) => {
       this.tiposProduto = res.data;
       this.tiposProduto.map((e) => {
@@ -132,7 +135,7 @@ export class DialogBodyProdutoComponent implements OnInit {
       ipi: [null],
       produto_estados_precos: null,
       produto_tamanhos: null,
-      produto_embalagems: null,
+      produto_embalagem: null,
       preco_pr_final: null,
       preco_pr_revenda: null,
       preco_sc: null,
@@ -145,8 +148,9 @@ export class DialogBodyProdutoComponent implements OnInit {
       codigo_importacao: [null],
       previsao_retorno: [null],
       embalagem_nome: null,
-      embalagem_qtd: [null],
-      embalagem_min: [null],
+      embalagem_un: null,
+      embalagem_qtd: null,
+      embalagem_min: null,
       representada_id: [null, Validators.compose([Validators.required])],
       imagem: [null],
       imagem_ficha: [null],
@@ -177,11 +181,11 @@ export class DialogBodyProdutoComponent implements OnInit {
             this.form.get("preco_ms").setValue(e.preco);
           }
         });
-        this.produto.produto_embalagems.map((e) => {
-          this.form.get("embalagem_nome").setValue(e.nome);
-          this.form.get("embalagem_qtd").setValue(e.quantidade);
-          this.form.get("embalagem_min").setValue(e.minimo);
-        });
+          this.form.get("embalagem_nome").setValue(this.produto.produto_embalagem.nome);
+          this.form.get("embalagem_un").setValue(this.produto.produto_embalagem.unidade_id);
+          this.form.get("embalagem_qtd").setValue(this.produto.produto_embalagem.quantidade);
+          this.form.get("embalagem_min").setValue(this.produto.produto_embalagem.minimo);
+  
         this.sizes = this.produto.produto_tamanhos;
         this.colors = this.produto.produto_cores;
         this.aplications = this.produto.produto_aplications;
@@ -359,7 +363,6 @@ export class DialogBodyProdutoComponent implements OnInit {
         const image = new Image();
         image.src = e.target.result;
         base64 = e.target.result;
-        console.log(base64, 'oi')
         this.cardImageBase64 = base64;
         image.onload = (rs) => {
           const img_height = rs.currentTarget["height"];
@@ -468,6 +471,11 @@ pdfBlobConversion(b64Data, contentType) {
   removeImage() {
     this.cardImageBase64 = null;
     this.isImageSaved = false;
+    this.fichaBase64 = undefined;
+  }
+
+  removeFicha() {
+    this.fichaBase64 = undefined;
   }
 
   onSubmit() {
@@ -476,14 +484,15 @@ pdfBlobConversion(b64Data, contentType) {
     let aplicacoes = [];
     let precos = [];
     let embalagem = [];
-    if (this.data != null) {
+    if (this.produto.produto_embalagem != undefined) {
       embalagem = [
         {
           nome: this.form.value.embalagem_nome,
           quantidade: this.form.value.embalagem_qtd,
           minimo: this.form.value.embalagem_min,
+          unidade_id: this.form.value.embalagem_un,
           produto_id: this.data.id,
-          id: this.produto.produto_embalagems[0].id,
+          id: this.produto.produto_embalagem.id,
         },
       ];
     } else {
@@ -492,6 +501,7 @@ pdfBlobConversion(b64Data, contentType) {
           nome: this.form.value.embalagem_nome,
           quantidade: this.form.value.embalagem_qtd,
           minimo: this.form.value.embalagem_min,
+          unidade_id: this.form.value.embalagem_un,
         },
       ];
     }
@@ -588,13 +598,12 @@ pdfBlobConversion(b64Data, contentType) {
       imagem: this.cardImageBase64,
       imagem_ficha: this.fichaBase64,
       produto_tamanhos: tamanhos,
-      produto_embalagems: embalagem,
+      produto_embalagem: embalagem[0],
       produto_cores: cores,
       produto_aplications: aplicacoes,
       produto_estados_precos: precos,
     });
     if (this.data == null) {
-      console.log(this.form);
         this.clientservice.addProdutos(this.form.value).subscribe((res: any) => {
           if (res.success == true) {
             this.notificationService.notify(`Cadastro Efetuado com Sucesso!`)
@@ -605,7 +614,6 @@ pdfBlobConversion(b64Data, contentType) {
         }
         );
       } else {
-        console.log(this.form);
 
         this.clientservice.updateProduto(this.form.value).subscribe(() => {
           this.notificationService.notify("Atualizado com Sucesso!")

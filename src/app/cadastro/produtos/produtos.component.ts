@@ -108,9 +108,6 @@ export class ProdutosComponent implements OnInit {
       this.data = res;
       this.rows = this.data.data.sort((a, b) => a.id - b.id);
       this.temp = [...this.data.data];
-      setTimeout(() => {
-        this.loadingIndicator = false;
-      }, 1500);
     });
   }
   delete(row) {

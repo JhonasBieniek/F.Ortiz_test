@@ -35,7 +35,7 @@
                 [rows]='rows[step.index]' 
                 [selected]="selected"
                 (select)='onSelect($event)' 
-                [sorts]="[{prop: 'id', dir: 'asc'}]">
+                [sorts]="[{prop: 'id', dir: 'desc'}]">
                 <!--ng-container *ngFor="let col of step.columns" >
                   <ngx-datatable-column [flexGrow]=col.width name="{{col.name}}" prop="{{col.prop}}" [ngSwitch]="col.prop">
                     <ng-template *ngSwitchCase="'data_emissao'" let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
@@ -71,9 +71,9 @@
                     {{ value }}
                   </ng-template>
                 </ngx-datatable-column> 
-                <ngx-datatable-column [flexGrow]="0.6" name="Gerado" prop="status">
+                <ngx-datatable-column [flexGrow]="0.6" name="Cotação Charlie" prop="quotation">
                   <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                    {{ value ? 'Sim' : 'Não'}}
+                    {{ value }}
                   </ng-template>
                 </ngx-datatable-column> 
                 <ngx-datatable-column [flexGrow]="1" name="Ações">
@@ -81,9 +81,9 @@
                     <i class="fa fa-search buttonP" 
                       title="Visualizar" 
                       (click)="view(row);"></i>     
-                    <i class="fa fa-briefcase buttonP" 
+                    <!-- <i class="fa fa-briefcase buttonP" 
                       title="Gerar Pedido" 
-                      (click)="gerar(row);"></i>      
+                      (click)="gerar(row);"></i>        -->
                     <i class="fa fa-pencil buttonP" 
                       title="Editar" 
                       (click)="edit(row);"></i>

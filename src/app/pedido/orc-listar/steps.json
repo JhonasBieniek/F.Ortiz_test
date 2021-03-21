@@ -1,11 +1,11 @@
 {
-  "titulo": "Orçamentos",
+  "titulo": "Cotações",
   "add": {
-    "titulo": "Cadastrar Orçamentos"
+    "titulo": "Cadastrar Cotação"
   },
     "pedidos": [
       {
-        "titulo": "Não Gerados",
+        "titulo": "Abertas",
         "step": false,
         "index": 0,
         "columns": [
@@ -30,14 +30,14 @@
             "width": 1
           },
           {
-            "prop": "status",
-            "name": "Gerado",
+            "prop": "quotation",
+            "name": "Cotação Charlie",
             "width": 1
           }
         ]
       },
       {
-        "titulo": "Gerados",
+        "titulo": "Aprovadas",
         "step": true,
         "index": 1,
         "columns": [
@@ -62,8 +62,13 @@
             "width": 1
           },
           {
-            "prop": "status",
-            "name": "Gerado",
+            "prop": "quotation",
+            "name": "Cotação Charlie",
+            "width": 1
+          },
+          {
+            "prop": "orderGen",
+            "name": "Pedido Gerado",
             "width": 1
           }
         ]

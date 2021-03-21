@@ -17,7 +17,7 @@ export const PedidoRoutes: Routes = [
       component: ConciliacaoComponent
     },
     {
-      path: 'orcamentos',
+      path: 'cotacoes',
       component: OrcListarComponent
     },
     {
