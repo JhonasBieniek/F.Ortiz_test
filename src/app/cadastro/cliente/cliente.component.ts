@@ -43,10 +43,10 @@ export class ClienteComponent implements OnInit {
   
   updateFilter(event) {
   const val = event.target.value.toLowerCase();
-      
+  const desired = val.replace(/[^\w\s]/gi, '')    
   // filter our data
   const temp = this.temp.filter(function(d) {
-    if( d.razao_social.toLowerCase().indexOf(val) !== -1 || !val || d.cnpj.toLowerCase().indexOf(val) !== -1 || !val  )
+    if( (d.razao_social.toLowerCase().indexOf(val) !== -1 || !val )|| (d.cnpj.toLowerCase().indexOf(desired) !== -1 || !desired ) )
     return d
   }); 
   // update the rows

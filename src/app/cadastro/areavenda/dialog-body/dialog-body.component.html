@@ -52,13 +52,13 @@
       <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
         <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
           [floatLabel]="form.value.floatLabel">
-          <mat-label>Selecione um auxiliar...</mat-label>
+          <mat-label>Selecione um(a) assistente...</mat-label>
           <mat-select required [formControl]="form.controls['auxiliar_id']">
             <mat-option *ngFor="let aux of auxiliares" [value]="aux.id">
               {{aux.nome}}
             </mat-option>
           </mat-select>
-          <mat-placeholder>Auxiliar</mat-placeholder>
+          <mat-placeholder>Assistente</mat-placeholder>
         </mat-form-field>
       </div>
     </div>

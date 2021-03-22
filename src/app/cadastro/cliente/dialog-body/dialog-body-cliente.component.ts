@@ -181,8 +181,7 @@ export class DialogBodyClienteComponent implements OnInit {
     const area_venda = this.form.controls.cliente_representada_area_vendas as FormArray;
     area_venda.push(
       this.fb.group({
-          id: data ? data.id : null,
-          cliente_id: data ? data.cliente_id : null,
+          cliente_id: this.data.id,
           area_venda_id: data ? data.area_venda_id: null,
           representada_id: data ? data.representada_id : null,
       })
@@ -211,7 +210,7 @@ export class DialogBodyClienteComponent implements OnInit {
           cargo: data ? data.cargo: null,
           celular: data ? data.celular : null,
           email: data ? data.email : null,
-          aniversario: data ? moment(data.aniversario).format() : null,
+          aniversario: null,
           cliente_id: this.data ? this.data.id : null,
       })
     );
@@ -435,6 +434,7 @@ export class DialogBodyClienteComponent implements OnInit {
   onSubmit() {
     if (this.data != undefined && this.data.action == "edit") {
       this.form.value.cliente_contatos.forEach(element => {
+        if(element.aniversario != null)
         element.aniversario = moment(element.aniversario).format('YYYY-MM-DD')      
       });
       this.clientservice.updateCliente(this.form.value).subscribe((res) => {
