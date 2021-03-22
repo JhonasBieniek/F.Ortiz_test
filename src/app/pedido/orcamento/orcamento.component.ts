@@ -163,21 +163,26 @@ export class OrcamentoComponent implements OnInit {
             this.cliente_id = this.orcamento.cliente_id;
             this.form.get('cliente_id').setValue(this.orcamento.cliente.razao_social);
             this.form.get('cliente_id').enable();
-            this.CarregarProdutosRepresentada(this.orcamento.cliente_id, this.orcamento.representada_id);
-            setTimeout(() => {
-              this.orcamento.orcamento_produtos.forEach(element => {
-                this.rows.filter(produto => {
-                  if(produto.id == element.produto_id){
-                   element.valor_unitario = produto.produto_estados_precos[0].preco;
-                  }
-                })
-                this.addItem(element)
-              });
-            }, 3000);
+            this.CarregarProdutosRepresentada2(this.orcamento.cliente_id, this.orcamento.representada_id, this.orcamento);
           },
           (error) => alert('Ocorreu um erro no servidor, tente mais tarde.')
         )
     }
+  }
+
+  CarregarProdutosRepresentada2(cliente_id, representada_id, produtos) {
+    this.clientservice.getProdRepCli(representada_id, cliente_id ).subscribe((res:any) => {
+      this.rows = res.data;
+      this.temp = [...this.rows];
+      produtos.orcamento_produtos.forEach(element => {
+        this.rows.filter(produto => {
+          if(produto.id == element.produto_id){
+           element.valor_unitario = produto.produto_estados_precos[0].preco;
+          }
+        })
+        this.addItem(element)
+      });
+    })
   }
 
   private transform (data) {

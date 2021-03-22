@@ -173,7 +173,7 @@
             </ngx-datatable-column>
             <ngx-datatable-column [flexGrow]="0.5" name="Embalagem" prop="produto_embalagems">
               <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                {{ value[0].nome }}
+                {{ value.nome }}
               </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column [flexGrow]="1" name="Cores" prop="produto_cores">

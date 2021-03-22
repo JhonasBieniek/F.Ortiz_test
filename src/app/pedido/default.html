@@ -61,7 +61,12 @@
                     {{ value }}
                   </ng-template>
                 </ngx-datatable-column> 
-                <ngx-datatable-column [flexGrow]="1" name="Emissão" prop="data_emissao">
+                <ngx-datatable-column [flexGrow]="1" name="Assistente" prop="area_venda.auxiliar.nome">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value}}
+                  </ng-template>
+                </ngx-datatable-column> 
+                <ngx-datatable-column [flexGrow]="0.7" name="Emissão" prop="data_emissao">
                   <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                     {{ value |  date:'dd/MM/yyyy'}}
                   </ng-template>
@@ -71,7 +76,7 @@
                     {{ value }}
                   </ng-template>
                 </ngx-datatable-column> 
-                <ngx-datatable-column [flexGrow]="0.6" name="Cotação Charlie" prop="quotation">
+                <ngx-datatable-column [flexGrow]="1" name="Cotação Charlie" prop="quotation">
                   <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                     {{ value }}
                   </ng-template>

@@ -435,7 +435,9 @@ export class DialogBodyClienteComponent implements OnInit {
     if (this.data != undefined && this.data.action == "edit") {
       this.form.value.cliente_contatos.forEach(element => {
         if(element.aniversario != null)
-        element.aniversario = moment(element.aniversario).format('YYYY-MM-DD')      
+        element.aniversario = moment(element.aniversario).format('YYYY-MM-DD')
+        if(element.email != null)
+        element.email = element.email.replace(/\s/g, '');      
       });
       this.clientservice.updateCliente(this.form.value).subscribe((res) => {
         if(res.status == "error"){

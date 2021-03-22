@@ -56,11 +56,9 @@ export class UnidadeComponent implements OnInit {
   this.table = this.data;
   }
   updateValue(event, cell, rowIndex) {    
-  console.log('inline editing rowIndex', rowIndex)
   this.editing[rowIndex + '-' + cell] = false;
   this.rows[rowIndex][cell] = event.target.value;
   this.rows = [...this.rows];
-  console.log('UPDATED!', this.rows[rowIndex][cell]);
   }
 
   openDialog() {
@@ -116,9 +114,7 @@ export class UnidadeComponent implements OnInit {
       this.dados = res;
       this.rows = this.dados.data;
       this.temp = [...this.dados.data];
-      setTimeout(() => { this.loadingIndicator = false; }, 1500);
       });
-      console.log("Rodei")
   }
 
 
