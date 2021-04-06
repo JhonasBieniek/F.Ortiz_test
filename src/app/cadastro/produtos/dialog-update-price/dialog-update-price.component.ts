@@ -19,6 +19,7 @@ export class DialogUpdatePriceComponent implements OnInit {
   representada: any;
   prods: any = [];
   produtos: any = [];
+  produtosNaoEncontrados = [];
 
   constructor(
     private clientservice: ClientService,
@@ -27,7 +28,7 @@ export class DialogUpdatePriceComponent implements OnInit {
     this.clientservice.getRepresentadasFunc().subscribe((res: any) => {
       this.representadas = res.data;
     });
-    this.clientservice.getProdutosSoft().subscribe((res: any) => {
+    this.clientservice.getProdutosSoftPrice().subscribe((res: any) => {
       this.prods = res.data;
     });
   }
@@ -130,14 +131,14 @@ export class DialogUpdatePriceComponent implements OnInit {
           header: 1,
         });
       }
-      if (this.representada.id === 9) {
-        this[representada](json4, json12, json18);
-      }
-      if (this.representada.id === 10) {
-        this[representada](json, jsonms, jsonpr, jsonsc);
-      } else {
-        this[representada](json);
-      }
+        if (this.representada.id === 9) {
+          this[representada](json4, json12, json18);
+        }
+        else if (this.representada.id === 10) {
+          this[representada](json, jsonms, jsonpr, jsonsc);
+        } else {
+          this[representada](json);
+        }
     };
     if (file != undefined) {
       this.spinner.show();
@@ -146,58 +147,59 @@ export class DialogUpdatePriceComponent implements OnInit {
   }
 
   async volk(data4, data12, data18) {
+    console.log(data4)
     let produtos = [];
-    data4.forEach((element) => {
-      if (
-        element[1] != "CÓDIGO" &&
-        element[9] != "4% - R$" &&
-        element.length > 2 &&
-        element[9] != undefined
-      ) {
-        var produto = [
-          { preco: element[9], codigo: element[1], estado_id: 12, tipo: null },
-          { preco: element[9], codigo: element[1], estado_id: 24, tipo: null },
-          { preco: element[9], codigo: element[1], estado_id: 25, tipo: null },
-        ];
-        produtos.push(produto);
-      }
-    });
-    data12.forEach((element) => {
-      if (
-        element[1] != "CÓDIGO" &&
-        element[9] != "12% - R$" &&
-        element.length > 2 &&
-        element[9] != undefined
-      ) {
-        var produto = [
-          {
-            preco: element[9],
-            codigo: element[1],
-            estado_id: 16,
-            tipo: "revendedor",
-          },
-        ];
-        produtos.push(produto);
-      }
-    });
-    data18.forEach((element) => {
-      if (
-        element[1] != "CÓDIGO" &&
-        element[9] != "18% - R$" &&
-        element.length > 2 &&
-        element[9] != undefined
-      ) {
-        var produto = [
-          {
-            preco: element[9],
-            codigo: element[1],
-            estado_id: 16,
-            tipo: "final",
-          },
-        ];
-        produtos.push(produto);
-      }
-    });
+      data4.forEach((element) => {
+        if (
+          element[1] != "CÓDIGO" &&
+          element[9] != "4% - R$" &&
+          element.length > 2 &&
+          element[9] != undefined
+        ) {
+          var produto = [
+            { preco: element[9], codigo: element[1], estado_id: 12, tipo: null },
+            { preco: element[9], codigo: element[1], estado_id: 24, tipo: null },
+            { preco: element[9], codigo: element[1], estado_id: 25, tipo: null },
+          ];
+          produtos.push(produto);
+        }
+      });
+      data12.forEach((element) => {
+        if (
+          element[1] != "CÓDIGO" &&
+          element[9] != "12% - R$" &&
+          element.length > 2 &&
+          element[9] != undefined
+        ) {
+          var produto = [
+            {
+              preco: element[9],
+              codigo: element[1],
+              estado_id: 16,
+              tipo: "revendedor",
+            },
+          ];
+          produtos.push(produto);
+        }
+      });
+      data18.forEach((element) => {
+        if (
+          element[1] != "CÓDIGO" &&
+          element[9] != "18% - R$" &&
+          element.length > 2 &&
+          element[9] != undefined
+        ) {
+          var produto = [
+            {
+              preco: element[9],
+              codigo: element[1],
+              estado_id: 16,
+              tipo: "final",
+            },
+          ];
+          produtos.push(produto);
+        }
+      });
     console.log(produtos);
     produtos.forEach((element) => {
       element.forEach((elementIn) => {
@@ -232,11 +234,11 @@ export class DialogUpdatePriceComponent implements OnInit {
     data.forEach((element) => {
       if (typeof element[3] == "number" && element[3] > 0) {
         var produto = [
-          { preco: element[3], codigo: element[1], estado_id: 12, tipo: null },
-          { preco: element[3], codigo: element[1], estado_id: 16, tipo: null },
-          { preco: element[3], codigo: element[1], estado_id: 18, tipo: null },
-          { preco: element[3], codigo: element[1], estado_id: 24, tipo: null },
-          { preco: element[3], codigo: element[1], estado_id: 25, tipo: null },
+          { preco: element[4], codigo: element[0], estado_id: 12, tipo: null },
+          { preco: element[4], codigo: element[0], estado_id: 16, tipo: null },
+          { preco: element[4], codigo: element[0], estado_id: 18, tipo: null },
+          { preco: element[4], codigo: element[0], estado_id: 24, tipo: null },
+          { preco: element[4], codigo: element[0], estado_id: 25, tipo: null },
         ];
         produtos.push(produto);
       }
@@ -257,7 +259,7 @@ export class DialogUpdatePriceComponent implements OnInit {
                 this.clientservice
                   .updateProdutoEstadoPreco(data)
                   .subscribe((res) => {
-                    console.log(res);
+
                   });
               }
             });
@@ -337,65 +339,64 @@ export class DialogUpdatePriceComponent implements OnInit {
   async brasmo(data, datams, datapr, datasc) {
     let produtos = [];
     data.forEach((element) => {
-      if (typeof element[10] == "number") {
+      if (typeof element[9] == "number") {
         var produto = [
-          { preco: element[10], codigo: element[0], estado_id: 25, tipo: null },
+          { preco: element[9], codigo: element[0], estado_id: 25, tipo: null },
         ];
         produtos.push(produto);
       }
     });
     datams.forEach((element) => {
-      console.log(element);
-      if (typeof element[10] == "number") {
+      if (typeof element[9] == "number") {
         var produto = [
-          { preco: element[10], codigo: element[0], estado_id: 12, tipo: null },
+          { preco: element[9], codigo: element[0], estado_id: 12, tipo: null },
         ];
         produtos.push(produto);
       }
     });
     datapr.forEach((element) => {
-      if (typeof element[10] == "number") {
+      if (typeof element[9] == "number") {
         var produto = [
-          { preco: element[10], codigo: element[0], estado_id: 16, tipo: null },
+          { preco: element[9], codigo: element[0], estado_id: 16, tipo: null },
         ];
         produtos.push(produto);
       }
     });
     datasc.forEach((element) => {
-      if (typeof element[10] == "number") {
+      if (typeof element[9] == "number") {
         var produto = [
-          { preco: element[10], codigo: element[0], estado_id: 24, tipo: null },
+          { preco: element[9], codigo: element[0], estado_id: 24, tipo: null },
         ];
         produtos.push(produto);
       }
     });
     console.log(produtos);
 
-    produtos.forEach((element) => {
-      element.forEach((elementIn) => {
-        this.prods.map((e: any) => {
-          if (e.codigo_catalogo == elementIn.codigo) {
-            e.produto_estados_precos.map((f) => {
-              if (
-                f.estado_id == elementIn.estado_id &&
-                f.preco != elementIn.preco.toFixed(2)
-              ) {
-                let data = {
-                  id: f.id,
-                  preco: elementIn.preco.toFixed(2),
-                };
-                console.log(data);
-                this.clientservice
-                  .updateProdutoEstadoPreco(data)
-                  .subscribe((res) => {
-                    console.log(res);
-                  });
-              }
-            });
-          }
-        });
-      });
-    });
+    // produtos.forEach((element) => {
+    //   element.forEach((elementIn) => {
+    //     this.prods.map((e: any) => {
+    //       if (e.codigo_catalogo == elementIn.codigo) {
+    //         e.produto_estados_precos.map((f) => {
+    //           if (
+    //             f.estado_id == elementIn.estado_id &&
+    //             f.preco != elementIn.preco.toFixed(2)
+    //           ) {
+    //             let data = {
+    //               id: f.id,
+    //               preco: elementIn.preco.toFixed(2),
+    //             };
+    //             console.log(data);
+    //             this.clientservice
+    //               .updateProdutoEstadoPreco(data)
+    //               .subscribe((res) => {
+    //                 console.log(res);
+    //               });
+    //           }
+    //         });
+    //       }
+    //     });
+    //   });
+    // });
     this.productsNotFound(produtos);
     this.spinner.hide();
   }
@@ -481,11 +482,11 @@ export class DialogUpdatePriceComponent implements OnInit {
         }
       })
     );
-    console.log(x, y);
+    //console.log(x, y);
     produtosNaoEncontrados = y.filter(function (obj) {
       return x.indexOf(obj) == -1;
     });
-
+    this.produtosNaoEncontrados = produtosNaoEncontrados;
     console.log(produtosNaoEncontrados);
   }
 }

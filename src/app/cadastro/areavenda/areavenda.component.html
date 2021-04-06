@@ -26,6 +26,12 @@
                                 [limit]="20"
                                 [rows]='rows'>
 
+                                <ngx-datatable-column [flexGrow]="0.5" name="ID">
+                                  <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
+                                    {{ row.id }}
+                                  </ng-template>
+                                </ngx-datatable-column>  
+
                                   <ngx-datatable-column [flexGrow]="1" name="Nome">
                                     <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
                                       {{ row.nome }}

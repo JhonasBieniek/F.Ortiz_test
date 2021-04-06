@@ -25,7 +25,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 @Component({
   selector: 'app-orcamento',
   templateUrl: './orcamento.component.html',
-  styleUrls: ['./orcamento.component.css']
+  styleUrls: ['./orcamento.component.css'],
 })
 
 export class OrcamentoComponent implements OnInit {
@@ -120,7 +120,7 @@ export class OrcamentoComponent implements OnInit {
       frete: ['Representada', Validators.required],
       transportadora: [null],
       valor_total: [null],
-      status: [false, Validators.required],
+      status: [false],
       situation: 1,
       orcamento_produtos: this.fb.array([])
     });

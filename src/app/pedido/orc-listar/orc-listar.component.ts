@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, ViewEncapsulation } from '@angular/core';
 import { ClientService } from '../../shared/services/client.service.component';
 import { MatDialog, MatDialogConfig, MatTabChangeEvent } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -11,7 +11,8 @@ import { Novo2Component } from '../novo2/novo2.component';
 @Component({
   selector: 'app-orc-listar',
   templateUrl: '../default.html',
-  styleUrls: ['./orc-listar.component.css']
+  styleUrls: ['./orc-listar.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class OrcListarComponent implements OnInit {
@@ -43,10 +44,10 @@ export class OrcListarComponent implements OnInit {
   }
 
   loadData() {
-    this.clientservice.getOrcamentos().subscribe((res: any) => {
+    this.clientservice.getOrcamentosForUsers().subscribe((res: any) => {
       let i = 0;
       this.steps.forEach(e => {
-        this.temp[i] = res.data.filter(d => d.status == e.step);
+        this.temp[i] = res.data.filter(d => d.situation == e.step);
         i++;
       });
       this.rows = [...this.temp.sort((a, b) => a.id - b.id)];

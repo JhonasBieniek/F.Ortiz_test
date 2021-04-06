@@ -181,7 +181,7 @@ export class DialogBodyClienteComponent implements OnInit {
     const area_venda = this.form.controls.cliente_representada_area_vendas as FormArray;
     area_venda.push(
       this.fb.group({
-          cliente_id: this.data.id,
+          cliente_id: '',
           area_venda_id: data ? data.area_venda_id: null,
           representada_id: data ? data.representada_id : null,
       })
@@ -326,7 +326,7 @@ export class DialogBodyClienteComponent implements OnInit {
         );
     }
     let endereco = {
-      cep: data.cep,
+      cep: this.removeSpecialChar(data.cep),
       logradouro: data.logradouro,
       numero: data.numero,
       complemnto: data.complemento,

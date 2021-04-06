@@ -5,8 +5,8 @@
   },
     "pedidos": [
       {
-        "titulo": "Abertas",
-        "step": false,
+        "titulo": "Em análise (Assistente)",
+        "step": 0,
         "index": 0,
         "columns": [
           {
@@ -37,9 +37,83 @@
         ]
       },
       {
-        "titulo": "Aprovadas",
-        "step": true,
+        "titulo": "Ag. Aprovação (Cliente)",
+        "step": 1,
         "index": 1,
+        "columns": [
+          {
+            "prop": "representada.nome_fantasia",
+            "name": "Representada",
+            "width": 1.5
+          },
+          {
+            "prop": "cliente.nome_fantasia",
+            "name": "Comprador",
+            "width": 1.5
+          },
+          {
+            "prop": "data_emissao",
+            "name": "Emissão",
+            "width": 1
+          },
+          {
+            "prop": "validade",
+            "name": "Validade",
+            "width": 1
+          },
+          {
+            "prop": "quotation",
+            "name": "Cotação Charlie",
+            "width": 1
+          },
+          {
+            "prop": "orderGen",
+            "name": "Pedido Gerado",
+            "width": 1
+          }
+        ]
+      },
+      {
+        "titulo": "Aprovado",
+        "step": 2,
+        "index": 2,
+        "columns": [
+          {
+            "prop": "representada.nome_fantasia",
+            "name": "Representada",
+            "width": 1.5
+          },
+          {
+            "prop": "cliente.nome_fantasia",
+            "name": "Comprador",
+            "width": 1.5
+          },
+          {
+            "prop": "data_emissao",
+            "name": "Emissão",
+            "width": 1
+          },
+          {
+            "prop": "validade",
+            "name": "Validade",
+            "width": 1
+          },
+          {
+            "prop": "quotation",
+            "name": "Cotação Charlie",
+            "width": 1
+          },
+          {
+            "prop": "orderGen",
+            "name": "Pedido Gerado",
+            "width": 1
+          }
+        ]
+      },
+      {
+        "titulo": "Cancelado",
+        "step": 4,
+        "index": 3,
         "columns": [
           {
             "prop": "representada.nome_fantasia",

@@ -76,7 +76,6 @@
             </mat-select>
             <mat-placeholder>Condição Comercial</mat-placeholder>
           </mat-form-field>
-          <div style="font-size: 9px; margin-top: -15px; color:red">{{condComercial}}</div>
         </div>
         <div class="p-10" style="margin-top:-15px" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
           <label class="m-r-10">Frete :</label>
@@ -91,24 +90,27 @@
             <input matInput placeholder="Insira a transportadora" formControlName="transportadora">
           </mat-form-field>
         </div>
-        <div class="p-10 pad" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
+        <div class="p-10 pad" fxFlex.gt-sm="15" fxFlex.gt-md="15" fxFlex.gt-xs="15" fxFlex="100">
           <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
-            [floatLabel]="form.value.floatLabel">
+          [floatLabel]="form.value.floatLabel">
             <mat-label>Status</mat-label>
-            <mat-select required formControlName="status">
+            <mat-select formControlName="situation">
               <mat-option>-- Selecione... --</mat-option>
-              <mat-option [value]=true>Aprovado</mat-option>
-              <mat-option [value]=false>Aberto</mat-option>
+              <mat-option [value]=0>Em Análise</mat-option>
+              <mat-option [value]=1>Ag. Aprovação</mat-option>
+              <mat-option [value]=2>Aprovado</mat-option>
+              <mat-option [value]=3>Indisponível</mat-option>
+              <mat-option [value]=4>Cancelado</mat-option>
             </mat-select>
           </mat-form-field>
-          <small *ngIf="form.get('status').errors?.required && form.get('status').touched"
-            class="text-danger font-14">Você precisa selecionar o status.</small>
+          <small *ngIf="form.get('situation').errors?.required && form.get('situation').touched"
+          class="text-danger font-14">Você precisa selecionar o status.</small>
         </div>
           <div class="m-t-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="this.form.get('quotation').value != null">
             <mat-divider></mat-divider>
           </div>
-          <div class="p-10" fxFlex.gt-sm="16" fxFlex.gt-md="13" fxFlex.gt-xs="13" fxFlex="100"
-            style="margin-top: -10px;" *ngIf="this.form.get('quotation').value != null">
+          <div class="p-t-10" fxFlex.gt-sm="16" fxFlex.gt-md="13" fxFlex.gt-xs="13" fxFlex="100"
+            style="margin-top: -10px; margin-right: -2.5vw;" *ngIf="this.form.get('quotation').value != null">
             <span style="font-weight: 600;">Cotação Charlie:</span>
           </div>
           <div class="p-10 pad" fxFlex.gt-sm="20" fxFlex.gt-md="21" fxFlex.gt-xs="21" fxFlex="100" *ngIf="this.form.get('quotation').value != null">
@@ -127,20 +129,6 @@
             <mat-form-field appearance="outline">
               <mat-label>N° WhatsApp</mat-label>
               <input matInput placeholder="N° WhatsApp" formControlName="quotation_phone" mask="(00) 0 0000-0000">
-            </mat-form-field>
-          </div>
-          <div class="p-10 pad" fxFlex.gt-sm="24" fxFlex.gt-md="24" fxFlex.gt-xs="24" fxFlex="100" *ngIf="this.form.get('quotation').value != null">
-            <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
-            [floatLabel]="form.value.floatLabel">
-              <mat-label>Charlie Status</mat-label>
-              <mat-select formControlName="situation">
-                <mat-option>-- Selecione... --</mat-option>
-                <mat-option [value]=0>Em Análise</mat-option>
-                <mat-option [value]=1>Ag. Aprovação</mat-option>
-                <mat-option [value]=2>Aprovado</mat-option>
-                <mat-option [value]=3>Indisponível</mat-option>
-                <mat-option [value]=4>Cancelado</mat-option>
-              </mat-select>
             </mat-form-field>
           </div>
         <div class="p-10 pad" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
@@ -195,7 +183,7 @@
           </ngx-datatable>
         </div>
         <div formArrayName="orcamento_produtos">
-          <div *ngFor="let produto of form.get('orcamento_produtos').controls; index as i" [formGroupName]="i">
+          <div *ngFor="let produto of form.get('orcamento_produtos')['controls']; index as i" [formGroupName]="i">
             <div class="title"> {{produto.get('codigo_catalogo').value}} - {{produto.get('nome').value | slice:0:55}}
               <button (click)="removeItem(i)" mat-icon-button color="warn">
                 <mat-icon>clear</mat-icon>
@@ -237,7 +225,7 @@
               </div>
             </ng-container>
           </div>
-          <div *ngIf="form.get('orcamento_produtos').controls.length > 0" fxLayoutAlign="end center">
+          <div *ngIf="form.get('orcamento_produtos')['controls'].length > 0" fxLayoutAlign="end center">
             <button mat-button color="warn" (click)="clearProdutos()"><i
                 class="material-icons">delete_outline</i>Limpar</button>
           </div>

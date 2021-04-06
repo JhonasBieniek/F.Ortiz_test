@@ -16,7 +16,13 @@
                     </mat-select>
                 </mat-form-field>
             </div>
+            <div class="p-10" fxFlex.gt-sm="10" fxFlex.gt-md="100" fxFlex.gt-xs="100" fxFlex="100">
+                <div *ngFor="let p of produtosNaoEncontrados">
+                    {{p}}
+                </div>
+            </div>
         </div>
     </div>
 </div>
-<button (click)="teste()"> teste</button>
+
+

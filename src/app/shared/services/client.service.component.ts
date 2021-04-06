@@ -441,6 +441,15 @@ export class ClientService {
               return res;
             });
   }
+  getProdutosSoftPrice() {
+    const uri = `${API_URL}` + `produtos/index4.json`;
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
   getProdutosHomologation() {
     const uri = `${API_URL}` + `produtos/index2.json`;
     return this
@@ -665,6 +674,15 @@ export class ClientService {
   }
   getOrcamentos() {
     const uri = `${API_URL}` + `orcamentos/index.json`;
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
+  getOrcamentosForUsers() {
+    const uri = `${API_URL}` + `orcamentos/indexForUsers.json`;
     return this
             .http
             .get(uri)
