@@ -1,0 +1,137 @@
+{
+  "titulo": "Homologações",
+  "import": {
+    "titulo": "Importar"
+  },
+  "add": {
+    "titulo": "Novo"
+  },
+    "homologacoes": [
+      {
+        "titulo": "Em teste",
+        "step": "Em teste",
+        "index": 0,
+        "columns": [
+          {
+            "prop": "cliente.nome_fantasia",
+            "name": "Cliente",
+            "width": 0.6
+          },
+          {
+            "prop": "cliente.cnpj",
+            "name": "CNPJ",
+            "width": 1.5
+          },
+          {
+            "prop": "cliente.tipo_cliente",
+            "name": "Tipo de Cliente",
+            "width": 1.5
+          },
+          {
+            "prop": "produto.codigo_catalogo",
+            "name": "Produto",
+            "width": 1
+          },
+          {
+            "prop": "data_inicial",
+            "name": "Dt. Inicial",
+            "width": 1
+          },
+          {
+            "prop": "data_final",
+            "name": "Dt. Final",
+            "width": 1
+          },
+          {
+            "prop": "status",
+            "name": "Status",
+            "width": 1
+          }
+        ]
+      },
+      {
+        "titulo": "Homologado",
+        "step": "Homologado",
+        "index": 1,
+        "columns": [
+          {
+            "prop": "cliente.nome_fantasia",
+            "name": "Cliente",
+            "width": 0.6
+          },
+          {
+            "prop": "cliente.cnpj",
+            "name": "CNPJ",
+            "width": 1.5
+          },
+          {
+            "prop": "cliente.tipo_cliente",
+            "name": "Tipo de Cliente",
+            "width": 1.5
+          },
+          {
+            "prop": "produto.codigo_catalogo",
+            "name": "Produto",
+            "width": 1
+          },
+          {
+            "prop": "data_inicial",
+            "name": "Dt. Inicial",
+            "width": 1
+          },
+          {
+            "prop": "data_final",
+            "name": "Dt. Final",
+            "width": 1
+          },
+          {
+            "prop": "status",
+            "name": "Status",
+            "width": 1
+          }
+        ]
+      },
+      {
+        "titulo": "Não Homologados",
+        "step": "Nao Homologado",
+        "index": 2,
+        "columns": [
+          {
+            "prop": "cliente.nome_fantasia",
+            "name": "Cliente",
+            "width": 0.6
+          },
+          {
+            "prop": "cliente.cnpj",
+            "name": "CNPJ",
+            "width": 1.5
+          },
+          {
+            "prop": "cliente.tipo_cliente",
+            "name": "Tipo de Cliente",
+            "width": 1.5
+          },
+          {
+            "prop": "produto.codigo_catalogo",
+            "name": "Produto",
+            "width": 1
+          },
+          {
+            "prop": "data_inicial",
+            "name": "Dt. Inicial",
+            "width": 1
+          },
+          {
+            "prop": "data_final",
+            "name": "Dt. Final",
+            "width": 1
+          },
+          {
+            "prop": "status",
+            "name": "Status",
+            "width": 1
+          }
+        ]
+      }
+    ]
+  }

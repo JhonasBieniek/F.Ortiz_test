@@ -6,7 +6,7 @@ export const HomologacaoRoutes: Routes = [
   {
     path: '',
     children: [{
-      path: 'novo',
+      path: 'homologacoes',
       component: NovoComponent
     }]
   }

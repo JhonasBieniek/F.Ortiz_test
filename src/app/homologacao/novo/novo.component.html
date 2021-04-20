@@ -10,8 +10,8 @@
           </div>
         </mat-card-actions>
       </mat-card-content>
-      <mat-tab-group>
-        <mat-tab label="Em Teste">
+      <mat-tab-group (selectedTabChange)="onTabChange($event)">
+        <mat-tab *ngFor="let step of steps " class="aba" label="{{step.titulo}}">
           <mat-card-content>
             <mat-card-title>Buscar</mat-card-title>
             <mat-form-field>
@@ -19,7 +19,13 @@
                 placeholder='Digite um nome/cnpj ou cod. do produto para filtrar...' (keyup)='updateFilter($event)' />
             </mat-form-field>
             <ngx-datatable #table class='material striped' [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50"
-              [rowHeight]="'auto'" [limit]="20" [rows]='rows'>
+              [rowHeight]="'auto'" [limit]="20" [rows]='rows[step.index]'>
+
+              <ngx-datatable-column [flexGrow]="0.5" name="ID">
+                <ng-template let-value="id" let-row="row" ngx-datatable-cell-template>
+                  {{ row.id }}
+                </ng-template>
+              </ngx-datatable-column>
 
               <ngx-datatable-column [flexGrow]="1.5" name="Cliente">
                 <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
@@ -33,21 +39,9 @@
                 </ng-template>
               </ngx-datatable-column>
 
-              <ngx-datatable-column [flexGrow]="0.8" name="Tipo de cliente">
-                <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
-                  {{ row.cliente.tipo_cliente | titlecase }}
-                </ng-template>
-              </ngx-datatable-column>
-
               <ngx-datatable-column [flexGrow]="1" name="Produto">
                 <ng-template let-value="vendedor" let-row="row" ngx-datatable-cell-template>
                   {{ row.produto.codigo_catalogo }}
-                </ng-template>
-              </ngx-datatable-column>
-
-              <ngx-datatable-column [flexGrow]="0.8" name="Pedido">
-                <ng-template let-value="status" let-row="row" ngx-datatable-cell-template>
-                  {{ row.num_pedido }}
                 </ng-template>
               </ngx-datatable-column>
 
@@ -64,142 +58,6 @@
               </ngx-datatable-column>
 
               <ngx-datatable-column [flexGrow]="0.8" name="Status">
-                <ng-template let-value="modified" let-row="row" ngx-datatable-cell-template>
-                  {{ (row.status) }}
-                </ng-template>
-              </ngx-datatable-column>
-
-              <ngx-datatable-column [flexGrow]="0.8" name="Ações">
-                <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-                  <i class="fa fa-pencil button" title="Editar" (click)="edit(row);"></i>
-                  <i class="fa fa-trash-o button2" title="Deletar" (click)="delete(row)"></i>
-                </ng-template>
-              </ngx-datatable-column>
-
-            </ngx-datatable>
-          </mat-card-content>
-        </mat-tab>
-        <mat-tab label="Homologados">
-          <mat-card-content>
-            <mat-card-title>Buscar</mat-card-title>
-            <mat-form-field>
-              <input matInput type='text' class="form-control"
-                placeholder='Digite um nome/cnpj ou cod. do produto para filtrar...' (keyup)='updateFilter($event)' />
-            </mat-form-field>
-            <ngx-datatable #table class='material striped' [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50"
-              [rowHeight]="'auto'" [limit]="20" [rows]='rows'>
-
-              <ngx-datatable-column [flexGrow]="1.5" name="Cliente">
-                <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
-                  {{ row.cliente.nome_fantasia }}
-                </ng-template>
-              </ngx-datatable-column>
-
-              <ngx-datatable-column [flexGrow]="1.5" name="CNPJ">
-                <ng-template let-value="cnpj" let-row="row" ngx-datatable-cell-template>
-                  {{ row.cliente.cnpj | mask:'00.000.000/0000-00'}}
-                </ng-template>
-              </ngx-datatable-column>
-
-              <ngx-datatable-column [flexGrow]="0.8" name="Tipo de cliente">
-                <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
-                  {{ row.cliente.tipo_cliente | titlecase }}
-                </ng-template>
-              </ngx-datatable-column>
-
-              <ngx-datatable-column [flexGrow]="0.5" name="Produto">
-                <ng-template let-value="vendedor" let-row="row" ngx-datatable-cell-template>
-                  {{ row.produto.codigo_catalogo }}
-                </ng-template>
-              </ngx-datatable-column>
-
-              <ngx-datatable-column [flexGrow]="1" name="Pedido">
-                <ng-template let-value="status" let-row="row" ngx-datatable-cell-template>
-                  {{ row.num_pedido }}
-                </ng-template>
-              </ngx-datatable-column>
-
-              <ngx-datatable-column [flexGrow]="0.8" name="Dt. Inicial">
-                <ng-template let-value="created" let-row="row" ngx-datatable-cell-template>
-                  {{ row.data_inicial | date:'dd/MM/yyyy' }}
-                </ng-template>
-              </ngx-datatable-column>
-
-              <ngx-datatable-column [flexGrow]="0.8" name="Dt. Final">
-                <ng-template let-value="created" let-row="row" ngx-datatable-cell-template>
-                  {{ row.data_final | date:'dd/MM/yyyy'  }}
-                </ng-template>
-              </ngx-datatable-column>
-
-              <ngx-datatable-column [flexGrow]="0.6" name="Status">
-                <ng-template let-value="modified" let-row="row" ngx-datatable-cell-template>
-                  {{ (row.status) }}
-                </ng-template>
-              </ngx-datatable-column>
-
-              <ngx-datatable-column [flexGrow]="0.6" name="Ações">
-                <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-                  <i class="fa fa-pencil button" title="Editar" (click)="edit(row);"></i>
-                  <i class="fa fa-trash-o button2" title="Deletar" (click)="delete(row)"></i>
-                </ng-template>
-              </ngx-datatable-column>
-
-            </ngx-datatable>
-          </mat-card-content>
-        </mat-tab>
-        <mat-tab label="Não Homologados">
-          <mat-card-content>
-            <mat-card-title>Buscar</mat-card-title>
-            <mat-form-field>
-              <input matInput type='text' class="form-control"
-                placeholder='Digite um nome/cnpj ou cod. do produto para filtrar...' (keyup)='updateFilter($event)' />
-            </mat-form-field>
-            <ngx-datatable #table class='material striped' [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50"
-              [rowHeight]="'auto'" [limit]="20" [rows]='rows'>
-
-              <ngx-datatable-column [flexGrow]="1.5" name="Cliente">
-                <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
-                  {{ row.cliente.nome_fantasia }}
-                </ng-template>
-              </ngx-datatable-column>
-
-              <ngx-datatable-column [flexGrow]="1.2" name="CNPJ">
-                <ng-template let-value="cnpj" let-row="row" ngx-datatable-cell-template>
-                  {{ row.cliente.cnpj | mask:'00.000.000/0000-00'}}
-                </ng-template>
-              </ngx-datatable-column>
-
-              <ngx-datatable-column [flexGrow]="0.8" name="Tipo de cliente">
-                <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
-                  {{ row.cliente.tipo_cliente | titlecase }}
-                </ng-template>
-              </ngx-datatable-column>
-
-              <ngx-datatable-column [flexGrow]="1" name="Produto">
-                <ng-template let-value="vendedor" let-row="row" ngx-datatable-cell-template>
-                  {{ row.produto.codigo_catalogo }}
-                </ng-template>
-              </ngx-datatable-column>
-
-              <ngx-datatable-column [flexGrow]="0.5" name="Pedido">
-                <ng-template let-value="status" let-row="row" ngx-datatable-cell-template>
-                  {{ row.num_pedido }}
-                </ng-template>
-              </ngx-datatable-column>
-
-              <ngx-datatable-column [flexGrow]="0.6" name="Dt. Inicial">
-                <ng-template let-value="created" let-row="row" ngx-datatable-cell-template>
-                  {{ row.data_inicial | date:'dd/MM/yyyy' }}
-                </ng-template>
-              </ngx-datatable-column>
-
-              <ngx-datatable-column [flexGrow]="0.6" name="Dt. Final">
-                <ng-template let-value="created" let-row="row" ngx-datatable-cell-template>
-                  {{ row.data_final | date:'dd/MM/yyyy'  }}
-                </ng-template>
-              </ngx-datatable-column>
-
-              <ngx-datatable-column [flexGrow]="0.6" name="Status">
                 <ng-template let-value="modified" let-row="row" ngx-datatable-cell-template>
                   {{ (row.status) }}
                 </ng-template>

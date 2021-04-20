@@ -115,7 +115,8 @@ const MENUITEMS = [
     type: 'sub',
     icon: 'engineering',
     children: [
-      {state: 'novo', name: 'Novo', type: 'link' },
+      {state: 'homologacoes', name: 'Homologações', type: 'link' },
+      {state: 'relatorios', name: 'Relatórios', type: 'link' },
     ]
   },
 ];

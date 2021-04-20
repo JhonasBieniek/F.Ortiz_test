@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatTabChangeEvent } from '@angular/material';
 import { DialogConfirmarDeleteComponent } from '../../cadastro/dialog-confirmar-delete/confirmar-delete.component';
 import { ClientService } from '../../shared/services/client.service.component';
 import { DialogBodyComponent } from './dialog-body/dialog-body.component';
+import page from './steps.json';
+
 
 @Component({
   selector: 'app-novo',
@@ -14,7 +16,13 @@ export class NovoComponent implements OnInit {
   dados:any = [];
   editing = {};
   isEditable = {};
+  page:any = page;
+  defaultTab = 0;
+  selected:any = [];
+  steps: any = this.page.homologacoes;
   rows = [];
+  rows2 = [];
+  rows3 = [];
   temp = [...this.data];
   
   loadingIndicator: boolean = true;
@@ -23,12 +31,18 @@ export class NovoComponent implements OnInit {
   @ViewChild(NovoComponent, {static: false}) table: NovoComponent;
   constructor(private clientservice: ClientService, private dialog: MatDialog) {
 
-    this.clientservice.getHomologacoes().subscribe(res =>{
-      this.data = res; console.log(this.data.data)
-      this.rows = this.data.data.sort((a,b)=> a.id - b.id);
-      this.temp = [...this.data.data];
-      setTimeout(() => { this.loadingIndicator = false; }, 1500); 
-    });                                  
+    this.loadData();                                 
+  }
+
+  private loadData(){
+    this.clientservice.getHomologacoes().subscribe((res:any) =>{
+      let i = 0;
+      this.steps.forEach(e => {
+        this.temp[i] = res.data.filter(d => d.status == e.step);
+        i++;
+      });
+      this.rows = [...this.temp].sort((a,b)=> a.id - b.id);
+    });                     
   }
   
   updateFilter(event) {
@@ -47,7 +61,6 @@ export class NovoComponent implements OnInit {
   this.table = this.data;
   }
   updateValue(event, cell, rowIndex) {    
-  console.log('inline editing rowIndex', rowIndex)
   this.editing[rowIndex + '-' + cell] = false;
   this.rows[rowIndex][cell] = event.target.value;
   this.rows = [...this.rows];
@@ -75,17 +88,11 @@ export class NovoComponent implements OnInit {
   }
 
   refreshTable(){
-    this.clientservice.getHomologacoes().subscribe(res =>{
-      this.dados = res;
-      this.rows = this.dados.data.sort((a,b)=> a.id - b.id);
-      this.temp = [...this.dados.data];
-      setTimeout(() => { this.loadingIndicator = false; }, 1500);
-      });
-      console.log("Rodei")
+    this.loadData();
   }
   delete(row){
     const dialogConfig = new MatDialogConfig();
-      const tipo = 'area-vendas';
+      const tipo = 'homologations';
       dialogConfig.data = row
       dialogConfig.data.tipo = tipo
       let dialogRef = this.dialog.open(DialogConfirmarDeleteComponent,
@@ -115,6 +122,12 @@ export class NovoComponent implements OnInit {
        (value != 1) ? this.refreshTable() : null
   
         });
+      }
+
+      onTabChange(event: MatTabChangeEvent) {
+        this.defaultTab = event.index;
+        window.dispatchEvent(new Event('resize'));
+        this.selected =[];
       }
 
   ngOnInit() {

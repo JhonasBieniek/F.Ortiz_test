@@ -6,7 +6,7 @@
     "pedidos": [
       {
         "titulo": "Em análise (Assistente)",
-        "step": 0,
+        "step": 1,
         "index": 0,
         "columns": [
           {
@@ -38,7 +38,7 @@
       },
       {
         "titulo": "Ag. Aprovação (Cliente)",
-        "step": 1,
+        "step": 3,
         "index": 1,
         "columns": [
           {

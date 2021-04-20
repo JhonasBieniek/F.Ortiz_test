@@ -451,7 +451,7 @@ export class ClientService {
             });
   }
   getProdutosHomologation() {
-    const uri = `${API_URL}` + `produtos/index2.json`;
+    const uri = `${API_URL}` + `produtos/indexHomologation.json`;
     return this
             .http
             .get(uri)

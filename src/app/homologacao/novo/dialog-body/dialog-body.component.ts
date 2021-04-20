@@ -29,6 +29,7 @@ export class DialogBodyComponent implements OnInit {
   ca = new FormControl("");
   representada = new FormControl("");
   size:number = 50;
+  treinamento = true;
 
   constructor(public dialogRef: MatDialogRef<DialogBodyComponent>, 
                                 @Inject(MAT_DIALOG_DATA) public data: any,
@@ -40,15 +41,30 @@ export class DialogBodyComponent implements OnInit {
       this.clientservice.getClientes().subscribe((res:any) =>{
         this.clientes = res.data;
       }); 
-      this.clientservice.getProdutos().subscribe((res:any) =>{
+      this.clientservice.getProdutosHomologation().subscribe((res:any) =>{
         this.produtos = res.data;
       }); 
   }
                               
   ngOnInit() {
     if(this.data != null){
-      this.form.patchValue(this.data);
       this.pageTitle = 'Editar Homologação'
+      this.form = this.fb.group({
+        id: this.data.id,
+        cliente_id: [this.data.cliente_id, Validators.required],
+        produto_id: [this.data.produto_id, Validators.required],
+        data_inicial: [this.data.data_inicial, Validators.required],
+        data_final: [this.data.data_final],
+        contato: [this.data.contato],
+        descricao: [this.data.descricao],
+        tipo_volk: [this.data.tipo_volk],
+        status: [this.data.status, Validators.required],
+        obs: [this.data.obs],
+        hideRequired: true,
+        floatLabel: 'auto',
+      });
+      this.setCliente(this.data.cliente);
+      this.setProduto(this.data.produto);
     }else{
       this.pageTitle = 'Cadastrar Homologação'
       this.form = this.fb.group({
@@ -56,7 +72,8 @@ export class DialogBodyComponent implements OnInit {
         produto_id: [null, Validators.required],
         data_inicial: [null, Validators.required],
         data_final: [null],
-        num_pedido: [null],
+        contato: [null],
+        descricao: [null],
         tipo_volk: [null],
         status: ["Em teste", Validators.required],
         obs: [null],
@@ -86,7 +103,9 @@ export class DialogBodyComponent implements OnInit {
   }
 
   setCliente(cliente) {
-    console.log(cliente)
+    if(this.data != null){ 
+      this.clienteBusca.setValue(cliente.razao_social);
+    }
     this.form.get('cliente_id').setValue(cliente.id);
     this.cnpj.setValue(cliente.cnpj);
     // Uppercase first letter
@@ -113,12 +132,15 @@ export class DialogBodyComponent implements OnInit {
   }
 
   setProduto(produto) {
-    console.log(produto)
+    if(this.data != null){ 
+      this.produtoBusca.setValue(produto.nome);
+      this.representada.setValue(produto.representada.nome_fantasia);
+    }else{
+      this.representada.setValue(produto.representada.nome_fantasia);
+    }
     this.form.get('produto_id').setValue(produto.id);
     this.codigo.setValue(produto.codigo_catalogo);
     this.ca.setValue(produto.certificado_aprovacao);
-    // Uppercase first letter
-    this.representada.setValue(produto.representada.nome_fantasia);
     // Checks whether the products is from VOLK and enable field tipo_volk
     if(produto.representada_id === 9){
       this.fieldTipoVolk = true;
