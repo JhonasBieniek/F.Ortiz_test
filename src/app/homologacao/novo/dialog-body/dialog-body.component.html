@@ -75,61 +75,78 @@
           <input matInput placeholder="Tipo do Cliente" [formControl]="tipoCliente" readonly>
         </mat-form-field>
       </div>
-      <div class="p-10" fxFlex.gt-sm={{size}} fxFlex.gt-xs={{size}} fxFlex="100" *ngIf="treinamento">
-        <mat-form-field appearance="outline">
-          <input type="text" placeholder="Busque o produto" aria-label="produto" matInput [formControl]="produtoBusca"
-            (keyup)="searchProduto()" [matAutocomplete]="autoProduto">
-          <mat-autocomplete autoActiveFirstOption #autoProduto="matAutocomplete">
-            <mat-option *ngFor="let produto of $produtos" (click)="setProduto(produto)"
-              (onSelectionChange)="setProduto(produto)" [value]="produto.nome">
-              {{produto.codigo_catalogo}} - {{produto.nome}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-      </div>
-      <div *ngIf="fieldTipoVolk;treinamento" class="p-10" fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="100">
-        <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
-        [floatLabel]="form.value.floatLabel">
-        <mat-label>Tipo</mat-label>
-        <mat-select  formControlName="tipo_volk">
-          <mat-option>-- Selecione... --</mat-option>
-          <mat-option value="PLUS">PLUS</mat-option>
-          <mat-option value="STANDARD">STANDARD</mat-option>
-          <mat-option value="SLIM">SLIM</mat-option>
-        </mat-select>
-      </mat-form-field>
-      </div>
-      <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100" *ngIf="treinamento">
-        <mat-form-field appearance="outline">
-          <mat-label>Código</mat-label>
-          <input matInput placeholder="Código" [formControl]="codigo" readonly>
-        </mat-form-field>
-      </div>
-      <div class="p-10" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100" *ngIf="treinamento">
-        <mat-form-field appearance="outline">
-          <mat-label>CA</mat-label>
-          <input matInput placeholder="CA" [formControl]="ca" readonly>
-        </mat-form-field>
-      </div>
-      <div class="p-10" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100" *ngIf="treinamento">
-        <mat-form-field appearance="outline">
-          <mat-label>Representada</mat-label>
-          <input matInput placeholder="Representada" [formControl]="representada" readonly>
-        </mat-form-field>
-      </div>
-      <div fxFlex.gt-sm="100" fxFlex="100" *ngIf="!treinamento">
-        <mat-form-field appearance="outline">
-          <input matInput formControlName="descricao" placeholder="Descrição do Treinamento">
-        </mat-form-field>
-        <textarea *ngIf="form.get('descricao').errors?.maxlength && form.get('descricao').touched"
-          class="text-danger font-14">A descrição não deve exceder 50 caracteres</textarea>
-      </div>
       <div fxFlex.gt-sm="100" fxFlex="100">
         <mat-form-field appearance="outline">
           <input matInput formControlName="obs" placeholder="Observação">
         </mat-form-field>
         <textarea *ngIf="form.get('obs').errors?.maxlength && form.get('obs').touched"
           class="text-danger font-14">A observação não deve exceder 50 caracteres</textarea>
+      </div>
+      <div formArrayName="homologation_products" fxLayout="row wrap" class="row">
+        <div class="p-10 aj1" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+          <a style="float: right;" (click)="addNovoProdutoHomologacao()"><i class="material-icons plus-icons">add_circle_outline</i>
+            <span class="title">Novo Produto</span></a>
+        </div>
+        <div fxLayout="row wrap" *ngFor="let e of form.get('homologation_products').controls; index as i"
+        [formGroupName]="i">
+          <div class="p-10 aj" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+            Produto - {{i + 1}}
+            <button mat-icon-button (click)="delProduto(i)">
+              <mat-icon class="clear">clear</mat-icon>
+            </button>
+          </div>
+        <div fxLayout="row wrap" formGroupName="produto_homologacao">
+          <div class="p-10" fxFlex.gt-sm={{size}} fxFlex.gt-xs={{size}} fxFlex="100" *ngIf="treinamento">
+            <mat-form-field appearance="outline">
+              <input type="text" placeholder="Busque o produto" aria-label="produto" matInput [formControl]="produtoBusca"
+                (keyup)="searchProduto()" [matAutocomplete]="autoProduto">
+              <mat-autocomplete autoActiveFirstOption #autoProduto="matAutocomplete">
+                <mat-option *ngFor="let produto of $produtos" (click)="setProduto(produto)"
+                  (onSelectionChange)="setProduto(produto)" [value]="produto.nome">
+                  {{produto.codigo_catalogo}} - {{produto.nome}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+          <div *ngIf="fieldTipoVolk;treinamento" class="p-10" fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="100">
+            <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+            [floatLabel]="form.value.floatLabel">
+            <mat-label>Tipo</mat-label>
+            <mat-select  formControlName="tipo_volk">
+              <mat-option>-- Selecione... --</mat-option>
+              <mat-option value="PLUS">PLUS</mat-option>
+              <mat-option value="STANDARD">STANDARD</mat-option>
+              <mat-option value="SLIM">SLIM</mat-option>
+            </mat-select>
+          </mat-form-field>
+          </div>
+          <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100" *ngIf="treinamento">
+            <mat-form-field appearance="outline">
+              <mat-label>Código</mat-label>
+              <input matInput placeholder="Código" [formControl]="codigo" readonly>
+            </mat-form-field>
+          </div>
+          <div class="p-10" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100" *ngIf="treinamento">
+            <mat-form-field appearance="outline">
+              <mat-label>CA</mat-label>
+              <input matInput placeholder="CA" [formControl]="ca" readonly>
+            </mat-form-field>
+          </div>
+          <div class="p-10" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100" *ngIf="treinamento">
+            <mat-form-field appearance="outline">
+              <mat-label>Representada</mat-label>
+              <input matInput placeholder="Representada" [formControl]="representada" readonly>
+            </mat-form-field>
+          </div>
+          <div fxFlex.gt-sm="100" fxFlex="100" *ngIf="!treinamento">
+            <mat-form-field appearance="outline">
+              <input matInput formControlName="descricao" placeholder="Descrição do Treinamento">
+            </mat-form-field>
+            <textarea *ngIf="form.get('descricao').errors?.maxlength && form.get('descricao').touched"
+              class="text-danger font-14">A descrição não deve exceder 50 caracteres</textarea>
+          </div>
+        </div>
+      </div>
       </div>
     </div>
     <mat-card-actions fxLayout="row" fxLayoutAlign="end center">

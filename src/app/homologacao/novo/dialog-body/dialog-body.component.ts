@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogConfig } from "@angular/material";
-import { FormBuilder, FormGroup, Validators, ValidationErrors, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ValidationErrors, FormControl, FormArray } from '@angular/forms';
 import { ClientService } from '../../../shared/services/client.service.component';
 import { NotificationService } from '../../../shared/messages/notification.service';
 import { Observable } from 'rxjs';
@@ -62,6 +62,7 @@ export class DialogBodyComponent implements OnInit {
         obs: [this.data.obs],
         hideRequired: true,
         floatLabel: 'auto',
+        homologation_products: this.fb.array([]),
       });
       this.setCliente(this.data.cliente);
       this.setProduto(this.data.produto);
@@ -79,6 +80,7 @@ export class DialogBodyComponent implements OnInit {
         obs: [null],
         hideRequired: true,
         floatLabel: 'auto',
+        homologation_products: this.fb.array([]),
       });
     }
   }
@@ -181,6 +183,25 @@ export class DialogBodyComponent implements OnInit {
       }
     });
     console.log(result);
+  }
+
+  addNovoProdutoHomologacao(data: any = null) {
+    const produto_homologacao = this.form.controls.homologation_products as FormArray;
+    produto_homologacao.push(
+      this.fb.group({
+        produto_homologacao: this.fb.group({
+          produtoBusca: null,
+          codigo: null,
+          ca: null,
+          representada: null,
+        }),
+      })
+    );
+  }
+
+  delProduto(index) {
+    const produto_homologacao = this.form.controls.homologation_products as FormArray;
+    produto_homologacao.removeAt(index);
   }
 
 }
