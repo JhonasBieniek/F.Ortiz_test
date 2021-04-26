@@ -13,7 +13,6 @@ import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
 } from '@angular/material-moment-adapter';
 
-import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { OrcListarComponent } from '../pedido/orc-listar/orc-listar.component';
 import { NgxMaskModule, IConfig} from 'ngx-mask';
 import { CdkTableModule } from '@angular/cdk/table';
@@ -31,7 +30,6 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
     RouterModule.forChild(CotacoesRoutes),
     NgxMaskModule.forRoot(options),
     DemoMaterialModule,
-    Ng2SmartTableModule,
     CdkTableModule,
     FormsModule, ReactiveFormsModule,
     FlexLayoutModule,

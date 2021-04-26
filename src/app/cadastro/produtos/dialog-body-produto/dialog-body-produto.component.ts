@@ -149,7 +149,6 @@ export class DialogBodyProdutoComponent implements OnInit {
       previsao_retorno: [null],
       embalagem_nome: null,
       embalagem_un: null,
-      embalagem_qtd: null,
       embalagem_min: null,
       representada_id: [null, Validators.compose([Validators.required])],
       imagem: [null],
@@ -183,7 +182,6 @@ export class DialogBodyProdutoComponent implements OnInit {
         });
           this.form.get("embalagem_nome").setValue(this.produto.produto_embalagem.nome);
           this.form.get("embalagem_un").setValue(this.produto.produto_embalagem.unidade_id);
-          this.form.get("embalagem_qtd").setValue(this.produto.produto_embalagem.quantidade);
           this.form.get("embalagem_min").setValue(this.produto.produto_embalagem.minimo);
   
         this.sizes = this.produto.produto_tamanhos;
@@ -488,7 +486,6 @@ pdfBlobConversion(b64Data, contentType) {
       embalagem = [
         {
           nome: this.form.value.embalagem_nome,
-          quantidade: this.form.value.embalagem_qtd,
           minimo: this.form.value.embalagem_min,
           unidade_id: this.form.value.embalagem_un,
           produto_id: this.data.id,
@@ -499,7 +496,6 @@ pdfBlobConversion(b64Data, contentType) {
       embalagem = [
         {
           nome: this.form.value.embalagem_nome,
-          quantidade: this.form.value.embalagem_qtd,
           minimo: this.form.value.embalagem_min,
           unidade_id: this.form.value.embalagem_un,
         },

@@ -210,6 +210,7 @@ export class DialogBodyClienteComponent implements OnInit {
           cargo: data ? data.cargo: null,
           celular: data ? data.celular : null,
           email: data ? data.email : null,
+          preferential: data ? data.preferential : null,
           aniversario: null,
           cliente_id: this.data ? this.data.id : null,
       })
@@ -224,6 +225,7 @@ export class DialogBodyClienteComponent implements OnInit {
           cargo: data ? data.cargo: null,
           celular: data ? data.celular : null,
           email: data ? data.email : null,
+          preferential: data ? data.preferential : null,
           aniversario: data ? moment(data.aniversario).format() : null,
           cliente_id: data ? data.cliente_id : null,
       })
