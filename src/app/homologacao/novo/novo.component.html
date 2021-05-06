@@ -39,12 +39,6 @@
                 </ng-template>
               </ngx-datatable-column>
 
-              <ngx-datatable-column [flexGrow]="1" name="Produto">
-                <ng-template let-value="vendedor" let-row="row" ngx-datatable-cell-template>
-                  {{ row.produto.codigo_catalogo }}
-                </ng-template>
-              </ngx-datatable-column>
-
               <ngx-datatable-column [flexGrow]="0.8" name="Dt. Inicial">
                 <ng-template let-value="created" let-row="row" ngx-datatable-cell-template>
                   {{ row.data_inicial | date:'dd/MM/yyyy' }}

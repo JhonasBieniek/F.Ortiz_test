@@ -7,3 +7,23 @@
 .dialog{
   min-height: 500px;
 }
+.newproduto {
+  overflow: hidden;
+  vertical-align: top;
+  font-weight: 600;
+}
+.plus-icons{
+  color: blue;
+  vertical-align: unset !important;
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+
+}
+.plus-icons:hover {background-color: #d6d7d8}
+
+.plus-icons:active {
+  background-color: #69a6df;
+  box-shadow: -2px #666;
+  transform: translateY(2px);
+}

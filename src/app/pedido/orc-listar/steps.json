@@ -38,7 +38,7 @@
       },
       {
         "titulo": "Ag. Aprovação (Cliente)",
-        "step": 3,
+        "step": 2,
         "index": 1,
         "columns": [
           {
@@ -75,7 +75,7 @@
       },
       {
         "titulo": "Aprovado",
-        "step": 2,
+        "step": 3,
         "index": 2,
         "columns": [
           {
