@@ -70,6 +70,12 @@ export class DialogBodyComponent implements OnInit {
         floatLabel: "auto",
         homologation_products: this.fb.array([]),
       });
+      this.data.homologation_products.filter(e => {
+        if(e.tipo_volk != null){
+          this.isVolk(9);
+        }
+      })
+      this.isVolk(9);
       this.setCliente(this.data.cliente);
       this.addNovosProdutoHomologacao(this.data.homologation_products);
       this.form.patchValue(this.data);
@@ -167,7 +173,11 @@ export class DialogBodyComponent implements OnInit {
     h.controls[index].get("codigo").setValue(produto.codigo_catalogo);
     h.controls[index].get("ca").setValue(produto.certificado_aprovacao);
     // Checks whether the products is from VOLK and enable field tipo_volk
-    if (produto.representada_id === 9) {
+    this.isVolk(produto.representada_id);
+  }
+
+  isVolk(representada_id) {
+    if (representada_id === 9) {
       this.fieldTipoVolk = true;
       this.size = 38;
     } else {

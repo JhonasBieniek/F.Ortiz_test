@@ -8,6 +8,17 @@ export interface Homologation{
         tipo_volk: string,
         status: string,
         obs: string,
-        homologation_products: [],
+        homologation_products: [
+                {
+                        id: number,
+                        produto_id: number,
+                        produto_nome:string,
+                        codigo:number,
+                        ca:string,
+                        represenatda:string,
+                        tipo_volk: string,
+                        homologation_id: number
+                }
+        ],
         cliente: []
 }
