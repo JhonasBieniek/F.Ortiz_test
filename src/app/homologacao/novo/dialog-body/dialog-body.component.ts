@@ -60,7 +60,6 @@ export class DialogBodyComponent implements OnInit {
       this.form = this.fb.group({
         id: this.data.id,
         cliente_id: [this.data.cliente_id, Validators.required],
-        produto_id: [this.data.produto_id, Validators.required],
         data_inicial: [this.data.data_inicial, Validators.required],
         data_final: [this.data.data_final],
         contato: [this.data.contato],
