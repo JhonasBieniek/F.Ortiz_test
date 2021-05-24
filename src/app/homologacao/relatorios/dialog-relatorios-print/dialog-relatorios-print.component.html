@@ -1,0 +1,88 @@
+<button mat-icon-button class="close-button" [mat-dialog-close]="true">
+    <mat-icon color="warn">close</mat-icon>
+</button>
+<button mat-raised-button type="button" (click)="printWindowCurrent()"><mat-icon aria-hidden="false" aria-label="Imprimir">print</mat-icon></button>
+<div class="page" id="imprimir" cdkFocusInitial>
+    <div fxLayout="row wrap">
+        <div fxFlex="100">
+            <div fxLayout="row wrap" class="row">
+                <div class="p-10 text-left" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100"><span
+                        style="font-weight: 500;"> Relatório de Homologações</span></div>
+                <div class="p-10 text-left" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">Período de: {{data.inicial
+                    | date:'dd/MM/yyyy'}} até {{data.final | date:'dd/MM/yyyy'}}</div>
+                <div class="" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" style="padding-left: 10px;">
+                    <div fxLayout="row wrap" class="row" style="padding-left: 10px;">
+                        <ul class="colunas" fxFlex.gt-sm="95" fxFlex.gt-xs="95" fxFlex="95">
+                            <li *ngFor="let data of data.homologacoes; let comIndex = index">
+                                <div fxLayout="row wrap" class="row" style="padding-left: 10px;">
+                                    <div fxFlex="30" class="p-b-10 p-t-10">
+                                        <span style="color: black; font-weight: 500; font-size: 11px;">Cliente:
+                                            {{data.cliente?.nome_fantasia}}</span>
+                                    </div>
+                                    <div fxFlex="20" class="p-b-10 p-t-10">
+                                        <span style="color: black; font-weight: 500; font-size: 11px;">Inicio:
+                                            {{data.data_inicial | date:'dd/MM/yyyy'}}</span>
+                                    </div>
+                                    <div fxFlex="20" class="p-b-10 p-t-10">
+                                        <span style="color: black; font-weight: 500; font-size: 11px;">Fim:
+                                            {{data.data_final | date:'dd/MM/yyyy'}}</span>
+                                    </div>
+                                    <div fxFlex="25" class="p-b-10 p-t-10">
+                                        <span style="color: black; font-weight: 500; font-size: 11px;">Status:
+                                            {{data.status}}</span>
+                                    </div>
+                                    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                                        <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="tamanhoContas border"
+                                            style="color: black; font-weight: 500; font-size: 11px;">
+                                            <div fxFlex="45" style="padding-left: 5px;" class="border-right">
+                                                Produto
+                                            </div>
+                                            <div fxFlex="15" class="border-right" style="padding-left: 5px;">
+                                                tipo
+                                            </div>
+                                            <div fxFlex="15" class="border-right" style="padding-left: 5px;">
+                                                Código
+                                            </div>
+                                            <div fxFlex="10" class="border-right" style="padding-left: 5px;">
+                                                CA.
+                                            </div>
+                                            <div fxFlex="15" style="padding-left: 5px;">
+                                                Representada
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                                        <ul style="list-style-type: none !important; padding-left: 0px;">
+                                            <li
+                                                *ngFor="let produto of data.homologation_products; let comIndex2 = index">
+                                                <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100"
+                                                    class="tamanhoContas border">
+                                                    <div fxFlex="45"
+                                                        style="overflow: hidden; white-space: nowrap; padding-right: 10px; padding-left: 5px;" class="border-right">
+                                                        {{produto.produto_nome }}
+                                                    </div>
+                                                    <div fxFlex="15" class="border-right" style="padding-left: 5px;">
+                                                        {{produto.tipo_volk}}
+                                                    </div>
+                                                    <div fxFlex="15" class="border-right" style="padding-left: 5px;">
+                                                        {{produto.codigo}}
+                                                    </div>
+                                                    <div fxFlex="10" class="border-right" style="padding-left: 5px;">
+                                                        {{produto.ca}}
+                                                    </div>
+                                                    <div fxFlex="15" style="padding-left: 5px;">
+                                                        {{produto.representada}}
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

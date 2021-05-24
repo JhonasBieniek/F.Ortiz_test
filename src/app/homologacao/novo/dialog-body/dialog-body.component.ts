@@ -75,7 +75,6 @@ export class DialogBodyComponent implements OnInit {
           this.isVolk(9);
         }
       })
-      this.isVolk(9);
       this.setCliente(this.data.cliente);
       this.addNovosProdutoHomologacao(this.data.homologation_products);
       this.form.patchValue(this.data);

@@ -932,6 +932,15 @@ export class ClientService {
             });
   }
 
+  getHomologacoesRelatorio(dados) {
+    const uri = `${API_URL}` + `homologations/relatorioHomologacoes.json`;
+    return this
+            .http
+            .post(uri, dados)
+            .map(res => {
+              return res;
+            });
+  }
   addHomogacao(dados) {
     const uri = `${API_URL}` + `homologations/add.json`;
     this

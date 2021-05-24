@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatTabChangeEvent } from '@angular/material';
 import { DialogConfirmarDeleteComponent } from '../../cadastro/dialog-confirmar-delete/confirmar-delete.component';
+import { NotificationService } from '../../shared/messages/notification.service';
 import { ClientService } from '../../shared/services/client.service.component';
 import { DialogBodyComponent } from './dialog-body/dialog-body.component';
 import page from './steps.json';
@@ -29,8 +30,7 @@ export class NovoComponent implements OnInit {
   reorderable: boolean = true;                           
 
   @ViewChild(NovoComponent, {static: false}) table: NovoComponent;
-  constructor(private clientservice: ClientService, private dialog: MatDialog) {
-
+  constructor(private clientservice: ClientService, private dialog: MatDialog, private notificationService: NotificationService) {
     this.loadData();                                 
   }
 
@@ -65,6 +65,18 @@ export class NovoComponent implements OnInit {
   this.rows[rowIndex][cell] = event.target.value;
   this.rows = [...this.rows];
   console.log('UPDATED!', this.rows[rowIndex][cell]);
+  }
+
+  changeStatus(row){
+    console.log(row);
+    this.clientservice.updateHomologacao(row).subscribe((res) => {
+      if(res.success == true){
+        this.notificationService.notify("Atualizado com Sucesso!");
+        this.temp = [];
+        this.rows = [];
+        this.loadData();
+      }  
+    });
   }
 
   openDialog() {

@@ -1,1 +1,116 @@
-<p>relatorios works!</p>
+<form [formGroup]="form">
+    <div fxLayout="row wrap" >
+        <!-- Card column -->
+        <div fxFlex.gt-sm="100%" fxFlex="100">
+            <mat-card>
+                <mat-card-content>
+                    <mat-card-title style="font-weight: bold;font-size: x-large;">Relatório de Homologações
+                    </mat-card-title>
+                    <div fxLayout="row wrap" class="row">
+                        <div class="p-10" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="50">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Data Inicial</mat-label>
+                                <input matInput [matDatepicker]="pickerIncial" formControlName="data_inicial"
+                                    placeholder="Data Incial">
+                                <mat-datepicker-toggle matSuffix [for]="pickerIncial"></mat-datepicker-toggle>
+                                <mat-datepicker #pickerIncial></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="p-10" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="50">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Data Final</mat-label>
+                                <input matInput [matDatepicker]="pickerFinal" formControlName="data_final"
+                                    placeholder="Data final">
+                                <mat-datepicker-toggle matSuffix [for]="pickerFinal"></mat-datepicker-toggle>
+                                <mat-datepicker #pickerFinal></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="p-10" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100">
+                            <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+                                [floatLabel]="form.value.floatLabel">
+                                <mat-label>Status</mat-label>
+                                <mat-select formControlName="status">
+                                    <mat-option [value]=null></mat-option>
+                                    <mat-option value="Homologado">Homologado</mat-option>
+                                    <mat-option value="Nao Homologado">Não Homologado</mat-option>
+                                    <mat-option value="Em teste">Em teste</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="p-l-10 p-r-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+                            <mat-form-field appearance="outline" fxFlex="100">
+                                <input type="text" placeholder="Busque o cliente" aria-label="Cliente" matInput
+                                    [formControl]="clienteBusca" (keyup)="searchCliente()"
+                                    [matAutocomplete]="autoCliente">
+                                    <button mat-button matSuffix mat-icon-button aria-label="Clear" type="button" *ngIf="form.controls['cliente_id'].value != null">
+                                        <mat-icon color="warn" (click)="limpar();">close</mat-icon>
+                                    </button>
+                                <mat-autocomplete autoActiveFirstOption #autoCliente="matAutocomplete">
+                                    <mat-option *ngFor="let cliente of $clientes" (click)="setCliente(cliente)"
+                                        (onSelectionChange)="setCliente(cliente)" [value]="cliente.razao_social">
+                                        {{cliente.razao_social}} - CNPJ: {{cliente.cnpj | mask:'00.000.000/0000-00'}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                            
+                        </div>
+                        <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100" >
+                            <div class="button-row text-right">
+                                <button mat-raised-button color="primary" type="button" (click)="buscar()">Buscar</button>
+                                <button mat-raised-button color="primary" type="button" (click)="Imprimir()"><mat-icon aria-hidden="false" aria-label="Imprimir">print</mat-icon></button>
+                            </div>
+                        </div>                        
+                    </div>
+                    <ngx-datatable #table class='material striped' [columnMode]="'flex'" [headerHeight]="50"
+                        [footerHeight]="50" [rowHeight]="'auto'" [limit]="20" [rows]='rows'>
+
+                        <ngx-datatable-column [flexGrow]="0.5" name="ID">
+                            <ng-template let-value="id" let-row="row" ngx-datatable-cell-template>
+                                {{ row.id }}
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column [flexGrow]="1.5" name="Cliente">
+                            <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
+                                {{ row.cliente?.nome_fantasia }}
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column [flexGrow]="1.2" name="CNPJ">
+                            <ng-template let-value="cnpj" let-row="row" ngx-datatable-cell-template>
+                                {{ row.cliente?.cnpj | mask:'00.000.000/0000-00'}}
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column [flexGrow]="0.8" name="Dt. Inicial">
+                            <ng-template let-value="created" let-row="row" ngx-datatable-cell-template>
+                                {{ row.data_inicial | date:'dd/MM/yyyy' }}
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column [flexGrow]="0.8" name="Dt. Final">
+                            <ng-template let-value="created" let-row="row" ngx-datatable-cell-template>
+                                {{ row.data_final | date:'dd/MM/yyyy' }}
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column [flexGrow]="0.8" name="Status">
+                            <ng-template let-value="modified" let-row="row" ngx-datatable-cell-template>
+                                {{ (row.status) }}
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <!-- <ngx-datatable-column [flexGrow]="0.8" name="Ações">
+                            <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex"
+                                ngx-datatable-cell-template>
+                                <i class="fa fa-pencil button" title="Editar" (click)="edit(row);"></i>
+                                <i class="fa fa-trash-o button2" title="Deletar" (click)="delete(row)"></i>
+                            </ng-template>
+                        </ngx-datatable-column> -->
+
+                    </ngx-datatable>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</form>

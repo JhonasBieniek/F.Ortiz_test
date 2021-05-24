@@ -34,3 +34,7 @@
     box-shadow: 0 2px #666;
     transform: translateY(2px);
   }
+
+  :host ::ng-deep .no-padding .mat-form-field-infix {
+    border-top: 0px;
+  }
