@@ -11,6 +11,14 @@
     /* background-color: rgb(196, 196, 196); */
 }
 
+.contato-table table  {
+    width: 60%;
+}
+
+.representadas-table table {
+    width: 100%;
+}
+
 .page {
     width: 21cm;
     min-height: 29.7cm;
@@ -45,6 +53,12 @@
 
 ::ng-deep .icon-outside .mat-dialog-container {
     overflow: unset
+}
+
+.text-overflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .tamanhoContas {

@@ -7,11 +7,59 @@ import { MAT_DIALOG_DATA } from '@angular/material';
   styleUrls: ['./dialog-relatorios-print.component.css']
 })
 export class DialogRelatoriosPrintComponent implements OnInit {
+  dataSource: any = [];
+  dataSourceRepresentadas: any = [];
+  dataSouceVolk: any = [];
+  displayedColumns: string[] = ['name','quantidade'];
+  volk: any[] = [];
+  representadas: any[] = [];
+  contato: any[] = [];
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) { 
-    console.log(data);
-  }
+    
+    data.homologacoes.map((e: any) =>{
+      var indexcontato = this.contato.findIndex((x:any)=>x.name == e.contato);
+      if(indexcontato == -1){
+        this.contato.push(
+          {
+            name: e.contato,
+            quantidade: 1
+          });
+      }else {
+        this.contato[indexcontato].quantidade++;
+      }
 
+      e.homologation_products.map((products: any) => {
+        var index = this.representadas.findIndex((x:any)=>x.name == products.representada);
+        if(index == -1){
+          this.representadas.push(
+            {
+              name: products.representada,
+              quantidade: 1
+            });
+        }else {
+          this.representadas[index].quantidade++;
+        }
+        
+        if(products.representada == "VOLK"){
+          var indexVolk = this.volk.findIndex((x:any)=>x.name == products.tipo_volk);
+          if(indexVolk == -1){
+            this.volk.push(
+              {
+                name: products.tipo_volk,
+                quantidade: 1
+              });
+          }else {
+            this.volk[indexVolk].quantidade++;
+          }
+        }
+      });
+    });
+
+  }
+  // <mat-option value="PLUS">PLUS</mat-option>
+  //               <mat-option value="STANDARD">STANDARD</mat-option>
+  //               <mat-option value="SLIM">SLIM</mat-option>
   ngOnInit() {
   }
 

@@ -1,38 +1,42 @@
 <button mat-icon-button class="close-button" [mat-dialog-close]="true">
     <mat-icon color="warn">close</mat-icon>
 </button>
-<button mat-raised-button type="button" (click)="printWindowCurrent()"><mat-icon aria-hidden="false" aria-label="Imprimir">print</mat-icon></button>
+<button mat-raised-button type="button" (click)="printWindowCurrent()">
+    <mat-icon aria-hidden="false" aria-label="Imprimir">print</mat-icon>
+</button>
 <div class="page" id="imprimir" cdkFocusInitial>
     <div fxLayout="row wrap">
         <div fxFlex="100">
             <div fxLayout="row wrap" class="row">
                 <div class="p-10 text-left" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100"><span
                         style="font-weight: 500;"> Relatório de Homologações</span></div>
-                <div class="p-10 text-left" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">Período de: {{data.inicial
+                <div class="p-10 text-left" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">Período de:
+                    {{data.inicial
                     | date:'dd/MM/yyyy'}} até {{data.final | date:'dd/MM/yyyy'}}</div>
-                <div class="" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" style="padding-left: 10px;">
+                <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" style="padding-left: 10px;">
                     <div fxLayout="row wrap" class="row" style="padding-left: 10px;">
                         <ul class="colunas" fxFlex.gt-sm="95" fxFlex.gt-xs="95" fxFlex="95">
                             <li *ngFor="let data of data.homologacoes; let comIndex = index">
                                 <div fxLayout="row wrap" class="row" style="padding-left: 10px;">
-                                    <div fxFlex="30" class="p-b-10 p-t-10">
+                                    <div fxFlex="45" class="p-b-10 p-t-10 text-overflow">
                                         <span style="color: black; font-weight: 500; font-size: 11px;">Cliente:
                                             {{data.cliente?.nome_fantasia}}</span>
                                     </div>
-                                    <div fxFlex="20" class="p-b-10 p-t-10">
+                                    <div fxFlex="16" class="p-b-10 p-t-10 text-center">
                                         <span style="color: black; font-weight: 500; font-size: 11px;">Inicio:
                                             {{data.data_inicial | date:'dd/MM/yyyy'}}</span>
                                     </div>
-                                    <div fxFlex="20" class="p-b-10 p-t-10">
+                                    <div fxFlex="16" class="p-b-10 p-t-10 text-center">
                                         <span style="color: black; font-weight: 500; font-size: 11px;">Fim:
                                             {{data.data_final | date:'dd/MM/yyyy'}}</span>
                                     </div>
-                                    <div fxFlex="25" class="p-b-10 p-t-10">
+                                    <div fxFlex="23" class="p-b-10 p-t-10 text-right">
                                         <span style="color: black; font-weight: 500; font-size: 11px;">Status:
                                             {{data.status}}</span>
                                     </div>
                                     <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-                                        <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="tamanhoContas border"
+                                        <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100"
+                                            class="tamanhoContas border"
                                             style="color: black; font-weight: 500; font-size: 11px;">
                                             <div fxFlex="45" style="padding-left: 5px;" class="border-right">
                                                 Produto
@@ -58,7 +62,8 @@
                                                 <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100"
                                                     class="tamanhoContas border">
                                                     <div fxFlex="45"
-                                                        style="overflow: hidden; white-space: nowrap; padding-right: 10px; padding-left: 5px;" class="border-right">
+                                                        style="overflow: hidden; white-space: nowrap; padding-right: 10px; padding-left: 5px;"
+                                                        class="border-right">
                                                         {{produto.produto_nome }}
                                                     </div>
                                                     <div fxFlex="15" class="border-right" style="padding-left: 5px;">
@@ -80,6 +85,66 @@
                                 </div>
                             </li>
                         </ul>
+                    </div>
+                </div>
+                <div fxFlex="100">
+                    <mat-divider></mat-divider>
+                </div>
+                <div fxFlex="100" class="p-t-20">
+                    <div fxLayout="row warp" class="contato-table p-l-10" fxFlex="100">
+                        <table mat-table [dataSource]="contato" class="border">
+                            <!-- Position Column -->
+                            <ng-container matColumnDef="name">
+                                <th mat-header-cell *matHeaderCellDef class="border-right"> Forma de Contato </th>
+                                <td mat-cell *matCellDef="let element" class="border-right"> {{element.name}} </td>
+                            </ng-container>
+                            <!-- Name Column -->
+                            <ng-container matColumnDef="quantidade">
+                                <th mat-header-cell *matHeaderCellDef class="text-center"> Quantidade </th>
+                                <td mat-cell *matCellDef="let element" class="text-center"> {{element.quantidade}} </td>
+                            </ng-container>
+    
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+                    </div>
+                </div>
+                <div fxFlex="100" class="p-t-20">
+                    <div fxLayout="row warp">
+                        <div fxFlex="50" class="representadas-table p-l-10">
+                            <table mat-table [dataSource]="representadas" class="border">
+                                <!-- Position Column -->
+                                <ng-container matColumnDef="name">
+                                    <th mat-header-cell *matHeaderCellDef class="border-right"> Representada </th>
+                                    <td mat-cell *matCellDef="let element" class="border-right"> {{element.name}} </td>
+                                </ng-container>
+                                <!-- Name Column -->
+                                <ng-container matColumnDef="quantidade">
+                                    <th mat-header-cell *matHeaderCellDef class="text-center p-l-10"> Quantidade </th>
+                                    <td mat-cell *matCellDef="let element" class="text-center p-l-10"> {{element.quantidade}} </td>
+                                </ng-container>
+        
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </table>
+                        </div>
+                        <div fxFlex="50" class="p-l-20 p-r-10 representadas-table">
+                            <table mat-table [dataSource]="volk" class="border">
+                                <!-- Position Column -->
+                                <ng-container matColumnDef="name">
+                                    <th mat-header-cell *matHeaderCellDef class="border-right"> Produtos Volk </th>
+                                    <td mat-cell *matCellDef="let element" class="border-right"> {{element.name}} </td>
+                                </ng-container>
+                                <!-- Name Column -->
+                                <ng-container matColumnDef="quantidade">
+                                    <th mat-header-cell *matHeaderCellDef class="text-center"> Quantidade </th>
+                                    <td mat-cell *matCellDef="let element" class="text-center"> {{element.quantidade}} </td>
+                                </ng-container>
+        
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

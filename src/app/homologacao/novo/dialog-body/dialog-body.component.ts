@@ -26,7 +26,7 @@ import { Homologation } from "../../homologation.model";
 export class DialogBodyComponent implements OnInit {
   public form: FormGroup;
 
-  fieldTipoVolk = false;
+  fieldTipoVolk: boolean[] = [];
   dados: any = "";
   clientes: any = [];
   $clientes: any = [];
@@ -36,7 +36,7 @@ export class DialogBodyComponent implements OnInit {
   clienteBusca = new FormControl("");
   cnpj = new FormControl("00000000000000");
   tipoCliente = new FormControl("");
-  size: number = 50;
+  size: number[] = [];
   treinamento = true;
 
   constructor(
@@ -70,9 +70,11 @@ export class DialogBodyComponent implements OnInit {
         floatLabel: "auto",
         homologation_products: this.fb.array([]),
       });
-      this.data.homologation_products.filter(e => {
+      this.data.homologation_products.filter((e,index) => {
         if(e.tipo_volk != null){
-          this.isVolk(9);
+          this.isVolk(9,index);
+        }else{
+          this.isVolk(1,index);
         }
       })
       this.setCliente(this.data.cliente);
@@ -127,10 +129,13 @@ export class DialogBodyComponent implements OnInit {
     this.form.get("cliente_id").setValue(cliente.id);
     this.cnpj.setValue(cliente.cnpj);
     // Uppercase first letter
-    this.tipoCliente.setValue(
-      cliente.tipo_cliente.charAt(0).toUpperCase() +
-        cliente.tipo_cliente.slice(1)
-    );
+    if(cliente.tipo_cliente != null){
+      this.tipoCliente.setValue(
+        cliente.tipo_cliente.charAt(0).toUpperCase() +
+          cliente.tipo_cliente.slice(1)
+      );
+    }
+    
   }
 
   searchProduto(value) {
@@ -172,16 +177,16 @@ export class DialogBodyComponent implements OnInit {
     h.controls[index].get("codigo").setValue(produto.codigo_catalogo);
     h.controls[index].get("ca").setValue(produto.certificado_aprovacao);
     // Checks whether the products is from VOLK and enable field tipo_volk
-    this.isVolk(produto.representada_id);
+    this.isVolk(produto.representada_id, index);
   }
 
-  isVolk(representada_id) {
+  isVolk(representada_id, index) {
     if (representada_id === 9) {
-      this.fieldTipoVolk = true;
-      this.size = 38;
+      this.fieldTipoVolk[index] = true;
+      this.size[index] = 38;
     } else {
-      this.fieldTipoVolk = false;
-      this.size = 50;
+      this.fieldTipoVolk[index] = false;
+      this.size[index] = 50;
     }
   }
 

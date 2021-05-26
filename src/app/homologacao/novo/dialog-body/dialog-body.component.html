@@ -90,7 +90,7 @@
           </button>
         </div>
         <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-          <div class="m-l-10" fxFlex.gt-sm={{size}} fxFlex.gt-xs={{size}} fxFlex="100" *ngIf="treinamento">
+          <div class="m-l-10" fxFlex.gt-sm={{size[i]}} fxFlex.gt-xs={{size[i]}} fxFlex="100" *ngIf="treinamento">
             <mat-form-field appearance="outline">
               <input type="text" placeholder="Busque o produto" aria-label="produto" matInput
               formControlName="produto_nome" (keyup)="searchProduto(form.controls.homologation_products.value[i].produto_nome)" [matAutocomplete]="autoProduto">
@@ -102,7 +102,7 @@
               </mat-autocomplete>
             </mat-form-field>
           </div>
-          <div *ngIf="fieldTipoVolk;treinamento" class="m-l-10" fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="100">
+          <div *ngIf="fieldTipoVolk[i];treinamento" class="m-l-10" fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="100">
             <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
               [floatLabel]="form.value.floatLabel">
               <mat-label>Tipo</mat-label>
