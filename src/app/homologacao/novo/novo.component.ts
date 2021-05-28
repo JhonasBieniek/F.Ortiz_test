@@ -85,7 +85,7 @@ export class NovoComponent implements OnInit {
       maxWidth: '90vw',
       maxHeight: '90vh',
       width: '90vw',
-      height: '70vh'
+      height: '90vh'
     }
     //dialogConfig.data = this.dados.data;
     let dialogRef = this.dialog.open(

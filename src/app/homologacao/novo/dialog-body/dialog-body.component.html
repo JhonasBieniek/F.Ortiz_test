@@ -76,11 +76,6 @@
       </mat-form-field>
     </div>
     <div formArrayName="homologation_products" fxLayout="row wrap" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="row">
-      <div class="p-10 plus-icons row m-l-5" fx-flex="100" fxLayoutAlign="start start">
-        <a (click)="addNovoProdutoHomologacao()"><i
-          class="material-icons">add_circle_outline</i>
-        <span class="newproduto">Add Produto</span></a>
-      </div>
       <div fxLayout="row wrap" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngFor="let e of form.get('homologation_products').controls; index as i"
         [formGroupName]="i">
         <div class="m-l-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
@@ -148,6 +143,13 @@
       </mat-form-field>
       <textarea *ngIf="form.get('obs').errors?.maxlength && form.get('obs').touched"
         class="text-danger font-14">A observação não deve exceder 50 caracteres</textarea>
+    </div>
+    <div fxLayout="row wrap" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" class="row">
+      <div class="p-10 plus-icons row m-l-5" fx-flex="100" fxLayoutAlign="start start">
+        <a (click)="addNovoProdutoHomologacao()"><i
+          class="material-icons">add_circle_outline</i>
+        <span class="newproduto">Add Produto</span></a>
+      </div>
     </div>
   </div>
   <mat-card-actions fxLayout="row" fxLayoutAlign="end center">

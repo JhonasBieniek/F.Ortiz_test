@@ -122,7 +122,6 @@ export class DialogBodyComponent implements OnInit {
   }
 
   setCliente(cliente) {
-    console.log(cliente);
     if (this.data != null) {
       this.clienteBusca.setValue(cliente.razao_social);
     }
@@ -162,7 +161,6 @@ export class DialogBodyComponent implements OnInit {
 
   setProduto(produto, index: number) {
     const h = this.form.controls.homologation_products as FormArray;
-    console.log(h.controls[index].get("representada"));
     if (this.data != null) {
       h.controls[index].get("produto_nome").setValue(produto.nome);
       h.controls[index]
