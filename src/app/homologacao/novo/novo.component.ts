@@ -46,19 +46,26 @@ export class NovoComponent implements OnInit {
   }
   
   updateFilter(event) {
-  const val = event.target.value.toLowerCase();
-      
-  // filter our data
-  const temp = this.temp.filter(function(d) {
-    if( d.nome.toLowerCase().indexOf(val) !== -1 || !val 
-    || d.regio.nome.toLowerCase().indexOf(val) !== -1 || !val 
-    || d.vendedor.nome.toLowerCase().indexOf(val) !== -1 || !val)
-    return d
-  }); 
-  // update the rows
-  this.rows = temp;
-  // Whenever the filter changes, always go back to the first page
-  this.table = this.data;
+    // const val = event.target.value.toLowerCase();
+        
+    // // filter our data
+    // const temp = this.temp.filter(function(d) {
+    //   if( d.nome.toLowerCase().indexOf(val) !== -1 || !val 
+    //   || d.regio.nome.toLowerCase().indexOf(val) !== -1 || !val 
+    //   || d.vendedor.nome.toLowerCase().indexOf(val) !== -1 || !val)
+    //   return d
+    // }); 
+    // // update the rows
+    // this.rows = temp;
+    // // Whenever the filter changes, always go back to the first page
+    // this.table = this.data;
+
+    const val = event.target.value.toLowerCase();
+    this.rows[this.defaultTab] = this.temp[this.defaultTab].filter(function(d) {
+      if( d.cliente.nome_fantasia.toLowerCase().indexOf(val) !== -1 || !val ||
+          d.cliente.cnpj.toLowerCase().indexOf(val) !== -1 || !val )
+      return d
+    });
   }
   updateValue(event, cell, rowIndex) {    
   this.editing[rowIndex + '-' + cell] = false;
