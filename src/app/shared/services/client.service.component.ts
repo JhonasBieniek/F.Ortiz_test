@@ -949,8 +949,17 @@ export class ClientService {
       .subscribe(res =>
           console.log('Done')); 
   }
+  addProdutoHomologacao(dados) {
+    const uri = `${API_URL}` + `homologation-products/add.json`;
+    return this
+          .http
+          .post(uri, dados) 
+          .map(res => {
+            return res;
+          });
+  }
   updateHomologacao(data): Observable<any>{
-    const url = `${API_URL}homologations/edit/${data.id}.json`;
+    const url = `${API_URL}homologation-products/edit/${data.id}.json`;
      return this.http.put(url, data).pipe(
       catchError(this.handleError),
       map(res => {
@@ -968,12 +977,11 @@ export class ClientService {
             });
   }
   delHomologacao(id){
-    this.notificationService.notify(`Você não possui permissão para excluir dados!`)
-
-    // const uri = `${API_URL}` +`homologations/delete/`+id +`.json`;
-    // return this
-    //   .http
-    //   .delete(uri)
+    // this.notificationService.notify(`Você não possui permissão para excluir dados!`)
+    const uri = `${API_URL}` +`homologation-products/delete/`+id +`.json`;
+    return this
+      .http
+      .delete(uri)
   }
   private handleError(error: any): Observable<any>{
     console.log("ERRO NA REQUISIÇÃO => ", error);

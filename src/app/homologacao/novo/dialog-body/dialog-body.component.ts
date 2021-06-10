@@ -17,6 +17,7 @@ import { ClientService } from "../../../shared/services/client.service.component
 import { NotificationService } from "../../../shared/messages/notification.service";
 import { Observable } from "rxjs";
 import { Homologation } from "../../homologation.model";
+import { A } from "@angular/cdk/keycodes";
 
 @Component({
   selector: "app-dialog-body",
@@ -41,7 +42,7 @@ export class DialogBodyComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<DialogBodyComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Homologation,
+    @Inject(MAT_DIALOG_DATA) public data,
     private fb: FormBuilder,
     private notificationService: NotificationService,
     private clientservice: ClientService
@@ -58,39 +59,19 @@ export class DialogBodyComponent implements OnInit {
     if (this.data != null) {
       this.pageTitle = "Editar Homologação";
       this.form = this.fb.group({
-        id: this.data.id,
-        cliente_id: [this.data.cliente_id, Validators.required],
-        data_inicial: [this.data.data_inicial, Validators.required],
-        data_final: [this.data.data_final],
-        contato: [this.data.contato],
-        tipo_volk: [this.data.tipo_volk],
-        status: [this.data.status, Validators.required],
-        obs: [this.data.obs],
+        cliente_id: [this.data[0].cliente_id, Validators.required],
         hideRequired: true,
         floatLabel: "auto",
         homologation_products: this.fb.array([]),
       });
-      this.data.homologation_products.filter((e,index) => {
-        if(e.tipo_volk != null){
-          this.isVolk(9,index);
-        }else{
-          this.isVolk(1,index);
-        }
-      })
-      this.setCliente(this.data.cliente);
-      this.addNovosProdutoHomologacao(this.data.homologation_products);
-      this.form.patchValue(this.data);
+      this.setCliente(this.data[0]);
+      this.data.forEach((element, index) => {
+        this.addEditProdutoHomologacao(element, index);
+      });
     } else {
       this.pageTitle = "Cadastrar Homologação";
       this.form = this.fb.group({
         cliente_id: [null, Validators.required],
-        data_inicial: [null, Validators.required],
-        data_final: [null],
-        contato: [null],
-        descricao: [null],
-        tipo_volk: [null],
-        status: ["Em teste", Validators.required],
-        obs: [null],
         hideRequired: true,
         floatLabel: "auto",
         homologation_products: this.fb.array([]),
@@ -181,10 +162,10 @@ export class DialogBodyComponent implements OnInit {
   isVolk(representada_id, index) {
     if (representada_id === 9) {
       this.fieldTipoVolk[index] = true;
-      this.size[index] = 38;
+      this.size[index] = 23;
     } else {
       this.fieldTipoVolk[index] = false;
-      this.size[index] = 50;
+      this.size[index] = 32;
     }
   }
 
@@ -194,24 +175,50 @@ export class DialogBodyComponent implements OnInit {
     produto_homologacao.push(
       this.fb.group({
         produto_id: null,
+        contato: "WhatsApp/Online",
         produto_nome: null,
         codigo: null,
         ca: null,
         representada: null,
         tipo_volk: null,
+        status: "Em teste",
+        data_inicial: new FormControl(new Date()),
+        data_final: null
       })
     );
   }
 
-  addNovosProdutoHomologacao(data: any) {
-    data.forEach(async (e: any) => {
-      this.addNovoProdutoHomologacao(e);
-    });
+  addEditProdutoHomologacao(data: any = null, index) {
+    const produto_homologacao = this.form.controls
+      .homologation_products as FormArray;
+    produto_homologacao.push(
+      this.fb.group({
+        id: data.id,
+        homologation_id: data.homologation_id,
+        produto_id: data.produto_id,
+        contato: data.contato,
+        produto_nome: data.produto_nome,
+        codigo: data.codigo,
+        ca: data.ca,
+        representada: data.representada,
+        tipo_volk: data.tipo_volk,
+        status: data.status,
+        data_inicial: data.data_inicial,
+        data_final: data.data_final
+      })
+    );
+    if(data.tipo_volk != null){
+      this.isVolk(9,index);
+    }else{
+      this.isVolk(1,index);
+    }
   }
 
   delProduto(index) {
-    const produto_homologacao = this.form.controls
-      .homologation_products as FormArray;
+    const produto_homologacao = this.form.controls.homologation_products as FormArray;
+    if (produto_homologacao.controls[index].get('id') != null) { 
+      this.clientservice.delHomologacao(produto_homologacao.controls[index].get('id').value).subscribe( res => console.log(res));
+    }
     produto_homologacao.removeAt(index);
   }
 
@@ -221,8 +228,23 @@ export class DialogBodyComponent implements OnInit {
 
   Submit() {
     if (this.data != undefined) {
-      this.clientservice.updateHomologacao(this.form.value).subscribe(() => {
-        this.notificationService.notify("Atualizado com Sucesso!");
+      let lastID: number = 0;
+      this.form.value.homologation_products.map(e => {
+        if(lastID < e.homologation_id){
+          lastID = e.homologation_id;
+        }
+      });
+      this.form.value.homologation_products.forEach(element => {
+        if(element.homologation_id != undefined) {
+          this.clientservice.updateHomologacao(element).subscribe(() => {
+            this.notificationService.notify("Atualizado com Sucesso!");
+          });
+        }else{
+          element.homologation_id = lastID;
+          this.clientservice.addProdutoHomologacao(element).subscribe(() => {
+            this.notificationService.notify("Atualizado com Sucesso!");
+          });
+        }
       });
     } else {
       this.clientservice.addHomogacao(this.form.value);

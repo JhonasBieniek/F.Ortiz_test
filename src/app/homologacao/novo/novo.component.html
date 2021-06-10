@@ -23,50 +23,26 @@
 
               <ngx-datatable-column [flexGrow]="0.5" name="ID">
                 <ng-template let-value="id" let-row="row" ngx-datatable-cell-template>
-                  {{ row.id }}
+                  {{ row[0].homologation_id }}
                 </ng-template>
               </ngx-datatable-column>
 
               <ngx-datatable-column [flexGrow]="1.5" name="Cliente">
                 <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
-                  {{ row.cliente.nome_fantasia }}
+                  {{ row[0].razao_social }}
                 </ng-template>
               </ngx-datatable-column>
 
               <ngx-datatable-column [flexGrow]="1.2" name="CNPJ">
                 <ng-template let-value="cnpj" let-row="row" ngx-datatable-cell-template>
-                  {{ row.cliente.cnpj | mask:'00.000.000/0000-00'}}
-                </ng-template>
-              </ngx-datatable-column>
-
-              <ngx-datatable-column [flexGrow]="0.8" name="Dt. Inicial">
-                <ng-template let-value="created" let-row="row" ngx-datatable-cell-template>
-                  {{ row.data_inicial | date:'dd/MM/yyyy' }}
-                </ng-template>
-              </ngx-datatable-column>
-
-              <ngx-datatable-column [flexGrow]="0.8" name="Dt. Final">
-                <ng-template let-value="created" let-row="row" ngx-datatable-cell-template>
-                  {{ row.data_final | date:'dd/MM/yyyy'  }}
-                </ng-template>
-              </ngx-datatable-column>
-
-              <ngx-datatable-column [flexGrow]="0.8" name="Status">
-                <ng-template let-value="modified" let-row="row" ngx-datatable-cell-template>
-                  <mat-form-field style="width: 100%;" class="no-padding">
-                      <mat-select [value]="row.status" [(ngModel)]="row.status" (selectionChange)="changeStatus(row)">
-                        <mat-option value="Homologado">Homologado</mat-option>
-                        <mat-option value="Nao Homologado">Não Homologado</mat-option>
-                        <mat-option value="Em teste">Em teste</mat-option>
-                      </mat-select>
-                  </mat-form-field>
+                  {{ row[0].cnpj | mask:'00.000.000/0000-00'}}
                 </ng-template>
               </ngx-datatable-column>
 
               <ngx-datatable-column [flexGrow]="0.8" name="Ações">
                 <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
                   <i class="fa fa-pencil button" title="Editar" (click)="edit(row);"></i>
-                  <i class="fa fa-trash-o button2" title="Deletar" (click)="delete(row)"></i>
+                  <!-- <i class="fa fa-trash-o button2" title="Deletar" (click)="delete(row)"></i> -->
                 </ng-template>
               </ngx-datatable-column>
 

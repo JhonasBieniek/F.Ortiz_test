@@ -1,12 +1,6 @@
 {
   "titulo": "Homologações",
-  "import": {
-    "titulo": "Importar"
-  },
-  "add": {
-    "titulo": "Novo"
-  },
-    "homologacoes": [
+  "homologacoes": [
       {
         "titulo": "Em teste",
         "step": "Em teste",
