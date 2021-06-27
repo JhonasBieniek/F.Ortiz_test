@@ -101,7 +101,7 @@
                 <input matInput placeholder="Representada" formControlName="representada" readonly>
               </mat-form-field>
             </div>
-            <div class="m-l-10" fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="100">
+            <div class="m-l-10" fxFlex.gt-sm="8" fxFlex.gt-xs="10" fxFlex="100">
               <mat-form-field appearance="outline">
                 <mat-label>Data Inicial</mat-label>
                 <input matInput [matDatepicker]="pickerIncial" formControlName="data_inicial" placeholder="Data Incial">
@@ -109,7 +109,7 @@
                 <mat-datepicker #pickerIncial></mat-datepicker>
               </mat-form-field>
             </div>
-            <div class="m-l-10" fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="100">
+            <div class="m-l-10" fxFlex.gt-sm="8" fxFlex.gt-xs="10" fxFlex="100">
               <mat-form-field appearance="outline">
                 <mat-label>Data Final</mat-label>
                 <input matInput [matDatepicker]="pickerFinal" formControlName="data_final" placeholder="Data Final">
@@ -117,7 +117,21 @@
                 <mat-datepicker #pickerFinal></mat-datepicker>
               </mat-form-field>
             </div>
-            <div class="m-l-10" fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="100" *ngIf="treinamento">
+            <div class="m-l-10" fxFlex.gt-sm="7" fxFlex.gt-xs="7" fxFlex="100" *ngIf="treinamento">
+              <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+                [floatLabel]="form.value.floatLabel">
+                <mat-label>Venda</mat-label>
+                <mat-select formControlName="venda">
+                  <mat-option>-- Selecione... --</mat-option>
+                  <mat-option value="revenda">Revenda</mat-option>
+                  <mat-option value="final">Cliente Final</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <small *ngIf="form.controls.homologation_products.controls[i].get('status').errors?.required && form.controls.homologation_products.controls[i].get('status').touched"
+                class="text-danger font-14">Você
+                precisa selecionar o status.</small>
+            </div>
+            <div class="m-l-10" fxFlex.gt-sm="7" fxFlex.gt-xs="7" fxFlex="100" *ngIf="treinamento">
               <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
                 [floatLabel]="form.value.floatLabel">
                 <mat-label>Status</mat-label>

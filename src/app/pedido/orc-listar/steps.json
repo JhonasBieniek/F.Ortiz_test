@@ -6,7 +6,7 @@
     "pedidos": [
       {
         "titulo": "Em análise (Assistente)",
-        "step": 1,
+        "step": 0,
         "index": 0,
         "columns": [
           {
@@ -38,7 +38,7 @@
       },
       {
         "titulo": "Ag. Aprovação (Cliente)",
-        "step": 2,
+        "step": 1,
         "index": 1,
         "columns": [
           {
@@ -75,7 +75,7 @@
       },
       {
         "titulo": "Aprovado",
-        "step": 3,
+        "step": 2,
         "index": 2,
         "columns": [
           {
@@ -112,7 +112,7 @@
       },
       {
         "titulo": "Cancelado",
-        "step": 4,
+        "step": 3,
         "index": 3,
         "columns": [
           {

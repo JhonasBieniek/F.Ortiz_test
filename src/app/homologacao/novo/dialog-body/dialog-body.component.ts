@@ -175,6 +175,7 @@ export class DialogBodyComponent implements OnInit {
     produto_homologacao.push(
       this.fb.group({
         produto_id: null,
+        cliente_id: this.form.get('cliente_id').value,
         contato: "WhatsApp/Online",
         produto_nome: null,
         codigo: null,
@@ -182,6 +183,7 @@ export class DialogBodyComponent implements OnInit {
         representada: null,
         tipo_volk: null,
         status: "Em teste",
+        venda: null,
         data_inicial: new FormControl(new Date()),
         data_final: null
       })
@@ -196,6 +198,7 @@ export class DialogBodyComponent implements OnInit {
         id: data.id,
         homologation_id: data.homologation_id,
         produto_id: data.produto_id,
+        cliente_id: data.cliente_id,
         contato: data.contato,
         produto_nome: data.produto_nome,
         codigo: data.codigo,
@@ -203,6 +206,7 @@ export class DialogBodyComponent implements OnInit {
         representada: data.representada,
         tipo_volk: data.tipo_volk,
         status: data.status,
+        venda: data.venda,
         data_inicial: data.data_inicial,
         data_final: data.data_final
       })

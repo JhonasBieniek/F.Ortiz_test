@@ -19,38 +19,32 @@
                             <li *ngFor="let data of data.homologacoes; let comIndex = index">
                                 <div fxLayout="row wrap" class="row" style="padding-left: 10px;">
                                     <div fxFlex="45" class="p-b-10 p-t-10 text-overflow">
-                                        <span style="color: black; font-weight: 500; font-size: 11px;">Cliente:
-                                            {{data.cliente?.nome_fantasia}}</span>
-                                    </div>
-                                    <div fxFlex="16" class="p-b-10 p-t-10 text-center">
-                                        <span style="color: black; font-weight: 500; font-size: 11px;">Inicio:
-                                            {{data.data_inicial | date:'dd/MM/yyyy'}}</span>
-                                    </div>
-                                    <div fxFlex="16" class="p-b-10 p-t-10 text-center">
-                                        <span style="color: black; font-weight: 500; font-size: 11px;">Fim:
-                                            {{data.data_final | date:'dd/MM/yyyy'}}</span>
-                                    </div>
-                                    <div fxFlex="23" class="p-b-10 p-t-10 text-right">
-                                        <span style="color: black; font-weight: 500; font-size: 11px;">Status:
-                                            {{data.status}}</span>
+                                        <span style="color: black; font-weight: 500; font-size: 9px;">Cliente:
+                                            {{data[0].cliente?.nome_fantasia}}</span>
                                     </div>
                                     <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
                                         <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100"
                                             class="tamanhoContas border"
-                                            style="color: black; font-weight: 500; font-size: 11px;">
-                                            <div fxFlex="45" style="padding-left: 5px;" class="border-right">
+                                            style="color: black; font-weight: 500; font-size: 9px;">
+                                            <div fxFlex="35" style="padding-left: 5px;" class="border-right">
                                                 Produto
                                             </div>
-                                            <div fxFlex="15" class="border-right" style="padding-left: 5px;">
+                                            <div fxFlex="10" class="border-right" style="padding-left: 5px;">
                                                 tipo
                                             </div>
-                                            <div fxFlex="15" class="border-right" style="padding-left: 5px;">
+                                            <div fxFlex="10" class="border-right" style="padding-left: 5px;">
                                                 Código
                                             </div>
                                             <div fxFlex="10" class="border-right" style="padding-left: 5px;">
-                                                CA.
+                                                Dt.Inicial
                                             </div>
-                                            <div fxFlex="15" style="padding-left: 5px;">
+                                            <div fxFlex="10" class="border-right" style="padding-left: 5px;">
+                                                Dt.Final
+                                            </div>
+                                            <div fxFlex="12" class="border-right" style="padding-left: 5px;">
+                                                Status
+                                            </div>
+                                            <div fxFlex="13" style="padding-left: 5px;">
                                                 Representada
                                             </div>
                                         </div>
@@ -58,24 +52,30 @@
                                     <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
                                         <ul style="list-style-type: none !important; padding-left: 0px;">
                                             <li
-                                                *ngFor="let produto of data.homologation_products; let comIndex2 = index">
+                                                *ngFor="let produto of data; let comIndex2 = index">
                                                 <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100"
                                                     class="tamanhoContas border">
-                                                    <div fxFlex="45"
-                                                        style="overflow: hidden; white-space: nowrap; padding-right: 10px; padding-left: 5px;"
+                                                    <div fxFlex="35"
+                                                        style="overflow: hidden; white-space: nowrap; padding-right: 10px; padding-left: 5px; font-size: 9px;"
                                                         class="border-right">
                                                         {{produto.produto_nome }}
                                                     </div>
-                                                    <div fxFlex="15" class="border-right" style="padding-left: 5px;">
+                                                    <div fxFlex="10" class="border-right" style="padding-left: 5px; font-size: 9px;">
                                                         {{produto.tipo_volk}}
                                                     </div>
-                                                    <div fxFlex="15" class="border-right" style="padding-left: 5px;">
+                                                    <div fxFlex="10" class="border-right" style="padding-left: 5px; font-size: 9px;">
                                                         {{produto.codigo}}
                                                     </div>
-                                                    <div fxFlex="10" class="border-right" style="padding-left: 5px;">
-                                                        {{produto.ca}}
+                                                    <div fxFlex="10" class="border-right" style="padding-left: 5px; font-size: 9px;">
+                                                        {{produto.data_inicial | date:'dd/MM/yyyy'}}
                                                     </div>
-                                                    <div fxFlex="15" style="padding-left: 5px;">
+                                                    <div fxFlex="10" class="border-right" style="padding-left: 5px; font-size: 9px;">
+                                                        {{produto.data_final | date:'dd/MM/yyyy'}}
+                                                    </div>
+                                                    <div fxFlex="12" class="border-right" style="padding-left: 5px; font-size: 9px;">
+                                                        {{produto.status}}
+                                                    </div>
+                                                    <div fxFlex="13" style="padding-left: 5px; font-size: 9px;">
                                                         {{produto.representada}}
                                                     </div>
                                                 </div>

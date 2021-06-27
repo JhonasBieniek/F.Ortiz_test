@@ -159,6 +159,7 @@ export class OrcamentoComponent implements OnInit {
         .subscribe(
           (orcamento: any) => {
             this.orcamento = orcamento.data;
+            console.log(this.orcamento)
             this.form.patchValue(this.orcamento);
             this.cliente_id = this.orcamento.cliente_id;
             this.form.get('cliente_id').setValue(this.orcamento.cliente.razao_social);

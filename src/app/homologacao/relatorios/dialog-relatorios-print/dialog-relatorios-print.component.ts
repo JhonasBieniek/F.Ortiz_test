@@ -16,20 +16,24 @@ export class DialogRelatoriosPrintComponent implements OnInit {
   contato: any[] = [];
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) { 
-    
-    data.homologacoes.map((e: any) =>{
-      var indexcontato = this.contato.findIndex((x:any)=>x.name == e.contato);
-      if(indexcontato == -1){
-        this.contato.push(
-          {
-            name: e.contato,
-            quantidade: 1
-          });
-      }else {
-        this.contato[indexcontato].quantidade++;
-      }
 
-      e.homologation_products.map((products: any) => {
+    console.log(data)
+    
+    data.homologacoes.forEach((e: any) =>{
+      e.forEach(element => {
+        var indexcontato = this.contato.findIndex((x:any)=>x.name == element.contato);
+        if(indexcontato == -1){
+          this.contato.push(
+            {
+              name: element.contato,
+              quantidade: 1
+            });
+        }else {
+          this.contato[indexcontato].quantidade++;
+        }
+      });
+
+      e.forEach((products: any) => {
         var index = this.representadas.findIndex((x:any)=>x.name == products.representada);
         if(index == -1){
           this.representadas.push(

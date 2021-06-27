@@ -110,11 +110,27 @@ export class RelatoriosComponent implements OnInit {
   }
 
   buscar(){
-    console.log(this.form.value);
     if(this.form.get("data_inicial").value != null && this.form.get("data_final").value != null){
       this.clientservice.getHomologacoesRelatorio(this.form.value).subscribe((res: any) => {
-        this.rows = res.data;
-        //console.log(res);
+
+         // Reduce products for client
+         let group = res.data,
+         result = group.reduce(function (r, a) {
+             r[a.cliente_id] = r[a.cliente_id] || [];
+             r[a.cliente_id].push(a);
+             return r;
+         }, Object.create(null));
+ 
+         // Clients array
+         let allClients = [];
+ 
+         // Populate clients array
+         for(let key in result) {
+             allClients.push(result[key]);
+         }
+         console.log(allClients);
+
+        this.rows = allClients;
       });
     }else{
       this.notificationService.notify("Informar a Data Iniciar e Final!");

@@ -44,25 +44,25 @@ export class ClientService {
   }
 
   delete(tipo,id){
-    // const uri = `${API_URL}` + tipo +`/delete/`+id +`.json`;
-    // const obj = {
-    //   id
-    // };
+    const uri = `${API_URL}` + tipo +`/delete/`+id +`.json`;
+    const obj = {
+      id
+    };
 
-    // // this.notificationService.notify(`Você não possui permissão para excluir dados!`)
-    // // Removida a func de delete
-    // this
-    //   .http
-    //   .post(uri, obj)
-    //   .subscribe(res =>{
-    //     this.resposta = res
-    //       if(this.resposta.status || this.resposta.success == true){
-    //         this.notificationService.notify(`Deletado com Sucesso!`)
-    //       }else{
-    //         this.notificationService.notify(this.resposta.data.retornoMsg)
-    //       }
-    //     }
-    //   ); 
+    // this.notificationService.notify(`Você não possui permissão para excluir dados!`)
+    // Removida a func de delete
+    this
+      .http
+      .post(uri, obj)
+      .subscribe(res =>{
+        this.resposta = res
+          if(this.resposta.status || this.resposta.success == true){
+            this.notificationService.notify(`Deletado com Sucesso!`)
+          }else{
+            this.notificationService.notify(this.resposta.data.retornoMsg)
+          }
+        }
+      ); 
     this.notificationService.notify(`Contate o Administrador!`)
   }
 
@@ -933,7 +933,7 @@ export class ClientService {
   }
 
   getHomologacoesRelatorio(dados) {
-    const uri = `${API_URL}` + `homologations/relatorioHomologacoes.json`;
+    const uri = `${API_URL}` + `homologation-products/relHomolog.json`;
     return this
             .http
             .post(uri, dados)

@@ -69,10 +69,10 @@ export class NovoComponent implements OnInit {
         }, Object.create(null));
 
         // Clients array
-        var allClients = [];
+        let allClients = [];
 
         // Populate clients array
-        for(var key in result) {
+        for(let key in result) {
             allClients.push(result[key]);
         }
         this.temp[i] = allClients.sort((a,b)=> b[0].homologation_id - a[0].homologation_id);;
