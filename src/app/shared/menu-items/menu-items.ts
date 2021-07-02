@@ -56,6 +56,7 @@ const MENUITEMS = [
       {state: 'grupos', name: 'Grupos', type: 'link' },
       {state: 'produto-tipos', name: 'Tipos de Produto', type: 'link' },
       {state: 'produto-materiais', name: 'Materiais do Produto', type: 'link' },
+      {state: 'produto-classificacao', name: 'Classificação', type: 'link' },
       {state: 'produtos', name: 'Produtos', type: 'link' },
       {state: 'ramo-atividade', name: 'Ramo de Atividade', type: 'link' },
       {state: 'regioes', name: 'Regiões', type: 'link' },

@@ -36,6 +36,7 @@ import { DomSanitizer } from "@angular/platform-browser";
 export class DialogBodyProdutoComponent implements OnInit {
   public form: FormGroup;
   representadas = [];
+  classificacoes = [];
   tiposProduto: any = [];
   materiaisProduto = [];
   unidades = [];
@@ -85,6 +86,9 @@ export class DialogBodyProdutoComponent implements OnInit {
   ) {
     this.clientservice.getRepresentadas().subscribe((res: any) => {
       this.representadas = res.data;
+    });
+    this.clientservice.getClassificacoes().subscribe((res: any) => {
+      this.classificacoes = res.data;
     });
     this.clientservice.getUnidades().subscribe((res: any) => {
       this.unidades = res.data;
@@ -153,6 +157,7 @@ export class DialogBodyProdutoComponent implements OnInit {
       representada_id: [null, Validators.compose([Validators.required])],
       imagem: [null],
       imagem_ficha: [null],
+      produto_classification_id: [null],
       status: ["ativo"],
     });
     if (this.data == null) {

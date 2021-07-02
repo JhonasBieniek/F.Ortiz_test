@@ -20,6 +20,7 @@ import { TamanhosComponent } from './tamanhos/tamanhos.component';
 import { ContaBancoComponent } from './conta-banco/conta-banco.component';
 import { TipoProdutoComponent } from './tipo-produto/tipo-produto.component';
 import { ProdutoMateriaisComponent } from './produto-materiais/produto-materiais.component';
+import { ClassificacoesComponent } from './classificacoes/classificacoes.component';
 
 
 export const CadastroRoutes: Routes = [
@@ -82,6 +83,9 @@ export const CadastroRoutes: Routes = [
     },{
       path: 'produto-materiais', 
       component: ProdutoMateriaisComponent
+    },{
+      path: 'produto-classificacao', 
+      component: ClassificacoesComponent
     },{
     path: 'conta', 
     component: ContaBancoComponent

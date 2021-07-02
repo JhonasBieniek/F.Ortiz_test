@@ -58,6 +58,8 @@ import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
 import { DateAdapter } from 'angular-calendar';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DialogUpdatePriceComponent } from './produtos/dialog-update-price/dialog-update-price.component';
+import { ClassificacoesComponent } from './classificacoes/classificacoes.component';
+import { DialogBodyProdutoClassificacaoComponent } from './classificacoes/dialog-body/dialog-body.component';
 
 
 
@@ -118,8 +120,10 @@ import { DialogUpdatePriceComponent } from './produtos/dialog-update-price/dialo
                   TipoProdutoComponent,
                   DialogBodyTipoProdutoComponent,
                   DialogBodyProdutoMateriaisComponent,
+                  DialogBodyProdutoClassificacaoComponent,
                   ProdutoMateriaisComponent,
-                  DialogUpdatePriceComponent
+                  DialogUpdatePriceComponent,
+                  ClassificacoesComponent
   ],
   providers: [
     DateFormatPipe,
@@ -149,6 +153,7 @@ import { DialogUpdatePriceComponent } from './produtos/dialog-update-price/dialo
                      DialogTamanhosComponent,
                      DialogContaComponent,
                      DialogBodyProdutoMateriaisComponent,
+                     DialogBodyProdutoClassificacaoComponent,
                      DialogBodyTipoProdutoComponent,
                      DialogUpdatePriceComponent
   ],

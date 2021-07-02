@@ -140,6 +140,23 @@ export class ClientService {
       })
      )
   }
+  addProdutoClassifications(dados) {
+    const uri = `${API_URL}` + `classifications/add.json`;
+    this
+      .http
+      .post(uri, dados) 
+      .subscribe(res =>
+          console.log('Done'));
+  }
+  updateProdutoClassifications(data): Observable<any>{
+    const url = `${API_URL}classifications/edit/${data.id}.json`;
+    return this.http.put(url, data).pipe(
+      catchError(this.handleError),
+      map(res => {
+        return res;
+      })
+    )
+  }
   addProdutoMaterials(dados) {
     const uri = `${API_URL}` + `produto-materials/add.json`;
     this
@@ -491,6 +508,10 @@ export class ClientService {
     const uri = `${API_URL}` + `representadas/index.json`;
     return this.http.get<any[]>(uri);
   }
+  getClassificacoes(): Observable<any[]>{
+    const uri = `${API_URL}` + `classifications/index.json`;
+    return this.http.get<any[]>(uri);
+  }
   getRepresentadasFunc() {
     const uri = `${API_URL}` + `representadas/getRepresentadasFunc.json`;
     return this
@@ -556,6 +577,15 @@ export class ClientService {
   }
   getProdutoMaterials() {
     const uri = `${API_URL}` + `produto-materials/index.json`;
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
+  getProdutoClassifications() {
+    const uri = `${API_URL}` + `classifications/index.json`;
     return this
             .http
             .get(uri)

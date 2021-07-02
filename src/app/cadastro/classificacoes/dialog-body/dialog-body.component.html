@@ -1,0 +1,38 @@
+<mat-dialog-content class="dialog">
+    <div fxLayout="row wrap" [hidden]="true">
+      <!-- Card column -->
+      <div fxFlex.gt-sm="100%" fxFlex="100">
+        <form [formGroup]="form">
+          <div fxLayout="row wrap" class="row">
+            <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+              <mat-card-header class="bg-info text-white">
+                <mat-card-title class="dadosCadastro">{{pageTitle}}</mat-card-title>
+              </mat-card-header>
+            </div>
+            <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+              <mat-form-field appearance="outline">
+                <mat-label>Classificacão do Produto</mat-label>
+                <input matInput placeholder="Nome da classificacão" [formControl]="form.controls['name']">
+              </mat-form-field>
+              <mat-hint *ngIf="form.controls['name'].hasError('required') && form.controls['name'].touched"
+                class="text-danger font-14">Classificacão do Produto.</mat-hint>
+              <mat-hint *ngIf="form.controls['name'].hasError('minlength') && form.controls['name'].touched"
+                class="text-danger font-14">A classificacão deve conter no mínimo 2 caracteres</mat-hint>
+              <mat-hint *ngIf="form.controls['name'].hasError('maxlength') && form.controls['name'].touched"
+                class="text-danger font-14">A classificacão não deve exceder 50 caracteres.</mat-hint>
+            </div>
+            <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+              <mat-form-field appearance="outline">
+                <mat-label>Valor</mat-label>
+                <input matInput placeholder="Valor" formControlName="value" currencyMask>
+              </mat-form-field>
+            </div>
+          </div>
+          <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
+            <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid" (click)="Submit(); close()"> Salvar </button>
+            <button mat-raised-button color="warn" (click)="close()">Cancelar</button>
+          </mat-card-actions>
+        </form>
+      </div>
+    </div>
+  </mat-dialog-content>
