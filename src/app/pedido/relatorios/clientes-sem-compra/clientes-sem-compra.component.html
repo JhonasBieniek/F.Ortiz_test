@@ -8,7 +8,7 @@
                         <div class="p-10 text" fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="100">
                             <mat-form-field appearance="outline">
                                 <mat-label>Selecione a representada...</mat-label>
-                                <mat-select>
+                                <mat-select formControlName="representada_id">
                                     <!--mat-option *ngFor="let representada of representadas" [value]="representada.id">
                                         {{representada.nome_fantasia}}
                                     </mat-option-->
@@ -18,7 +18,7 @@
                         <div class="p-10 text" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
                             <mat-form-field appearance="outline">
                                 <mat-label>Ramo de atividade</mat-label>
-                                <mat-select>
+                                <mat-select formControlName="ramo_id">
                                     <mat-option value=""></mat-option>
                                     <mat-option value=""></mat-option>
                                     <mat-option value=""></mat-option>
@@ -32,25 +32,23 @@
                         <div class="p-10 text" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
                             <mat-form-field appearance="outline">
                                 <mat-label>Data inicial</mat-label>
-                                <input matInput [matDatepicker]="" 
-                                    placeholder="Data inicial">
-                                <mat-datepicker-toggle matSuffix [for]=""></mat-datepicker-toggle>
-                                <mat-datepicker #picker></mat-datepicker>
+                                <input matInput [matDatepicker]="dtInicial" placeholder="Data inicial" formControlName="dtInicio">
+                                <mat-datepicker-toggle matSuffix [for]="dtInicial"></mat-datepicker-toggle>
+                                <mat-datepicker #dtInicial></mat-datepicker>
                             </mat-form-field>
                         </div>
                         <div class="p-10 text" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
                             <mat-form-field appearance="outline">
                                 <mat-label>Data final</mat-label>
-                                <input matInput [matDatepicker]="" 
-                                    placeholder="Data final">
-                                <mat-datepicker-toggle matSuffix [for]=""></mat-datepicker-toggle>
-                                <mat-datepicker #picker2></mat-datepicker>
+                                <input matInput [matDatepicker]="dtFinal" placeholder="Data final" formControlName="dtFinal">
+                                <mat-datepicker-toggle matSuffix [for]="dtFinal"></mat-datepicker-toggle>
+                                <mat-datepicker #dtFinal></mat-datepicker>
                             </mat-form-field>
                         </div>
                     </div>
                     <div fxLayout="row wrap">
-                        <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
-                            <mat-radio-group appearance="outline">
+                        <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-radio-group appearance="outline" formControlName="tipo_cliente">
                                 <mat-radio-button value="" class="m-r-10">Todos</mat-radio-button>
                                 <mat-radio-button value="" class="m-r-10">Apenas de Clientes</mat-radio-button>
                                 <mat-radio-button value="" class="m-r-10">Apenas de Prospecção</mat-radio-button>
@@ -58,8 +56,8 @@
                         </div>
                     </div>
                     <div fxLayout="row wrap">
-                        <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
-                            <mat-radio-group appearance="outline">
+                        <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-radio-group appearance="outline" formControlName="ordenacao">
                                 <mat-radio-button value="" class="m-r-10">Cliente</mat-radio-button>
                                 <mat-radio-button value="" class="m-r-10">Data</mat-radio-button>
                             </mat-radio-group>

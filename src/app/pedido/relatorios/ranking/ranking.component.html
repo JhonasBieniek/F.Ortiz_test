@@ -6,7 +6,7 @@
                     <mat-card-title class="title">Ranking</mat-card-title>
                     <div fxLayout="row wrap">
                         <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
-                            <mat-radio-group appearance="outline">
+                            <mat-radio-group appearance="outline" formControlName="status">
                                 <mat-radio-button value="" class="m-r-10">Todos</mat-radio-button>
                                 <mat-radio-button value="" class="m-r-10">Aberto</mat-radio-button>
                                 <mat-radio-button value="" class="m-r-10">Faturado</mat-radio-button>
@@ -18,7 +18,7 @@
                         <div class="p-10 text" fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="100">
                             <mat-form-field appearance="outline">
                                 <mat-label>Selecione a representada...</mat-label>
-                                <mat-select>
+                                <mat-select formControlName="representada_id">
                                     <!--mat-option *ngFor="let representada of representadas" [value]="representada.id">
                                         {{representada.nome_fantasia}}
                                     </mat-option-->
@@ -28,19 +28,13 @@
                         <div class="p-10 text" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
                             <mat-form-field appearance="outline">
                                 <mat-label>Ramo de atividade</mat-label>
-                                <mat-select>
+                                <mat-select formControlName="ramo_id">
                                     <mat-option value=""></mat-option>
                                     <mat-option value=""></mat-option>
                                     <mat-option value=""></mat-option>
                                     <mat-option value=""></mat-option>
                                 </mat-select>
                             </mat-form-field>
-                        </div>
-                        <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
-                            <mat-radio-group appearance="outline">
-                                <mat-radio-button value="" class="m-r-10">Todos</mat-radio-button>
-                                <mat-radio-button value="" class="m-r-10">Aberto</mat-radio-button>
-                            </mat-radio-group>
                         </div>
                         <div class="order text" fxFlex.gt-sm="8" fxFlex.gt-xs="8" fxFlex="100">
                             Período:
@@ -48,46 +42,17 @@
                         <div class="p-10 text" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
                             <mat-form-field appearance="outline">
                                 <mat-label>Data inicial</mat-label>
-                                <input matInput [matDatepicker]="" 
-                                    placeholder="Data inicial">
-                                <mat-datepicker-toggle matSuffix [for]=""></mat-datepicker-toggle>
-                                <mat-datepicker #picker></mat-datepicker>
+                                <input matInput [matDatepicker]="dtInicio" placeholder="Data inicial" formControlName="dtInicio">
+                                <mat-datepicker-toggle matSuffix [for]="dtInicio"></mat-datepicker-toggle>
+                                <mat-datepicker #dtInicio></mat-datepicker>
                             </mat-form-field>
                         </div>
                         <div class="p-10 text" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
                             <mat-form-field appearance="outline">
                                 <mat-label>Data final</mat-label>
-                                <input matInput [matDatepicker]="" 
-                                    placeholder="Data final">
-                                <mat-datepicker-toggle matSuffix [for]=""></mat-datepicker-toggle>
-                                <mat-datepicker #picker2></mat-datepicker>
-                            </mat-form-field>
-                        </div>
-                        <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
-                            <mat-radio-group appearance="outline">
-                                <mat-radio-button value="" class="m-r-10">Todos</mat-radio-button>
-                                <mat-radio-button value="" class="m-r-10">Aberto</mat-radio-button>
-                            </mat-radio-group>
-                        </div>
-                        <div class="p-10 text" fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="100">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Selecione a representada...</mat-label>
-                                <mat-select>
-                                    <!--mat-option *ngFor="let representada of representadas" [value]="representada.id">
-                                        {{representada.nome_fantasia}}
-                                    </mat-option-->
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <div class="p-10 text" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Ramo de atividade</mat-label>
-                                <mat-select>
-                                    <mat-option value=""></mat-option>
-                                    <mat-option value=""></mat-option>
-                                    <mat-option value=""></mat-option>
-                                    <mat-option value=""></mat-option>
-                                </mat-select>
+                                <input matInput [matDatepicker]="dtFinal" placeholder="Data final" formControlName="dtFinal">
+                                <mat-datepicker-toggle matSuffix [for]="dtFinal"></mat-datepicker-toggle>
+                                <mat-datepicker #dtFinal></mat-datepicker>
                             </mat-form-field>
                         </div>
                     </div>

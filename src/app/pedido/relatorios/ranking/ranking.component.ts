@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { NotificationService } from '../../../shared/messages/notification.service';
@@ -10,35 +10,35 @@ import { ClientService } from '../../../shared/services/client.service.component
   templateUrl: './ranking.component.html',
   styleUrls: ['./ranking.component.css']
 
-  
+
 })
 export class RankingComponent implements OnInit {
 
-    form: FormGroup;
-    vendedor_id = new FormControl(null);
-    auxiliar_id = new FormControl(null);
-    cliente_id = new FormControl(null);
-    tipo = new FormControl(null);
+  form: FormGroup;
 
-    constructor(
-      private fb: FormBuilder,
-      private clientservice: ClientService,
-      private notificationService: NotificationService,
-      private route: ActivatedRoute,
-    ){
+  constructor(
+    private fb: FormBuilder,
+    private clientservice: ClientService,
+    private notificationService: NotificationService,
+    private route: ActivatedRoute,
+  ) {
 
-}
+  }
   ngOnInit(): void {
     this.form = this.fb.group({
-      dtInicio: [null],
-      dtFinal: [null],
-      representada_id: [null],
-      tipo: ['faturamento'],
-      campo_ordem: null,
-      tipo_ordem: null,
-      tipo_data: null,
-      num_nota: null,
-
+      status: [null, Validators.required],
+      representada_id: [null, Validators.required],
+      ramo_id: [null, Validators.required],
+      dtInicio: [null, Validators.required],
+      dtFinal: [null, Validators.required],
     });
+  }
+
+  submit() {
+    console.log(this.form.value);
+  }
+
+  clear() {
+
   }
 }

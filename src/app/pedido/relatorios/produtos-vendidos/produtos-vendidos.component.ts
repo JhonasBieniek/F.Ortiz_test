@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { NotificationService } from '../../../shared/messages/notification.service';
@@ -15,10 +15,6 @@ import { ClientService } from '../../../shared/services/client.service.component
 export class ProdutosVendidosComponent implements OnInit {
 
     form: FormGroup;
-    vendedor_id = new FormControl(null);
-    auxiliar_id = new FormControl(null);
-    cliente_id = new FormControl(null);
-    tipo = new FormControl(null);
 
     constructor(
       private fb: FormBuilder,
@@ -30,15 +26,21 @@ export class ProdutosVendidosComponent implements OnInit {
 }
   ngOnInit(): void {
     this.form = this.fb.group({
-      dtInicio: [null],
-      dtFinal: [null],
-      representada_id: [null],
-      tipo: ['faturamento'],
-      campo_ordem: null,
-      tipo_ordem: null,
-      tipo_data: null,
-      num_nota: null,
-
+      representada_id: [null, Validators.required],
+      cliente_id: [null, Validators.required],
+      dtInicio: [null, Validators.required],
+      dtFinal: [null, Validators.required],
+      codigo_id: [null, Validators.required],
+      relatorio_id: [null, Validators.required],
+      ordenacao: [null, Validators.required],
     });
+  }
+
+  submit(){
+    console.log(this.form.value);
+  }
+
+  clear(){
+
   }
 }
