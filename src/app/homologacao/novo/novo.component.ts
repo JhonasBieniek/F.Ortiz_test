@@ -75,7 +75,7 @@ export class NovoComponent implements OnInit {
         for(let key in result) {
             allClients.push(result[key]);
         }
-        this.temp[i] = allClients.sort((a,b)=> b[0].homologation_id - a[0].homologation_id);;
+        this.temp[i] = allClients.sort((a,b)=> a[0].razao_social.localeCompare(b[0].razao_social));
         i++;
       });
 

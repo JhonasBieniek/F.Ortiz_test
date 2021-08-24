@@ -32,6 +32,7 @@ export class DialogBodyComponent implements OnInit {
   clientes: any = [];
   $clientes: any = [];
   produtos: any = [];
+  classifications: any = [];
   $produtos: any = [];
   pageTitle: string = "";
   clienteBusca = new FormControl("");
@@ -53,6 +54,9 @@ export class DialogBodyComponent implements OnInit {
     this.clientservice.getProdutosHomologation().subscribe((res: any) => {
       this.produtos = res.data;
     });
+    this.clientservice.getClassificacoes().subscribe((res: any) => {
+      this.classifications = res.data;
+    });
   }
 
   ngOnInit() {
@@ -64,6 +68,7 @@ export class DialogBodyComponent implements OnInit {
         floatLabel: "auto",
         homologation_products: this.fb.array([]),
       });
+      this.clienteBusca.disable();
       this.setCliente(this.data[0]);
       this.data.forEach((element, index) => {
         this.addEditProdutoHomologacao(element, index);
@@ -155,6 +160,7 @@ export class DialogBodyComponent implements OnInit {
     h.controls[index].get("produto_id").setValue(produto.id);
     h.controls[index].get("codigo").setValue(produto.codigo_catalogo);
     h.controls[index].get("ca").setValue(produto.certificado_aprovacao);
+    h.controls[index].get("tipo_volk").setValue(produto.classification.name);
     // Checks whether the products is from VOLK and enable field tipo_volk
     this.isVolk(produto.representada_id, index);
   }

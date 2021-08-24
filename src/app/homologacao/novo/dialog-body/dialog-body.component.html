@@ -77,9 +77,9 @@
                 <mat-label>Tipo</mat-label>
                 <mat-select formControlName="tipo_volk">
                   <mat-option>-- Selecione... --</mat-option>
-                  <mat-option value="PLUS">PLUS</mat-option>
-                  <mat-option value="STANDARD">STANDARD</mat-option>
-                  <mat-option value="SLIM">SLIM</mat-option>
+                  <mat-option *ngFor="let classi of classifications" [value]="classi.name">
+                    {{classi.name}}
+                  </mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
