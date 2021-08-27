@@ -1,0 +1,113 @@
+.button {
+    padding: 6px 9px;
+    font-size: 18px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    color: rgb(3, 3, 3);
+    border: none;
+    border-radius: 10px;
+}
+
+.button:hover {
+    background-color: #1e88e5;
+}
+
+.button:active {
+    background-color: #519fe2;
+    box-shadow: 0 2px #666;
+    transform: translateY(2px);
+}
+.button2 {
+    padding: 6px 9px;
+    font-size: 18px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    color: rgb(3, 3, 3);
+    border: none;
+    border-radius: 10px;
+}
+
+.button2:hover {
+    background-color: red;
+}
+
+.button2:active {
+    background-color: red;
+    box-shadow: 0 2px #666;
+    transform: translateY(2px);
+}
+
+.close-button {
+    float: right;
+    top: -10px;
+    right: -24px;
+}
+
+.example-headers-align .mat-expansion-panel-header-title,
+.example-headers-align .mat-expansion-panel-header-description {
+    flex-basis: 0;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.example-headers-align .mat-form-field + .mat-form-field {
+    margin-left: 8px;
+}
+
+table {
+    width: 100%;
+}
+
+.mat-cell, .mat-footer-cell {
+    font-size: 12px;
+}
+
+tr.mat-footer-row, tr.mat-row {
+    height: 38px;
+}
+
+.mat-row:nth-child(even){
+    background-color: #eeeeee;
+}
+        
+.mat-row:nth-child(odd):hover{
+    background-color: #eeeeee;
+    /*background-color: black;*/
+    -webkit-transition: background-color 500ms linear;
+    -ms-transition: background-color 500ms linear;
+    transition: background-color 500ms linear;
+}
+.selectedRow .mat-row:hover .removerRow {
+    color: red;
+}
+
+td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
+    border-bottom-width: 0px;
+}
+
+
+.container-table {
+    height: 300px;
+    overflow: auto;
+}
+
+.mat-column-select {
+    width: 60px;
+    margin-right: 5px;
+}
+
+/* Works on Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: blue orange;
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    width: 12px;
+}

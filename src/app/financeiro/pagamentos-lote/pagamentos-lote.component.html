@@ -1,0 +1,226 @@
+<div fxLayout="row wrap">
+    <!-- Card column -->
+    <div fxFlex.gt-sm="100%" fxFlex="100">
+        <mat-card>
+            <mat-card-content>
+                <mat-card-title style="font-weight: bold;font-size: x-large;">Pagamentos em Lote
+                </mat-card-title>
+                <div fxLayout="row wrap" class="row">
+                    <mat-accordion class="p-t-10" fxFlex="100">
+                        <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    Despesas a serem pagas
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <form [formGroup]="form">
+                                <div fxLayout="row wrap" class="row">
+                                    <div fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="100">
+                                        <mat-form-field appearance="outline" fxFlex="100">
+                                            <input type="text" placeholder="Filtrar Por Fornecedor" aria-label="Cliente"
+                                                matInput [formControl]="funcionarioBusca" (keyup)="filterFornecedor()"
+                                                [matAutocomplete]="autoFornecedor">
+                                            <button mat-button matSuffix mat-icon-button aria-label="Clear" type="button"
+                                                *ngIf="form.controls['funcionario_id'].value != null">
+                                                <mat-icon color="warn" (click)="limpar();">close</mat-icon>
+                                            </button>
+                                            <mat-autocomplete autoActiveFirstOption #autoFornecedor="matAutocomplete">
+                                                <mat-option *ngFor="let funcionario of $funcionarios"
+                                                    (click)="setCliente(funcionario)"
+                                                    (onSelectionChange)="setCliente(funcionario)"
+                                                    [value]="funcionario.nome">
+                                                    {{funcionario.nome}} - Email: {{funcionario.email}}
+                                                </mat-option>
+                                            </mat-autocomplete>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="p-10" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
+                                        <div class="button-row text-left">
+                                            <button mat-raised-button color="primary" type="button"
+                                                (click)="filtrar()">Filtrar</button>
+                                        </div>
+                                    </div>
+    
+                                    <div class="container-table p-r-10" fxFlex="50">
+                                        <table mat-table [dataSource]="dataSource">
+                                            <!-- Checkbox Column -->
+                                            <ng-container matColumnDef="select">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    <mat-checkbox (change)="$event ? masterToggle() : null"
+                                                        [checked]="selection.hasValue() && isAllSelected()"
+                                                        [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                                        [aria-label]="checkboxLabel()">
+                                                    </mat-checkbox>
+                                                </th>
+                                                <td mat-cell *matCellDef="let row">
+                                                    <mat-checkbox (click)="$event.stopPropagation(); setSelection();"
+                                                        (change)="$event ? selection.toggle(row) : null"
+                                                        [checked]="selection.isSelected(row)"
+                                                        [aria-label]="checkboxLabel(row)">
+                                                    </mat-checkbox>
+                                                </td>
+                                            </ng-container>
+    
+                                            <!-- Position Column -->
+                                            <ng-container matColumnDef="position">
+                                                <th mat-header-cell *matHeaderCellDef> No. </th>
+                                                <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                                            </ng-container>
+    
+                                            <!-- Name Column -->
+                                            <ng-container matColumnDef="name">
+                                                <th mat-header-cell *matHeaderCellDef> Name </th>
+                                                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                                            </ng-container>
+    
+                                            <!-- Weight Column -->
+                                            <ng-container matColumnDef="weight">
+                                                <th mat-header-cell *matHeaderCellDef> Weight </th>
+                                                <td mat-cell *matCellDef="let element"> {{element.weight | currency}} </td>
+                                            </ng-container>
+    
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                                                (click)="selection.toggle(row)">
+                                            </tr>
+                                        </table>
+                                    </div>
+    
+                                    <div class="container-table p-l-10" fxFlex="50">
+                                        <table mat-table [dataSource]="this.selection.selected" class="selectedRow">
+                                            <!-- Checkbox Column -->
+                                            <ng-container matColumnDef="select">
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    Ação
+                                                </th>
+                                                <td mat-cell *matCellDef="let row">
+                                                    <mat-icon style="line-height: 1.5;" class="removerRow">close</mat-icon>
+                                                </td>
+                                            </ng-container>
+    
+                                            <!-- Position Column -->
+                                            <ng-container matColumnDef="position">
+                                                <th mat-header-cell *matHeaderCellDef> No. </th>
+                                                <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                                            </ng-container>
+    
+                                            <!-- Name Column -->
+                                            <ng-container matColumnDef="name">
+                                                <th mat-header-cell *matHeaderCellDef> Name </th>
+                                                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                                            </ng-container>
+    
+                                            <!-- Weight Column -->
+                                            <ng-container matColumnDef="weight">
+                                                <th mat-header-cell *matHeaderCellDef> Weight </th>
+                                                <td mat-cell *matCellDef="let element"> {{element.weight | currency}} </td>
+                                            </ng-container>
+    
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                                                (click)="selection.toggle(row)">
+                                            </tr>
+                                        </table>
+                                    </div>
+    
+                                </div>
+                            </form>
+                            <mat-action-row>
+                                <button mat-button color="primary" (click)="nextStep()"
+                                    [disabled]="this.selection.selected.length == 0">Avançar</button>
+                            </mat-action-row>
+                        </mat-expansion-panel>
+
+                        <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)"
+                            [disabled]="this.selection.selected.length == 0" hideToggle>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    Despesas Dos Fornecedores
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+
+                            <div fxLayout="row wrap" class="row">
+                                <div class="container-table" fxFlex="100">
+                                    <table mat-table [dataSource]="dataSourceSelected">
+
+                                        <!-- Position Column -->
+                                        <ng-container matColumnDef="position">
+                                            <th mat-header-cell *matHeaderCellDef> No. </th>
+                                            <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                                            <td mat-footer-cell *matFooterCellDef> Total </td>
+                                        </ng-container>
+
+                                        <!-- Name Column -->
+                                        <ng-container matColumnDef="name">
+                                            <th mat-header-cell *matHeaderCellDef> Name </th>
+                                            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                                            <td mat-footer-cell *matFooterCellDef> </td>
+                                        </ng-container>
+
+                                        <!-- Weight Column -->
+                                        <ng-container matColumnDef="weight">
+                                            <th mat-header-cell *matHeaderCellDef> Weight </th>
+                                            <td mat-cell *matCellDef="let element"> {{element.weight | currency}} </td>
+                                            <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency}} </td>
+                                        </ng-container>
+
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumnsPayment; sticky: true">
+                                        </tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumnsPayment;"></tr>
+                                        <tr mat-footer-row *matFooterRowDef="displayedColumnsPayment; sticky: true">
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div fxFlex="100">
+                                    <form [formGroup]="formPayments" fxflex="100">
+                                        <div fxLayout="row wrap" >
+                                            <div class="p-t-10" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="50">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Data de Pagamento</mat-label>
+                                                    <input matInput [matDatepicker]="pickerPayment"
+                                                        formControlName="datapagamento" placeholder="Data de Pagamento">
+                                                    <mat-datepicker-toggle matSuffix [for]="pickerPayment">
+                                                    </mat-datepicker-toggle>
+                                                    <mat-datepicker #pickerPayment></mat-datepicker>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="p-t-10 p-l-10" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="50">
+                                                <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+                                                    [floatLabel]="form.value.floatLabel">
+                                                    <mat-label>Conta</mat-label>
+                                                    <mat-select formControlName="conta_id">
+                                                        <mat-option [value]=null></mat-option>
+                                                        <mat-option *ngFor="let conta of contas" [value]="conta.id">{{ conta.banco }} - {{conta.conta}}</mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="p-t-10 p-l-10" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="50">
+                                                <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+                                                    [floatLabel]="form.value.floatLabel">
+                                                    <mat-label>Total</mat-label>
+                                                    <input matInput readonly value="{{getTotalCost() | currency}}">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="p-t-10 " fxFlex="100">
+                                                <mat-form-field appearance="outline" [floatLabel]="form.value.floatLabel">
+                                                    <mat-label>Observação</mat-label>
+                                                    <input matInput readonly formControlName="observacao">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <mat-action-row>
+                                <button mat-button color="warn" (click)="prevStep()">voltar</button>
+                                <button mat-button color="primary" (click)="mostrar()" [disabled]="!formPayments.valid">Finalizar Pagamento</button>
+                            </mat-action-row>
+                        </mat-expansion-panel>
+
+                    </mat-accordion>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
