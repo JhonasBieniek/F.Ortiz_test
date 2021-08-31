@@ -4,6 +4,11 @@
   align-items: center;
   margin-top: 16px;
 }
-.dialog{
-  min-height: 500px;
+
+.form{
+  font-size:11px;
+}
+
+.pad{
+  margin-top: -25px;
 }

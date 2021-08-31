@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatDialogConfig, MatDialog } from "@angular/material";
 import { DialogBodyGruposComponent } from './dialog-body/dialog-body.component';
 import { ClientService } from '../../shared/services/client.service.component';
@@ -8,7 +8,8 @@ import { DialogConfirmarDeleteComponent } from '../dialog-confirmar-delete/confi
 @Component({
   selector: 'app-grupos',
   templateUrl: './grupos.component.html',
-  styleUrls: ['./grupos.component.css']
+  styleUrls: ['./grupos.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class GruposComponent implements OnInit {
   data:any = [];

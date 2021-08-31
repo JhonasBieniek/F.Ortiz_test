@@ -37,3 +37,11 @@
 .dialog{
   min-height: 700px;
 }
+
+.form {
+  font-size: 11px;
+}
+
+.pad{
+  margin-top: -25px;
+}

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatDialogConfig, MatDialog } from "@angular/material";
 import { DialogBodyProdutoMateriaisComponent } from './dialog-body/dialog-body.component';
 import { ClientService } from '../../shared/services/client.service.component';
@@ -8,7 +8,8 @@ import { DialogConfirmarDeleteComponent } from '../dialog-confirmar-delete/confi
 @Component({
   selector: 'app-produto-materiais',
   templateUrl: './produto-materiais.component.html',
-  styleUrls: ['./produto-materiais.component.css']
+  styleUrls: ['./produto-materiais.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 
 
@@ -64,8 +65,8 @@ export class ProdutoMateriaisComponent implements OnInit {
       maxWidth: '75vw',
       maxHeight: '45vh',
     
-      width: '75vw',
-      height: '45vh'
+      //width: '75vw',
+      //height: '45vh'
     }
     let dialogRef = this.dialog.open(
       DialogBodyProdutoMateriaisComponent, 

@@ -886,6 +886,7 @@ export class Novo2Component implements OnInit {
   }
 
   CarregarProdutosRepresentada() {
+    console.log(this.pedidoN);
     this.clientservice
       .getProdRepCli(this.representada.id, this.pedidoN.cliente_id)
       .subscribe((res) => {

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatDialogConfig, MatDialog } from "@angular/material";
 import { ClientService } from '../../shared/services/client.service.component';
 import { DialogBodyClienteComponent } from './dialog-body/dialog-body-cliente.component';
@@ -7,7 +7,8 @@ import { DialogConfirmarDeleteComponent } from '../dialog-confirmar-delete/confi
 @Component({
   selector: 'app-cliente',
   templateUrl: './cliente.component.html',
-  styleUrls: ['./cliente.component.scss']
+  styleUrls: ['./cliente.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class ClienteComponent implements OnInit {
