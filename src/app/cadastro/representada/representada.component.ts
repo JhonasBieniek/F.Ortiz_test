@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatDialogConfig, MatDialog } from "@angular/material";
 import { ClientService } from '../../shared/services/client.service.component';
 import { DialogBodyRepresentadaComponent } from './dialog-body/dialog-body-representada.component';
@@ -7,7 +7,8 @@ import { DialogConfirmarDeleteComponent } from '../dialog-confirmar-delete/confi
 @Component({
   selector: 'app-representada',
   templateUrl: './representada.component.html',
-  styleUrls: ['./representada.component.scss']
+  styleUrls: ['./representada.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class RepresentadaComponent implements OnInit {

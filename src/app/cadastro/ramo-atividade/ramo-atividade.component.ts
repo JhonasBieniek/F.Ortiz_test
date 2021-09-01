@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatDialogConfig, MatDialog } from "@angular/material";
 import { ClientService } from '../../shared/services/client.service.component';
 import { DialogBodyRamoComponent } from './dialog-body-ramo/dialog-body-ramo.component';
@@ -7,7 +7,8 @@ import { DialogConfirmarDeleteComponent } from '../dialog-confirmar-delete/confi
 @Component({
   selector: 'app-ramo-atividade',
   templateUrl: './ramo-atividade.component.html',
-  styleUrls: ['./ramo-atividade.component.css']
+  styleUrls: ['./ramo-atividade.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class RamoAtividadeComponent implements OnInit {
   data:any = [];

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatDialogConfig, MatDialog } from "@angular/material";
 import { ClientService } from '../../shared/services/client.service.component';
 import { DialogConfirmarDeleteComponent } from '../dialog-confirmar-delete/confirmar-delete.component';
@@ -7,7 +7,8 @@ import { DialogContaComponent } from './dialog-conta/dialog-conta.component';
 @Component({
   selector: 'app-conta-banco',
   templateUrl: './conta-banco.component.html',
-  styleUrls: ['./conta-banco.component.css']
+  styleUrls: ['./conta-banco.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ContaBancoComponent implements OnInit {
 

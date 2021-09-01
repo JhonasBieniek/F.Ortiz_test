@@ -3,7 +3,7 @@
   <div fxLayout="row wrap" [hidden]="true">
     <!-- Card column -->
     <div fxFlex.gt-sm="100%" fxFlex="100">
-      <form [formGroup]="form">
+      <form [formGroup]="form" class="form">
 
         <div fxLayout="row wrap" class="row">
 
@@ -13,7 +13,7 @@
             </mat-card-header>
           </div>
 
-          <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+          <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Nome do Ramo de atividade</mat-label>
               <input matInput placeholder="Nome do Ramo de atividade" [formControl]="form.controls['nome']">

@@ -14,103 +14,103 @@ import { DialogConfirmarDeleteComponent } from '../dialog-confirmar-delete/confi
 
 
 export class ProdutoMateriaisComponent implements OnInit {
-  data:any = [];
-  dados:any = [];
+  data: any = [];
+  dados: any = [];
   editing = {};
   isEditable = {};
   rows = [];
   temp = [...this.data];
-  
+
   loadingIndicator: boolean = true;
-  reorderable: boolean = true;          
+  reorderable: boolean = true;
 
   columns = [
-      { prop: 'id' },
-      { prop: 'nome' },
-      { name: 'Criação', prop: 'created' },
-      { prop: 'modified' },
-  ];       
+    { prop: 'id' },
+    { prop: 'nome' },
+    { name: 'Criação', prop: 'created' },
+    { prop: 'modified' },
+  ];
 
-  @ViewChild(ProdutoMateriaisComponent, {static: false}) table: ProdutoMateriaisComponent;
+  @ViewChild(ProdutoMateriaisComponent, { static: false }) table: ProdutoMateriaisComponent;
   constructor(private clientservice: ClientService, private dialog: MatDialog) {
-    this.clientservice.getProdutoMaterials().subscribe(res =>{
+    this.clientservice.getProdutoMaterials().subscribe(res => {
       this.data = res;
-      this.rows = this.data.data.sort((a,b)=> a.id - b.id);
+      this.rows = this.data.data.sort((a, b) => a.id - b.id);
       this.temp = [...this.data.data];
-      setTimeout(() => { this.loadingIndicator = false; }, 1500); 
-    });                                  
+      setTimeout(() => { this.loadingIndicator = false; }, 1500);
+    });
   }
   updateFilter(event) {
-  const val = event.target.value.toLowerCase();
-  // filter our data
-  const temp = this.temp.filter(function(d) {
-    if( d.nome.toLowerCase().indexOf(val) !== -1 || !val )
-    return d
-  }); 
-  // update the rows
-  this.rows = temp;
-  // Whenever the filter changes, always go back to the first page
-  this.table = this.data;
+    const val = event.target.value.toLowerCase();
+    // filter our data
+    const temp = this.temp.filter(function (d) {
+      if (d.nome.toLowerCase().indexOf(val) !== -1 || !val)
+        return d
+    });
+    // update the rows
+    this.rows = temp;
+    // Whenever the filter changes, always go back to the first page
+    this.table = this.data;
   }
-  updateValue(event, cell, rowIndex) {    
-  console.log('inline editing rowIndex', rowIndex)
-  this.editing[rowIndex + '-' + cell] = false;
-  this.rows[rowIndex][cell] = event.target.value;
-  this.rows = [...this.rows];
-  console.log('UPDATED!', this.rows[rowIndex][cell]);
+  updateValue(event, cell, rowIndex) {
+    console.log('inline editing rowIndex', rowIndex)
+    this.editing[rowIndex + '-' + cell] = false;
+    this.rows[rowIndex][cell] = event.target.value;
+    this.rows = [...this.rows];
+    console.log('UPDATED!', this.rows[rowIndex][cell]);
   }
   openDialog() {
     let dialogConfig = new MatDialogConfig();
     dialogConfig = {
       maxWidth: '75vw',
       maxHeight: '45vh',
-    
+
       //width: '75vw',
       //height: '45vh'
     }
     let dialogRef = this.dialog.open(
-      DialogBodyProdutoMateriaisComponent, 
-      dialogConfig, 
-  );
-    dialogRef.afterClosed().subscribe(value => {
-        this.refreshTable();
-        console.log(`Dialog sent: ${value}`); 
-      });
-  }
-  refreshTable(){
-    this.clientservice.getProdutoMaterials().subscribe(res =>{
-      this.dados = res;
-      this.rows = this.dados.data.sort((a,b)=> a.id - b.id);
-      this.temp = [...this.dados.data];
-      setTimeout(() => { this.loadingIndicator = false; }, 1500);
-      });
-  }
-  delete(row){
-    const dialogConfig = new MatDialogConfig();
-      let tipo = 'produto-materials'
-      dialogConfig.data = row
-      dialogConfig.data.tipo = tipo
-      let dialogRef = this.dialog.open(DialogConfirmarDeleteComponent,
-      dialogConfig   
+      DialogBodyProdutoMateriaisComponent,
+      dialogConfig,
     );
     dialogRef.afterClosed().subscribe(value => {
-     (value != 1) ? this.refreshTable() : null
-      });
-    }
-  edit(row){
+      this.refreshTable();
+      console.log(`Dialog sent: ${value}`);
+    });
+  }
+  refreshTable() {
+    this.clientservice.getProdutoMaterials().subscribe(res => {
+      this.dados = res;
+      this.rows = this.dados.data.sort((a, b) => a.id - b.id);
+      this.temp = [...this.dados.data];
+      setTimeout(() => { this.loadingIndicator = false; }, 1500);
+    });
+  }
+  delete(row) {
     const dialogConfig = new MatDialogConfig();
-
-      dialogConfig.data = row
-      dialogConfig.data.action = 'edit'
-      let dialogRef = this.dialog.open(DialogBodyProdutoMateriaisComponent,
-      dialogConfig   
+    let tipo = 'produto-materials'
+    dialogConfig.data = row
+    dialogConfig.data.tipo = tipo
+    let dialogRef = this.dialog.open(DialogConfirmarDeleteComponent,
+      dialogConfig
     );
     dialogRef.afterClosed().subscribe(value => {
       (value != 1) ? this.refreshTable() : null
-      });
-    }
+    });
+  }
+  edit(row) {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.data = row
+    dialogConfig.data.action = 'edit'
+    let dialogRef = this.dialog.open(DialogBodyProdutoMateriaisComponent,
+      dialogConfig
+    );
+    dialogRef.afterClosed().subscribe(value => {
+      (value != 1) ? this.refreshTable() : null
+    });
+  }
   ngOnInit() {
-   
+
   }
 
 }

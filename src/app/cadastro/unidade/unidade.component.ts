@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatDialogConfig, MatDialog } from "@angular/material";
 import { DialogBodyUnidadesComponent } from './dialog-body/dialog-body.component';
 import { ClientService } from '../../shared/services/client.service.component';
@@ -8,7 +8,8 @@ import { DialogConfirmarDeleteComponent } from '../dialog-confirmar-delete/confi
 @Component({
   selector: 'app-unidade',
   templateUrl: './unidade.component.html',
-  styleUrls: ['./unidade.component.scss']
+  styleUrls: ['./unidade.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class UnidadeComponent implements OnInit {
   data:any = [];
@@ -65,10 +66,7 @@ export class UnidadeComponent implements OnInit {
     let dialogConfig = new MatDialogConfig();
     dialogConfig = {
       maxWidth: '75vw',
-      maxHeight: '75vh',
-    
-      width: '75vw',
-      height: '45vh'
+      maxHeight: '50vh',
     }
     //dialogConfig.data = this.dados.data;
     let dialogRef = this.dialog.open(
