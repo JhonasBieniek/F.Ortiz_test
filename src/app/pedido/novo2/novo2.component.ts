@@ -35,6 +35,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 
 import { switchMap, catchError } from "rxjs/operators";
 import { Observable } from "rxjs";
+import { DialogProdPedidoComponent } from "../orcamento/dialog-prod-pedido/dialog-prod-pedido.component";
 
 @Component({
   selector: "app-novo2",
@@ -633,7 +634,7 @@ export class Novo2Component implements OnInit {
   }
 
   private loadPedido() {
-    if (this.currentAction == "edit" || this.currentAction == "clone") {
+    if (this.currentAction == "edit") {
       this.clientservice.getPedido(this.info.pedido.id).subscribe(
         (pedido: any) => {
           this.pedidoN = pedido.data;
@@ -672,7 +673,6 @@ export class Novo2Component implements OnInit {
         (error) => alert("Ocorreu um erro no servidor, tente mais tarde.")
       );
     } else if (this.currentAction == "orc") {
-      console.log(this.info);
       this.clientservice.getOrcamento(this.info.orc.id).subscribe(
         (pedido: any) => {
           this.pedidoN = pedido.data;
@@ -710,8 +710,7 @@ export class Novo2Component implements OnInit {
   }
 
   getRazaoSocial(clienteId: string) {
-    console.log(this.clientes$.find((cliente) => cliente.id === clienteId))
-    let cliente = this.clientes$.find((cliente) => cliente.id === clienteId);
+    let cliente =  this.clientes$.find((cliente) => cliente.id === clienteId);
     if (cliente != undefined) {
       return cliente.razao_social  + " - " + cliente.cnpj;
     } else {
@@ -719,8 +718,8 @@ export class Novo2Component implements OnInit {
     }
   }
 
-  getClientes() {
-    this.clientservice.getClientes().subscribe((res: any) => {
+  async getClientes() {
+    await this.clientservice.getClientes().subscribe((res: any) => {
       this.clientes$ = res.data;
     });
   }
@@ -837,8 +836,13 @@ export class Novo2Component implements OnInit {
     );
   }
 
-  setAreaDeVenda(id) {
-    this.clientservice.getAreaVendaId(id).subscribe((res: any) => {
+  setAreaDeVenda(areas) {
+    let area = areas;
+    if(typeof(areas) != 'number') {
+      area = areas.filter(area => area.representada_id == this.representada.id);
+      area = area[0].area_venda_id;
+    }
+    this.clientservice.getAreaVendaId(area).subscribe((res: any) => {
       if (res.success == true) {
         this.form.get("area_venda_id").setValue(res.data.id);
         this.form.get("vendedor_id").setValue(res.data.vendedor_id);
@@ -886,16 +890,43 @@ export class Novo2Component implements OnInit {
   }
 
   CarregarProdutosRepresentada() {
-    this.clientservice
-      .getProdRepCli(this.representada.id, this.pedidoN.cliente_id)
-      .subscribe((res) => {
-        this.data = res;
-        this.rows = this.data.data;
-        this.temp = [...this.data.data];
-        setTimeout(() => {
-          this.loadingIndicator = false;
-        }, 1500);
+     this.clientservice
+      .getProdRepCli(this.representada.id, (this.form.get('cliente_id').value) || this.pedidoN.cliente_id)
+      .subscribe((res:any) => {
+        this.rows = res.data;
+        this.temp = [...this.rows];
       });
+  }
+
+  private transform (data) {
+    let result = "";
+    data.forEach(function (element, index) {
+        if (index == 0){
+          result += element.nome
+        }else{
+          result += " ," + element.nome
+        }
+    });
+  return result;
+  }
+  onSelect({ selected }) {
+    let dialogConfig = new MatDialogConfig();
+    dialogConfig = {
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+
+      width: '50vw',
+      height: '40vh'
+    }
+    dialogConfig.data = selected[0];
+    let dialogRef = this.dialog.open(
+      DialogProdPedidoComponent,
+      dialogConfig,
+
+    );
+    dialogRef.afterClosed().subscribe(value => {
+      this.addItem(value);
+    });
   }
 
   openDialogProdutos() {
@@ -936,11 +967,6 @@ export class Novo2Component implements OnInit {
       this.getClientes();
       this.setAreaDeVenda(res.data.area_venda_id);
     });
-  }
-
-  onSelect({ selected }) {
-    let itemSelected = selected[0];
-    this.addItem(itemSelected);
   }
 
   comissaoMedia() {

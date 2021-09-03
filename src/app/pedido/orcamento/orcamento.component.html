@@ -163,6 +163,16 @@
                 {{ value.nome }}
               </ng-template>
             </ngx-datatable-column>
+            <ngx-datatable-column [flexGrow]="0.5" name="Minímo" prop="produto_embalagem">
+              <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                {{ value.minimo }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [flexGrow]="0.5" name="Unidade" prop="produto_embalagem">
+              <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                {{ value.unidade.sigla }}
+              </ng-template>
+            </ngx-datatable-column>
             <ngx-datatable-column [flexGrow]="1" name="Cores" prop="produto_cores">
               <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                 {{ transform(value) }}

@@ -34,7 +34,7 @@
                   <mat-label>Representada.</mat-label>
                   <mat-select required formControlName="representada_id">
                     <mat-option *ngFor="let rep of representadas" [value]="rep.id"
-                      (click)="representada=rep; CarregarProdutosRepresentada()">
+                      (click)="representada=rep;">
                       {{rep.razao_social}}
                     </mat-option>
                   </mat-select>
@@ -48,7 +48,7 @@
                   <input matInput (keyup)="searchClientes($event)" formControlName="cliente_id" [matAutocomplete]="auto">
                   <mat-autocomplete #auto="matAutocomplete" [displayWith]="getRazaoSocial.bind(this)">
                     <mat-option style="font-size:7.5pt;" *ngFor="let cliente of clientes" [value]="cliente.id"
-                    (click)="setAreaDeVenda(cliente.area_venda_id)"> <span>{{cliente.razao_social}} - {{cliente.cnpj}}</span></mat-option>
+                    (click)="CarregarProdutosRepresentada(); setAreaDeVenda(cliente.cliente_representada_area_vendas)"> <span>{{cliente.razao_social}} - {{cliente.cnpj}}</span></mat-option>
                   </mat-autocomplete>
                 </mat-form-field>
               </div>
@@ -155,20 +155,52 @@
                   <input matInput type='text' class="form-control" placeholder='Digite para filtrar...'
                     (keyup)='updateFilter($event)' />
                 </mat-form-field>
-                <ngx-datatable #table 
-                  class='material font'
-                  [columns]="columns" 
-                  [columnMode]="'flex'" 
-                  [headerHeight]="50"
-                  [footerHeight]="50" 
-                  [rowHeight]="'auto'" 
-                  [limit]="5" 
-                  [rows]='rows' 
-                  [loadingIndicator]="loadingIndicator"
-                  [selected]="selected" 
-                  [selectionType]="'single'" 
-                  (select)='onSelect($event)'>
-                </ngx-datatable>
+                <ngx-datatable #table class='material striped' [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50"
+                [rowHeight]="'auto'" [limit]="5" [rows]='rows' [loadingIndicator]="loadingIndicator" [selected]="selected"
+                [selectionType]="'single'" (select)='onSelect($event)'>
+    
+                <ngx-datatable-column [flexGrow]="0.5" name="Código" prop="codigo_catalogo">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value }}
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [flexGrow]="1.5" name="Nome" prop="nome">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value }}
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [flexGrow]="0.5" name="Embalagem" prop="produto_embalagem">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value.nome }}
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [flexGrow]="0.5" name="Minímo" prop="produto_embalagem">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value.minimo }}
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [flexGrow]="0.5" name="Unidade" prop="produto_embalagem">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value.unidade.sigla }}
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [flexGrow]="1" name="Cores" prop="produto_cores">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ transform(value) }}
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [flexGrow]="1" name="Tamanhos" prop="produto_tamanhos">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ transform(value) }}
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [flexGrow]="0.5" name="Preço" prop="produto_estados_precos">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value[0].preco  | currency:'BRL':true:'1.2-2' }}
+                  </ng-template>
+                </ngx-datatable-column>
+    
+              </ngx-datatable>
               </div>
               <div *ngIf="form.get('pedido_produtos').controls.length !=0" fxFlex.gt-sm="100%" class="m-t-30" fxFlex="100">
                 <h4 color="primary" class="dialog-headline">Itens do pedido</h4>
@@ -186,11 +218,11 @@
                         <mat-label>Qtd.</mat-label>
                         <input matInput placeholder="Qtd" formControlName="quantidade" (blur)="setTotal(i)" >
                       </mat-form-field>
-                      <!-- <mat-form-field fxFlex.gt-sm="22" fxFlex.gt-xs="22" fxFlex="22" appearance="outline">
+                      <mat-form-field fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="12" appearance="outline">
                         <mat-label>Cor</mat-label>
                         <input matInput placeholder="Cor" formControlName="cor" >
-                      </mat-form-field> -->
-                      <mat-form-field fxFlex.gt-sm="44" fxFlex.gt-xs="44" fxFlex="44" appearance="outline">
+                      </mat-form-field> 
+                      <mat-form-field fxFlex.gt-sm="32" fxFlex.gt-xs="32" fxFlex="32" appearance="outline">
                         <mat-label>Embalagem</mat-label>
                         <input matInput placeholder="Embalagem" formControlName="embalagem" >
                       </mat-form-field>

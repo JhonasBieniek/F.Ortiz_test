@@ -26,12 +26,12 @@ export class DialogProdPedidoComponent implements OnInit {
     }
 
   ngOnInit() {
-    console.log(this.data.produto_estados_precos[0].preco)
+    console.log(this.data)
     this.form = this.fb.group({
       id: this.data.id,
       codigo_catalogo: this.data.codigo_catalogo,
       nome: this.data.nome,
-      embalagem: this.data.embalagem,
+      embalagem: this.data.produto_embalagem.nome,
       ipi: this.data.ipi,
       valor_unitario: [this.data.produto_estados_precos[0].preco],
       tamanho: [null],
