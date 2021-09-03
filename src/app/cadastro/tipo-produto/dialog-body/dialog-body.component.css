@@ -1,6 +1,5 @@
 .dialog{
-  min-height: 200px;
-  min-width: 800px;
+  width: 525px;
 }
 .bt{
   margin-left: 10px;
@@ -9,4 +8,8 @@
   font-size: larger;
   align-items: center;
   margin-top: 16px;
+}
+
+.form {
+  font-size: 11px;
 }

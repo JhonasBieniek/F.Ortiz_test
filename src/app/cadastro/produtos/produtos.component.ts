@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
 import { MatDialogConfig, MatDialog } from "@angular/material";
 import { ClientService } from "../../shared/services/client.service.component";
 import { DialogBodyProdutoComponent } from "./dialog-body-produto/dialog-body-produto.component";
@@ -11,6 +11,7 @@ import { DialogUpdatePriceComponent } from "./dialog-update-price/dialog-update-
   selector: "app-produtos",
   templateUrl: "./produtos.component.html",
   styleUrls: ["./produtos.component.scss"],
+  encapsulation: ViewEncapsulation.None
 })
 export class ProdutosComponent implements OnInit {
   itemsNew = [];

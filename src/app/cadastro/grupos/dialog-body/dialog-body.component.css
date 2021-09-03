@@ -6,6 +6,7 @@
   align-items: center;
   margin-top: 16px;
 }
-.dialog{
-  min-height: 700px;
+
+.form{
+  font-size: 11px;
 }

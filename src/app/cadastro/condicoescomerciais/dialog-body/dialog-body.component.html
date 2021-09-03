@@ -1,5 +1,5 @@
     <div fxFlex.gt-sm="100%" fxFlex="100">
-      <form [formGroup]="form">
+      <form [formGroup]="form" class="form">
         <div fxLayout="row wrap" class="row">
           <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
             <mat-card-header class="bg-info text-white">
@@ -31,7 +31,7 @@
             </mat-form-field>
           </div>
 
-          <div [ngSwitch]="form.controls['tipo'].value">
+          <div [ngSwitch]="form.controls['tipo'].value" class="pad">
            <ng-container *ngSwitchCase="'vista'"></ng-container>
             <div *ngSwitchCase="'prazo'">
               <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
@@ -54,7 +54,7 @@
               <div fxLayout="row wrap"class="row" fxFlex="100"formArrayName="parcelas">
                 <div *ngFor="let item of parcelas().controls; let i = index">
                   <ng-container [formGroupName]="i">
-                    <div class="p-10" fxLayoutGap="20px" fxFlex="100">
+                    <div class="p-l-10 p-r-10 p-t-10" fxLayoutGap="20px" fxFlex="100">
                       <mat-form-field appearance="outline" >
                           <mat-label>Parcela {{i + 1}}</mat-label>
                           <input matInput placeholder="Parcela {{i == 0 ? null : i+1}}" formControlName="parcela">

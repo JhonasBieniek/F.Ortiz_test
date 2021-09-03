@@ -1,7 +1,7 @@
 <!-- ============================================================== -->
 <!-- row -->
 <!-- ============================================================== -->
-<form [formGroup]="form">
+<form [formGroup]="form" class="form">
   <div fxLayout="row wrap" class="row">
     <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
       <mat-card-header class="bg-info text-white">
@@ -201,7 +201,7 @@
         <mat-card-title class="Endereco">Observação</mat-card-title>
       </mat-card-header>
     </div>
-    <div fxFlex.gt-sm="100" fxFlex="100">
+    <div class="p-10 aj" fxFlex.gt-sm="100" fxFlex="100">
       <mat-form-field appearance="outline">
         <input matInput formControlName="obs">
       </mat-form-field>

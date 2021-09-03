@@ -1,6 +1,6 @@
 <!-- Card column -->
 <mat-dialog-content class="dialog">
-  <form [formGroup]="form">
+  <form [formGroup]="form" class="form">
     <div fxLayout="row wrap" class="row">
       <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <mat-card-header class="bg-info text-white">
@@ -37,7 +37,7 @@
           <mat-placeholder>Status</mat-placeholder>
         </mat-form-field>
       </div>
-      <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+      <div class="p-10 pad" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
         <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
           [floatLabel]="form.value.floatLabel">
           <mat-label>Selecione um vendedor...</mat-label>
@@ -49,7 +49,7 @@
           <mat-placeholder>Vendedor</mat-placeholder>
         </mat-form-field>
       </div>
-      <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+      <div class="p-10 pad" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
         <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
           [floatLabel]="form.value.floatLabel">
           <mat-label>Selecione um(a) assistente...</mat-label>

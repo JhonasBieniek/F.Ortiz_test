@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatDialogConfig, MatDialog } from "@angular/material";
 import { DialogBodyCondComerciaisComponent } from './dialog-body/dialog-body-condcomerciais.component';
 import { ClientService } from '../../shared/services/client.service.component';
@@ -8,7 +8,8 @@ import { DialogConfirmarDeleteComponent } from '../dialog-confirmar-delete/confi
 @Component({
   selector: 'app-condicoescomerciais',
   templateUrl: './condicoescomerciais.component.html',
-  styleUrls: ['./condicoescomerciais.component.scss']
+  styleUrls: ['./condicoescomerciais.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class CondicoescomerciaisComponent implements OnInit {
   data:any = [];

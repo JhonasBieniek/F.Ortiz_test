@@ -24,30 +24,31 @@ export const AppRoutes: Routes = [
       {
         path: 'cadastro',
         loadChildren: './cadastro/cadastro.module#CadastroModule'
-      },{
+      }, {
         path: 'comissao',
         loadChildren: './comissao/comissao.module#ComissaoModule'
-      },{
+      }, {
         path: 'ordem-servico',
         loadChildren: './ordem-servico/ordem-servico.module#OrdemServicoModule'
-      },{
+      }, {
         path: 'cotacoes',
         loadChildren: './cotacoes/cotacoes.module#CotacoesModule'
-      },{
+      }, {
         path: 'pedidos',
         loadChildren: './pedido/pedido.module#PedidoModule'
-      },{
+      }, {
         path: 'credito',
         loadChildren: './credito/credito.module#CreditoModule'
       },
       {
         path: 'material',
-        loadChildren:
-          './material-component/material.module#MaterialComponentsModule'
-      },{
+        loadChildren: './material-component/material.module#MaterialComponentsModule'
+      }, {
+        path: 'financeiro',
+        loadChildren: './financeiro/financeiro.module#FinanceiroModule'
+      }, {
         path: 'homologacao',
-        loadChildren:
-          './homologacao/homologacao.module#HomologacaoModule'
+        loadChildren: './homologacao/homologacao.module#HomologacaoModule'
       },
       {
         path: 'apps',
@@ -83,7 +84,7 @@ export const AppRoutes: Routes = [
     path: '**',
     redirectTo: 'authentication/404'
   },
-  { 
-    path: 'login', 
-    redirectTo: './authentication/authentication.module#AuthenticationModule' 
+  {
+    path: 'login',
+    redirectTo: './authentication/authentication.module#AuthenticationModule'
   }];

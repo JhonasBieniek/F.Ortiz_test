@@ -434,6 +434,16 @@ export class ClientService {
       .post(uri, data) 
   }
 
+  getFuncPgtoLote() {
+    const uri = `${API_URL}` + `funcionarios/getFuncPgtoLote.json`;
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
+
   chkParcelas(id, data){
     const uri = `${API_URL}` + `notas/chk/${id}.json`;
     return this

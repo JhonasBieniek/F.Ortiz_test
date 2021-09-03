@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatDialogConfig, MatDialog } from "@angular/material";
 import { ClientService } from '../../shared/services/client.service.component';
 import { DialogConfirmarDeleteComponent } from '../dialog-confirmar-delete/confirmar-delete.component';
@@ -7,7 +7,8 @@ import { DialogBodyProdutoClassificacaoComponent } from './dialog-body/dialog-bo
 @Component({
   selector: 'app-classificacoes',
   templateUrl: './classificacoes.component.html',
-  styleUrls: ['./classificacoes.component.css']
+  styleUrls: ['./classificacoes.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ClassificacoesComponent implements OnInit {
 
@@ -54,13 +55,7 @@ export class ClassificacoesComponent implements OnInit {
 
   openDialog() {
     let dialogConfig = new MatDialogConfig();
-    dialogConfig = {
-      maxWidth: '75vw',
-      maxHeight: '45vh',
-    
-      width: '75vw',
-      height: '45vh'
-    }
+
     let dialogRef = this.dialog.open(
       DialogBodyProdutoClassificacaoComponent, 
       dialogConfig, 
