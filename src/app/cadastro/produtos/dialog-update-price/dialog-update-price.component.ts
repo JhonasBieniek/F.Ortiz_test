@@ -147,7 +147,7 @@ export class DialogUpdatePriceComponent implements OnInit {
   }
 
   async volk(data4, data12, data18) {
-    console.log(data4)
+    //console.log(data4, 'dados planilha4')
     let produtos = [];
       data4.forEach((element) => {
         if (
@@ -157,9 +157,9 @@ export class DialogUpdatePriceComponent implements OnInit {
           element[9] != undefined
         ) {
           var produto = [
-            { preco: element[9], codigo: element[1], estado_id: 12, tipo: null },
-            { preco: element[9], codigo: element[1], estado_id: 24, tipo: null },
-            { preco: element[9], codigo: element[1], estado_id: 25, tipo: null },
+            { preco: element[9], codigo: element[1], estado_id: 12, tipo: null }, // MS
+            { preco: element[9], codigo: element[1], estado_id: 24, tipo: null }, // SC
+            { preco: element[9], codigo: element[1], estado_id: 25, tipo: null }, // SP
           ];
           produtos.push(produto);
         }
@@ -167,13 +167,13 @@ export class DialogUpdatePriceComponent implements OnInit {
       data12.forEach((element) => {
         if (
           element[1] != "CÓDIGO" &&
-          element[9] != "12% - R$" &&
+          element[10] != "12% - R$" &&
           element.length > 2 &&
-          element[9] != undefined
+          element[10] != undefined
         ) {
           var produto = [
             {
-              preco: element[9],
+              preco: element[10],
               codigo: element[1],
               estado_id: 16,
               tipo: "revendedor",
@@ -185,13 +185,13 @@ export class DialogUpdatePriceComponent implements OnInit {
       data18.forEach((element) => {
         if (
           element[1] != "CÓDIGO" &&
-          element[9] != "18% - R$" &&
+          element[10] != "18% - R$" &&
           element.length > 2 &&
-          element[9] != undefined
+          element[10] != undefined
         ) {
           var produto = [
             {
-              preco: element[9],
+              preco: element[10],
               codigo: element[1],
               estado_id: 16,
               tipo: "final",
@@ -200,7 +200,7 @@ export class DialogUpdatePriceComponent implements OnInit {
           produtos.push(produto);
         }
       });
-    console.log(produtos);
+    //console.log(produtos, 'volk');
     produtos.forEach((element) => {
       element.forEach((elementIn) => {
         this.prods.map((e: any) => {
@@ -232,13 +232,15 @@ export class DialogUpdatePriceComponent implements OnInit {
   async bettanin(data) {
     let produtos = [];
     data.forEach((element) => {
-      if (typeof element[3] == "number" && element[3] > 0) {
+      if (typeof element[4] == "number" && element[4] > 0) {
+        /**
+         * TODO: Implementar no front a seleção para MS quando for importar 
+         */
         var produto = [
-          { preco: element[4], codigo: element[0], estado_id: 12, tipo: null },
-          { preco: element[4], codigo: element[0], estado_id: 16, tipo: null },
-          { preco: element[4], codigo: element[0], estado_id: 18, tipo: null },
-          { preco: element[4], codigo: element[0], estado_id: 24, tipo: null },
-          { preco: element[4], codigo: element[0], estado_id: 25, tipo: null },
+          { preco: element[5], codigo: element[1], estado_id: 12, tipo: null },
+          // { preco: element[5], codigo: element[1], estado_id: 16, tipo: null },
+          // { preco: element[5], codigo: element[1], estado_id: 24, tipo: null },
+          // { preco: element[5], codigo: element[1], estado_id: 25, tipo: null },
         ];
         produtos.push(produto);
       }
@@ -273,7 +275,7 @@ export class DialogUpdatePriceComponent implements OnInit {
   async camper(data) {
     let produtos = [];
     data.forEach((element) => {
-      if (element[3] == "---") {
+      if (element[4] == "---") {
         var produto = [
           {
             preco: parseFloat(element[2].replace("R$ ", "").replace(",", ".")),
@@ -314,9 +316,11 @@ export class DialogUpdatePriceComponent implements OnInit {
         this.prods.map((e: any) => {
           if (e.codigo_catalogo == elementIn.codigo) {
             e.produto_estados_precos.map((f) => {
+              console.log(f.preco, elementIn.preco.toFixed(2))
               if (
                 f.estado_id == elementIn.estado_id &&
-                f.preco != elementIn.preco.toFixed(2)
+                f.preco != elementIn.preco.toFixed(2) && 
+                elementIn.preco.toFixed(2) != '0.00'
               ) {
                 let data = {
                   id: f.id,

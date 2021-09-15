@@ -316,7 +316,7 @@ export class Novo2Component implements OnInit {
     }
 
     this.CarregarProdutosRepresentada();
-    this.spinner.hide();
+    this.spinner.hide() 
   }
 
   async kadesh(data) {
