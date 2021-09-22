@@ -92,7 +92,10 @@ export class OrcamentoComponent implements OnInit {
 
   ) {
     this.clientservice.getRepresentadas().subscribe((res: any) => {
-      this.representadas = res.data;
+      this.representadas = res.data.filter( function (e:any) {
+        if(e.status == true)
+        return e;
+      });
     });
 
     this.clientservice.getCondComerciais().subscribe((res: any) => {
@@ -109,8 +112,8 @@ export class OrcamentoComponent implements OnInit {
       representada_id: [null, Validators.compose([Validators.required])],
       cliente_id: [{value: null, disabled: true}, Validators.compose([Validators.required])],
       data_emissao: [null, Validators.compose([Validators.required])],
-      validade: ['30 dias', Validators.compose([Validators.required])],
-      prazo_entrega: [null, Validators.compose([Validators.maxLength(100)])],
+      validade: ['3 dias', Validators.compose([Validators.required])],
+      prazo_entrega: ['média de 7 dias', Validators.compose([Validators.maxLength(100)])],
       minimo: [null, Validators.compose([Validators.maxLength(100)])],
       condicao_comercial_id: [null, Validators.compose([Validators.required])],
       obs: [null],
@@ -145,12 +148,14 @@ export class OrcamentoComponent implements OnInit {
       });
       const re = new RegExp(xp, 'g');
       this.results = this.clientes$.filter(function(d) {
-        if( d.razao_social.toLowerCase().match(re) || !val)
+        if( d.razao_social.toLowerCase().match(re) || d.cnpj.match(re) || !val)
         return d
       });
     }else{
       this.results = cliente;
     }
+    this.clearProdutos();
+    this.rows = [];
   }
 
  public loadOrcamento() {

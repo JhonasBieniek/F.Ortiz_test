@@ -7,6 +7,7 @@ import { OrcamentoComponent } from '../orcamento/orcamento.component';
 import { DialogConfirmarDeleteComponent } from '../../cadastro/dialog-confirmar-delete/confirmar-delete.component';
 import { ViewPedidoOrcamentoComponent } from '../view-pedido/view-pedido.component';
 import { Novo2Component } from '../novo2/novo2.component';
+import { ViewOrcamentoComponent } from '../view-orcamento/view-orcamento.component';
 
 @Component({
   selector: 'app-orc-listar',
@@ -99,7 +100,7 @@ export class OrcListarComponent implements OnInit {
       tipo: 'orcamentos',
       pedido: row
     }
-    let dialogRef = this.dialog.open(ViewPedidoOrcamentoComponent, this.dialogConfig);
+    let dialogRef = this.dialog.open(ViewOrcamentoComponent, this.dialogConfig);
     dialogRef.afterClosed().subscribe(value =>{
      // this.loadData();
     })

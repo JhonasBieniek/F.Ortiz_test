@@ -96,10 +96,10 @@
             <mat-label>Status</mat-label>
             <mat-select formControlName="situation">
               <mat-option>-- Selecione... --</mat-option>
-              <mat-option [value]=1>Em Análise</mat-option>
-              <mat-option [value]=2>Ag. Aprovação</mat-option>
-              <mat-option [value]=3>Aprovado</mat-option>
-              <mat-option [value]=4>Cancelado</mat-option>
+              <mat-option [value]=0>Em Análise</mat-option>
+              <mat-option [value]=1>Ag. Aprovação</mat-option>
+              <mat-option [value]=2>Aprovado</mat-option>
+              <mat-option [value]=3>Cancelado</mat-option>
             </mat-select>
           </mat-form-field>
           <small *ngIf="form.get('situation').errors?.required && form.get('situation').touched"
@@ -158,7 +158,7 @@
                 {{ value }}
               </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column [flexGrow]="0.5" name="Embalagem" prop="produto_embalagems">
+            <ngx-datatable-column [flexGrow]="1" name="Embalagem" prop="produto_embalagem">
               <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                 {{ value.nome }}
               </ng-template>
