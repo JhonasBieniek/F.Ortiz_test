@@ -887,6 +887,26 @@ export class ClientService {
               return res;
             });
   }
+
+  getClientsByRepresentada($representada_id) {
+    const uri = `${API_URL}` + 'ClienteRepresentadaAreaVendas/getClientsByRepresentada/'+$representada_id+'.json';
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
+  getAreaByRepresentada($representada_id){
+    const uri = `${API_URL}` + 'ClienteRepresentadaAreaVendas/getAreaByRepresentada/'+$representada_id+'.json';
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
+
   getProdutosEstado() {
     const uri = `${API_URL}` + `produtoEstadosPrecos/index.json`;
     return this
