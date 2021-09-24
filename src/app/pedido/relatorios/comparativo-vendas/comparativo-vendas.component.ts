@@ -15,6 +15,10 @@ import { ClientService } from '../../../shared/services/client.service.component
 export class ComparativoVendasComponent implements OnInit {
 
   form: FormGroup;
+  areaBusca = new FormControl("");
+  areas: any = [];
+  $areas: any = [];
+  representadas: any = [];
 
   constructor(
     private fb: FormBuilder,
@@ -22,23 +26,63 @@ export class ComparativoVendasComponent implements OnInit {
     private notificationService: NotificationService,
     private route: ActivatedRoute,
   ) {
-
+    this.clientservice.getRepresentadas().subscribe((res:any) =>{
+      this.representadas = res.data;
+    });
   }
   ngOnInit(): void {
     this.form = this.fb.group({
-      status: [null, Validators.required],
+      status: ["todos", Validators.required],
       representada_id: [null, Validators.required],
       area_id: [null, Validators.required],
-      dtInicio: [null, Validators.required],
-      dtFinal: [null, Validators.required],
+      mesInicio: [null, Validators.required],
+      anoInicio: [null, Validators.required],
+      mesFim: [null, Validators.required],
+      anoFim: [null, Validators.required],
     });
+  }
+
+  getAreas(representada_id){
+    this.clientservice.getAreaByRepresentada(representada_id).subscribe((res:any) =>{
+      this.areas = res.data;
+      console.log(this.areas)
+    });
+  }
+
+  searchArea() {
+    let $area: Observable<any[]>;
+    let nome = this.areaBusca.value;
+    console.log(nome)
+    if (nome != "") {
+      const val = nome.toLowerCase().split(" ");
+      let xp = "";
+      val.forEach((e) => {
+        xp += `(?=.*${e})`;
+      });
+      const re = new RegExp(xp, "g");
+      this.$areas = this.areas.filter(function (d) {
+        if (
+          d.nome.toLowerCase().match(re) ||
+          !val
+        )
+          return d;
+      });
+    } else {
+      this.$areas = $area;
+    }
+  }
+
+  setArea(area) {
+    this.form.get("area_id").setValue(area.id);
   }
 
   submit() {
     console.log(this.form.value);
   }
 
-  clear() {
-
+  limpar() {
+    this.form.get('area_id').setValue(null);
+    this.areas.setValue('');
+    this.$areas = [];
   }
 }

@@ -4,30 +4,38 @@
             <mat-card-content>
                 <form [formGroup]="form">
                     <mat-card-title class="title">Relatório de Clientes SEM Compra</mat-card-title>
+                    <mat-divider></mat-divider>
                     <div fxLayout="row wrap" class="row">
-                        <div class="p-10 text" fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="100">
+                        <div class="p-10 text" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
                             <mat-form-field appearance="outline">
                                 <mat-label>Selecione a representada...</mat-label>
                                 <mat-select formControlName="representada_id">
-                                    <!--mat-option *ngFor="let representada of representadas" [value]="representada.id">
+                                    <mat-option *ngFor="let representada of representadas" [value]="representada.id" (onSelectionChange)="getAreas(representada.id)">
                                         {{representada.nome_fantasia}}
-                                    </mat-option-->
+                                    </mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                        <div class="p-10 text" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Ramo de atividade</mat-label>
-                                <mat-select formControlName="ramo_id">
-                                    <mat-option value=""></mat-option>
-                                    <mat-option value=""></mat-option>
-                                    <mat-option value=""></mat-option>
-                                    <mat-option value=""></mat-option>
-                                </mat-select>
+
+                        <div class="p-10 text" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+                            <mat-form-field appearance="outline" fxFlex="100">
+                                <input type="text" placeholder="Busque a área" aria-label="area" matInput
+                                    [formControl]="areaBusca" (keyup)="searchArea()"
+                                    [matAutocomplete]="autoArea">
+                                <button mat-button matSuffix mat-icon-button aria-label="Clear" type="button"
+                                    *ngIf="form.controls['area_id'].value != null">
+                                    <mat-icon color="warn" (click)="limpar();">close</mat-icon>
+                                </button>
+                                <mat-autocomplete autoActiveFirstOption #autoArea="matAutocomplete">
+                                    <mat-option *ngFor="let area of $areas" (click)="setArea(area)"
+                                        (onSelectionChange)="setArea(area)" [value]="area.nome">
+                                        {{area.nome}}
+                                    </mat-option>
+                                </mat-autocomplete>
                             </mat-form-field>
                         </div>
-                        <div class="order text" fxFlex.gt-sm="8" fxFlex.gt-xs="8" fxFlex="100">
-                            Período:
+                        <div class="show-title" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <span class="p-l-10"> Período em que o cliente não realizou pedidos</span>
                         </div>
                         <div class="p-10 text" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
                             <mat-form-field appearance="outline">
@@ -45,21 +53,22 @@
                                 <mat-datepicker #dtFinal></mat-datepicker>
                             </mat-form-field>
                         </div>
-                    </div>
-                    <div fxLayout="row wrap">
-                        <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-                            <mat-radio-group appearance="outline" formControlName="tipo_cliente">
-                                <mat-radio-button value="" class="m-r-10">Todos</mat-radio-button>
-                                <mat-radio-button value="" class="m-r-10">Apenas de Clientes</mat-radio-button>
-                                <mat-radio-button value="" class="m-r-10">Apenas de Prospecção</mat-radio-button>
-                            </mat-radio-group>
+                        <div class="show-title" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <span class="p-l-10">Ordenação</span>
                         </div>
-                    </div>
-                    <div fxLayout="row wrap">
                         <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
                             <mat-radio-group appearance="outline" formControlName="ordenacao">
-                                <mat-radio-button value="" class="m-r-10">Cliente</mat-radio-button>
-                                <mat-radio-button value="" class="m-r-10">Data</mat-radio-button>
+                                <mat-radio-button value="codigo" class="m-r-10">Código</mat-radio-button>
+                                <mat-radio-button value="nome" class="m-r-10">Nome</mat-radio-button>
+                                <mat-radio-button value="quantidade" class="m-r-10">Qtde Total de Vendida
+                                </mat-radio-button>
+                                <mat-radio-button value="valor" class="m-r-10">Valor Total Vendido</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                        <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-radio-group appearance="outline" formControlName="tipo">
+                                <mat-radio-button value="asc" class="m-r-10">Crescente</mat-radio-button>
+                                <mat-radio-button value="desc" class="m-r-10">Decrescente</mat-radio-button>
                             </mat-radio-group>
                         </div>
                     </div>

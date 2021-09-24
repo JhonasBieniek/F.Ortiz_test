@@ -14,27 +14,35 @@ import { ClientService } from '../../../shared/services/client.service.component
 })
 export class PedidosComponent implements OnInit {
 
+  
   form: FormGroup;
-
+  ramos: any = [];
+  representadas: any = [];
   constructor(
     private fb: FormBuilder,
     private clientservice: ClientService,
     private notificationService: NotificationService,
     private route: ActivatedRoute,
   ) {
+    this.clientservice.getRamos().subscribe((res:any) =>{
+      this.ramos = res.data;
+    });
 
+    this.clientservice.getRepresentadas().subscribe((res:any) =>{
+      this.representadas = res.data;
+    });
   }
   ngOnInit(): void {
     this.form = this.fb.group({
-      status: [null, Validators.required],
-      representada_id: [null, Validators.required],
-      ramo_id: [null, Validators.required],
+      status: ["todos", Validators.required],
+      representada_id: [null],
+      ramo_id: [null],
       periodo_inicial: [null, Validators.required],
       periodo_final: [null, Validators.required],
       entrega_inicial: [null, Validators.required],
       entrega_final: [null, Validators.required],
-      tipo_cliente: [null, Validators.required],
-      ordenacao: [null, Validators.required],
+      tipo_cliente: ["todos", Validators.required],
+      ordenacao: ["data", Validators.required],
     });
 
   }
@@ -44,6 +52,16 @@ export class PedidosComponent implements OnInit {
   }
 
   clear(){
-
+    this.form = this.fb.group({
+      status: ["todos", Validators.required],
+      representada_id: [null],
+      ramo_id: [null],
+      periodo_inicial: [null, Validators.required],
+      periodo_final: [null, Validators.required],
+      entrega_inicial: [null, Validators.required],
+      entrega_final: [null, Validators.required],
+      tipo_cliente: ["todos", Validators.required],
+      ordenacao: ["data", Validators.required],
+    });
   }
 }

@@ -1,1 +1,99 @@
-<p>consumo works!</p>
+<div fxLayout="row wrap">
+    <div fxFlex.gt-sm="100%" fxFlex="100">
+        <mat-card class="no-shadow">
+            <mat-card-content>
+                <form [formGroup]="form">
+                    <mat-card-title class="title">Relatório de Produtos Vendidos</mat-card-title>
+                    <mat-divider></mat-divider>
+                    <div fxLayout="row wrap" class="row">
+                        <div class="p-10 text" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Representada</mat-label>
+                                <mat-select formControlName="representada_id">
+                                    <mat-option [value]=null></mat-option>
+                                    <mat-option *ngFor="let representada of representadas" [value]="representada.id" (onSelectionChange)="getClientes(representada.id)">
+                                        {{representada.nome_fantasia}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        
+                        <div class="show-title" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <span class="p-l-10"> Período</span>
+                        </div>
+
+                        <div class="p-10 text" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Mês Inicio</mat-label>
+                                <input matInput [matDatepicker]="mesInicio" placeholder="Mês Înicio" formControlName="mesInicio">
+                                <mat-datepicker-toggle matSuffix [for]="mesInicio"></mat-datepicker-toggle>
+                                <mat-datepicker #mesInicio></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="p-10 text" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Ano Inicio</mat-label>
+                                <input matInput [matDatepicker]="anoInicio" placeholder="Ano Inicial" formControlName="anoInicio">
+                                <mat-datepicker-toggle matSuffix [for]="anoInicio"></mat-datepicker-toggle>
+                                <mat-datepicker #anoInicio></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="100"></div>
+                        <div class="p-10 text" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Mês Fim</mat-label>
+                                <input matInput [matDatepicker]="mesFim" placeholder="Mês Fim" formControlName="mesFim">
+                                <mat-datepicker-toggle matSuffix [for]="mesFim"></mat-datepicker-toggle>
+                                <mat-datepicker #mesFim></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="p-10 text" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Ano Fim</mat-label>
+                                <input matInput [matDatepicker]="anoFim" placeholder="Ano Fim" formControlName="anoFim">
+                                <mat-datepicker-toggle matSuffix [for]="anoFim"></mat-datepicker-toggle>
+                                <mat-datepicker #anoFim></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="show-title" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <span class="p-l-10"> Tipo de Código</span>
+                        </div>
+
+                        <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+                            <mat-radio-group appearance="outline" formControlName="codigo">
+                                <mat-radio-button value="produto" class="m-r-10">Código de Produto</mat-radio-button>
+                                <mat-radio-button value="sap" class="m-r-10">Código SAP</mat-radio-button>
+                                <mat-radio-button value="cpp" class="m-r-10">Código CPP</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                        
+                        <div class="show-title" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <span class="p-l-10">Ordenação</span>
+                        </div>
+
+                        <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-radio-group appearance="outline" formControlName="ordenacao">
+                                <mat-radio-button value="codigo" class="m-r-10">Código</mat-radio-button>
+                                <mat-radio-button value="nome" class="m-r-10">Nome</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+
+                        <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-radio-group appearance="outline" formControlName="tipo">
+                                <mat-radio-button value="asc" class="m-r-10">Crescente</mat-radio-button>
+                                <mat-radio-button value="desc" class="m-r-10">Decrescente</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+
+                    </div>
+                    <div class="m-t-20">
+                        <button mat-raised-button color="primary" type="submit" (click)="submit()">Filtrar</button>
+                        <button mat-raised-button class="m-l-10" color="warn" (click)="clear()">Limpar</button>
+                    </div>
+                </form>
+            </mat-card-content>
+        </mat-card>
+
+    </div>
+</div>

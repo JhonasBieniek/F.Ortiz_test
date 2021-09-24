@@ -1,0 +1,20 @@
+.title {
+    font-weight: 600;
+    font-size: large;
+    margin-bottom: 20px;
+}
+.text {
+    font-size: small;
+}
+.order {
+    padding-top: 25px;
+    padding-left: 10px;
+    font-weight: bold;
+    margin-right: -10px;
+}
+
+.show-title {
+    padding: 0.2em;
+    background-color: dodgerblue;
+    color: white;
+}
