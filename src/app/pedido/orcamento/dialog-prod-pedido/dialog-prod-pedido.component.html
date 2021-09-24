@@ -4,7 +4,7 @@
       <h4 color="primary" class="dialog-headline">Selecione a Cor e o Tamanho</h4>
       <form [formGroup]="form" class="form">
         <div fxLayout="row wrap" class="row">
-          <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+          <div class="p-10" fxFlex.gt-sm="33.33" fxFlex.gt-xs="33.33" fxFlex="100">
             <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
               [floatLabel]="form.value.floatLabel">
               <mat-label>Cores do produto</mat-label>
@@ -16,7 +16,7 @@
               <mat-placeholder>Cores</mat-placeholder>
             </mat-form-field>
           </div>
-          <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+          <div class="p-10" fxFlex.gt-sm="33.33" fxFlex.gt-xs="33.33" fxFlex="100">
             <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
               [floatLabel]="form.value.floatLabel">
               <mat-label>Tamanhos do produto</mat-label>
@@ -26,6 +26,12 @@
                 </mat-option>
               </mat-select>
               <mat-placeholder>Tamanho</mat-placeholder>
+            </mat-form-field>
+          </div>
+          <div class="p-10" fxFlex.gt-sm="33.33" fxFlex.gt-xs="33.33" fxFlex="100">
+            <mat-form-field appearance="outline">
+              <mat-label>Quantidade</mat-label>
+              <input matInput placeholder="quantidade" formControlName="quantidade">
             </mat-form-field>
           </div>
         </div> 
