@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 
 
@@ -35,12 +35,21 @@ export class DialogProdPedidoComponent implements OnInit {
       ipi: this.data.ipi,
       valor_unitario: [this.data.produto_estados_precos[0].preco],
       tamanho: [null],
-      quantidade: [null],
+      quantidade: [null,Validators.required],
       cor: [null],
+      valor_total: [null,Validators.required]
     });
   }
   save(){
     this.dialogRef.close(this.form.value);
+  }
+  setTotal() {
+    if( this.form.get('quantidade').value > 0){
+      this.form.get('valor_total').setValue( this.form.get('valor_unitario').value * this.form.get('quantidade').value);
+    }else{
+      this.form.get('valor_total').setValue( 0);
+    }
+    
   }
 
 }

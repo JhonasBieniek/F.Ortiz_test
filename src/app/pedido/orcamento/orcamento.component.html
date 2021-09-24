@@ -144,7 +144,7 @@
             <input matInput type='text' class="form-control" placeholder='Digite para filtrar...'
               (keyup)='updateFilter($event)' />
           </mat-form-field>
-          <ngx-datatable #table class='material striped' [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50"
+          <ngx-datatable #table class='material striped fontTable' [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50"
             [rowHeight]="'auto'" [limit]="5" [rows]='rows' [loadingIndicator]="loadingIndicator" [selected]="selected"
             [selectionType]="'single'" (select)='onSelect($event)'>
 
@@ -154,7 +154,7 @@
               </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column [flexGrow]="1.5" name="Nome" prop="nome">
-              <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+              <ng-template let-value="value" let-row="row" ngx-datatable-cell-template >
                 {{ value }}
               </ng-template>
             </ngx-datatable-column>

@@ -173,6 +173,8 @@ export class OrcamentoComponent implements OnInit {
           },
           (error) => alert('Ocorreu um erro no servidor, tente mais tarde.')
         )
+    }else {
+      this.form.get('data_emissao').setValue(new Date());
     }
   }
 
@@ -183,7 +185,7 @@ export class OrcamentoComponent implements OnInit {
       produtos.orcamento_produtos.forEach(element => {
         this.rows.filter(produto => {
           if(produto.id == element.produto_id){
-           element.valor_unitario = produto.produto_estados_precos[0].preco;
+            element.valor_unitario = produto.produto_estados_precos[0].preco;
           }
         })
         this.addItem(element)
@@ -300,7 +302,6 @@ export class OrcamentoComponent implements OnInit {
       maxHeight: '100vh',
 
       width: '50vw',
-      height: '40vh'
     }
     dialogConfig.data = selected[0];
     let dialogRef = this.dialog.open(
