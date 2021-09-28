@@ -5,7 +5,7 @@
     "baseUrl": "./",
     "module": "commonjs",
     "target": "es5",
-    "types": ["jasmine", "node"]
+    "types": ["jasmine", "node",  "gapi", "gapi.auth2","gapi.client.gmail"] 
   },
   "files": ["test.ts"],
   "include": ["**/*.spec.ts", "**/*.d.ts", "polyfills.ts"]

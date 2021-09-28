@@ -1,30 +1,40 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, Inject, ViewEncapsulation } from '@angular/core';
+import { Http } from '@angular/http';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogConfig } from "@angular/material";
+import { Observable } from 'rxjs';
+import { LoginService } from '../../authentication/login/login.service';
+import { NotificationService } from '../../shared/messages/notification.service';
 import { ClientService } from '../../shared/services/client.service.component';
+import { GoogleService } from '../../shared/services/google.service.component';
 import { OrcamentoComponent } from '../orcamento/orcamento.component';
-
 
 @Component({
   selector: 'app-view-orcamento',
   templateUrl: './view-orcamento.component.html',
   styleUrls: ['./view-orcamento.component.css'],
-  encapsulation:ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None
 })
 export class ViewOrcamentoComponent implements OnInit {
-  dados:any ;
-  rows:any = [];
-  rows2:any = [];
-  temp:any = [];
-  temp2:any = [];
-  selected:any = [];
+  dados: any;
+  rows: any = [];
+  rows2: any = [];
+  temp: any = [];
+  temp2: any = [];
+  selected: any = [];
 
   dialogConfig = new MatDialogConfig();
 
+  user: gapi.auth2.GoogleUser
   constructor(
     private clientservice: ClientService,
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<ViewOrcamentoComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    private http: HttpClient,
+    private loginservice: LoginService,
+    private googleservice: GoogleService,
+    private notificationService: NotificationService,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.dialogConfig = {
       maxWidth: '95vw',
@@ -33,10 +43,17 @@ export class ViewOrcamentoComponent implements OnInit {
       height: '80vh'
     }
     this.loadData();
-   }
-  
-  loadData(){
-    this.clientservice.getOrcPedido(this.data.pedido.id, this.data.tipo).subscribe((res:any)=> {
+    this.getUser();
+  }
+
+  getUser() {
+    this.loginservice.getCurrentUser().subscribe((response) => {
+      this.user = response.currentUser.get()
+    });
+  }
+
+  loadData() {
+    this.clientservice.getOrcPedido(this.data.pedido.id, this.data.tipo).subscribe((res: any) => {
       this.dados = res.data;
       this.temp = res.data.orcamento_produtos;
       this.rows = [...this.temp];
@@ -46,19 +63,49 @@ export class ViewOrcamentoComponent implements OnInit {
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
     this.rows = this.temp.filter(d => {
-      if( d.produto.codigo.toLowerCase().indexOf(val) !== -1 || !val 
-      || d.produto.nome.toLowerCase().indexOf(val) !== -1 || !val)
-      return d
+      if (d.produto.codigo.toLowerCase().indexOf(val) !== -1 || !val
+        || d.produto.nome.toLowerCase().indexOf(val) !== -1 || !val)
+        return d
     });
   }
 
-  imprimir(id){
-      window.open(
-        `/api/orcamentos/download/${id}.pdf`,
-        "_blank"
+  imprimir(id) {
+    window.open(
+      `/api/orcamentos/download/${id}.pdf`,
+      "_blank"
+    );
+  }
+
+  getPdf(url): Observable<Blob> {
+    
+    let headers = new HttpHeaders();
+    headers = headers.set('Accept', 'application/pdf');
+    return this.http.get(url, { headers: headers, responseType: 'blob' });
+  }
+
+  blobToBase64(blob) {
+    return new Promise((resolve, _) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  sendEmail(id) {
+    this.getPdf("https://test2.fortiz.com.br/api/orcamentos/download/" + id + ".pdf")
+      .subscribe(
+        (data: Blob) => {
+          this.blobToBase64(data).then((response:any) => {
+            this.googleservice.sendEmailAttach(this.user, response.substr(response.indexOf (',') + 1), 'Afonso <afonsomartiusi@gmail.com>',"Enviando orçamento", "Orçamento");
+          });
+        },
+        (error) => {
+          console.log('getPDF error: ',error);
+        }
       );
   }
-  editar(data){
+
+  editar(data) {
     this.dialogConfig.data = {
       tipo: 'edit',
       orcamento: data
@@ -68,7 +115,7 @@ export class ViewOrcamentoComponent implements OnInit {
       this.loadData();
     })
   }
-  close(){
+  close() {
     this.dialogRef.close();
   }
 

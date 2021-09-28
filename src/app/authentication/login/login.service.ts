@@ -10,7 +10,7 @@ import { User } from '../user.model'
 @Injectable()
 export class LoginService{
     public static readonly SESSION_STORAGE_KEY: string = "accessToken";
-    private user: GoogleUser = undefined;
+    public user: GoogleUser = undefined;
 
     constructor(
         private googleAuthService: GoogleAuthService,
@@ -40,8 +40,6 @@ export class LoginService{
         });
     }
 
-
-
     //TODO: Rework
     public signOut(): void {
         this.googleAuthService.getAuth().subscribe((auth) => {
@@ -64,6 +62,8 @@ export class LoginService{
     public signInSuccessHandler(res: GoogleUser) {
         this.ngZone.run(() => {
             this.user = res;
+
+            //this.setUser(res)
             sessionStorage.setItem(
                 LoginService.SESSION_STORAGE_KEY, res.getAuthResponse().access_token
             );

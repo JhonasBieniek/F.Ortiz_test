@@ -30,6 +30,7 @@
     "@swimlane/ngx-datatable": "^16.0.3",
     "@types/gapi": "0.0.39",
     "@types/gapi.auth2": "0.0.51",
+    "@types/gapi.client.gmail": "^1.0.3",
     "ajv": "^6.10.1",
     "angular-calendar": "^0.27.12",
     "c3": "^0.4.23",

@@ -1,25 +1,27 @@
 <div fxLayout="row wrap">
-  <div class="p-t-20" fxFlex.gt-sm="80%" fxFlex="80">
-    <div>
+  <div fxFlex.gt-sm="60%" fxFlex="60">
       <h3><b>Orçamento: </b><span style="color: blue;">{{dados?.id}}</span><i class="fa fa-pencil button m-l-10" 
         title="Editar" 
         (click)="editar(dados);"></i></h3><br>
-      <b>Representada: </b>{{dados?.representada.razao_social}}<br>
-    </div>
-    <div>
-      <b>Cliente: </b>{{dados?.cliente.razao_social}} - <b>CNPJ: </b>{{dados?.cliente.cnpj}}<br>
-      <b>Cidade: </b>{{dados?.cliente?.enderecos_clientes[0]?.endereco.cidade}} - <b>UF: </b>{{dados?.cliente?.enderecos_clientes[0]?.endereco.estado.nome}}<br>
-      <b>Condição de Pagamento: </b>{{dados?.condicao_comercial.nome}}<br>
-      <b>Data de Emissão: </b>{{dados?.data_emissao}}<br>
-      <b>Transportadora: </b>{{dados?.transportadora}}<br>
-      <b>Frete: </b>{{dados?.frete}} - <b>Previsão de Entrega: </b>{{dados?.prazo_entrega}}<br>
-      <b>Valor Total: </b>{{dados?.valor_total | currency:'BRL':true:'1.2-2'}}<br>
-    </div>
   </div>
-  <div fxFlex.gt-sm="20%" fxFlex="20" class="p-20" fxLayoutAlign="end start" fxLayoutGap="10px">
+
+  <div fxFlex.gt-sm="40%" fxFlex="40" fxLayoutAlign="end start" fxLayoutGap="10px">
     <button mat-stroked-button color="primary" class="p-10" (click)="imprimir(dados?.id)">
       <i class="material-icons">print</i>Imprimir
     </button>
+    <button mat-stroked-button color="primary" class="p-10" (click)="sendEmail(dados?.id)">
+      <i class="material-icons">mail</i>Email
+    </button>
+  </div>
+  <div fxFlex.gt-sm="100%" fxFlex="100">
+    <b>Representada: </b>{{dados?.representada.razao_social}}<br>
+    <b>Cliente: </b>{{dados?.cliente.razao_social}} - <b>CNPJ: </b>{{dados?.cliente.cnpj}}<br>
+    <b>Cidade: </b>{{dados?.cliente?.enderecos_clientes[0]?.endereco.cidade}} - <b>UF: </b>{{dados?.cliente?.enderecos_clientes[0]?.endereco.estado.nome}}<br>
+    <b>Condição de Pagamento: </b>{{dados?.condicao_comercial.nome}}<br>
+    <b>Data de Emissão: </b>{{dados?.data_emissao}}<br>
+    <b>Transportadora: </b>{{dados?.transportadora}}<br>
+    <b>Frete: </b>{{dados?.frete}} - <b>Previsão de Entrega: </b>{{dados?.prazo_entrega}}<br>
+    <b>Valor Total: </b>{{dados?.valor_total | currency:'BRL':true:'1.2-2'}}<br>
   </div>
 </div>
 <mat-form-field>

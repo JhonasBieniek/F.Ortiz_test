@@ -6,6 +6,7 @@ import { SnackbarComponent } from './messages/snackbar/snackbar.component';
 import { NotificationService } from './messages/notification.service';
 import { ClientService } from './services/client.service.component';
 import { OrderService } from './services/order.service.component';
+import { GoogleService } from './services/google.service.component';
 
 @NgModule({
   declarations: [
@@ -19,12 +20,13 @@ import { OrderService } from './services/order.service.component';
     AccordionLinkDirective,
     AccordionDirective,
     SnackbarComponent
-   ],
+  ],
   providers: [ 
     MenuItems,
     NotificationService,
     ClientService,
-    OrderService
+    OrderService,
+    GoogleService
   ]
 })
 export class SharedModule {}

@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { Observable } from 'rxjs';
+import { LoginService } from '../../authentication/login/login.service';
 import { NotificationService } from '../../shared/messages/notification.service';
 import { ClientService } from '../../shared/services/client.service.component';
 import page from '../novo/steps.json'
@@ -32,10 +33,13 @@ export class RelatoriosComponent implements OnInit {
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
 
-  @ViewChild(RelatoriosComponent, { static: false }) table: RelatoriosComponent;
-  constructor(private clientservice: ClientService, private fb: FormBuilder, private notificationService: NotificationService, private dialog: MatDialog) {
-    //this.loadData();
+  user: gapi.auth2.GoogleUser
+  messages: gapi.client.gmail.Message[]
+  message: string
 
+  @ViewChild(RelatoriosComponent, { static: false }) table: RelatoriosComponent;
+  constructor(private clientservice: ClientService, private fb: FormBuilder, private notificationService: NotificationService, private dialog: MatDialog, private loginservice: LoginService) {
+    //this.loadData();
     this.clientservice.getClientes().subscribe((res: any) => {
       this.clientes = res.data;
     });

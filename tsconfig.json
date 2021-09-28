@@ -17,7 +17,8 @@
     ],
     "types": [
       "gapi",
-      "gapi.auth2"
+      "gapi.auth2",
+      "gapi.client.gmail"
     ],
     "lib": [
       "es2017",
