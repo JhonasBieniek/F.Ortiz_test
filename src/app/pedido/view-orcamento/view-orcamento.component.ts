@@ -8,6 +8,7 @@ import { NotificationService } from '../../shared/messages/notification.service'
 import { ClientService } from '../../shared/services/client.service.component';
 import { GoogleService } from '../../shared/services/google.service.component';
 import { OrcamentoComponent } from '../orcamento/orcamento.component';
+import { DialogMailComponent } from './dialog-mail/dialog-mail.component';
 
 @Component({
   selector: 'app-view-orcamento',
@@ -33,7 +34,7 @@ export class ViewOrcamentoComponent implements OnInit {
     private http: HttpClient,
     private loginservice: LoginService,
     private googleservice: GoogleService,
-    private notificationService: NotificationService,
+    private notificationservice: NotificationService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.dialogConfig = {
@@ -91,18 +92,29 @@ export class ViewOrcamentoComponent implements OnInit {
     });
   }
 
+
   sendEmail(id) {
-    this.getPdf("https://test2.fortiz.com.br/api/orcamentos/download/" + id + ".pdf")
-      .subscribe(
-        (data: Blob) => {
-          this.blobToBase64(data).then((response:any) => {
-            this.googleservice.sendEmailAttach(this.user, response.substr(response.indexOf (',') + 1), 'Afonso <afonsomartiusi@gmail.com>',"Enviando orçamento", "Orçamento");
-          });
-        },
-        (error) => {
-          console.log('getPDF error: ',error);
-        }
-      );
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = []
+    dialogConfig.data.email = this.dados.cliente.email
+    let dialogRef = this.dialog.open(DialogMailComponent,
+      dialogConfig
+    );
+    dialogRef.afterClosed().subscribe(value => { 
+      if(value != null){
+        this.getPdf("https://test2.fortiz.com.br/api/orcamentos/download/" + id + ".pdf")
+        .subscribe(
+          (data: Blob) => {
+            this.blobToBase64(data).then((response:any) => {
+              this.googleservice.sendEmailAttach(this.user, response.substr(response.indexOf (',') + 1), this.dados.cliente.email ,value.mensagem, "Orçamento", value.cc);
+            });
+          },
+          (error) => {
+            console.log('getPDF error: ',error);
+          }
+        );
+      } 
+    });
   }
 
   editar(data) {

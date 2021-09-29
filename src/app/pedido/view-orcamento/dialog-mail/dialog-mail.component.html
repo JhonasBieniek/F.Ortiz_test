@@ -1,0 +1,21 @@
+<div class="border">
+    <h1 mat-dialog-title> Informações extras do email!</h1>
+    <div mat-dialog-content>
+        <p>Para: {{data.email}}</p>
+        <form [formGroup]="form" >
+            <mat-form-field appearance="fill">
+                <mat-label>CC: </mat-label>
+                <input matInput placeholder="Ex: mail@gmail.com , mail2@gmail.com" formControlName="cc">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Mensagem</mat-label>
+                <textarea matInput placeholder="mensagem que deseja enviar" formControlName="mensagem" ></textarea>
+            </mat-form-field>
+        </form>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button color="warn" (click)="enviar()">Enviar</button>
+        <button mat-button color="primary" autofocus (click)="Cancelar()">Cancelar</button>
+    </div>
+</div>

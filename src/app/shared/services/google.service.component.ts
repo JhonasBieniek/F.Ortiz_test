@@ -65,7 +65,7 @@ export class GoogleService {
         })
     }
     
-    public sendEmailAttach(user: gapi.auth2.GoogleUser, file:string, contato:string, mensagem?:string, assunto?:string, cc?:[string]){
+    public sendEmailAttach(user: gapi.auth2.GoogleUser, file:string, contato:string, mensagem?:string, assunto?:string, cc?:string){
         var sender = 'me';
         var receiver = contato;
         var subject = assunto;
