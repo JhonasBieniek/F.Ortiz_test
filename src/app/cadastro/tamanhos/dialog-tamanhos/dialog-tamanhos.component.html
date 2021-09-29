@@ -3,7 +3,7 @@
   <div fxLayout="row wrap" [hidden]="true">
     <!-- Card column -->
     <div fxFlex.gt-sm="100%" fxFlex="100">
-      <form [formGroup]="form">
+      <form [formGroup]="form" class="form">
 
         <div fxLayout="row wrap" class="row">
 
@@ -13,20 +13,17 @@
             </mat-card-header>
           </div>
 
-          <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+          <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
             <mat-form-field appearance="outline">
               <input matInput placeholder="Nome do grupo" [formControl]="form.controls['nome']">
             </mat-form-field>
             <mat-hint *ngIf="form.controls['nome'].hasError('required') && form.controls['nome'].touched"
-              class="text-danger font-14">Nome do tamanho.</mat-hint>
-            <mat-hint *ngIf="form.controls['nome'].hasError('minlength') && form.controls['nome'].touched"
-              class="text-danger font-14">O nome do tamanho deve conter no mínimo 5 caracteres</mat-hint>
-            <mat-hint *ngIf="form.controls['nome'].hasError('maxlength') && form.controls['nome'].touched"
-              class="text-danger font-14">O nome do tamanho não deve exceder 50 caracteres.</mat-hint>
+              class="text-danger font-14">Tamanho requerido.</mat-hint>
           </div>
         </div>
-        <mat-card-actions class="p-10" >
-          <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid" (click)="areaVendasSubmit(); close()">Salvar</button>
+        <mat-card-actions class="p-10">
+          <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid"
+            (click)="areaVendasSubmit(); close()">Salvar</button>
           <button mat-raised-button color="warn" (click)="close()">Cancelar</button>
         </mat-card-actions>
       </form>

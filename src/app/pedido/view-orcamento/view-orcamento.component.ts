@@ -106,7 +106,7 @@ export class ViewOrcamentoComponent implements OnInit {
         .subscribe(
           (data: Blob) => {
             this.blobToBase64(data).then((response:any) => {
-              this.googleservice.sendEmailAttach(this.user, response.substr(response.indexOf (',') + 1), this.dados.cliente.email ,value.mensagem, "Orçamento", value.cc);
+              this.googleservice.sendEmailAttach(this.user, response.substr(response.indexOf (',') + 1), this.dados.cliente.email ,value.mensagem, "Cotação Nº "+ this.dados.id + " - " + this.dados.representada.razao_social, value.cc);
             });
           },
           (error) => {

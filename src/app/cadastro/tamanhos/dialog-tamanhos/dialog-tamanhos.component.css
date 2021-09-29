@@ -1,3 +1,8 @@
+.dialog{
+  min-height: 30vh;
+  width: 40vw;
+  max-width: 40vw;
+}
 .bt{
   margin-left: 10px;
 }
@@ -6,6 +11,7 @@
   align-items: center;
   margin-top: 16px;
 }
-.dialog{
-  min-height: 700px;
+
+.form{
+  font-size: 11px;
 }

@@ -26,7 +26,7 @@ export class DialogTamanhosComponent implements OnInit {
   ngOnInit() {
     this.form = this.fb.group({
       id:[null],
-      nome: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
+      nome: [null, Validators.required],
     });
     if(this.data == null){
       this.pageTitle = 'Cadastrar tamanho'

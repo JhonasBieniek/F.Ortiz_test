@@ -60,6 +60,7 @@ const MENUITEMS = [
       {state: 'produtos', name: 'Produtos', type: 'link' },
       {state: 'ramo-atividade', name: 'Ramo de Atividade', type: 'link' },
       {state: 'regioes', name: 'Regiões', type: 'link' },
+      {state: 'tamanhos', name: 'Tamanhos', type: 'link' },
       {state: 'representada', name: 'Representadas', type: 'link' },
       {state: 'unidade', name: 'Unidades', type: 'link' },     
       {state: 'conta', name: 'Conta bancária', type: 'link' },     
