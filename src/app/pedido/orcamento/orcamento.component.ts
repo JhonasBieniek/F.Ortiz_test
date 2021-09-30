@@ -180,6 +180,7 @@ export class OrcamentoComponent implements OnInit {
 
   CarregarProdutosRepresentada2(cliente_id, representada_id, produtos) {
     this.clientservice.getProdRepCli(representada_id, cliente_id ).subscribe((res:any) => {
+      console.log(res)
       this.rows = res.data;
       this.temp = [...this.rows];
       produtos.orcamento_produtos.forEach(element => {
@@ -197,9 +198,17 @@ export class OrcamentoComponent implements OnInit {
       let result = "";
       data.forEach(function (element, index) {
           if (index == 0){
-            result += element.nome
+            if(element.tamanho){
+              result += element.tamanho.nome
+            }else{
+              result += element.nome
+            }
           }else{
-            result += " ," + element.nome
+            if(element.tamanho){
+              result += " ," + element.tamanho.nome
+            }else{
+              result += " ," + element.nome
+            }
           }
       });
     return result;
@@ -252,7 +261,6 @@ export class OrcamentoComponent implements OnInit {
   }
 
   addProduto(item: any) {
-    console.log(item)
     this.produtos.push(this.fb.group({
       // Quando estiver editando precisa carregar os produtos de dentro do {produto}
       id: (item.produto != undefined) ? item.produto.id : null,
@@ -310,7 +318,7 @@ export class OrcamentoComponent implements OnInit {
 
     );
     dialogRef.afterClosed().subscribe(value => {
-      this.addItem(value);
+      if(value != null) this.addItem(value);
     });
   }
 

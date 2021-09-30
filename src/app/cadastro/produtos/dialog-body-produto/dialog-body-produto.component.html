@@ -222,7 +222,7 @@
             <mat-chip-list #chipList aria-label="Size selection">
               <mat-chip *ngFor="let size of sizes" [selectable]="selectable" [removable]="removable"
                 (removed)="remove(size)">
-                {{size.nome}}
+                {{size.tamanho_id ? size.tamanho.nome : size.nome }}
                 <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
               </mat-chip>
               <input placeholder="Novo tamanho..." #sizeInput [formControl]="sizeCtrl" [matAutocomplete]="auto"

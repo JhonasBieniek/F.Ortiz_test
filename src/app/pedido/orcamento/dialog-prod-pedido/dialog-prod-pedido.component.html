@@ -21,8 +21,8 @@
               [floatLabel]="form.value.floatLabel">
               <mat-label>Tamanhos do produto</mat-label>
               <mat-select required formControlName="tamanho" name="tamanho">
-                <mat-option *ngFor="let tamanho of tamanhos" [value]="tamanho.nome">
-                  {{tamanho.nome}}
+                <mat-option *ngFor="let tamanho of tamanhos" [value]="tamanho.tamanho.nome">
+                  {{tamanho.tamanho.nome}}
                 </mat-option>
               </mat-select>
               <mat-placeholder>Tamanho</mat-placeholder>

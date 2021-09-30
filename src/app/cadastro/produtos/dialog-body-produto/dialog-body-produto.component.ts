@@ -107,7 +107,10 @@ export class DialogBodyProdutoComponent implements OnInit {
         e.value = e.id.toString();
       });
     });
-    this.clientservice.getProdutoTamanhos().subscribe((res: any) => {
+    // this.clientservice.getProdutoTamanhos().subscribe((res: any) => {
+    //   this.tamanhos = res.data;
+    // });
+    this.clientservice.getTamanhos().subscribe((res: any) => {
       this.tamanhos = res.data;
     });
     this.clientservice.getProdutoCores().subscribe((res: any) => {
@@ -120,7 +123,7 @@ export class DialogBodyProdutoComponent implements OnInit {
   }
 
   transform() {
-    if (this.data === null || this.data.imagem === null) {
+    if (this.data == null || this.data.imagem == null) {
       return "./../../../../assets/images/placeholder.png";
     } else {
       return this.sanitizer.bypassSecurityTrustResourceUrl(this.produto.imagem);
@@ -164,6 +167,7 @@ export class DialogBodyProdutoComponent implements OnInit {
       this.pageTitle = "Cadastrar Produto";
     } else {
       this.clientservice.viewProduto(this.data.id).subscribe((res: any) => {
+        //console.log(res)
         this.produto = res.data[0];
         this.produto.produto_tipo_id = this.produto.produto_tipo_id.toString();
         this.produto.produto_material_id = this.produto.produto_material_id.toString();
@@ -509,11 +513,23 @@ pdfBlobConversion(b64Data, contentType) {
 
     if (this.data != null) {
       this.sizes.forEach((element) => {
-        tamanhos.push({
-          id: element.id,
-          nome: element.nome,
-          produto_id: element.produto_id,
-        });
+        //console.log(element)
+        if(element.produto_id != null) {
+          tamanhos.push({
+            id: element.id,
+            nome: element.nome,
+            produto_id: element.produto_id,
+            tamanho_id: element.tamanho_id ? element.tamanho_id : null
+          });
+        }else {
+          tamanhos.push({
+            id: null,
+            nome: element.nome,
+            produto_id: null,
+            tamanho_id: element.id ? element.id : null
+          });
+        }
+        
       });
       this.colors.forEach((element) => {
         cores.push({
@@ -563,9 +579,12 @@ pdfBlobConversion(b64Data, contentType) {
       ];
     } else {
       this.sizes.forEach((element) => {
+        console.log(element)
         tamanhos.push({
           nome: element.nome,
+          tamanho_id: element.id ? element.id : null
         });
+        console.log(tamanhos)
       });
       this.colors.forEach((element) => {
         cores.push({
@@ -604,6 +623,7 @@ pdfBlobConversion(b64Data, contentType) {
       produto_aplications: aplicacoes,
       produto_estados_precos: precos,
     });
+    //console.log(this.form.value)
     if (this.data == null) {
         this.clientservice.addProdutos(this.form.value).subscribe((res: any) => {
           if (res.success == true) {
