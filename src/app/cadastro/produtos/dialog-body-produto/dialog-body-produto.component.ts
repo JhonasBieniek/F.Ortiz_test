@@ -123,11 +123,17 @@ export class DialogBodyProdutoComponent implements OnInit {
   }
 
   transform() {
-    if (this.data == null || this.data.imagem == null) {
+    if(this.produto.imagem){
+      return this.sanitizer.bypassSecurityTrustResourceUrl(this.produto.imagem);
+    }else{
+      return "./../../../../assets/images/placeholder.png";
+    }
+    /*if (this.data === null || this.data.imagem === null) {
       return "./../../../../assets/images/placeholder.png";
     } else {
+      console.log(this.produto.imagem)
       return this.sanitizer.bypassSecurityTrustResourceUrl(this.produto.imagem);
-    }
+    }*/
   }
   
 
