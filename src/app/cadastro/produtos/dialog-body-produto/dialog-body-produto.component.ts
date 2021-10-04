@@ -141,32 +141,32 @@ export class DialogBodyProdutoComponent implements OnInit {
     this.form = this.fb.group({
       id: [null],
       nome: [null, Validators.compose([Validators.required])],
-      descricao: [null],
-      descricao_resumida: [null],
-      produto_tipo_id: [null],
-      produto_material_id: [null],
+      descricao: [null, Validators.compose([Validators.required])],
+      descricao_resumida: [null, Validators.compose([Validators.required])],
+      produto_tipo_id: [null, Validators.compose([Validators.required])],
+      produto_material_id: [null, Validators.compose([Validators.required])],
       ipi: [null],
       produto_estados_precos: null,
       produto_tamanhos: null,
       produto_embalagem: null,
-      preco_pr_final: null,
-      preco_pr_revenda: null,
-      preco_sc: null,
-      preco_ms: null,
-      preco_sp: null,
+      preco_pr_final: [null, Validators.compose([Validators.required])],
+      preco_pr_revenda: [null, Validators.compose([Validators.required])],
+      preco_sc: [null, Validators.compose([Validators.required])],
+      preco_ms: [null, Validators.compose([Validators.required])],
+      preco_sp: [null, Validators.compose([Validators.required])],
       produto_cores: null,
       produto_aplications: null,
       certificado_aprovacao: [null],
       codigo_catalogo: [null, Validators.compose([Validators.required])],
       codigo_importacao: [null],
       previsao_retorno: [null],
-      embalagem_nome: null,
-      embalagem_un: null,
-      embalagem_min: null,
+      embalagem_nome: [null, Validators.compose([Validators.required])],
+      embalagem_un: [null, Validators.compose([Validators.required])],
+      embalagem_min: [null, Validators.compose([Validators.required])],
       representada_id: [null, Validators.compose([Validators.required])],
       imagem: [null],
       imagem_ficha: [null],
-      produto_classification_id: [null],
+      produto_classification_id: [null, Validators.compose([Validators.required])],
       status: ["ativo"],
     });
     if (this.data == null) {
@@ -585,12 +585,10 @@ pdfBlobConversion(b64Data, contentType) {
       ];
     } else {
       this.sizes.forEach((element) => {
-        console.log(element)
         tamanhos.push({
           nome: element.nome,
           tamanho_id: element.id ? element.id : null
         });
-        console.log(tamanhos)
       });
       this.colors.forEach((element) => {
         cores.push({

@@ -127,7 +127,7 @@ export class DialogBodyClienteComponent implements OnInit {
         null,
         Validators.compose([Validators.minLength(5), Validators.maxLength(50)]),
       ],
-      ramo_atividade_id: [null],
+      ramo_atividade_id: [null, Validators.compose([Validators.required])],
       limite: null,
       categoria_volk: null,
       tipo_cliente: null,

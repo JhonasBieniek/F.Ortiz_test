@@ -51,9 +51,9 @@ export class DialogBodyRepresentadaComponent implements OnInit {
       conta_id: null,
       comissao_padrao: [null],
       endereco: this.fb.group({
-        cep: [null],
+        cep: [null, Validators.compose([Validators.required])],
         logradouro: [null],
-        numero: [null],
+        numero: [null, Validators.compose([Validators.required])],
         complemento: [null],
         bairro: [null],
         cidade: [null],
@@ -103,7 +103,8 @@ export class DialogBodyRepresentadaComponent implements OnInit {
     } 
   }
 
-  chargeForm(data) { 
+  chargeForm(data) {
+    //console.log(data)
     this.form.get('razao_social').setValue(data.nome);
     this.form.get('nome_fantasia').setValue(data.fantasia);
     this.form.get('email').setValue(data.email);
