@@ -12,7 +12,7 @@
 
       <div class="p-10 aj" fxFlex.gt-sm="40" fxFlex.gt-xs="40" fxFlex="100">
         <mat-form-field appearance="outline">
-          <mat-label>Nome completo</mat-label>
+          <mat-label>Nome completo*</mat-label>
           <input matInput placeholder="Nome completo" formControlName="nome">
         </mat-form-field>
         <mat-hint *ngIf="funcionario.get('nome').errors?.required && funcionario.get('nome').touched"
@@ -70,7 +70,7 @@
       <div class="p-10 aj" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
         <mat-form-field [hideRequiredMarker]="true" appearance="outline">
           <mat-label>Selecione o cargo...</mat-label>
-          <mat-select required formControlName="cargo_id">
+          <mat-select formControlName="cargo_id">
             <mat-option *ngFor="let cargo of cargos" [value]="cargo.id">
               {{cargo.nome}}
             </mat-option>
@@ -206,7 +206,7 @@
 
       <div class="p-10 aj" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
         <mat-form-field appearance="outline">
-          <mat-label>Email</mat-label>
+          <mat-label>Email*</mat-label>
           <input matInput placeholder="Email" formControlName="email" type="email">
         </mat-form-field>
         <!-- <small *ngIf="funcionario.get('email').errors?.required && funcionario.get('email').touched"
@@ -218,7 +218,7 @@
 
       <div class="p-10 aj" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
         <mat-form-field [hideRequiredMarker]="true" appearance="outline">
-          <mat-label>Selecione o grupo...</mat-label>
+          <mat-label>Selecione o grupo*...</mat-label>
           <mat-select required formControlName="grupo_id">
             <mat-option *ngFor="let grupo of grupos" [value]="grupo.id">
               {{grupo.nome}}
@@ -240,8 +240,8 @@
         <button mat-stroked-button color="primary" (click)="addComissao()"><i class="material-icons">add</i>
           Representada</button>
       </div>
-      <div *ngFor="let representada of comissoes().controls; let comIndex = index">
-        <div [formGroupName]="comIndex" fxLayout="row wrap" class="row">
+      <div *ngFor="let representada of comissoes().controls; let comIndex = index" fxFlex="50">
+        <div [formGroupName]="comIndex" fxLayout="row wrap" fxFlex="100">
           <div class="p-10 font" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="50">
             <mat-form-field appearance="outline">
               <mat-label>Selecione uma representada</mat-label>

@@ -1,16 +1,16 @@
-.dialog{
-    min-height: 200px;
-    min-width: 800px;
-  }
-  .bt{
-    margin-left: 10px;
-  }
-  .dadosCadastro{
-    font-size: larger;
-    align-items: center;
-    margin-top: 16px;
-  }
+.dialog {
+  max-height: 40vh;
+  max-width: 75vw;
+}
+.bt {
+  margin-left: 10px;
+}
+.dadosCadastro {
+  font-size: larger;
+  align-items: center;
+  margin-top: 16px;
+}
 
-  .form {
-    font-size: 11px;
-  }
+.form {
+  font-size: 11px;
+}

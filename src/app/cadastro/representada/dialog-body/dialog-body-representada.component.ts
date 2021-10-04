@@ -51,9 +51,9 @@ export class DialogBodyRepresentadaComponent implements OnInit {
       conta_id: null,
       comissao_padrao: [null],
       endereco: this.fb.group({
-        cep: [null, Validators.compose([Validators.required])],
+        cep: [null],
         logradouro: [null],
-        numero: [null, Validators.compose([Validators.required])],
+        numero: [null],
         complemento: [null],
         bairro: [null],
         cidade: [null],
@@ -132,12 +132,24 @@ export class DialogBodyRepresentadaComponent implements OnInit {
   onSubmit(){
     if(this.data == null){
       this.clientservice.addRepresenta(this.form.value).subscribe((res:any) =>{
+        if(res.status == true){
           this.notificationService.notify(`Cadastro Efetuado com Sucesso!`)
+        }else{
+          console.log(res.data.email.hasOwnProperty('_isUnique'))
+          if(res.data.email.hasOwnProperty('_isUnique')){
+            this.notificationService.notify(`Email em uso informar outro email!`)
+          }else{
+            console.log(res)
+            this.notificationService.notify(`Erro contate o Administrador`)
+          }
+        }
+        this.close();
         });
     }else{
       this.clientservice.updateRepresentada(this.form.value).subscribe( () =>{
         this.notificationService.notify("Atualizado com Sucesso!")
       })
+      this.close();
     } 
   }
 

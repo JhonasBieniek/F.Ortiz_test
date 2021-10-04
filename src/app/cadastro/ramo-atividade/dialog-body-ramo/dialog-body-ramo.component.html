@@ -17,20 +17,20 @@
             <mat-form-field appearance="outline">
               <mat-label>Nome do Ramo de atividade</mat-label>
               <input matInput placeholder="Nome do Ramo de atividade" [formControl]="form.controls['nome']">
-            </mat-form-field>
-            <mat-hint *ngIf="form.controls['nome'].hasError('required') && form.controls['nome'].touched"
+              <mat-hint *ngIf="form.controls['nome'].hasError('required') && form.controls['nome'].touched"
               class="text-danger font-14">Nome do Ramo de atividade.</mat-hint>
             <mat-hint *ngIf="form.controls['nome'].hasError('minlength') && form.controls['nome'].touched"
               class="text-danger font-14">O nome deve conter no mínimo 5 caracteres</mat-hint>
             <mat-hint *ngIf="form.controls['nome'].hasError('maxlength') && form.controls['nome'].touched"
               class="text-danger font-14">O nome não deve exceder 50 caracteres.</mat-hint>
+            </mat-form-field>
+            
           </div>
         </div>
         <div fxLayout="row wrap" class="row">
-
           <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
             <mat-card-actions>
-              <button style="margin-left:20px" mat-raised-button color="primary" [disabled]="!form.valid"  (click)="Submit(); close()">Salvar cadastro</button>
+              <button style="margin-left:10px" mat-raised-button color="primary" [disabled]="!form.valid"  (click)="Submit(); close()">Salvar cadastro</button>
               <button mat-raised-button color="warn" (click)="close()">Cancelar</button>
             </mat-card-actions>
           </div>

@@ -71,7 +71,7 @@
         </h4>
       </div>
       <div fxLayout="row wrap" *ngFor="let e of form.get('enderecos_clientes').controls; index as i"
-        [formGroupName]="i">
+        [formGroupName]="i" fxFlex="100">
         <div fxLayout="row wrap" formGroupName="endereco">
           <div class="p-10 aj" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
             Endereço - {{i + 1}}
@@ -81,7 +81,7 @@
           </div>
           <div class="p-10 aj" fxFlex.gt-sm="15" fxFlex.gt-xs="13" fxFlex="100">
             <mat-form-field appearance="outline">
-              <mat-label>CEP</mat-label>
+              <mat-label>CEP*</mat-label>
               <input matInput placeholder="CEP" mask="00000-000" (blur)="onBlurMethod(i)" formControlName="cep">
             </mat-form-field>
           </div>
@@ -93,7 +93,7 @@
           </div>
           <div class="p-10 aj" fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="100">
             <mat-form-field appearance="outline">
-              <mat-label>Número</mat-label>
+              <mat-label>Número*</mat-label>
               <input matInput placeholder="Número" formControlName="numero">
             </mat-form-field>
           </div>
@@ -137,7 +137,7 @@
         </h4>
       </div>
       <div fxLayout="row wrap" *ngFor="let e of form.get('cliente_representada_area_vendas').controls; index as i"
-        [formGroupName]="i">
+        [formGroupName]="i" fxFlex="100">
         <div fxLayout="row wrap">
           <div class="p-10 aj ml-5" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
             Área de venda - {{i + 1}}
@@ -178,7 +178,7 @@
         </h4>
       </div>
       <div fxLayout="row wrap" *ngFor="let e of form.get('cliente_contatos').controls; index as i"
-        [formGroupName]="i">
+        [formGroupName]="i" fxFlex="100">
           <div class="p-10 aj" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
             Contato - {{i + 1}}
             <button mat-icon-button (click)="delContato(i)">
@@ -306,8 +306,8 @@
       </div>
       <div class="p-10 aj" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="15">
         <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
-          <mat-label>Tipo de Pagamento*</mat-label>
-          <mat-select required formControlName="pagamento_tipo">
+          <mat-label>Tipo de Pagamento</mat-label>
+          <mat-select  formControlName="pagamento_tipo">
             <mat-option value="Faturamento" (click)="clearVencimento()">Faturamento</mat-option>
             <mat-option value="Vencimento" (click)="addVencimento(null, 'v')">Vencimento</mat-option>
           </mat-select>

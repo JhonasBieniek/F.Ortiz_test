@@ -10,7 +10,7 @@
     </div>
     <div class="p-10 aj" fxFlex.gt-sm="35" fxFlex.gt-xs="30" fxFlex="100">
       <mat-form-field appearance="outline">
-        <mat-label>CNPJ</mat-label>
+        <mat-label>CNPJ*</mat-label>
         <input matInput placeholder="CNPJ" mask="00.000.000/0000-00" formControlName="cnpj" (blur)="onBlurCnpj()" type="digits">
       </mat-form-field>
       <small *ngIf="form.get('cnpj').errors?.required && form.get('cnpj').touched"
@@ -45,7 +45,7 @@
     </div>
     <div class="p-10 aj" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
       <mat-form-field appearance="outline">
-        <mat-label>Nome fantasia</mat-label>
+        <mat-label>Nome fantasia*</mat-label>
         <input matInput placeholder="Nome fantasia" formControlName="nome_fantasia">
       </mat-form-field>
       <mat-hint *ngIf="form.get('nome_fantasia').errors?.required && form.get('nome_fantasia').touched"
@@ -57,7 +57,7 @@
     </div>
     <div class="p-10 aj" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
       <mat-form-field appearance="outline">
-        <mat-label>Razão social</mat-label>
+        <mat-label>Razão social*</mat-label>
         <input matInput placeholder="Razão social*" formControlName="razao_social">
       </mat-form-field>
       <mat-hint *ngIf="form.get('razao_social').errors?.required && form.get('razao_social').touched"
@@ -210,7 +210,7 @@
     </div>
   </div>
   <mat-card-actions class="p-10">
-    <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid" (click)="onSubmit(); close()">Salvar</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid" (click)="onSubmit();">Salvar</button>
     <button style="margin-left: 15px;" mat-raised-button color="warn" (click)="close()">Cancelar</button>
   </mat-card-actions>
 </form>

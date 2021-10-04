@@ -8,7 +8,7 @@
           </div>
           <div class="p-10" fxFlex.gt-sm="60" fxFlex.gt-xs="60" fxFlex="100">
             <mat-form-field appearance="outline">
-              <mat-label>Nome da condição comercial</mat-label>
+              <mat-label>Nome da condição comercial*</mat-label>
               <input matInput placeholder="Nome da condição comercial" [formControl]="form.controls['nome']">
             </mat-form-field>
             <mat-hint *ngIf="form.controls['nome'].hasError('required') && form.controls['nome'].touched"

@@ -15,27 +15,29 @@
 
           <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
             <mat-form-field appearance="outline">
-              <mat-label>Sigla</mat-label>
+              <mat-label>Sigla*</mat-label>
               <input matInput placeholder="Sigla" [formControl]="form.controls['sigla']">
+              <mat-hint *ngIf="form.controls['sigla'].hasError('required') && form.controls['sigla'].touched"
+                class="text-danger font-14">Digite a sigla.</mat-hint>
+              <mat-hint *ngIf="form.controls['sigla'].hasError('minlength') && form.controls['sigla'].touched"
+                class="text-danger font-14">A sigla deve conter no mínimo 5 caracteres</mat-hint>
+              <mat-hint *ngIf="form.controls['sigla'].hasError('maxlength') && form.controls['sigla'].touched"
+                class="text-danger font-14">Sua sigla não deve exceder 50 caracteres.</mat-hint>
             </mat-form-field>
-            <mat-hint *ngIf="form.controls['sigla'].hasError('required') && form.controls['sigla'].touched"
-              class="text-danger font-14">Digite a sigla.</mat-hint>
-            <mat-hint *ngIf="form.controls['sigla'].hasError('minlength') && form.controls['sigla'].touched"
-              class="text-danger font-14">A sigla deve conter no mínimo 5 caracteres</mat-hint>
-            <mat-hint *ngIf="form.controls['sigla'].hasError('maxlength') && form.controls['sigla'].touched"
-              class="text-danger font-14">Sua sigla não deve exceder 50 caracteres.</mat-hint>
+
           </div>
           <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
             <mat-form-field appearance="outline">
-              <mat-label>Descrição</mat-label>
+              <mat-label>Descrição*</mat-label>
               <input matInput placeholder="Descrição" [formControl]="form.controls['descricao']">
+
+              <mat-hint *ngIf="form.controls['descricao'].hasError('required') && form.controls['descricao'].touched"
+                class="text-danger font-14">Digite a descrição.</mat-hint>
+              <mat-hint *ngIf="form.controls['descricao'].hasError('minlength') && form.controls['descricao'].touched"
+                class="text-danger font-14">A descrição deve conter no mínimo 5 caracteres</mat-hint>
+              <mat-hint *ngIf="form.controls['descricao'].hasError('maxlength') && form.controls['descricao'].touched"
+                class="text-danger font-14">Sua descrição não deve exceder 50 caracteres.</mat-hint>
             </mat-form-field>
-            <mat-hint *ngIf="form.controls['descricao'].hasError('required') && form.controls['descricao'].touched"
-              class="text-danger font-14">Digite a descrição.</mat-hint>
-            <mat-hint *ngIf="form.controls['descricao'].hasError('minlength') && form.controls['descricao'].touched"
-              class="text-danger font-14">A descrição deve conter no mínimo 5 caracteres</mat-hint>
-            <mat-hint *ngIf="form.controls['descricao'].hasError('maxlength') && form.controls['descricao'].touched"
-              class="text-danger font-14">Sua descrição não deve exceder 50 caracteres.</mat-hint>
           </div>
           <div class="p-10" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
             <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
@@ -51,7 +53,8 @@
           </div>
         </div>
         <mat-card-actions class="p-10">
-          <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid" (click)="areaVendasSubmit(); close()">Salvar</button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid"
+            (click)="areaVendasSubmit(); close()">Salvar</button>
           <button mat-raised-button color="warn" (click)="close()">Cancelar</button>
         </mat-card-actions>
       </form>

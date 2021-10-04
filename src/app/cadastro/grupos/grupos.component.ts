@@ -65,9 +65,7 @@ export class GruposComponent implements OnInit {
     let dialogConfig = new MatDialogConfig();
     dialogConfig = {
       maxWidth: '75vw',
-      maxHeight: '75vh',
-      width: '75vw',
-      height: '55vh'
+      maxHeight: '45vh',
     }
     //dialogConfig.data = this.dados.data;
     let dialogRef = this.dialog.open(
@@ -84,9 +82,7 @@ export class GruposComponent implements OnInit {
     let dialogConfig = new MatDialogConfig();
       dialogConfig = {
         maxWidth: '75vw',
-        maxHeight: '75vh',
-        width: '75vw',
-        height: '55vh'
+        maxHeight: '45vh',
       }
       dialogConfig.data = row
       dialogConfig.data.action = 'edit'

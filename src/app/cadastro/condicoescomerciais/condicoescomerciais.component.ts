@@ -76,7 +76,6 @@ export class CondicoescomerciaisComponent implements OnInit {
       maxHeight: '75vh',
     
       width: '75vw',
-      height: '65vh'
     }
     //dialogConfig.data = this.dados.data;
     let dialogRef = this.dialog.open(
@@ -96,7 +95,6 @@ export class CondicoescomerciaisComponent implements OnInit {
         maxWidth: '75vw',
         maxHeight: '75vh',
         width: '75vw',
-        height: '65vh'
       }
       dialogConfig.data = row
       dialogConfig.data.action = 'edit'

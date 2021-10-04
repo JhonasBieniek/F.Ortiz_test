@@ -127,14 +127,14 @@ export class DialogBodyClienteComponent implements OnInit {
         null,
         Validators.compose([Validators.minLength(5), Validators.maxLength(50)]),
       ],
-      ramo_atividade_id: [null, Validators.compose([Validators.required])],
+      ramo_atividade_id: null,
       limite: null,
       categoria_volk: null,
       tipo_cliente: null,
       pagamento_tipo: null,
       obs: [null, Validators.compose([Validators.maxLength(100)])],
       status: true,
-      enderecos_clientes: this.fb.array([]),
+      enderecos_clientes: this.fb.array([], Validators.required),
       cliente_vencimentos: this.fb.array([]),
       cliente_representada_area_vendas: this.fb.array([]),
       cliente_contatos: this.fb.array([]),
@@ -146,9 +146,9 @@ export class DialogBodyClienteComponent implements OnInit {
     endereco.push(
       this.fb.group({
         endereco: this.fb.group({
-          cep: data ? data.cep : null,
+          cep: data ? data.cep : [null, Validators.required],
           logradouro: data ? data.logradouro : null,
-          numero: data ? data.numero : null,
+          numero: data ? data.numero : [null, Validators.required],
           complemento: data ? data.complemento : null,
           bairro: data ? data.bairro : null,
           cidade: data ? data.cidade : null,
@@ -163,10 +163,10 @@ export class DialogBodyClienteComponent implements OnInit {
     endereco.push(
       this.fb.group({
         endereco: this.fb.group({
-          id: data ? data.id : null,
+          id: data ? data.id : [null, Validators.required],
           cep: data ? data.cep : null,
           logradouro: data ? data.logradouro : null,
-          numero: data ? data.numero : null,
+          numero: data ? data.numero : [null, Validators.required],
           complemento: data ? data.complemento : null,
           bairro: data ? data.bairro : null,
           cidade: data ? data.cidade : null,
@@ -456,8 +456,9 @@ export class DialogBodyClienteComponent implements OnInit {
           this.notificationService.notify(`Cadastro Efetuado com Sucesso!`);
           this.dialogRef.close(res);
         } else {
+          console.log(this.form.value)
           this.notificationService.notify(`Erro contate o Administrador`);
-          this.dialogRef.close();
+          //this.dialogRef.close();
         }
       });
     }

@@ -15,27 +15,29 @@
 
           <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
             <mat-form-field appearance="outline">
-              <mat-label>Nome da região</mat-label>
+              <mat-label>Nome da região*</mat-label>
               <input matInput placeholder="Nome da região" [formControl]="form.controls['nome']">
-            </mat-form-field>
-            <mat-hint *ngIf="form.controls['nome'].hasError('required') && form.controls['nome'].touched"
+              <mat-hint *ngIf="form.controls['nome'].hasError('required') && form.controls['nome'].touched"
               class="text-danger font-14">Nome.</mat-hint>
             <mat-hint *ngIf="form.controls['nome'].hasError('minlength') && form.controls['nome'].touched"
               class="text-danger font-14">O nome deve conter no mínimo 5 caracteres</mat-hint>
             <mat-hint *ngIf="form.controls['nome'].hasError('maxlength') && form.controls['nome'].touched"
               class="text-danger font-14">Seu nome não deve exceder 50 caracteres.</mat-hint>
+            </mat-form-field>
+            
           </div>
           <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
             <mat-form-field appearance="outline">
-              <mat-label>Descrição</mat-label>
+              <mat-label>Descrição*</mat-label>
               <input matInput placeholder="Descrição" [formControl]="form.controls['descricao']">
-            </mat-form-field>
-            <mat-hint *ngIf="form.controls['descricao'].hasError('required') && form.controls['descricao'].touched"
-              class="text-danger font-14">Descrição</mat-hint>
+              <mat-hint *ngIf="form.controls['descricao'].hasError('required') && form.controls['descricao'].touched"
+              class="text-danger font-14">Informar uma descrição</mat-hint>
             <mat-hint *ngIf="form.controls['descricao'].hasError('minlength') && form.controls['descricao'].touched"
               class="text-danger font-14">O nome deve conter no mínimo 5 caracteres</mat-hint>
             <mat-hint *ngIf="form.controls['descricao'].hasError('maxlength') && form.controls['descricao'].touched"
               class="text-danger font-14">Seu nome não deve exceder 50 caracteres.</mat-hint>
+            </mat-form-field>
+            
           </div>
           <div class="p-10" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="100">
             <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"

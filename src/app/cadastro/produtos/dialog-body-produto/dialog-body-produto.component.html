@@ -86,19 +86,19 @@
         <div fxLayout="row" style="margin-top: 8px;">
           <div class="p-10" fxFlex.gt-sm="17" fxFlex.gt-xs="20" fxFlex="100">
             <mat-form-field appearance="outline">
-              <mat-label>Cód. catálogo</mat-label>
+              <mat-label>Cód. catálogo*</mat-label>
               <input matInput placeholder="Cód. catálogo" formControlName="codigo_catalogo">
             </mat-form-field>
           </div>
           <div class="p-10" fxFlex.gt-sm="19" fxFlex.gt-xs="20" fxFlex="100">
             <mat-form-field appearance="outline">
-              <mat-label>Cód. importação</mat-label>
+              <mat-label>Cód. importação*</mat-label>
               <input matInput placeholder="Cód. importação" formControlName="codigo_importacao">
             </mat-form-field>
           </div>
           <div class="p-10" fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="100">
             <mat-form-field appearance="outline">
-              <mat-label>Nome do produto</mat-label>
+              <mat-label>Nome do produto*</mat-label>
               <input matInput placeholder="Nome do produto" formControlName="nome">
             </mat-form-field>
             <small *ngIf="form.get('nome').errors?.required && form.get('nome').touched"
@@ -106,7 +106,7 @@
           </div>
           <div class="p-10" fxFlex.gt-sm="19" fxFlex.gt-xs="15" fxFlex="100">
             <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
-              <mat-label>Classificação</mat-label>
+              <mat-label>Classificação*</mat-label>
               <mat-select formControlName="produto_classification_id">
                 <mat-option *ngFor="let classificacao of classificacoes" [value]="classificacao.id">
                   {{classificacao.name}}
@@ -119,26 +119,26 @@
         <div fxLayout="row">
           <div class="p-10 aj" fxFlex.gt-sm="35" fxFlex.gt-xs="35" fxFlex="100">
             <mat-form-field appearance="outline">
-              <mat-label>Descrição do produto</mat-label>
+              <mat-label>Descrição do produto*</mat-label>
               <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="2" cdkAutosizeMaxRows="7"
                 placeholder="Descrição do produto" formControlName="descricao"></textarea>
             </mat-form-field>
           </div>
           <div class="p-10 aj" fxFlex.gt-sm="35" fxFlex.gt-xs="35" fxFlex="100">
             <mat-form-field appearance="outline">
-              <mat-label>Descrição resumida</mat-label>
+              <mat-label>Descrição resumida*</mat-label>
               <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="2" cdkAutosizeMaxRows="7"
                 placeholder="Descrição resumida" formControlName="descricao_resumida"></textarea>
             </mat-form-field>
           </div>
           <div class="p-10 aj" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
-            <mat-select-autocomplete appearance="outline" [placeholder]="'Tipo do Produto'" [options]="tiposProduto"
+            <mat-select-autocomplete appearance="outline" [placeholder]="'Tipo do Produto*'" [options]="tiposProduto"
               [multiple]='false' name="optionsSelector" ngDefaultControl
               [formControl]="form.controls['produto_tipo_id']">
             </mat-select-autocomplete>
           </div>
           <div class="p-10 aj" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
-            <mat-select-autocomplete appearance="outline" [placeholder]="'Material do Produto'"
+            <mat-select-autocomplete appearance="outline" [placeholder]="'Material do Produto*'"
               [options]="materiaisProduto" [multiple]='false' name="optionsSelector" ngDefaultControl
               [formControl]="form.controls['produto_material_id']">
             </mat-select-autocomplete>
@@ -147,7 +147,7 @@
         <div fxLayout="row">
           <div class="p-10 aj" fxFlex.gt-sm="26" fxFlex.gt-xs="26" fxFlex="100">
             <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
-              <mat-label>Selecione a representada</mat-label>
+              <mat-label>Selecione a representada*</mat-label>
               <mat-select formControlName="representada_id">
                 <mat-option *ngFor="let representada of representadas" [value]="representada.id">
                   {{representada.razao_social}}
@@ -170,7 +170,7 @@
           </div>
           <div class="p-10 aj" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
             <mat-form-field appearance="outline">
-              <mat-label>Embalagem do produto</mat-label>
+              <mat-label>Embalagem do produto*</mat-label>
               <input matInput placeholder="Embalagem do produto" formControlName="embalagem_nome">
             </mat-form-field>
           </div>
@@ -182,7 +182,7 @@
           </div> -->
           <div class="p-10 aj" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
             <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
-              <mat-label>Selecione a unidade</mat-label>
+              <mat-label>Selecione a unidade*</mat-label>
               <mat-select formControlName="embalagem_un">
                 <mat-option *ngFor="let unidade of unidades" [value]="unidade.id">
                   {{unidade.sigla}}
@@ -193,12 +193,12 @@
           </div>
           <div class="p-10 aj" fxFlex.gt-sm="14" fxFlex.gt-xs="14" fxFlex="100">
             <mat-form-field appearance="outline">
-              <mat-label>Qtd. Min</mat-label>
+              <mat-label>Qtd. Min*</mat-label>
               <input matInput placeholder="Quantidade" formControlName="embalagem_min">
             </mat-form-field>
           </div>
         </div>
-        <div fxLayout="row">
+        <div fxLayout="row wrap">
           <mat-form-field class="p-10 aj" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" appearance="outline">
             <mat-chip-list #chipListColor aria-label="Color selection">
               <mat-chip *ngFor="let color of colors" [selectable]="selectable" [removable]="removable"
@@ -206,7 +206,7 @@
                 {{color.nome}}
                 <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
               </mat-chip>
-              <input placeholder="Nova cor..." #colorInput [formControl]="colorCtrl" [matAutocomplete]="autoColor"
+              <input placeholder="Nova cor*..." #colorInput [formControl]="colorCtrl" [matAutocomplete]="autoColor"
                 [matChipInputFor]="chipListColor" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                 (matChipInputTokenEnd)="addColor($event)">
             </mat-chip-list>
@@ -215,9 +215,11 @@
                 {{color.nome}}
               </mat-option>
             </mat-autocomplete>
+            <mat-hint *ngIf="colorCtrl.touched && colors.length == 0"
+              class="text-danger font-14" fxFlex="100">Você precisa selecionar uma cor.</mat-hint>
           </mat-form-field>
         </div>
-        <div fxLayout="row">
+        <div fxLayout="row wrap" >
           <mat-form-field class="p-10 aj" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" appearance="outline">
             <mat-chip-list #chipList aria-label="Size selection">
               <mat-chip *ngFor="let size of sizes" [selectable]="selectable" [removable]="removable"
@@ -225,7 +227,7 @@
                 {{size.tamanho_id ? size.tamanho.nome : size.nome }}
                 <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
               </mat-chip>
-              <input placeholder="Novo tamanho..." #sizeInput [formControl]="sizeCtrl" [matAutocomplete]="auto"
+              <input required placeholder="Novo tamanho*..." #sizeInput [formControl]="sizeCtrl" [matAutocomplete]="auto"
                 [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                 (matChipInputTokenEnd)="add($event)">
             </mat-chip-list>
@@ -234,7 +236,10 @@
                 {{size.nome}}
               </mat-option>
             </mat-autocomplete>
+            <mat-hint *ngIf="sizeCtrl.touched && sizes.length == 0"
+              class="text-danger font-14" fxFlex="100">Você precisa selecionar um tamanho.</mat-hint>
           </mat-form-field>
+          
         </div>
         <div fxLayout="row">
           <mat-form-field class="p-10 aj" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" appearance="outline">
@@ -263,11 +268,11 @@
                 <h3>Preços Paraná</h3>
               </div>
               <mat-form-field appearance="outline">
-                <mat-label>Preço - Final</mat-label>
+                <mat-label>Preço - Final*</mat-label>
                 <input matInput placeholder="Preço PR- Final" formControlName="preco_pr_final" currencyMask>
               </mat-form-field>
               <mat-form-field appearance="outline">
-                <mat-label>Preço - Revenda</mat-label>
+                <mat-label>Preço - Revenda*</mat-label>
                 <input matInput placeholder="Preço PR - Revenda" formControlName="preco_pr_revenda" currencyMask>
               </mat-form-field>
             </div>
@@ -277,7 +282,7 @@
               <h3>Preço SP</h3>
             </div>
             <mat-form-field appearance="outline">
-              <mat-label>Preço</mat-label>
+              <mat-label>Preço*</mat-label>
               <input matInput placeholder="Preço" formControlName="preco_sp" currencyMask>
             </mat-form-field>
           </div>
@@ -286,7 +291,7 @@
               <h3>Preço SC</h3>
             </div>
             <mat-form-field appearance="outline">
-              <mat-label>Preço</mat-label>
+              <mat-label>Preço*</mat-label>
               <input matInput placeholder="Preço" formControlName="preco_sc" currencyMask>
             </mat-form-field>
           </div>
@@ -295,7 +300,7 @@
               <h3>Preço MS</h3>
             </div>
             <mat-form-field appearance="outline">
-              <mat-label>Preço</mat-label>
+              <mat-label>Preço*</mat-label>
               <input matInput placeholder="Preço" formControlName="preco_ms" currencyMask>
             </mat-form-field>
           </div>
@@ -309,7 +314,7 @@
     </div> -->
   </div>
   <mat-card-actions class="p-10" style="float: right;">
-    <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid"
+    <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid || sizes.length == 0"
       (click)="onSubmit();">Salvar</button>
     <button style="margin-left: 15px;" mat-raised-button color="warn" (click)="close()">Cancelar</button>
   </mat-card-actions>

@@ -1,8 +1,6 @@
 .dialog{
-  max-Width: '85vw';
-  max-Height: '105vh';
-  min-width: '75vw';
-  min-height: '95vh';
+  max-Width: '75vw';
+  max-Height: '45vh';
 }
 .bt{
   margin-left: 10px;

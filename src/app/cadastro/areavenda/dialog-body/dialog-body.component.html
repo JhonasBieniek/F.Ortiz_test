@@ -9,14 +9,14 @@
       </div>
       <div class="p-10" fxFlex.gt-sm="33.33" fxFlex.gt-xs="33.33" fxFlex="100">
         <mat-form-field appearance="outline">
-          <mat-label>Nome da área de venda</mat-label>
+          <mat-label>Nome da área de venda*</mat-label>
           <input matInput placeholder="Nome da área de venda" [formControl]="form.controls['nome']">
         </mat-form-field>
       </div>
       <div class="p-10" fxFlex.gt-sm="33.33" fxFlex.gt-xs="33.33" fxFlex="100">
         <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
           [floatLabel]="form.value.floatLabel">
-          <mat-label>Selecione a região...</mat-label>
+          <mat-label>Selecione a região*...</mat-label>
           <mat-select required [formControl]="form.controls['regiao_id']">
             <mat-option *ngFor="let regiao of regioes" [value]="regiao.id">
               {{regiao.nome}}
@@ -40,7 +40,7 @@
       <div class="p-10 pad" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
         <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
           [floatLabel]="form.value.floatLabel">
-          <mat-label>Selecione um vendedor...</mat-label>
+          <mat-label>Selecione um vendedor*...</mat-label>
           <mat-select required [formControl]="form.controls['vendedor_id']">
             <mat-option *ngFor="let vendedor of vendedores" [value]="vendedor.id">
               {{vendedor.nome}}
@@ -52,7 +52,7 @@
       <div class="p-10 pad" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
         <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
           [floatLabel]="form.value.floatLabel">
-          <mat-label>Selecione um(a) assistente...</mat-label>
+          <mat-label>Selecione um(a) assistente*...</mat-label>
           <mat-select required [formControl]="form.controls['auxiliar_id']">
             <mat-option *ngFor="let aux of auxiliares" [value]="aux.id">
               {{aux.nome}}
