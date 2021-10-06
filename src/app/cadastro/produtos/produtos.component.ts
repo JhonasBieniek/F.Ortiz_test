@@ -104,6 +104,7 @@ export class ProdutosComponent implements OnInit {
       this.refreshTable();
     });
   }
+
   refreshTable() {
     this.clientservice.getProdutosSoft().subscribe((res) => {
       this.data = res;
@@ -111,6 +112,7 @@ export class ProdutosComponent implements OnInit {
       this.temp = [...this.data.data];
     });
   }
+  
   delete(row) {
     const dialogConfig = new MatDialogConfig();
     let tipo = "produtos";
