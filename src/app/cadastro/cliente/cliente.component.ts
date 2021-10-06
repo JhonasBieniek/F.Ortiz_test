@@ -107,9 +107,10 @@ export class ClienteComponent implements OnInit {
       let dialogRef = this.dialog.open(DialogConfirmarDeleteComponent,
       dialogConfig   
     );
-    dialogRef.afterClosed().subscribe(value => 
-      { (value != 1) ? this.refreshTable() : null });
-    }
+    dialogRef.afterClosed().subscribe(value => { 
+      this.refreshTable() 
+    });
+  }
 
   refreshTable(){
     this.clientservice.getClientes().subscribe(res =>{
@@ -117,7 +118,7 @@ export class ClienteComponent implements OnInit {
       this.rows = this.dados.data.sort((a,b)=> a.id - b.id);
       this.temp = [...this.dados.data];
       setTimeout(() => { this.loadingIndicator = false; }, 1500);
-      });
+    });
   }
   ngOnInit() {
    
