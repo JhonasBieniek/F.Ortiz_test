@@ -1,15 +1,15 @@
 import { Component, OnInit, Input, EventEmitter, Output, ViewChild, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
-import { ClientService } from '../../shared/services/client.service.component';
-import { NotificationService } from '../../shared/messages/notification.service';
+import { ClientService } from '../../../shared/services/client.service.component';
+import { NotificationService } from '../../../shared/messages/notification.service';
 
-import { OrderItem } from '../order-item.model';
-import { ShoppingCartComponent } from '../shopping-cart/shopping-cart.component';
+import { OrderItem } from '../../order-item.model';
+import { ShoppingCartComponent } from '../../shopping-cart/shopping-cart.component';
 import { MatDialog, MatDialogConfig, MatDatepickerInputEvent, MatDialogRef, MAT_DIALOG_DATA, ErrorStateMatcher } from '@angular/material';
-import { ItemPedido } from '../itemPedido.model';
+import { ItemPedido } from '../../itemPedido.model';
 import * as moment from 'moment';
 import { Router, ActivatedRoute } from '@angular/router';
-import { DialogBodyClienteComponent } from '../../cadastro/cliente/dialog-body/dialog-body-cliente.component';
+import { DialogBodyClienteComponent } from '../../../cadastro/cliente/dialog-body/dialog-body-cliente.component';
 import { switchMap } from 'rxjs/operators';
 import { DialogProdPedidoComponent } from './dialog-prod-pedido/dialog-prod-pedido.component';
 import { Observable } from 'rxjs/Observable';

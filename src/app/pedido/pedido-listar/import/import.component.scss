@@ -57,6 +57,18 @@
   font-weight: 400;
 }
 
+.descontoSuffix .mat-form-field-suffix {
+  top: 0 !important;
+  padding-left: 3px;
+}
+
 .custom-datatable ngx-datatable.material .datatable-header .datatable-header-cell {
   font-size: 10px !important;
+}
+.desconto{
+  text-align: right;
+}
+input.desconto::-webkit-outer-spin-button,
+input.desconto::-webkit-inner-spin-button {
+  display: none;
 }

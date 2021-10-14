@@ -7,6 +7,7 @@ import { NotificationService } from './messages/notification.service';
 import { ClientService } from './services/client.service.component';
 import { OrderService } from './services/order.service.component';
 import { GoogleService } from './services/google.service.component';
+import { ImportService } from './services/import.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { GoogleService } from './services/google.service.component';
     NotificationService,
     ClientService,
     OrderService,
-    GoogleService
+    GoogleService,
+    ImportService
   ]
 })
 export class SharedModule {}

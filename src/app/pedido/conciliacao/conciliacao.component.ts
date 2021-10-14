@@ -14,7 +14,7 @@ import {pluck, switchMap, map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-conciliacao',
-  templateUrl: '../default.html',
+  templateUrl: './conciliacao.component.html',
   styleUrls: ['./conciliacao.component.css'],
   encapsulation: ViewEncapsulation.None
 
