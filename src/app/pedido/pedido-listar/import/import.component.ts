@@ -736,8 +736,7 @@ export class ImportComponent implements OnInit {
   }
 
   enviarPedido() {
-    console.log(this.form.value)
-    /*if (this.currentAction == "edit") {
+    if (this.currentAction == "edit") {
       this.clientservice.updatePedido(this.form.value).subscribe((res: any) => {
         this.notificationService.notify("Atualizado com Sucesso!");
         this.dialogRef.close(res.data);
@@ -752,7 +751,7 @@ export class ImportComponent implements OnInit {
           this.dialogRef.close(res.data);
         }
       });
-    }*/
+    }
   }
 
   clearProdutos() {
