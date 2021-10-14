@@ -171,7 +171,6 @@ export class NovoComponent implements OnInit {
             this.form.controls["num_pedido"].setValue("");
             this.form.controls["situacao"].setValue("pendente");
           }
-          console.log(pedido.data);
           this.setAreaDeVenda(pedido.data.cliente_representada_area_vendas);
           this.razaoSocial =
             pedido.data.cliente.razao_social + " - " + pedido.data.cliente.cnpj;
@@ -424,7 +423,6 @@ export class NovoComponent implements OnInit {
     this.clientservice
       .getProdRepCli(this.representada.id, (this.form.get('cliente_id').value) || this.pedidoN.cliente_id)
       .subscribe((res: any) => {
-        console.log(res.data)
         this.rows = res.data;
         this.temp = [...this.rows];
       });
@@ -595,10 +593,12 @@ export class NovoComponent implements OnInit {
     let subst = this.form.get("subst").value > 0 ? this.form.get("subst").value : 0 ;
     this.form.get("valor_liquido").setValue(total - desconto);
     this.form.get("valor_total").setValue(Math.round(( total + ipi - desconto + subst) * 100) / 100);
-    if (this.form.get("valor_total").value > this.ValorTotal){
-      this.disabled = true;
-    }else{
-      this.disabled = false;
+    if(this.ValorTotal > 0){  
+      if (this.form.get("valor_total").value > this.ValorTotal){
+        this.disabled = true;
+      }else{
+        this.disabled = false;
+      }
     }  
     if (tipo == "total") return this.form.get("valor_total").value;
     else if (tipo == "ipi") return ipi;
