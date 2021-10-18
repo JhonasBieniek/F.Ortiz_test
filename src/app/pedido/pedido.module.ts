@@ -55,6 +55,7 @@ import { FaturamentoComponent } from './relatorios/faturamento/faturamento.compo
 import { BaseComponent } from './relatorios/base/base.component'; 
 import { ViewOrcamentoComponent } from './view-orcamento/view-orcamento.component';
 import { DialogMailComponent } from './view-orcamento/dialog-mail/dialog-mail.component';
+import { FileDragNDropDirective } from './pedido-listar/file-drag-n-drop.directive';
 
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
@@ -93,7 +94,22 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
     DialogEditNotaComponent, 
     DialogEstornarComponent, 
     DialogDevolucaoComponent, 
-    ViewPedidoOrcamentoComponent,ViewOrcamentoComponent, DialogProdPedidoComponent, PedidosComponent, ProdutosVendidosComponent, ProdutosVendidosPorClientesComponent, RankingComponent, ClientesSemCompraComponent, ComparativoVendasComponent, ComparativoVendasClientesComponent, NotasComponent, ConsumoComponent, FaturamentoComponent, BaseComponent, DialogMailComponent
+    ViewPedidoOrcamentoComponent,
+    ViewOrcamentoComponent,
+    DialogProdPedidoComponent, 
+    PedidosComponent, 
+    ProdutosVendidosComponent, 
+    ProdutosVendidosPorClientesComponent, 
+    RankingComponent, 
+    ClientesSemCompraComponent, 
+    ComparativoVendasComponent, 
+    ComparativoVendasClientesComponent, 
+    NotasComponent, 
+    ConsumoComponent, 
+    FaturamentoComponent, 
+    BaseComponent, 
+    DialogMailComponent,
+    FileDragNDropDirective
   ],
   providers: [
     DateFormatPipe,

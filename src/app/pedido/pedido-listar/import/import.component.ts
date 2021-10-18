@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output, ViewChild, ViewEncapsulation, Inject, LOCALE_ID } from "@angular/core";
+import { Component, OnInit, Input, EventEmitter, Output, ViewChild, ViewEncapsulation, Inject } from "@angular/core";
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from "@angular/forms";
 import { ClientService } from "../../../shared/services/client.service.component";
 import { NotificationService } from "../../../shared/messages/notification.service";
@@ -101,6 +101,11 @@ export class ImportComponent implements OnInit {
   ) {
     this.clientservice.getRepresentadasFunc().subscribe((res: any) => {
       this.representadas = res.data;
+      this.representadas.map((d) => {
+        if (d.id == info.representada_id)
+          this.representada = d;
+      });
+      this.receiveFile();
     });
     this.getClientes();
     this.clientservice.getCondComerciais().subscribe((res: any) => {
@@ -114,6 +119,7 @@ export class ImportComponent implements OnInit {
   ngOnInit() {
     this.createdForm();
     this.setCurrentAction();
+    //this.receiveFile();
   }
 
   ngAfterContentChecked(): void {
@@ -134,30 +140,40 @@ export class ImportComponent implements OnInit {
 
   private setPageTitle() {
     if (this.currentAction == "importar") {
-      this.pageTitle = "Importar Pedido: ";
+      this.pageTitle = "Importar Pedido - ";
     }
   }
 
-  async incomingfile(event) {
-    var file: File;
-    this.itemsNew = [];
-    file = event.target.files[0];
-    if (file != undefined) {
-      this.spinner.show();
-      let json = await this.importservice.importarPedido(file, this.representada)
-      this.createdForm();
-      this.form.get("representada_id").setValue(this.representada.id);
-      this[this.representada.func](json.json, json.itens);
-      //console.log(json);
-    }
+  async receiveFile(){
+    this.spinner.show();
+    let json = await this.importservice.importarPedido(this.info.file, this.representada);
+    this.createdForm();
+    this.form.get("representada_id").setValue(this.representada.id);
+    // console.log(json)
+    this.spinner.hide();
+    this[this.representada.func](json.json, json.itens);
   }
 
-  setRepresentada(id){
-    this.representadas.map((d) => {
-      if (d.id == id)
-        this.representada = d;
-    });
-  }
+  // async incomingfile(event) {
+  //   var file: File;
+  //   this.itemsNew = [];
+  //   file = event[0];
+  //   if (file != undefined) {
+  //     this.spinner.show();
+  //     let json = await this.importservice.importarPedido(file, this.representada)
+  //     this.createdForm();
+  //     this.form.get("representada_id").setValue(this.representada.id);
+  //     this[this.representada.func](json.json, json.itens);
+  //     //console.log(json);
+  //   }
+  // }
+
+  // setRepresentada(id){
+  //   this.representadas.map((d) => {
+  //     if (d.id == id)
+  //       this.representada = d;
+  //   });
+  // }
 
   async volk(data, itens) {
     this.condComercial = data[12][1];
@@ -420,7 +436,10 @@ export class ImportComponent implements OnInit {
   }
 
   getRazaoSocial(clienteId: string) {
-    let cliente = this.clientes$.find((cliente) => cliente.id === clienteId);
+    let cliente;
+    if(clienteId != undefined){
+      cliente = this.clientes$.find((cliente) => cliente.id === clienteId);
+    }
     if (cliente != undefined) {
       return cliente.razao_social + " - " + cliente.cnpj;
     } else {
@@ -666,8 +685,9 @@ export class ImportComponent implements OnInit {
         this.getClientes();
         this.setAreaDeVenda(res.data.cliente_representada_area_vendas);
         this.CarregarProdutosRepresentada();
+      }else{
+        this.notificationService.notify("cliente não cadastrado, selecione um cliente");
       }
-
     });
   }
 

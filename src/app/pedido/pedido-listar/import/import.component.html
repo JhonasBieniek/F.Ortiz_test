@@ -1,284 +1,301 @@
-  <!-- ============================================================== -->
-  <!-- row -->
-  <!-- ============================================================== -->
-  <input type="file" style="display: none" (change)="incomingfile($event)" accept=".xlsx,.xls" #hiddenfileinput >
-  <div fxLayout="row wrap">
-    <!-- Card column -->
-    <div fxFlex.gt-sm="100%" fxFlex="100">
-          <form [formGroup]="form" class="form">
-            <div fxLayout="row" fxLayoutAlign="left center" class="row">
-              <div class="p-10" fxFlex.gt-sm="35" fxFlex.gt-md="35" fxFlex.gt-xs="35" fxFlex="100">
-                <mat-card-title>{{pageTitle}}</mat-card-title>
-              </div>
-              <div *ngIf="this.currentAction == 'importar'" class="p-10 select" fxFlex.gt-sm="30" fxFlex.gt-md="30" fxFlex.gt-xs="30" fxFlex="30">
-                <mat-form-field appearance="outline">
-                  <mat-label class="select">{{selectRepresentada}}</mat-label>
-                  <mat-select formControlName="representada_id">
-                    <mat-option [value]="18" (click)="hiddenfileinput.click(); setRepresentada(18);">CAMPER</mat-option>
-                    <mat-option [value]="9" (click)="hiddenfileinput.click(); setRepresentada(9);">VOLK</mat-option>
-                    <mat-option [value]="20" (click)="hiddenfileinput.click(); setRepresentada(20);">BETTANIN</mat-option>
-                    <mat-option [value]="1" (click)="hiddenfileinput.click(); setRepresentada(1);">CALFOR PAMPEANA</mat-option>
-                    <!-- <mat-option *ngFor="let rep of representadas" [value]="rep.id" (click)="hiddenfileinput.click(rep.func); representada=rep">{{rep.nome_fantasia}}</mat-option> -->
-                  </mat-select>
-                </mat-form-field>
-              </div> 
+<!-- ============================================================== -->
+<!-- row -->
+<!-- ============================================================== -->
+<!-- <input type="file" style="display: none" (change)="incomingfile($event)" accept=".xlsx,.xls" #hiddenfileinput>
+
+<div fileDragDrop (filesChangeEmiter)="incomingfile($event)" style="width: 200px;">
+  <div class="text-wrapper">
+    <div class="centered">
+      <input type="file" name="file" id="file" (change)="incomingfile($event.target.files)">
+      <label for="file"><span class="textLink">BETTANIN</span></label>
+    </div>
+  </div>
+</div> -->
+
+<div fxLayout="row wrap">
+  <!-- Card column -->
+  <div fxFlex.gt-sm="100%" fxFlex="100">
+    <form [formGroup]="form" class="form">
+      <div fxLayout="row" fxLayoutAlign="center center" class="row">
+        <div class="p-10" fxFlex.gt-sm="35" fxFlex.gt-md="35" fxFlex.gt-xs="35" fxFlex="100">
+          <mat-card-title>{{pageTitle}} {{representada?.nome_fantasia}}</mat-card-title>
+        </div>
+        <!-- <div *ngIf="this.currentAction == 'importar'" class="p-10 select" fxFlex.gt-sm="30" fxFlex.gt-md="30"
+          fxFlex.gt-xs="30" fxFlex="30">
+          <mat-form-field appearance="outline">
+            <mat-label class="select">{{selectRepresentada}}</mat-label>
+            <mat-select formControlName="representada_id">
+              <mat-option [value]="18" (click)="hiddenfileinput.click(); setRepresentada(18);">CAMPER</mat-option>
+              <mat-option [value]="9" (click)="hiddenfileinput.click(); setRepresentada(9);">VOLK</mat-option>
+              <mat-option [value]="20" (click)="hiddenfileinput.click(); setRepresentada(20);">BETTANIN</mat-option>
+              <mat-option [value]="1" (click)="hiddenfileinput.click(); setRepresentada(1);">CALFOR PAMPEANA</mat-option>
+              <mat-option *ngFor="let rep of representadas" [value]="rep.id" (click)="hiddenfileinput.click(rep.func); representada=rep">{{rep.nome_fantasia}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div> -->
+      </div>
+      <h4 color="primary" class="dialog-headline">Dados do Pedido</h4>
+      <div fxLayout="row wrap" class="row">
+        <div class="p-10" fxFlex.gt-sm={{pedidoSize}} fxFlex.gt-xs={{pedidoSize}} fxFlex="100">
+          <mat-form-field appearance="outline">
+            <mat-label>Nº Pedido</mat-label>
+            <input matInput placeholder="Nº Pedido" formControlName="num_pedido">
+          </mat-form-field>
+        </div>
+
+        <div class="p-10" *ngIf="form.controls['representada_id'].value != null" fxFlex.gt-sm={{clientSize}}
+          fxFlex.gt-xs={{clientSize}} fxFlex="100">
+          <mat-form-field appearance="outline">
+            <mat-label>Cliente</mat-label>
+            <input matInput (keyup)="searchClientes($event)" formControlName="cliente_id" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="getRazaoSocial.bind(this)">
+              <mat-option style="font-size:7.5pt;" *ngFor="let cliente of clientes" [value]="cliente.id"
+                (click)="CarregarProdutosRepresentada(); setAreaDeVenda(cliente.cliente_representada_area_vendas)">
+                <span>{{cliente.razao_social}} - {{cliente.cnpj}}</span></mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div class="p-10" fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="50">
+          <mat-form-field appearance="outline">
+            <mat-label>Data de Emissão</mat-label>
+            <input matInput [matDatepicker]="pickerEmissao" formControlName="data_emissao" placeholder="Data Emissao">
+            <mat-datepicker-toggle matSuffix [for]="pickerEmissao"></mat-datepicker-toggle>
+            <mat-datepicker #pickerEmissao></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div class="p-10" fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="50">
+          <mat-form-field appearance="outline">
+            <mat-label>Data de Entrega</mat-label>
+            <input matInput [matDatepicker]="pickerEntrega" formControlName="data_entrega"
+              placeholder="Data Programada">
+            <mat-datepicker-toggle matSuffix [for]="pickerEntrega"></mat-datepicker-toggle>
+            <mat-datepicker #pickerEntrega></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="row wrap" class="row">
+        <div class="p-10 pad" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="20">
+          <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+            [floatLabel]="form.value.floatLabel">
+            <mat-label>Cond. comercial</mat-label>
+            <mat-select formControlName="condicao_comercial_id">
+              <mat-option *ngFor="let condComercial of condComerciais" [value]="condComercial.id">
+                {{condComercial.nome}}
+              </mat-option>
+            </mat-select>
+            <mat-placeholder>Condição Comercial</mat-placeholder>
+          </mat-form-field>
+          <div style="font-size: 9px; margin-top: -15px; color:red">{{condComercial}}</div>
+        </div>
+
+        <div class="p-10 pad" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="50">
+          <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+            [floatLabel]="form.value.floatLabel">
+            <mat-label>Área de venda</mat-label>
+            <mat-select formControlName="area_venda_id">
+              <mat-option *ngFor="let area of areas" [value]="area.id" (click)="setAreaDeVenda(area.id)">
+                {{area.nome}}
+              </mat-option>
+            </mat-select>
+            <mat-placeholder>Região</mat-placeholder>
+          </mat-form-field>
+        </div>
+
+        <div class="p-10 pad" fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="50">
+          <mat-form-field appearance="outline" class="descontoSuffix">
+            <input matInput placeholder="Desconto" class="desconto" type="number" min="0" max="100" step="0.0001"
+              formControlName="desconto">
+            <span matSuffix class="descontoSuffix">%</span>
+          </mat-form-field>
+        </div>
+
+        <div class="p-10 pad" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="50">
+          <mat-form-field appearance="outline">
+            <input matInput placeholder="Observação" formControlName="obs">
+          </mat-form-field>
+        </div>
+
+        <div class="p-10" style="margin-top:-15px; margin-right: -10px" fxFlex.gt-sm="30" fxFlex.gt-xs="30"
+          fxFlex="100">
+          <label class="m-r-10">Frete :</label>
+          <mat-radio-group formControlName="frete">
+            <mat-radio-button value="Representada" class="m-r-10">Representada</mat-radio-button>
+            <mat-radio-button value="Cliente">Cliente</mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+        <div class="p-10 pad" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
+          <mat-form-field appearance="outline">
+            <mat-label>Transportadora</mat-label>
+            <input matInput placeholder="Insira a transportadora" formControlName="transportadora">
+          </mat-form-field>
+        </div>
+
+        <div class="p-10" fxFlex.gt-sm="5" fxFlex.gt-xs="5" fxFlex="15">
+        </div>
+
+        <div class="p-10" style="margin-top:-15px; margin-right: 10px" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="15">
+          <section>
+            <mat-checkbox [(ngModel)]="checked" [ngModelOptions]="{standalone: true}">Pedido Programado
+            </mat-checkbox>
+          </section>
+        </div>
+        <div *ngIf="checked" class="p-10 pad" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="50">
+          <mat-form-field appearance="outline">
+            <mat-label>Data Programada</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="data_programada" placeholder="Data Programada">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+      </div>
+      <div fxLayout="row wrap">
+        <div fxFlex.gt-sm="100%" fxFlex="100">
+          <h4 color="primary" class="dialog-headline">Selecione o Produto</h4>
+          <mat-form-field>
+            <input matInput type='text' class="form-control" placeholder='Digite para filtrar...'
+              (keyup)='updateFilter($event)' />
+          </mat-form-field>
+          <ngx-datatable #table class='material striped' [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50"
+            [rowHeight]="'auto'" [limit]="5" [rows]='rows' [loadingIndicator]="loadingIndicator" [selected]="selected"
+            [selectionType]="'single'" (select)='onSelect($event)'>
+
+            <ngx-datatable-column [flexGrow]="0.5" name="Código" prop="codigo_catalogo">
+              <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                {{ value }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [flexGrow]="1.5" name="Nome" prop="nome">
+              <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                {{ value }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [flexGrow]="0.5" name="Embalagem" prop="produto_embalagem">
+              <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                {{ value.nome }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [flexGrow]="0.5" name="Minímo" prop="produto_embalagem">
+              <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                {{ value.minimo }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [flexGrow]="0.5" name="Unidade" prop="produto_embalagem">
+              <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                {{ value.unidade.sigla }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [flexGrow]="1" name="Cores" prop="produto_cores">
+              <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                {{ transform(value) }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [flexGrow]="1" name="Tamanhos" prop="produto_tamanhos">
+              <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                {{ transform(value) }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [flexGrow]="0.5" name="Preço" prop="produto_estados_precos">
+              <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                {{ value[0]?.preco | currency:'BRL':true:'1.2-2' }}
+              </ng-template>
+            </ngx-datatable-column>
+
+          </ngx-datatable>
+        </div>
+        <div *ngIf="form.get('pedido_produtos').controls.length !=0" fxFlex.gt-sm="100%" class="m-t-30" fxFlex="100">
+          <h4 color="primary" class="dialog-headline">Itens do pedido</h4>
+        </div>
+        <div formArrayName="pedido_produtos">
+          <div *ngFor="let produto of form.get('pedido_produtos').controls; index as i" [formGroupName]="i">
+            <div class="cart"> {{produto.get('codigo_catalogo').value}} - {{produto.get('nome').value | slice:0:55}}
+              <button (click)="removeItem(i)" mat-icon-button color="warn">
+                <mat-icon class="remove">clear</mat-icon>
+              </button>
             </div>
-            <h4 color="primary" class="dialog-headline">Dados do Pedido</h4>
-            <div fxLayout="row wrap" class="row">
-              <div class="p-10" fxFlex.gt-sm={{pedidoSize}} fxFlex.gt-xs={{pedidoSize}} fxFlex="100">
-                <mat-form-field appearance="outline">
-                  <mat-label>Nº Pedido</mat-label>
-                  <input matInput placeholder="Nº Pedido" formControlName="num_pedido">
+            <ng-container>
+              <div fxLayout="row wrap">
+                <mat-form-field fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="12" appearance="outline">
+                  <mat-label>Qtd.</mat-label>
+                  <input matInput placeholder="Qtd" formControlName="quantidade" (blur)="setTotal(i)">
                 </mat-form-field>
-              </div>
-
-              <div class="p-10" *ngIf="form.controls['representada_id'].value != null" fxFlex.gt-sm={{clientSize}} fxFlex.gt-xs={{clientSize}}  fxFlex="100">
-                <mat-form-field appearance="outline">
-                  <mat-label>Cliente</mat-label>
-                  <input matInput (keyup)="searchClientes($event)" formControlName="cliente_id" [matAutocomplete]="auto">
-                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="getRazaoSocial.bind(this)">
-                    <mat-option style="font-size:7.5pt;" *ngFor="let cliente of clientes" [value]="cliente.id"
-                    (click)="CarregarProdutosRepresentada(); setAreaDeVenda(cliente.cliente_representada_area_vendas)"> <span>{{cliente.razao_social}} - {{cliente.cnpj}}</span></mat-option>
-                  </mat-autocomplete>
+                <mat-form-field fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="12" appearance="outline">
+                  <mat-label>Cor</mat-label>
+                  <input matInput placeholder="Cor" formControlName="cor">
                 </mat-form-field>
-              </div>
-              <div class="p-10" fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="50">
-                <mat-form-field appearance="outline" >
-                  <mat-label>Data de Emissão</mat-label>
-                  <input matInput  [matDatepicker]="pickerEmissao"
-                  formControlName="data_emissao" placeholder="Data Emissao">
-                  <mat-datepicker-toggle matSuffix [for]="pickerEmissao"></mat-datepicker-toggle>
-                  <mat-datepicker #pickerEmissao ></mat-datepicker>
+                <mat-form-field fxFlex.gt-sm="32" fxFlex.gt-xs="32" fxFlex="32" appearance="outline">
+                  <mat-label>Embalagem</mat-label>
+                  <input matInput placeholder="Embalagem" formControlName="embalagem">
                 </mat-form-field>
-              </div>
-
-              <div class="p-10" fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="50">
-                <mat-form-field appearance="outline">
-                  <mat-label>Data de Entrega</mat-label>
-                  <input matInput  [matDatepicker]="pickerEntrega" formControlName="data_entrega" placeholder="Data Programada">
-                  <mat-datepicker-toggle matSuffix [for]="pickerEntrega"></mat-datepicker-toggle>
-                  <mat-datepicker #pickerEntrega></mat-datepicker>
+                <mat-form-field fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="12" appearance="outline">
+                  <mat-label>IPI</mat-label>
+                  <input matInput placeholder="IPI" formControlName="ipi" mask="percent" suffix="%">
                 </mat-form-field>
-              </div>
-            </div>
-            <div fxLayout="row wrap" class="row">
-              <div class="p-10 pad" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="20">
-                <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
-                  [floatLabel]="form.value.floatLabel">
-                  <mat-label>Cond. comercial</mat-label>
-                  <mat-select formControlName="condicao_comercial_id">
-                    <mat-option *ngFor="let condComercial of condComerciais" [value]="condComercial.id">
-                      {{condComercial.nome}}
-                    </mat-option>
-                  </mat-select>
-                  <mat-placeholder>Condição Comercial</mat-placeholder>
+                <mat-form-field fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="15" appearance="outline">
+                  <mat-label>Valor Unit.</mat-label>
+                  <input matInput placeholder="Valor Unit." formControlName="valor_unitario" (blur)="setTotal(i)"
+                    currencyMask>
                 </mat-form-field>
-                <div style="font-size: 9px; margin-top: -15px; color:red">{{condComercial}}</div>
-              </div>
-              
-              <div class="p-10 pad" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="50">
-                <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
-                  [floatLabel]="form.value.floatLabel">
-                  <mat-label>Área de venda</mat-label>
-                  <mat-select formControlName="area_venda_id">
-                    <mat-option *ngFor="let area of areas" [value]="area.id" (click)="setAreaDeVenda(area.id)">
-                      {{area.nome}}
-                    </mat-option>
-                  </mat-select>
-                  <mat-placeholder>Região</mat-placeholder>
+                <mat-form-field fxFlex.gt-sm="16" fxFlex.gt-xs="16" fxFlex="16" appearance="outline">
+                  <mat-label>Comissão</mat-label>
+                  <input matInput placeholder="Comissão" formControlName="comissao_produto" mask="percent" suffix="%">
                 </mat-form-field>
-              </div>
-
-              <div class="p-10 pad" fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="50">
-                <mat-form-field appearance="outline" class="descontoSuffix">
-                  <input matInput placeholder="Desconto" class="desconto" type="number"  min="0" max="100" step="0.0001" formControlName="desconto">
-                  <span matSuffix class="descontoSuffix">%</span>
+                <mat-form-field fxFlex.gt-sm="14" class="itens" fxFlex.gt-xs="14" fxFlex="14" appearance="outline">
+                  <mat-label>Tamanho</mat-label>
+                  <input matInput placeholder="Tamanho" formControlName="tamanho">
                 </mat-form-field>
-              </div>
-
-              <div class="p-10 pad" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="50">
-                <mat-form-field appearance="outline">
+                <mat-form-field fxFlex.gt-sm="15" class="itens" fxFlex.gt-xs="15" fxFlex="15" appearance="outline">
+                  <mat-label>Vlr total</mat-label>
+                  <input matInput placeholder="Vlr total" currencyMask formControlName="valor_total">
+                </mat-form-field>
+                <mat-form-field fxFlex.gt-sm="70" class="itens" fxFlex.gt-xs="70" fxFlex="70" appearance="outline">
+                  <mat-label>Observação</mat-label>
                   <input matInput placeholder="Observação" formControlName="obs">
                 </mat-form-field>
               </div>
-
-              <div class="p-10" style="margin-top:-15px; margin-right: -10px" fxFlex.gt-sm="30" fxFlex.gt-xs="30"
-                fxFlex="100">
-                <label class="m-r-10">Frete :</label>
-                <mat-radio-group formControlName="frete" >
-                  <mat-radio-button value="Representada" class="m-r-10">Representada</mat-radio-button>
-                  <mat-radio-button value="Cliente">Cliente</mat-radio-button>
-                </mat-radio-group>
-              </div>
-
-              <div class="p-10 pad" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
-                <mat-form-field appearance="outline">
-                  <mat-label>Transportadora</mat-label>
-                  <input matInput placeholder="Insira a transportadora" formControlName="transportadora">
-                </mat-form-field>
-              </div>
-
-              <div class="p-10" fxFlex.gt-sm="5" fxFlex.gt-xs="5" fxFlex="15">
-              </div>
-
-              <div class="p-10" style="margin-top:-15px; margin-right: 10px" fxFlex.gt-sm="15" fxFlex.gt-xs="15"
-                fxFlex="15">
-                <section>
-                  <mat-checkbox [(ngModel)]="checked" [ngModelOptions]="{standalone: true}">Pedido Programado
-                  </mat-checkbox>
-                </section>
-              </div>
-              <div *ngIf="checked" class="p-10 pad" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="50">
-                <mat-form-field appearance="outline">
-                  <mat-label>Data Programada</mat-label>
-                  <input matInput [matDatepicker]="picker" formControlName="data_programada"
-                    placeholder="Data Programada">
-                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                  <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
-              </div>
-
-            </div>
-            <div fxLayout="row wrap">
-              <div fxFlex.gt-sm="100%" fxFlex="100">
-                <h4 color="primary" class="dialog-headline">Selecione o Produto</h4>
-                <mat-form-field>
-                  <input matInput type='text' class="form-control" placeholder='Digite para filtrar...'
-                    (keyup)='updateFilter($event)' />
-                </mat-form-field>
-                <ngx-datatable #table class='material striped' [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50"
-                [rowHeight]="'auto'" [limit]="5" [rows]='rows' [loadingIndicator]="loadingIndicator" [selected]="selected"
-                [selectionType]="'single'" (select)='onSelect($event)'>
-    
-                <ngx-datatable-column [flexGrow]="0.5" name="Código" prop="codigo_catalogo">
-                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                    {{ value }}
-                  </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column [flexGrow]="1.5" name="Nome" prop="nome">
-                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                    {{ value }}
-                  </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column [flexGrow]="0.5" name="Embalagem" prop="produto_embalagem">
-                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                    {{ value.nome }}
-                  </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column [flexGrow]="0.5" name="Minímo" prop="produto_embalagem">
-                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                    {{ value.minimo }}
-                  </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column [flexGrow]="0.5" name="Unidade" prop="produto_embalagem">
-                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                    {{ value.unidade.sigla }}
-                  </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column [flexGrow]="1" name="Cores" prop="produto_cores">
-                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                    {{ transform(value) }}
-                  </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column [flexGrow]="1" name="Tamanhos" prop="produto_tamanhos">
-                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                    {{ transform(value) }}
-                  </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column [flexGrow]="0.5" name="Preço" prop="produto_estados_precos">
-                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                    {{ value[0]?.preco  | currency:'BRL':true:'1.2-2' }}
-                  </ng-template>
-                </ngx-datatable-column>
-    
-              </ngx-datatable>
-              </div>
-              <div *ngIf="form.get('pedido_produtos').controls.length !=0" fxFlex.gt-sm="100%" class="m-t-30" fxFlex="100">
-                <h4 color="primary" class="dialog-headline">Itens do pedido</h4>
-              </div>
-              <div formArrayName="pedido_produtos">
-                <div *ngFor="let produto of form.get('pedido_produtos').controls; index as i" [formGroupName]="i">
-                  <div class="cart"> {{produto.get('codigo_catalogo').value}} - {{produto.get('nome').value | slice:0:55}}
-                    <button (click)="removeItem(i)" mat-icon-button color="warn">
-                      <mat-icon class="remove">clear</mat-icon>
-                    </button>
-                  </div>
-                  <ng-container>
-                    <div fxLayout="row wrap">
-                      <mat-form-field fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="12" appearance="outline">
-                        <mat-label>Qtd.</mat-label>
-                        <input matInput placeholder="Qtd" formControlName="quantidade" (blur)="setTotal(i)" >
-                      </mat-form-field>
-                      <mat-form-field fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="12" appearance="outline">
-                        <mat-label>Cor</mat-label>
-                        <input matInput placeholder="Cor" formControlName="cor" >
-                      </mat-form-field> 
-                      <mat-form-field fxFlex.gt-sm="32" fxFlex.gt-xs="32" fxFlex="32" appearance="outline">
-                        <mat-label>Embalagem</mat-label>
-                        <input matInput placeholder="Embalagem" formControlName="embalagem" >
-                      </mat-form-field>
-                      <mat-form-field fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="12" appearance="outline">
-                        <mat-label>IPI</mat-label>
-                        <input matInput placeholder="IPI" formControlName="ipi" mask="percent" suffix="%"
-                          >
-                      </mat-form-field>
-                      <mat-form-field fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="15" appearance="outline">
-                        <mat-label>Valor Unit.</mat-label>
-                        <input matInput placeholder="Valor Unit." formControlName="valor_unitario" (blur)="setTotal(i)" currencyMask
-                          >
-                      </mat-form-field>
-                      <mat-form-field fxFlex.gt-sm="16" fxFlex.gt-xs="16" fxFlex="16" appearance="outline">
-                        <mat-label>Comissão</mat-label>
-                        <input matInput placeholder="Comissão" formControlName="comissao_produto" mask="percent" suffix="%"
-                          >
-                      </mat-form-field>
-                      <mat-form-field fxFlex.gt-sm="14" class="itens" fxFlex.gt-xs="14" fxFlex="14" appearance="outline">
-                        <mat-label>Tamanho</mat-label>
-                        <input matInput placeholder="Tamanho" formControlName="tamanho" >
-                      </mat-form-field>
-                      <mat-form-field fxFlex.gt-sm="15" class="itens"  fxFlex.gt-xs="15" fxFlex="15" appearance="outline">
-                        <mat-label>Vlr total</mat-label>
-                        <input matInput placeholder="Vlr total" currencyMask formControlName="valor_total" >
-                      </mat-form-field>
-                      <mat-form-field fxFlex.gt-sm="70" class="itens" fxFlex.gt-xs="70" fxFlex="70" appearance="outline">
-                        <mat-label>Observação</mat-label>
-                        <input matInput placeholder="Observação" formControlName="obs" >
-                      </mat-form-field>
-                    </div>
-                  </ng-container>
-                </div>
-                <div *ngIf="form.get('pedido_produtos').controls.length > 0" fxLayoutAlign="end center" >
-                  <button mat-button color="warn" (click)="clearProdutos()"><i class="material-icons">delete_outline</i>Limpar</button>
-                </div>
-              </div>
-            </div>
-          </form>
-          <div class="geral" *ngIf="valorTotal() != 0">
-            <tr>
-              <th style="color: green;">Valor Total da Nota: {{ValorTotal | currency:'BRL':true:'1.2-2'}} <span style="color: red;" *ngIf="valorTotal('total') > ValorTotal"> Valor da nota diferente do total dos produtos, {{ descontoNecessario(valorTotal('total')) }} % . <button mat-button (click)="aplicarDesconto(descontoNecessario(valorTotal('total')))" color="primary">Aplicar Desconto</button></span> </th>
-            </tr>
-            <tr>
-              <th style="color: green;">Valor Total dos Produtos: {{valorTotal('total') | currency:'BRL':true:'1.2-2'}}</th>
-            </tr>
-            <tr>
-              <th style="color: rgb(97, 199, 122);">Valor Líquido dos Produtos: {{valorTotal('liq') | currency:'BRL':true:'1.2-2'}}</th>
-            </tr>
-            <tr *ngIf="form.controls['subst'].value > 0">
-              <th>Subst.: {{ form.controls['subst'].value | currency:'BRL':true:'1.2-2'}}</th>
-            </tr>
-            <tr>
-              <th>IPI: {{valorTotal('ipi') | currency:'BRL':true:'1.2-2'}}</th>
-            </tr>
-            <tr>
-              <th>Comissão Média(%): {{comissaoMedia()}}%</th>
-            </tr>
-            <tr>
-              <th>Comissão Bruta($): {{comissaoBruta() | currency:'BRL':true:'1.2-2'}}</th>
-            </tr>
+            </ng-container>
           </div>
-          <div style="margin-top: 20px; margin-left:5px">
-            <button mat-stroked-button color="primary" (click)="enviarPedido()" [disabled]="!form.valid || disabled">Finalizar</button>
-            <button mat-stroked-button color="warn" (click)="dialogRef.close()" >Cancelar</button>
+          <div *ngIf="form.get('pedido_produtos').controls.length > 0" fxLayoutAlign="end center">
+            <button mat-button color="warn" (click)="clearProdutos()"><i
+                class="material-icons">delete_outline</i>Limpar</button>
           </div>
+        </div>
+      </div>
+    </form>
+    <div class="geral" *ngIf="valorTotal() != 0">
+      <tr>
+        <th style="color: green;">Valor Total da Nota: {{ValorTotal | currency:'BRL':true:'1.2-2'}} <span
+            style="color: red;" *ngIf="valorTotal('total') > ValorTotal"> Valor da nota diferente do total dos produtos,
+            {{ descontoNecessario(valorTotal('total')) }} % . <button mat-button
+              (click)="aplicarDesconto(descontoNecessario(valorTotal('total')))" color="primary">Aplicar
+              Desconto</button></span> </th>
+      </tr>
+      <tr>
+        <th style="color: green;">Valor Total dos Produtos: {{valorTotal('total') | currency:'BRL':true:'1.2-2'}}</th>
+      </tr>
+      <tr>
+        <th style="color: rgb(97, 199, 122);">Valor Líquido dos Produtos: {{valorTotal('liq') |
+          currency:'BRL':true:'1.2-2'}}</th>
+      </tr>
+      <tr *ngIf="form.controls['subst'].value > 0">
+        <th>Subst.: {{ form.controls['subst'].value | currency:'BRL':true:'1.2-2'}}</th>
+      </tr>
+      <tr>
+        <th>IPI: {{valorTotal('ipi') | currency:'BRL':true:'1.2-2'}}</th>
+      </tr>
+      <tr>
+        <th>Comissão Média(%): {{comissaoMedia()}}%</th>
+      </tr>
+      <tr>
+        <th>Comissão Bruta($): {{comissaoBruta() | currency:'BRL':true:'1.2-2'}}</th>
+      </tr>
+    </div>
+    <div style="margin-top: 20px; margin-left:5px">
+      <button mat-stroked-button color="primary" (click)="enviarPedido()"
+        [disabled]="!form.valid || disabled">Finalizar</button>
+      <button mat-stroked-button color="warn" (click)="dialogRef.close()">Cancelar</button>
     </div>
   </div>
+</div>

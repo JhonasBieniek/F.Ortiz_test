@@ -9,6 +9,7 @@ import { NovoComponent } from './novo/novo.component';
 import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 import { ViewPedidoOrcamentoComponent } from '../view-pedido/view-pedido.component';
 import { ExcelService } from '../../shared/services/excel.service';
+import { ImportService } from '../../shared/services/import.service';
 
 
 @Component({
@@ -46,7 +47,8 @@ export class PedidoListarComponent implements OnInit {
   @ViewChild(PedidoListarComponent, {static: true}) table: PedidoListarComponent;
   constructor(
     private clientservice: ClientService,
-    private dialog: MatDialog) {
+    private dialog: MatDialog,
+    private importservice: ImportService) {
       this.loadData()      
   }
   
@@ -150,6 +152,28 @@ export class PedidoListarComponent implements OnInit {
     this.defaultTab = event.index;
     window.dispatchEvent(new Event('resize'));
     this.selected =[];
+  }
+
+  async incomingfile(event, representada_id) {
+    var file: File;
+    file = event[0];
+    if (file != undefined) {
+      this.dialogConfig.data = { 
+        tipo: 'importar',
+        file: file,
+        representada_id: representada_id
+      };
+      let dialogRef = this.dialog.open(ImportComponent, this.dialogConfig);
+      dialogRef.afterClosed().subscribe(value => {
+        this.loadData();
+      })
+      // //this.spinner.show();
+      // let json = await this.importservice.importarPedido(file, this.representada)
+      // this.createdForm();
+      // this.form.get("representada_id").setValue(this.representada.id);
+      // this[this.representada.func](json.json, json.itens);
+      //console.log(json);
+    }
   }
 
 }
