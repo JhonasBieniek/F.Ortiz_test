@@ -160,9 +160,16 @@ export class ImportComponent implements OnInit {
   }
 
   async volk(data, itens) {
+    this.condComercial = data[12][1];
+    this.condComerciais.map((x) => {
+      if(x.nome.toLowerCase() === this.condComercial.toLowerCase()){
+        this.form.get("condicao_comercial_id").setValue(x.id);
+        this.condComercial = "";
+      }
+    });
+    
     var clienteCnpj = data[7][3].toString().length == 13 ? "0" + data[7][3] : data[7][3];
     var pedido = data[21][12] != undefined ? data[6][1] + "/" + data[21][12] : data[6][1];
-    this.condComercial = data[12][1];
     this.form.get("num_pedido").setValue(pedido);
     this.form.get("transportadora").setValue(data[18][2]);
     this.form.get("data_emissao").setValue(moment(data[6][3].replace(/\//g, "-"), "DD-MM-YYYY").format("YYYY-MM-DD"));
@@ -210,6 +217,12 @@ export class ImportComponent implements OnInit {
     
     if (data[itens.final + 1][0] == "Valor total em produtos:") {
       this.condComercial = data[itens.final + 4][0].split(":")[1].replace("  Data de Emissão", "").trim();
+      this.condComerciais.map((x) => {
+        if(x.nome.toLowerCase() === this.condComercial.toLowerCase()){
+          this.form.get("condicao_comercial_id").setValue(x.id);
+          this.condComercial = "";
+        }
+      });
       this.form.get("data_emissao").setValue(moment(data[itens.final + 4][0].split(":")[2], "DD-MM-YYYY").format("YYYY-MM-DD"));
       info = data[itens.final + 8];
       if(info != null) {
@@ -261,6 +274,12 @@ export class ImportComponent implements OnInit {
 
   async kadesh(data, itens) {
     this.condComercial = data[12][0].split(" ")[0] + " " + data[12][0].split(" ")[1];
+    this.condComerciais.map((x) => {
+      if(x.nome.toLowerCase() === this.condComercial.toLowerCase()){
+        this.form.get("condicao_comercial_id").setValue(x.id);
+        this.condComercial = "";
+      }
+    });
 
     let clienteCnpj = data[7][0].toString().match(new RegExp("\\d{14}", "g"))[0];
     this.form.get("num_pedido").setValue(data[3][0]);
@@ -297,6 +316,14 @@ export class ImportComponent implements OnInit {
 
   async betanin(data, itens) {
     this.condComercial = data[2][26] == "Cod. Pagto." ? data[2][30] : data[2][31];
+    this.condComerciais.map((x) => {
+      if(x.nome.toLowerCase() === this.condComercial.toLowerCase()){
+        this.form.get("condicao_comercial_id").setValue(x.id);
+        this.condComercial = "";
+      }
+    });
+    
+    console.log()
     let clienteCnpj = data[5][3].replace(/[^\d]+/g, "");
     clienteCnpj = clienteCnpj.length == 13 ? "0" + clienteCnpj : clienteCnpj;
     this.form.get("num_pedido").setValue(data[1][26] == "Ordem SAP" ? data[1][30] : data[1][31]);
@@ -334,8 +361,13 @@ export class ImportComponent implements OnInit {
   }
 
   async italbotas(data, itens) {
-
     this.condComercial = data[6][18];
+    this.condComerciais.map((x) => {
+      if(x.nome.toLowerCase() === this.condComercial.toLowerCase()){
+        this.form.get("condicao_comercial_id").setValue(x.id);
+        this.condComercial = "";
+      }
+    });
 
     let clienteCnpj = data[5][17];
     clienteCnpj = clienteCnpj.length == 13 ? "0" + clienteCnpj : clienteCnpj;
