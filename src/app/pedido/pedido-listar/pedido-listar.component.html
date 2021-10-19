@@ -4,7 +4,7 @@
       <mat-card-content>
         <mat-card-title style="font-weight: bold;font-size: x-large;">{{page.titulo}}</mat-card-title>
         <mat-card-actions align="end">
-          <div>
+          <div style="margin-top: 10px; margin-right: 10px;">
             <button mat-raised-button color="primary" type="button" (click)="add('novo')">
               <mat-icon class="example-icon">add_box</mat-icon> {{page.add.titulo}}
             </button>
@@ -13,8 +13,29 @@
               <mat-icon class="example-icon">add_box</mat-icon> {{page.import.titulo}}
             </button> -->
           </div>
+          <div style="width: 240px; font-size: 13px;">
+            <mat-form-field appearance="outline">
+              <mat-label class="select">Selecione a Representada</mat-label>
+              <mat-select [(ngModel)]="representada">
+                <mat-option [value]="18" >CAMPER</mat-option>
+                <mat-option [value]="9" >VOLK</mat-option>
+                <mat-option [value]="20" >BETTANIN</mat-option>
+                <mat-option [value]="1" >CALFOR PAMPEANA</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          
 
-          <div fileDragDrop (filesChangeEmiter)="incomingfile($event, 18)" class="m-l-10 m-r-10">
+          <div class="dropzone" fileDragDrop (filesChangeEmiter)="incomingfile($event)" *ngIf="representada != null">
+            <div class="text-wrapper">
+              <div class="centered">
+                <input type="file" name="file" id="file" (change)="incomingfile($event.target.files)" [(ngModel)]="fileInput">
+                <label for="file"><span class="textLink"><mat-icon class="example-icon">add_box</mat-icon>Selecione</span> <br><br>ou Arraste aqui!</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div fileDragDrop (filesChangeEmiter)="incomingfile($event, 18)" class="m-l-10 m-r-10">
             <div class="text-wrapper">
               <div class="centered">
                 <input type="file" name="file" id="file" (change)="incomingfile($event.target.files, 18)" [(ngModel)]="camper">
@@ -45,7 +66,7 @@
                 <label for="file4" style="cursor: pointer;"><span class="textLink"><mat-icon class="example-icon">add_box</mat-icon> Calfor</span></label>
               </div>
             </div>
-          </div>
+          </div> -->
 
         </mat-card-actions>
       </mat-card-content>

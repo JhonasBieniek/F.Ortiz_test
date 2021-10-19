@@ -1,87 +1,97 @@
 .buttonP {
-    padding: 6px 9px;
-    font-size: 14px;
-    text-align: center;
-    cursor: pointer;
-    outline: none;
-    color: rgb(3, 3, 3);
-    border: none;
-    border-radius: 10px;
-  }
-  
-  .buttonP:hover {background-color: #1e88e5}
-  
-  .buttonP:active {
-    background-color: #519fe2;
-    box-shadow: 0 2px #666;
-    transform: translateY(2px);
-  }
-  .buttonP2 {
-    padding: 6px 9px;
-    font-size: 18px;
-    text-align: center;
-    cursor: pointer;
-    outline: none;
-    color: rgb(3, 3, 3);
-    border: none;
-    border-radius: 10px;
-  }
-  
-  .buttonP2:hover {background-color: red}
-  
-  .buttonP2:active {
-    background-color:red;
-    box-shadow: 0 2px #666;
-    transform: translateY(2px);
-  }
+  padding: 6px 9px;
+  font-size: 14px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: rgb(3, 3, 3);
+  border: none;
+  border-radius: 10px;
+}
 
-  .ngx-datatable.material .datatable-body .datatable-body-row .datatable-body-cell {
-    text-align: left;
-    padding: 0.3rem 1.2rem;
-    vertical-align: top;
-    border-top: 0;
-    color: rgba(0, 0, 0, 0.87);
-    -webkit-transition: width 0.3s ease;
-    transition: width 0.3s ease;
-    font-size: 11px;
-    font-weight: 400;
-  }
-  
-  .custom-datatable ngx-datatable.material .datatable-header .datatable-header-cell {
-    font-size: 10px !important;
-  }
+.buttonP:hover {
+  background-color: #1e88e5;
+}
 
-  /* css for import drag and drop  */
+.buttonP:active {
+  background-color: #519fe2;
+  box-shadow: 0 2px #666;
+  transform: translateY(2px);
+}
+.buttonP2 {
+  padding: 6px 9px;
+  font-size: 18px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: rgb(3, 3, 3);
+  border: none;
+  border-radius: 10px;
+}
 
-  .text-wrapper {
-    margin-top: 3px;
-  }
-  
-  .centered {
-    font-family: sans-serif;
-    font-size: 1.3em;
-    text-align: center;
-    
-  }
-  .centered label {
-    cursor: pointer;
-  }
-  input[type="file"] {
-    display: none;
-  }
-  
-  .textLink {
-    background-color: #e91e63;
-    color: #fff;
-    padding: 8px;
-    border-radius: 5px;
-    box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
-    font-family: Poppins;
-    font-size: 14px;
-    font-weight: 500;
-  }
-  
-  .example-icon {
-    vertical-align: -webkit-baseline-middle;
-    vertical-align: middle;
-  }
+.buttonP2:hover {
+  background-color: red;
+}
+
+.buttonP2:active {
+  background-color: red;
+  box-shadow: 0 2px #666;
+  transform: translateY(2px);
+}
+
+.ngx-datatable.material .datatable-body .datatable-body-row .datatable-body-cell {
+  text-align: left;
+  padding: 0.3rem 1.2rem;
+  vertical-align: top;
+  border-top: 0;
+  color: rgba(0, 0, 0, 0.87);
+  -webkit-transition: width 0.3s ease;
+  transition: width 0.3s ease;
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.custom-datatable ngx-datatable.material .datatable-header .datatable-header-cell {
+  font-size: 10px !important;
+}
+
+/* css for import drag and drop  */
+
+.text-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.centered {
+  font-family: sans-serif;
+  font-size: 13px;
+  text-align: center;
+}
+
+.dropzone {
+  margin-top: -50px;
+  margin-left: 10px;
+  height: 150px;
+  display: table;
+  width: 200px;
+  background-color: #eee;
+  border: dotted 1px #aaa;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.textLink {
+  cursor: pointer;
+  background-color: #f45e61;
+  color: #fff;
+  padding: 8px;
+  font-size: 13px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.example-icon {
+  vertical-align: -webkit-baseline-middle;
+  vertical-align: middle;
+}

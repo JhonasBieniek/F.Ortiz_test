@@ -33,10 +33,8 @@ export class PedidoListarComponent implements OnInit {
   steps: any = this.page.pedidos;
   defaultTab = 0;
   action: string = "pedido";
-  camper = null;
-  volk = null;
-  bettanin = null;
-  calfor = null;
+  fileInput = null;
+  representada = null;
 
   itemSelected
 
@@ -158,14 +156,14 @@ export class PedidoListarComponent implements OnInit {
     this.selected =[];
   }
 
-  async incomingfile(event, representada_id) {
+  async incomingfile(event) {
     var file: File;
     file = event[0];
     if (file != undefined) {
       this.dialogConfig.data = { 
         tipo: 'importar',
         file: file,
-        representada_id: representada_id
+        representada_id: this.representada
       };
       let dialogRef = this.dialog.open(ImportComponent, this.dialogConfig);
       dialogRef.afterClosed().subscribe(value => {
@@ -175,10 +173,7 @@ export class PedidoListarComponent implements OnInit {
     }
   }
   clearInputs(){
-    this.camper = null;
-    this.volk = null;
-    this.bettanin = null;
-    this.calfor = null;
+    this.fileInput = null;
   }
 
 }

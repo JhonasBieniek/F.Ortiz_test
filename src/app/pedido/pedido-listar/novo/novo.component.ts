@@ -40,6 +40,7 @@ export class NovoComponent implements OnInit {
   selectedCliente: string;
   selectedCondComerciais: string;
   selectedAreaVenda;
+  areaVendaError: string = '';
 
   data: any = [];
   editing = {};
@@ -103,7 +104,13 @@ export class NovoComponent implements OnInit {
     this.clientservice.getRepresentadasFunc().subscribe((res: any) => {
       this.representadas = res.data;
     });
-    this.getClientes();
+
+    this.createdForm();
+
+    this.clientservice.getClientes().subscribe((res: any) => {
+      this.clientes$ = res.data;
+      this.loadPedido();
+    });
     this.clientservice.getCondComerciais().subscribe((res: any) => {
       this.condComerciais = res.data;
     });
@@ -113,9 +120,7 @@ export class NovoComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.createdForm();
     this.setCurrentAction();
-    this.loadPedido();
   }
 
   ngAfterContentChecked(): void {
@@ -162,16 +167,13 @@ export class NovoComponent implements OnInit {
         (pedido: any) => {
           this.pedidoN = pedido.data;
           this.representada = pedido.data.representada;
-          this.CarregarProdutosRepresentada();
           this.pedidoN.pedido_produtos.forEach((element) => {
             this.addItemEdit(element);
           });
           this.form.patchValue(this.pedidoN);
-          if (this.currentAction == "clone") {
-            this.form.controls["num_pedido"].setValue("");
-            this.form.controls["situacao"].setValue("pendente");
-          }
-          this.setAreaDeVenda(pedido.data.cliente_representada_area_vendas);
+          this.form.controls["area_venda_id"].setValue(pedido.data.area_venda_id.id);
+          this.CarregarProdutosRepresentada();
+          //this.setAreaDeVenda(pedido.data.area_venda_id);
           this.razaoSocial =
             pedido.data.cliente.razao_social + " - " + pedido.data.cliente.cnpj;
         },
@@ -182,14 +184,13 @@ export class NovoComponent implements OnInit {
         (pedido: any) => {
           this.pedidoN = pedido.data;
           this.representada = pedido.data.representada;
-          this.CarregarProdutosRepresentada();
           this.pedidoN.pedido_produtos.forEach((element) => {
             this.addItem(element);
           });
           this.form.patchValue(this.pedidoN);
           this.form.controls["num_pedido"].setValue("");
           this.form.controls["situacao"].setValue("pendente");
-          this.setAreaDeVenda(pedido.data.cliente_representada_area_vendas);
+          this.setAreaDeVenda(pedido.data.area_venda_id);
           this.razaoSocial =
             pedido.data.cliente.razao_social + " - " + pedido.data.cliente.cnpj;
         },
@@ -233,7 +234,10 @@ export class NovoComponent implements OnInit {
   }
 
   getRazaoSocial(clienteId: string) {
-    let cliente = this.clientes$.find((cliente) => cliente.id === clienteId);
+    let cliente;
+    if(clienteId != undefined && this.clientes$ != undefined){
+      cliente = this.clientes$.find((cliente) => cliente.id === clienteId);
+    }
     if (cliente != undefined) {
       return cliente.razao_social + " - " + cliente.cnpj;
     } else {
@@ -258,7 +262,7 @@ export class NovoComponent implements OnInit {
       regiao_id: [null],
       area_venda_id: [null, Validators.compose([Validators.required])],
       num_pedido: [null, Validators.compose([Validators.required])],
-      frete: [null],
+      frete: [null, Validators.required],
       transportadora: [null],
       valor_total: [null, Validators.compose([Validators.required])],
       valor_liquido: [null],
@@ -274,7 +278,7 @@ export class NovoComponent implements OnInit {
       desconto: [null],
       subst: [null],
       situacao: ["pendente"],
-      pedido_produtos: this.fb.array([]),
+      pedido_produtos: this.fb.array([], [Validators.required]),
     });
     this.produto = this.form.get("pedido_produtos") as FormArray;
   }
@@ -317,10 +321,10 @@ export class NovoComponent implements OnInit {
         embalagem: item.embalagem,
         tamanho: item.tamanho,
         ipi: item.ipi != null ? parseFloat(item.ipi) : 0,
-        valor_unitario: [item.valor_unitario, Validators.required],
+        valor_unitario: [item.valor_unitario, Validators.compose([Validators.required, Validators.min(0.01)])],
         valor_total: [
           item.quantidade * item.valor_unitario,
-          Validators.required,
+          Validators.compose([Validators.required, Validators.min(0.01)]),
         ],
         comissao_produto:
           item.comissao != null
@@ -333,7 +337,7 @@ export class NovoComponent implements OnInit {
     );
   }
   addProduto(item: any) {
-    console.log(item, "item");
+    //console.log(item, "item");
     this.produto.push(
       this.fb.group({
         codigo_catalogo: item.codigo_catalogo || item.produto.codigo_catalogo,
@@ -344,10 +348,10 @@ export class NovoComponent implements OnInit {
         embalagem: item.embalagem,
         tamanho: item.tamanho,
         ipi: item.ipi != null ? parseFloat(item.ipi) : 0,
-        valor_unitario: [item.valor_unitario, Validators.required],
+        valor_unitario: [item.valor_unitario, Validators.compose([Validators.required, Validators.min(0.01)])],
         valor_total: [
           item.quantidade * item.valor_unitario,
-          Validators.required,
+          Validators.compose([Validators.required, Validators.min(0.01)])
         ],
         comissao_produto:
           item.comissao != null
@@ -359,32 +363,69 @@ export class NovoComponent implements OnInit {
       })
     );
   }
-
+  
+  areadeVendaDisplay(){
+    if(this.form.get("area_venda_id").value != null){
+      return 'afonso'
+    }else{
+      return ''
+    }
+  }
   setAreaDeVenda(areas) {
-    if(areas != null && areas.length > 0){
+    if (areas != null && areas.length > 0) {
       let area = areas;
       if (typeof (areas) != 'number') {
         area = areas.filter(area => area.representada_id == this.representada.id);
-        area = area[0].area_venda_id;
       }
-      this.clientservice.getAreaVendaId(area).subscribe((res: any) => {
-        if (res.data != null) {
-          this.form.get("area_venda_id").setValue(res.data.id);
-          this.form.get("vendedor_id").setValue(res.data.vendedor_id);
-          this.form.get("auxiliar_id").setValue(res.data.auxiliar_id);
-          this.form.get("regiao_id").setValue(res.data.regiao_id);
-          this.comissao_auxiliar = res.data.auxiliar.comissoes.find(
-            (e) => e.representada_id == this.representada.id
-          );
-          this.comissao_vendedor = res.data.vendedor.comissoes.find(
-            (e) => e.representada_id == this.representada.id
-          );
-          this.comissaoVendedorAuxiliar();
-        }else{
-          this.notificationService.notify("Cliente não possui área de Venda!");
-        }
-      });
-    }else{
+      if(area.length > 0){
+        area = area[0].area_venda_id;
+        this.clientservice.getAreaVendaId(area).subscribe((res: any) => {
+          if (res.data != null) {
+            this.form.get("area_venda_id").setValue(res.data.id);
+            this.form.get("vendedor_id").setValue(res.data.vendedor_id);
+            this.form.get("auxiliar_id").setValue(res.data.auxiliar_id);
+            this.form.get("regiao_id").setValue(res.data.regiao_id);
+            this.areaVendaError = ""
+            this.comissao_auxiliar = res.data.auxiliar.comissoes.find(
+              (e) => e.representada_id == this.representada.id
+            );
+            this.comissao_vendedor = res.data.vendedor.comissoes.find(
+              (e) => e.representada_id == this.representada.id
+            );
+            this.comissaoVendedorAuxiliar();
+            this.CarregarProdutosRepresentada(); 
+          } else {
+            this.areaVendaError = "Cliente não possui área de venda cadastrada, verifique antes de prosseguir!"
+            this.notificationService.notify("Cliente não possui área de Venda!");
+          }
+        });
+      }else{
+        this.areaVendaError = "Cliente não possui área de venda cadastrada, verifique antes de prosseguir!"
+        this.notificationService.notify("Cliente não possui área de Venda!");
+      }
+    }else if(areas != null){
+        this.clientservice.getAreaVendaId(areas.id).subscribe((res: any) => {
+          if (res.data != null) {
+            this.form.get("area_venda_id").setValue(res.data.id);
+            this.form.get("vendedor_id").setValue(res.data.vendedor_id);
+            this.form.get("auxiliar_id").setValue(res.data.auxiliar_id);
+            this.form.get("regiao_id").setValue(res.data.regiao_id);
+            this.areaVendaError = ""
+            this.comissao_auxiliar = res.data.auxiliar.comissoes.find(
+              (e) => e.representada_id == this.representada.id
+            );
+            this.comissao_vendedor = res.data.vendedor.comissoes.find(
+              (e) => e.representada_id == this.representada.id
+            );
+            this.comissaoVendedorAuxiliar();
+            this.CarregarProdutosRepresentada(); 
+          } else {
+            this.areaVendaError = "Cliente não possui área de venda cadastrada, verifique antes de prosseguir!"
+            this.notificationService.notify("Cliente não possui área de Venda!");
+          }
+        });
+    }else {
+      this.areaVendaError = "Cliente não possui área de venda cadastrada, verifique antes de prosseguir!"
       this.notificationService.notify("Cliente não possui área de Venda!");
     }
   }
@@ -606,22 +647,32 @@ export class NovoComponent implements OnInit {
   }
 
   enviarPedido() {
-    if (this.currentAction == "edit") {
-      this.clientservice.updatePedido(this.form.value).subscribe((res: any) => {
-        this.notificationService.notify("Atualizado com Sucesso!");
-        this.dialogRef.close(res.data);
-      });
-    } else {
-      this.clientservice.addPedido(this.form.value).subscribe((res: any) => {
-        if (res.success == true) {
-          this.notificationService.notify(`Pedido Cadastrado com Sucesso!`);
+    if(this.form.valid){
+      if (this.currentAction == "edit") {
+        this.clientservice.updatePedido(this.form.value).subscribe((res: any) => {
+          this.notificationService.notify("Atualizado com Sucesso!");
           this.dialogRef.close(res.data);
-        } else {
-          this.notificationService.notify(`Erro contate o Administrador`);
-          this.dialogRef.close(res.data);
+        });
+      } else {
+        this.clientservice.addPedido(this.form.value).subscribe((res: any) => {
+          if (res.success == true) {
+            this.notificationService.notify(`Pedido Cadastrado com Sucesso!`);
+            this.dialogRef.close(res.data);
+          } else {
+            this.notificationService.notify(`Erro contate o Administrador`);
+            this.dialogRef.close(res.data);
+          }
+        });
+      }
+    }else{
+      this.form.markAllAsTouched();
+      if(this.form.get("pedido_produtos").valid == false){
+        if(this.form.get("pedido_produtos").value.length == 0){
+          this.notificationService.notify("É necessario selecionar ao menos um produto!");
         }
-      });
+      }
     }
+    
   }
 
   clearProdutos() {
