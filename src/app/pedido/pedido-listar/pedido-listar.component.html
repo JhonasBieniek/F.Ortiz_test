@@ -17,7 +17,7 @@
           <div fileDragDrop (filesChangeEmiter)="incomingfile($event, 18)" class="m-l-10 m-r-10">
             <div class="text-wrapper">
               <div class="centered">
-                <input type="file" name="file" id="file" (change)="incomingfile($event.target.files, 18)">
+                <input type="file" name="file" id="file" (change)="incomingfile($event.target.files, 18)" [(ngModel)]="camper">
                 <label for="file"><span class="textLink"><mat-icon class="example-icon">add_box</mat-icon> Camper</span></label>
               </div>
             </div>
@@ -25,7 +25,7 @@
           <div fileDragDrop (filesChangeEmiter)="incomingfile($event, 9)" class="m-r-10">
             <div class="text-wrapper">
               <div class="centered">
-                <input type="file" name="file" id="file2" (change)="incomingfile($event.target.files, 9)">
+                <input type="file" name="file" id="file2" (change)="incomingfile($event.target.files, 9)" [(ngModel)]="volk">
                 <label for="file2"><span class="textLink"><mat-icon class="example-icon">add_box</mat-icon> Volk</span></label>
               </div>
             </div>
@@ -33,7 +33,7 @@
           <div fileDragDrop (filesChangeEmiter)="incomingfile($event, 20)" class="m-r-10">
             <div class="text-wrapper">
               <div class="centered">
-                <input type="file" name="file" id="file3" (change)="incomingfile($event.target.files, 20)">
+                <input type="file" name="file" id="file3" (change)="incomingfile($event.target.files, 20)" [(ngModel)]="bettanin">
                 <label for="file3"><span class="textLink"><mat-icon class="example-icon">add_box</mat-icon> Bettanin</span></label>
               </div>
             </div>
@@ -41,7 +41,7 @@
           <div fileDragDrop (filesChangeEmiter)="incomingfile($event, 1)" >
             <div class="text-wrapper">
               <div class="centered">
-                <input type="file" name="file" id="file4" (change)="incomingfile($event.target.files, 1)">
+                <input type="file" name="file" id="file4" (change)="incomingfile($event.target.files, 1)" [(ngModel)]="calfor">
                 <label for="file4" style="cursor: pointer;"><span class="textLink"><mat-icon class="example-icon">add_box</mat-icon> Calfor</span></label>
               </div>
             </div>

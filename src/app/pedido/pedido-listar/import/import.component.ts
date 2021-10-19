@@ -99,27 +99,61 @@ export class ImportComponent implements OnInit {
     private importservice: ImportService,
     @Inject(MAT_DIALOG_DATA) public info: any
   ) {
-    this.clientservice.getRepresentadasFunc().subscribe((res: any) => {
-      this.representadas = res.data;
-      this.representadas.map((d) => {
-        if (d.id == info.representada_id)
-          this.representada = d;
-      });
-      this.receiveFile();
+    this.form = this.fb.group({
+      id: null,
+      representada_id: [null, Validators.compose([Validators.required])],
+      cliente_id: [null, Validators.compose([Validators.required])],
+      condicao_comercial_id: [null, Validators.compose([Validators.required])],
+      vendedor_id: [null, Validators.compose([Validators.required])],
+      auxiliar_id: [null, Validators.compose([Validators.required])],
+      regiao_id: [null],
+      area_venda_id: [null, Validators.compose([Validators.required])],
+      num_pedido: [null, Validators.compose([Validators.required])],
+      frete: [null],
+      transportadora: [null],
+      valor_total: [null, Validators.compose([Validators.required])],
+      valor_liquido: [null],
+      comissao_media: [null, Validators.compose([Validators.required])],
+      comissao_bruto: [null, Validators.compose([Validators.required])],
+      comissao_auxiliar: [null],
+      comissao_vendedor: [null],
+      status: [true, Validators.compose([Validators.required])],
+      obs: [null],
+      data_emissao: [null, Validators.compose([Validators.required])],
+      data_entrega: [null],
+      data_programada: [null],
+      desconto: [null],
+      subst: [null],
+      situacao: ["pendente"],
+      pedido_produtos: this.fb.array([]),
     });
-    this.getClientes();
+    this.produto = this.form.get("pedido_produtos") as FormArray;
+
     this.clientservice.getCondComerciais().subscribe((res: any) => {
       this.condComerciais = res.data;
     });
     this.clientservice.getAreaVenda().subscribe((res: any) => {
       this.areas = res.data;
     });
+
+    this.clientservice.getClientes().subscribe((res: any) => {
+      this.clientes$ = res.data;
+
+      this.clientservice.getRepresentadasFunc().subscribe((res: any) => {
+        this.representadas = res.data;
+        this.representadas.map((d) => {
+          if (d.id == info.representada_id)
+            this.representada = d;
+        });
+        this.receiveFile();
+      });
+
+    });
   }
 
-  ngOnInit() {
-    this.createdForm();
+
+  async ngOnInit() {
     this.setCurrentAction();
-    //this.receiveFile();
   }
 
   ngAfterContentChecked(): void {
@@ -145,9 +179,11 @@ export class ImportComponent implements OnInit {
   }
 
   async receiveFile(){
+    
     this.spinner.show();
+    //this.createdForm();
+    this.itemsNew = [];
     let json = await this.importservice.importarPedido(this.info.file, this.representada);
-    this.createdForm();
     this.form.get("representada_id").setValue(this.representada.id);
     // console.log(json)
     this.spinner.hide();
@@ -178,7 +214,7 @@ export class ImportComponent implements OnInit {
   async volk(data, itens) {
     this.condComercial = data[12][1];
     this.condComerciais.map((x) => {
-      if(x.nome.toLowerCase() === this.condComercial.toLowerCase()){
+      if(x.nome.toLowerCase() == this.condComercial.toLowerCase()){
         this.form.get("condicao_comercial_id").setValue(x.id);
         this.condComercial = "";
       }
@@ -234,7 +270,7 @@ export class ImportComponent implements OnInit {
     if (data[itens.final + 1][0] == "Valor total em produtos:") {
       this.condComercial = data[itens.final + 4][0].split(":")[1].replace("  Data de Emissão", "").trim();
       this.condComerciais.map((x) => {
-        if(x.nome.toLowerCase() === this.condComercial.toLowerCase()){
+        if(x.nome.toLowerCase() == this.condComercial.toLowerCase()){
           this.form.get("condicao_comercial_id").setValue(x.id);
           this.condComercial = "";
         }
@@ -291,7 +327,7 @@ export class ImportComponent implements OnInit {
   async kadesh(data, itens) {
     this.condComercial = data[12][0].split(" ")[0] + " " + data[12][0].split(" ")[1];
     this.condComerciais.map((x) => {
-      if(x.nome.toLowerCase() === this.condComercial.toLowerCase()){
+      if(x.nome.toLowerCase() == this.condComercial.toLowerCase()){
         this.form.get("condicao_comercial_id").setValue(x.id);
         this.condComercial = "";
       }
@@ -333,7 +369,7 @@ export class ImportComponent implements OnInit {
   async betanin(data, itens) {
     this.condComercial = data[2][26] == "Cod. Pagto." ? data[2][30] : data[2][31];
     this.condComerciais.map((x) => {
-      if(x.nome.toLowerCase() === this.condComercial.toLowerCase()){
+      if(x.nome.toLowerCase() == this.condComercial.toLowerCase()){
         this.form.get("condicao_comercial_id").setValue(x.id);
         this.condComercial = "";
       }
@@ -379,7 +415,7 @@ export class ImportComponent implements OnInit {
   async italbotas(data, itens) {
     this.condComercial = data[6][18];
     this.condComerciais.map((x) => {
-      if(x.nome.toLowerCase() === this.condComercial.toLowerCase()){
+      if(x.nome.toLowerCase() == this.condComercial.toLowerCase()){
         this.form.get("condicao_comercial_id").setValue(x.id);
         this.condComercial = "";
       }
@@ -437,7 +473,7 @@ export class ImportComponent implements OnInit {
 
   getRazaoSocial(clienteId: string) {
     let cliente;
-    if(clienteId != undefined){
+    if(clienteId != undefined && this.clientes$ != undefined){
       cliente = this.clientes$.find((cliente) => cliente.id === clienteId);
     }
     if (cliente != undefined) {
@@ -448,7 +484,7 @@ export class ImportComponent implements OnInit {
   }
 
   async getClientes() {
-    await this.clientservice.getClientes().subscribe((res: any) => {
+    this.clientservice.getClientes().subscribe((res: any) => {
       this.clientes$ = res.data;
     });
   }

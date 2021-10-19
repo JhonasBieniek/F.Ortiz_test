@@ -33,6 +33,10 @@ export class PedidoListarComponent implements OnInit {
   steps: any = this.page.pedidos;
   defaultTab = 0;
   action: string = "pedido";
+  camper = null;
+  volk = null;
+  bettanin = null;
+  calfor = null;
 
   itemSelected
 
@@ -166,14 +170,15 @@ export class PedidoListarComponent implements OnInit {
       let dialogRef = this.dialog.open(ImportComponent, this.dialogConfig);
       dialogRef.afterClosed().subscribe(value => {
         this.loadData();
+        this.clearInputs();
       })
-      // //this.spinner.show();
-      // let json = await this.importservice.importarPedido(file, this.representada)
-      // this.createdForm();
-      // this.form.get("representada_id").setValue(this.representada.id);
-      // this[this.representada.func](json.json, json.itens);
-      //console.log(json);
     }
+  }
+  clearInputs(){
+    this.camper = null;
+    this.volk = null;
+    this.bettanin = null;
+    this.calfor = null;
   }
 
 }
