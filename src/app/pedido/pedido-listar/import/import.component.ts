@@ -837,10 +837,11 @@ export class ImportComponent implements OnInit {
       this.clientservice.addPedido(this.form.value).subscribe((res: any) => {
         if (res.success == true) {
           this.notificationService.notify(`Pedido Cadastrado com Sucesso!`);
-          this.dialogRef.close(res.data);
+          this.dialogRef.close();
         } else {
           this.notificationService.notify(`Erro contate o Administrador`);
-          this.dialogRef.close(res.data);
+          console.log(res.data)
+          this.dialogRef.close();
         }
       });
     }else{

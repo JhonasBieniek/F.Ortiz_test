@@ -650,17 +650,24 @@ export class NovoComponent implements OnInit {
     if(this.form.valid){
       if (this.currentAction == "edit") {
         this.clientservice.updatePedido(this.form.value).subscribe((res: any) => {
-          this.notificationService.notify("Atualizado com Sucesso!");
-          this.dialogRef.close(res.data);
+          if (res.success == true) {  
+            this.notificationService.notify("Atualizado com Sucesso!");
+            this.dialogRef.close();
+          } else {
+            this.notificationService.notify(`Erro contate o Administrador`);
+            console.log(res.data)
+            this.dialogRef.close();
+          }
         });
       } else {
         this.clientservice.addPedido(this.form.value).subscribe((res: any) => {
           if (res.success == true) {
             this.notificationService.notify(`Pedido Cadastrado com Sucesso!`);
-            this.dialogRef.close(res.data);
+            this.dialogRef.close();
           } else {
             this.notificationService.notify(`Erro contate o Administrador`);
-            this.dialogRef.close(res.data);
+            console.log(res.data);
+            this.dialogRef.close();
           }
         });
       }
