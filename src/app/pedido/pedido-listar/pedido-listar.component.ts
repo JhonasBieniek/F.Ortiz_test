@@ -4,15 +4,17 @@ import { MatDialog, MatDialogConfig, DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORM
 import { Router} from '@angular/router';
 import page from './steps.json';
 import { DialogConfirmarDeleteComponent } from '../../cadastro/dialog-confirmar-delete/confirmar-delete.component';
-import { Novo2Component } from '../novo2/novo2.component';
+import { ImportComponent } from './import/import.component';
+import { NovoComponent } from './novo/novo.component';
 import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 import { ViewPedidoOrcamentoComponent } from '../view-pedido/view-pedido.component';
 import { ExcelService } from '../../shared/services/excel.service';
+import { ImportService } from '../../shared/services/import.service';
 
 
 @Component({
   selector: 'app-pedido-listar',
-  templateUrl: '../default.html',
+  templateUrl: './pedido-listar.component.html',
   styleUrls: ['./pedido-listar.component.css'],
   providers: [
     {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
@@ -31,6 +33,8 @@ export class PedidoListarComponent implements OnInit {
   steps: any = this.page.pedidos;
   defaultTab = 0;
   action: string = "pedido";
+  fileInput = null;
+  representada = null;
 
   itemSelected
 
@@ -45,7 +49,8 @@ export class PedidoListarComponent implements OnInit {
   @ViewChild(PedidoListarComponent, {static: true}) table: PedidoListarComponent;
   constructor(
     private clientservice: ClientService,
-    private dialog: MatDialog) {
+    private dialog: MatDialog,
+    private importservice: ImportService) {
       this.loadData()      
   }
   
@@ -80,9 +85,19 @@ export class PedidoListarComponent implements OnInit {
 
   add(tipo){
     this.dialogConfig.data = { 
-      tipo: tipo
+      tipo: 'novo'
     };
-    let dialogRef = this.dialog.open(Novo2Component, this.dialogConfig);
+    let dialogRef = this.dialog.open(NovoComponent, this.dialogConfig);
+    dialogRef.afterClosed().subscribe(value => {
+      this.loadData();
+    })
+  }
+
+  import(tipo){
+    this.dialogConfig.data = { 
+      tipo: 'importar'
+    };
+    let dialogRef = this.dialog.open(ImportComponent, this.dialogConfig);
     dialogRef.afterClosed().subscribe(value => {
       this.loadData();
     })
@@ -93,7 +108,7 @@ export class PedidoListarComponent implements OnInit {
       tipo: 'edit',
       pedido: row
     }
-    let dialogRef = this.dialog.open(Novo2Component, this.dialogConfig);
+    let dialogRef = this.dialog.open(NovoComponent, this.dialogConfig);
     dialogRef.afterClosed().subscribe(value =>{
       this.loadData();
     })
@@ -104,7 +119,7 @@ export class PedidoListarComponent implements OnInit {
       tipo: 'clone',
       pedido: row
     }
-    let dialogRef = this.dialog.open(Novo2Component, this.dialogConfig);
+    let dialogRef = this.dialog.open(NovoComponent, this.dialogConfig);
     dialogRef.afterClosed().subscribe(value =>{
       this.loadData();
     })
@@ -139,6 +154,26 @@ export class PedidoListarComponent implements OnInit {
     this.defaultTab = event.index;
     window.dispatchEvent(new Event('resize'));
     this.selected =[];
+  }
+
+  async incomingfile(event) {
+    var file: File;
+    file = event[0];
+    if (file != undefined) {
+      this.dialogConfig.data = { 
+        tipo: 'importar',
+        file: file,
+        representada_id: this.representada
+      };
+      let dialogRef = this.dialog.open(ImportComponent, this.dialogConfig);
+      dialogRef.afterClosed().subscribe(value => {
+        this.loadData();
+        this.clearInputs();
+      })
+    }
+  }
+  clearInputs(){
+    this.fileInput = null;
   }
 
 }

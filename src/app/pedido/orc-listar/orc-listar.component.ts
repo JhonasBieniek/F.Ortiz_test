@@ -3,15 +3,15 @@ import { ClientService } from '../../shared/services/client.service.component';
 import { MatDialog, MatDialogConfig, MatTabChangeEvent } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
 import page from './steps.json';
-import { OrcamentoComponent } from '../orcamento/orcamento.component';
+import { OrcamentoComponent } from './orcamento/orcamento.component';
 import { DialogConfirmarDeleteComponent } from '../../cadastro/dialog-confirmar-delete/confirmar-delete.component';
 import { ViewPedidoOrcamentoComponent } from '../view-pedido/view-pedido.component';
-import { Novo2Component } from '../novo2/novo2.component';
+import { ImportComponent } from '../pedido-listar/import/import.component';
 import { ViewOrcamentoComponent } from '../view-orcamento/view-orcamento.component';
 
 @Component({
   selector: 'app-orc-listar',
-  templateUrl: '../default.html',
+  templateUrl: './orc-listar.component.html',
   styleUrls: ['./orc-listar.component.css'],
   encapsulation: ViewEncapsulation.None
 })
@@ -70,6 +70,15 @@ export class OrcListarComponent implements OnInit {
       this.loadData();
     })
   }
+  // import(tipo) {
+  //   this.dialogConfig.data = {
+  //     tipo: tipo
+  //   };
+  //   let dialogRef = this.dialog.open(OrcamentoComponent, this.dialogConfig);
+  //   dialogRef.afterClosed().subscribe(value => {
+  //     this.loadData();
+  //   })
+  // }
   edit(row) {
     this.dialogConfig.data = {
       tipo: 'edit',
@@ -80,21 +89,21 @@ export class OrcListarComponent implements OnInit {
       this.loadData();
     })
   }
-  gerar(row){
-    this.dialogConfig.data = {
-      tipo: 'orc',
-      orc: row
-    }
-    let dialogRef = this.dialog.open(Novo2Component, this.dialogConfig);
-    dialogRef.afterClosed().subscribe(value =>{
-      if(value != undefined){
-        this.clientservice.updateOrcamento(
-          {id: row.id, orderGen: true}
-        ).subscribe( res => console.log(res))
-      }
-      this.loadData();
-    })
-  }
+  // gerar(row){
+  //   this.dialogConfig.data = {
+  //     tipo: 'orc',
+  //     orc: row
+  //   }
+  //   let dialogRef = this.dialog.open(ImportComponent, this.dialogConfig);
+  //   dialogRef.afterClosed().subscribe(value =>{
+  //     if(value != undefined){
+  //       this.clientservice.updateOrcamento(
+  //         {id: row.id, orderGen: true}
+  //       ).subscribe( res => console.log(res))
+  //     }
+  //     this.loadData();
+  //   })
+  // }
   view(row){
     this.dialogConfig.data = {
       tipo: 'orcamentos',

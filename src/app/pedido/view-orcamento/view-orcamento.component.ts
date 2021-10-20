@@ -7,7 +7,7 @@ import { LoginService } from '../../authentication/login/login.service';
 import { NotificationService } from '../../shared/messages/notification.service';
 import { ClientService } from '../../shared/services/client.service.component';
 import { GoogleService } from '../../shared/services/google.service.component';
-import { OrcamentoComponent } from '../orcamento/orcamento.component';
+import { OrcamentoComponent } from '../orc-listar/orcamento/orcamento.component';
 import { DialogMailComponent } from './dialog-mail/dialog-mail.component';
 
 @Component({

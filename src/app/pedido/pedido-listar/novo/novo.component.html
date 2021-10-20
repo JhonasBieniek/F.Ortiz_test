@@ -1,8 +1,6 @@
   <!-- ============================================================== -->
   <!-- row -->
   <!-- ============================================================== -->
-
-  <input type="file" style="display: none" (change)="incomingfile($event)" accept=".xlsx,.xls" #hiddenfileinput >
   <div fxLayout="row wrap">
     <!-- Card column -->
     <div fxFlex.gt-sm="100%" fxFlex="100">
@@ -11,14 +9,6 @@
               <div class="p-10" fxFlex.gt-sm="35" fxFlex.gt-md="35" fxFlex.gt-xs="35" fxFlex="100">
                 <mat-card-title>{{pageTitle}}</mat-card-title>
               </div>
-              <div *ngIf="this.currentAction == 'importar'" class="p-10 select" fxFlex.gt-sm="30" fxFlex.gt-md="30" fxFlex.gt-xs="30" fxFlex="30">
-                <mat-form-field appearance="outline">
-                  <mat-label  class="select">{{selectRepresentada}}</mat-label>
-                  <mat-select formControlName="representada_id">
-                    <mat-option *ngFor="let rep of representadas" [value]="rep.id" (click)="hiddenfileinput.click(rep.func); representada=rep">{{rep.nome_fantasia}}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div> 
             </div>
             <h4 color="primary" class="dialog-headline">Dados do Pedido</h4>
             <div fxLayout="row wrap" class="row">
@@ -28,7 +18,7 @@
                   <input matInput placeholder="Nº Pedido" formControlName="num_pedido">
                 </mat-form-field>
               </div>
-              <div class="p-10" *ngIf="this.currentAction != 'importar'" fxFlex.gt-sm="22" fxFlex.gt-xs="2" fxFlex="100">
+              <div class="p-10" fxFlex.gt-sm="22" fxFlex.gt-xs="2" fxFlex="100">
                 <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
                   [floatLabel]="form.value.floatLabel">
                   <mat-label>Representada.</mat-label>
@@ -48,7 +38,7 @@
                   <input matInput (keyup)="searchClientes($event)" formControlName="cliente_id" [matAutocomplete]="auto">
                   <mat-autocomplete #auto="matAutocomplete" [displayWith]="getRazaoSocial.bind(this)">
                     <mat-option style="font-size:7.5pt;" *ngFor="let cliente of clientes" [value]="cliente.id"
-                    (click)="CarregarProdutosRepresentada(); setAreaDeVenda(cliente.cliente_representada_area_vendas)"> <span>{{cliente.razao_social}} - {{cliente.cnpj}}</span></mat-option>
+                    (click)="setAreaDeVenda(cliente.cliente_representada_area_vendas)"> <span>{{cliente.razao_social}} - {{cliente.cnpj}}</span></mat-option>
                   </mat-autocomplete>
                 </mat-form-field>
               </div>
@@ -90,7 +80,8 @@
                 <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
                   [floatLabel]="form.value.floatLabel">
                   <mat-label>Área de venda</mat-label>
-                  <mat-select formControlName="area_venda_id">
+
+                  <mat-select formControlName="area_venda_id" disabled>
                     <mat-option *ngFor="let area of areas" [value]="area.id" (click)="setAreaDeVenda(area.id)">
                       {{area.nome}}
                     </mat-option>
@@ -100,8 +91,9 @@
               </div>
 
               <div class="p-10 pad" fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="50">
-                <mat-form-field appearance="outline">
-                  <input matInput placeholder="Desconto" mask="percent" suffix="%" formControlName="desconto">
+                <mat-form-field appearance="outline" class="descontoSuffix">
+                  <input matInput placeholder="Desconto" class="desconto" type="number"  min="0" max="100" step="0.0001" formControlName="desconto">
+                  <span matSuffix class="descontoSuffix">%</span>
                 </mat-form-field>
               </div>
 
@@ -118,6 +110,8 @@
                   <mat-radio-button value="Representada" class="m-r-10">Representada</mat-radio-button>
                   <mat-radio-button value="Cliente">Cliente</mat-radio-button>
                 </mat-radio-group>
+                <mat-hint *ngIf="form.get('frete').errors?.required && form.get('frete').touched"
+                class="text-danger font-14"><br>Frete Requerido.</mat-hint>
               </div>
 
               <div class="p-10 pad" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
@@ -148,7 +142,7 @@
               </div>
 
             </div>
-            <div fxLayout="row wrap">
+            <div fxLayout="row wrap" *ngIf="areaVendaError == '' ">
               <div fxFlex.gt-sm="100%" fxFlex="100">
                 <h4 color="primary" class="dialog-headline">Selecione o Produto</h4>
                 <mat-form-field>
@@ -196,7 +190,7 @@
                 </ngx-datatable-column>
                 <ngx-datatable-column [flexGrow]="0.5" name="Preço" prop="produto_estados_precos">
                   <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                    {{ value[0].preco  | currency:'BRL':true:'1.2-2' }}
+                    {{ value[0]?.preco  | currency:'BRL':true:'1.2-2' }}
                   </ng-template>
                 </ngx-datatable-column>
     
@@ -260,15 +254,26 @@
                   <button mat-button color="warn" (click)="clearProdutos()"><i class="material-icons">delete_outline</i>Limpar</button>
                 </div>
               </div>
-            </div>
+            </div>  
           </form>
-          
+          <div fxLayout="row wrap" *ngIf="areaVendaError != '' ">
+            <div fxFlex.gt-sm="100%" fxFlex="100" class="text-center p-10">
+              <h4 color="primary" class="dialog-headline">Requisitos</h4>
+              <p>{{areaVendaError}}</p>
+            </div>
+          </div>
           <div class="geral" *ngIf="valorTotal() != 0">
-            <tr>
-              <th style="color: green;">Valor Total da Nota: {{valorTotal('total') | currency:'BRL':true:'1.2-2'}}</th>
+            <tr *ngIf="ValorTotal > 0">
+              <th style="color: green;">Valor Total da Nota: {{ValorTotal | currency:'BRL':true:'1.2-2'}} <span style="color: red;" *ngIf="valorTotal('total') > ValorTotal"> Valor da nota diferente do total dos produtos, {{ descontoNecessario(valorTotal('total')) }} % . <button mat-button (click)="aplicarDesconto(descontoNecessario(valorTotal('total')))" color="primary">Aplicar Desconto</button></span> </th>
             </tr>
             <tr>
-              <th style="color: rgb(97, 199, 122);">Valor Líquido da Nota: {{valorTotal('liq') | currency:'BRL':true:'1.2-2'}}</th>
+              <th style="color: green;">Valor Total dos Produtos: {{valorTotal('total') | currency:'BRL':true:'1.2-2'}}</th>
+            </tr>
+            <tr>
+              <th style="color: rgb(97, 199, 122);">Valor Líquido dos Produtos: {{valorTotal('liq') | currency:'BRL':true:'1.2-2'}}</th>
+            </tr>
+            <tr *ngIf="form.controls['subst'].value > 0">
+              <th>Subst.: {{ form.controls['subst'].value | currency:'BRL':true:'1.2-2'}}</th>
             </tr>
             <tr>
               <th>IPI: {{valorTotal('ipi') | currency:'BRL':true:'1.2-2'}}</th>
@@ -281,7 +286,7 @@
             </tr>
           </div>
           <div style="margin-top: 20px; margin-left:5px">
-            <button mat-stroked-button color="primary" (click)="enviarPedido()" [disabled]="!form.valid">Finalizar</button>
+            <button mat-stroked-button color="primary" (click)="enviarPedido()" [disabled]="disabled" *ngIf="areaVendaError == '' ">Finalizar</button>
             <button mat-stroked-button color="warn" (click)="dialogRef.close()" >Cancelar</button>
           </div>
     </div>

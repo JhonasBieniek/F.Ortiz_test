@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule} from '@angular/common';
 
 import { ListarComponent } from './listar/listar.component';
-import { NovoComponent } from './novo/novo.component';
+import { NovoComponent } from './pedido-listar/novo/novo.component';
 import { PedidoRoutes } from './pedido.routing';
 import { RouterModule } from '@angular/router';
 
@@ -16,14 +16,14 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { QuillModule } from 'ngx-quill';
 import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
-import { DialogCadastroComponent } from './novo/dialog-cadastro/dialog-cadastro.component';
+import { DialogCadastroComponent } from './pedido-listar/novo/dialog-cadastro/dialog-cadastro.component';
 import { MatDialogModule } from '@angular/material';
 import { NgxMaskModule, IConfig} from 'ngx-mask';
 import { DialogBodyClienteComponent } from '../cadastro/cliente/dialog-body/dialog-body-cliente.component';
 import { DateFormatPipe } from '../shared/pipes/dateFormat.pipe';
 import { NgxCurrencyModule } from 'ngx-currency';
-import { Novo2Component } from './novo2/novo2.component';
-import { OrcamentoComponent } from './orcamento/orcamento.component';
+import { ImportComponent } from './pedido-listar/import/import.component';
+import { OrcamentoComponent } from './orc-listar/orcamento/orcamento.component';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { ConciliacaoComponent } from './conciliacao/conciliacao.component';
 import { OrcListarComponent } from './orc-listar/orc-listar.component';
@@ -41,7 +41,7 @@ import { DialogEditNotaComponent } from './conciliacao/dialog-edit-nota/dialog-e
 import { DialogEstornarComponent } from './conciliacao/dialog-view-nota/dialog-estornar/dialog-estornar.component';
 import { DialogDevolucaoComponent } from './conciliacao/dialog-view-nota/dialog-devolucao/dialog-devolucao.component';
 import { ViewPedidoOrcamentoComponent } from './view-pedido/view-pedido.component';
-import { DialogProdPedidoComponent } from './orcamento/dialog-prod-pedido/dialog-prod-pedido.component';
+import { DialogProdPedidoComponent } from './orc-listar/orcamento/dialog-prod-pedido/dialog-prod-pedido.component';
 import { PedidosComponent } from './relatorios/pedidos/pedidos.component';
 import { ProdutosVendidosComponent } from './relatorios/produtos-vendidos/produtos-vendidos.component';
 import { ProdutosVendidosPorClientesComponent } from './relatorios/produtos-vendidos-por-clientes/produtos-vendidos-por-clientes.component';
@@ -55,6 +55,7 @@ import { FaturamentoComponent } from './relatorios/faturamento/faturamento.compo
 import { BaseComponent } from './relatorios/base/base.component'; 
 import { ViewOrcamentoComponent } from './view-orcamento/view-orcamento.component';
 import { DialogMailComponent } from './view-orcamento/dialog-mail/dialog-mail.component';
+import { FileDragNDropDirective } from './pedido-listar/file-drag-n-drop.directive';
 
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
@@ -82,7 +83,7 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
     NovoComponent, 
     ShoppingCartComponent, 
     DialogCadastroComponent, 
-    Novo2Component, 
+    ImportComponent, 
     OrcamentoComponent, 
     ConciliacaoComponent, 
     OrcListarComponent, 
@@ -93,7 +94,22 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
     DialogEditNotaComponent, 
     DialogEstornarComponent, 
     DialogDevolucaoComponent, 
-    ViewPedidoOrcamentoComponent,ViewOrcamentoComponent, DialogProdPedidoComponent, PedidosComponent, ProdutosVendidosComponent, ProdutosVendidosPorClientesComponent, RankingComponent, ClientesSemCompraComponent, ComparativoVendasComponent, ComparativoVendasClientesComponent, NotasComponent, ConsumoComponent, FaturamentoComponent, BaseComponent, DialogMailComponent
+    ViewPedidoOrcamentoComponent,
+    ViewOrcamentoComponent,
+    DialogProdPedidoComponent, 
+    PedidosComponent, 
+    ProdutosVendidosComponent, 
+    ProdutosVendidosPorClientesComponent, 
+    RankingComponent, 
+    ClientesSemCompraComponent, 
+    ComparativoVendasComponent, 
+    ComparativoVendasClientesComponent, 
+    NotasComponent, 
+    ConsumoComponent, 
+    FaturamentoComponent, 
+    BaseComponent, 
+    DialogMailComponent,
+    FileDragNDropDirective
   ],
   providers: [
     DateFormatPipe,
@@ -113,7 +129,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
     DialogViewNotaComponent, 
     DialogSendNotaComponent, 
     DialogEditNotaComponent, 
-    Novo2Component, 
+    ImportComponent,
+    NovoComponent, 
     OrcamentoComponent,
     DialogEstornarComponent, 
     DialogDevolucaoComponent,

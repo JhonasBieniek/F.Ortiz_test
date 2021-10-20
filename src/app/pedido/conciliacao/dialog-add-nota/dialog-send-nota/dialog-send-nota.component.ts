@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogConfig } from "@angu
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
 import { ClientService } from '../../../../shared/services/client.service.component';
-import { Novo2Component } from '../../../novo2/novo2.component';
+import { NovoComponent } from '../../../pedido-listar/novo/novo.component';
 
 @Component({
   selector: 'app-dialog-send-nota',
@@ -170,7 +170,7 @@ export class DialogSendNotaComponent implements OnInit {
       tipo: 'edit',
       pedido: row
     }
-    let dialogRef = this.dialog.open(Novo2Component, dialogConfig);
+    let dialogRef = this.dialog.open(NovoComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(value => {
       this.loadData();
     })
