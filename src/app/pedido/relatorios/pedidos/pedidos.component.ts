@@ -38,17 +38,21 @@ export class PedidosComponent implements OnInit {
       representada_id: [null],
       ramo_id: [null],
       periodo_inicial: [null, Validators.required],
-      periodo_final: [null, Validators.required],
-      entrega_inicial: [null, Validators.required],
-      entrega_final: [null, Validators.required],
+      periodo_final: [null],
+      entrega_inicial: [null],
+      entrega_final: [null],
       tipo_cliente: ["todos", Validators.required],
       ordenacao: ["data", Validators.required],
+      tipo: ["asc", Validators.required],
     });
 
   }
 
   submit(){
     console.log(this.form.value);
+    this.clientservice.pedidosRelatorio(this.form.value).subscribe((res:any) =>{
+    console.log(res)
+    });
   }
 
   clear(){
@@ -57,11 +61,12 @@ export class PedidosComponent implements OnInit {
       representada_id: [null],
       ramo_id: [null],
       periodo_inicial: [null, Validators.required],
-      periodo_final: [null, Validators.required],
-      entrega_inicial: [null, Validators.required],
-      entrega_final: [null, Validators.required],
+      periodo_final: [null],
+      entrega_inicial: [null],
+      entrega_final: [null],
       tipo_cliente: ["todos", Validators.required],
       ordenacao: ["data", Validators.required],
+      tipo: ["asc", Validators.required],
     });
   }
 }

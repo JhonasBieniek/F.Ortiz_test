@@ -630,6 +630,15 @@ export class ClientService {
               return res;
             });
   }
+  pedidosRelatorio(data){
+    const uri = `${API_URL}` + `pedidos/pedidosRelatorio.json`;
+    return this
+          .http
+          .post(uri, data) 
+          .map(res => {
+            return res;
+          });
+  }
   getOrcPedido(id, tipo){
     const uri = `${API_URL}` + tipo + `/view/`+ id +`.json`;
     return this

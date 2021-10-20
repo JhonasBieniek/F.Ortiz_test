@@ -834,16 +834,15 @@ export class ImportComponent implements OnInit {
 
   enviarPedido() {
     if(this.form.valid){
-      console.log(this.form.valid)
-      // this.clientservice.addPedido(this.form.value).subscribe((res: any) => {
-      //   if (res.success == true) {
-      //     this.notificationService.notify(`Pedido Cadastrado com Sucesso!`);
-      //     this.dialogRef.close(res.data);
-      //   } else {
-      //     this.notificationService.notify(`Erro contate o Administrador`);
-      //     this.dialogRef.close(res.data);
-      //   }
-      // });
+      this.clientservice.addPedido(this.form.value).subscribe((res: any) => {
+        if (res.success == true) {
+          this.notificationService.notify(`Pedido Cadastrado com Sucesso!`);
+          this.dialogRef.close(res.data);
+        } else {
+          this.notificationService.notify(`Erro contate o Administrador`);
+          this.dialogRef.close(res.data);
+        }
+      });
     }else{
       this.form.markAllAsTouched();
       if(this.form.get("pedido_produtos").valid == false){

@@ -10,7 +10,7 @@
                         <div class="p-10" fxFlex="100">
                             <mat-radio-group appearance="outline" formControlName="status">
                                 <mat-radio-button value="todos" class="m-r-10">Todos</mat-radio-button>
-                                <mat-radio-button value="aberto" class="m-r-10">Aberto</mat-radio-button>
+                                <mat-radio-button value="pendente" class="m-r-10">Aberto</mat-radio-button>
                                 <mat-radio-button value="faturado" class="m-r-10">Faturado</mat-radio-button>
                                 <mat-radio-button value="recebido" class="m-r-10">Recebido</mat-radio-button>
                             </mat-radio-group>
@@ -108,8 +108,13 @@
                                 <mat-radio-button value="cliente" class="m-r-10">Cliente</mat-radio-button>
                                 <mat-radio-button value="data" class="m-r-10">Data</mat-radio-button>
                                 <mat-radio-button value="valor" class="m-r-10">Valor</mat-radio-button>
-                                <mat-radio-button value="crescente" class="m-r-10">Crescente</mat-radio-button>
-                                <mat-radio-button value="decrescente" class="m-r-10">Decrescente</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+
+                        <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-radio-group appearance="outline" formControlName="tipo">
+                                <mat-radio-button value="asc" class="m-r-10">Crescente</mat-radio-button>
+                                <mat-radio-button value="desc" class="m-r-10">Decrescente</mat-radio-button>
                             </mat-radio-group>
                         </div>
 
