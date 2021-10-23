@@ -1,0 +1,17 @@
+.tamanhoPedidos {
+    font-size: 12px;
+}
+
+th.mat-header-cell {
+    border-bottom-color: black;
+}
+
+.formInputs {
+    font-size: 12px;
+}
+
+@media print {
+    .tamanhoPedidos {
+        font-size: 10px !important;
+    }
+}

@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { NotificationService } from '../../../shared/messages/notification.service';
 import { ClientService } from '../../../shared/services/client.service.component';
+import { DialogPedidosPrintComponent } from './dialog-pedidos-print/dialog-pedidos-print.component';
 
 @Component({
   selector: 'app-pedidos',
@@ -14,7 +16,7 @@ import { ClientService } from '../../../shared/services/client.service.component
 })
 export class PedidosComponent implements OnInit {
 
-  
+
   form: FormGroup;
   ramos: any = [];
   representadas: any = [];
@@ -23,44 +25,50 @@ export class PedidosComponent implements OnInit {
     private clientservice: ClientService,
     private notificationService: NotificationService,
     private route: ActivatedRoute,
+    private dialog: MatDialog
   ) {
-    this.clientservice.getRamos().subscribe((res:any) =>{
+    this.clientservice.getRamos().subscribe((res: any) => {
       this.ramos = res.data;
     });
 
-    this.clientservice.getRepresentadas().subscribe((res:any) =>{
+    this.clientservice.getRepresentadas().subscribe((res: any) => {
       this.representadas = res.data;
     });
   }
   ngOnInit(): void {
     this.form = this.fb.group({
-      status: ["todos", Validators.required],
+      situacao: ["todos", Validators.required],
       representada_id: [null],
       ramo_id: [null],
-      periodo_inicial: [null, Validators.required],
+      periodo_inicial: [null],
       periodo_final: [null],
       entrega_inicial: [null],
       entrega_final: [null],
-      tipo_cliente: ["todos", Validators.required],
+      // tipo_cliente: ["todos", Validators.required],
       ordenacao: ["data", Validators.required],
       tipo: ["asc", Validators.required],
     });
 
   }
 
-  submit(){
-    console.log(this.form.value);
-    this.clientservice.pedidosRelatorio(this.form.value).subscribe((res:any) =>{
-    console.log(res)
+  submit() {
+    this.clientservice.pedidosRelatorio(this.form.value).subscribe((res: any) => {
+      if(res.success == true){
+        if(res.data.length > 0 ){
+          this.print(res.data)
+        }else{
+          this.notificationService.notify("Não foi localizado nenhum pedido!");
+        }
+      }
     });
   }
 
-  clear(){
+  clear() {
     this.form = this.fb.group({
-      status: ["todos", Validators.required],
+      situacao: ["todos", Validators.required],
       representada_id: [null],
       ramo_id: [null],
-      periodo_inicial: [null, Validators.required],
+      periodo_inicial: [null],
       periodo_final: [null],
       entrega_inicial: [null],
       entrega_final: [null],
@@ -68,5 +76,19 @@ export class PedidosComponent implements OnInit {
       ordenacao: ["data", Validators.required],
       tipo: ["asc", Validators.required],
     });
+  }
+
+  print(data) {
+    let dialogConfig = new MatDialogConfig();
+    dialogConfig = {
+      maxWidth: '95vw',
+      maxHeight: '95vh',
+    }
+    dialogConfig.data = data;
+    dialogConfig.data.form = this.form.value;
+    let dialogRef = this.dialog.open(
+      DialogPedidosPrintComponent,
+      dialogConfig
+    );
   }
 }

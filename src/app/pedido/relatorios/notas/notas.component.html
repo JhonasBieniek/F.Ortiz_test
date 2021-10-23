@@ -19,7 +19,7 @@
                         </div>
 
                         <div class="p-t-20 text" fxFlex.gt-sm="40" fxFlex.gt-xs="40" fxFlex="100">
-                            <mat-checkbox formControlName="observacao">Apenas Notas com Observação</mat-checkbox>
+                            <mat-checkbox formControlName="obs">Apenas Notas com Observação</mat-checkbox>
                         </div>
 
                         <div class="p-l-10 p-b-10" fxFlex="100">
@@ -40,7 +40,7 @@
                             <mat-form-field appearance="outline">
                                 <mat-label>Data inicial</mat-label>
                                 <input matInput [matDatepicker]="dtInicio" placeholder="Data inicial"
-                                    formControlName="dtInicio">
+                                    formControlName="data_inicial">
                                 <mat-datepicker-toggle matSuffix [for]="dtInicio"></mat-datepicker-toggle>
                                 <mat-datepicker #dtInicio></mat-datepicker>
                             </mat-form-field>
@@ -50,7 +50,7 @@
                             <mat-form-field appearance="outline">
                                 <mat-label>Data final</mat-label>
                                 <input matInput [matDatepicker]="dtFim" placeholder="Data final"
-                                    formControlName="dtFim">
+                                    formControlName="data_final">
                                 <mat-datepicker-toggle matSuffix [for]="dtFim"></mat-datepicker-toggle>
                                 <mat-datepicker #dtFim></mat-datepicker>
                             </mat-form-field>

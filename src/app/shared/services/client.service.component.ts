@@ -639,6 +639,25 @@ export class ClientService {
             return res;
           });
   }
+  RelatorioComparativoVendas(data){
+    const uri = `${API_URL}` + `pedidos/RelatorioComparativoVendas.json`;
+    return this
+          .http
+          .post(uri, data) 
+          .map(res => {
+            return res;
+          });
+  }
+
+  consumo(data){
+    const uri = `${API_URL}` + `pedidos/consumo.json`;
+    return this
+          .http
+          .post(uri, data) 
+          .map(res => {
+            return res;
+          });
+  }
   getOrcPedido(id, tipo){
     const uri = `${API_URL}` + tipo + `/view/`+ id +`.json`;
     return this
