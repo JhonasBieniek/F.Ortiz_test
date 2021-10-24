@@ -58,9 +58,9 @@ export class DialogBodyComponent implements OnInit {
       this.pageTitle = 'Cadastrar área de venda'
       this.form = this.fb.group({
         nome: [null, Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(50)])],
-        vendedor_id: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
-        auxiliar_id: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
-        regiao_id: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
+        vendedor_id: [null, Validators.compose([Validators.required])],
+        auxiliar_id: [null, Validators.compose([Validators.required])],
+        regiao_id: [null, Validators.compose([Validators.required])],
         representada_id: [null, Validators.compose([Validators.required])],
         status: [true, Validators.required],
         hideRequired: true,
@@ -76,7 +76,7 @@ export class DialogBodyComponent implements OnInit {
       vendedor_id: [this.data.vendedor_id,Validators.compose([Validators.required])],
       auxiliar_id: [this.data.auxiliar_id,Validators.compose([Validators.required])],
       regiao_id: [this.data.regiao_id,Validators.compose([Validators.required])],
-      representada_id: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
+      representada_id: [this.data.representada_id, Validators.compose([Validators.required])],
       status: [this.data.status,Validators.compose([Validators.required])],
       hideRequired: true,
       floatLabel: 'auto',
