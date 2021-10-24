@@ -21,6 +21,7 @@ export class DialogBodyComponent implements OnInit {
   regioes = [];
   vendedores = [];
   auxiliares = [];
+  representadas = [];
   selectedRegiao: string;
   selectedVendedor: string;
   selectedAuxiliar: string;
@@ -34,17 +35,17 @@ export class DialogBodyComponent implements OnInit {
                                 private clientservice: ClientService
                                 )
     {
-      this.clientservice.getRegioes().subscribe(res =>{
-        this.dataRegioes = res;
-        this.regioes = this.dataRegioes.data; 
+      this.clientservice.getRegioes().subscribe((res:any) =>{
+        this.regioes = res.data; 
       }); 
-      this.clientservice.getFuncionarios().subscribe(res =>{
-        this.dataVendedor = res;
-        this.vendedores = this.dataVendedor.data; 
+      this.clientservice.getFuncionarios().subscribe((res:any) =>{
+        this.vendedores = res.data; 
       }); 
-      this.clientservice.getFuncionarios().subscribe(res =>{
-        this.dataAuxiliares = res;
-        this.auxiliares = this.dataAuxiliares.data; 
+      this.clientservice.getFuncionarios().subscribe((res:any) =>{
+        this.auxiliares = res.data; 
+      }); 
+      this.clientservice.getRepresentadas().subscribe((res:any) =>{
+        this.representadas = res.data.filter(rep => rep.status == true); 
       }); 
 
   }
@@ -60,6 +61,7 @@ export class DialogBodyComponent implements OnInit {
         vendedor_id: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
         auxiliar_id: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
         regiao_id: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
+        representada_id: [null, Validators.compose([Validators.required])],
         status: [true, Validators.required],
         hideRequired: true,
         floatLabel: 'auto',
@@ -74,6 +76,7 @@ export class DialogBodyComponent implements OnInit {
       vendedor_id: [this.data.vendedor_id,Validators.compose([Validators.required])],
       auxiliar_id: [this.data.auxiliar_id,Validators.compose([Validators.required])],
       regiao_id: [this.data.regiao_id,Validators.compose([Validators.required])],
+      representada_id: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
       status: [this.data.status,Validators.compose([Validators.required])],
       hideRequired: true,
       floatLabel: 'auto',
