@@ -60,6 +60,7 @@ export class ImportService {
   async volk(data, representada_id: number) {
     let item = [];
     let newItem = [];
+    let valorTotal = 0;
     return new Promise<any>(async (resolve, reject) => {
       var inicial = 0;
       var final = 0;
@@ -97,13 +98,14 @@ export class ImportService {
               //this.addItem(res); //* Adiciona item à item que já esteja cadastrado no banco
             }*/
           });
+          valorTotal += produto.quantidade * produto.valor_unitario
         }
         inicial++;
       }
       resolve({
         item: item,
         newItem: newItem,
-        valorTotal: data[final][1]
+        valorTotal: valorTotal
       })
       // if (inicial > final) {
       //   if (this.itemsNew.length > 0) {

@@ -238,7 +238,7 @@ export class ImportComponent implements OnInit {
       this.itemsNew = [...itens.newItem];
       this.openDialogProdutos();
     }
-
+    console.log(itens)
     this.ValorTotal = itens.valorTotal;
 
     if (String(clienteCnpj).length == 14) {
