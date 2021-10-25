@@ -60,6 +60,8 @@ import { DialogPedidosPrintComponent } from './relatorios/pedidos/dialog-pedidos
 import { DialogComparativoPrintComponent } from './relatorios/comparativo-vendas/dialog-comparativo-print/dialog-comparativo-print.component';
 import { DialogConsumoPrintComponent } from './relatorios/consumo/dialog-consumo-print/dialog-consumo-print.component';
 import { DialogNotasPrintComponent } from './relatorios/notas/dialog-notas-print/dialog-notas-print.component';
+import { DialogRankingPrintComponent } from './relatorios/ranking/dialog-ranking-print/dialog-ranking-print.component';
+import { DialogProdutosVendidosPrintComponent } from './relatorios/produtos-vendidos/dialog-produtos-vendidos-print/dialog-produtos-vendidos-print.component';
 
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
@@ -117,7 +119,9 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
     DialogPedidosPrintComponent,
     DialogComparativoPrintComponent,
     DialogConsumoPrintComponent,
-    DialogNotasPrintComponent
+    DialogNotasPrintComponent,
+    DialogRankingPrintComponent,
+    DialogProdutosVendidosPrintComponent
   ],
   providers: [
     DateFormatPipe,
@@ -147,7 +151,10 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
     DialogMailComponent,
     DialogPedidosPrintComponent,
     DialogComparativoPrintComponent,
-    DialogConsumoPrintComponent
+    DialogConsumoPrintComponent,
+    DialogNotasPrintComponent,
+    DialogRankingPrintComponent,
+    DialogProdutosVendidosPrintComponent
   ],
 
 })

@@ -32,19 +32,19 @@ export class NotasComponent implements OnInit {
   }
   ngOnInit(): void {
     this.form = this.fb.group({
-      representada_id: [null, Validators.required],
+      representada_id: [null],
       status: ["todos"],
       obs: [false],
-      data_inicial: [null, Validators.required],
-      data_final: [null, Validators.required],
+      data_inicial: [null],
+      data_final: [null],
       ordenacao: ["valor"],
-      tipo_ordenacao: ["asc"],
+      tipo: ["asc"],
     });
   }
 
   submit() {
     if(this.form.valid){
-      this.clientservice.consumo(this.form.value).subscribe((res: any) => {
+      this.clientservice.relatorioNotas(this.form.value).subscribe((res: any) => {
         if(res.success == true){
           if(res.data.length > 0 ){
             this.print(res.data)

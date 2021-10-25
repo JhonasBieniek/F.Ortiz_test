@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { NotificationService } from '../../../shared/messages/notification.service';
 import { ClientService } from '../../../shared/services/client.service.component';
+import { DialogRankingPrintComponent } from './dialog-ranking-print/dialog-ranking-print.component';
 
 @Component({
   selector: 'app-ranking',
@@ -25,6 +27,7 @@ export class RankingComponent implements OnInit {
     private clientservice: ClientService,
     private notificationService: NotificationService,
     private route: ActivatedRoute,
+    private dialog: MatDialog
   ) {
     this.clientservice.getRepresentadas().subscribe((res:any) =>{
       this.representadas = res.data;
@@ -34,15 +37,16 @@ export class RankingComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.fb.group({
       status: ["todos", Validators.required],
-      agrupamento: ["nao_agrupado", Validators.required],
+      // agrupamento: ["nao_agrupado", Validators.required],
       representada_id: [null],
       area_id: [null],
-      dtInicio: [null, Validators.required],
-      dtFinal: [null, Validators.required],
+      dtInicio: [null],
+      dtFinal: [null],
       minimo: [null],
       maximo: [null],
-      ordenacao: [null],
-      tipo_ordenacao: ["asc"],
+      ordenacao: ["valor"],
+      tipo: ["asc"],
+      programado: [false]
     });
   }
 
@@ -81,12 +85,48 @@ export class RankingComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.form.value);
+    if(this.form.valid){
+      this.clientservice.rankingPedidos(this.form.value).subscribe((res: any) => {
+        if(res.success == true){
+          if(res.data.length > 0 ){
+            this.print(res.data)
+          }else{
+            this.notificationService.notify("Não foi localizado nenhum pedido!");
+          }
+        }
+      });
+    }else{
+      this.form.markAllAsTouched();
+    }
+  }
+
+  print(data) {
+    let dialogConfig = new MatDialogConfig();
+    dialogConfig = {
+      maxWidth: '95vw',
+      maxHeight: '95vh',
+    }
+    dialogConfig.data = data;
+    dialogConfig.data.form = this.form.value;
+    let dialogRef = this.dialog.open(
+      DialogRankingPrintComponent,
+      dialogConfig
+    );
   }
 
   limpar() {
-    this.form.get('area_id').setValue(null);
-    this.areas.setValue('');
-    this.$areas = [];
+    this.form = this.fb.group({
+      status: ["todos", Validators.required],
+      // agrupamento: ["nao_agrupado", Validators.required],
+      representada_id: [null],
+      area_id: [null],
+      dtInicio: [null],
+      dtFinal: [null],
+      minimo: [null],
+      maximo: [null],
+      ordenacao: ["valor"],
+      tipo: ["asc"],
+      programado: [false]
+    });
   }
 }

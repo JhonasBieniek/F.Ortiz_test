@@ -2,7 +2,7 @@
     font-size: 12px;
 }
 
-.cliente-width{
+.produto-width{
     padding-right: 5px;
 }
 
@@ -23,13 +23,7 @@ th.mat-header-cell {
         font-size: 9px !important;
     }
 
-    .cliente-width{
+    .produto-width{
         width: 240px;
-    }
-
-    .cnpj-width{
-        padding-left: 5px;
-        padding-right: 5px; 
-        width: 110px;
     }
 }

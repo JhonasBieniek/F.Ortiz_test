@@ -2,17 +2,18 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
-  selector: 'app-dialog-notas-print',
-  templateUrl: './dialog-notas-print.component.html',
-  styleUrls: ['./dialog-notas-print.component.css']
+  selector: 'app-dialog-produtos-vendidos-print',
+  templateUrl: './dialog-produtos-vendidos-print.component.html',
+  styleUrls: ['./dialog-produtos-vendidos-print.component.css']
 })
-export class DialogNotasPrintComponent implements OnInit {
+export class DialogProdutosVendidosPrintComponent implements OnInit {
 
-  displayedColumns: string[] = ['cliente', 'num_nota', 'num_pedido', 'data_faturamento', 'obs', 'valor_total', 'valor_liquido', 'e-mail'];
+  displayedColumns: string[] = ['codigo', 'nome', 'tamanho', 'quantidade', 'valor_total'];
   dataSource: any[] = [];
-
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,  public dialogRef: MatDialogRef<DialogNotasPrintComponent>) { 
+  total = 0;
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,  public dialogRef: MatDialogRef<DialogProdutosVendidosPrintComponent>) { 
     this.dataSource = data;
+
   }
   ngOnInit(): void {
   }

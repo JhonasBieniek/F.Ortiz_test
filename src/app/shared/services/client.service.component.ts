@@ -639,6 +639,17 @@ export class ClientService {
             return res;
           });
   }
+
+  produtosVendidos(data){
+    const uri = `${API_URL}` + `PedidoProdutos/produtosVendidos.json`;
+    return this
+          .http
+          .post(uri, data) 
+          .map(res => {
+            return res;
+          });
+  }
+
   RelatorioComparativoVendas(data){
     const uri = `${API_URL}` + `pedidos/RelatorioComparativoVendas.json`;
     return this
@@ -658,6 +669,27 @@ export class ClientService {
             return res;
           });
   }
+
+  rankingPedidos(data){
+    const uri = `${API_URL}` + `pedidos/rankingPedidos.json`;
+    return this
+          .http
+          .post(uri, data) 
+          .map(res => {
+            return res;
+          });
+  }
+
+  relatorioNotas(data){
+    const uri = `${API_URL}` + `notas/relatorioNotas.json`;
+    return this
+          .http
+          .post(uri, data) 
+          .map(res => {
+            return res;
+          });
+  }
+
   getOrcPedido(id, tipo){
     const uri = `${API_URL}` + tipo + `/view/`+ id +`.json`;
     return this

@@ -11,7 +11,7 @@
                                 <mat-label>Representada</mat-label>
                                 <mat-select formControlName="representada_id">
                                     <mat-option [value]=null></mat-option>
-                                    <mat-option *ngFor="let representada of representadas" [value]="representada.id" (onSelectionChange)="getClientes(representada.id)">
+                                    <mat-option *ngFor="let representada of representadas" [value]="representada.id">
                                         {{representada.nome_fantasia}}
                                     </mat-option>
                                 </mat-select>
@@ -56,21 +56,11 @@
                             </mat-form-field>
                         </div>
                         <div class="show-title" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-                            <span class="p-l-10"> Tipo de Código</span>
-                        </div>
-                        <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
-                            <mat-radio-group appearance="outline" formControlName="codigo_id">
-                                <mat-radio-button value="produto" class="m-r-10">Código de Produto</mat-radio-button>
-                                <mat-radio-button value="sap" class="m-r-10">Código SAP</mat-radio-button>
-                                <mat-radio-button value="cpp" class="m-r-10">Código CPP</mat-radio-button>
-                            </mat-radio-group>
-                        </div>
-                        <div class="show-title" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
                             <span class="p-l-10">Relatório de produto específico</span>
                         </div>
                         <div class="p-10 text" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
                             <mat-form-field appearance="outline" fxFlex="100">
-                                <input type="text" placeholder="Busque o produto" aria-label="Cliente" matInput
+                                <input type="text" placeholder="Busque o produto" aria-label="Produto" matInput
                                     [formControl]="produtosBusca" (keyup)="searchProduto()"
                                     [matAutocomplete]="autoProduto">
                                 <button mat-button matSuffix mat-icon-button aria-label="Clear" type="button"
@@ -79,8 +69,8 @@
                                 </button>
                                 <mat-autocomplete autoActiveFirstOption #autoProduto="matAutocomplete">
                                     <mat-option *ngFor="let produto of $produtos" (click)="setProduto(produto)"
-                                        (onSelectionChange)="setProduto(produto)" [value]="produto.id" style="font-size: 12px;">
-                                        {{produto.nome}} - Representada: {{produto.representada.nome_fantasia}}
+                                        (onSelectionChange)="setProduto(produto)" [value]="produto.nome" style="font-size: 12px;">
+                                        Código: {{produto.codigo_catalogo}} - {{produto.nome}} - Representada: {{produto.representada.nome_fantasia}}
                                     </mat-option>
                                 </mat-autocomplete>
                             </mat-form-field>

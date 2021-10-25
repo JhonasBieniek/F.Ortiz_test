@@ -7,12 +7,16 @@
                     <mat-divider></mat-divider>
                     <div fxLayout="row wrap">
 
-                        <div class="p-10" fxFlex="100">
+                        <div class="p-10" fxFlex="50">
                             <mat-radio-group appearance="outline" formControlName="status">
                                 <mat-radio-button value="todos" class="m-r-10">Todos</mat-radio-button>
-                                <mat-radio-button value="aberto" class="m-r-10">Aberto</mat-radio-button>
-                                <mat-radio-button value="faturado" class="m-r-10">Faturado</mat-radio-button>
+                                <mat-radio-button value="pendente" class="m-r-10">Aberto</mat-radio-button>
+                                <mat-radio-button value="parcial" class="m-r-10">Parciais</mat-radio-button>
+                                <mat-radio-button value="faturado" class="m-r-10">Faturados</mat-radio-button>
                             </mat-radio-group>
+                        </div>
+                        <div class="p-t-10 text" fxFlex="40">
+                            <mat-checkbox formControlName="programado">Pedidos Programados</mat-checkbox>
                         </div>
 
                         <div class="p-10 text" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
@@ -44,13 +48,13 @@
                             </mat-form-field>
                         </div>
 
-                        <div class="p-b-10 p-l-10" fxFlex="100">
+                        <!-- <div class="p-b-10 p-l-10" fxFlex="100">
                             <mat-radio-group appearance="outline" formControlName="agrupamento">
                                 <mat-radio-button value="nao_agrupado" class="m-r-10">Não Agrupado por matriz/filial
                                 </mat-radio-button>
                                 <mat-radio-button value="agrupado" class="m-r-10">Agrupado por matriz/filial</mat-radio-button>
                             </mat-radio-group>
-                        </div>
+                        </div> -->
 
                         <div class="show-title" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
                             <span class="p-l-10"> Período</span>
@@ -102,7 +106,6 @@
                             <mat-form-field appearance="outline">
                                 <mat-label>Ordenação</mat-label>
                                 <mat-select formControlName="ordenacao">
-                                    <mat-option [value]=null></mat-option>
                                     <mat-option value="valor">Valor</mat-option>
                                     <mat-option value="cliente">Cliente</mat-option>
                                 </mat-select>
@@ -112,7 +115,7 @@
                         <div class="p-10 text m-b-10" fxFlex="30">
                             <mat-form-field appearance="outline">
                                 <mat-label>tipo</mat-label>
-                                <mat-select formControlName="tipo_ordenacao">
+                                <mat-select formControlName="tipo">
                                     <mat-option value="asc">Crescente</mat-option>
                                     <mat-option value="desc">Decrescente</mat-option>
                                 </mat-select>

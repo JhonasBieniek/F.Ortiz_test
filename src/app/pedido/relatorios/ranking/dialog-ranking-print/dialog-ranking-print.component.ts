@@ -2,19 +2,34 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
-  selector: 'app-dialog-notas-print',
-  templateUrl: './dialog-notas-print.component.html',
-  styleUrls: ['./dialog-notas-print.component.css']
+  selector: 'app-dialog-ranking-print',
+  templateUrl: './dialog-ranking-print.component.html',
+  styleUrls: ['./dialog-ranking-print.component.css']
 })
-export class DialogNotasPrintComponent implements OnInit {
+export class DialogRankingPrintComponent implements OnInit {
 
-  displayedColumns: string[] = ['cliente', 'num_nota', 'num_pedido', 'data_faturamento', 'obs', 'valor_total', 'valor_liquido', 'e-mail'];
+  displayedColumns: string[] = ['ranking', 'cliente', 'cnpj', 'total', 'total_liquido', 'percentual'];
   dataSource: any[] = [];
-
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,  public dialogRef: MatDialogRef<DialogNotasPrintComponent>) { 
+  total = 0;
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,  public dialogRef: MatDialogRef<DialogRankingPrintComponent>) { 
     this.dataSource = data;
+
+    this.somar();
   }
   ngOnInit(): void {
+  }
+
+  somar(){
+    this.dataSource.forEach( cliente =>{
+      this.total = this.total + cliente.valor_total; 
+    });
+    this.percent();
+  }
+
+  percent(){
+    this.dataSource.forEach( cliente =>{
+      cliente['percentual'] = ( cliente.valor_total * 100 ) / this.total;
+    })
   }
 
   private getTagsHtml(tagName: keyof HTMLElementTagNameMap): string
