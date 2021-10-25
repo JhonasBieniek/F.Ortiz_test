@@ -10,6 +10,7 @@
                             <mat-form-field appearance="outline">
                                 <mat-label>Selecione a representada...</mat-label>
                                 <mat-select formControlName="representada_id">
+                                    <mat-option [value]=null></mat-option>
                                     <mat-option *ngFor="let representada of representadas" [value]="representada.id" (onSelectionChange)="getAreas(representada.id)">
                                         {{representada.nome_fantasia}}
                                     </mat-option>

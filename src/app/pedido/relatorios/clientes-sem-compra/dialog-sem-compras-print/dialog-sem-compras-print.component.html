@@ -1,6 +1,8 @@
-<button mat-raised-button type="button" (click)="printWindowCurrent()">Imprimir</button>
-<button mat-raised-button type="button" class="m-l-10" color="warn" (click)="close()">Voltar</button>
-<div id="impressao">
+<div align="end" style="margin-bottom: -40px">
+    <button mat-raised-button type="button" (click)="printWindowCurrent()">Imprimir</button>
+    <button mat-raised-button type="button" class="m-l-10" color="warn" (click)="close()">Voltar</button>
+</div>
+<div id="impressao" cdkFocusInitial>
     <div fxLayout="row wrap">
         <!-- Card column -->
         <div fxFlex.gt-sm="100%" fxFlex="100">
@@ -14,8 +16,8 @@
                 <table mat-table [dataSource]="dataSource" style="width: 100%; font-family: Verdana, Tahoma, Arial, Sans-serif; font-size: 10px;">
                     
                     <ng-container matColumnDef="nome" >
-                        <th mat-header-cell *matHeaderCellDef class="text-left"> Nome </th>
-                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos text-left" > {{element.nome_fantasia}}</td>
+                        <th mat-header-cell *matHeaderCellDef class="text-left cliente-width"> Nome </th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos text-left cliente-width" > {{element.nome_fantasia}}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="contato" >
@@ -39,13 +41,13 @@
                     </ng-container>
 
                     <ng-container matColumnDef="data" >
-                        <th mat-header-cell *matHeaderCellDef > Ultima Compra </th>
-                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos" > {{element.pedido.data_emissao | date:'dd/MM/yyyy'}} </td>
+                        <th mat-header-cell *matHeaderCellDef > Ult. Compra </th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos" > {{ element.pedido ? (element.pedido?.data_emissao | date:'dd/MM/yyyy') : 'Sem Pedido'}} </td>
                     </ng-container>
                     
                     <ng-container matColumnDef="valor" >
                         <th mat-header-cell *matHeaderCellDef class="text-right"> Valor</th>
-                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos text-right" > {{element.pedido.valor_total | currency:'BRL':true:'1.2-2'}}</td>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos text-right" > {{ element.pedido? (element.pedido?.valor_total | currency:'BRL':true:'1.2-2') : 'Sem Pedido'}}</td>
                     </ng-container>
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns" style="height: 30px !important;"></tr>

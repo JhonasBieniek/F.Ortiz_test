@@ -12,7 +12,6 @@ export class DialogPedidosPrintComponent implements OnInit {
   dataSource = [];
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<DialogPedidosPrintComponent>) {
-    console.log(data);
     this.dataSource = data;
   }
 

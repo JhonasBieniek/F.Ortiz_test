@@ -54,7 +54,6 @@ export class ClientesSemCompraComponent implements OnInit {
   searchArea() {
     let $area: Observable<any[]>;
     let nome = this.areaBusca.value;
-    console.log(nome)
     if (nome != "") {
       const val = nome.toLowerCase().split(" ");
       let xp = "";
@@ -86,7 +85,25 @@ export class ClientesSemCompraComponent implements OnInit {
         this.clientservice.relatorioClientesSemCompra(this.form.value).subscribe((res: any) => {
           if(res.success == true){
             if(res.data.length > 0 ){
-              this.print(res.data)
+              if(this.form.get('representada_id').value == null){
+                this.print(res.data)
+              }else if(this.form.get('area_venda_id').value != null){
+                let data: any[] = [];
+                res.data.map( cliente => {
+                  cliente.cliente_representada_area_vendas.map( area => {
+                    if(area.area_venda_id == this.form.get('area_venda_id').value) data.push(cliente);
+                  });
+                });
+                this.print(data)
+              }else{
+                let data: any[] = [];
+                res.data.map( cliente => {
+                  cliente.cliente_representada_area_vendas.map( area => {
+                    if(area.AreaVendas.representada_id == this.form.get('representada_id').value) data.push(cliente);
+                  });
+                });
+                this.print(data)
+              }
             }else{
               this.notificationService.notify("Não foi localizado nenhum cliente!");
             }
@@ -116,9 +133,9 @@ export class ClientesSemCompraComponent implements OnInit {
     this.form = this.fb.group({
       representada_id: [null],
       area_venda_id: [null],
-      dtInicio: [null, Validators.required],
-      dtFinal: [null, Validators.required],
-      ordenacao: ["codigo", Validators.required],
+      periodo: ["30"],
+      outro: [null],
+      ordenacao: ["nome", Validators.required],
       tipo: ["asc", Validators.required],
     });
     this.areaBusca.setValue('');
