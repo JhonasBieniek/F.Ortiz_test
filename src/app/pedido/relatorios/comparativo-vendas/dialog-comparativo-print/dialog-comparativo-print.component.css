@@ -10,6 +10,10 @@ th.mat-header-cell {
     font-size: 12px;
 }
 
+.mat-row:nth-child(even){
+    background: #eee; 
+}
+
 @media print {
     .tamanhoPedidos {
         font-size: 10px !important;

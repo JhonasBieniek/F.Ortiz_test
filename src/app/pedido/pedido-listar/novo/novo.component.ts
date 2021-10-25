@@ -171,7 +171,8 @@ export class NovoComponent implements OnInit {
             this.addItemEdit(element);
           });
           this.form.patchValue(this.pedidoN);
-          this.form.controls["area_venda_id"].setValue(pedido.data.area_venda_id.id);
+          this.setAreaDeVenda(pedido.data.area_venda);
+          //this.form.controls["area_venda_id"].setValue(pedido.data.area_venda_id.id);
           this.CarregarProdutosRepresentada();
           //this.setAreaDeVenda(pedido.data.area_venda_id);
           this.razaoSocial =
@@ -190,7 +191,7 @@ export class NovoComponent implements OnInit {
           this.form.patchValue(this.pedidoN);
           this.form.controls["num_pedido"].setValue("");
           this.form.controls["situacao"].setValue("pendente");
-          this.setAreaDeVenda(pedido.data.area_venda_id);
+          this.setAreaDeVenda(pedido.data.area_venda);
           this.razaoSocial =
             pedido.data.cliente.razao_social + " - " + pedido.data.cliente.cnpj;
         },

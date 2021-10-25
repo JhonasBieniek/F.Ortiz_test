@@ -30,14 +30,15 @@
                             </mat-form-field>
                         </div>
 
-                        <div class="p-10 text" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+                        <div class="p-10 text" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100" *ngIf="areas.length > 0">
                             <mat-form-field appearance="outline" fxFlex="100">
+                                <mat-label>Área de Venda...</mat-label>
                                 <input type="text" placeholder="Busque a área" aria-label="area" matInput
                                     [formControl]="areaBusca" (keyup)="searchArea()"
                                     [matAutocomplete]="autoArea">
                                 <button mat-button matSuffix mat-icon-button aria-label="Clear" type="button"
-                                    *ngIf="form.controls['area_id'].value != null">
-                                    <mat-icon color="warn" (click)="limpar();">close</mat-icon>
+                                    *ngIf="form.controls['area_venda_id'].value != null">
+                                    <mat-icon color="warn" (click)="limparArea();">close</mat-icon>
                                 </button>
                                 <mat-autocomplete autoActiveFirstOption #autoArea="matAutocomplete">
                                     <mat-option *ngFor="let area of $areas" (click)="setArea(area)"

@@ -4,7 +4,10 @@
     <div fxLayout="row wrap">
         <!-- Card column -->
         <div fxFlex.gt-sm="100%" fxFlex="100">
-            <div fxLayout="row wrap" class="row">
+            <div fxLayout="row wrap" class="row">,
+                <div class="p-10">
+                    <img src="./assets/images/logo.png" alt="logo">
+                </div>
                 <div class="p-t-10 p-l-10 text-left" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100"><span style="font-weight: 500;"> Relatório Comparativo de Vendas</span></div>
                 <div class="p-l-10 text-left formInputs" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="data.form.dtInicio != null"> Inicio: {{data.form.dtInicio | date:'dd/MM/yyyy'}}</div>
                 <div class="p-l-10 text-left formInputs" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="data.form.dtFinal != null"> Fim: {{data.form.dtFinal | date:'dd/MM/yyyy'}}</div>

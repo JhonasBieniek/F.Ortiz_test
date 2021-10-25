@@ -61,16 +61,23 @@ export class DialogRankingPrintComponent implements OnInit {
         WindowPrt.document.write(`
             <html>
                 <head>
-                    <title>Tela de Impressao</title>
-                    ${linksHtml}
-                    ${stylesHtml}
-                    <script type="text/javascript">
-                      function myFunction(){
-                        window.print();
-                        window.onafterprint = function(){ window.close()};
-                        setTimeout(function () { window.close(); }, 600);
+                  <style>
+                    @media print {
+                      body .mat-row:nth-child(even){
+                          -webkit-print-color-adjust: exact;
                       }
-                    </script>
+                    }
+                  </style>
+                  <title>Tela de Impressao</title>
+                  ${linksHtml}
+                  ${stylesHtml}
+                  <script type="text/javascript">
+                    function myFunction(){
+                      window.print();
+                      window.onafterprint = function(){ window.close()};
+                      setTimeout(function () { window.close(); }, 600);
+                    }
+                  </script>
                 </head>
                 <body onload="myFunction()">
                     ${printContent.innerHTML}

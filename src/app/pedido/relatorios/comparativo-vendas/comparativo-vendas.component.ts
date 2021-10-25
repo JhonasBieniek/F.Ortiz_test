@@ -37,7 +37,7 @@ export class ComparativoVendasComponent implements OnInit {
     this.form = this.fb.group({
       status: ["todos", Validators.required],
       representada_id: [null],
-      area_id: [null],
+      area_venda_id: [null],
       dtInicio: [null, Validators.required],
       dtFinal: [null, Validators.required],
     });
@@ -46,7 +46,6 @@ export class ComparativoVendasComponent implements OnInit {
   getAreas(representada_id){
     this.clientservice.getAreaByRepresentada(representada_id).subscribe((res:any) =>{
       this.areas = res.data;
-      console.log(this.areas)
     });
   }
 
@@ -74,7 +73,7 @@ export class ComparativoVendasComponent implements OnInit {
   }
 
   setArea(area) {
-    this.form.get("area_id").setValue(area.id);
+    this.form.get("area_venda_id").setValue(area.id);
   }
 
   submit() {
@@ -94,9 +93,21 @@ export class ComparativoVendasComponent implements OnInit {
     }
   }
 
-  limpar() {
-    this.form.get('area_id').setValue(null);
-    this.areas.setValue('');
+  limparArea() {
+    this.form.get('area_venda_id').setValue(null);
+    this.$areas = [];
+    this.areaBusca.setValue('');
+  }
+
+  clear() {
+    this.form = this.fb.group({
+      status: ["todos", Validators.required],
+      representada_id: [null],
+      area_venda_id: [null],
+      dtInicio: [null, Validators.required],
+      dtFinal: [null, Validators.required],
+    });
+    this.areaBusca.setValue('');
     this.$areas = [];
   }
 

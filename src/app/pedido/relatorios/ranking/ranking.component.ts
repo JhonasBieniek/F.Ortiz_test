@@ -32,6 +32,7 @@ export class RankingComponent implements OnInit {
     this.clientservice.getRepresentadas().subscribe((res:any) =>{
       this.representadas = res.data;
     });
+    
   }
 
   ngOnInit(): void {
@@ -39,7 +40,7 @@ export class RankingComponent implements OnInit {
       status: ["todos", Validators.required],
       // agrupamento: ["nao_agrupado", Validators.required],
       representada_id: [null],
-      area_id: [null],
+      area_venda_id: [null],
       dtInicio: [null],
       dtFinal: [null],
       minimo: [null],
@@ -81,7 +82,7 @@ export class RankingComponent implements OnInit {
   }
 
   setArea(area) {
-    this.form.get("area_id").setValue(area.id);
+    this.form.get("area_venda_id").setValue(area.id);
   }
 
   submit() {
@@ -114,12 +115,12 @@ export class RankingComponent implements OnInit {
     );
   }
 
-  limpar() {
+  clear() {
     this.form = this.fb.group({
       status: ["todos", Validators.required],
       // agrupamento: ["nao_agrupado", Validators.required],
       representada_id: [null],
-      area_id: [null],
+      area_venda_id: [null],
       dtInicio: [null],
       dtFinal: [null],
       minimo: [null],
@@ -128,5 +129,15 @@ export class RankingComponent implements OnInit {
       tipo: ["asc"],
       programado: [false]
     });
+    this.areaBusca.setValue('');
+    this.$areas = [];
   }
+
+  limparArea() {
+    this.$areas = [];
+    this.areaBusca.setValue('');
+    this.form.get('area_venda_id').setValue(null);
+  }
+
+  
 }

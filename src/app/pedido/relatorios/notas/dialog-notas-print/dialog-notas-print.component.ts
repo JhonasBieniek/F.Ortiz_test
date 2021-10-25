@@ -46,6 +46,13 @@ export class DialogNotasPrintComponent implements OnInit {
         WindowPrt.document.write(`
             <html>
                 <head>
+                  <style>
+                    @media print {
+                      body .mat-row:nth-child(even){
+                          -webkit-print-color-adjust: exact;
+                      }
+                    }
+                  </style>
                     <title>Tela de Impressao</title>
                     ${linksHtml}
                     ${stylesHtml}

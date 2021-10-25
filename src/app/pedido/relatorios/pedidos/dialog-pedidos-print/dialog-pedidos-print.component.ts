@@ -11,7 +11,7 @@ export class DialogPedidosPrintComponent implements OnInit {
   displayedColumns: string[] = ['CLIENTE', 'CNPJ', 'NUMERO', 'DT PEDIDO', 'DT ENTREGA', `VALOR`];
   dataSource = [];
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,  public dialogRef: MatDialogRef<DialogPedidosPrintComponent>) { 
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<DialogPedidosPrintComponent>) {
     console.log(data);
     this.dataSource = data;
   }
@@ -19,19 +19,17 @@ export class DialogPedidosPrintComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  private getTagsHtml(tagName: keyof HTMLElementTagNameMap): string
-  {
-      const htmlStr: string[] = [];
-      const elements = document.getElementsByTagName(tagName);
-      for (let idx = 0; idx < elements.length; idx++)
-      {
-          htmlStr.push(elements[idx].outerHTML);
-      }
+  private getTagsHtml(tagName: keyof HTMLElementTagNameMap): string {
+    const htmlStr: string[] = [];
+    const elements = document.getElementsByTagName(tagName);
+    for (let idx = 0; idx < elements.length; idx++) {
+      htmlStr.push(elements[idx].outerHTML);
+    }
 
-      return htmlStr.join('\r\n');
+    return htmlStr.join('\r\n');
   }
 
-  close(){
+  close() {
     this.dialogRef.close();
   }
 
@@ -42,12 +40,19 @@ export class DialogPedidosPrintComponent implements OnInit {
     const linksHtml = this.getTagsHtml('link');
     const WindowPrt = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
 
-    if(WindowPrt != null){
-      if(printContent != null){
+    if (WindowPrt != null) {
+      if (printContent != null) {
         WindowPrt.document.open();
         WindowPrt.document.write(`
             <html>
                 <head>
+                  <style>
+                    @media print {
+                      body .mat-row:nth-child(even){
+                          -webkit-print-color-adjust: exact;
+                      }
+                    }
+                  </style>
                     <title>Tela de Impressao</title>
                     ${linksHtml}
                     ${stylesHtml}
@@ -70,10 +75,10 @@ export class DialogPedidosPrintComponent implements OnInit {
     }
   }
 
-  somarTotal(){
+  somarTotal() {
     let total = 0;
     this.data.map((venda) => {
-      total = venda.valor_total + total ;
+      total = venda.valor_total + total;
     })
     return total;
   }

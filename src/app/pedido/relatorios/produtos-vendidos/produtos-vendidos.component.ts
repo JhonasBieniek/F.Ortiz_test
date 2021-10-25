@@ -143,8 +143,8 @@ export class ProdutosVendidosComponent implements OnInit {
     this.form = this.fb.group({
       representada_id: [null],
       cliente_id: [null],
-      dtInicio: [null, Validators.required],
-      dtFinal: [null, Validators.required],
+      dtInicio: [null],
+      dtFinal: [null],
       produto_id: [null],
       ordenacao: ["codigo", Validators.required],
       tipo: ["asc", Validators.required],

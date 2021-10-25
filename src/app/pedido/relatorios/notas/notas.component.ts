@@ -74,13 +74,13 @@ export class NotasComponent implements OnInit {
 
   clear() {
     this.form = this.fb.group({
-      representada_id: [null, Validators.required],
+      representada_id: [null],
       status: ["todos"],
       obs: [false],
-      data_inicial: [null, Validators.required],
-      data_final: [null, Validators.required],
+      data_inicial: [null],
+      data_final: [null],
       ordenacao: ["valor"],
-      tipo_ordenacao: ["asc"],
+      tipo: ["asc"],
     });
   }
 }

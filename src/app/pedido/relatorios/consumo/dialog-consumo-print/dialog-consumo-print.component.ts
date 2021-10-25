@@ -8,7 +8,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 })
 export class DialogConsumoPrintComponent implements OnInit {
 
-  displayedColumns: string[] = ['Nome', 'Embalagem'];
+  displayedColumns: string[] = ['Nome', 'Código', 'Embalagem'];
   dataSource: any[] = [];
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,  public dialogRef: MatDialogRef<DialogConsumoPrintComponent>) { 
@@ -48,6 +48,7 @@ export class DialogConsumoPrintComponent implements OnInit {
           let addProduto = {
             Nome:  produto.produto.nome,
             Embalagem: produto.embalagem,
+            Código: produto.produto.codigo_catalogo,
             Total: produto.quantidade
           };
           mesSoma.forEach(mes => {
@@ -111,6 +112,13 @@ export class DialogConsumoPrintComponent implements OnInit {
         WindowPrt.document.write(`
             <html>
                 <head>
+                  <style>
+                    @media print {
+                      body .mat-row:nth-child(even){
+                          -webkit-print-color-adjust: exact;
+                      }
+                    }
+                  </style>
                     <title>Tela de Impressao</title>
                     ${linksHtml}
                     ${stylesHtml}
