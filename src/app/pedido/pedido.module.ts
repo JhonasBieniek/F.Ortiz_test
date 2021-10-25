@@ -62,6 +62,7 @@ import { DialogConsumoPrintComponent } from './relatorios/consumo/dialog-consumo
 import { DialogNotasPrintComponent } from './relatorios/notas/dialog-notas-print/dialog-notas-print.component';
 import { DialogRankingPrintComponent } from './relatorios/ranking/dialog-ranking-print/dialog-ranking-print.component';
 import { DialogProdutosVendidosPrintComponent } from './relatorios/produtos-vendidos/dialog-produtos-vendidos-print/dialog-produtos-vendidos-print.component';
+import { DialogSemComprasPrintComponent } from './relatorios/clientes-sem-compra/dialog-sem-compras-print/dialog-sem-compras-print.component';
 
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
@@ -121,7 +122,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
     DialogConsumoPrintComponent,
     DialogNotasPrintComponent,
     DialogRankingPrintComponent,
-    DialogProdutosVendidosPrintComponent
+    DialogProdutosVendidosPrintComponent,
+    DialogSemComprasPrintComponent
   ],
   providers: [
     DateFormatPipe,
@@ -154,7 +156,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
     DialogConsumoPrintComponent,
     DialogNotasPrintComponent,
     DialogRankingPrintComponent,
-    DialogProdutosVendidosPrintComponent
+    DialogProdutosVendidosPrintComponent,
+    DialogSemComprasPrintComponent
   ],
 
 })

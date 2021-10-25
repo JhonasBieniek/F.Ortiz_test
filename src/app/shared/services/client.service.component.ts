@@ -670,6 +670,16 @@ export class ClientService {
           });
   }
 
+  relatorioClientesSemCompra(data){
+    const uri = `${API_URL}` + `clientes/relatorioClientesSemCompra.json`;
+    return this
+          .http
+          .post(uri, data) 
+          .map(res => {
+            return res;
+          });
+  }
+
   rankingPedidos(data){
     const uri = `${API_URL}` + `pedidos/rankingPedidos.json`;
     return this
