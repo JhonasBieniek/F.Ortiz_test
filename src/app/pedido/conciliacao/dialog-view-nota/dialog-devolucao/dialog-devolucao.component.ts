@@ -24,16 +24,21 @@ export class DialogDevolucaoComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    setTimeout(() => this.rows = this.data.nota_parcelas.filter(e => 
-      e.status_recebimento == true), 300) 
-
     console.log(this.data)
     this.form = this.fb.group({
       obs: null,
+      devolucao: null
     });
+
+    setTimeout(() => { this.rows = this.rows = [...this.data.nota_produtos] }, 500);
+    console.log(this.rows)
+
   }
   close(){
     this.dialogRef.close();
+  }
+  save(){
+    console.log(this.form)
   }
 
 
