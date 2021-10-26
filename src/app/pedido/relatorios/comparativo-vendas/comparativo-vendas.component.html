@@ -17,14 +17,15 @@
                             </mat-form-field>
                         </div>
 
-                        <div class="p-10 text" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+                        <div class="p-10 text" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100" *ngIf="areas.length > 0">
                             <mat-form-field appearance="outline" fxFlex="100">
+                                <mat-label>Área de Venda...</mat-label>
                                 <input type="text" placeholder="Busque a área" aria-label="area" matInput
                                     [formControl]="areaBusca" (keyup)="searchArea()"
                                     [matAutocomplete]="autoArea">
                                 <button mat-button matSuffix mat-icon-button aria-label="Clear" type="button"
-                                    *ngIf="form.controls['area_id'].value != null">
-                                    <mat-icon color="warn" (click)="limpar();">close</mat-icon>
+                                    *ngIf="form.controls['area_venda_id'].value != null">
+                                    <mat-icon color="warn" (click)="limparArea();">close</mat-icon>
                                 </button>
                                 <mat-autocomplete autoActiveFirstOption #autoArea="matAutocomplete">
                                     <mat-option *ngFor="let area of $areas" (click)="setArea(area)"
@@ -39,38 +40,20 @@
                         </div>
                         <div class="p-10 text" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
                             <mat-form-field appearance="outline">
-                                <mat-label>Mês Inicio</mat-label>
-                                <input matInput [matDatepicker]="mesInicio" placeholder="Mês Înicio" formControlName="mesInicio">
+                                <mat-label>Data de Inicio</mat-label>
+                                <input matInput [matDatepicker]="mesInicio" placeholder="Mês Înicio" formControlName="dtInicio">
                                 <mat-datepicker-toggle matSuffix [for]="mesInicio"></mat-datepicker-toggle>
                                 <mat-datepicker #mesInicio></mat-datepicker>
                             </mat-form-field>
                         </div>
                         <div class="p-10 text" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
                             <mat-form-field appearance="outline">
-                                <mat-label>Ano Inicio</mat-label>
-                                <input matInput [matDatepicker]="anoInicio" placeholder="Ano Inicial" formControlName="anoInicio">
+                                <mat-label>Data de Fim</mat-label>
+                                <input matInput [matDatepicker]="anoInicio" placeholder="Ano Inicial" formControlName="dtFinal">
                                 <mat-datepicker-toggle matSuffix [for]="anoInicio"></mat-datepicker-toggle>
                                 <mat-datepicker #anoInicio></mat-datepicker>
                             </mat-form-field>
                         </div>
-                        <div fxFlex="100"></div>
-                        <div class="p-10 text" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Mês Fim</mat-label>
-                                <input matInput [matDatepicker]="mesFim" placeholder="Mês Fim" formControlName="mesFim">
-                                <mat-datepicker-toggle matSuffix [for]="mesFim"></mat-datepicker-toggle>
-                                <mat-datepicker #mesFim></mat-datepicker>
-                            </mat-form-field>
-                        </div>
-                        <div class="p-10 text" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Ano Fim</mat-label>
-                                <input matInput [matDatepicker]="anoFim" placeholder="Ano Fim" formControlName="anoFim">
-                                <mat-datepicker-toggle matSuffix [for]="anoFim"></mat-datepicker-toggle>
-                                <mat-datepicker #anoFim></mat-datepicker>
-                            </mat-form-field>
-                        </div>
-                        
                     </div>
                     <div>
                         <button mat-raised-button color="primary" type="submit" (click)="submit()">Filtrar</button>

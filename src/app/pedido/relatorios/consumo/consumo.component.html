@@ -11,7 +11,7 @@
                                 <mat-label>Representada</mat-label>
                                 <mat-select formControlName="representada_id">
                                     <mat-option [value]=null></mat-option>
-                                    <mat-option *ngFor="let representada of representadas" [value]="representada.id" (onSelectionChange)="getClientes(representada.id)">
+                                    <mat-option *ngFor="let representada of representadas" [value]="representada.id">
                                         {{representada.nome_fantasia}}
                                     </mat-option>
                                 </mat-select>
@@ -24,49 +24,31 @@
 
                         <div class="p-10 text" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
                             <mat-form-field appearance="outline">
-                                <mat-label>Mês Inicio</mat-label>
-                                <input matInput [matDatepicker]="mesInicio" placeholder="Mês Înicio" formControlName="mesInicio">
+                                <mat-label>Data de Inicio</mat-label>
+                                <input matInput [matDatepicker]="mesInicio" placeholder="Mês Înicio" formControlName="dtInicio">
                                 <mat-datepicker-toggle matSuffix [for]="mesInicio"></mat-datepicker-toggle>
                                 <mat-datepicker #mesInicio></mat-datepicker>
                             </mat-form-field>
                         </div>
                         <div class="p-10 text" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
                             <mat-form-field appearance="outline">
-                                <mat-label>Ano Inicio</mat-label>
-                                <input matInput [matDatepicker]="anoInicio" placeholder="Ano Inicial" formControlName="anoInicio">
+                                <mat-label>Data de Fim</mat-label>
+                                <input matInput [matDatepicker]="anoInicio" placeholder="Ano Inicial" formControlName="dtFinal">
                                 <mat-datepicker-toggle matSuffix [for]="anoInicio"></mat-datepicker-toggle>
                                 <mat-datepicker #anoInicio></mat-datepicker>
                             </mat-form-field>
                         </div>
-                        <div fxFlex="100"></div>
-                        <div class="p-10 text" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Mês Fim</mat-label>
-                                <input matInput [matDatepicker]="mesFim" placeholder="Mês Fim" formControlName="mesFim">
-                                <mat-datepicker-toggle matSuffix [for]="mesFim"></mat-datepicker-toggle>
-                                <mat-datepicker #mesFim></mat-datepicker>
-                            </mat-form-field>
-                        </div>
-                        <div class="p-10 text" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Ano Fim</mat-label>
-                                <input matInput [matDatepicker]="anoFim" placeholder="Ano Fim" formControlName="anoFim">
-                                <mat-datepicker-toggle matSuffix [for]="anoFim"></mat-datepicker-toggle>
-                                <mat-datepicker #anoFim></mat-datepicker>
-                            </mat-form-field>
-                        </div>
-
-                        <div class="show-title" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                        <!-- <div class="show-title" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
                             <span class="p-l-10"> Tipo de Código</span>
-                        </div>
+                        </div> -->
 
-                        <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+                        <!-- <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
                             <mat-radio-group appearance="outline" formControlName="codigo">
                                 <mat-radio-button value="produto" class="m-r-10">Código de Produto</mat-radio-button>
                                 <mat-radio-button value="sap" class="m-r-10">Código SAP</mat-radio-button>
                                 <mat-radio-button value="cpp" class="m-r-10">Código CPP</mat-radio-button>
                             </mat-radio-group>
-                        </div>
+                        </div> -->
                         
                         <div class="show-title" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
                             <span class="p-l-10">Ordenação</span>

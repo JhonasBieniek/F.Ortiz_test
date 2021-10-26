@@ -1,0 +1,39 @@
+.tamanhoPedidos {
+    font-size: 12px;
+}
+
+.cliente-width{
+    padding-right: 5px;
+}
+
+th.mat-header-cell {
+    border-bottom-color: black;
+}
+
+.mat-row:nth-child(even){
+    background: #eee; 
+}
+
+.formInputs {
+    font-size: 10;
+}
+
+.printAdjust {
+    padding-right: 5px;
+}
+
+@media print {
+    .tamanhoPedidos {
+        font-size: 9px !important;
+    }
+
+    .cliente-width{
+        width: 240px;
+    }
+
+    .cnpj-width{
+        padding-left: 5px;
+        padding-right: 5px; 
+        width: 110px;
+    }
+}

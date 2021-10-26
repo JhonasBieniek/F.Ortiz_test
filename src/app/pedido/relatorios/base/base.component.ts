@@ -15,7 +15,7 @@ export class BaseComponent implements OnInit {
     {name:"Cliente sem compra", value: 2},
     {name:"Comparativo de Vendas", value: 3},
     {name:"Consumo", value: 4},
-    {name:"Faturamento", value: 5},
+    // {name:"Faturamento", value: 5},
     {name:"Notas", value: 6},
     {name:"Produtos Vendidos", value: 7},
     {name:"Ranking", value: 8},

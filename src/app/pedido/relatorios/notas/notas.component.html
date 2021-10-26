@@ -19,16 +19,14 @@
                         </div>
 
                         <div class="p-t-20 text" fxFlex.gt-sm="40" fxFlex.gt-xs="40" fxFlex="100">
-                            <mat-checkbox formControlName="observacao">Apenas Notas com Observação</mat-checkbox>
+                            <mat-checkbox formControlName="obs">Apenas Notas com Observação</mat-checkbox>
                         </div>
 
                         <div class="p-l-10 p-b-10" fxFlex="100">
                             <mat-radio-group appearance="outline" formControlName="status">
                                 <mat-radio-button value="todos" class="m-r-10">Todos</mat-radio-button>
-                                <mat-radio-button value="ativas" class="m-r-10">Ativas</mat-radio-button>
-                                <mat-radio-button value="faturado" class="m-r-10">Canceladas</mat-radio-button>
-                                <mat-radio-button value="baixas" class="m-r-10">Baixas por perda</mat-radio-button>
-                                <mat-radio-button value="devolvidas" class="m-r-10">Devolvidas</mat-radio-button>
+                                <mat-radio-button value="aberto" class="m-r-10">Abertos</mat-radio-button>
+                                <mat-radio-button value="recebido" class="m-r-10">Recebidos</mat-radio-button>
                             </mat-radio-group>
                         </div>
 
@@ -40,7 +38,7 @@
                             <mat-form-field appearance="outline">
                                 <mat-label>Data inicial</mat-label>
                                 <input matInput [matDatepicker]="dtInicio" placeholder="Data inicial"
-                                    formControlName="dtInicio">
+                                    formControlName="data_inicial">
                                 <mat-datepicker-toggle matSuffix [for]="dtInicio"></mat-datepicker-toggle>
                                 <mat-datepicker #dtInicio></mat-datepicker>
                             </mat-form-field>
@@ -50,7 +48,7 @@
                             <mat-form-field appearance="outline">
                                 <mat-label>Data final</mat-label>
                                 <input matInput [matDatepicker]="dtFim" placeholder="Data final"
-                                    formControlName="dtFim">
+                                    formControlName="data_final">
                                 <mat-datepicker-toggle matSuffix [for]="dtFim"></mat-datepicker-toggle>
                                 <mat-datepicker #dtFim></mat-datepicker>
                             </mat-form-field>
@@ -60,25 +58,18 @@
                             <span class="p-l-10"> Ordenação</span>
                         </div>
 
-                        <div class="p-10 text m-b-10" fxFlex="30">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Ordenação</mat-label>
-                                <mat-select formControlName="ordenacao">
-                                    <mat-option [value]=null></mat-option>
-                                    <mat-option value="valor">Valor</mat-option>
-                                    <mat-option value="data">Data</mat-option>
-                                </mat-select>
-                            </mat-form-field>
+                        <div class="p-10 m-t-10 m-b-10" fxFlex.gt-sm="85" fxFlex.gt-xs="85" fxFlex="85">
+                            <mat-radio-group appearance="outline" formControlName="ordenacao">
+                                <mat-radio-button value="data" class="m-r-10">Data</mat-radio-button>
+                                <mat-radio-button value="valor" class="m-r-10">Valor</mat-radio-button>
+                            </mat-radio-group>
                         </div>
 
-                        <div class="p-10 text m-b-10" fxFlex="30">
-                            <mat-form-field appearance="outline">
-                                <mat-label>tipo</mat-label>
-                                <mat-select formControlName="tipo_ordenacao">
-                                    <mat-option value="asc">Crescente</mat-option>
-                                    <mat-option value="desc">Decrescente</mat-option>
-                                </mat-select>
-                            </mat-form-field>
+                        <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-radio-group appearance="outline" formControlName="tipo">
+                                <mat-radio-button value="asc" class="m-r-10">Crescente</mat-radio-button>
+                                <mat-radio-button value="desc" class="m-r-10">Decrescente</mat-radio-button>
+                            </mat-radio-group>
                         </div>
 
                     </div>

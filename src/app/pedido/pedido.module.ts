@@ -56,6 +56,13 @@ import { BaseComponent } from './relatorios/base/base.component';
 import { ViewOrcamentoComponent } from './view-orcamento/view-orcamento.component';
 import { DialogMailComponent } from './view-orcamento/dialog-mail/dialog-mail.component';
 import { FileDragNDropDirective } from './pedido-listar/file-drag-n-drop.directive';
+import { DialogPedidosPrintComponent } from './relatorios/pedidos/dialog-pedidos-print/dialog-pedidos-print.component';
+import { DialogComparativoPrintComponent } from './relatorios/comparativo-vendas/dialog-comparativo-print/dialog-comparativo-print.component';
+import { DialogConsumoPrintComponent } from './relatorios/consumo/dialog-consumo-print/dialog-consumo-print.component';
+import { DialogNotasPrintComponent } from './relatorios/notas/dialog-notas-print/dialog-notas-print.component';
+import { DialogRankingPrintComponent } from './relatorios/ranking/dialog-ranking-print/dialog-ranking-print.component';
+import { DialogProdutosVendidosPrintComponent } from './relatorios/produtos-vendidos/dialog-produtos-vendidos-print/dialog-produtos-vendidos-print.component';
+import { DialogSemComprasPrintComponent } from './relatorios/clientes-sem-compra/dialog-sem-compras-print/dialog-sem-compras-print.component';
 
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
@@ -109,7 +116,14 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
     FaturamentoComponent, 
     BaseComponent, 
     DialogMailComponent,
-    FileDragNDropDirective
+    FileDragNDropDirective,
+    DialogPedidosPrintComponent,
+    DialogComparativoPrintComponent,
+    DialogConsumoPrintComponent,
+    DialogNotasPrintComponent,
+    DialogRankingPrintComponent,
+    DialogProdutosVendidosPrintComponent,
+    DialogSemComprasPrintComponent
   ],
   providers: [
     DateFormatPipe,
@@ -136,7 +150,14 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
     DialogDevolucaoComponent,
     ViewPedidoOrcamentoComponent,
     ViewOrcamentoComponent,
-    DialogMailComponent
+    DialogMailComponent,
+    DialogPedidosPrintComponent,
+    DialogComparativoPrintComponent,
+    DialogConsumoPrintComponent,
+    DialogNotasPrintComponent,
+    DialogRankingPrintComponent,
+    DialogProdutosVendidosPrintComponent,
+    DialogSemComprasPrintComponent
   ],
 
 })

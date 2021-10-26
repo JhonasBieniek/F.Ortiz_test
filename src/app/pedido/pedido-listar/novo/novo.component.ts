@@ -171,7 +171,8 @@ export class NovoComponent implements OnInit {
             this.addItemEdit(element);
           });
           this.form.patchValue(this.pedidoN);
-          this.form.controls["area_venda_id"].setValue(pedido.data.area_venda_id.id);
+          this.setAreaDeVenda(pedido.data.area_venda);
+          //this.form.controls["area_venda_id"].setValue(pedido.data.area_venda_id.id);
           this.CarregarProdutosRepresentada();
           //this.setAreaDeVenda(pedido.data.area_venda_id);
           this.razaoSocial =
@@ -190,7 +191,7 @@ export class NovoComponent implements OnInit {
           this.form.patchValue(this.pedidoN);
           this.form.controls["num_pedido"].setValue("");
           this.form.controls["situacao"].setValue("pendente");
-          this.setAreaDeVenda(pedido.data.area_venda_id);
+          this.setAreaDeVenda(pedido.data.area_venda);
           this.razaoSocial =
             pedido.data.cliente.razao_social + " - " + pedido.data.cliente.cnpj;
         },
@@ -650,17 +651,24 @@ export class NovoComponent implements OnInit {
     if(this.form.valid){
       if (this.currentAction == "edit") {
         this.clientservice.updatePedido(this.form.value).subscribe((res: any) => {
-          this.notificationService.notify("Atualizado com Sucesso!");
-          this.dialogRef.close(res.data);
+          if (res.success == true) {  
+            this.notificationService.notify("Atualizado com Sucesso!");
+            this.dialogRef.close();
+          } else {
+            this.notificationService.notify(`Erro contate o Administrador`);
+            console.log(res.data)
+            this.dialogRef.close();
+          }
         });
       } else {
         this.clientservice.addPedido(this.form.value).subscribe((res: any) => {
           if (res.success == true) {
             this.notificationService.notify(`Pedido Cadastrado com Sucesso!`);
-            this.dialogRef.close(res.data);
+            this.dialogRef.close();
           } else {
             this.notificationService.notify(`Erro contate o Administrador`);
-            this.dialogRef.close(res.data);
+            console.log(res.data);
+            this.dialogRef.close();
           }
         });
       }

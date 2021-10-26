@@ -1,0 +1,59 @@
+<div align="end" style="margin-bottom: -40px">
+    <button mat-raised-button type="button" (click)="printWindowCurrent()">Imprimir</button>
+    <button mat-raised-button type="button" class="m-l-10" color="warn" (click)="close()">Voltar</button>
+</div>
+<div id="impressao" cdkFocusInitial>
+    <div fxLayout="row wrap">
+        <!-- Card column -->
+        <div fxFlex.gt-sm="100%" fxFlex="100">
+            <div fxLayout="row wrap" class="row">,
+                <div class="p-10">
+                    <img src="./assets/images/logo.png" alt="logo">
+                </div>
+                <div class="p-t-10 p-l-10 text-left" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100"><span style="font-weight: 500;"> Relatório Comparativo de Vendas</span></div>
+                <div class="p-l-10 text-left formInputs" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="data.form.dtInicio != null"> Inicio: {{data.form.dtInicio | date:'dd/MM/yyyy'}}</div>
+                <div class="p-l-10 text-left formInputs" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="data.form.dtFinal != null"> Fim: {{data.form.dtFinal | date:'dd/MM/yyyy'}}</div>
+                <table mat-table [dataSource]="dataSource" style="width: 100%; font-family: Verdana, Tahoma, Arial, Sans-serif; font-size: 10px;">
+                    
+                    <ng-container matColumnDef="nome" >
+                        <th mat-header-cell *matHeaderCellDef class="text-left cliente-width"> Nome </th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos text-left cliente-width" > {{element.nome_fantasia}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="contato" >
+                        <th mat-header-cell *matHeaderCellDef > Contato </th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos"> {{element.representante}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="cnpj" >
+                        <th mat-header-cell *matHeaderCellDef >CNPJ</th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos"> {{element.cnpj | mask: '00.000.000/0000-00'}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="telefone" >
+                        <th mat-header-cell *matHeaderCellDef > Telefone Fixo</th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos" > {{element.telefone | mask: '(00) 0000-0000'}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="celular" >
+                        <th mat-header-cell *matHeaderCellDef > Celular</th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos " > {{element.celular | mask: '(00) 0 0000-0000'}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="data" >
+                        <th mat-header-cell *matHeaderCellDef > Ult. Compra </th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos" > {{ element.pedido ? (element.pedido?.data_emissao | date:'dd/MM/yyyy') : 'Sem Pedido'}} </td>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="valor" >
+                        <th mat-header-cell *matHeaderCellDef class="text-right"> Valor</th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos text-right" > {{ element.pedido? (element.pedido?.valor_total | currency:'BRL':true:'1.2-2') : 'Sem Pedido'}}</td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns" style="height: 30px !important;"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;" style="height: 25px !important;"></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

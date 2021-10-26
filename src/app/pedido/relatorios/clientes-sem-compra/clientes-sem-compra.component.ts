@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { NotificationService } from '../../../shared/messages/notification.service';
 import { ClientService } from '../../../shared/services/client.service.component';
+import { DialogSemComprasPrintComponent } from './dialog-sem-compras-print/dialog-sem-compras-print.component';
 
 @Component({
   selector: 'app-clientes-sem-compra',
@@ -25,6 +27,7 @@ export class ClientesSemCompraComponent implements OnInit {
     private clientservice: ClientService,
     private notificationService: NotificationService,
     private route: ActivatedRoute,
+    private dialog: MatDialog
   ) {
     this.clientservice.getRepresentadas().subscribe((res:any) =>{
       this.representadas = res.data;
@@ -33,10 +36,10 @@ export class ClientesSemCompraComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.fb.group({
       representada_id: [null],
-      area_id: [null],
-      dtInicio: [null, Validators.required],
-      dtFinal: [null, Validators.required],
-      ordenacao: ["codigo", Validators.required],
+      area_venda_id: [null],
+      periodo: ["30"],
+      outro: [null],
+      ordenacao: ["nome", Validators.required],
       tipo: ["asc", Validators.required],
     });
   }
@@ -51,7 +54,6 @@ export class ClientesSemCompraComponent implements OnInit {
   searchArea() {
     let $area: Observable<any[]>;
     let nome = this.areaBusca.value;
-    console.log(nome)
     if (nome != "") {
       const val = nome.toLowerCase().split(" ");
       let xp = "";
@@ -72,16 +74,77 @@ export class ClientesSemCompraComponent implements OnInit {
   }
 
   setArea(area) {
-    this.form.get("area_id").setValue(area.id);
+    this.form.get("area_venda_id").setValue(area.id);
   }
 
   submit() {
-    console.log(this.form.value);
+    if(this.form.valid){
+      if(this.form.get('periodo').value == "outro" && (this.form.get('outro').value == null || this.form.get('outro').value == '')){
+        this.notificationService.notify("Quantidade de dias não informado!");
+      }else{
+        this.clientservice.relatorioClientesSemCompra(this.form.value).subscribe((res: any) => {
+          if(res.success == true){
+            if(res.data.length > 0 ){
+              if(this.form.get('representada_id').value == null){
+                this.print(res.data)
+              }else if(this.form.get('area_venda_id').value != null){
+                let data: any[] = [];
+                res.data.map( cliente => {
+                  cliente.cliente_representada_area_vendas.map( area => {
+                    if(area.area_venda_id == this.form.get('area_venda_id').value) data.push(cliente);
+                  });
+                });
+                this.print(data)
+              }else{
+                let data: any[] = [];
+                res.data.map( cliente => {
+                  cliente.cliente_representada_area_vendas.map( area => {
+                    if(area.AreaVendas.representada_id == this.form.get('representada_id').value) data.push(cliente);
+                  });
+                });
+                this.print(data)
+              }
+            }else{
+              this.notificationService.notify("Não foi localizado nenhum cliente!");
+            }
+          }
+        });
+      }
+    }else{
+      this.form.markAllAsTouched();
+    }
   }
 
-  limpar() {
-    this.form.get('area_id').setValue(null);
-    this.areas.setValue('');
+  print(data) {
+    let dialogConfig = new MatDialogConfig();
+    dialogConfig = {
+      maxWidth: '95vw',
+      maxHeight: '95vh',
+    }
+    dialogConfig.data = data;
+    dialogConfig.data.form = this.form.value;
+    let dialogRef = this.dialog.open(
+      DialogSemComprasPrintComponent,
+      dialogConfig
+    );
+  }
+
+  clear() {
+    this.form = this.fb.group({
+      representada_id: [null],
+      area_venda_id: [null],
+      periodo: ["30"],
+      outro: [null],
+      ordenacao: ["nome", Validators.required],
+      tipo: ["asc", Validators.required],
+    });
+    this.areaBusca.setValue('');
     this.$areas = [];
+  }
+
+  limparArea() {
+    this.$areas = [];
+    this.areaBusca.setValue('');
+    this.form.get('area_venda_id').setValue(null);
   }
 }

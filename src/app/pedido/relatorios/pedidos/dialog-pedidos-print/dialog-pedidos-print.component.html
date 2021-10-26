@@ -1,0 +1,64 @@
+<div align="end" style="margin-bottom: -40px">
+    <button mat-raised-button type="button" (click)="printWindowCurrent()">Imprimir</button>
+    <button mat-raised-button type="button" class="m-l-10" color="warn" (click)="close()">Voltar</button>
+</div>
+<div id="impressao" cdkFocusInitial>
+    <div fxLayout="row wrap">
+        <!-- Card column -->
+        <div fxFlex.gt-sm="100%" fxFlex="100">
+            <div fxLayout="row wrap" class="row">
+                <div class="p-10">
+                    <img src="./assets/images/logo.png" alt="logo">
+                </div>
+                <div class="p-t-10 p-l-10 text-left" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100"><span style="font-weight: 500;"> Relatório de Pedidos</span></div>
+                <div class="p-l-10 text-left formInputs" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="data.form.periodo_inicial != null"> Inicio: {{data.form.periodo_inicial | date:'dd/MM/yyyy'}}</div>
+                <div class="p-l-10 text-left formInputs" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="data.form.periodo_final != null"> Fim: {{data.form.periodo_final | date:'dd/MM/yyyy'}}</div>
+                <div class="p-l-10 text-left formInputs" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="data.form.entrega_inicial != null"> Entregas a partir: {{data.form.entrega_inicial | date:'dd/MM/yyyy'}}</div>
+                <div class="p-l-10 text-left formInputs" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="data.form.entrega_final != null">Entregas até: {{data.form.entrega_final | date:'dd/MM/yyyy'}}</div>
+                <table mat-table [dataSource]="dataSource" style="width: 100%; font-family: Verdana, Tahoma, Arial, Sans-serif;">
+                    
+                    <ng-container matColumnDef="CLIENTE" >
+                        <th mat-header-cell *matHeaderCellDef class="cliente-width" > Cliente </th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos cliente-width" > {{element.cliente.nome_fantasia}}</td>
+                        <td mat-footer-cell *matFooterCellDef class="cliente-width"> <span style="font-weight: 500;">Total: </span></td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="CNPJ">
+                        <th mat-header-cell *matHeaderCellDef class="cnpj-width" > CNPJ </th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos cnpj-width"> {{element.cliente.cnpj | mask: '00.000.000/0000-00'}}</td>
+                        <td mat-footer-cell *matFooterCellDef>  </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="NUMERO">
+                        <th mat-header-cell *matHeaderCellDef style="padding-right: 5px;"> Número </th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos" style="padding-right: 5px;"> {{element.num_pedido}} </td>
+                        <td mat-footer-cell *matFooterCellDef>  </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="DT PEDIDO">
+                        <th mat-header-cell *matHeaderCellDef > Data do <br>pedido </th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos" > {{element.data_emissao | date:'dd/MM/yyyy'}} </td>
+                        <td mat-footer-cell *matFooterCellDef>  </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="DT ENTREGA">
+                        <th mat-header-cell *matHeaderCellDef> Data <br>Entrega </th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos"> {{element.data_entrega | date:'dd/MM/yyyy'}} </td>
+                        <td mat-footer-cell *matFooterCellDef>  </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="VALOR">
+                        <th mat-header-cell *matHeaderCellDef class="text-right"> Valor Pedido </th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos text-right"> {{element.valor_total | currency:'BRL':true:'1.2-2'}} </td>
+                        <td mat-footer-cell *matFooterCellDef class="text-right tamanhoPedidos"> {{somarTotal() | currency:'BRL':true:'1.2-2'}}</td>
+                        <!-- {{getTotalCost() | currency}} -->
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns" style="height: 30px !important;"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;" style="height: 25px !important;"></tr>
+                    <tr mat-footer-row *matFooterRowDef="displayedColumns" style="height: 30px !important;"></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

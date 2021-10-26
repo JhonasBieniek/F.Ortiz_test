@@ -10,6 +10,7 @@
                             <mat-form-field appearance="outline">
                                 <mat-label>Selecione a representada...</mat-label>
                                 <mat-select formControlName="representada_id">
+                                    <mat-option [value]=null></mat-option>
                                     <mat-option *ngFor="let representada of representadas" [value]="representada.id" (onSelectionChange)="getAreas(representada.id)">
                                         {{representada.nome_fantasia}}
                                     </mat-option>
@@ -17,14 +18,15 @@
                             </mat-form-field>
                         </div>
 
-                        <div class="p-10 text" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+                        <div class="p-10 text" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100" *ngIf="areas.length > 0">
                             <mat-form-field appearance="outline" fxFlex="100">
+                                <mat-label>Área de Venda...</mat-label>
                                 <input type="text" placeholder="Busque a área" aria-label="area" matInput
                                     [formControl]="areaBusca" (keyup)="searchArea()"
                                     [matAutocomplete]="autoArea">
                                 <button mat-button matSuffix mat-icon-button aria-label="Clear" type="button"
-                                    *ngIf="form.controls['area_id'].value != null">
-                                    <mat-icon color="warn" (click)="limpar();">close</mat-icon>
+                                    *ngIf="form.controls['area_venda_id'].value != null">
+                                    <mat-icon color="warn" (click)="limparArea();">close</mat-icon>
                                 </button>
                                 <mat-autocomplete autoActiveFirstOption #autoArea="matAutocomplete">
                                     <mat-option *ngFor="let area of $areas" (click)="setArea(area)"
@@ -37,20 +39,19 @@
                         <div class="show-title" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
                             <span class="p-l-10"> Período em que o cliente não realizou pedidos</span>
                         </div>
-                        <div class="p-10 text" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Data inicial</mat-label>
-                                <input matInput [matDatepicker]="dtInicial" placeholder="Data inicial" formControlName="dtInicio">
-                                <mat-datepicker-toggle matSuffix [for]="dtInicial"></mat-datepicker-toggle>
-                                <mat-datepicker #dtInicial></mat-datepicker>
-                            </mat-form-field>
+                        <div class="p-10" style="margin-top: 5px;" fxFlex="55" fxFlex.gt-lg="35">
+                            <mat-radio-group appearance="outline" formControlName="periodo">
+                                <mat-radio-button value="30" class="m-r-10">30 Dias</mat-radio-button>
+                                <mat-radio-button value="60" class="m-r-10">60 Dias</mat-radio-button>
+                                <mat-radio-button value="90" class="m-r-10">90 Dias</mat-radio-button>
+                                <mat-radio-button value="90" class="m-r-10">120 Dias</mat-radio-button>
+                                <mat-radio-button value="outro" class="m-r-10">Outro</mat-radio-button>
+                            </mat-radio-group>
                         </div>
-                        <div class="p-10 text" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Data final</mat-label>
-                                <input matInput [matDatepicker]="dtFinal" placeholder="Data final" formControlName="dtFinal">
-                                <mat-datepicker-toggle matSuffix [for]="dtFinal"></mat-datepicker-toggle>
-                                <mat-datepicker #dtFinal></mat-datepicker>
+                        <div class="text" fxFlex="30" *ngIf="form.controls['periodo'].value == 'outro'">
+                            <mat-form-field appearance="outline" fxFlex="100">
+                                <mat-label>Outro Período</mat-label>
+                                <input matInput type="number" step="1" min="1" placeholder="Quantidade de Dias, Apenas numeros" aria-label="area"  formControlName="outro">
                             </mat-form-field>
                         </div>
                         <div class="show-title" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
@@ -58,11 +59,9 @@
                         </div>
                         <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
                             <mat-radio-group appearance="outline" formControlName="ordenacao">
-                                <mat-radio-button value="codigo" class="m-r-10">Código</mat-radio-button>
-                                <mat-radio-button value="nome" class="m-r-10">Nome</mat-radio-button>
-                                <mat-radio-button value="quantidade" class="m-r-10">Qtde Total de Vendida
-                                </mat-radio-button>
-                                <mat-radio-button value="valor" class="m-r-10">Valor Total Vendido</mat-radio-button>
+                                <mat-radio-button value="nome" class="m-r-10">nome</mat-radio-button>
+                                <mat-radio-button value="data" class="m-r-10">Data do último pedido</mat-radio-button>
+                                <mat-radio-button value="valor" class="m-r-10">Valor do último pedido</mat-radio-button>
                             </mat-radio-group>
                         </div>
                         <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">

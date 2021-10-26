@@ -1,0 +1,64 @@
+<div align="end" style="margin-bottom: -40px">
+    <button mat-raised-button type="button" (click)="printWindowCurrent()">Imprimir</button>
+    <button mat-raised-button type="button" class="m-l-10" color="warn" (click)="close()">Voltar</button>
+</div>
+<div id="impressao" cdkFocusInitial>
+    <div fxLayout="row wrap">
+        <!-- Card column -->
+        <div fxFlex.gt-sm="100%" fxFlex="100">
+            <div fxLayout="row wrap" class="row">
+                <div class="p-10">
+                    <img src="./assets/images/logo.png" alt="logo">
+                </div>
+                <div class="p-t-10 p-l-10 text-left" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100"><span style="font-weight: 500;"> Relatório Comparativo de Vendas</span></div>
+                <div class="p-l-10 text-left formInputs" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="data.form.data_inicial != null"> Inicio: {{data.form.data_inicial | date:'dd/MM/yyyy'}}</div>
+                <div class="p-l-10 text-left formInputs" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="data.form.data_final != null"> Fim: {{data.form.data_final | date:'dd/MM/yyyy'}}</div>
+                <table mat-table [dataSource]="dataSource" style="width: 100%; font-family: Verdana, Tahoma, Arial, Sans-serif; font-size: 10px;">
+                    
+                    <ng-container matColumnDef="cliente" >
+                        <th mat-header-cell *matHeaderCellDef class="printAdjust"> Cliente </th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos printAdjust" > {{element.pedido.cliente.nome_fantasia}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="num_nota" >
+                        <th mat-header-cell *matHeaderCellDef class="printAdjust">Número da Nota</th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos printAdjust"> {{element.num_nota}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="num_pedido" >
+                        <th mat-header-cell *matHeaderCellDef class="printAdjust"> Número do Pedido </th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos printAdjust" > {{element.pedido.num_pedido}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="data_faturamento" >
+                        <th mat-header-cell *matHeaderCellDef > Data Faturamento </th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos" > {{element.data_faturamento | date:'dd/MM/yyyy'}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="obs" >
+                        <th mat-header-cell *matHeaderCellDef class="printAdjust"> Observação </th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos printAdjust" > {{element.obs}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="valor_total" >
+                        <th mat-header-cell *matHeaderCellDef class="printAdjust"> Valor da Nota </th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos printAdjust" > {{element.pedido.valor_total | currency:'BRL':true:'1.2-2'}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="valor_liquido" >
+                        <th mat-header-cell *matHeaderCellDef class="printAdjust"> Valor Liquido </th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos printAdjust" > {{element.pedido.valor_liquido | currency:'BRL':true:'1.2-2'}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="e-mail" >
+                        <th mat-header-cell *matHeaderCellDef > E-mail </th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos" > {{element.pedido.cliente.email}}</td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns" style="height: 30px !important;"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;" style="height: 25px !important;"></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

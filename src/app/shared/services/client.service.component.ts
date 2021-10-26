@@ -630,6 +630,76 @@ export class ClientService {
               return res;
             });
   }
+  pedidosRelatorio(data){
+    const uri = `${API_URL}` + `pedidos/pedidosRelatorio.json`;
+    return this
+          .http
+          .post(uri, data) 
+          .map(res => {
+            return res;
+          });
+  }
+
+  produtosVendidos(data){
+    const uri = `${API_URL}` + `PedidoProdutos/produtosVendidos.json`;
+    return this
+          .http
+          .post(uri, data) 
+          .map(res => {
+            return res;
+          });
+  }
+
+  RelatorioComparativoVendas(data){
+    const uri = `${API_URL}` + `pedidos/RelatorioComparativoVendas.json`;
+    return this
+          .http
+          .post(uri, data) 
+          .map(res => {
+            return res;
+          });
+  }
+
+  consumo(data){
+    const uri = `${API_URL}` + `pedidos/consumo.json`;
+    return this
+          .http
+          .post(uri, data) 
+          .map(res => {
+            return res;
+          });
+  }
+
+  relatorioClientesSemCompra(data){
+    const uri = `${API_URL}` + `clientes/relatorioClientesSemCompra.json`;
+    return this
+          .http
+          .post(uri, data) 
+          .map(res => {
+            return res;
+          });
+  }
+
+  rankingPedidos(data){
+    const uri = `${API_URL}` + `pedidos/rankingPedidos.json`;
+    return this
+          .http
+          .post(uri, data) 
+          .map(res => {
+            return res;
+          });
+  }
+
+  relatorioNotas(data){
+    const uri = `${API_URL}` + `notas/relatorioNotas.json`;
+    return this
+          .http
+          .post(uri, data) 
+          .map(res => {
+            return res;
+          });
+  }
+
   getOrcPedido(id, tipo){
     const uri = `${API_URL}` + tipo + `/view/`+ id +`.json`;
     return this
