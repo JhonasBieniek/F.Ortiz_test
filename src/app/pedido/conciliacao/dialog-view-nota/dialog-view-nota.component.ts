@@ -4,6 +4,7 @@ import { ClientService } from '../../../shared/services/client.service.component
 import { DialogEstornarComponent } from './dialog-estornar/dialog-estornar.component';
 import { DialogDevolucaoComponent } from './dialog-devolucao/dialog-devolucao.component';
 import { DialogEditNotaComponent } from '../dialog-edit-nota/dialog-edit-nota.component';
+import { DialogDeleteNotaComponent } from '../dialog-delete-nota/dialog-delete-nota.component';
 
 @Component({
   selector: 'app-dialog-view-nota',
@@ -73,16 +74,24 @@ export class DialogViewNotaComponent implements OnInit {
     });
   }
   removerNf(){
-     this.clientservice.removeNota(this.data.id).subscribe((res:any) => {
-      if(res.success == true){
-      this._snackBar.open('Nota removida com sucesso!', 'OK', {
-        duration: 3000,
-      })}else{
-        this._snackBar.open('Erro ao remover nota', 'OK', {
-          duration: 3000,
-      })}
-      this.close();
-    })
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = []
+    dialogConfig.data.nome = 'NF '+ this.data.num_nota;
+    let dialogRef = this.dialog.open(DialogDeleteNotaComponent,dialogConfig);
+    dialogRef.afterClosed().subscribe(value => {
+      if (value == true ){
+        this.clientservice.removeNota(this.data.id).subscribe((res:any) => {
+          if(res.success == true){
+          this._snackBar.open('Nota removida com sucesso!', 'OK', {
+            duration: 3000,
+          })}else{
+            this._snackBar.open('Erro ao remover nota', 'OK', {
+              duration: 3000,
+          })}
+          this.close();
+        })
+      }
+    });
   }
   estorno(){
     this.dialogConfig.data = this.dados
