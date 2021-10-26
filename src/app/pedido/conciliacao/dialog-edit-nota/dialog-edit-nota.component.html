@@ -32,40 +32,42 @@
     </div>
   </form>
 </div>
-<div *ngIf="rows.length > 0" style="margin-top: -55px;">
-  <mat-tab-group (selectedTabChange)="onTabChange($event)">
+<div style="margin-top: -55px;">
+  <mat-tab-group >
     <mat-tab *ngFor="let step of steps " class="aba" label="{{step.titulo}}">
       <mat-form-field>
         <input matInput type='text' class="form-control" placeholder='Insira um nome para pesquisar...'
         (keyup)='updateFilter($event)' />
       </mat-form-field>
       <ngx-datatable
+      #table
       class='material striped' 
       [columnMode]="'flex'" 
       [headerHeight]="50" 
       [footerHeight]="50"
       [rowHeight]="50"
+      [selectionType]="'checkbox'"
       [rows]='rows'>
 
-        <ngx-datatable-column [flexGrow]="0.4" name="Código" prop="produto.codigo">
+        <ngx-datatable-column [flexGrow]="0.5" name="Código" prop="produto.codigo_catalogo">
           <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
             {{ value }}
           </ng-template>
         </ngx-datatable-column>
 
-        <ngx-datatable-column [flexGrow]="0.4" name="Tamanho" prop="tamanho">
+        <ngx-datatable-column [flexGrow]="0.5" name="Tamanho" prop="tamanho">
           <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
             {{ value }}
           </ng-template>
         </ngx-datatable-column>
         
-        <ngx-datatable-column [flexGrow]="2.5" name="Nome do produto" prop="produto.nome">
+        <ngx-datatable-column [flexGrow]="2" name="Nome do produto" prop="produto.nome">
           <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
             {{ value }}
           </ng-template>
         </ngx-datatable-column>
 
-        <ngx-datatable-column [flexGrow]="1" name="Quantidade" prop="quantidade">
+        <ngx-datatable-column [flexGrow]="0.5" name="IPI" prop="ipi">
           <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
             {{ value }}
           </ng-template>
@@ -76,7 +78,28 @@
             {{ value | currency : 'R$' }}
           </ng-template>
         </ngx-datatable-column>
-        
+
+        <ngx-datatable-column [flexGrow]="0.5" name="Quantidade" prop="quantidade">
+          <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+            {{ value }}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column [flexGrow]="0.5" name="Qtd Recebida" prop="quantidade_recebida">
+          <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+            <mat-form-field>
+              <input matInput [value]="row.quantidade_recebida" class='row-color' [(ngModel)]="row.quantidade_recebida" [disabled]="!isEditable[rowIndex] && !row.parcial">
+            </mat-form-field>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column  [flexGrow]="0.4" name="Parcial" [sortable]="false" [draggable]="false">
+          <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected" let-row="row" let-rowIndex="rowIndex"
+            let-onCheckboxChangeFn="onCheckboxChangeFn">
+            <input type="checkbox"  [checked]="row.parcial" (change)="this.isEditable[rowIndex]=!this.isEditable[rowIndex]" />
+          </ng-template>
+        </ngx-datatable-column>
+
       </ngx-datatable>
     </mat-tab>
   </mat-tab-group>

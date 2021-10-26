@@ -54,7 +54,14 @@ export class ConciliacaoComponent implements OnInit {
     this.clientservice.getNotas().subscribe((res:any) =>{
       let i = 0;
       this.steps.forEach(e => {
-        this.temp[i] = res.data.filter(d => d.status == e.step);
+        this.temp[i] = res.data.filter(d => {
+          if(d.status == 'parcial' && e.step == 'aberto') {
+            d.status = 'parcial'
+            return d 
+          }
+          if (d.status == e.step)
+          return d 
+          });
         i++;
       });
       this.rows = [...this.temp].sort((a,b)=> a.id - b.id);

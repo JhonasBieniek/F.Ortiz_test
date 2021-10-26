@@ -146,6 +146,10 @@ export class DialogSendNotaComponent implements OnInit {
         }
       })
 
+      if(dados.parcial == true) {
+        dados.status = 'parcial'
+      }
+
     this.clientservice.addNota(dados).subscribe((res: any) => {
       this.dialogRef.close(res.success);
     });

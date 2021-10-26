@@ -57,8 +57,6 @@ export class ViewPedidoOrcamentoComponent implements OnInit {
         })
       });
       this.rows = [...this.temp];
-      console.log(this.rows, 'Rows')
-      console.log(res.data, 'Rows2')
       this.rows2 = [...this.temp2];
     })
   }

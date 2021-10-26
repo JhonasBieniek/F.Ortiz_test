@@ -48,8 +48,18 @@ export class DialogViewNotaComponent implements OnInit {
   loadData(){
     this.clientservice.getNotasID(this.data.id).subscribe((res:any)=> {
       this.dados = res.data;
-      let i = 0;
-      this.temp[i] = res.data.pedido.pedido_produtos;
+      this.temp[0] = res.data.pedido.pedido_produtos;
+      let qtd = res.data.nota_produtos;
+      this.temp[0].map( e => {
+        qtd.map( f => {
+          if(e.id === f.pedido_produto_id){
+            e.qtd_restante = e.quantidade - f.qtd
+            e.qtd_faturado = f.qtd
+            e.total = f.qtd * e.valor_unitario
+            e.desconto = res.data.desconto
+          }
+        })
+      })
       this.rows = [...this.temp];
     })
   }
@@ -63,16 +73,16 @@ export class DialogViewNotaComponent implements OnInit {
     });
   }
   removerNf(){
-     this.clientservice.removeNota(this.data.id)//.subscribe((res:any) => {
-    //   if(res.success == true){
-    //   this._snackBar.open('Nota removida com sucesso!', 'OK', {
-    //     duration: 3000,
-    //   })}else{
-    //     this._snackBar.open('Erro ao remover nota', 'OK', {
-    //       duration: 3000,
-    //   })}
-    //   this.close();
-    // })
+     this.clientservice.removeNota(this.data.id).subscribe((res:any) => {
+      if(res.success == true){
+      this._snackBar.open('Nota removida com sucesso!', 'OK', {
+        duration: 3000,
+      })}else{
+        this._snackBar.open('Erro ao remover nota', 'OK', {
+          duration: 3000,
+      })}
+      this.close();
+    })
   }
   estorno(){
     this.dialogConfig.data = this.dados

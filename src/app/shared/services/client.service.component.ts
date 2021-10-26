@@ -676,24 +676,51 @@ export class ClientService {
             });
   }
   removeNota(id){
-   this.notificationService.notify(`Você não possui permissão para excluir dados!`)
+   //this.notificationService.notify(`Você não possui permissão para excluir dados!`)
 
-    // const uri = `${API_URL}` + `notas/delete/` + id + `.json`;
-    // return this
-    //         .http
-    //         .get(uri)
-    //         .map(res => {
-    //           return res;
-    //         });
-
-    
+    const uri = `${API_URL}` + `notas/delete/` + id + `.json`;
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
   }
+  removeNotaParcela(id){
+    //this.notificationService.notify(`Você não possui permissão para excluir dados!`)
+ 
+     const uri = `${API_URL}` + `notaParcelas/delete/` + id + `.json`;
+     return this
+             .http
+             .delete(uri)
+             .map(res => {
+               return res;
+             });
+   }
+  removeNotaProduto(id){ 
+     const uri = `${API_URL}` + `notaProdutos/delete/` + id + `.json`;
+     return this
+             .http
+             .delete(uri)
+             .map(res => {
+               return res;
+             });
+   }
   getNotasRelatorios(data): Observable<Object>{
     const uri = `${API_URL}` + `notas/relatorios.json`;
     return this.http.post<Object>(uri, data);
   }
   getPedidoSemNota() {
     const uri = `${API_URL}` + `notas/getPedidoSemNota.json`;
+    return this
+            .http
+            .get(uri)
+            .map(res => {
+              return res;
+            });
+  }
+  getPedidoParcial() {
+    const uri = `${API_URL}` + `notaProdutos/getPedidoParcial.json`;
     return this
             .http
             .get(uri)

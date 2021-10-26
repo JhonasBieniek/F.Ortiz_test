@@ -89,7 +89,7 @@
         <ngx-datatable-column [flexGrow]="1" name="Qtd Recebida" prop="quantidade_recebida">
           <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
             <mat-form-field>
-              <input matInput value="quantidade_recebida" class='row-color'[(ngModel)]="row.quantidade_recebida" [disabled]="!isEditable[rowIndex]">
+              <input matInput value="quantidade_recebida" class='row-color' [(ngModel)]="row.quantidade_recebida" [disabled]="!isEditable[rowIndex]">
             </mat-form-field>
           </ng-template>
         </ngx-datatable-column>

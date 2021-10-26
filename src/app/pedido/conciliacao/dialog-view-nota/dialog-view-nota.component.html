@@ -1,5 +1,5 @@
 <div fxLayout="row wrap">
-  <div class="p-t-30" fxFlex.gt-sm="50%" fxFlex="50" >
+  <div class="p-t-30" fxFlex.gt-sm="50%" class="p-20" fxFlex="50" fxLayoutAlign="start" fxLayoutGap="10px" >
     <h1 mat-dialog-title style="font-size: x-large;">
       Visualizando NF: <span style="font-weight: bolder; color:blue">{{dados?.num_nota}}</span>
       <i class="fa fa-pencil button m-l-10" 
@@ -7,8 +7,12 @@
       (click)="editar(row);"></i></h1>
   </div>
   <div fxFlex.gt-sm="50%" fxFlex="50" class="p-20" fxLayoutAlign="end start" fxLayoutGap="10px">
+      <button *ngIf="dados?.status == 'parcial'" mat-stroked-button color="primary" class="p-10" (click)="adicionarNf()">
+      <i class="material-icons">note_add</i>Adicionar NF</button>
       <button *ngIf="dados?.status == 'aberto' || 'parcial'" mat-stroked-button color="warn" class="p-10" (click)="removerNf()">
         <i class="material-icons">close_fullscreen</i>Remover NF</button>
+      <button *ngIf="dados?.status == 'aberto' || 'parcial'" mat-stroked-button color="accent" class="p-10" (click)="devolucao()">
+        <i class="material-icons">highlight_off</i>Devolução</button>  
       <button *ngIf="dados?.status == 'recebido'" mat-stroked-button color="primary" class="p-10" (click)="estorno()">
         <i class="material-icons">restore</i>Estorno</button>
       <button mat-stroked-button color="primary" class="p-10"  (click)="imprimir()">
@@ -66,7 +70,7 @@
       [rows]='rows[step.index]'
       [sorts]="[{prop: 'id', dir: 'asc'}]">
 
-        <ngx-datatable-column [flexGrow]="0.4" name="Código" prop="produto.codigo">
+        <ngx-datatable-column [flexGrow]="0.6" name="Código" prop="produto.codigo_catalogo">
           <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
             {{ value }}
           </ng-template>
@@ -78,19 +82,37 @@
           </ng-template>
         </ngx-datatable-column>
         
-        <ngx-datatable-column [flexGrow]="2.5" name="Nome do produto" prop="produto.nome">
+        <ngx-datatable-column [flexGrow]="2" name="Nome do produto" prop="produto.nome">
           <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
             {{ value }}
           </ng-template>
         </ngx-datatable-column>
 
-        <ngx-datatable-column [flexGrow]="1" name="Quantidade" prop="quantidade">
+        <ngx-datatable-column [flexGrow]="0.6" name="Qtd Pedido" prop="quantidade">
+          <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+            {{ value }}
+          </ng-template>
+        </ngx-datatable-column>
+        
+        <ngx-datatable-column [flexGrow]="0.6" name="Qtd NF" prop="qtd_faturado">
           <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
             {{ value }}
           </ng-template>
         </ngx-datatable-column>
 
-        <ngx-datatable-column [flexGrow]="1" name="Valor" prop="valor_total">
+        <ngx-datatable-column [flexGrow]="0.6" name="Qtd Restante" prop="qtd_restante">
+          <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+            {{ value }}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column [flexGrow]="1" name="Vlr Unit." prop="valor_unitario">
+          <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+            {{ value | currency:'BRL':true:'1.2-2' }}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column [flexGrow]="1" name="Valor" prop="total">
           <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
             {{ value | currency:'BRL':true:'1.2-2' }}
           </ng-template>

@@ -1,8 +1,8 @@
+import { ClientService } from './../../../shared/services/client.service.component';
 import { Component, OnInit, Inject, ViewEncapsulation } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogConfig } from "@angular/material";
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
-import { ClientService } from '../../../shared/services/client.service.component';
 import { NovoComponent } from '../../pedido-listar/novo/novo.component';
 
 @Component({
@@ -22,6 +22,7 @@ export class DialogEditNotaComponent implements OnInit {
   temp:any = [];
   selected:any = [];
   nota_parcelas:any = [];
+  nota_produtos:any = [];
   steps: any = [
     {
       titulo: "Produtos do Pedido",
@@ -37,7 +38,7 @@ export class DialogEditNotaComponent implements OnInit {
   loadingIndicator = true;
   reorderable = true;
 
-  isEditable = {};   
+  isEditable = {};  
   
   constructor(
     private fb: FormBuilder,
@@ -46,55 +47,80 @@ export class DialogEditNotaComponent implements OnInit {
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) { 
-    this.loadData();
+
   }
 
   ngOnInit() {
+    console.log(this.data)
     this.form = this.fb.group({
-      id: [null],
-      pedido_id: [null],
-      num_nota: [null, Validators.compose([Validators.required])],
-      data_faturamento: [null, Validators.compose([Validators.required, CustomValidators.date])],
-      obs: [null],
-      status: ["aberto"],
-      nota_parcelas: this.fb.array([])
+      id: [this.data.id],
+      pedido_id: [this.data.pedido_id],
+      num_nota: [this.data.num_nota, Validators.compose([Validators.required])],
+      data_faturamento: [this.data.data_faturamento, Validators.compose([Validators.required, CustomValidators.date])],
+      obs: [this.data.obs],
+      status: [this.data.status],
+      nota_parcelas: this.fb.array([]),
+      nota_produtos: this.fb.array([])
     });
     this.nota_parcelas = this.form.get('nota_parcelas') as FormArray;
+    this.nota_produtos = this.form.get('nota_produtos') as FormArray;
+    this.loadData();
+
   }
 
+
   loadData(){
-    this.clientservice.getNotasID(this.data.id).subscribe((res:any) =>{
-      this.form.patchValue(res.data);
-      this.pedido = res.data.pedido;
+      this.pedido = this.data.pedido;
       this.temp = this.pedido.pedido_produtos.sort((a,b)=> a.id - b.id);
-      this.rows = [...this.temp];
-    });
+      let qtd = this.data.nota_produtos;
+      this.temp.map( e => {
+        qtd.map( f => {
+          if(e.id === f.pedido_produto_id){
+            e.qtd_restante = e.quantidade - f.qtd
+            e.qtd_faturado = f.qtd
+            e.quantidade_recebida = f.qtd
+            e.total = f.qtd * e.valor_unitario
+            e.parcial = f.parcial
+          }
+        })
+      })
+      setTimeout(() => { this.rows = [...this.temp]; }, 500);
+
   }
 
   criaParcelas(){
     this.clearParcelas();
-    let data = new Date(this.form.get('data_faturamento').value);
-    if(this.pedido.condicao_comercial.dias != null){
-      let parcelas = this.pedido.condicao_comercial.dias.split("/");
-      let valor = this.pedido.valor_total / parcelas.length;
-      for(let i=0; i<parcelas.length; i++){
-        if(parcelas[i] != ""){
-          let vencimento = new Date(data)
-          this.nota_parcelas.push(this.fb.group({
-            data_vencimento: new Date (vencimento.setDate(vencimento.getDate() + parseInt(parcelas[i]))),
-            valor: valor,
-            status_recebimento: false,
-            parcela: i
-          }))
+    let data = this.form.get('data_faturamento').value;
+      if(this.data.pedido.condicao_comercial.dias != null){
+        let parcelas = this.data.pedido.condicao_comercial.dias.split("/");
+        let valor = this.data.pedido.valor_total / parcelas.length;
+        for(let i=0; i<parcelas.length; i++){
+          if(parcelas[i] != ""){
+            let vencimento = new Date(data)
+            this.nota_parcelas.push(this.fb.group({
+              data_vencimento: new Date (vencimento.setDate(vencimento.getDate() + parseInt(parcelas[i]))),
+              valor: valor,
+              status_recebimento: false,
+              parcela: i
+            }))
+          }
         }
       }
-    }
   }
 
   clearParcelas(){
     while (this.nota_parcelas.controls.length) {
       this.nota_parcelas.removeAt(0);
     }
+    while (this.nota_produtos.controls.length) {
+      this.nota_produtos.removeAt(0);
+    }
+    this.data.nota_parcelas.forEach(element => {
+      this.clientservice.removeNotaParcela(element.id).subscribe(() => {})
+    });
+    this.data.nota_produtos.forEach(element => {
+      this.clientservice.removeNotaProduto(element.id).subscribe(() => {})
+    });
   }
 
   updateFilter(event) {
@@ -114,9 +140,33 @@ export class DialogEditNotaComponent implements OnInit {
     console.log(row);
   }
 
+
   async save() {
+    let dados:any =[];
     await this.criaParcelas();
-    console.log(this.form.value);
+    this.rows.map(e => {
+      this.nota_produtos.push(
+        this.fb.group({
+          nota_id: null,
+          pedido_id: e.pedido_id,
+          produto_id: e.produto_id,
+          pedido_produto_id: e.id,
+          qtd: e.quantidade_recebida,
+          parcial: e.quantidade_recebida != e.quantidade ? true : false
+      }))
+    });
+    dados = this.form.value;
+      dados.nota_produtos.map((e:any)=> {
+        if(e.parcial == true){
+          dados.parcial = true
+        }
+      })
+
+      if(dados.parcial == true) {
+        dados.status = 'parcial'
+      }else {
+        dados.status = 'aberto'
+      }
     this.clientservice.editNota(this.form.value).subscribe((res:any) => {
       this.dialogRef.close(res.success);
     });
