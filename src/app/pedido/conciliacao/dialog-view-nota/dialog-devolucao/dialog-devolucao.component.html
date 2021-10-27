@@ -1,57 +1,52 @@
 <div fxLayout="row wrap">
-    <div class="p-t-30" fxFlex.gt-sm="100%" fxFlex="100" >
-      <h1 mat-dialog-title style="font-size: x-large;">Cadastrar Devolução: <span style="font-weight: bolder; color:blue">{{data?.num_nota}}</span></h1>
-    </div>
-    <div *ngIf="rows.length != 0" class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-        <ngx-datatable #table
-        class='material' 
-        [columnMode]="'flex'" 
-        [headerHeight]="50" 
-        [footerHeight]="50"
-        [rowHeight]="'auto'" 
-        [limit]="10" 
-        [rows]='rows'>
-            <ngx-datatable-column [flexGrow]="1.5" name="Código">
-                <ng-template let-value="parcela" let-row="row" ngx-datatable-cell-template>
-                  {{ row.pedido_produto.produto.codigo_catalogo }}
-                </ng-template>
-              </ngx-datatable-column>  
-
-              <ngx-datatable-column [flexGrow]="2.5" name="Nome">
-                <ng-template let-value="data_vencimento" let-row="row" ngx-datatable-cell-template>
-                  {{ row.pedido_produto.produto.nome }}
-                </ng-template>
-              </ngx-datatable-column>
-              
-              <ngx-datatable-column [flexGrow]="1.5" name="Tamanho">
-                <ng-template let-value="valor" let-row="row" ngx-datatable-cell-template>
-                  {{ row.pedido_produto.tamanho}}
-                </ng-template>
-              </ngx-datatable-column> 
-
-              <ngx-datatable-column [flexGrow]="1" name="Qtd Entregue">
-                <ng-template let-value="estorno" let-row="row" ngx-datatable-cell-template>
-                  {{row.qtd}}
-                </ng-template>
-              </ngx-datatable-column> 
-
-              <ngx-datatable-column [flexGrow]="1" name="Devolução" prop="devolucao">
-                <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
-                  <mat-form-field>
-                    <input matInput [value]="row.devolucao" class='row-color' [(ngModel)]="row.quantidade_recebida">
-                  </mat-form-field>
-                </ng-template>
-              </ngx-datatable-column>
-        </ngx-datatable>
-    </div>    
-    <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-        <mat-form-field appearance="outline">
-          <textarea matInput placeholder="Observação" [formControl]="form.controls['obs']"></textarea>
-        </mat-form-field>
-      </div>
+  <div class="p-t-30" fxFlex.gt-sm="100%" fxFlex="100">
+    <h1 mat-dialog-title style="font-size: x-large;">Cadastrar Devolução: <span
+        style="font-weight: bolder; color:blue">{{data?.num_nota}}</span></h1>
   </div>
+  <div *ngIf="rows.length != 0" class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <ngx-datatable #table class='material' [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50"
+      [rowHeight]="'auto'" [limit]="10" [rows]='rows'>
+      <ngx-datatable-column [flexGrow]="1.5" name="Código">
+        <ng-template let-value="parcela" let-row="row" ngx-datatable-cell-template>
+          {{ row.pedido_produto.produto.codigo_catalogo }}
+        </ng-template>
+      </ngx-datatable-column>
 
-  <div class="p-20" fxLayout="row wrap" fxLayoutAlign="end start">
-    <button mat-raised-button color="primary" class="m-r-5" (click)="save()">Confirmar</button>
-    <button mat-raised-button color="warn" (click)="close()">Sair</button>
+      <ngx-datatable-column [flexGrow]="2.5" name="Nome">
+        <ng-template let-value="data_vencimento" let-row="row" ngx-datatable-cell-template>
+          {{ row.pedido_produto.produto.nome }}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [flexGrow]="1.5" name="Tamanho">
+        <ng-template let-value="valor" let-row="row" ngx-datatable-cell-template>
+          {{ row.pedido_produto.tamanho}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [flexGrow]="1" name="Qtd Entregue">
+        <ng-template let-value="qtd" let-row="row" ngx-datatable-cell-template>
+          {{row.qtd}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [flexGrow]="1" name="Devolução" prop="devolucao">
+        <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+          <mat-form-field>
+            <input matInput [value]="row.devolucao" class='row-color' [(ngModel)]="row.devolucao" type="number">
+          </mat-form-field>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
   </div>
+  <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-form-field appearance="outline">
+      <textarea matInput placeholder="Observação" [formControl]="form.controls['obs']"></textarea>
+    </mat-form-field>
+  </div>
+</div>
+
+<div class="p-20" fxLayout="row wrap" fxLayoutAlign="end start">
+  <button mat-raised-button color="primary" class="m-r-5" (click)="save()">Confirmar</button>
+  <button mat-raised-button color="warn" (click)="close()">Sair</button>
+</div>

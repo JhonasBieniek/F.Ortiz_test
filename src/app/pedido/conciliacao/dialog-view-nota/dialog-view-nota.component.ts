@@ -29,6 +29,8 @@ export class DialogViewNotaComponent implements OnInit {
     }
   ];
 
+  devolucoes: any[] = [];
+
   defaultTab = 0;
 
   constructor(
@@ -50,6 +52,7 @@ export class DialogViewNotaComponent implements OnInit {
   loadData() {
     this.clientservice.getNotasID(this.data.id).subscribe((res: any) => {
       console.log(res)
+      
       // old - Mostra tudo
       // this.dados = res.data;
       // this.temp[0] = res.data.pedido.pedido_produtos;
@@ -68,7 +71,7 @@ export class DialogViewNotaComponent implements OnInit {
       // fim old
       
       this.dados = res.data;
-      
+      this.devolucoes = res.data.nota_produto_devolutions;
       this.temp[0] = res.data.pedido.pedido_produtos;
       let qtd = res.data.nota_produtos;
       this.temp[0].map(e => {

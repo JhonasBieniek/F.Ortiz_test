@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { rejects } from 'assert';
 import * as XLSX from "xlsx";
 import { ClientService } from './client.service.component';
 
@@ -49,8 +50,17 @@ export class ImportService {
         var first_sheet_name = workbook.SheetNames[0];
         var worksheet = workbook.Sheets[first_sheet_name];
         var json = XLSX.utils.sheet_to_json(worksheet, { raw: true, header: 1 });
-        let itens = await this[representada.func](json, representada.id);
-        resolve({json, itens})
+        this[representada.func](json, representada.id).then((res) => {
+          resolve({json, itens: res})
+        })
+        .catch((rej) => {
+          //console.log(rej)
+          resolve(false)
+          //console.log(rej)
+        });
+        // let itens = await this[representada.func](json, representada.id);
+        //console.log(itens)
+        // resolve({json, itens})
       };
 
       filereader.readAsArrayBuffer(file);
@@ -62,56 +72,60 @@ export class ImportService {
     let newItem = [];
     let valorTotal = 0;
     return new Promise<any>(async (resolve, reject) => {
-      var inicial = 0;
-      var final = 0;
+      try{
+        var inicial = 0;
+        var final = 0;
 
-      while (inicial <= final) {
-        while (data[final][0] != "Valor Produtos.....:") {
-          final++;
-          while (data[inicial][0] != "Produto") {
-            inicial++;
-          }
-        }
-        if (
-          data[inicial][0] != "Produto" &&
-          data[inicial][0] != "Valor Produtos.....:"
-        ) {
-          var produto = {
-            codigo_catalogo: data[inicial][0],
-            nome: data[inicial][2],
-            quantidade: data[inicial][5],
-            tamanho: data[inicial][1],
-            ipi: data[inicial][9],
-            valor_unitario: data[inicial][6],
-            comissao: data[inicial][11],
-          };
-          await this.consultaCod(produto, representada_id).then((res: any) => {
-            if(res.item != undefined){
-              item.push(res.item);
-            }else {
-              newItem.push(res.newItem);
+        while (inicial <= final) {
+          while (data[final][0] != "Valor Produtos.....:") {
+            final++;
+            while (data[inicial][0] != "Produto") {
+              inicial++;
             }
-            /*console.log("consulta Cod")
-            console.log(res);
-            if (res != undefined) {
-              //console.log(res);
-              //this.addItem(res); //* Adiciona item à item que já esteja cadastrado no banco
-            }*/
-          });
-          valorTotal += produto.quantidade * produto.valor_unitario
+          }
+          if (
+            data[inicial][0] != "Produto" &&
+            data[inicial][0] != "Valor Produtos.....:"
+          ) {
+            var produto = {
+              codigo_catalogo: data[inicial][0],
+              nome: data[inicial][2],
+              quantidade: data[inicial][5],
+              tamanho: data[inicial][1],
+              ipi: data[inicial][9],
+              valor_unitario: data[inicial][6],
+              comissao: data[inicial][11],
+            };
+            await this.consultaCod(produto, representada_id).then((res: any) => {
+              if(res.item != undefined){
+                item.push(res.item);
+              }else {
+                newItem.push(res.newItem);
+              }
+              /*console.log("consulta Cod")
+              console.log(res);
+              if (res != undefined) {
+                //console.log(res);
+                //this.addItem(res); //* Adiciona item à item que já esteja cadastrado no banco
+              }*/
+            });
+            valorTotal += produto.quantidade * produto.valor_unitario
+          }
+          inicial++;
         }
-        inicial++;
+        resolve({
+          item: item,
+          newItem: newItem,
+          valorTotal: valorTotal
+        })
+        // if (inicial > final) {
+        //   if (this.itemsNew.length > 0) {
+        //     this.openDialogProdutos();
+        //   }
+        // }
+      }catch(e){
+        reject(e);
       }
-      resolve({
-        item: item,
-        newItem: newItem,
-        valorTotal: valorTotal
-      })
-      // if (inicial > final) {
-      //   if (this.itemsNew.length > 0) {
-      //     this.openDialogProdutos();
-      //   }
-      // }
     });
   }
 
@@ -231,48 +245,53 @@ export class ImportService {
     let item = [];
     let newItem = [];
     return new Promise<any>(async (resolve, reject) => {
-      var inicial = 0;
-      var final = 0;
-      while (inicial <= final) {
-        while (data[final][0] != "Texto da nota\r\nDescontos de cabeçalho" ) {
-          final++;
-          while (data[inicial][0] != "Item") {
-            inicial++;
-          }
-        }
-        if (
-          data[inicial][0] != "Item" &&
-          data[inicial][0] != "Texto da nota\r\nDescontos de cabeçalho" &&
-          data[inicial][0] != undefined
-        ) {
-          // old quantidade quantidade: data[inicial][15].split("/")[1].replace(".", ""),
-          // old valorUnitario: data[inicial][28].match(/\d+/g)[0] + "." + data[inicial][28].match(/\d+/g)[1],
-          // old desconto: data[inicial][24].match(/\d+/g)[0] + "." + data[inicial][24].match(/\d+/g)[1],
-          var produto = {
-            codigo_catalogo: data[inicial][1],
-            nome: data[inicial][4],
-            quantidade: isNaN(data[inicial][12]) ? data[inicial][11].split("/")[1].replace(".", "") : data[inicial][12],
-            ipi: data[inicial][17] == 0 ? data[inicial][28] : data[inicial][29],
-            valor_unitario: data[inicial][17] == 0 ? data[inicial][27] :  data[inicial][28],
-            desconto: data[inicial][17] == 0 ? data[inicial][21] :  data[inicial][22]
-          };
-          await this.consultaCod(produto, representada_id).then((res: any) => {
-            if(res.item != undefined){
-              item.push(res.item);
-            }else {
-              newItem.push(res.newItem);
+      try{
+        var inicial = 0;
+        var final = 0;
+        while (inicial <= final) {
+          while (data[final][0] != "Texto da nota\r\nDescontos de cabeçalho" ) {
+            final++;
+            while (data[inicial][0] != "Item") {
+              inicial++;
             }
-          });
+          }
+          if (
+            data[inicial][0] != "Item" &&
+            data[inicial][0] != "Texto da nota\r\nDescontos de cabeçalho" &&
+            data[inicial][0] != undefined
+          ) {
+            // old quantidade quantidade: data[inicial][15].split("/")[1].replace(".", ""),
+            // old valorUnitario: data[inicial][28].match(/\d+/g)[0] + "." + data[inicial][28].match(/\d+/g)[1],
+            // old desconto: data[inicial][24].match(/\d+/g)[0] + "." + data[inicial][24].match(/\d+/g)[1],
+            var produto = {
+              codigo_catalogo: data[inicial][1],
+              nome: data[inicial][4],
+              quantidade: isNaN(data[inicial][12]) ? data[inicial][11].split("/")[1].replace(".", "") : data[inicial][12],
+              ipi: data[inicial][17] == 0 ? data[inicial][28] : data[inicial][29],
+              valor_unitario: data[inicial][17] == 0 ? data[inicial][27] :  data[inicial][28],
+              desconto: data[inicial][17] == 0 ? data[inicial][21] :  data[inicial][22]
+            };
+            await this.consultaCod(produto, representada_id).then((res: any) => {
+              if(res.item != undefined){
+                item.push(res.item);
+              }else {
+                newItem.push(res.newItem);
+              }
+            });
+          }
+          inicial++;
         }
-        inicial++;
+        resolve({
+          item: item,
+          newItem: newItem,
+          valorTotal: data[final + 8][26] == "Total NF" ? data[final + 8][31] : data[final + 8][32],
+          final: final,
+          subst: data[final + 7][26] == "Total Subst." ? data[final + 7][31] : data[final + 7][32]
+        })
+      }catch(e){
+        reject(e);
       }
-      resolve({
-        item: item,
-        newItem: newItem,
-        valorTotal: data[final + 8][26] == "Total NF" ? data[final + 8][31] : data[final + 8][32],
-        final: final,
-        subst: data[final + 7][26] == "Total Subst." ? data[final + 7][31] : data[final + 7][32]
-      })
+      
     });
   }
   //* é calfor

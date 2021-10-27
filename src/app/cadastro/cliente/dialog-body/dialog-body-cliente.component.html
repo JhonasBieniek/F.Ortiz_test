@@ -18,7 +18,7 @@
         <mat-form-field appearance="outline">
           <mat-label>CNPJ*</mat-label>
           <input matInput placeholder="CNPJ" mask="00.000.000/0000-00" formControlName="cnpj" (blur)="onBlurCnpj()"
-            type="digits">
+            type="digits" readonly>
         </mat-form-field>
         <small *ngIf="form.get('cnpj').errors?.required && form.get('cnpj').touched" class="text-danger font-14">Você
           precisa inserir um CNPJ.</small>

@@ -180,15 +180,21 @@ export class ImportComponent implements OnInit {
   }
 
   async receiveFile(){
-    
-    this.spinner.show();
-    //this.createdForm();
-    this.itemsNew = [];
-    let json = await this.importservice.importarPedido(this.info.file, this.representada);
-    this.form.get("representada_id").setValue(this.representada.id);
-    // console.log(json)
-    this.spinner.hide();
-    this[this.representada.func](json.json, json.itens);
+      this.spinner.show();
+      this.itemsNew = [];
+      // let json = await this.importservice.importarPedido(this.info.file, this.representada);
+      this.importservice.importarPedido(this.info.file, this.representada).then(res=>{
+        console.log(res)
+        if(res != false){
+          this.form.get("representada_id").setValue(this.representada.id);
+          this.spinner.hide();
+          this[this.representada.func](res.json, res.itens);
+        }else{
+          console.log("eror no Service: ",res)
+          this.notificationService.notify("Excel com divergência, informe ao administrador!");
+          //this.dialogRef.close();
+        }
+      });
   }
 
   // async incomingfile(event) {
@@ -213,246 +219,282 @@ export class ImportComponent implements OnInit {
   // }
 
   async volk(data, itens) {
-    this.condComercial = data[12][1];
-    this.condComerciais.map((x) => {
-      if(x.nome.toLowerCase() == this.condComercial.toLowerCase()){
-        this.form.get("condicao_comercial_id").setValue(x.id);
-        this.condComercial = "";
-      }
-    });
-    
-    var clienteCnpj = data[7][3].toString().length == 13 ? "0" + data[7][3] : data[7][3];
-    var pedido = data[21][12] != undefined ? data[6][1] + "/" + data[21][12] : data[6][1];
-    this.form.get("num_pedido").setValue(pedido);
-    this.form.get("transportadora").setValue(data[18][2]);
-    this.form.get("data_emissao").setValue(moment(data[6][3].replace(/\//g, "-"), "DD-MM-YYYY").format("YYYY-MM-DD"));
-    this.form.get("data_entrega").setValue(moment(data[21][4], "DD-MM-YYYY").format("YYYY-MM-DD"));
-    this.form.get("frete").setValue(data[17][1] == "C" ? "Cliente" : "Representada");
-
-    if (itens.item.length > 0) {
-      itens.item.forEach(element => {
-        this.addItem(element);
-      });
-    }
-    if (itens.newItem.length > 0) {
-      this.itemsNew = [...itens.newItem];
-      this.openDialogProdutos();
-    }
-    console.log(itens)
-    this.ValorTotal = itens.valorTotal;
-
-    if (String(clienteCnpj).length == 14) {
-      this.clientservice.getClientesCnpj(clienteCnpj).subscribe((res: any) => {
-        if (res.success == true) {
-          this.form.get("cliente_id").setValue(res.data.id);
-          this.setAreaDeVenda(res.data.cliente_representada_area_vendas);
-          this.CarregarProdutosRepresentada();
-        } else {
-          this.openDialogCNPJ(clienteCnpj);
-        }
-      });
-    } else {
-      this.notificationService.notify("CNPJ INCORRETO!");
-    }
-
-    this.spinner.hide();
-  }
-
-  async camper(data, itens) {
-    let clienteCnpj = data[2][0].toString().match(new RegExp("\\d{2}\\.\\d{3}\\.\\d{3}\\/\\d{4}\\-\\d{2}", "g"))[0];
-    clienteCnpj = clienteCnpj.replace(/[^\d]+/g, "");
-    clienteCnpj = clienteCnpj.length == 13 ? "0" + clienteCnpj : clienteCnpj;
-    this.form.get("num_pedido").setValue(data[0][0].toString().match(new RegExp("\\d+", "g"))[0]);
-    this.form.get("frete").setValue("Representada");
-
-    let info = data[2][0].split("Informações adicionais:")[1] != null ? data[2][0].split("Informações adicionais:")[1].replace(/\n/g,' ') : null;
-    if(info != null) this.form.get("obs").setValue(info);
-    
-    if (data[itens.final + 1][0] == "Valor total em produtos:") {
-      this.condComercial = data[itens.final + 4][0].split(":")[1].replace("  Data de Emissão", "").trim();
+    try{
+      this.condComercial = data[12][1];
       this.condComerciais.map((x) => {
         if(x.nome.toLowerCase() == this.condComercial.toLowerCase()){
           this.form.get("condicao_comercial_id").setValue(x.id);
           this.condComercial = "";
         }
       });
-      this.form.get("data_emissao").setValue(moment(data[itens.final + 4][0].split(":")[2], "DD-MM-YYYY").format("YYYY-MM-DD"));
-      info = data[itens.final + 8];
-      if(info != null) {
-        if(info.length > 0) {
-          info = data[itens.final + 8][0].split("Informações Adicionais:")[1] != null ? data[itens.final + 8][0].split("Informações Adicionais:")[1].replace(/\n/g,' ') : null;
-          if(info != null){
-            if(this.form.get("obs").value != null){
-              this.form.get("obs").setValue(this.form.get("obs").value + ", "+ info)
-            }else{
-              this.form.get("obs").setValue(info)
+      
+      var clienteCnpj = data[7][3].toString().length == 13 ? "0" + data[7][3] : data[7][3];
+      var pedido = data[21][12] != undefined ? data[6][1] + "/" + data[21][12] : data[6][1];
+      this.form.get("num_pedido").setValue(pedido);
+      this.form.get("transportadora").setValue(data[18][2]);
+      this.form.get("data_emissao").setValue(moment(data[6][3].replace(/\//g, "-"), "DD-MM-YYYY").format("YYYY-MM-DD"));
+      this.form.get("data_entrega").setValue(moment(data[21][4], "DD-MM-YYYY").format("YYYY-MM-DD"));
+      this.form.get("frete").setValue(data[17][1] == "C" ? "Cliente" : "Representada");
+
+      if (itens.item.length > 0) {
+        itens.item.forEach(element => {
+          this.addItem(element);
+        });
+      }
+      if (itens.newItem.length > 0) {
+        this.itemsNew = [...itens.newItem];
+        this.openDialogProdutos();
+      }
+      console.log(itens)
+      this.ValorTotal = itens.valorTotal;
+
+      if (String(clienteCnpj).length == 14) {
+        this.clientservice.getClientesCnpj(clienteCnpj).subscribe((res: any) => {
+          if (res.success == true) {
+            this.form.get("cliente_id").setValue(res.data.id);
+            this.setAreaDeVenda(res.data.cliente_representada_area_vendas);
+            this.CarregarProdutosRepresentada();
+          } else {
+            this.openDialogCNPJ(clienteCnpj);
+          }
+        });
+      } else {
+        this.notificationService.notify("CNPJ INCORRETO!");
+      }
+
+      this.spinner.hide();
+    } catch(e) {
+      this.notificationService.notify("Excel com divergência, informe ao administrador!");
+      this.dialogRef.close();
+    }
+  }
+
+  async camper(data, itens) {
+    try{
+      let clienteCnpj = data[2][0].toString().match(new RegExp("\\d{2}\\.\\d{3}\\.\\d{3}\\/\\d{4}\\-\\d{2}", "g"))[0];
+      clienteCnpj = clienteCnpj.replace(/[^\d]+/g, "");
+      clienteCnpj = clienteCnpj.length == 13 ? "0" + clienteCnpj : clienteCnpj;
+      this.form.get("num_pedido").setValue(data[0][0].toString().match(new RegExp("\\d+", "g"))[0]);
+      this.form.get("frete").setValue("Representada");
+
+      let info = data[2][0].split("Informações adicionais:")[1] != null ? data[2][0].split("Informações adicionais:")[1].replace(/\n/g,' ') : null;
+      if(info != null) this.form.get("obs").setValue(info);
+      
+      if (data[itens.final + 1][0] == "Valor total em produtos:") {
+        this.condComercial = data[itens.final + 4][0].split(":")[1].replace("  Data de Emissão", "").trim();
+        this.condComerciais.map((x) => {
+          if(x.nome.toLowerCase() == this.condComercial.toLowerCase()){
+            this.form.get("condicao_comercial_id").setValue(x.id);
+            this.condComercial = "";
+          }
+        });
+        this.form.get("data_emissao").setValue(moment(data[itens.final + 4][0].split(":")[2], "DD-MM-YYYY").format("YYYY-MM-DD"));
+        info = data[itens.final + 8];
+        if(info != null) {
+          if(info.length > 0) {
+            info = data[itens.final + 8][0].split("Informações Adicionais:")[1] != null ? data[itens.final + 8][0].split("Informações Adicionais:")[1].replace(/\n/g,' ') : null;
+            if(info != null){
+              if(this.form.get("obs").value != null){
+                this.form.get("obs").setValue(this.form.get("obs").value + ", "+ info)
+              }else{
+                this.form.get("obs").setValue(info)
+              }
             }
           }
         }
       }
-    }
-    // else {
-    //   this.condComercial = data[itens.final + 2][0].split(":")[1].replace("  Data de Emissão", "").trim();
-    //   this.form.get("data_emissao").setValue(moment(data[itens.final + 2][0].split(":")[2], "DD-MM-YYYY").format("YYYY-MM-DD"));
-    //   //this.form.get("obs").setValue(data[itens.final + 4][0].split(":")[1]);
-    // }
-    this.ValorTotal = itens.valorTotal;
+      // else {
+      //   this.condComercial = data[itens.final + 2][0].split(":")[1].replace("  Data de Emissão", "").trim();
+      //   this.form.get("data_emissao").setValue(moment(data[itens.final + 2][0].split(":")[2], "DD-MM-YYYY").format("YYYY-MM-DD"));
+      //   //this.form.get("obs").setValue(data[itens.final + 4][0].split(":")[1]);
+      // }
+      this.ValorTotal = itens.valorTotal;
 
-    if (itens.item.length > 0) {
-      itens.item.forEach(element => {
-        this.addItem(element); //* Adiciona item à item que já esteja cadastrado no banco
-      });
-    }
-    if (itens.newItem.length > 0) {
-      this.itemsNew = [...itens.newItem];
-      this.openDialogProdutos();
-    }
+      if (itens.item.length > 0) {
+        itens.item.forEach(element => {
+          this.addItem(element); //* Adiciona item à item que já esteja cadastrado no banco
+        });
+      }
+      if (itens.newItem.length > 0) {
+        this.itemsNew = [...itens.newItem];
+        this.openDialogProdutos();
+      }
 
-    if (String(clienteCnpj).length == 14) {
-      this.clientservice.getClientesCnpj(clienteCnpj).subscribe((res: any) => {
-        if (res.success == true) {
-          this.form.get("cliente_id").setValue(res.data.id);
-          this.setAreaDeVenda(res.data.cliente_representada_area_vendas);
-          this.CarregarProdutosRepresentada();
-        } else {
-          this.openDialogCNPJ(clienteCnpj);
-        }
-      });
-    } else {
-      this.notificationService.notify("CNPJ INCORRETO!");
-    }
+      if (String(clienteCnpj).length == 14) {
+        this.clientservice.getClientesCnpj(clienteCnpj).subscribe((res: any) => {
+          if (res.success == true) {
+            this.form.get("cliente_id").setValue(res.data.id);
+            this.setAreaDeVenda(res.data.cliente_representada_area_vendas);
+            this.CarregarProdutosRepresentada();
+          } else {
+            this.openDialogCNPJ(clienteCnpj);
+          }
+        });
+      } else {
+        this.notificationService.notify("CNPJ INCORRETO!");
+      }
 
-    this.spinner.hide()
+      this.spinner.hide()
+    } catch(e) {
+      this.notificationService.notify("Excel com divergência, informe ao administrador!");
+      this.dialogRef.close();
+    }
   }
 
   async kadesh(data, itens) {
-    this.condComercial = data[12][0].split(" ")[0] + " " + data[12][0].split(" ")[1];
-    this.condComerciais.map((x) => {
-      if(x.nome.toLowerCase() == this.condComercial.toLowerCase()){
-        this.form.get("condicao_comercial_id").setValue(x.id);
-        this.condComercial = "";
-      }
-    });
-
-    let clienteCnpj = data[7][0].toString().match(new RegExp("\\d{14}", "g"))[0];
-    this.form.get("num_pedido").setValue(data[3][0]);
-    this.form.get("data_emissao").setValue(moment(data[4][0].match(new RegExp("\\d{2}\\/\\d{2}\\/\\d{4}", "g"))[0].replace(/\//g, "-"), "DD-MM-YYYY").format("YYYY-MM-DD"));
-    this.form.get("valor_total").setValue(itens.valorTotal);
-    this.form.get("frete").setValue(data[itens.final + 9][0] == "CIF Destino" ? "Cliente" : "Representada");
-    this.form.get("transportadora").setValue(data[itens.final + 11][0]);
-
-    if (itens.item.length > 0) {
-      itens.item.forEach(element => {
-        this.addItem(element); //* Adiciona item à item que já esteja cadastrado no banco
-      });
-    }
-    if (itens.newItem.length > 0) {
-      this.itemsNew = [...itens.newItem];
-      this.openDialogProdutos();
-    }
-
-    if (String(clienteCnpj).length == 14) {
-      this.clientservice.getClientesCnpj(clienteCnpj).subscribe((res: any) => {
-        if (res.success == true) {
-          this.form.get("cliente_id").setValue(res.data.id);
-          this.setAreaDeVenda(res.data.cliente_representada_area_vendas);
-          this.CarregarProdutosRepresentada();
-        } else {
-          this.openDialogCNPJ(clienteCnpj);
+    try{
+      this.condComercial = data[12][0].split(" ")[0] + " " + data[12][0].split(" ")[1];
+      this.condComerciais.map((x) => {
+        if(x.nome.toLowerCase() == this.condComercial.toLowerCase()){
+          this.form.get("condicao_comercial_id").setValue(x.id);
+          this.condComercial = "";
         }
       });
-    } else {
-      this.notificationService.notify("CNPJ INCORRETO!");
+
+      let clienteCnpj = data[7][0].toString().match(new RegExp("\\d{14}", "g"))[0];
+      this.form.get("num_pedido").setValue(data[3][0]);
+      this.form.get("data_emissao").setValue(moment(data[4][0].match(new RegExp("\\d{2}\\/\\d{2}\\/\\d{4}", "g"))[0].replace(/\//g, "-"), "DD-MM-YYYY").format("YYYY-MM-DD"));
+      this.form.get("valor_total").setValue(itens.valorTotal);
+      this.form.get("frete").setValue(data[itens.final + 9][0] == "CIF Destino" ? "Cliente" : "Representada");
+      this.form.get("transportadora").setValue(data[itens.final + 11][0]);
+
+      if (itens.item.length > 0) {
+        itens.item.forEach(element => {
+          this.addItem(element); //* Adiciona item à item que já esteja cadastrado no banco
+        });
+      }
+      if (itens.newItem.length > 0) {
+        this.itemsNew = [...itens.newItem];
+        this.openDialogProdutos();
+      }
+
+      if (String(clienteCnpj).length == 14) {
+        this.clientservice.getClientesCnpj(clienteCnpj).subscribe((res: any) => {
+          if (res.success == true) {
+            this.form.get("cliente_id").setValue(res.data.id);
+            this.setAreaDeVenda(res.data.cliente_representada_area_vendas);
+            this.CarregarProdutosRepresentada();
+          } else {
+            this.openDialogCNPJ(clienteCnpj);
+          }
+        });
+      } else {
+        this.notificationService.notify("CNPJ INCORRETO!");
+      }
+      this.spinner.hide();
+    }catch(e) {
+      this.notificationService.notify("Excel com divergência, informe ao administrador!");
+      this.dialogRef.close();
     }
-    this.spinner.hide();
   }
 
   async betanin(data, itens) {
-    console.log(data, itens)
-    this.condComercial = data[2][26] == "Cod. Pagto." ? data[2][30] : data[2][31];
-    this.condComerciais.map((x) => {
-      if(x.nome.toLowerCase() == this.condComercial.toLowerCase()){
-        this.form.get("condicao_comercial_id").setValue(x.id);
-        this.condComercial = "";
+    try {
+      console.log(data)
+      if(data[2][25] == "Cod. Pagto."){
+        this.condComercial = data[2][29];
+      }else if(data[2][26] == "Cod. Pagto."){
+        this.condComercial = data[2][30];
+      }else{
+        this.condComercial = data[2][31];
       }
-    });
-    
-    console.log()
-    let clienteCnpj = data[5][3].replace(/[^\d]+/g, "");
-    clienteCnpj = clienteCnpj.length == 13 ? "0" + clienteCnpj : clienteCnpj;
-    this.form.get("num_pedido").setValue(data[1][26] == "Ordem SAP" ? data[1][30] : data[1][31]);
-    this.form.get("data_emissao").setValue(moment(this.dateAdapterWithUtc(data[3][26] == "Data Emissão" ? data[3][30] : data[3][31]), "DD-MM-YYYY").format("YYYY-DD-MM"));
-    this.form.get("frete").setValue(data[itens.final + 2][3] == "CIF" ? "Cliente" : "Representada");
-    this.form.get("transportadora").setValue(data[itens.final + 3][3]);
 
-    this.ValorTotal = itens.valorTotal;
-    this.form.get("subst").setValue(itens.subst);
-
-    if (itens.item.length > 0) {
-      itens.item.forEach(element => {
-        this.addItem(element); //* Adiciona item à item que já esteja cadastrado no banco
-      });
-    }
-    if (itens.newItem.length > 0) {
-      this.itemsNew = [...itens.newItem];
-      this.openDialogProdutos();
-    }
-
-    if (String(clienteCnpj).length == 14) {
-      this.clientservice.getClientesCnpj(clienteCnpj).subscribe((res: any) => {
-        if (res.success == true) {
-          this.form.get("cliente_id").setValue(res.data.id);
-          this.setAreaDeVenda(res.data.cliente_representada_area_vendas);
-          this.CarregarProdutosRepresentada();
-        } else {
-          this.openDialogCNPJ(clienteCnpj);
+      this.condComerciais.map((x) => {
+        if(x.nome.toLowerCase() == this.condComercial.toLowerCase()){
+          this.form.get("condicao_comercial_id").setValue(x.id);
+          this.condComercial = "";
         }
       });
-    } else {
-      this.notificationService.notify("CNPJ INCORRETO!");
+      let clienteCnpj = data[5][3].replace(/[^\d]+/g, "");
+      clienteCnpj = clienteCnpj.length == 13 ? "0" + clienteCnpj : clienteCnpj;
+      this.form.get("num_pedido").setValue(data[1][25] == "Ordem SAP" ? data[1][29] : data[1][31]);
+      if(data[3][25] == "Data Emissão"){
+        this.form.get("data_emissao").setValue(moment(this.dateAdapterWithUtc(data[3][29]), "YYYY-MM-DD"));
+      }else{
+        this.form.get("data_emissao").setValue(moment(this.dateAdapterWithUtc(data[3][31]), "YYYY-MM-DD").format("YYYY-DD-MM"));
+      }
+      this.form.get("frete").setValue(data[itens.final + 2][3] == "CIF" ? "Cliente" : "Representada");
+      this.form.get("transportadora").setValue(data[itens.final + 3][3]);
+
+      this.ValorTotal = itens.valorTotal;
+      this.form.get("subst").setValue(itens.subst);
+
+      if (itens.item.length > 0) {
+        itens.item.forEach(element => {
+          this.addItem(element); //* Adiciona item à item que já esteja cadastrado no banco
+        });
+      }
+      if (itens.newItem.length > 0) {
+        this.itemsNew = [...itens.newItem];
+        this.openDialogProdutos();
+      }
+
+      if (String(clienteCnpj).length == 14) {
+        this.clientservice.getClientesCnpj(clienteCnpj).subscribe((res: any) => {
+          if (res.success == true) {
+            this.form.get("cliente_id").setValue(res.data.id);
+            this.setAreaDeVenda(res.data.cliente_representada_area_vendas);
+            this.CarregarProdutosRepresentada();
+          } else {
+            this.openDialogCNPJ(clienteCnpj);
+          }
+        });
+      } else {
+        this.notificationService.notify("CNPJ INCORRETO!");
+      }
+      this.spinner.hide();
+    } catch(e) {
+      console.log(e);
+      this.notificationService.notify("Excel com divergência, informe ao administrador!");
+      this.dialogRef.close();
     }
-    this.spinner.hide();
+    
   }
 
   async italbotas(data, itens) {
-    this.condComercial = data[6][18];
-    this.condComerciais.map((x) => {
-      if(x.nome.toLowerCase() == this.condComercial.toLowerCase()){
-        this.form.get("condicao_comercial_id").setValue(x.id);
-        this.condComercial = "";
-      }
-    });
-
-    let clienteCnpj = data[5][17];
-    clienteCnpj = clienteCnpj.length == 13 ? "0" + clienteCnpj : clienteCnpj;
-    this.form.get("num_pedido").setValue(data[5][1].trim() + "/" + data[6][27].trim());
-    this.form.get("data_emissao").setValue(moment(data[6][4].match(new RegExp("\\d{2}\\/\\d{2}\\/\\d{4}", "g"))[0].replace(/\//g, "-"), "DD-MM-YYYY").format("YYYY-MM-DD"));
-    this.form.get("data_entrega").setValue(moment(data[6][10].match(new RegExp("\\d{2}\\/\\d{2}\\/\\d{4}", "g"))[0].replace(/\//g, "-"), "DD-MM-YYYY").format("YYYY-MM-DD"));
-
-    if (itens.item.length > 0) {
-      itens.item.forEach(element => {
-        this.addItem(element); //* Adiciona item à item que já esteja cadastrado no banco
-      });
-    }
-    if (itens.newItem.length > 0) {
-      this.itemsNew = [...itens.newItem];
-      this.openDialogProdutos();
-    }
-
-    if (String(clienteCnpj).length == 14) {
-      this.clientservice.getClientesCnpj(clienteCnpj).subscribe((res: any) => {
-        if (res.success == true) {
-          this.form.get("cliente_id").setValue(res.data.id);
-          this.setAreaDeVenda(res.data.cliente_representada_area_vendas);
-          this.CarregarProdutosRepresentada();
-        } else {
-          this.openDialogCNPJ(clienteCnpj);
+    try{
+      this.condComercial = data[6][18];
+      this.condComerciais.map((x) => {
+        if(x.nome.toLowerCase() == this.condComercial.toLowerCase()){
+          this.form.get("condicao_comercial_id").setValue(x.id);
+          this.condComercial = "";
         }
       });
-    } else {
-      this.notificationService.notify("CNPJ INCORRETO!");
+
+      let clienteCnpj = data[5][17];
+      clienteCnpj = clienteCnpj.length == 13 ? "0" + clienteCnpj : clienteCnpj;
+      this.form.get("num_pedido").setValue(data[5][1].trim() + "/" + data[6][27].trim());
+      this.form.get("data_emissao").setValue(moment(data[6][4].match(new RegExp("\\d{2}\\/\\d{2}\\/\\d{4}", "g"))[0].replace(/\//g, "-"), "DD-MM-YYYY").format("YYYY-MM-DD"));
+      this.form.get("data_entrega").setValue(moment(data[6][10].match(new RegExp("\\d{2}\\/\\d{2}\\/\\d{4}", "g"))[0].replace(/\//g, "-"), "DD-MM-YYYY").format("YYYY-MM-DD"));
+
+      if (itens.item.length > 0) {
+        itens.item.forEach(element => {
+          this.addItem(element); //* Adiciona item à item que já esteja cadastrado no banco
+        });
+      }
+      if (itens.newItem.length > 0) {
+        this.itemsNew = [...itens.newItem];
+        this.openDialogProdutos();
+      }
+
+      if (String(clienteCnpj).length == 14) {
+        this.clientservice.getClientesCnpj(clienteCnpj).subscribe((res: any) => {
+          if (res.success == true) {
+            this.form.get("cliente_id").setValue(res.data.id);
+            this.setAreaDeVenda(res.data.cliente_representada_area_vendas);
+            this.CarregarProdutosRepresentada();
+          } else {
+            this.openDialogCNPJ(clienteCnpj);
+          }
+        });
+      } else {
+        this.notificationService.notify("CNPJ INCORRETO!");
+      }
+      this.spinner.hide();
+    }catch(e) {
+      this.notificationService.notify("Excel com divergência, informe ao administrador!");
+      this.dialogRef.close();
     }
-    this.spinner.hide();
   }
 
   searchClientes(event) {
@@ -823,7 +865,7 @@ export class ImportComponent implements OnInit {
     let subst = this.form.get("subst").value > 0 ? this.form.get("subst").value : 0 ;
     this.form.get("valor_liquido").setValue(total - desconto);
     this.form.get("valor_total").setValue(Math.round(( total + ipi - desconto + subst) * 100) / 100);
-    if (this.form.get("valor_total").value > this.ValorTotal){
+    if (this.form.get("valor_total").value > (this.ValorTotal+ ipi)){
       this.disabled = true;
     }else{
       this.disabled = false;
@@ -840,9 +882,13 @@ export class ImportComponent implements OnInit {
           this.notificationService.notify(`Pedido Cadastrado com Sucesso!`);
           this.dialogRef.close();
         } else {
-          this.notificationService.notify(`Erro contate o Administrador`);
-          console.log(res.data)
-          this.dialogRef.close();
+          if(res.data.pedido){
+            this.notificationService.notify(`Já existe um pedido cadastrado com esses dados!`);
+          }else{
+            this.notificationService.notify(`Erro contate o Administrador`);
+            console.log(res.data)
+          }
+          //this.dialogRef.close();
         }
       });
     }else{

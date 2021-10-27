@@ -99,6 +99,12 @@ export class ClientService {
       .http
       .post(uri, data)
   }
+  addDevolucao(data) {
+    const uri = `${API_URL}` + `notaProdutoDevolutions/add.json`;
+    return this
+      .http
+      .post(uri, data)
+  }
   editNota(data) {
     console.log(data)
     const uri = `${API_URL}` + `notas/edit/` + data.id + `.json`;
@@ -362,7 +368,6 @@ export class ClientService {
     return this
       .http
       .post(uri, data)
-
   }
   updatePedido(data): Observable<any> {
     const url = `${API_URL}pedidos/edit/${data.id}.json`;

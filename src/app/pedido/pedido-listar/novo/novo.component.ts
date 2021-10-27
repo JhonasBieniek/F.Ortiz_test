@@ -636,7 +636,7 @@ export class NovoComponent implements OnInit {
     this.form.get("valor_liquido").setValue(total - desconto);
     this.form.get("valor_total").setValue(Math.round(( total + ipi - desconto + subst) * 100) / 100);
     if(this.ValorTotal > 0){  
-      if (this.form.get("valor_total").value > this.ValorTotal){
+      if (this.form.get("valor_total").value > (this.ValorTotal + ipi)){
         this.disabled = true;
       }else{
         this.disabled = false;
@@ -655,9 +655,13 @@ export class NovoComponent implements OnInit {
             this.notificationService.notify("Atualizado com Sucesso!");
             this.dialogRef.close();
           } else {
-            this.notificationService.notify(`Erro contate o Administrador`);
-            console.log(res.data)
-            this.dialogRef.close();
+            if(res.data.pedido){
+              this.notificationService.notify(`Já existe um pedido cadastrado com esses dados!`);
+            }else{
+              this.notificationService.notify(`Erro contate o Administrador`);
+              console.log(res.data)
+              this.dialogRef.close();
+            }
           }
         });
       } else {
@@ -666,9 +670,13 @@ export class NovoComponent implements OnInit {
             this.notificationService.notify(`Pedido Cadastrado com Sucesso!`);
             this.dialogRef.close();
           } else {
-            this.notificationService.notify(`Erro contate o Administrador`);
-            console.log(res.data);
-            this.dialogRef.close();
+            if(res.data.pedido){
+              this.notificationService.notify(`Já existe um pedido cadastrado com esses dados!`);
+            }else{
+              this.notificationService.notify(`Erro contate o Administrador`);
+              console.log(res.data)
+            }
+            //this.dialogRef.close();
           }
         });
       }

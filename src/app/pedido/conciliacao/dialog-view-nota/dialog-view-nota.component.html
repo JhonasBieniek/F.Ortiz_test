@@ -1,138 +1,163 @@
 <div fxLayout="row wrap">
-  <div class="p-t-30" fxFlex.gt-sm="50%" class="p-20" fxFlex="50" fxLayoutAlign="start" fxLayoutGap="10px" >
+  <div class="p-t-30" fxFlex.gt-sm="50%" class="p-20" fxFlex="50" fxLayoutAlign="start" fxLayoutGap="10px">
     <h1 mat-dialog-title style="font-size: x-large;">
       Visualizando NF: <span style="font-weight: bolder; color:blue">{{dados?.num_nota}}</span>
-      <i class="fa fa-pencil button m-l-10" 
-      title="Editar" 
-      (click)="editar(row);"></i></h1>
+      <i class="fa fa-pencil button m-l-10" title="Editar" (click)="editar(row);"></i>
+    </h1>
   </div>
   <div fxFlex.gt-sm="50%" fxFlex="50" class="p-20" fxLayoutAlign="end start" fxLayoutGap="10px">
-      <!-- <button *ngIf="dados?.status == 'parcial'" mat-stroked-button color="primary" class="p-10" (click)="adicionarNf()">
+    <!-- <button *ngIf="dados?.status == 'parcial'" mat-stroked-button color="primary" class="p-10" (click)="adicionarNf()">
       <i class="material-icons">note_add</i>Adicionar NF</button> -->
-      <button *ngIf="dados?.status == 'aberto' || 'parcial'" mat-stroked-button color="warn" class="p-10" (click)="removerNf()">
-        <i class="material-icons">close_fullscreen</i>Remover NF</button>
-      <button *ngIf="dados?.status == 'aberto' || 'parcial'" mat-stroked-button color="accent" class="p-10" (click)="devolucao()">
-        <i class="material-icons">highlight_off</i>Devolução</button>  
-      <button *ngIf="dados?.status == 'recebido'" mat-stroked-button color="primary" class="p-10" (click)="estorno()">
-        <i class="material-icons">restore</i>Estorno</button>
-      <button mat-stroked-button color="primary" class="p-10"  (click)="imprimir()">
-        <i class="material-icons">print</i>Imprimir
-      </button>
+    <button *ngIf="dados?.status == 'aberto' || 'parcial'" mat-stroked-button color="warn" class="p-10"
+      (click)="removerNf()">
+      <i class="material-icons">close_fullscreen</i>Remover NF</button>
+    <button *ngIf="dados?.status == 'aberto' || 'parcial'" mat-stroked-button color="accent" class="p-10"
+      (click)="devolucao()">
+      <i class="material-icons">highlight_off</i>Devolução</button>
+    <button *ngIf="dados?.status == 'recebido'" mat-stroked-button color="primary" class="p-10" (click)="estorno()">
+      <i class="material-icons">restore</i>Estorno</button>
+    <button mat-stroked-button color="primary" class="p-10" (click)="imprimir()">
+      <i class="material-icons">print</i>Imprimir
+    </button>
   </div>
 </div>
-  <div fxLayout="row wrap">
-    <div fxFlex.gt-sm="100%" fxFlex="100" style="font-size: small;">
-      <div fxLayout="row wrap">
-        <div fxFlex.gt-sm="18" fxFlex.gt-xs="18" fxFlex="100" >
-          <span><strong>Cod. Pedido: </strong>{{dados?.pedido.num_pedido}}</span>
-        </div>
-        <div fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100" >
-          <span><strong>Representada: </strong>{{dados?.pedido.representada.nome_fantasia}}</span>
-        </div>
-        <div fxFlex.gt-sm="28" fxFlex.gt-xs="28" fxFlex="100" >
-          <span><strong>Cliente: </strong> {{dados?.pedido.cliente.razao_social}}</span>
-        </div>
-        <div fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100" >
-          <span><strong>Valor Pedido</strong> {{dados?.pedido.valor_total | currency:'BRL':true:'1.2-2'}}</span>
-        </div>
-        <div fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100" >
-          <span><strong>Valor Liq. Pedido</strong> {{dados?.pedido.valor_liquido | currency:'BRL':true:'1.2-2'}}</span>
-        </div>
-        <div fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100" class="p-t-10">
-          <span><strong>Valor faturado: </strong> {{ valorFaturado()  | currency:'BRL':true:'1.2-2'}}</span>
-        </div>
-        <div fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100" class="p-t-10">
-          <span><strong>Valor Restante: </strong> {{valorRestante() | currency:'BRL':true:'1.2-2'}}</span>
-        </div>
-        <div fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100" class="p-t-10">
-          <span><strong>Dt. Faturamento: </strong> {{dados?.data_faturamento |  date:'dd/MM/yyyy'}}</span>
-        </div>
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="100%" fxFlex="100" style="font-size: small;">
+    <div fxLayout="row wrap">
+      <div fxFlex.gt-sm="18" fxFlex.gt-xs="18" fxFlex="100">
+        <span><strong>Cod. Pedido: </strong>{{dados?.pedido.num_pedido}}</span>
+      </div>
+      <div fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
+        <span><strong>Representada: </strong>{{dados?.pedido.representada.nome_fantasia}}</span>
+      </div>
+      <div fxFlex.gt-sm="28" fxFlex.gt-xs="28" fxFlex="100">
+        <span><strong>Cliente: </strong> {{dados?.pedido.cliente.razao_social}}</span>
+      </div>
+      <div fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
+        <span><strong>Valor Pedido</strong> {{dados?.pedido.valor_total | currency:'BRL':true:'1.2-2'}}</span>
+      </div>
+      <div fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
+        <span><strong>Valor Liq. Pedido</strong> {{dados?.pedido.valor_liquido | currency:'BRL':true:'1.2-2'}}</span>
+      </div>
+      <div fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100" class="p-t-10">
+        <span><strong>Valor faturado: </strong> {{ valorFaturado() | currency:'BRL':true:'1.2-2'}}</span>
+      </div>
+      <div fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100" class="p-t-10">
+        <span><strong>Valor Restante: </strong> {{valorRestante() | currency:'BRL':true:'1.2-2'}}</span>
+      </div>
+      <div fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100" class="p-t-10">
+        <span><strong>Dt. Faturamento: </strong> {{dados?.data_faturamento | date:'dd/MM/yyyy'}}</span>
       </div>
     </div>
   </div>
-  <div class="p-t-20 text" fxLayout="row wrap">
-    <ng-container *ngFor="let parcela of dados?.nota_parcelas; let num = index" >
-      
-      <div style="margin-right: -10px;" fxFlex.gt-sm="3" fxFlex.gt-xs="3" fxFlex="4">
-        <span style="color: rgb(57, 57, 233)">{{num+1}}/{{dados?.nota_parcelas.length}} -</span> 
-      </div>
-      <div fxFlex.gt-sm="18" fxFlex.gt-xs="18" fxFlex="48">
-        <span><strong>Data do Vencimento:</strong> {{parcela?.data_vencimento |  date:'dd/MM/yyyy'}} </span>
-      </div>
-      <div fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="48">
-        <span><strong>Recebido: </strong>{{parcela?.status_recebimento ? 'Recebido' : 'Pendente'}}</span>
-      </div>
-    </ng-container>
+</div>
+<div class="p-t-20 text" fxLayout="row wrap">
+  <ng-container *ngFor="let parcela of dados?.nota_parcelas; let num = index">
 
-  </div>
-  <mat-tab-group class="p-t-20" (selectedTabChange)="onTabChange($event)">
-    <mat-tab *ngFor="let step of steps " class="aba" label="{{step.titulo}}">
-      <mat-form-field>
-        <input matInput type='text' class="form-control" placeholder='Insira um nome para pesquisar...'
+    <div style="margin-right: -10px;" fxFlex.gt-sm="3" fxFlex.gt-xs="3" fxFlex="4">
+      <span style="color: rgb(57, 57, 233)">{{num+1}}/{{dados?.nota_parcelas.length}} -</span>
+    </div>
+    <div fxFlex.gt-sm="18" fxFlex.gt-xs="18" fxFlex="48">
+      <span><strong>Data do Vencimento:</strong> {{parcela?.data_vencimento | date:'dd/MM/yyyy'}} </span>
+    </div>
+    <div fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="48">
+      <span><strong>Recebido: </strong>{{parcela?.status_recebimento ? 'Recebido' : 'Pendente'}}</span>
+    </div>
+  </ng-container>
+
+</div>
+<mat-tab-group class="p-t-20" (selectedTabChange)="onTabChange($event)">
+  <mat-tab *ngFor="let step of steps " class="aba" label="{{step.titulo}}">
+    <mat-form-field>
+      <input matInput type='text' class="form-control" placeholder='Insira um nome para pesquisar...'
         (keyup)='updateFilter($event)' />
-      </mat-form-field>
-      <ngx-datatable 
-      #step.step 
-      class='material striped' 
-      [columnMode]="'flex'" 
-      [headerHeight]="50" 
-      [footerHeight]="50"
-      [rowHeight]="'auto'" 
-      [limit]="5"
-      [rows]='rows[step.index]'
-      [sorts]="[{prop: 'id', dir: 'asc'}]">
+    </mat-form-field>
+    <ngx-datatable #step.step class='material striped' [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50"
+      [rowHeight]="'auto'" [limit]="5" [rows]='rows[step.index]' [sorts]="[{prop: 'id', dir: 'asc'}]">
 
-        <ngx-datatable-column [flexGrow]="0.6" name="Código" prop="produto.codigo_catalogo">
-          <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
-            {{ value }}
-          </ng-template>
-        </ngx-datatable-column>
+      <ngx-datatable-column [flexGrow]="0.6" name="Código" prop="produto.codigo_catalogo">
+        <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
 
-        <ngx-datatable-column [flexGrow]="0.4" name="Tamanho" prop="tamanho">
-          <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
-            {{ value }}
-          </ng-template>
-        </ngx-datatable-column>
-        
-        <ngx-datatable-column [flexGrow]="2" name="Nome do produto" prop="produto.nome">
-          <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
-            {{ value }}
-          </ng-template>
-        </ngx-datatable-column>
+      <ngx-datatable-column [flexGrow]="0.4" name="Tamanho" prop="tamanho">
+        <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
 
-        <ngx-datatable-column [flexGrow]="0.6" name="Qtd Pedido" prop="quantidade">
-          <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
-            {{ value }}
-          </ng-template>
-        </ngx-datatable-column>
-        
-        <ngx-datatable-column [flexGrow]="0.6" name="Qtd NF" prop="qtd_faturado">
-          <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
-            {{ value }}
-          </ng-template>
-        </ngx-datatable-column>
+      <ngx-datatable-column [flexGrow]="2" name="Nome do produto" prop="produto.nome">
+        <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
 
-        <ngx-datatable-column [flexGrow]="0.6" name="Qtd Restante" prop="qtd_restante">
-          <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
-            {{ value }}
-          </ng-template>
-        </ngx-datatable-column>
+      <ngx-datatable-column [flexGrow]="0.6" name="Qtd Pedido" prop="quantidade">
+        <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
 
-        <ngx-datatable-column [flexGrow]="1" name="Vlr Unit." prop="valor_unitario">
-          <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
-            {{ value | currency:'BRL':true:'1.2-2' }}
-          </ng-template>
-        </ngx-datatable-column>
+      <ngx-datatable-column [flexGrow]="0.6" name="Qtd NF" prop="qtd_faturado">
+        <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
 
-        <ngx-datatable-column [flexGrow]="1" name="Valor" prop="total">
-          <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
-            {{ value | currency:'BRL':true:'1.2-2' }}
-          </ng-template>
-        </ngx-datatable-column>
+      <ngx-datatable-column [flexGrow]="0.6" name="Qtd Restante" prop="qtd_restante">
+        <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
 
-      </ngx-datatable>
-    </mat-tab>
-  </mat-tab-group>
-  <div class="p-20" fxLayout="row wrap" fxLayoutAlign="end start">
-    <button mat-raised-button color="warn" (click)="close()">Sair</button>
-  </div>
+      <ngx-datatable-column [flexGrow]="1" name="Vlr Unit." prop="valor_unitario">
+        <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+          {{ value | currency:'BRL':true:'1.2-2' }}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [flexGrow]="1" name="Valor" prop="total">
+        <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+          {{ value | currency:'BRL':true:'1.2-2' }}
+        </ng-template>
+      </ngx-datatable-column>
+
+    </ngx-datatable>
+  </mat-tab>
+</mat-tab-group>
+<div class="p-t-10 text" fxLayout="row wrap" *ngIf="devolucoes.length > 0">
+  <p fxFlex="100"><strong>Lista de Devoluções:</strong></p>
+
+  <ngx-datatable class='material striped' [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50"
+  [rowHeight]="'auto'" [limit]="5" [rows]='devolucoes' [sorts]="[{prop: 'id', dir: 'asc'}]" fxFlex="100">
+
+  <ngx-datatable-column [flexGrow]="0.6" name="Código" prop="pedido_produto.produto.codigo_catalogo">
+    <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+      {{ value }}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column [flexGrow]="0.4" name="Tamanho" prop="pedido_produto.tamanho">
+    <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+      {{ value }}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column [flexGrow]="2" name="Nome do produto" prop="pedido_produto.produto.nome">
+    <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+      {{ value }}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column [flexGrow]="0.6" name="Qtd" prop="qtd">
+    <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+      {{ value }}
+    </ng-template>
+  </ngx-datatable-column>
+</ngx-datatable>
+</div>
+
+<div class="p-20" fxLayout="row wrap" fxLayoutAlign="end start">
+  <button mat-raised-button color="warn" (click)="close()">Sair</button>
+</div>
