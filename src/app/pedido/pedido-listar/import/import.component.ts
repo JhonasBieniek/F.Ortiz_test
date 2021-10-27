@@ -368,6 +368,7 @@ export class ImportComponent implements OnInit {
   }
 
   async betanin(data, itens) {
+    console.log(data, itens)
     this.condComercial = data[2][26] == "Cod. Pagto." ? data[2][30] : data[2][31];
     this.condComerciais.map((x) => {
       if(x.nome.toLowerCase() == this.condComercial.toLowerCase()){

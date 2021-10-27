@@ -46,6 +46,7 @@ export class DialogSendNotaComponent implements OnInit {
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
+    console.log(data);
     this.loadData();
   }
 
@@ -65,25 +66,41 @@ export class DialogSendNotaComponent implements OnInit {
 
   loadData() {
     this.clientservice.getPedido(this.data.id).subscribe((res: any) => {
+      console.log(res)
       this.pedido = res.data;
       this.temp = this.pedido.pedido_produtos.sort((a, b) => a.id - b.id);
       this.rows = [...this.temp];
       this.rows.map(e => {
+        // Verificar se ja existe nota do produto
+        this.pedido.nota_produtos.map(produtoNota => {
+          if(e.produto_id == produtoNota.produto_id){
+            e.quantidade = e.quantidade - produtoNota.qtd;
+          }
+        });
         e.quantidade_recebida = e.quantidade;
         return e;
       })
       console.log(this.rows)
     });
   }
+  totalNota(){
+    let total = 0;
+    this.rows.map( produto => {
+      total  = total + (produto.quantidade_recebida * produto.valor_unitario)
+    });
+
+    return total;
+  }
 
   criaParcelas() {
     this.clearParcelas();
     let data = new Date(this.form.get('data_faturamento').value);
+    let totalNota = this.totalNota();
     if (this.pedido.condicao_comercial.dias != null) {
       let parcelas = this.pedido.condicao_comercial.dias.split("/");
-      let valor = this.pedido.valor_total / parcelas.length;
-      let auxValor = this.pedido.comissao_auxiliar / parcelas.length;
-      let venValor = this.pedido.comissao_vendedor / parcelas.length;
+      let valor = totalNota / parcelas.length;
+      let auxValor = this.pedido.comissao_auxiliar / parcelas.length; // Validar 
+      let venValor = this.pedido.comissao_vendedor / parcelas.length; // Validar
       for (let i = 0; i < parcelas.length; i++) {
         if (parcelas[i] != "") {
           let vencimento = new Date(data)
@@ -109,8 +126,7 @@ export class DialogSendNotaComponent implements OnInit {
     });
   }
   onSelect(e) {
-    console.log(e);
-
+    //console.log(e);
   }
 
   cancel(): void {
@@ -146,9 +162,9 @@ export class DialogSendNotaComponent implements OnInit {
         }
       })
 
-      if(dados.parcial == true) {
-        dados.status = 'parcial'
-      }
+      // if(dados.parcial == true) {
+      //   dados.status = 'parcial'
+      // }
 
     this.clientservice.addNota(dados).subscribe((res: any) => {
       this.dialogRef.close(res.success);

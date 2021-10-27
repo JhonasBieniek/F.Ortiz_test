@@ -47,11 +47,10 @@ export class DialogEditNotaComponent implements OnInit {
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) { 
-
+    console.log(this.data)
   }
 
   ngOnInit() {
-    console.log(this.data)
     this.form = this.fb.group({
       id: [this.data.id],
       pedido_id: [this.data.pedido_id],
@@ -68,59 +67,91 @@ export class DialogEditNotaComponent implements OnInit {
 
   }
 
-
   loadData(){
-      this.pedido = this.data.pedido;
-      this.temp = this.pedido.pedido_produtos.sort((a,b)=> a.id - b.id);
+    this.clientservice.getPedido(this.data.pedido_id).subscribe((res: any) => {
+      this.pedido = res.data;
+      this.temp = this.pedido.pedido_produtos.sort((a, b) => a.id - b.id);
+      
+      this.rows = [...this.temp];
+      this.rows.map(e => {
+        // Verificar se ja existe nota do produto
+        this.pedido.nota_produtos.map(produtoNota => {
+          if(e.produto_id == produtoNota.produto_id){
+            e.quantidade = e.quantidade - produtoNota.qtd;
+          }
+        });
+        e.quantidade_recebida = e.quantidade;
+        return e;
+      })
+
       let qtd = this.data.nota_produtos;
-      this.temp.map( e => {
+      this.rows.map( e => {
         qtd.map( f => {
           if(e.id === f.pedido_produto_id){
-            e.qtd_restante = e.quantidade - f.qtd
-            e.qtd_faturado = f.qtd
-            e.quantidade_recebida = f.qtd
-            e.total = f.qtd * e.valor_unitario
-            e.parcial = f.parcial
+            e.quantidade = e.quantidade + f.qtd;
+            e.quantidade_recebida = f.qtd;
+            e.parcial = e.quantidade != e.quantidade_recebida ? true : false
           }
         })
-      })
-      setTimeout(() => { this.rows = [...this.temp]; }, 500);
 
+        return e;
+      })
+      
+      setTimeout(() => { window.dispatchEvent(new Event('resize')) }, 500);
+    });
+
+    
+  }
+
+  totalNota(){
+    let total = 0;
+    this.rows.map( produto => {
+      total  = total + (produto.quantidade_recebida * produto.valor_unitario)
+    });
+
+    return total;
   }
 
   criaParcelas(){
     this.clearParcelas();
     let data = this.form.get('data_faturamento').value;
-      if(this.data.pedido.condicao_comercial.dias != null){
-        let parcelas = this.data.pedido.condicao_comercial.dias.split("/");
-        let valor = this.data.pedido.valor_total / parcelas.length;
-        for(let i=0; i<parcelas.length; i++){
-          if(parcelas[i] != ""){
-            let vencimento = new Date(data)
-            this.nota_parcelas.push(this.fb.group({
-              data_vencimento: new Date (vencimento.setDate(vencimento.getDate() + parseInt(parcelas[i]))),
-              valor: valor,
-              status_recebimento: false,
-              parcela: i
-            }))
-          }
+    let totalNota = this.totalNota();
+    if(this.data.pedido.condicao_comercial.dias != null){
+      let parcelas = this.data.pedido.condicao_comercial.dias.split("/");
+      let valor = totalNota / parcelas.length;
+      let auxValor = this.pedido.comissao_auxiliar / parcelas.length; // Validar 
+      let venValor = this.pedido.comissao_vendedor / parcelas.length; // Validar
+      for(let i=0; i<parcelas.length; i++){
+        if(parcelas[i] != ""){
+          let vencimento = new Date(data)
+          this.nota_parcelas.push(this.fb.group({
+            data_vencimento: new Date (vencimento.setDate(vencimento.getDate() + parseInt(parcelas[i]))),
+            valor: valor,
+            status_recebimento: false,
+            parcela: i,
+            auxiliar_valor: auxValor,
+            vendedor_valor: venValor
+          }))
         }
       }
+    }
+
   }
 
   clearParcelas(){
+    this.data.nota_parcelas.forEach(element => {
+      console.log(element)
+      this.clientservice.removeNotaParcela(element.id).subscribe(() => {})
+    });
+    this.data.nota_produtos.forEach(element => {
+      this.clientservice.removeNotaProduto(element.id).subscribe(() => {})
+    });
     while (this.nota_parcelas.controls.length) {
       this.nota_parcelas.removeAt(0);
     }
     while (this.nota_produtos.controls.length) {
       this.nota_produtos.removeAt(0);
     }
-    this.data.nota_parcelas.forEach(element => {
-      this.clientservice.removeNotaParcela(element.id).subscribe(() => {})
-    });
-    this.data.nota_produtos.forEach(element => {
-      this.clientservice.removeNotaProduto(element.id).subscribe(() => {})
-    });
   }
 
   updateFilter(event) {
@@ -156,19 +187,23 @@ export class DialogEditNotaComponent implements OnInit {
       }))
     });
     dados = this.form.value;
-      dados.nota_produtos.map((e:any)=> {
-        if(e.parcial == true){
-          dados.parcial = true
-        }
-      })
-
-      if(dados.parcial == true) {
-        dados.status = 'parcial'
-      }else {
-        dados.status = 'aberto'
+    dados.parcial = false
+    dados.nota_produtos.map((e:any)=> {
+      if(e.parcial == true){
+        dados.parcial = true
       }
+    })
+
+      // if(dados.parcial == true) {
+      //   dados.status = 'parcial'
+      // }else {
+      //   dados.status = 'aberto'
+      // }
     this.clientservice.editNota(this.form.value).subscribe((res:any) => {
-      this.dialogRef.close(res.success);
+      this.dialogRef.close({
+        status: true,
+        num_nota: this.form.get('num_nota').value
+      });
     });
   }
 

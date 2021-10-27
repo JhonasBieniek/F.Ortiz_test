@@ -43,11 +43,29 @@ export class DialogAddNotaComponent implements OnInit {
     this.clientservice.getPedidoSemNota().subscribe((res:any) =>{
       let i = 0;
       this.steps.forEach(e => {
-        this.temp[i] = res.data.filter(d => d.status == e.step);
+        this.temp[i] = res.data.filter(d => d.situacao == e.step);
         i++;
       });
-      this.rows = [...this.temp];
+      //console.log(this.temp)
+      // this.rows = [...this.temp];
+
+      this.clientservice.getPedidoParcial().subscribe((res:any) =>{
+        // let i = 1;
+        this.steps.forEach(e => {
+          this.temp[i] = res.data.filter(d => d.situacao == e.step);
+          i++;
+        });
+        // this.rows = [...this.temp];
+        this.rows = [...this.temp];
+      });
+
     });
+  }
+
+  onTabChange(event: MatTabChangeEvent) {
+    this.defaultTab = event.index;
+    window.dispatchEvent(new Event('resize'));
+    this.selected =[];
   }
 
   close(): void {

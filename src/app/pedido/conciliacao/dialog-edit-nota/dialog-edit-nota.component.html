@@ -49,66 +49,71 @@
       [selectionType]="'checkbox'"
       [rows]='rows'>
 
-        <ngx-datatable-column [flexGrow]="0.5" name="Código" prop="produto.codigo_catalogo">
-          <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
-            {{ value }}
-          </ng-template>
-        </ngx-datatable-column>
+      <ngx-datatable-column [flexGrow]="0.4" name="Código" prop="produto.codigo_catalogo">
+        <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
 
-        <ngx-datatable-column [flexGrow]="0.5" name="Tamanho" prop="tamanho">
-          <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
-            {{ value }}
-          </ng-template>
-        </ngx-datatable-column>
-        
-        <ngx-datatable-column [flexGrow]="2" name="Nome do produto" prop="produto.nome">
-          <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
-            {{ value }}
-          </ng-template>
-        </ngx-datatable-column>
+      <ngx-datatable-column [flexGrow]="0.4" name="Tamanho" prop="tamanho">
+        <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
+      
+      <ngx-datatable-column [flexGrow]="2.5" name="Nome do produto" prop="produto.nome">
+        <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
 
-        <ngx-datatable-column [flexGrow]="0.5" name="IPI" prop="ipi">
-          <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
-            {{ value }}
-          </ng-template>
-        </ngx-datatable-column>
+      <ngx-datatable-column [flexGrow]="1" name="IPI" prop="ipi">
+        <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
 
-        <ngx-datatable-column [flexGrow]="1" name="Valor" prop="valor_total">
-          <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
-            {{ value | currency : 'R$' }}
-          </ng-template>
-        </ngx-datatable-column>
+      <ngx-datatable-column [flexGrow]="1" name="Valor total" prop="valor_total">
+        <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+          {{ (row.valor_unitario * row.quantidade) | currency : 'R$' }}
+        </ng-template>
+      </ngx-datatable-column>
 
-        <ngx-datatable-column [flexGrow]="0.5" name="Quantidade" prop="quantidade">
-          <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
-            {{ value }}
-          </ng-template>
-        </ngx-datatable-column>
+      <ngx-datatable-column [flexGrow]="1" name="Valor Unitario" prop="valor_unitario">
+        <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+          {{ value | currency : 'R$' }}
+        </ng-template>
+      </ngx-datatable-column>
 
-        <ngx-datatable-column [flexGrow]="0.5" name="Qtd Recebida" prop="quantidade_recebida">
-          <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
-            <mat-form-field>
-              <input matInput [value]="row.quantidade_recebida" class='row-color' [(ngModel)]="row.quantidade_recebida" [disabled]="!isEditable[rowIndex] && !row.parcial">
-            </mat-form-field>
-          </ng-template>
-        </ngx-datatable-column>
+      <ngx-datatable-column [flexGrow]="1" name="Quantidade" prop="quantidade">
+        <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
 
-        <ngx-datatable-column  [flexGrow]="0.4" name="Parcial" [sortable]="false" [draggable]="false">
-          <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected" let-row="row" let-rowIndex="rowIndex"
-            let-onCheckboxChangeFn="onCheckboxChangeFn">
-            <input type="checkbox"  [checked]="row.parcial" (change)="this.isEditable[rowIndex]=!this.isEditable[rowIndex]" />
-          </ng-template>
-        </ngx-datatable-column>
+      <ngx-datatable-column [flexGrow]="1" name="Qtd Recebida" prop="quantidade_recebida">
+        <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+          <mat-form-field>
+            <input matInput value="quantidade_recebida" class='row-color' [(ngModel)]="row.quantidade_recebida" [disabled]="!isEditable[rowIndex] && !row.parcial">
+          </mat-form-field>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column  [flexGrow]="0.4" name="Parcial" [sortable]="false" [draggable]="false">
+        <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected" let-row="row" let-rowIndex="rowIndex"
+          let-onCheckboxChangeFn="onCheckboxChangeFn">
+          <input type="checkbox"  [checked]="row.parcial" (change)="this.isEditable[rowIndex]=!this.isEditable[rowIndex]" [disabled]="row.quantidade_recebida == 0"/>
+        </ng-template>
+      </ngx-datatable-column>
 
       </ngx-datatable>
     </mat-tab>
   </mat-tab-group>
 </div>
 <br>
-<b>Valor Total: {{pedido?.valor_total | currency:'BRL':true:'1.2-2'}}</b>
+<b>Valor Total do Pedido: {{pedido?.valor_total | currency:'BRL':true:'1.2-2'}}</b>
 <br>
-<b>Valor Total Liquído: {{pedido?.valor_liquido | currency:'BRL':true:'1.2-2'}}</b>
-<br>
+<b>Valor Total da Nota: {{ totalNota() | currency:'BRL':true:'1.2-2'}}</b>
 <br>
 <div mat-dialog-actions>
   <button mat-raised-button color="primary" (click)="save()" cdkFocusInitial [disabled]="!form.valid">Salvar</button>

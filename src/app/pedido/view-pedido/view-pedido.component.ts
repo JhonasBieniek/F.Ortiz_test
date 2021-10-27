@@ -41,14 +41,17 @@ export class ViewPedidoOrcamentoComponent implements OnInit {
       this.temp2 = res.data.notas;
       let qtd = res.data.nota_produtos;
       this.temp.map( e => {
+        e.qtd_restante = e.quantidade;
+        e.qtd_faturado = 0;
         qtd.map( f => {
           if(e.id === f.pedido_produto_id){
-            e.qtd_restante = e.quantidade - f.qtd
-            e.qtd_faturado = f.qtd
+            e.qtd_restante = e.qtd_restante - f.qtd
+            e.qtd_faturado = e.qtd_faturado + f.qtd
             e.total = f.qtd * e.valor_unitario
             e.desconto = res.data.desconto
           }
         })
+        e.total = e.qtd_faturado * e.valor_unitario;
       })
       this.dados.notas.map(e => e.nota_total = 0);
       this.temp.forEach(element => {

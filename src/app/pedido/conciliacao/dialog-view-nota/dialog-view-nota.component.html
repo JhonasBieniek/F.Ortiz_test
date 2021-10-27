@@ -7,8 +7,8 @@
       (click)="editar(row);"></i></h1>
   </div>
   <div fxFlex.gt-sm="50%" fxFlex="50" class="p-20" fxLayoutAlign="end start" fxLayoutGap="10px">
-      <button *ngIf="dados?.status == 'parcial'" mat-stroked-button color="primary" class="p-10" (click)="adicionarNf()">
-      <i class="material-icons">note_add</i>Adicionar NF</button>
+      <!-- <button *ngIf="dados?.status == 'parcial'" mat-stroked-button color="primary" class="p-10" (click)="adicionarNf()">
+      <i class="material-icons">note_add</i>Adicionar NF</button> -->
       <button *ngIf="dados?.status == 'aberto' || 'parcial'" mat-stroked-button color="warn" class="p-10" (click)="removerNf()">
         <i class="material-icons">close_fullscreen</i>Remover NF</button>
       <button *ngIf="dados?.status == 'aberto' || 'parcial'" mat-stroked-button color="accent" class="p-10" (click)="devolucao()">
@@ -22,27 +22,39 @@
 </div>
   <div fxLayout="row wrap">
     <div fxFlex.gt-sm="100%" fxFlex="100" style="font-size: small;">
-      <div fxFlex.gt-sm="18" fxFlex.gt-xs="18" fxFlex="100" >
-        <span><strong>Cod. Pedido: </strong>{{dados?.pedido.num_pedido}}</span>
-      </div>
-      <div fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100" >
-        <span><strong>Representada: </strong>{{dados?.pedido.representada.nome_fantasia}}</span>
-      </div>
-      <div fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100" >
-        <span><strong>Cliente: </strong> {{dados?.pedido.cliente.razao_social}}</span>
-      </div>
-      <div fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="100" >
-        <span><strong>Valor </strong> {{dados?.pedido.valor_total | currency:'BRL':true:'1.2-2'}}</span>
-      </div>
-      <div fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100" >
-        <span><strong>Dt. Faturamento: </strong> {{dados?.data_faturamento |  date:'dd/MM/yyyy'}}</span>
+      <div fxLayout="row wrap">
+        <div fxFlex.gt-sm="18" fxFlex.gt-xs="18" fxFlex="100" >
+          <span><strong>Cod. Pedido: </strong>{{dados?.pedido.num_pedido}}</span>
+        </div>
+        <div fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100" >
+          <span><strong>Representada: </strong>{{dados?.pedido.representada.nome_fantasia}}</span>
+        </div>
+        <div fxFlex.gt-sm="28" fxFlex.gt-xs="28" fxFlex="100" >
+          <span><strong>Cliente: </strong> {{dados?.pedido.cliente.razao_social}}</span>
+        </div>
+        <div fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100" >
+          <span><strong>Valor Pedido</strong> {{dados?.pedido.valor_total | currency:'BRL':true:'1.2-2'}}</span>
+        </div>
+        <div fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100" >
+          <span><strong>Valor Liq. Pedido</strong> {{dados?.pedido.valor_liquido | currency:'BRL':true:'1.2-2'}}</span>
+        </div>
+        <div fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100" class="p-t-10">
+          <span><strong>Valor faturado: </strong> {{ valorFaturado()  | currency:'BRL':true:'1.2-2'}}</span>
+        </div>
+        <div fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100" class="p-t-10">
+          <span><strong>Valor Restante: </strong> {{valorRestante() | currency:'BRL':true:'1.2-2'}}</span>
+        </div>
+        <div fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100" class="p-t-10">
+          <span><strong>Dt. Faturamento: </strong> {{dados?.data_faturamento |  date:'dd/MM/yyyy'}}</span>
+        </div>
       </div>
     </div>
   </div>
   <div class="p-t-20 text" fxLayout="row wrap">
     <ng-container *ngFor="let parcela of dados?.nota_parcelas; let num = index" >
+      
       <div style="margin-right: -10px;" fxFlex.gt-sm="3" fxFlex.gt-xs="3" fxFlex="4">
-        	<span style="color: rgb(57, 57, 233)">{{num+1}}/{{dados?.nota_parcelas.length}} -</span> 
+        <span style="color: rgb(57, 57, 233)">{{num+1}}/{{dados?.nota_parcelas.length}} -</span> 
       </div>
       <div fxFlex.gt-sm="18" fxFlex.gt-xs="18" fxFlex="48">
         <span><strong>Data do Vencimento:</strong> {{parcela?.data_vencimento |  date:'dd/MM/yyyy'}} </span>
