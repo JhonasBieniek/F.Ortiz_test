@@ -64,7 +64,7 @@ export class DialogBodyClienteComponent implements OnInit {
   modelBairro;
   modelLogradouro;
   representadas: any = [];
-  areas: any = [];
+  areas: any[] = [];
   ramos: any = [];
   bancos: any = [];
   estados: any = [];
@@ -494,4 +494,10 @@ export class DialogBodyClienteComponent implements OnInit {
   }
 
   hide = true;
+
+
+  areasFilter(representada_id){
+    let areas = this.areas.filter(area => area.representada_id == representada_id);
+    return areas;
+  }
 }

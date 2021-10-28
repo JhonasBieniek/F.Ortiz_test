@@ -129,45 +129,44 @@
         </div>
       </div>
     </div>
-    <div formArrayName="cliente_representada_area_vendas" fxLayout="row wrap" class="row">
+    <div formArrayName="cliente_representada_area_vendas" fxLayout="row wrap" class="row" fxflex="100">
       <div class="p-10 aj1" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <h4 class="dadosCadastro"><span style="margin-left: 10%;">Área de Venda</span>
           <a style="float: right;" (click)="addAreaVenda()"><i class="material-icons plus-icons">add_circle_outline</i>
             <span class="title">Nova Área de Venda</span></a>
         </h4>
       </div>
-      <div fxLayout="row wrap" *ngFor="let e of form.get('cliente_representada_area_vendas').controls; index as i"
-        [formGroupName]="i" fxFlex="100">
-        <div fxLayout="row wrap">
+      <div fxLayout="row wrap" *ngFor="let e of form.get('cliente_representada_area_vendas').controls; index as i" [formGroupName]="i" fxFlex="50">
           <div class="p-10 aj ml-5" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
             Área de venda - {{i + 1}}
             <button mat-icon-button (click)="delAreaVenda(i)">
               <mat-icon class="clear">clear</mat-icon>
             </button>
           </div>
-            <div class="p-10 aj" fxFlex.gt-sm="35" fxFlex.gt-xs="35" fxFlex="100" style="margin-left: 10px;">
-              <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
-                <mat-label>Área de venda*</mat-label>
-                <mat-select formControlName="area_venda_id">
-                  <mat-option *ngFor="let area of areas" [value]="area.id">
-                    {{area.nome}}
-                  </mat-option>
-                </mat-select>
-                <mat-placeholder>Área de venda</mat-placeholder>
-              </mat-form-field>
-            </div>
-            <div class="p-10 aj" fxFlex.gt-sm="35" fxFlex.gt-xs="35" fxFlex="100" style="margin-left: 10px;">
-              <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
-                <mat-label>Representada*</mat-label>
-                <mat-select formControlName="representada_id">
-                  <mat-option *ngFor="let representada of representadas" [value]="representada.id">
-                    {{representada.nome_fantasia}}
-                  </mat-option>
-                </mat-select>
-                <mat-placeholder>Representada</mat-placeholder>
-              </mat-form-field>
-            </div>
-        </div>
+          
+          <div class="p-10 aj" fxFlex.gt-sm="45" fxFlex.gt-xs="35" fxFlex="100" style="margin-left: 10px;">
+            <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
+              <mat-label>Representada*</mat-label>
+              <mat-select formControlName="representada_id">
+                <mat-option *ngFor="let representada of representadas" [value]="representada.id">
+                  {{representada.nome_fantasia}} ({{ representada.status == true ? 'Ativo' : 'Inativo' }})
+                </mat-option>
+              </mat-select>
+              <mat-placeholder>Representada</mat-placeholder>
+            </mat-form-field>
+          </div>
+
+          <div class="p-10 aj" fxFlex.gt-sm="45" fxFlex.gt-xs="35" fxFlex="100" style="margin-left: 10px;" *ngIf="form.get('cliente_representada_area_vendas').value[i].representada_id != null ">
+            <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
+              <mat-label>Área de venda*</mat-label>
+              <mat-select formControlName="area_venda_id">
+                <mat-option *ngFor="let area of areasFilter(form.get('cliente_representada_area_vendas').value[i].representada_id)" [value]="area.id">
+                  {{area.nome}} ({{ area.status == true ? 'Ativo' : 'Inativo' }})
+                </mat-option>
+              </mat-select>
+              <mat-placeholder>Área de venda</mat-placeholder>
+            </mat-form-field>
+          </div>
       </div>
     </div>
     <div formArrayName="cliente_contatos" fxLayout="row wrap" class="row">

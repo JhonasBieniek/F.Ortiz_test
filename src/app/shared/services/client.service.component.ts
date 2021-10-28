@@ -1000,7 +1000,7 @@ export class ClientService {
       });
   }
   getAreaByRepresentada($representada_id) {
-    const uri = `${API_URL}` + 'ClienteRepresentadaAreaVendas/getAreaByRepresentada/' + $representada_id + '.json';
+    const uri = `${API_URL}` + 'areaVendas/getAreaByRepresentada/' + $representada_id + '.json';
     return this
       .http
       .get(uri)

@@ -45,9 +45,11 @@ export class ClientesSemCompraComponent implements OnInit {
   }
 
   getAreas(representada_id){
+    this.$areas = [];
+    this.areaBusca.setValue('');
+    this.form.get('area_venda_id').setValue(null);
     this.clientservice.getAreaByRepresentada(representada_id).subscribe((res:any) =>{
       this.areas = res.data;
-      console.log(this.areas)
     });
   }
 
