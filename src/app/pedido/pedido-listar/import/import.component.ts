@@ -735,13 +735,11 @@ export class ImportComponent implements OnInit {
   onSelect({ selected }) {
     if(selected[0].produto_estados_precos.length > 0){
       let dialogConfig = new MatDialogConfig();
-      dialogConfig = {
-        maxWidth: '100vw',
-        maxHeight: '100vh',
-
-        width: '50vw',
-        height: '40vh'
-      }
+      // dialogConfig = {
+      //   maxWidth: '100vw',
+      //   maxHeight: '100vh',
+      //   height: '40vh'
+      // }
       dialogConfig.data = selected[0];
       let dialogRef = this.dialog.open(
         DialogProdPedidoComponent,
@@ -749,12 +747,15 @@ export class ImportComponent implements OnInit {
 
       );
       dialogRef.afterClosed().subscribe(value => {
-        if (value != null) this.addItem(value);
+        if (value != null){
+          value.map(produto=> {
+            this.addItem(produto)
+          })
+        } //this.addItem(value);
       });
     }else{
       this.notificationService.notify("Produto sem preço, verifique o cadastro do cliente, 'Endereço' e 'Tipo' ");
     }
-    
   }
 
   openDialogProdutos() {

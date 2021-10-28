@@ -13,3 +13,7 @@
 .text-size {
   font-size: 14px;
 }
+
+.mat-row:nth-child(even){
+  background: #eee; 
+}

@@ -304,22 +304,29 @@ export class OrcamentoComponent implements OnInit {
     })
   }
   onSelect({ selected }) {
-    let dialogConfig = new MatDialogConfig();
-    dialogConfig = {
-      maxWidth: '100vw',
-      maxHeight: '100vh',
+    if(selected[0].produto_estados_precos.length > 0){
+      let dialogConfig = new MatDialogConfig();
+      // dialogConfig = {
+      //   maxWidth: '100vw',
+      //   maxHeight: '100vh',
+      //   height: '40vh'
+      // }
+      dialogConfig.data = selected[0];
+      let dialogRef = this.dialog.open(
+        DialogProdPedidoComponent,
+        dialogConfig,
 
-      width: '50vw',
+      );
+      dialogRef.afterClosed().subscribe(value => {
+        if (value != null){
+          value.map(produto=> {
+            this.addItem(produto)
+          })
+        } //this.addItem(value);
+      });
+    }else{
+      this.notificationService.notify("Produto sem preço, verifique o cadastro do cliente, 'Endereço' e 'Tipo' ");
     }
-    dialogConfig.data = selected[0];
-    let dialogRef = this.dialog.open(
-      DialogProdPedidoComponent,
-      dialogConfig,
-
-    );
-    dialogRef.afterClosed().subscribe(value => {
-      if(value != null) this.addItem(value);
-    });
   }
 
   updateDate(input: string, event: MatDatepickerInputEvent<Date>) {
