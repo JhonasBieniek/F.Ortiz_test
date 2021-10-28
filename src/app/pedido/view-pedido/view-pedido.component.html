@@ -1,5 +1,5 @@
 <div fxLayout="row wrap">
-  <div class="p-t-20" fxFlex.gt-sm="80%" fxFlex="80">
+  <div class="p-t-20" fxFlex.gt-sm="70%" fxFlex="70">
     <div>
       Pedido: {{dados?.num_pedido}}<br>
       Representada: {{dados?.representada.razao_social}}<br>
@@ -16,14 +16,17 @@
       Comissão Média: {{dados?.comissao_media}}% 
     </div>
   </div>
-  <div fxFlex.gt-sm="20%" fxFlex="20" class="p-20" fxLayoutAlign="end start" fxLayoutGap="10px">
-    <button *ngIf="dados?.status == 'aberto'" mat-stroked-button color="warn" class="p-10" (click)="removerNf()">
+  <div fxFlex.gt-sm="30%" fxFlex="30" class="p-20" fxLayoutAlign="end start" fxLayoutGap="10px">
+    <!-- <button *ngIf="dados?.status == 'aberto'" mat-stroked-button color="warn" class="p-10" (click)="removerNf()">
       <i class="material-icons">close_fullscreen</i>Remover NF</button>
     <button *ngIf="dados?.status == 'recebido'" mat-stroked-button color="primary" class="p-10" (click)="estorno()">
-      <i class="material-icons">restore</i>Estorno</button>
-    <button mat-stroked-button color="primary" class="p-10" (click)="imprimir()">
-      <i class="material-icons">print</i>Imprimir
-    </button>
+      <i class="material-icons">restore</i>Estorno</button> -->
+      <button mat-stroked-button color="primary" class="p-10" (click)="imprimir(dados?.id)">
+        <i class="material-icons">print</i>Imprimir
+      </button>
+      <button mat-stroked-button color="primary" class="p-10" (click)="sendEmail(dados?.id)">
+        <i class="material-icons">mail</i>Email
+      </button>
   </div>
 </div>
 <mat-form-field>

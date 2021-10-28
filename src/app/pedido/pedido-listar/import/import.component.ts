@@ -184,7 +184,7 @@ export class ImportComponent implements OnInit {
       this.itemsNew = [];
       // let json = await this.importservice.importarPedido(this.info.file, this.representada);
       this.importservice.importarPedido(this.info.file, this.representada).then(res=>{
-        console.log(res)
+        //console.log(res)
         if(res != false){
           this.form.get("representada_id").setValue(this.representada.id);
           this.spinner.hide();
@@ -390,7 +390,7 @@ export class ImportComponent implements OnInit {
 
   async betanin(data, itens) {
     try {
-      console.log(data)
+      //console.log(data)
       if(data[2][25] == "Cod. Pagto."){
         this.condComercial = data[2][29];
       }else if(data[2][26] == "Cod. Pagto."){
@@ -407,12 +407,23 @@ export class ImportComponent implements OnInit {
       });
       let clienteCnpj = data[5][3].replace(/[^\d]+/g, "");
       clienteCnpj = clienteCnpj.length == 13 ? "0" + clienteCnpj : clienteCnpj;
-      this.form.get("num_pedido").setValue(data[1][25] == "Ordem SAP" ? data[1][29] : data[1][31]);
+      
+      if(data[1][25] == "Ordem SAP"){
+        this.form.get("num_pedido").setValue(data[1][29]);
+      }else if(data[1][26] == "Ordem SAP"){
+        this.form.get("num_pedido").setValue(data[1][30]);
+      }else{
+        this.form.get("num_pedido").setValue(data[1][31]);
+      }
+
       if(data[3][25] == "Data Emissão"){
         this.form.get("data_emissao").setValue(moment(this.dateAdapterWithUtc(data[3][29]), "YYYY-MM-DD"));
+      }else if(data[3][26] == "Data Emissão"){
+        this.form.get("data_emissao").setValue(moment(this.dateAdapterWithUtc(data[3][30]), "YYYY-MM-DD").format("YYYY-DD-MM"));
       }else{
         this.form.get("data_emissao").setValue(moment(this.dateAdapterWithUtc(data[3][31]), "YYYY-MM-DD").format("YYYY-DD-MM"));
       }
+
       this.form.get("frete").setValue(data[itens.final + 2][3] == "CIF" ? "Cliente" : "Representada");
       this.form.get("transportadora").setValue(data[itens.final + 3][3]);
 

@@ -133,143 +133,37 @@ export class ImportService {
     let item = [];
     let newItem = [];
     return new Promise<any>(async (resolve, reject) => {
-      var inicial = 0;
-      var final = 0;
-
-      while (inicial <= final) {
-        while (
-          data[final][0] != "Peso bruto total:" &&
-          data[final][0] != "Valor Total:"
-        ) {
-          final++;
-          while (data[inicial][0] != "Produto") {
-            inicial++;
-          }
-        }
-  
-        if (
-          data[inicial][0] != "Produto" &&
-          data[inicial][0] != "Peso bruto total:" &&
-          data[final][0] != "Valor Total:"
-        ) {
-          var produto = {
-            codigo_catalogo: data[inicial][0].split(" - ")[0].trim(),
-            nome: data[inicial][0].split(" - ")[1],
-            quantidade: parseInt(data[inicial][1].replace(/\./g, "")),
-            tamanho: null,
-            ipi: null,
-            valor_unitario:
-              data[inicial][3].match(/\d+/g)[0] +
-              "." +
-              data[inicial][3].match(/\d+/g)[1],
-            comissao: null,
-          };
-          await this.consultaCod(produto, representada_id).then((res: any) => {
-            if(res.item != undefined){
-              item.push(res.item);
-            }else {
-              newItem.push(res.newItem);
-            }
-          });
-        }
-        inicial++;
-      }
-      resolve({
-        item: item,
-        newItem: newItem,
-        valorTotal: data[final+3][4].replace(/[^\d,-]/g, '').replace(',', "."),
-        final: final
-      })
-    });
-  }
-
-  //* tirar por enquanto
-  async kadesh(data, representada_id: number) {
-    let item = [];
-    let newItem = [];
-    return new Promise<any>(async (resolve, reject) => {
-      var inicial = 0;
-      var final = 0;
-
-      while (data[final][0] != "Soma Quant.") {
-        final++;
-        while (data[inicial][0].toString().split(" ", 1)[0] != "Descrição") {
-          inicial++;
-          if (data[inicial + 1][0] === undefined) {
-            inicial += 2;
-          }
-        }
-      }
-
-      let i = inicial + 1;
-      for (i; i < final; i += 3) {
-        let rowTam = i + 1;
-        let rowQtd = i + 2;
-        let dados = data[i][0].toString().replace(/  +/g, " ");
-        
-        let produto = {
-          codigo_catalogo: dados.split(/\s+/g)[1],
-          nome: dados.match(new RegExp("(?<=-\\s)([^.]+)(?=PR)"))[0].trim(),
-          quantidade: null,
-          tamanho: null,
-          ipi: 0,
-          valor_unitario: dados.split(" ").slice(-2)[0].replace(",", "."),
-          comissao: null,
-        };
-
-        for (let j = 0; j <= data[rowTam].length; j++) {
-          if (data[rowTam][j] != undefined || data[rowQtd][j] != undefined) {
-            produto.tamanho = data[rowTam][j];
-            produto.quantidade = data[rowQtd][j];
-            await this.consultaCod(produto, representada_id).then((res: any) => {
-              if(res.item != undefined){
-                item.push(res.item);
-              }else {
-                newItem.push(res.newItem);
-              }
-            });
-          }
-        }
-      }
-
-      resolve({
-        item: item,
-        newItem: newItem,
-        valorTotal: data[final + 7][0],
-        final: final
-      })
-    });
-  }
-
-  async betanin(data, representada_id: number) {
-    let item = [];
-    let newItem = [];
-    return new Promise<any>(async (resolve, reject) => {
       try{
         var inicial = 0;
         var final = 0;
+
         while (inicial <= final) {
-          while (data[final][0] != "Texto da nota\r\nDescontos de cabeçalho" ) {
+          while (
+            data[final][0] != "Peso bruto total:" &&
+            data[final][0] != "Valor Total:"
+          ) {
             final++;
-            while (data[inicial][0] != "Item") {
+            while (data[inicial][0] != "Produto") {
               inicial++;
             }
           }
+    
           if (
-            data[inicial][0] != "Item" &&
-            data[inicial][0] != "Texto da nota\r\nDescontos de cabeçalho" &&
-            data[inicial][0] != undefined
+            data[inicial][0] != "Produto" &&
+            data[inicial][0] != "Peso bruto total:" &&
+            data[final][0] != "Valor Total:"
           ) {
-            // old quantidade quantidade: data[inicial][15].split("/")[1].replace(".", ""),
-            // old valorUnitario: data[inicial][28].match(/\d+/g)[0] + "." + data[inicial][28].match(/\d+/g)[1],
-            // old desconto: data[inicial][24].match(/\d+/g)[0] + "." + data[inicial][24].match(/\d+/g)[1],
             var produto = {
-              codigo_catalogo: data[inicial][1],
-              nome: data[inicial][4],
-              quantidade: isNaN(data[inicial][12]) ? data[inicial][11].split("/")[1].replace(".", "") : data[inicial][12],
-              ipi: data[inicial][17] == 0 ? data[inicial][28] : data[inicial][29],
-              valor_unitario: data[inicial][17] == 0 ? data[inicial][27] :  data[inicial][28],
-              desconto: data[inicial][17] == 0 ? data[inicial][21] :  data[inicial][22]
+              codigo_catalogo: data[inicial][0].split(" - ")[0].trim(),
+              nome: data[inicial][0].split(" - ")[1],
+              quantidade: parseInt(data[inicial][1].replace(/\./g, "")),
+              tamanho: null,
+              ipi: null,
+              valor_unitario:
+                data[inicial][3].match(/\d+/g)[0] +
+                "." +
+                data[inicial][3].match(/\d+/g)[1],
+              comissao: null,
             };
             await this.consultaCod(produto, representada_id).then((res: any) => {
               if(res.item != undefined){
@@ -284,9 +178,172 @@ export class ImportService {
         resolve({
           item: item,
           newItem: newItem,
-          valorTotal: data[final + 8][26] == "Total NF" ? data[final + 8][31] : data[final + 8][32],
+          valorTotal: data[final+3][4].replace(/[^\d,-]/g, '').replace(',', "."),
+          final: final
+        })
+      }catch(e){
+        reject(e);
+      }
+    });
+  }
+
+  //* tirar por enquanto
+  async kadesh(data, representada_id: number) {
+    let item = [];
+    let newItem = [];
+    return new Promise<any>(async (resolve, reject) => {
+      try{
+        var inicial = 0;
+        var final = 0;
+
+        while (data[final][0] != "Soma Quant.") {
+          final++;
+          while (data[inicial][0].toString().split(" ", 1)[0] != "Descrição") {
+            inicial++;
+            if (data[inicial + 1][0] === undefined) {
+              inicial += 2;
+            }
+          }
+        }
+
+        let i = inicial + 1;
+        for (i; i < final; i += 3) {
+          let rowTam = i + 1;
+          let rowQtd = i + 2;
+          let dados = data[i][0].toString().replace(/  +/g, " ");
+          
+          let produto = {
+            codigo_catalogo: dados.split(/\s+/g)[1],
+            nome: dados.match(new RegExp("(?<=-\\s)([^.]+)(?=PR)"))[0].trim(),
+            quantidade: null,
+            tamanho: null,
+            ipi: 0,
+            valor_unitario: dados.split(" ").slice(-2)[0].replace(",", "."),
+            comissao: null,
+          };
+
+          for (let j = 0; j <= data[rowTam].length; j++) {
+            if (data[rowTam][j] != undefined || data[rowQtd][j] != undefined) {
+              produto.tamanho = data[rowTam][j];
+              produto.quantidade = data[rowQtd][j];
+              await this.consultaCod(produto, representada_id).then((res: any) => {
+                if(res.item != undefined){
+                  item.push(res.item);
+                }else {
+                  newItem.push(res.newItem);
+                }
+              });
+            }
+          }
+        }
+
+        resolve({
+          item: item,
+          newItem: newItem,
+          valorTotal: data[final + 7][0],
+          final: final
+        })
+      }catch(e){
+        reject(e);
+      }
+    });
+  }
+
+  async betanin(data, representada_id: number) {
+    let item = [];
+    let newItem = [];
+    return new Promise<any>(async (resolve, reject) => {
+      try{
+        var inicial = 0;
+        var final = 0;
+        var cabecalho = 0;
+        while (inicial <= final) {
+          while (data[final][0] != "Texto da nota\r\nDescontos de cabeçalho" ) {
+            final++;
+            while (data[inicial][0] != "Item") {
+              inicial++;
+            }
+          }
+          if(data[inicial][0] == "Item") {
+            cabecalho = inicial;
+          }
+          if (
+            data[inicial][0] != "Item" &&
+            data[inicial][0] != "Texto da nota\r\nDescontos de cabeçalho" &&
+            data[inicial][0] != undefined
+          ) {
+            let ipi;
+            let unitario;
+            let desconto;
+            //* VALIDACAO IPI
+            if(data[cabecalho][27] == "% IPI"){
+              ipi = data[inicial][27];
+            }else if(data[cabecalho][28] == "% IPI"){
+              ipi = data[inicial][28];
+            }else{
+              ipi = data[inicial][29];
+            }
+            //* VALIDACAO VALOR UNITARIO 
+            if(data[cabecalho][24] == "Preço\r\nLiquido"){
+              unitario = data[inicial][26];
+            }else if(data[cabecalho][25] == "Preço\r\nLiquido"){
+              unitario = data[inicial][27];
+            }else{
+              unitario = data[inicial][28];
+            }
+            //* VALIDACAO DESCONTO
+            if(data[cabecalho][20] == "% Desc"){
+              desconto = data[inicial][20];
+            }else if(data[cabecalho][21] == "% Desc"){
+              desconto = data[inicial][21];
+            }else{
+              desconto = data[inicial][22];
+            }
+            var produto = {
+              codigo_catalogo: data[inicial][1],
+              nome: data[inicial][4],
+              quantidade: isNaN(data[inicial][12]) ? data[inicial][11].split("/")[1].replace(".", "") : data[inicial][12],
+              ipi: ipi,
+              valor_unitario: unitario,
+              desconto: desconto
+            };
+            await this.consultaCod(produto, representada_id).then((res: any) => {
+              if(res.item != undefined){
+                item.push(res.item);
+              }else {
+                newItem.push(res.newItem);
+              }
+            });
+          }
+          inicial++;
+        }
+
+        let subst;
+        let valorTotal;
+
+        //* VALIDACAO subst
+        if(data[final + 7][25] == "Total Subst."){
+          subst = data[final + 7][30]
+        }else if(data[final + 7][26] == "Total Subst."){
+          subst = data[final + 7][31]
+        }else{
+          subst = data[final + 7][32]
+        }
+        //* VALIDACAO valorTotal
+        if(data[final + 8][25] == "Total NF"){
+          valorTotal = data[final + 8][30]
+        }else if(data[final + 8][26] == "Total NF"){
+          valorTotal = data[final + 8][31]
+        }else{
+          valorTotal = data[final + 8][32]
+        }
+        
+        resolve({
+          item: item,
+          newItem: newItem,
+          valorTotal: valorTotal,
           final: final,
-          subst: data[final + 7][26] == "Total Subst." ? data[final + 7][31] : data[final + 7][32]
+          subst: subst
         })
       }catch(e){
         reject(e);
@@ -299,38 +356,42 @@ export class ImportService {
     let item = [];
     let newItem = [];
     return new Promise<any>(async (resolve, reject) => {
-      var inicial = 7;
-      var final = 0;
+      try{ 
+        var inicial = 7;
+        var final = 0;
 
-      while (data[final][21] != "TOTAL:") {
-        final++;
+        while (data[final][21] != "TOTAL:") {
+          final++;
+        }
+        let i = inicial;
+        for (i; i < final; i += 3) {
+          let rowTam = i + 2;
+          let produto = {
+            codigo_catalogo: data[rowTam][0],
+            nome: data[rowTam][1].toString().split(" - ")[0],
+            quantidade: data[i][14],
+            tamanho: data[rowTam][1].toString().split(" - ")[1],
+            ipi: 0,
+            valor_unitario: data[i][19],
+            comissao: data[i][29],
+          };
+          await this.consultaCod(produto, representada_id).then((res: any) => {
+            if(res.item != undefined){
+              item.push(res.item);
+            }else {
+              newItem.push(res.newItem);
+            }
+          });
+        }
+        resolve({
+          item: item,
+          newItem: newItem,
+          valorTotal: data[final][24],
+          final: final
+        })
+      }catch(e){
+        reject(e);
       }
-      let i = inicial;
-      for (i; i < final; i += 3) {
-        let rowTam = i + 2;
-        let produto = {
-          codigo_catalogo: data[rowTam][0],
-          nome: data[rowTam][1].toString().split(" - ")[0],
-          quantidade: data[i][14],
-          tamanho: data[rowTam][1].toString().split(" - ")[1],
-          ipi: 0,
-          valor_unitario: data[i][19],
-          comissao: data[i][29],
-        };
-        await this.consultaCod(produto, representada_id).then((res: any) => {
-          if(res.item != undefined){
-            item.push(res.item);
-          }else {
-            newItem.push(res.newItem);
-          }
-        });
-      }
-      resolve({
-        item: item,
-        newItem: newItem,
-        valorTotal: data[final][24],
-        final: final
-      })
     });
   }
 
