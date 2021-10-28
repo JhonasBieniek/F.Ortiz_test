@@ -390,8 +390,10 @@ export class ImportComponent implements OnInit {
 
   async betanin(data, itens) {
     try {
-      //console.log(data)
-      if(data[2][25] == "Cod. Pagto."){
+      console.log(data)
+      if(data[2][24] == "Cod. Pagto."){
+        this.condComercial = data[2][28];
+      }else if(data[2][25] == "Cod. Pagto."){
         this.condComercial = data[2][29];
       }else if(data[2][26] == "Cod. Pagto."){
         this.condComercial = data[2][30];
@@ -408,7 +410,9 @@ export class ImportComponent implements OnInit {
       let clienteCnpj = data[5][3].replace(/[^\d]+/g, "");
       clienteCnpj = clienteCnpj.length == 13 ? "0" + clienteCnpj : clienteCnpj;
       
-      if(data[1][25] == "Ordem SAP"){
+      if(data[1][24] == "Ordem SAP"){
+        this.form.get("num_pedido").setValue(data[1][28]);
+      }else if(data[1][25] == "Ordem SAP"){
         this.form.get("num_pedido").setValue(data[1][29]);
       }else if(data[1][26] == "Ordem SAP"){
         this.form.get("num_pedido").setValue(data[1][30]);
@@ -416,7 +420,9 @@ export class ImportComponent implements OnInit {
         this.form.get("num_pedido").setValue(data[1][31]);
       }
 
-      if(data[3][25] == "Data Emissão"){
+      if(data[3][24] == "Data Emissão"){
+        this.form.get("data_emissao").setValue(moment(this.dateAdapterWithUtc(data[3][28]), "YYYY-MM-DD"));
+      }else if(data[3][25] == "Data Emissão"){
         this.form.get("data_emissao").setValue(moment(this.dateAdapterWithUtc(data[3][29]), "YYYY-MM-DD"));
       }else if(data[3][26] == "Data Emissão"){
         this.form.get("data_emissao").setValue(moment(this.dateAdapterWithUtc(data[3][30]), "YYYY-MM-DD").format("YYYY-DD-MM"));
@@ -703,6 +709,7 @@ export class ImportComponent implements OnInit {
       .subscribe((res: any) => {
         this.rows = res.data;
         this.temp = [...this.rows];
+        
       });
   }
 
@@ -726,23 +733,28 @@ export class ImportComponent implements OnInit {
     return result;
   }
   onSelect({ selected }) {
-    let dialogConfig = new MatDialogConfig();
-    dialogConfig = {
-      maxWidth: '100vw',
-      maxHeight: '100vh',
+    if(selected[0].produto_estados_precos.length > 0){
+      let dialogConfig = new MatDialogConfig();
+      dialogConfig = {
+        maxWidth: '100vw',
+        maxHeight: '100vh',
 
-      width: '50vw',
-      height: '40vh'
+        width: '50vw',
+        height: '40vh'
+      }
+      dialogConfig.data = selected[0];
+      let dialogRef = this.dialog.open(
+        DialogProdPedidoComponent,
+        dialogConfig,
+
+      );
+      dialogRef.afterClosed().subscribe(value => {
+        if (value != null) this.addItem(value);
+      });
+    }else{
+      this.notificationService.notify("Produto sem preço, verifique o cadastro do cliente, 'Endereço' e 'Tipo' ");
     }
-    dialogConfig.data = selected[0];
-    let dialogRef = this.dialog.open(
-      DialogProdPedidoComponent,
-      dialogConfig,
-
-    );
-    dialogRef.afterClosed().subscribe(value => {
-      if (value != null) this.addItem(value);
-    });
+    
   }
 
   openDialogProdutos() {

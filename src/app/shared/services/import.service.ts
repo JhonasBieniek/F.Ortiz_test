@@ -276,7 +276,9 @@ export class ImportService {
             let unitario;
             let desconto;
             //* VALIDACAO IPI
-            if(data[cabecalho][27] == "% IPI"){
+            if(data[cabecalho][26] == "% IPI"){
+              ipi = data[inicial][26];
+            }else if(data[cabecalho][27] == "% IPI"){
               ipi = data[inicial][27];
             }else if(data[cabecalho][28] == "% IPI"){
               ipi = data[inicial][28];
@@ -284,7 +286,9 @@ export class ImportService {
               ipi = data[inicial][29];
             }
             //* VALIDACAO VALOR UNITARIO 
-            if(data[cabecalho][24] == "Preço\r\nLiquido"){
+            if(data[cabecalho][23] == "Preço\r\nLiquido"){
+              unitario = isNaN(data[inicial][23]) ? data[inicial][23].match(/\d+/g)[0] + "." + data[inicial][23].match(/\d+/g)[1] : data[inicial][23];
+            }else if(data[cabecalho][24] == "Preço\r\nLiquido"){
               unitario = data[inicial][26];
             }else if(data[cabecalho][25] == "Preço\r\nLiquido"){
               unitario = data[inicial][27];
