@@ -65,7 +65,7 @@ export class GoogleService {
         })
     }
     
-    public sendEmailAttach(user: gapi.auth2.GoogleUser, file:string, contato:string, mensagem?:string, assunto?:string, cc?:string){
+    public sendEmailAttach(user: gapi.auth2.GoogleUser, file:string, contato:string, tipo:string,mensagem?:string, assunto?:string, cc?:string){
         var sender = 'me';
         var receiver = contato;
         var subject = assunto;
@@ -89,7 +89,7 @@ export class GoogleService {
             'Content-Type: application/pdf', '\r\n',
             'MIME-Version: 1.0', '\r\n',
             'Content-Transfer-Encoding: base64', '\r\n',
-            'Content-Disposition: attachment; filename="orcamento.pdf"', '\r\n\r\n',
+            'Content-Disposition: attachment; filename=',tipo,'".pdf"', '\r\n\r\n',
 
             file, '\r\n\r\n',
 
@@ -104,7 +104,8 @@ export class GoogleService {
             }
         });
         request.execute((res) => {
-            console.log("enviado com sucesso");
+            this.notificationService.notify("Email enviado com sucesso.");
+            //console.log("enviado com sucesso");
         });
     }
 
