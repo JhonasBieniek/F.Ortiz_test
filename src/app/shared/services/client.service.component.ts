@@ -100,7 +100,7 @@ export class ClientService {
       .post(uri, data)
   }
   addDevolucao(data) {
-    const uri = `${API_URL}` + `notaProdutoDevolutions/add.json`;
+    const uri = `${API_URL}` + `notas/editDevolucao.json`;
     return this
       .http
       .post(uri, data)

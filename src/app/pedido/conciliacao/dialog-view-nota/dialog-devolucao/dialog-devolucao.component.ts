@@ -31,7 +31,6 @@ export class DialogDevolucaoComponent implements OnInit {
   ngOnInit() {
     this.form = this.fb.group({
       id: [this.data.id],
-      obs: [this.data.obs],
       nota_produto_devolutions: this.fb.array([]),
     });
     this.nota_produto_devolutions = this.form.get('nota_produto_devolutions') as FormArray;
@@ -40,6 +39,12 @@ export class DialogDevolucaoComponent implements OnInit {
       this.data.nota_produtos.map(produto => {
         if (produto.qtd > 0) {
           produto.devolucao = 0;
+          produto.obs = null;
+          let index = this.data.nota_produto_devolutions.findIndex(devolution => devolution.pedido_produto_id == produto.pedido_produto_id);
+          if(index != -1){
+            produto.devolucao = this.data.nota_produto_devolutions[index].qtd;
+            produto.obs = this.data.nota_produto_devolutions[index].obs;
+          } 
           this.rows.push(produto)
         }
       });
@@ -51,20 +56,34 @@ export class DialogDevolucaoComponent implements OnInit {
   }
   save(){
     this.rows.map(e => {
+      let index = this.data.nota_produto_devolutions.findIndex(devolution => devolution.pedido_produto_id == e.pedido_produto_id);
       if(e.devolucao > 0 ){
-        this.nota_produto_devolutions.push(
-          this.fb.group({
-            id: null,
-            nota_id: e.nota_id,
-            pedido_id: e.pedido_id,
-            pedido_produto_id: e.pedido_produto_id,
-            qtd: e.devolucao,
-            status: 'aberto'
-        }))
+        if(index == -1){
+          this.nota_produto_devolutions.push(
+            this.fb.group({
+              nota_id: e.nota_id,
+              pedido_id: e.pedido_id,
+              pedido_produto_id: e.pedido_produto_id,
+              qtd: e.devolucao,
+              status: 'aberto',
+              obs: e.obs
+          }))
+        }else{
+          this.nota_produto_devolutions.push(
+            this.fb.group({
+              id: this.data.nota_produto_devolutions[index].id,
+              nota_id: e.nota_id,
+              pedido_id: e.pedido_id,
+              pedido_produto_id: e.pedido_produto_id,
+              qtd: e.devolucao,
+              status: this.data.nota_produto_devolutions[index].status,
+              obs: e.obs
+          }))
+        }
       }
     });
 
-    this.clientservice.addDevolucao(this.form.get('nota_produto_devolutions').value).subscribe((res:any) => {
+    this.clientservice.addDevolucao(this.form.value).subscribe((res:any) => {
       console.log(res)
       this.dialogRef.close({
         status: true,

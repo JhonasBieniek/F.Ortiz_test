@@ -51,7 +51,6 @@ export class DialogViewNotaComponent implements OnInit {
 
   loadData() {
     this.clientservice.getNotasID(this.data.id).subscribe((res: any) => {
-      console.log(res)
       
       // old - Mostra tudo
       // this.dados = res.data;
@@ -143,7 +142,9 @@ export class DialogViewNotaComponent implements OnInit {
 
     );
     dialogRef.afterClosed().subscribe(value => {
-      console.log(value)
+      if(value != undefined){
+        this.loadData();
+      }
     });
   }
   imprimir() {
