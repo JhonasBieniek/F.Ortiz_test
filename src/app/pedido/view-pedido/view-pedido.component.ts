@@ -6,6 +6,7 @@ import { LoginService } from '../../authentication/login/login.service';
 import { ClientService } from '../../shared/services/client.service.component';
 import { GoogleService } from '../../shared/services/google.service.component';
 import { DialogMailComponent } from '../view-orcamento/dialog-mail/dialog-mail.component';
+import { NovoComponent } from '../pedido-listar/novo/novo.component';
 
 
 @Component({
@@ -83,7 +84,7 @@ export class ViewPedidoOrcamentoComponent implements OnInit {
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
     this.rows = this.temp.filter(d => {
-      if( d.produto.codigo.toLowerCase().indexOf(val) !== -1 || !val 
+      if( d.produto.codigo_catalogo.toLowerCase().indexOf(val) !== -1 || !val 
       || d.produto.nome.toLowerCase().indexOf(val) !== -1 || !val)
       return d
     });
@@ -136,6 +137,17 @@ export class ViewPedidoOrcamentoComponent implements OnInit {
 
   close(){
     this.dialogRef.close();
+  }
+
+  editar(data) {
+    this.dialogConfig.data = {
+      tipo: 'edit',
+      pedido: data
+    }
+    let dialogRef = this.dialog.open(NovoComponent, this.dialogConfig);
+    dialogRef.afterClosed().subscribe(value => {
+      this.loadData();
+    })
   }
 
   ngOnInit() {

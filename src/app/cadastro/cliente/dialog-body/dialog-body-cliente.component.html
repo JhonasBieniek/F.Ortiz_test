@@ -18,7 +18,7 @@
         <mat-form-field appearance="outline">
           <mat-label>CNPJ*</mat-label>
           <input matInput placeholder="CNPJ" mask="00.000.000/0000-00" formControlName="cnpj" (blur)="onBlurCnpj()"
-            type="digits" readonly>
+            type="digits" [readonly]="isReadOnly">
         </mat-form-field>
         <small *ngIf="form.get('cnpj').errors?.required && form.get('cnpj').touched" class="text-danger font-14">Você
           precisa inserir um CNPJ.</small>
@@ -199,7 +199,7 @@
           <div class="p-10 aj" fxFlex.gt-sm="20" fxFlex.gt-xs="21" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>WhatsApp</mat-label>
-              <input matInput placeholder="Celular" formControlName="celular"  mask="(00) 00000000">
+              <input matInput placeholder="Celular" formControlName="celular" mask="(00) 0 0000-0000">
             </mat-form-field>
           </div>
           <div class="p-10 aj" fxFlex.gt-sm="40" fxFlex.gt-xs="40" fxFlex="100">

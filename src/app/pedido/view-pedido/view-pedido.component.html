@@ -1,32 +1,29 @@
 <div fxLayout="row wrap">
-  <div class="p-t-20" fxFlex.gt-sm="70%" fxFlex="70">
-    <div>
-      Pedido: {{dados?.num_pedido}}<br>
-      Representada: {{dados?.representada.razao_social}}<br>
-      Área de Venda: {{dados?.regiao.nome}} - Vendedor: {{dados?.vendedor.nome}} - Auxiliar: {{dados?.auxiliar.nome}}
-    </div>
-    <div>
-      Cliente: {{dados?.cliente.razao_social}} - CNPJ: {{dados?.cliente.cnpj}}<br>
-      Cidade: {{dados?.cliente?.enderecos_clientes[0]?.endereco.cidade}}<br>
-      Condição de Pagamento: {{dados?.condicao_comercial.nome}}<br>
-      Data de Emissão: {{dados?.data_emissao}}<br>
-      Transportadora: {{dados?.transportadora}}<br>
-      Frete: {{dados?.frete}} Data de Entrega: {{dados?.data_entrega}}<br>
-      Valor Total: {{dados?.valor_total}}<br>
-      Comissão Média: {{dados?.comissao_media}}% 
-    </div>
+  <div fxFlex.gt-sm="60%" fxFlex="60">
+      <h3><b>Pedido: </b><span style="color: blue;">{{dados?.num_pedido}}</span><i class="fa fa-pencil button m-l-10" 
+        title="Editar" 
+        (click)="editar(dados);"></i></h3><br>
   </div>
-  <div fxFlex.gt-sm="30%" fxFlex="30" class="p-20" fxLayoutAlign="end start" fxLayoutGap="10px">
-    <!-- <button *ngIf="dados?.status == 'aberto'" mat-stroked-button color="warn" class="p-10" (click)="removerNf()">
-      <i class="material-icons">close_fullscreen</i>Remover NF</button>
-    <button *ngIf="dados?.status == 'recebido'" mat-stroked-button color="primary" class="p-10" (click)="estorno()">
-      <i class="material-icons">restore</i>Estorno</button> -->
-      <button mat-stroked-button color="primary" class="p-10" (click)="imprimir(dados?.id)">
-        <i class="material-icons">print</i>Imprimir
-      </button>
-      <button mat-stroked-button color="primary" class="p-10" (click)="sendEmail(dados?.id)">
-        <i class="material-icons">mail</i>Email
-      </button>
+
+  <div fxFlex.gt-sm="40%" fxFlex="40" fxLayoutAlign="end start" fxLayoutGap="10px">
+    <button mat-stroked-button color="primary" class="p-10" (click)="imprimir(dados?.id)">
+      <i class="material-icons">print</i>Imprimir
+    </button>
+    <button mat-stroked-button color="primary" class="p-10" (click)="sendEmail(dados?.id)">
+      <i class="material-icons">mail</i>Email
+    </button>
+  </div>
+  <div fxFlex.gt-sm="100%" fxFlex="100">
+    <b>Representada: </b>{{dados?.representada.razao_social}}<br>
+    <b>Área de Venda: </b> {{dados?.regiao.nome}} - Vendedor: {{dados?.vendedor.nome}} - Auxiliar: {{dados?.auxiliar.nome}}<br>
+    <b>Cliente: </b>{{dados?.cliente.razao_social}} - <b>CNPJ: </b>{{dados?.cliente.cnpj}}<br>
+    <b>Cidade: </b>{{dados?.cliente?.enderecos_clientes[0]?.endereco.cidade}} - <b>UF: </b>{{dados?.cliente?.enderecos_clientes[0]?.endereco.estado.nome}}<br>
+    <b>Condição de Pagamento: </b>{{dados?.condicao_comercial.nome}}<br>
+    <b>Data de Emissão: </b>{{dados?.data_emissao}}<br>
+    <b>Transportadora: </b>{{dados?.transportadora}}<br>
+    <b>Frete: </b>{{dados?.frete}} - <b>Previsão de Entrega: </b>{{dados?.prazo_entrega}}<br>
+    <b>Valor Total: </b>{{dados?.valor_total | currency:'BRL':true:'1.2-2'}}<br>
+    <b>Comissão Média:</b> {{dados?.comissao_media}}% <br>
   </div>
 </div>
 <mat-form-field>

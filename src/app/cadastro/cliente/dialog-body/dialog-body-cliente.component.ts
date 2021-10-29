@@ -68,6 +68,7 @@ export class DialogBodyClienteComponent implements OnInit {
   ramos: any = [];
   bancos: any = [];
   estados: any = [];
+  isReadOnly:boolean = false;
   pageTitle: string = "Cadastrar Cliente";
 
   constructor(
@@ -82,6 +83,7 @@ export class DialogBodyClienteComponent implements OnInit {
       if (data.action != "edit") {
         this.chargeCnpj(data);
       } else {
+        this.IsReadOnly();
         this.pageTitle = "Editar Cliente";
         this.clientservice.getClientesId(data.id).subscribe((res: any) => {
           this.addEnderecos(res.data.enderecos_clientes);
@@ -129,9 +131,9 @@ export class DialogBodyClienteComponent implements OnInit {
       ],
       ramo_atividade_id: null,
       limite: null,
-      categoria_volk: null,
-      tipo_cliente: null,
-      pagamento_tipo: null,
+      categoria_volk: 'C',
+      tipo_cliente: 'revendedor',
+      pagamento_tipo: 'Faturamento',
       obs: [null, Validators.compose([Validators.maxLength(100)])],
       status: true,
       enderecos_clientes: this.fb.array([], Validators.required),
@@ -139,6 +141,9 @@ export class DialogBodyClienteComponent implements OnInit {
       cliente_representada_area_vendas: this.fb.array([]),
       cliente_contatos: this.fb.array([]),
     });
+  }
+  IsReadOnly() {
+    this.isReadOnly = true;
   }
 
   addEndereco(data: any = null) {
@@ -437,10 +442,11 @@ export class DialogBodyClienteComponent implements OnInit {
     if (this.data != undefined && this.data.action == "edit") {
       this.form.value.cliente_contatos.forEach(element => {
         if(element.aniversario != null)
-        element.aniversario = moment(element.aniversario).format('YYYY-MM-DD')
+        element.aniversario = moment(element.aniversario).format("YYYY-MM-DD");
         if(element.email != null)
         element.email = element.email.replace(/\s/g, '');      
       });
+      
       this.clientservice.updateCliente(this.form.value).subscribe((res) => {
         if(res.status == "error"){
           this.notificationService.notify("Falha ao atualizar!");
@@ -451,6 +457,10 @@ export class DialogBodyClienteComponent implements OnInit {
         this.dialogRef.close(res);
       });
     } else {
+      this.form.value.cliente_contatos.forEach(element => {
+        if(element.aniversario != null)
+        element.aniversario = moment(element.aniversario).format("YYYY-MM-DD");
+      });
       this.clientservice.addCliente(this.form.value).subscribe((res: any) => {
         if (res.status == "success") {
           this.notificationService.notify(`Cadastro Efetuado com Sucesso!`);
