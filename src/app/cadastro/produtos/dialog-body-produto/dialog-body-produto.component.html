@@ -242,25 +242,6 @@
           
         </div>
         <div fxLayout="row">
-          <mat-form-field class="p-10 aj" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" appearance="outline">
-            <mat-chip-list #chipListAplication aria-label="Aplication selection">
-              <mat-chip *ngFor="let aplication of aplications" [selectable]="selectable" [removable]="removable"
-                (removed)="removeAplication(aplication)">
-                {{aplication.nome}}
-                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-              </mat-chip>
-              <input placeholder="Nova aplicação..." #aplicationInput [formControl]="aplicationCtrl"
-                [matAutocomplete]="autoAplication" [matChipInputFor]="chipListAplication"
-                [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addAplication($event)">
-            </mat-chip-list>
-            <mat-autocomplete #autoAplication="matAutocomplete" (optionSelected)="selectedAplication($event)">
-              <mat-option *ngFor="let aplication of filteredAplications | async" [value]="aplication">
-                {{aplication.nome}}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-        </div>
-        <div fxLayout="row">
           <div fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100">
 
             <div class="p-10 aj" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
