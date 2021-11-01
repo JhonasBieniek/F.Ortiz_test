@@ -43,10 +43,10 @@
     color: rgba(0, 0, 0, 0.87);
     -webkit-transition: width 0.3s ease;
     transition: width 0.3s ease;
-    font-size: 0.65em;
+    font-size: 11px;
     font-weight: 400;
   }
   
   .custom-datatable ngx-datatable.material .datatable-header .datatable-header-cell {
-    font-size: 2px !important;
+    font-size: 10px !important;
   }

@@ -10,14 +10,21 @@ import { ChartsModule } from 'ng2-charts';
 
 import { Dashboard1Component } from './dashboard1/dashboard1.component';
 import { Dashboard2Component } from './dashboard2/dashboard2.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxMaskModule } from 'ngx-mask';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 @NgModule({
   imports: [
     CommonModule,
     DemoMaterialModule,
+    FormsModule,
+    ReactiveFormsModule,
     FlexLayoutModule,
     ChartistModule,
     ChartsModule,
-    RouterModule.forChild(DashboardsRoutes)
+    RouterModule.forChild(DashboardsRoutes),
+    NgxMaskModule.forRoot(),
+    NgxDatatableModule,
   ],
   declarations: [Dashboard1Component, Dashboard2Component]
 })

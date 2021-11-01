@@ -20,6 +20,11 @@ export class PedidosComponent implements OnInit {
   form: FormGroup;
   ramos: any = [];
   representadas: any = [];
+
+  clienteBusca = new FormControl("");
+  clientes: any = [];
+  $clientes: any = [];
+
   constructor(
     private fb: FormBuilder,
     private clientservice: ClientService,
@@ -34,11 +39,16 @@ export class PedidosComponent implements OnInit {
     this.clientservice.getRepresentadas().subscribe((res: any) => {
       this.representadas = res.data;
     });
+
+    this.clientservice.getClientes().subscribe((res:any) =>{
+      this.clientes = res.data;
+    });
   }
   ngOnInit(): void {
     this.form = this.fb.group({
       situacao: ["todos", Validators.required],
       representada_id: [null],
+      cliente_id: [null],
       ramo_id: [null],
       periodo_inicial: [null],
       periodo_final: [null],
@@ -67,15 +77,19 @@ export class PedidosComponent implements OnInit {
     this.form = this.fb.group({
       situacao: ["todos", Validators.required],
       representada_id: [null],
+      cliente_id: [null],
       ramo_id: [null],
       periodo_inicial: [null],
       periodo_final: [null],
       entrega_inicial: [null],
       entrega_final: [null],
-      tipo_cliente: ["todos", Validators.required],
+      // tipo_cliente: ["todos", Validators.required],
       ordenacao: ["data", Validators.required],
       tipo: ["asc", Validators.required],
-    });
+    });;
+
+    this.clienteBusca.setValue('');
+    this.$clientes = [];
   }
 
   print(data) {
@@ -90,5 +104,38 @@ export class PedidosComponent implements OnInit {
       DialogPedidosPrintComponent,
       dialogConfig
     );
+  }
+
+  searchCliente() {
+    let $cliente: Observable<any[]>;
+    let nome = this.clienteBusca.value;
+    if (nome != "") {
+      const val = nome.toLowerCase().split(" ");
+      let xp = "";
+      val.forEach((e) => {
+        xp += `(?=.*${e})`;
+      });
+      const re = new RegExp(xp, "g");
+      this.$clientes = this.clientes.filter(function (d) {
+        if (
+          d.razao_social.toLowerCase().match(re) ||
+          d.cnpj.toLowerCase().match(re) ||
+          !val
+        )
+          return d;
+      });
+    } else {
+      this.$clientes = $cliente;
+    }
+  }
+
+  setCliente(cliente) {
+    this.form.get("cliente_id").setValue(cliente.id);
+  }
+
+  limpar(){
+    this.form.get('cliente_id').setValue(null);
+    this.clienteBusca.setValue('');
+    this.$clientes = [];
   }
 }

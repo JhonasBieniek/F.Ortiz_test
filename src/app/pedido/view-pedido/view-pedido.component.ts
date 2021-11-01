@@ -53,29 +53,52 @@ export class ViewPedidoOrcamentoComponent implements OnInit {
   loadData(){
     this.clientservice.getOrcPedido(this.data.pedido.id, this.data.tipo).subscribe((res:any)=> {
       this.dados = res.data;
-      console.log(this.dados)
       this.temp = res.data.pedido_produtos;
       this.temp2 = res.data.notas;
-      let qtd = res.data.nota_produtos;
+      //let qtd = res.data.nota_produtos;
       this.temp.map( e => {
         e.qtd_restante = e.quantidade;
         e.qtd_faturado = 0;
-        qtd.map( f => {
-          if(e.id === f.pedido_produto_id){
-            e.qtd_restante = e.qtd_restante - f.qtd
-            e.qtd_faturado = e.qtd_faturado + f.qtd
-            e.total = f.qtd * e.valor_unitario
-            e.desconto = res.data.desconto
+        this.temp2.map(nota =>{
+          if(nota.status != "cancelado"){
+            nota.nota_produtos.map(produtoNota => {
+              if(e.id == produtoNota.pedido_produto_id){
+                e.qtd_restante = e.qtd_restante - produtoNota.qtd;
+                e.qtd_faturado = e.qtd_faturado + produtoNota.qtd;
+                e.total = produtoNota.qtd * e.valor_unitario;
+                e.desconto = res.data.desconto;
+                produtoNota.valor_unitario = e.valor_unitario;
+              }
+            });
+          }else{
+            nota.nota_produtos.map(produtoNota => {
+              if(e.id == produtoNota.pedido_produto_id){
+                produtoNota.valor_unitario = e.valor_unitario;
+              }
+            });
           }
-        })
+        });
+        // qtd.map( f => {
+        //   if(e.id === f.pedido_produto_id){
+        //     e.qtd_restante = e.qtd_restante - f.qtd
+        //     e.qtd_faturado = e.qtd_faturado + f.qtd
+        //     e.total = f.qtd * e.valor_unitario
+        //     e.desconto = res.data.desconto
+        //   }
+        // })
         e.total = e.qtd_faturado * e.valor_unitario;
       })
-      this.dados.notas.map(e => e.nota_total = 0);
-      this.temp.forEach(element => {
-        this.dados.notas.map(e => {
-          e.nota_total += element.valor_unitario * element.qtd_faturado
-        })
+      this.temp2.map(e => {
+        e.nota_total = 0;
+        e.nota_produtos.map(produto => {
+          e.nota_total = e.nota_total + (produto.qtd * produto.valor_unitario);
+        });
       });
+      // this.temp.forEach(element => {
+      //   this.dados.notas.map(e => {
+      //     e.nota_total += element.valor_unitario * element.qtd_faturado
+      //   })
+      // });
       this.rows = [...this.temp];
       this.rows2 = [...this.temp2];
     })

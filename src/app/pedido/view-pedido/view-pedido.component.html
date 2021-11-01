@@ -19,10 +19,10 @@
     <b>Cliente: </b>{{dados?.cliente.razao_social}} - <b>CNPJ: </b>{{dados?.cliente.cnpj}}<br>
     <b>Cidade: </b>{{dados?.cliente?.enderecos_clientes[0]?.endereco.cidade}} - <b>UF: </b>{{dados?.cliente?.enderecos_clientes[0]?.endereco.estado.nome}}<br>
     <b>Condição de Pagamento: </b>{{dados?.condicao_comercial.nome}}<br>
-    <b>Data de Emissão: </b>{{dados?.data_emissao}}<br>
+    <b>Data de Emissão: </b>{{dados?.data_emissao | date:'dd/MM/yyyy'}}<br>
     <b>Transportadora: </b>{{dados?.transportadora}}<br>
     <b>Frete: </b>{{dados?.frete}} - <b>Previsão de Entrega: </b>{{dados?.prazo_entrega}}<br>
-    <b>Valor Total: </b>{{dados?.valor_total | currency:'BRL':true:'1.2-2'}}<br>
+    <b>Valor Total da Nota: </b>{{dados?.valor_total | currency:'BRL':true:'1.2-2'}}<br>
     <b>Comissão Média:</b> {{dados?.comissao_media}}% <br>
   </div>
 </div>

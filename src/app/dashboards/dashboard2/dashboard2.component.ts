@@ -1,8 +1,12 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 import * as Chartist from 'chartist';
 import { ChartType, ChartEvent } from 'ng-chartist';
+import { FormControl } from '@angular/forms';
+import { NotificationService } from '../../shared/messages/notification.service';
+import { ClientService } from '../../shared/services/client.service.component';
+import { Observable } from 'rxjs';
 declare var require: any;
 
 const data: any = require('./data.json');
@@ -70,7 +74,8 @@ const ELEMENT_DATA: Element[] = [
 @Component({
   selector: 'app-dashboard2',
   templateUrl: './dashboard2.component.html',
-  styleUrls: ['./dashboard2.component.scss']
+  styleUrls: ['./dashboard2.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class Dashboard2Component {
   // Barchart
@@ -267,12 +272,71 @@ export class Dashboard2Component {
   public barChartLegend = false;
   public barChartType = 'bar';
 
+  clienteBusca = new FormControl("");
+  clientes: any = [];
+  $clientes: any = [];
+  cliente_id: any = null;
+  UltimosPedidos: any[] = [];
   // This is for the table responsive
-  constructor(breakpointObserver: BreakpointObserver) {
+  constructor(breakpointObserver: BreakpointObserver,
+    private clientservice: ClientService,
+    private notificationService: NotificationService,) {
     breakpointObserver.observe(['(max-width: 600px)']).subscribe(result => {
       this.displayedColumns = result.matches ? 
           ['pic', 'name', 'weight', 'designation'] : 
           ['pic', 'name', 'weight', 'designation'];
+    });
+
+    this.clientservice.getClientes().subscribe((res:any) =>{
+      this.clientes = res.data;
+    });
+  }
+
+  searchCliente() {
+    let $cliente: Observable<any[]>;
+    let nome = this.clienteBusca.value;
+    if (nome != "") {
+      const val = nome.toLowerCase().split(" ");
+      let xp = "";
+      val.forEach((e) => {
+        xp += `(?=.*${e})`;
+      });
+      const re = new RegExp(xp, "g");
+      this.$clientes = this.clientes.filter(function (d) {
+        if (
+          d.razao_social.toLowerCase().match(re) ||
+          d.cnpj.toLowerCase().match(re) ||
+          !val
+        )
+          return d;
+      });
+    } else {
+      this.$clientes = $cliente;
+    }
+  }
+
+  setCliente(cliente) {
+    this.cliente_id = cliente.id;
+    //this.form.get("cliente_id").setValue(cliente.id);
+  }
+
+  limpar(){
+    this.cliente_id = null;
+    //this.form.get('cliente_id').setValue(null);
+    this.clienteBusca.setValue('');
+    this.$clientes = [];
+  }
+
+  buscarPedidos(){
+    this.clientservice.getLastsByCliente(this.cliente_id).subscribe((res: any) => {
+      if(res.success == true){
+        if(res.data.length > 0 ){
+          console.log(res)
+          this.UltimosPedidos = res.data;
+        }else{
+          this.notificationService.notify("Não foi localizado nenhum pedido!");
+        }
+      }
     });
   }
   

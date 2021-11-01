@@ -73,11 +73,11 @@
                                 <h1 class="text-white m-0">35487</h1>
                             </div>
                             <div class="ml-auto" style="height: 84px; width: 100px">
-		                        <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels"
-		                            [options]="barChartOptions" [colors]="barChartColors" [legend]="barChartLegend"
-		                            [chartType]="barChartType">
-		                        </canvas>
-		                    </div>
+                                <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels"
+                                    [options]="barChartOptions" [colors]="barChartColors" [legend]="barChartLegend"
+                                    [chartType]="barChartType">
+                                </canvas>
+                            </div>
                         </div>
                     </mat-card-content>
                 </mat-card>
@@ -95,11 +95,11 @@
                                 <h1 class="text-white m-0">35487</h1>
                             </div>
                             <div class="ml-auto" style="height: 84px; width: 100px">
-		                        <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels"
-		                            [options]="barChartOptions" [colors]="barChartColors" [legend]="barChartLegend"
-		                            [chartType]="barChartType">
-		                        </canvas>
-		                    </div>
+                                <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels"
+                                    [options]="barChartOptions" [colors]="barChartColors" [legend]="barChartLegend"
+                                    [chartType]="barChartType">
+                                </canvas>
+                            </div>
                         </div>
                     </mat-card-content>
                 </mat-card>
@@ -112,15 +112,89 @@
             <mat-card-content>
                 <!-- column -->
                 <mat-card-title>Pedidos anuais</mat-card-title>
-                <mat-card-subtitle>Quantidade de pedidos     mês a mês de 2020</mat-card-subtitle>
+                <mat-card-subtitle>Quantidade de pedidos mês a mês de 2020</mat-card-subtitle>
                 <div class="barchrt" style="height:325px;">
-                    <x-chartist class="" [data]="barChart1.data" [type]="barChart1.type" [options]="barChart1.options" [responsiveOptions]="barChart1.responsiveOptions" 
-                        [events]="barChart1.events"> </x-chartist>
+                    <x-chartist class="" [data]="barChart1.data" [type]="barChart1.type" [options]="barChart1.options"
+                        [responsiveOptions]="barChart1.responsiveOptions" [events]="barChart1.events"> </x-chartist>
                 </div>
             </mat-card-content>
         </mat-card>
     </div>
     <!-- column -->
 
+    <!-- column -->
+    <div fxFlex.gt-md="100" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card>
+            <mat-card-content>
+                <!-- column -->
+                <mat-card-title>Ultimos Pedidos</mat-card-title>
+                <mat-card-subtitle>Ultimos 10 pedidos filtrado por cliente</mat-card-subtitle>
+                <div class="pedidos-search" fxLayout="row wrap">
+                    <div class="p-l-10 p-r-10 text" fxFlex="80">
+                        <mat-form-field appearance="outline" fxFlex="100">
+                            <input type="text" placeholder="Busque o cliente" aria-label="Cliente" matInput
+                                [formControl]="clienteBusca" (keyup)="searchCliente()" [matAutocomplete]="autoCliente">
+                            <button mat-button matSuffix mat-icon-button aria-label="Clear" type="button"
+                                *ngIf="cliente_id != null">
+                                <mat-icon color="warn" (click)="limpar();">close</mat-icon>
+                            </button>
+                            <mat-autocomplete autoActiveFirstOption #autoCliente="matAutocomplete">
+                                <mat-option *ngFor="let cliente of $clientes" (click)="setCliente(cliente)"
+                                    (onSelectionChange)="setCliente(cliente)" [value]="cliente.razao_social">
+                                    {{cliente.razao_social}} - CNPJ: {{cliente.cnpj | mask:'00.000.000/0000-00'}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                    <div class="p-l-10 p-r-10 p-t-10" fxFlex="20">
+                        <button mat-raised-button color="primary" type="submit" (click)="buscarPedidos()"
+                            [disabled]="cliente_id == null">buscar</button>
+                    </div>
+                    <div class="p-l-10 p-r-10" fxFlex="100">
+                        <ngx-datatable class='material dashboard striped' [columnMode]="'flex'" [headerHeight]="50"
+                        [footerHeight]="50" [rowHeight]="'auto'" [limit]="10" [rows]='UltimosPedidos'
+                        [sorts]="[{prop: 'id', dir: 'asc'}]">
+                            <ngx-datatable-column [flexGrow]="1" name="N° Pedido" prop="num_pedido">
+                                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                                    {{ value }}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column [flexGrow]="0.7" name="Representada" prop="representada.nome_fantasia">
+                                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                                    {{ value }}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column [flexGrow]="2" name="Comprador" prop="cliente.nome_fantasia">
+                                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                                    {{ value }}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column [flexGrow]="1" name="CNPJ" prop="cliente.cnpj">
+                                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                                    {{ value | mask:'00.000.000/0000-00' }}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column [flexGrow]="0.7" name="Emissão" prop="data_emissao">
+                                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                                    {{ value | date:'dd/MM/yyyy'}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column [flexGrow]="0.7" name="Entrega" prop="data_entrega">
+                                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                                    {{ value | date:'dd/MM/yyyy'}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column [flexGrow]="0.8" name="Cond. Pagamento" prop="condicao_comercial.nome">
+                                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                                    {{ value }}
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </div>
+                    
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
     <!-- column -->
 </div>

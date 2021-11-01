@@ -635,6 +635,16 @@ export class ClientService {
         return res;
       });
   }
+  getLastsByCliente(id) {
+    const uri = `${API_URL}` + `pedidos/getLastsByCliente/` + id + `.json`;
+    return this
+      .http
+      .get(uri)
+      .map(res => {
+        return res;
+      });
+  }
+
   pedidosRelatorio(data) {
     const uri = `${API_URL}` + `pedidos/pedidosRelatorio.json`;
     return this

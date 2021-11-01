@@ -8,7 +8,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 })
 export class DialogSemComprasPrintComponent implements OnInit {
 
-  displayedColumns: string[] = ['nome', 'cnpj', 'contato', 'telefone', 'celular', 'data', 'valor'];
+  displayedColumns: string[] = ['nome', 'cnpj', 'contato', 'telefone', 'celular', 'data', 'valor', 'condicao'];
   dataSource: any[] = [];
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,  public dialogRef: MatDialogRef<DialogSemComprasPrintComponent>) { 
     this.dataSource = data;
