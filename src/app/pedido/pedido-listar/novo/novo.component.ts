@@ -190,6 +190,7 @@ export class NovoComponent implements OnInit {
           });
           this.form.patchValue(this.pedidoN);
           this.form.controls["num_pedido"].setValue("");
+          this.form.controls["data_emissao"].setValue(new Date());
           this.form.controls["situacao"].setValue("pendente");
           this.setAreaDeVenda(pedido.data.area_venda);
           this.razaoSocial =
@@ -273,7 +274,7 @@ export class NovoComponent implements OnInit {
       comissao_vendedor: [null],
       status: [true, Validators.compose([Validators.required])],
       obs: [null],
-      data_emissao: [null, Validators.compose([Validators.required])],
+      data_emissao: [new Date(), Validators.compose([Validators.required])],
       data_entrega: [null],
       data_programada: [null],
       desconto: [null],
@@ -467,6 +468,7 @@ export class NovoComponent implements OnInit {
       .subscribe((res: any) => {
         this.rows = res.data;
         this.temp = [...this.rows];
+        this.loadingIndicator = false;
       });
   }
 

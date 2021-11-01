@@ -52,8 +52,6 @@ export class DialogBodyProdutoComponent implements OnInit {
   filteredColors: Observable<any[]>;
   filteredAplications: Observable<any[]>;
   sizes: any[] = [];
-  aplications: any[] = [];
-  aplicacoes: any[] = [];
   tamanhos: any = [];
   colors: any = [];
   cores: any[] = [];
@@ -116,9 +114,6 @@ export class DialogBodyProdutoComponent implements OnInit {
     this.clientservice.getProdutoCores().subscribe((res: any) => {
       this.cores = res.data;
     });
-    this.clientservice.getProdutoAplications().subscribe((res: any) => {
-      this.aplicacoes = res.data;
-    });
     this.fichaBase64 = this.produto.imagem_ficha;
   }
 
@@ -155,7 +150,6 @@ export class DialogBodyProdutoComponent implements OnInit {
       preco_ms: [null, Validators.compose([Validators.required])],
       preco_sp: [null, Validators.compose([Validators.required])],
       produto_cores: null,
-      produto_aplications: null,
       certificado_aprovacao: [null],
       codigo_catalogo: [null, Validators.compose([Validators.required])],
       codigo_importacao: [null, Validators.compose([Validators.required])],
@@ -166,7 +160,7 @@ export class DialogBodyProdutoComponent implements OnInit {
       representada_id: [null, Validators.compose([Validators.required])],
       imagem: [null],
       imagem_ficha: [null],
-      produto_classification_id: [null, Validators.compose([Validators.required])],
+      produto_classification_id: [1, Validators.compose([Validators.required])],
       status: ["ativo"],
     });
     if (this.data == null) {
@@ -201,7 +195,6 @@ export class DialogBodyProdutoComponent implements OnInit {
   
         this.sizes = this.produto.produto_tamanhos;
         this.colors = this.produto.produto_cores;
-        this.aplications = this.produto.produto_aplications;
         this.cardImageBase64 = this.produto.imagem;
         this.fichaBase64 = this.produto.imagem_ficha;
       });
@@ -219,15 +212,6 @@ export class DialogBodyProdutoComponent implements OnInit {
       startWith(null),
       map((color: any | null) =>
         color ? this._filterColor(color) : this.cores.slice()
-      )
-    );
-
-    this.filteredAplications = this.aplicationCtrl.valueChanges.pipe(
-      startWith(null),
-      map((aplication: any | null) =>
-        aplication
-          ? this._filterAplication(aplication)
-          : this.aplicacoes.slice()
       )
     );
   }
@@ -259,36 +243,6 @@ export class DialogBodyProdutoComponent implements OnInit {
     this.sizes.push(event.option.value);
     this.sizeInput.nativeElement.value = "";
     this.sizeCtrl.setValue(null);
-  }
-
-  addAplication(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
-
-    // Add our aplication
-    if ((value || "").trim()) {
-      this.aplications.push({ nome: value.trim() });
-    }
-
-    // Reset the input value
-    if (input) {
-      input.value = "";
-    }
-    this.aplicationCtrl.setValue(null);
-  }
-
-  removeAplication(aplication: string): void {
-    const index = this.aplications.indexOf(aplication);
-
-    if (index >= 0) {
-      this.aplications.splice(index, 1);
-    }
-  }
-
-  selectedAplication(event: MatAutocompleteSelectedEvent): void {
-    this.aplications.push(event.option.value);
-    this.aplicationInput.nativeElement.value = "";
-    this.aplicationCtrl.setValue(null);
   }
 
   addColor(event: MatChipInputEvent): void {
@@ -332,14 +286,6 @@ export class DialogBodyProdutoComponent implements OnInit {
     const filterValue = value.length == undefined ? null : value.toLowerCase();
     return this.cores.filter(
       (color: any) => color.nome.toLowerCase().indexOf(filterValue) === 0
-    );
-  }
-
-  private _filterAplication(value: any): string[] {
-    const filterValue = value.length == undefined ? null : value.toLowerCase();
-    return this.aplicacoes.filter(
-      (aplication: any) =>
-        aplication.nome.toLowerCase().indexOf(filterValue) === 0
     );
   }
 
@@ -544,13 +490,6 @@ pdfBlobConversion(b64Data, contentType) {
           produto_id: element.produto_id,
         });
       });
-      this.aplications.forEach((element) => {
-        aplicacoes.push({
-          id: element.id,
-          nome: element.nome,
-          produto_id: element.produto_id,
-        });
-      });
       precos = [
         {
           preco: this.form.value.preco_ms,
@@ -595,11 +534,7 @@ pdfBlobConversion(b64Data, contentType) {
           nome: element.nome,
         });
       });
-      this.aplications.forEach((element) => {
-        aplicacoes.push({
-          nome: element.nome,
-        });
-      });
+
       precos = [
         { preco: this.form.value.preco_ms, estado_id: 12, tipo: null },
         { preco: this.form.value.preco_pr_final, estado_id: 16, tipo: "final" },
@@ -624,7 +559,6 @@ pdfBlobConversion(b64Data, contentType) {
       produto_tamanhos: tamanhos,
       produto_embalagem: embalagem[0],
       produto_cores: cores,
-      produto_aplications: aplicacoes,
       produto_estados_precos: precos,
     });
     //console.log(this.form.value)

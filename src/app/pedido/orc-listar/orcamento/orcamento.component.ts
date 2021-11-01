@@ -301,6 +301,8 @@ export class OrcamentoComponent implements OnInit {
     this.clientservice.getProdRepCli(representada_id, cliente_id ).subscribe((res:any) => {
       this.rows = res.data;
       this.temp = [...this.rows];
+      this.loadingIndicator = false;
+
     })
   }
   onSelect({ selected }) {
