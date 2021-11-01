@@ -46,7 +46,6 @@ export class DialogSendNotaComponent implements OnInit {
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
-    console.log(data);
     this.loadData();
   }
 
@@ -72,11 +71,17 @@ export class DialogSendNotaComponent implements OnInit {
       this.rows = [...this.temp];
       this.rows.map(e => {
         // Verificar se ja existe nota do produto
-        this.pedido.nota_produtos.map(produtoNota => {
-          if(e.produto_id == produtoNota.produto_id){
-            e.quantidade = e.quantidade - produtoNota.qtd;
+        this.pedido.notas.map(nota => {
+          if(nota.status != "cancelado"){
+            nota.nota_produtos.map(produtoNota => {
+              if(e.id == produtoNota.pedido_produto_id){
+                e.quantidade = e.quantidade - produtoNota.qtd;
+              }
+            });
           }
         });
+
+        this.pedido.nota_produtos
         e.quantidade_recebida = e.quantidade;
         return e;
       })

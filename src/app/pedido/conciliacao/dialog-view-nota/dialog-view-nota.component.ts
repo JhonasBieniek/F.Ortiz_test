@@ -6,6 +6,7 @@ import { DialogDevolucaoComponent } from './dialog-devolucao/dialog-devolucao.co
 import { DialogEditNotaComponent } from '../dialog-edit-nota/dialog-edit-nota.component';
 import { DialogDeleteNotaComponent } from '../dialog-delete-nota/dialog-delete-nota.component';
 import { DialogSendNotaComponent } from '../dialog-add-nota/dialog-send-nota/dialog-send-nota.component';
+import { DialogCancelarNotaComponent } from './dialog-cancelar-nota/dialog-cancelar-nota.component';
 
 @Component({
   selector: 'app-dialog-view-nota',
@@ -123,6 +124,31 @@ export class DialogViewNotaComponent implements OnInit {
       }
     });
   }
+
+  cancelarNf() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = []
+    dialogConfig.data.nome = 'NF ' + this.data.num_nota;
+    let dialogRef = this.dialog.open(DialogCancelarNotaComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(value => {
+      if (value == true) {
+        this.clientservice.cancelarNota(this.data.id).subscribe((res: any) => {
+          if (res.success == true) {
+            this._snackBar.open('Nota cancelada com sucesso!', 'OK', {
+              duration: 3000,
+            })
+          } else {
+            this._snackBar.open('Erro ao cancelar a nota', 'OK', {
+              duration: 3000,
+            })
+          }
+          this.close();
+        })
+      }
+    });
+  }
+
+
   estorno() {
     this.dialogConfig.data = this.dados
     let dialogRef = this.dialog.open(

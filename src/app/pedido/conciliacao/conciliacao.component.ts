@@ -66,6 +66,7 @@ export class ConciliacaoComponent implements OnInit {
       });
       this.rows = [...this.temp].sort((a,b)=> a.id - b.id);
     });
+    
   }
 
 
@@ -127,7 +128,6 @@ export class ConciliacaoComponent implements OnInit {
 
   onTabChange(event: MatTabChangeEvent) {
     this.defaultTab = event.index;
-    console.log(this.defaultTab, "tab change");
     window.dispatchEvent(new Event('resize'));
     this.selected =[];
   }

@@ -1,0 +1,10 @@
+<div class="border">
+    <h1 mat-dialog-title>Você realmente deseja cancelar: <span style="color: red;">{{data.nome}}</span>!</h1>
+    <div mat-dialog-content>
+        <p>Confirme para prosseguir.</p>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button color="warn" (click)="cancelar()">ok</button>
+        <button mat-button color="primary" autofocus (click)="fechar()">Cancelar</button>
+    </div>
+</div>

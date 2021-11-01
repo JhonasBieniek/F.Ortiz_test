@@ -761,6 +761,18 @@ export class ClientService {
         return res;
       });
   }
+
+  cancelarNota(id) {
+    //this.notificationService.notify(`Você não possui permissão para excluir dados!`)
+
+    const uri = `${API_URL}` + `notas/cancelar/` + id + `.json`;
+    return this
+      .http
+      .get(uri)
+      .map(res => {
+        return res;
+      });
+  }
   removeNotaParcela(id) {
     //this.notificationService.notify(`Você não possui permissão para excluir dados!`)
 

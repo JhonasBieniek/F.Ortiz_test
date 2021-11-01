@@ -8,7 +8,10 @@
   <div fxFlex.gt-sm="50%" fxFlex="50" class="p-20" fxLayoutAlign="end start" fxLayoutGap="10px">
     <!-- <button *ngIf="dados?.status == 'parcial'" mat-stroked-button color="primary" class="p-10" (click)="adicionarNf()">
       <i class="material-icons">note_add</i>Adicionar NF</button> -->
-    <button *ngIf="dados?.status == 'aberto' || 'parcial'" mat-stroked-button color="warn" class="p-10"
+    <button *ngIf="dados?.status == 'aberto' || 'parcial' || 'faturado'" mat-stroked-button color="warn" class="p-10"
+      (click)="cancelarNf()">
+      <i class="material-icons">close_fullscreen</i>Cancelar NF</button>
+    <button *ngIf="dados?.status == 'aberto' || 'parcial' || 'faturado'" mat-stroked-button color="warn" class="p-10"
       (click)="removerNf()">
       <i class="material-icons">close_fullscreen</i>Remover NF</button>
     <button *ngIf="dados?.status == 'aberto' || 'parcial'" mat-stroked-button color="accent" class="p-10"

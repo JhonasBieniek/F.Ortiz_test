@@ -25,12 +25,12 @@ export class DialogDevolucaoComponent implements OnInit {
     private clientservice: ClientService,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
-    console.log(data);
   }
 
   ngOnInit() {
     this.form = this.fb.group({
       id: [this.data.id],
+      status: [this.data.status],
       nota_produto_devolutions: this.fb.array([]),
     });
     this.nota_produto_devolutions = this.form.get('nota_produto_devolutions') as FormArray;
@@ -55,7 +55,15 @@ export class DialogDevolucaoComponent implements OnInit {
     this.dialogRef.close();
   }
   save(){
+    let notaValidacao = 'aberto';
     this.rows.map(e => {
+      if(e.devolucao > 0){
+        if(e.qtd == e.devolucao){
+          if(notaValidacao == 'aberto') notaValidacao = 'devolvido';
+        }else{
+          notaValidacao = 'devolvido parcial';
+        }
+      }
       let index = this.data.nota_produto_devolutions.findIndex(devolution => devolution.pedido_produto_id == e.pedido_produto_id);
       if(e.devolucao > 0 ){
         if(index == -1){
@@ -82,15 +90,13 @@ export class DialogDevolucaoComponent implements OnInit {
         }
       }
     });
+    this.form.get('status').setValue(notaValidacao);
 
     this.clientservice.addDevolucao(this.form.value).subscribe((res:any) => {
-      console.log(res)
       this.dialogRef.close({
         status: true,
       });
     });
-    console.log(this.rows)
-    console.log(this.form.value)
   }
 
 

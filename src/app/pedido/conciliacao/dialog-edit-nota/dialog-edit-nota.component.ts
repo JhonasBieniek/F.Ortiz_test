@@ -73,13 +73,18 @@ export class DialogEditNotaComponent implements OnInit {
       this.temp = this.pedido.pedido_produtos.sort((a, b) => a.id - b.id);
       
       this.rows = [...this.temp];
+      console.log(this.pedido)
       this.rows.map(e => {
-        // Verificar se ja existe nota do produto
-        this.pedido.nota_produtos.map(produtoNota => {
-          if(e.produto_id == produtoNota.produto_id){
-            e.quantidade = e.quantidade - produtoNota.qtd;
-          }
+        
+        // Verificar se ja existe nota do produto que nao esteja cancelada.
+        this.pedido.notas.map(nota => {
+          nota.nota_produtos.map(produtoNota => {
+            if(e.id == produtoNota.pedido_produto_id){
+              e.quantidade = e.quantidade - produtoNota.qtd;
+            }
+          });
         });
+
         e.quantidade_recebida = e.quantidade;
         return e;
       })
@@ -187,7 +192,7 @@ export class DialogEditNotaComponent implements OnInit {
       }))
     });
     dados = this.form.value;
-    dados.parcial = false
+    dados.parcial = false;
     dados.nota_produtos.map((e:any)=> {
       if(e.parcial == true){
         dados.parcial = true
