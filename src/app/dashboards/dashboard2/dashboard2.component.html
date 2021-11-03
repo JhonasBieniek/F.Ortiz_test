@@ -164,7 +164,7 @@
                                     {{ value }}
                                 </ng-template>
                             </ngx-datatable-column>
-                            <ngx-datatable-column [flexGrow]="2" name="Comprador" prop="cliente.nome_fantasia">
+                            <ngx-datatable-column [flexGrow]="1.5" name="Comprador" prop="cliente.nome_fantasia">
                                 <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                                     {{ value }}
                                 </ng-template>
@@ -189,9 +189,30 @@
                                     {{ value }}
                                 </ng-template>
                             </ngx-datatable-column>
+
+                            <ngx-datatable-column [flexGrow]="0.4" name="Ações">
+                                <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                                    <i class="fa fa-search buttonP" title="Visualizar" (click)="view(row);"></i>
+                                </ng-template>
+                            </ngx-datatable-column>
                         </ngx-datatable>
                     </div>
                     
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <!-- column -->
+
+    <!-- column -->
+    <div fxFlex.gt-md="100" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card>
+            <mat-card-content>
+                <!-- column -->
+                <mat-card-title>Produtos Indisponiveis</mat-card-title>
+                <mat-card-subtitle></mat-card-subtitle>
+                <div fxLayout="row wrap">   
+                    <app-dash-produtos-indisponiveis fxFlex="100"></app-dash-produtos-indisponiveis>                 
                 </div>
             </mat-card-content>
         </mat-card>

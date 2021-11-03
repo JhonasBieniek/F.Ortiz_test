@@ -13,6 +13,10 @@ import { Dashboard2Component } from './dashboard2/dashboard2.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskModule } from 'ngx-mask';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { CadastroModule } from '../cadastro/cadastro.module';
+import { DashProdutosIndisponiveisComponent } from './dashboard2/dash-produtos-indisponiveis/dash-produtos-indisponiveis.component';
+import { PedidoModule } from '../pedido/pedido.module';
+import { ViewPedidoOrcamentoComponent } from '../pedido/view-pedido/view-pedido.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -26,6 +30,6 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
     NgxMaskModule.forRoot(),
     NgxDatatableModule,
   ],
-  declarations: [Dashboard1Component, Dashboard2Component]
+  declarations: [Dashboard1Component, Dashboard2Component, DashProdutosIndisponiveisComponent],
 })
 export class DashboardsModule {}

@@ -485,6 +485,15 @@ export class ClientService {
         return res;
       });
   }
+  getProdutosIndisponivel() {
+    const uri = `${API_URL}` + `produtos/produtosIndisponiveis.json`;
+    return this
+      .http
+      .get(uri)
+      .map(res => {
+        return res;
+      });
+  }
   getProdutosSoftPrice() {
     const uri = `${API_URL}` + `produtos/index4.json`;
     return this
@@ -856,6 +865,21 @@ export class ClientService {
       .map(res => {
         return res;
       });
+  }
+  getOrcamentos_antigos(){
+    const uri = `${API_URL}` + `orcamentos/orcamentosAntigos.json`;
+    return this
+      .http
+      .get(uri)
+      .map(res => {
+        return res;
+      });
+  }
+  cancelarAntigos(data){
+    const uri = `${API_URL}` + `orcamentos/cancelarAntigos.json`;
+    return this
+      .http
+      .post(uri, data);
   }
   getOrcamentosForUsers() {
     const uri = `${API_URL}` + `orcamentos/indexForUsers.json`;

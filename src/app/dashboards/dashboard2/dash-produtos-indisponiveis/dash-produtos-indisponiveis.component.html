@@ -1,0 +1,43 @@
+<div fxLayout="row" fxLayoutWrap="wrap">
+    <!-- Card column -->
+    <div fxFlex="100">
+        <mat-form-field>
+            <input matInput type='text' class="form-control" placeholder='Digite um produto para filtrar...'
+                (keyup)='updateFilter($event)' />
+        </mat-form-field>
+        <ngx-datatable #table class='material dashboard striped' [columnMode]="'flex'" [headerHeight]="50"
+            [footerHeight]="50" [rowHeight]="'auto'" [limit]="10" [rows]='rows'>
+
+            <ngx-datatable-column [flexGrow]="0.2" name="Id">
+                <ng-template let-value="id" let-row="row" ngx-datatable-cell-template>
+                    {{ row.id }}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column [flexGrow]="0.5" name="Codigo">
+                <ng-template let-value="codigo" let-row="row" ngx-datatable-cell-template>
+                    {{ row.codigo_importacao }}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column [flexGrow]="1.5" name="Nome">
+                <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
+                    {{ row.nome }}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column [flexGrow]="0.5" name="Tipo" prop="produto_tipo">
+                <ng-template let-value="produto_tipo.nome" let-row="row" ngx-datatable-cell-template>
+                    {{ row.produto_tipo.nome }}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column [flexGrow]="0.4" name="Ações">
+                <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                    <i class="fa fa-search buttonP" title="Visualizar" (click)="view(row);"></i>
+                </ng-template>
+            </ngx-datatable-column>
+
+        </ngx-datatable>
+    </div>
+</div>

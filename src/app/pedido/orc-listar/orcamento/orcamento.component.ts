@@ -164,7 +164,7 @@ export class OrcamentoComponent implements OnInit {
         .subscribe(
           (orcamento: any) => {
             this.orcamento = orcamento.data;
-            console.log(this.orcamento)
+            //console.log(this.orcamento)
             this.form.patchValue(this.orcamento);
             this.cliente_id = this.orcamento.cliente_id;
             this.form.get('cliente_id').setValue(this.orcamento.cliente.razao_social);
@@ -180,7 +180,7 @@ export class OrcamentoComponent implements OnInit {
 
   CarregarProdutosRepresentada2(cliente_id, representada_id, produtos) {
     this.clientservice.getProdRepCli(representada_id, cliente_id ).subscribe((res:any) => {
-      console.log(res)
+      //console.log(res)
       this.rows = res.data;
       this.temp = [...this.rows];
       produtos.orcamento_produtos.forEach(element => {
@@ -350,12 +350,20 @@ export class OrcamentoComponent implements OnInit {
 
   enviarPedido() {
     this.form.get('cliente_id').setValue(this.cliente_id);
-    console.log(this.form.value)
+    //console.log(this.form.value)
     stop;
     if (this.currentAction == 'edit') {
       this.clientservice.updateOrcamento(this.form.value).subscribe((res: any) => {
-        this.notificationService.notify("Atualizado com Sucesso!");
-        this.dialogRef.close(res.data);
+        if (res.success == true) {
+          this.notificationService.notify(`Orçamento Cadastrado com Sucesso!`);
+          this.dialogRef.close();
+        } else {
+          if(res.data.min_value){
+            this.notificationService.notify(res.data.min_value);
+          }else{
+            this.notificationService.notify(`Erro contate o Administrador`);
+          }
+        }
       })
     } else {
       this.clientservice.addOrcamento(this.form.value).subscribe((res: any) => {
@@ -363,8 +371,11 @@ export class OrcamentoComponent implements OnInit {
           this.notificationService.notify(`Orçamento Cadastrado com Sucesso!`);
           this.dialogRef.close(res.data);
         } else {
-          this.notificationService.notify(`Erro contate o Administrador`);
-          this.dialogRef.close(res.data);
+          if(res.data.min_value){
+            this.notificationService.notify(res.data.min_value);
+          }else{
+            this.notificationService.notify(`Erro contate o Administrador`);
+          }
         }
       });
     }

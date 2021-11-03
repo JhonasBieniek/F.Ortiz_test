@@ -1,0 +1,24 @@
+.ngx-datatable.material.dashboard .datatable-body .datatable-body-row .datatable-body-cell {
+    text-align: left;
+    padding: 0.3rem 1.2rem;
+    vertical-align: top;
+    border-top: 0;
+    color: rgba(0, 0, 0, 0.87);
+    -webkit-transition: width 0.3s ease;
+    transition: width 0.3s ease;
+    font-size: 11px;
+    font-weight: 400;
+}
+
+.dialog-headline {
+    font-weight: 800;
+    margin-top: -1em;
+    margin-left: -1em;
+    margin-right: -1em;
+    margin-bottom: 0;
+    padding: 0.2em;
+    text-align: center;
+    font-size: 1.5em;
+    background-color: dodgerblue;
+    color: white;
+}

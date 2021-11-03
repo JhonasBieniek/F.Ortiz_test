@@ -5,6 +5,9 @@
                 <mat-card-title style="font-weight: bold;font-size: x-large;">{{page.titulo}}</mat-card-title>
                 <mat-card-actions align="end">
                     <div class="button-row">
+                        <button mat-raised-button color="primary" type="button" color="warn" (click)="cancelar()">
+                            <mat-icon class="example-icon">remove</mat-icon> Cancelar Antigos
+                        </button>
                         <button mat-raised-button color="primary" type="button" (click)="add('novo')">
                             <mat-icon class="example-icon">add_box</mat-icon> {{page.add.titulo}}
                         </button>

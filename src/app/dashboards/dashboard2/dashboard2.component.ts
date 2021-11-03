@@ -1,5 +1,5 @@
 import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatPaginator, MatTableDataSource } from '@angular/material';
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 import * as Chartist from 'chartist';
 import { ChartType, ChartEvent } from 'ng-chartist';
@@ -7,6 +7,7 @@ import { FormControl } from '@angular/forms';
 import { NotificationService } from '../../shared/messages/notification.service';
 import { ClientService } from '../../shared/services/client.service.component';
 import { Observable } from 'rxjs';
+import { ViewPedidoOrcamentoComponent } from '../../pedido/view-pedido/view-pedido.component';
 declare var require: any;
 
 const data: any = require('./data.json');
@@ -277,10 +278,12 @@ export class Dashboard2Component {
   $clientes: any = [];
   cliente_id: any = null;
   UltimosPedidos: any[] = [];
+  dialogConfig = new MatDialogConfig();
   // This is for the table responsive
   constructor(breakpointObserver: BreakpointObserver,
     private clientservice: ClientService,
-    private notificationService: NotificationService,) {
+    private notificationService: NotificationService,
+    private dialog: MatDialog) {
     breakpointObserver.observe(['(max-width: 600px)']).subscribe(result => {
       this.displayedColumns = result.matches ? 
           ['pic', 'name', 'weight', 'designation'] : 
@@ -338,6 +341,17 @@ export class Dashboard2Component {
         }
       }
     });
+  }
+
+  view(row){
+    this.dialogConfig.data = {
+      tipo: 'pedidos',
+      pedido: row
+    }
+    let dialogRef = this.dialog.open(ViewPedidoOrcamentoComponent, this.dialogConfig);
+    dialogRef.afterClosed().subscribe(value =>{
+      this.buscarPedidos();
+    })
   }
   
   // tslint:disable-next-line:member-ordering

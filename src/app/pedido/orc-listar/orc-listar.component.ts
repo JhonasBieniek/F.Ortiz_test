@@ -8,6 +8,7 @@ import { DialogConfirmarDeleteComponent } from '../../cadastro/dialog-confirmar-
 import { ViewPedidoOrcamentoComponent } from '../view-pedido/view-pedido.component';
 import { ImportComponent } from '../pedido-listar/import/import.component';
 import { ViewOrcamentoComponent } from '../view-orcamento/view-orcamento.component';
+import { DialogCancelarOrcamentosAntigosComponent } from './dialog-cancelar-orcamentos-antigos/dialog-cancelar-orcamentos-antigos.component';
 
 @Component({
   selector: 'app-orc-listar',
@@ -141,6 +142,15 @@ export class OrcListarComponent implements OnInit {
     this.defaultTab = event.index;
     window.dispatchEvent(new Event('resize'));
     this.selected =[];
+  }
+
+  cancelar(){
+    let dialogRef = this.dialog.open(DialogCancelarOrcamentosAntigosComponent,
+      this.dialogConfig
+    );
+    dialogRef.afterClosed().subscribe(value => { 
+      this.loadData()
+    });
   }
 
 }

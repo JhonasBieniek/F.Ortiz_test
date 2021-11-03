@@ -1,0 +1,60 @@
+<div fxLayout="row wrap">
+    <!-- Card column -->
+    <div fxFlex="100">
+        <h4 color="primary" class="dialog-headline">Cancelar Orçamentos Antigos</h4>
+    </div>
+    <div fxFlex="100" class="p-t-10">
+        <mat-form-field>
+            <input matInput type='text' class="form-control" placeholder='Insira um nome para filtrar...'
+                (keyup)='updateFilter($event)' />
+        </mat-form-field>
+        <ngx-datatable #table class='material dashboard striped' [columnMode]="'flex'" [headerHeight]="50"
+            [footerHeight]="50" [rowHeight]="'auto'" [limit]="10" [rows]='rows' [selected]="selected"
+            [selectionType]="'checkbox'" (select)='onSelect($event)'>
+
+            <ngx-datatable-column [flexGrow]="0.5" [headerCheckboxable]="true" [checkboxable]="true">
+            </ngx-datatable-column>
+
+            <ngx-datatable-column [flexGrow]="0.5" name="ID" prop="id">
+                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value }}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [flexGrow]="1" name="Representada" prop="representada.nome_fantasia">
+                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value }}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [flexGrow]="1.5" name="Comprador" prop="cliente.nome_fantasia">
+                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value }}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [flexGrow]="1" name="Assistente" prop="area_venda.auxiliar.nome">
+                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [flexGrow]="0.7" name="Emissão" prop="data_emissao">
+                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value | date:'dd/MM/yyyy'}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [flexGrow]="0.8" name="Validade" prop="validade">
+                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value }}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [flexGrow]="1" name="Cot. Charlie" prop="quotation">
+                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value }}
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </div>
+    <div style="margin-top: 20px; margin-left:5px" fxFlex="100">
+        <button mat-raised-button color="primary" (click)="cancelarTodos()">Cancelar Todos</button>
+        <button mat-raised-button color="primary" (click)="cancelarSelecionados()" style="margin-left: 10px;">Cancelar Selecionados</button>
+        <button mat-raised-button color="warn" (click)="dialogRef.close()" style="margin-left: 10px;">Voltar</button>
+    </div>
+</div>
