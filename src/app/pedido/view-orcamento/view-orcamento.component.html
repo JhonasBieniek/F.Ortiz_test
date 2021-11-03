@@ -6,6 +6,8 @@
   </div>
 
   <div fxFlex.gt-sm="40%" fxFlex="40" fxLayoutAlign="end start" fxLayoutGap="10px">
+    <button mat-stroked-button color="warn" class="p-10" (click)="cancelarOrcamento()">
+      <i class="material-icons">close_fullscreen</i>Cancelar Orç.</button>
     <button mat-stroked-button color="primary" class="p-10" (click)="imprimir(dados?.id)">
       <i class="material-icons">print</i>Imprimir
     </button>

@@ -384,6 +384,17 @@ export class ClientService {
       .http
       .post(uri, data)
   }
+  cancelarOrcamento(id) {
+    //this.notificationService.notify(`Você não possui permissão para excluir dados!`)
+
+    const uri = `${API_URL}` + `orcamentos/cancelarOrcamento/` + id + `.json`;
+    return this
+      .http
+      .get(uri)
+      .map(res => {
+        return res;
+      });
+  }
   updateOrcamento(data): Observable<any> {
     const url = `${API_URL}orcamentos/edit/${data.id}.json`;
     return this.http.put(url, data).pipe(

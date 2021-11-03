@@ -47,6 +47,7 @@ export class OrcListarComponent implements OnInit {
   loadData() {
     this.clientservice.getOrcamentosForUsers().subscribe((res: any) => {
       let i = 0;
+      console.log(res)
       this.steps.forEach(e => {
         this.temp[i] = res.data.filter(d => d.situation == e.step);
         i++;
@@ -111,7 +112,7 @@ export class OrcListarComponent implements OnInit {
     }
     let dialogRef = this.dialog.open(ViewOrcamentoComponent, this.dialogConfig);
     dialogRef.afterClosed().subscribe(value =>{
-     // this.loadData();
+      this.loadData();
     })
   }
 

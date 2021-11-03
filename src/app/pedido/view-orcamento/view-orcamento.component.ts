@@ -7,6 +7,7 @@ import { LoginService } from '../../authentication/login/login.service';
 import { NotificationService } from '../../shared/messages/notification.service';
 import { ClientService } from '../../shared/services/client.service.component';
 import { GoogleService } from '../../shared/services/google.service.component';
+import { DialogCancelarOrcamentoComponent } from '../orc-listar/dialog-cancelar-orcamento/dialog-cancelar-orcamento.component';
 import { OrcamentoComponent } from '../orc-listar/orcamento/orcamento.component';
 import { DialogMailComponent } from './dialog-mail/dialog-mail.component';
 
@@ -132,6 +133,26 @@ export class ViewOrcamentoComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  cancelarOrcamento() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = []
+    dialogConfig.data.nome =  this.dados.id;
+    let dialogRef = this.dialog.open(DialogCancelarOrcamentoComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(value => {
+      if (value == true) {
+        this.clientservice.cancelarOrcamento(this.dados.id).subscribe((res: any) => {
+          if (res.success == true) {
+            this.notificationservice.notify('Orçamento cancelado com sucesso!')
+          } else {
+            this.notificationservice.notify('Erro ao cancelar o Orçamento')
+            console.log(res.data);
+          }
+          this.close();
+        })
+      }
+    });
   }
 
 }

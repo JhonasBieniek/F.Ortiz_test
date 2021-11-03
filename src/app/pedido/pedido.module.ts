@@ -65,6 +65,7 @@ import { DialogProdutosVendidosPrintComponent } from './relatorios/produtos-vend
 import { DialogSemComprasPrintComponent } from './relatorios/clientes-sem-compra/dialog-sem-compras-print/dialog-sem-compras-print.component';
 import { DialogDeleteNotaComponent } from './conciliacao/dialog-delete-nota/dialog-delete-nota.component';
 import { DialogCancelarNotaComponent } from './conciliacao/dialog-view-nota/dialog-cancelar-nota/dialog-cancelar-nota.component';
+import { DialogCancelarOrcamentoComponent } from './orc-listar/dialog-cancelar-orcamento/dialog-cancelar-orcamento.component';
 
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
@@ -128,7 +129,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
     DialogProdutosVendidosPrintComponent,
     DialogSemComprasPrintComponent,
     DialogDeleteNotaComponent,
-    DialogCancelarNotaComponent
+    DialogCancelarNotaComponent,
+    DialogCancelarOrcamentoComponent
   ],
   providers: [
     DateFormatPipe,
@@ -164,7 +166,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
     DialogProdutosVendidosPrintComponent,
     DialogSemComprasPrintComponent,
     DialogDeleteNotaComponent,
-    DialogCancelarNotaComponent
+    DialogCancelarNotaComponent,
+    DialogCancelarOrcamentoComponent
   ],
 
 })
