@@ -106,6 +106,7 @@ export class OrcListarComponent implements OnInit {
   //     this.loadData();
   //   })
   // }
+
   view(row){
     this.dialogConfig.data = {
       tipo: 'orcamentos',
