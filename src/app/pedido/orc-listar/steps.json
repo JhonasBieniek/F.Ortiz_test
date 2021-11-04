@@ -146,6 +146,43 @@
             "width": 1
           }
         ]
+      },
+      {
+        "titulo": "Gerado",
+        "step": 4,
+        "index": 4,
+        "columns": [
+          {
+            "prop": "representada.nome_fantasia",
+            "name": "Representada",
+            "width": 1.5
+          },
+          {
+            "prop": "cliente.nome_fantasia",
+            "name": "Comprador",
+            "width": 1.5
+          },
+          {
+            "prop": "data_emissao",
+            "name": "Emissão",
+            "width": 1
+          },
+          {
+            "prop": "validade",
+            "name": "Validade",
+            "width": 1
+          },
+          {
+            "prop": "quotation",
+            "name": "Cotação Charlie",
+            "width": 1
+          },
+          {
+            "prop": "orderGen",
+            "name": "Pedido Gerado",
+            "width": 1
+          }
+        ]
       }
     ]
   }

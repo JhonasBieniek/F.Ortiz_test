@@ -82,7 +82,7 @@ export class NovoComponent implements OnInit {
   produto: any;
   currentAction: string = "";
   pageTitle: string = "";
-  clientSize: number;
+  clientSize: number;JJasfda11
   pedidoSize: number;
   pedidoN: any;
   comissao_vendedor: any = [];
@@ -211,6 +211,9 @@ export class NovoComponent implements OnInit {
           this.form.controls["data_emissao"].setValue(
             moment(new Date()).format()
           );
+          let cliente = this.clientes$.find(cliente => cliente.id === pedido.data.cliente_id);
+          setTimeout(() => this.setAreaDeVenda(cliente.cliente_representada_area_vendas), 500);
+          //this.setAreaDeVenda(cliente.cliente_representada_area_vendas);
         },
         (error) => alert("Ocorreu um erro no servidor, tente mais tarde.")
       );
@@ -344,7 +347,7 @@ export class NovoComponent implements OnInit {
       this.fb.group({
         codigo_catalogo: item.codigo_catalogo || item.produto.codigo_catalogo,
         nome: item.nome || item.produto.nome,
-        produto_id: item.id,
+        produto_id: this.currentAction == "orc" ? item.produto_id : item.id,
         quantidade: [item.quantidade, Validators.required],
         cor: item.cor != null ? item.cor : null,
         embalagem: item.embalagem,
@@ -675,8 +678,25 @@ export class NovoComponent implements OnInit {
       } else {
         this.clientservice.addPedido(this.form.value).subscribe((res: any) => {
           if (res.success == true) {
-            this.notificationService.notify(`Pedido Cadastrado com Sucesso!`);
-            this.dialogRef.close();
+            if(this.currentAction == "orc"){
+              this.clientservice.orcamentoGerado(this.info.orc.id).subscribe((resOrc: any) => {
+                if (resOrc.status == true) {
+                  this.notificationService.notify(`Orçamento transformado em Pedido Cadastrado com Sucesso!`);
+                  this.dialogRef.close();
+                }else{
+                  if(res.data.pedido){
+                    this.notificationService.notify(`Já existe um pedido cadastrado com esses dados!`);
+                  }else{
+                    this.notificationService.notify(`Erro ao alterar o orçamento, contate o Administrador! Pedido gerado.`);
+                    console.log(res.data);
+                    this.dialogRef.close();
+                  }
+                }
+              });
+            }else{
+              this.notificationService.notify(`Pedido Cadastrado com Sucesso!`);
+              this.dialogRef.close();
+            }
           } else {
             if(res.data.pedido){
               this.notificationService.notify(`Já existe um pedido cadastrado com esses dados!`);

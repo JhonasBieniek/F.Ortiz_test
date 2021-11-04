@@ -404,6 +404,15 @@ export class ClientService {
       })
     )
   }
+  orcamentoGerado(id) {
+    const uri = `${API_URL}` + `orcamentos/orcamentoGerado/${id}.json`;
+    return this
+      .http
+      .get(uri)
+      .map(res => {
+        return res;
+      });
+  }
   addCliente(data) {
     const uri = API_URL + 'clientes/add.json';
     return this

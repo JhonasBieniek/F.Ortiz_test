@@ -44,7 +44,6 @@ export class DialogProdPedidoComponent implements OnInit {
     });
   }
   save(){
-    console.log(this.dataSource)
     this.dialogRef.close(this.dataSource);
   }
 

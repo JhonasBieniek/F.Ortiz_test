@@ -83,11 +83,11 @@
                                         <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex"
                                             ngx-datatable-cell-template>
                                             <i *ngIf="row.situation != 0 && row.situation != 3" class="fa fa-search buttonP" title="Visualizar" (click)="view(row);"></i>
-                                            <i *ngIf="row.situation != 0 && row.situation != 1 && row.situation != 3" class="fa fa-briefcase buttonP" 
+                                            <i *ngIf="row.situation != 0 && row.situation != 1 && row.situation != 3 && row.situation != 4" class="fa fa-briefcase buttonP" 
                                                 title="Gerar Pedido" 
                                                 (click)="gerar(row);"></i>       
-                                            <i class="fa fa-pencil buttonP" title="Editar" (click)="edit(row);"></i>
-                                            <i class="fa fa-trash-o buttonP2" title="Deletar" (click)="delete(row)"></i>
+                                            <i *ngIf="row.situation != 4" class="fa fa-pencil buttonP" title="Editar" (click)="edit(row);"></i>
+                                            <i *ngIf="row.situation != 4" class="fa fa-trash-o buttonP2" title="Deletar" (click)="delete(row)"></i>
                                         </ng-template>
                                     </ngx-datatable-column>
                                 </ngx-datatable>
