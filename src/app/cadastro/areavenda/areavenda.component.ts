@@ -34,7 +34,7 @@ export class AreaVendaComponent implements OnInit {
   constructor(private clientservice: ClientService, private dialog: MatDialog) {
 
     this.clientservice.getAreaVenda().subscribe(res =>{
-      this.data = res; console.log(this.data.data)
+      this.data = res;
       this.rows = this.data.data.sort((a,b)=> a.id - b.id);
       this.temp = [...this.data.data];
       setTimeout(() => { this.loadingIndicator = false; }, 1500); 
