@@ -1,3 +1,4 @@
+import { NovoComponent } from './../pedido-listar/novo/novo.component';
 import { Component, OnInit, ViewChild, Input, ViewEncapsulation } from '@angular/core';
 import { ClientService } from '../../shared/services/client.service.component';
 import { MatDialog, MatDialogConfig, MatTabChangeEvent } from '@angular/material';
@@ -91,21 +92,21 @@ export class OrcListarComponent implements OnInit {
       this.loadData();
     })
   }
-  // gerar(row){
-  //   this.dialogConfig.data = {
-  //     tipo: 'orc',
-  //     orc: row
-  //   }
-  //   let dialogRef = this.dialog.open(ImportComponent, this.dialogConfig);
-  //   dialogRef.afterClosed().subscribe(value =>{
-  //     if(value != undefined){
-  //       this.clientservice.updateOrcamento(
-  //         {id: row.id, orderGen: true}
-  //       ).subscribe( res => console.log(res))
-  //     }
-  //     this.loadData();
-  //   })
-  // }
+  gerar(row){
+    this.dialogConfig.data = {
+      tipo: 'orc',
+      orc: row
+    }
+    let dialogRef = this.dialog.open(NovoComponent, this.dialogConfig);
+    dialogRef.afterClosed().subscribe(value =>{
+      if(value != undefined){
+        this.clientservice.updateOrcamento(
+          {id: row.id, orderGen: true}
+        ).subscribe( res => console.log(res))
+      }
+      this.loadData();
+    })
+  }
 
   view(row){
     this.dialogConfig.data = {
