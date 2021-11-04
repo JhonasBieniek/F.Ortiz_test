@@ -35,6 +35,7 @@ import { JwtInterceptor } from './guards/jwt.interceptor';
 import { LocationStrategy, HashLocationStrategy, registerLocaleData } from '@angular/common';
 import ptBr from '@angular/common/locales/pt';
 import { CadastroModule } from './cadastro/cadastro.module';
+import { PedidoModule } from './pedido/pedido.module';
  
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -70,7 +71,8 @@ registerLocaleData(ptBr)
     NgMultiSelectDropDownModule.forRoot(),
     RouterModule.forRoot(AppRoutes),
     AuthenticationModule,
-    CadastroModule
+    CadastroModule,
+    PedidoModule
   ],
   providers: [
     HttpClientModule,

@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatPaginator, MatTableDataSource } from '@angular/material';
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 import * as Chartist from 'chartist';
@@ -78,7 +78,7 @@ const ELEMENT_DATA: Element[] = [
   styleUrls: ['./dashboard2.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class Dashboard2Component {
+export class Dashboard2Component implements OnInit {
   // Barchart
   barChart1: Chart = {
     type: 'Bar',
@@ -293,6 +293,13 @@ export class Dashboard2Component {
     this.clientservice.getClientes().subscribe((res:any) =>{
       this.clientes = res.data;
     });
+  }
+
+  ngOnInit() {
+    this.dialogConfig= {
+      width: '98vw',
+      height: '98vh'
+    }
   }
 
   searchCliente() {
