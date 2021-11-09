@@ -169,7 +169,7 @@
           </div>
       </div>
     </div>
-    <div formArrayName="cliente_contatos" fxLayout="row wrap" class="row">
+    <div formArrayName="cliente_contatos" fxLayout="row wrap" class="row" fxflex="100">
       <div class="p-10 aj1" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <h4 class="dadosCadastro"><span style="margin-left: 10%;">Contatos</span>
           <a style="float: right;" (click)="addContato()"><i class="material-icons plus-icons">add_circle_outline</i>
@@ -218,6 +218,61 @@
           </div>
           <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
             <mat-checkbox class="example-margin" formControlName="preferential">Contato do Charlie?</mat-checkbox>
+          </div>
+      </div>
+    </div>
+    <div formArrayName="cliente_vencimentos" fxLayout="row wrap" class="row" fxflex="100">
+      <div class="p-10 aj1" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <h4 class="dadosCadastro"><span style="margin-left: 10%;">Vencimentos</span>
+          <a style="float: right;" (click)="addRepresentadaTipo()"><i class="material-icons plus-icons">add_circle_outline</i>
+            <span class="title">Novo Vencimento</span></a>
+        </h4>
+      </div>
+      <div fxLayout="row wrap" *ngFor="let e of form.get('cliente_vencimentos').controls; index as i" [formGroupName]="i" fxFlex="100">
+          <div class="p-10 aj ml-5" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+            Vencimento - {{i + 1}}
+            <button mat-icon-button (click)="delRepresentadaVencimento(i)">
+              <mat-icon class="clear">clear</mat-icon>
+            </button>
+          </div>
+          
+          <div class="p-10 aj" fxFlex.gt-sm="20" fxFlex.gt-xs="30" fxFlex="100">
+            <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
+              <mat-label>Representada*</mat-label>
+              <mat-select formControlName="representada_id">
+                <mat-option *ngFor="let representada of representadas" [value]="representada.id">
+                  {{representada.nome_fantasia}} ({{ representada.status == true ? 'Ativo' : 'Inativo' }})
+                </mat-option>
+              </mat-select>
+              <mat-placeholder>Representada</mat-placeholder>
+            </mat-form-field>
+          </div>
+
+          <div class="p-10 aj" fxFlex.gt-sm="20" fxFlex.gt-xs="30" fxFlex="100" *ngIf="form.get('cliente_vencimentos').value[i].representada_id != null ">
+            <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
+              <mat-label>Tipo de Pagamento</mat-label>
+              <mat-select  formControlName="tipo">
+                <mat-option value="Faturamento">Faturamento</mat-option>
+                <mat-option value="Vencimento">Vencimento</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          
+          <div *ngIf="form.get('cliente_vencimentos').value[i].tipo == 'Vencimento' && form.get('cliente_vencimentos').value[i].cliente_vencimento_dias.length <= 2" class="p-10 aj" style="margin-left: -5px;" fxFlex.gt-sm="5" fxFlex.gt-xs="5" fxFlex="5">
+            <i style="color: blue;" class="material-icons plus-icons" (click)="addVencimento(i)">add_circle_outline</i>
+          </div>
+          <div class="p-10 aj" fxFlex.gt-sm="55" fxFlex.gt-xs="45" fxFlex="100" formArrayName="cliente_vencimento_dias" fxLayout="row wrap">
+            <div *ngFor="let item of cliente_vencimento_dias(i).controls; let vencimentoIndex = index" [formGroupName]="vencimentoIndex" fxFlex="33" class="p-l-10 p-r-10">
+              <div fxFlex="80">
+                <mat-form-field appearance="outline" >
+                  <mat-label>Venc. {{vencimentoIndex + 1}}</mat-label>
+                  <input matInput placeholder="Venc. {{vencimentoIndex + 1}}" formControlName="vencimento">
+                </mat-form-field>
+              </div>
+              <div fxFlex="20">
+                <mat-icon class="material-icons x-icons" (click)="delVencimento(i, vencimentoIndex)">highlight_off</mat-icon>
+              </div>
+            </div>
           </div>
       </div>
     </div>
@@ -292,7 +347,7 @@
       <div class="p-10 aj" fxFlex.gt-sm="16" fxFlex.gt-xs="16" fxFlex="100">
         <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
           [floatLabel]="form.value.floatLabel">
-          <mat-label>Categoria Volk</mat-label>
+          <mat-label>Classificação tabela VOLK</mat-label>
           <mat-select formControlName="categoria_volk">
             <mat-option>-- Selecione... --</mat-option>
             <mat-option value="A">A</mat-option>
@@ -301,9 +356,15 @@
           </mat-select>
         </mat-form-field>
         <small *ngIf="form.get('categoria_volk').errors?.required && form.get('categoria_volk').touched"
-          class="text-danger font-14">Você precisa selecionar a categoria.</small>
+          class="text-danger font-14">Você precisa selecionar a Classificação da tabela.</small>
       </div>
-      <div class="p-10 aj" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="15">
+
+
+      
+
+
+
+      <!-- <div class="p-10 aj" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="15">
         <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
           <mat-label>Tipo de Pagamento</mat-label>
           <mat-select  formControlName="pagamento_tipo">
@@ -331,7 +392,7 @@
             <mat-icon class="material-icons x-icons" (click)="delVencimento(i)">highlight_off</mat-icon>
           </div>
         </div>
-      </div>
+      </div> -->
       <div class="p-10 aj1" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <h4 class="dadosCadastro">Observação</h4>
       </div>

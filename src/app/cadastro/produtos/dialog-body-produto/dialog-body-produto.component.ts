@@ -438,146 +438,153 @@ pdfBlobConversion(b64Data, contentType) {
   }
 
   onSubmit() {
-    let tamanhos = [];
-    let cores = [];
-    let aplicacoes = [];
-    let precos = [];
-    let embalagem = [];
-    if (this.produto.produto_embalagem != undefined) {
-      embalagem = [
-        {
-          nome: this.form.value.embalagem_nome,
-          minimo: this.form.value.embalagem_min,
-          unidade_id: this.form.value.embalagem_un,
-          produto_id: this.data.id,
-          id: this.produto.produto_embalagem.id,
-        },
-      ];
-    } else {
-      embalagem = [
-        {
-          nome: this.form.value.embalagem_nome,
-          minimo: this.form.value.embalagem_min,
-          unidade_id: this.form.value.embalagem_un,
-        },
-      ];
-    }
+    if(this.form.valid && this.sizes.length > 0 && this.colors.length > 0 ){
+      let tamanhos = [];
+      let cores = [];
+      let aplicacoes = [];
+      let precos = [];
+      let embalagem = [];
+      if (this.produto.produto_embalagem != undefined) {
+        embalagem = [
+          {
+            nome: this.form.value.embalagem_nome,
+            minimo: this.form.value.embalagem_min,
+            unidade_id: this.form.value.embalagem_un,
+            produto_id: this.data.id,
+            id: this.produto.produto_embalagem.id,
+          },
+        ];
+      } else {
+        embalagem = [
+          {
+            nome: this.form.value.embalagem_nome,
+            minimo: this.form.value.embalagem_min,
+            unidade_id: this.form.value.embalagem_un,
+          },
+        ];
+      }
 
-    if (this.data != null) {
-      this.sizes.forEach((element) => {
-        //console.log(element)
-        if(element.produto_id != null) {
-          tamanhos.push({
+      if (this.data != null) {
+        this.sizes.forEach((element) => {
+          //console.log(element)
+          if(element.produto_id != null) {
+            tamanhos.push({
+              id: element.id,
+              nome: element.nome,
+              produto_id: element.produto_id,
+              tamanho_id: element.tamanho_id ? element.tamanho_id : null
+            });
+          }else {
+            tamanhos.push({
+              id: null,
+              nome: element.nome,
+              produto_id: null,
+              tamanho_id: element.id ? element.id : null
+            });
+          }
+          
+        });
+        this.colors.forEach((element) => {
+          cores.push({
             id: element.id,
             nome: element.nome,
             produto_id: element.produto_id,
-            tamanho_id: element.tamanho_id ? element.tamanho_id : null
           });
-        }else {
+        });
+        precos = [
+          {
+            preco: this.form.value.preco_ms,
+            produto_id: this.data.id,
+            estado_id: 12,
+            tipo: null,
+          },
+          {
+            preco: this.form.value.preco_pr_final,
+            produto_id: this.data.id,
+            estado_id: 16,
+            tipo: "final",
+          },
+          {
+            preco: this.form.value.preco_pr_revenda,
+            produto_id: this.data.id,
+            estado_id: 16,
+            tipo: "revendedor",
+          },
+          {
+            preco: this.form.value.preco_sc,
+            produto_id: this.data.id,
+            estado_id: 24,
+            tipo: null,
+          },
+          {
+            preco: this.form.value.preco_sp,
+            produto_id: this.data.id,
+            estado_id: 25,
+            tipo: null,
+          },
+        ];
+      } else {
+        this.sizes.forEach((element) => {
           tamanhos.push({
-            id: null,
             nome: element.nome,
-            produto_id: null,
             tamanho_id: element.id ? element.id : null
           });
-        }
-        
-      });
-      this.colors.forEach((element) => {
-        cores.push({
-          id: element.id,
-          nome: element.nome,
-          produto_id: element.produto_id,
         });
-      });
-      precos = [
-        {
-          preco: this.form.value.preco_ms,
-          produto_id: this.data.id,
-          estado_id: 12,
-          tipo: null,
-        },
-        {
-          preco: this.form.value.preco_pr_final,
-          produto_id: this.data.id,
-          estado_id: 16,
-          tipo: "final",
-        },
-        {
-          preco: this.form.value.preco_pr_revenda,
-          produto_id: this.data.id,
-          estado_id: 16,
-          tipo: "revendedor",
-        },
-        {
-          preco: this.form.value.preco_sc,
-          produto_id: this.data.id,
-          estado_id: 24,
-          tipo: null,
-        },
-        {
-          preco: this.form.value.preco_sp,
-          produto_id: this.data.id,
-          estado_id: 25,
-          tipo: null,
-        },
-      ];
-    } else {
-      this.sizes.forEach((element) => {
-        tamanhos.push({
-          nome: element.nome,
-          tamanho_id: element.id ? element.id : null
+        this.colors.forEach((element) => {
+          cores.push({
+            nome: element.nome,
+          });
         });
-      });
-      this.colors.forEach((element) => {
-        cores.push({
-          nome: element.nome,
-        });
-      });
 
-      precos = [
-        { preco: this.form.value.preco_ms, estado_id: 12, tipo: null },
-        { preco: this.form.value.preco_pr_final, estado_id: 16, tipo: "final" },
-        {
-          preco: this.form.value.preco_pr_revenda,
-          estado_id: 16,
-          tipo: "revendedor",
-        },
-        { preco: this.form.value.preco_sc, estado_id: 24, tipo: null },
-        { preco: this.form.value.preco_sp, estado_id: 25, tipo: null },
-      ];
-    }
-    this.form
-      .get("produto_tipo_id")
-      .setValue(parseInt(this.form.value.produto_tipo_id));
-    this.form
-      .get("produto_material_id")
-      .setValue(parseInt(this.form.value.produto_material_id));
-    this.form.patchValue({
-      imagem: this.cardImageBase64,
-      imagem_ficha: this.fichaBase64,
-      produto_tamanhos: tamanhos,
-      produto_embalagem: embalagem[0],
-      produto_cores: cores,
-      produto_estados_precos: precos,
-    });
-    //console.log(this.form.value)
-    if (this.data == null) {
-        this.clientservice.addProdutos(this.form.value).subscribe((res: any) => {
-          if (res.success == true) {
-            this.notificationService.notify(`Cadastro Efetuado com Sucesso!`)
-            this.close();
-          } else {
-            this.notificationService.notify(`Erro contate o Administrador`)
+        precos = [
+          { preco: this.form.value.preco_ms, estado_id: 12, tipo: null },
+          { preco: this.form.value.preco_pr_final, estado_id: 16, tipo: "final" },
+          {
+            preco: this.form.value.preco_pr_revenda,
+            estado_id: 16,
+            tipo: "revendedor",
+          },
+          { preco: this.form.value.preco_sc, estado_id: 24, tipo: null },
+          { preco: this.form.value.preco_sp, estado_id: 25, tipo: null },
+        ];
+      }
+      this.form
+        .get("produto_tipo_id")
+        .setValue(parseInt(this.form.value.produto_tipo_id));
+      this.form
+        .get("produto_material_id")
+        .setValue(parseInt(this.form.value.produto_material_id));
+      this.form.patchValue({
+        imagem: this.cardImageBase64,
+        imagem_ficha: this.fichaBase64,
+        produto_tamanhos: tamanhos,
+        produto_embalagem: embalagem[0],
+        produto_cores: cores,
+        produto_estados_precos: precos,
+      });
+      //console.log(this.form.value)
+      if (this.data == null) {
+          this.clientservice.addProdutos(this.form.value).subscribe((res: any) => {
+            if (res.success == true) {
+              this.notificationService.notify(`Cadastro Efetuado com Sucesso!`)
+              this.close();
+            } else {
+              this.notificationService.notify(`Erro contate o Administrador`)
+            }
           }
-        }
-        );
-      } else {
+          );
+        } else {
 
-        this.clientservice.updateProduto(this.form.value).subscribe(() => {
-          this.notificationService.notify("Atualizado com Sucesso!")
-          this.close();
-        })
+          this.clientservice.updateProduto(this.form.value).subscribe(() => {
+            this.notificationService.notify("Atualizado com Sucesso!")
+            this.close();
+          })
+      }
+    }else{
+      this.form.markAllAsTouched();
+      this.sizeCtrl.markAllAsTouched();
+      this.colorCtrl.markAllAsTouched(); 
     }
+    
   }
 }

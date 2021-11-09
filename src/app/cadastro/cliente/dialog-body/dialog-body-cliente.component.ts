@@ -22,6 +22,7 @@ import { AlertComponent } from "../../../alert/alert.component";
 import { map } from "rxjs/operators";
 import moment from "moment";
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from "@angular/material-moment-adapter";
+import { findIndex } from "rxjs-compat/operator/findIndex";
 
 export const MY_FORMATS = {
   parse: {
@@ -133,13 +134,14 @@ export class DialogBodyClienteComponent implements OnInit {
       limite: null,
       categoria_volk: 'C',
       tipo_cliente: 'revendedor',
-      pagamento_tipo: 'Faturamento',
+      //pagamento_tipo: 'Faturamento',
       obs: [null, Validators.compose([Validators.maxLength(100)])],
       status: true,
       enderecos_clientes: this.fb.array([], Validators.required),
       cliente_vencimentos: this.fb.array([]),
       cliente_representada_area_vendas: this.fb.array([]),
       cliente_contatos: this.fb.array([]),
+      
     });
   }
   IsReadOnly() {
@@ -282,37 +284,78 @@ export class DialogBodyClienteComponent implements OnInit {
     });
   }
 
-  clearVencimento() {
-    const endereco = this.form.controls.cliente_vencimentos as FormArray;
-    endereco.clear();
+  addRepresentadaTipo(data: any = null) {
+    const tipo = this.form.controls.cliente_vencimentos as FormArray;
+    tipo.push(
+      this.fb.group({
+          cliente_id: '',
+          tipo: data ? data.tipo: null,
+          representada_id: data ? data.representada_id : null,
+          cliente_vencimento_dias: this.fb.array([]),
+      })
+    );
   }
 
-  addVencimento(data: any = null, type) {
-    const endereco = this.form.controls.cliente_vencimentos as FormArray;
 
-    if (type == "v") {
-      endereco.clear();
-    } else if (endereco.length == 3) {
-      alert("Número limite de vencimentos");
-    } else
-      endereco.push(
-        this.fb.group({
+  addRepresentadaTipoEdit(data: any = null) {
+    const tipo = this.form.controls.cliente_vencimentos as FormArray;
+    tipo.push(
+      this.fb.group({
           id: data ? data.id : null,
-          vencimento: data ? data.vencimento : null,
-        })
-      );
+          cliente_id: data ? data.cliente_id : null,
+          tipo: data ? data.tipo: null,
+          representada_id: data ? data.representada_id : null,
+          cliente_vencimento_dias: this.fb.array([]),
+      })
+    );
+    let index = tipo.value.findIndex(vencimento => vencimento.id == data.id && vencimento.representada_id == data.representada_id);
+    data.cliente_vencimento_dias.forEach( vencimento => {
+      this.addVencimento(index);
+    });
   }
 
-  delVencimento(index) {
-    const vencimento = this.form.controls.cliente_vencimentos as FormArray;
-    vencimento.removeAt(index);
+  // A partir daqui seria feito o Add das faixas de taxa da bandeira //
+  cliente_vencimento_dias(comIndex: number) : FormArray{
+    const tipo = this.form.controls.cliente_vencimentos as FormArray;
+    return tipo.at(comIndex).get("cliente_vencimento_dias") as FormArray
   }
 
   addVencimentos(data: any) {
     data.forEach(async (e: any) => {
-      await this.addVencimento(e, "i");
+      if(this.data.action == 'edit') {
+        this.addRepresentadaTipoEdit(e);
+      } else {
+        this.addRepresentadaTipo(e);
+      }
     });
   }
+
+  delRepresentadaVencimento(index) {
+    const representaVencimentos = this.form.controls.cliente_vencimentos as FormArray;
+    representaVencimentos.removeAt(index);
+  }
+
+  delVencimento(comIndex: number, vencimentoIndex: number) {
+    // const endereco = this.form.controls.cliente_vencimentos as FormArray;
+    // endereco.clear();
+    this.cliente_vencimento_dias(comIndex).removeAt(vencimentoIndex);
+  }
+
+  addVencimento(comIndex) {
+    this.cliente_vencimento_dias(comIndex).push(
+      this.fb.group({
+        id: '',
+        cliente_vencimento_id: '',
+        vencimento: null,
+      })
+    );
+  }
+
+  // addVencimentos(data: any) {
+  //   data.forEach(async (e: any) => {
+  //     await this.addVencimento(e, "i");
+  //   });
+  // }
 
   chargeForm(data) {
     this.form.get("razao_social").setValue(data.nome);

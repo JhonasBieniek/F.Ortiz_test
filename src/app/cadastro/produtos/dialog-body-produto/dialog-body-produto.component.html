@@ -237,9 +237,9 @@
               </mat-option>
             </mat-autocomplete>
             <mat-hint *ngIf="sizeCtrl.touched && sizes.length == 0"
-              class="text-danger font-14" fxFlex="100">Você precisa selecionar um tamanho.</mat-hint>
+              class="text-danger font-14" fxFlex="100">Você precisa selecionar um tamanho.
+            </mat-hint>
           </mat-form-field>
-          
         </div>
         <div fxLayout="row">
           <div fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100">
@@ -295,8 +295,7 @@
     </div> -->
   </div>
   <mat-card-actions class="p-10" style="float: right;">
-    <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid || sizes.length == 0"
-      (click)="onSubmit();">Salvar</button>
+    <button mat-raised-button color="primary" type="button" (click)="onSubmit()">Salvar</button>
     <button style="margin-left: 15px;" mat-raised-button color="warn" (click)="close()">Cancelar</button>
   </mat-card-actions>
 </form>

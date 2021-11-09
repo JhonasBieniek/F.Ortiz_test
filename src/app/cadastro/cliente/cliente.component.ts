@@ -78,7 +78,6 @@ export class ClienteComponent implements OnInit {
   );
     dialogRef.afterClosed().subscribe(value => {
         this.refreshTable();
-        console.log(`Dialog sent: ${value}`); 
       });
   }
   edit(row){
