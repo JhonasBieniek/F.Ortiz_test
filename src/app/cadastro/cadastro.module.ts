@@ -60,6 +60,7 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAda
 import { DialogUpdatePriceComponent } from './produtos/dialog-update-price/dialog-update-price.component';
 import { ClassificacoesComponent } from './classificacoes/classificacoes.component';
 import { DialogBodyProdutoClassificacaoComponent } from './classificacoes/dialog-body/dialog-body.component';
+import { RelatorioClientePedidosComponent } from './cliente/dialog-body/relatorio-cliente-pedidos/relatorio-cliente-pedidos.component';
 
 
 
@@ -122,7 +123,8 @@ import { DialogBodyProdutoClassificacaoComponent } from './classificacoes/dialog
     DialogBodyProdutoClassificacaoComponent,
     ProdutoMateriaisComponent,
     DialogUpdatePriceComponent,
-    ClassificacoesComponent
+    ClassificacoesComponent,
+    RelatorioClientePedidosComponent
   ],
   providers: [
     DateFormatPipe,
@@ -155,6 +157,7 @@ import { DialogBodyProdutoClassificacaoComponent } from './classificacoes/dialog
     DialogBodyProdutoClassificacaoComponent,
     DialogBodyTipoProdutoComponent,
     DialogUpdatePriceComponent,
+    RelatorioClientePedidosComponent
   ],
   exports: []
 })

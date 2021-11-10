@@ -1,9 +1,12 @@
 <mat-card-content>
   <form [formGroup]="form" class="form">
     <div fxLayout="row wrap" class="row">
-      <div *ngIf="data != null" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" fxLayoutAlign="end start">
+      <div class="p-10" *ngIf="data != null" fxFlex="50" fxLayoutAlign="start center">
+        <button mat-raised-button color="primary" type="submit" (click)="relatorioPedidos();" style="font-size: small;">Relatorio de Pedidos</button>
+      </div>
+      <div *ngIf="data != null" fxFlex="50" fxLayoutAlign="end start">
         <span class="tableOfPrice">Consultar tabela de Preços: </span>
-        <mat-form-field appearance="outline" style="width: 20%; margin-right: 10px;">
+        <mat-form-field appearance="outline" style="width: 40%; margin-right: 10px;">
           <mat-label class="select">Selecione a Representada</mat-label>
           <mat-select>
             <mat-option *ngFor="let rep of representadas" (click)="consultPriceTable(rep.id)">{{rep.nome_fantasia}}

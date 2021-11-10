@@ -23,6 +23,7 @@ import { map } from "rxjs/operators";
 import moment from "moment";
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from "@angular/material-moment-adapter";
 import { findIndex } from "rxjs-compat/operator/findIndex";
+import { RelatorioClientePedidosComponent } from "./relatorio-cliente-pedidos/relatorio-cliente-pedidos.component";
 
 export const MY_FORMATS = {
   parse: {
@@ -73,6 +74,8 @@ export class DialogBodyClienteComponent implements OnInit {
   pageTitle: string = "Cadastrar Cliente";
   readonly: boolean = false;
 
+  clienteRelatorio: any;
+
   constructor(
     private fb: FormBuilder,
     private clientservice: ClientService,
@@ -94,6 +97,7 @@ export class DialogBodyClienteComponent implements OnInit {
         this.IsReadOnly();
 
         this.clientservice.getClientesId(data.id).subscribe((res: any) => {
+          this.clienteRelatorio = res.data
           this.addEnderecos(res.data.enderecos_clientes);
           this.addAreaVendas(res.data.cliente_representada_area_vendas);
           this.addVencimentos(res.data.cliente_vencimentos);
@@ -561,5 +565,26 @@ export class DialogBodyClienteComponent implements OnInit {
   areasFilter(representada_id) {
     let areas = this.areas.filter(area => area.representada_id == representada_id);
     return areas;
+  }
+
+  relatorioPedidos(){
+    this.clientservice.pedidosRelatorioByCliente(this.form.get('id').value).subscribe((res: any) => {
+      if(res.data.length > 0){
+        let dialogConfig = new MatDialogConfig();
+        dialogConfig = {
+          maxWidth: '75vw',
+          maxHeight: '100vh',
+          width: '75vw',
+          height: '90vh'
+        }
+        dialogConfig.data = this.clienteRelatorio;
+        dialogConfig.data.pedidos = res.data;
+        let dialogRef = this.dialog.open(RelatorioClientePedidosComponent,
+          dialogConfig
+        );
+      }else{
+        this.notificationService.notify(`Não possui pedidos!`);
+      }
+    });
   }
 }

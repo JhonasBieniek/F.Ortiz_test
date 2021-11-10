@@ -674,6 +674,16 @@ export class ClientService {
       });
   }
 
+  pedidosRelatorioByCliente(id) {
+    const uri = `${API_URL}` + `pedidos/pedidosRelatorioByCliente/` + id + `.json`;
+    return this
+      .http
+      .get(uri)
+      .map(res => {
+        return res;
+      });
+  }
+
   pedidosRelatorio(data) {
     const uri = `${API_URL}` + `pedidos/pedidosRelatorio.json`;
     return this
