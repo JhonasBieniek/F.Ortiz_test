@@ -12,17 +12,18 @@ import { NotificationService } from '../../../shared/messages/notification.servi
 export class DialogBodyRegioesComponent implements OnInit {
 
   public form: FormGroup;
-  pageTitle:string = "";
+  pageTitle: string = "";
+  readonly = false;
 
-  constructor(public dialogRef: MatDialogRef<DialogBodyRegioesComponent>, 
-                                @Inject(MAT_DIALOG_DATA) public data: any,
-                                private fb: FormBuilder,
-                                private clientservice: ClientService,
-                                private notificationService: NotificationService
-                                ){
+  constructor(public dialogRef: MatDialogRef<DialogBodyRegioesComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private fb: FormBuilder,
+    private clientservice: ClientService,
+    private notificationService: NotificationService
+  ) {
 
-                                }
-                              
+  }
+
   ngOnInit() {
     this.form = this.fb.group({
       id: [null],
@@ -30,21 +31,27 @@ export class DialogBodyRegioesComponent implements OnInit {
       descricao: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(100)])],
       status: [true, Validators.required],
     });
-    if(this.data == null)
-    this.pageTitle = 'Cadastrar região';
-    else{
-      this.pageTitle = 'Editar região';
+    if (this.data == null)
+      this.pageTitle = 'Cadastrar região';
+    else {
+      if(this.data.action == 'edit'){
+        this.pageTitle = 'Editar região';
+      }else{
+        this.pageTitle = 'Visualizar região';
+        this.readonly = true;
+      }
+      
       this.form.patchValue(this.data)
     }
   }
 
-  regioesSubmit() { 
-    if(this.data ==null)
-    this.clientservice.addRegiao(this.form.value)  
+  regioesSubmit() {
+    if (this.data == null)
+      this.clientservice.addRegiao(this.form.value)
     else
-    this.clientservice.updateRegiao(this.form.value).subscribe( () =>{
-      this.notificationService.notify("Atualizado com Sucesso!")
-    })
+      this.clientservice.updateRegiao(this.form.value).subscribe(() => {
+        this.notificationService.notify("Atualizado com Sucesso!")
+      })
   }
 
   close() {

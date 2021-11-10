@@ -82,6 +82,7 @@ export class UnidadeComponent implements OnInit {
   edit(row){
     let dialogConfig = new MatDialogConfig();
       dialogConfig.data = row
+      dialogConfig.data.action = 'edit';
       let dialogRef = this.dialog.open(DialogBodyUnidadesComponent,
       dialogConfig   
     );
@@ -90,7 +91,20 @@ export class UnidadeComponent implements OnInit {
      (value != 1) ? this.refreshTable() : null
 
       });
-    }
+  }
+  view(row){
+    let dialogConfig = new MatDialogConfig();
+      dialogConfig.data = row
+      dialogConfig.data.action = 'view';
+      let dialogRef = this.dialog.open(DialogBodyUnidadesComponent,
+      dialogConfig   
+    );
+    dialogRef.afterClosed().subscribe(value => {
+
+     (value != 1) ? this.refreshTable() : null
+
+      });
+  }
   delete(row){
     const dialogConfig = new MatDialogConfig();
       let tipo = 'unidades'

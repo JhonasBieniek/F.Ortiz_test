@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog, MatDialogConfig } from '@angular/material';
-import { FormBuilder, FormGroup, Validators, ValidationErrors} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
 import { ClientService } from '../../../shared/services/client.service.component';
 import { NotificationService } from '../../../shared/messages/notification.service';
 import { CustomValidators } from 'ng2-validation';
@@ -20,22 +20,23 @@ export class DialogBodyRepresentadaComponent implements OnInit {
   modelEstado: any;
   modelBairro;
   modelLogradouro;
-  pageTitle:string = "";
-  bancos: any=[];
+  pageTitle: string = "";
+  bancos: any = [];
+  readonly = false;
 
 
   constructor(public dialogRef: MatDialogRef<DialogBodyRepresentadaComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any,
-              private fb: FormBuilder, 
-              private clientservice: ClientService,
-              private notificationService: NotificationService,
-              private dialog: MatDialog
-              ) {
-              this.clientservice.getContas().subscribe((res:any) =>{
-                this.bancos = res.data; 
-              });
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private fb: FormBuilder,
+    private clientservice: ClientService,
+    private notificationService: NotificationService,
+    private dialog: MatDialog
+  ) {
+    this.clientservice.getContas().subscribe((res: any) => {
+      this.bancos = res.data;
+    });
   }
-  ngOnInit() {  
+  ngOnInit() {
     this.form = this.fb.group({
       id: [null],
       razao_social: [null, Validators.compose([Validators.required])],
@@ -57,50 +58,56 @@ export class DialogBodyRepresentadaComponent implements OnInit {
         complemento: [null],
         bairro: [null],
         cidade: [null],
-        estado: [null],  
-        pais: ['Brasil'],  
+        estado: [null],
+        pais: ['Brasil'],
       })
     });
-    if(this.data == null)
+    if (this.data == null)
       this.pageTitle = 'Cadastrar Representada'
-    else{
-        this.pageTitle = 'Editar Representada'
-        this.editCharge();
+    else {
+      if(this.data.action == 'edit'){
+        this.pageTitle = 'Editar Representada';
+      }else{
+        this.pageTitle = 'Visualizar Representada';
+        this.readonly = true;
+      }
+      
+      this.editCharge();
     }
   }
-  editCharge(){
-       this.form.patchValue(this.data)
-   }
+  editCharge() {
+    this.form.patchValue(this.data)
+  }
 
 
-  onBlurMethod(){
-    if(this.form.get('endereco.cep').value != null){
-      this.clientservice.getCep(this.form.get('endereco.cep').value).subscribe( res => {
+  onBlurMethod() {
+    if (this.form.get('endereco.cep').value != null) {
+      this.clientservice.getCep(this.form.get('endereco.cep').value).subscribe(res => {
         this.cep = res
-        if(this.cep.success == true){
-        this.notificationService.notify(`Cep inserido com sucesso!`)
-        this.form.get('endereco.cidade').setValue(this.cep.data.cidade);
-        this.form.get('endereco.estado').setValue(this.cep.data.estado);
-        this.form.get('endereco.logradouro').setValue(this.cep.data.logradouro);
-        this.form.get('endereco.bairro').setValue(this.cep.data.bairro);
-      }else{
-        this.openAlert('Erro', 'Cep Inválido');
-       }
+        if (this.cep.success == true) {
+          this.notificationService.notify(`Cep inserido com sucesso!`)
+          this.form.get('endereco.cidade').setValue(this.cep.data.cidade);
+          this.form.get('endereco.estado').setValue(this.cep.data.estado);
+          this.form.get('endereco.logradouro').setValue(this.cep.data.logradouro);
+          this.form.get('endereco.bairro').setValue(this.cep.data.bairro);
+        } else {
+          this.openAlert('Erro', 'Cep Inválido');
+        }
       })
     }
   }
 
 
-  onBlurCnpj(){
-    if(this.form.get('cnpj').value != null && this.data == null){
-      this.clientservice.getApiCnpj(this.form.get('cnpj').value).subscribe((res:any) => {
-        if(res.status != 'ERROR'){
+  onBlurCnpj() {
+    if (this.form.get('cnpj').value != null && this.data == null) {
+      this.clientservice.getApiCnpj(this.form.get('cnpj').value).subscribe((res: any) => {
+        if (res.status != 'ERROR') {
           this.chargeForm(res);
-        }else{
+        } else {
           this.openAlert('Erro', 'Cnpj Inválido');
         }
       });
-    } 
+    }
   }
 
   chargeForm(data) {
@@ -118,39 +125,39 @@ export class DialogBodyRepresentadaComponent implements OnInit {
     this.form.get('endereco.cidade').setValue(data.municipio);
     this.form.get('endereco.estado').setValue(data.uf);
   }
-  
+
   removeSpecialChar(data) {
     return data.toString().replace(/\D+/g, '');
   }
 
-  addDigitsNumber(cell){
-    if(cell.length == 10){
+  addDigitsNumber(cell) {
+    if (cell.length == 10) {
       return cell.substr(0, 2) + "9" + cell.substr(2);
     }
   }
 
-  onSubmit(){
-    if(this.data == null){
-      this.clientservice.addRepresenta(this.form.value).subscribe((res:any) =>{
-        if(res.status == true){
+  onSubmit() {
+    if (this.data == null) {
+      this.clientservice.addRepresenta(this.form.value).subscribe((res: any) => {
+        if (res.status == true) {
           this.notificationService.notify(`Cadastro Efetuado com Sucesso!`)
-        }else{
+        } else {
           console.log(res.data.email.hasOwnProperty('_isUnique'))
-          if(res.data.email.hasOwnProperty('_isUnique')){
+          if (res.data.email.hasOwnProperty('_isUnique')) {
             this.notificationService.notify(`Email em uso informar outro email!`)
-          }else{
+          } else {
             console.log(res)
             this.notificationService.notify(`Erro contate o Administrador`)
           }
         }
         this.close();
-        });
-    }else{
-      this.clientservice.updateRepresentada(this.form.value).subscribe( () =>{
+      });
+    } else {
+      this.clientservice.updateRepresentada(this.form.value).subscribe(() => {
         this.notificationService.notify("Atualizado com Sucesso!")
       })
       this.close();
-    } 
+    }
   }
 
   getFormValidationErrors() {
@@ -174,7 +181,7 @@ export class DialogBodyRepresentadaComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  openAlert(titulo, msg){
+  openAlert(titulo, msg) {
     let dialogConfig = new MatDialogConfig();
     dialogConfig = {
       width: '250px',
@@ -184,8 +191,8 @@ export class DialogBodyRepresentadaComponent implements OnInit {
       }
     }
     this.dialog.open(
-      AlertComponent, 
-      dialogConfig, 
+      AlertComponent,
+      dialogConfig,
     );
   }
   hide = true;

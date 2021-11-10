@@ -16,7 +16,7 @@
           <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Nome da região*</mat-label>
-              <input matInput placeholder="Nome da região" [formControl]="form.controls['nome']">
+              <input matInput placeholder="Nome da região" [formControl]="form.controls['nome']" [readonly]="readonly">
               <mat-hint *ngIf="form.controls['nome'].hasError('required') && form.controls['nome'].touched"
               class="text-danger font-14">Nome.</mat-hint>
             <mat-hint *ngIf="form.controls['nome'].hasError('minlength') && form.controls['nome'].touched"
@@ -29,7 +29,7 @@
           <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Descrição*</mat-label>
-              <input matInput placeholder="Descrição" [formControl]="form.controls['descricao']">
+              <input matInput placeholder="Descrição" [formControl]="form.controls['descricao']" [readonly]="readonly">
               <mat-hint *ngIf="form.controls['descricao'].hasError('required') && form.controls['descricao'].touched"
               class="text-danger font-14">Informar uma descrição</mat-hint>
             <mat-hint *ngIf="form.controls['descricao'].hasError('minlength') && form.controls['descricao'].touched"
@@ -43,7 +43,7 @@
             <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
               [floatLabel]="form.value.floatLabel">
               <mat-label>Status</mat-label>
-              <mat-select required [formControl]="form.controls['status']">
+              <mat-select required [formControl]="form.controls['status']" [disabled]="readonly">
                 <mat-option>-- Selecione... --</mat-option>
                 <mat-option [value]=true>Ativo</mat-option>
                 <mat-option [value]=false>Inativo</mat-option>
@@ -53,7 +53,7 @@
           </div>
         </div>
         <mat-card-actions class="p-10">
-          <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid" (click)="regioesSubmit(); close()">Salvar </button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid || readonly == true" (click)="regioesSubmit(); close()">Salvar </button>
           <button mat-raised-button color="warn" (click)="close()">Cancelar</button>
         </mat-card-actions>
       </form>

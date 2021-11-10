@@ -12,13 +12,13 @@
           <div class="p-10" fxFlex.gt-sm="33.33" fxFlex.gt-xs="33.33" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Banco</mat-label>
-              <input matInput placeholder="Banco" [formControl]="form.controls['banco']">
+              <input matInput placeholder="Banco" [formControl]="form.controls['banco']" [readonly]='readonly'>
             </mat-form-field>
           </div>
           <div class="p-10" fxFlex.gt-sm="33.33" fxFlex.gt-xs="33.33" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Agência</mat-label>
-              <input matInput placeholder="Agência" formControlName="agencia" type="digits">
+              <input matInput placeholder="Agência" formControlName="agencia" type="digits" [readonly]='readonly'>
               <mat-hint *ngIf="form.get('agencia').errors?.required && form.get('agencia').touched"
                 class="text-danger font-14">Você precisa inserir a agência</mat-hint>
             </mat-form-field>
@@ -27,7 +27,7 @@
           <div class="p-10" fxFlex.gt-sm="33.33" fxFlex.gt-xs="33.33" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Conta</mat-label>
-              <input matInput placeholder="Conta" formControlName="conta" type="digits">
+              <input matInput placeholder="Conta" formControlName="conta" type="digits" [readonly]='readonly'>
               <mat-hint *ngIf="form.get('conta').errors?.required && form.get('conta').touched"
                 class="text-danger font-14">Você precisa inserir a conta</mat-hint>
             </mat-form-field>
@@ -35,7 +35,7 @@
           </div>
         </div>
         <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
-          <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid"
+          <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid || readonly == true"
             (click)="areaVendasSubmit(); close()"> Salvar </button>
           <button mat-raised-button color="warn" (click)="close()">Cancelar</button>
         </mat-card-actions>

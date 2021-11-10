@@ -14,7 +14,7 @@
           <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
             <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
               <mat-label>Status</mat-label>
-              <mat-select formControlName="status">
+              <mat-select formControlName="status" [disabled]="readonly">
                 <mat-option value='ativo'>Ativo</mat-option>
                 <mat-option value='inativo'>Inativo</mat-option>
                 <mat-option value='indisponivel'>Indisponível</mat-option>
@@ -28,9 +28,9 @@
             <mat-form-field appearance="outline">
               <mat-label>Previsão de retorno</mat-label>
               <input matInput [matDatepicker]="pickerPrevisao" formControlName="previsao_retorno"
-                placeholder="Previsão de Retorno">
-              <mat-datepicker-toggle matSuffix [for]="pickerPrevisao"></mat-datepicker-toggle>
-              <mat-datepicker #pickerPrevisao></mat-datepicker>
+                placeholder="Previsão de Retorno" [readonly]="readonly">
+              <mat-datepicker-toggle matSuffix [for]="pickerPrevisao" *ngIf="!readonly"></mat-datepicker-toggle>
+              <mat-datepicker #pickerPrevisao *ngIf="!readonly"></mat-datepicker>
             </mat-form-field>
           </div>
         </div>
@@ -41,7 +41,7 @@
           <div fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="10" class="material-icons visibility-icons"
             *ngIf="fichaBase64 != undefined" (click)="printPreview(fichaBase64)">visibility</div>
           <div fxFlex.gt-sm="10" style="color: red !important;" fxFlex.gt-xs="10" fxFlex="10"
-            class="material-icons visibility-icons ml-5" *ngIf="fichaBase64 != undefined" (click)="removeFicha()">
+            class="material-icons visibility-icons ml-5" *ngIf="fichaBase64 != undefined && readonly == false" (click)="removeFicha()">
             delete_outline</div>
         </div>
         <div fxLayout="row">
@@ -67,7 +67,7 @@
             <fieldset>
               {{imageError}}
               <div class="custom-file fileInputProfileWrap">
-                <input type="file" (change)="fileChangeEvent($event)" class="fileInputProfile">
+                <input type="file" (change)="fileChangeEvent($event)" class="fileInputProfile" *ngIf="!readonly">
                 <div class="img-space">
                   <ng-container *ngIf="isImageSaved; else elseTemplate">
                     <img [src]="cardImageBase64" />
@@ -87,19 +87,19 @@
           <div class="p-10" fxFlex.gt-sm="17" fxFlex.gt-xs="20" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Cód. catálogo*</mat-label>
-              <input matInput placeholder="Cód. catálogo" formControlName="codigo_catalogo">
+              <input matInput placeholder="Cód. catálogo" formControlName="codigo_catalogo" [readonly]="readonly">
             </mat-form-field>
           </div>
           <div class="p-10" fxFlex.gt-sm="19" fxFlex.gt-xs="20" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Cód. importação*</mat-label>
-              <input matInput placeholder="Cód. importação" formControlName="codigo_importacao">
+              <input matInput placeholder="Cód. importação" formControlName="codigo_importacao" [readonly]="readonly">
             </mat-form-field>
           </div>
           <div class="p-10" fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Nome do produto*</mat-label>
-              <input matInput placeholder="Nome do produto" formControlName="nome">
+              <input matInput placeholder="Nome do produto" formControlName="nome" [readonly]="readonly">
             </mat-form-field>
             <small *ngIf="form.get('nome').errors?.required && form.get('nome').touched"
               class="text-danger font-14">Você precisa inserir um nome para o produto.</small>
@@ -107,7 +107,7 @@
           <div class="p-10" fxFlex.gt-sm="19" fxFlex.gt-xs="15" fxFlex="100">
             <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
               <mat-label>Classificação*</mat-label>
-              <mat-select formControlName="produto_classification_id">
+              <mat-select formControlName="produto_classification_id" [disabled]="readonly">
                 <mat-option *ngFor="let classificacao of classificacoes" [value]="classificacao.id">
                   {{classificacao.name}}
                 </mat-option>
@@ -121,26 +121,26 @@
             <mat-form-field appearance="outline">
               <mat-label>Descrição do produto*</mat-label>
               <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="2" cdkAutosizeMaxRows="7"
-                placeholder="Descrição do produto" formControlName="descricao"></textarea>
+                placeholder="Descrição do produto" formControlName="descricao" [readonly]="readonly"></textarea>
             </mat-form-field>
           </div>
           <div class="p-10 aj" fxFlex.gt-sm="35" fxFlex.gt-xs="35" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Descrição resumida*</mat-label>
               <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="2" cdkAutosizeMaxRows="7"
-                placeholder="Descrição resumida" formControlName="descricao_resumida"></textarea>
+                placeholder="Descrição resumida" formControlName="descricao_resumida" [readonly]="readonly"></textarea>
             </mat-form-field>
           </div>
           <div class="p-10 aj" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
             <mat-select-autocomplete appearance="outline" [placeholder]="'Tipo do Produto*'" [options]="tiposProduto"
               [multiple]='false' name="optionsSelector" ngDefaultControl
-              [formControl]="form.controls['produto_tipo_id']">
+              [formControl]="form.controls['produto_tipo_id']" [disabled]="readonly">
             </mat-select-autocomplete>
           </div>
           <div class="p-10 aj" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
             <mat-select-autocomplete appearance="outline" [placeholder]="'Material do Produto*'"
               [options]="materiaisProduto" [multiple]='false' name="optionsSelector" ngDefaultControl
-              [formControl]="form.controls['produto_material_id']">
+              [formControl]="form.controls['produto_material_id']" [disabled]="readonly">
             </mat-select-autocomplete>
           </div>
         </div>
@@ -148,7 +148,7 @@
           <div class="p-10 aj" fxFlex.gt-sm="26" fxFlex.gt-xs="26" fxFlex="100">
             <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
               <mat-label>Selecione a representada*</mat-label>
-              <mat-select formControlName="representada_id">
+              <mat-select formControlName="representada_id" [disabled]="readonly">
                 <mat-option *ngFor="let representada of representadas" [value]="representada.id">
                   {{representada.razao_social}}
                 </mat-option>
@@ -159,19 +159,19 @@
           <div class="p-10 aj" fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Ipi</mat-label>
-              <input matInput placeholder="Ipi" formControlName="ipi" type="digits" mask="percent" suffix="%">
+              <input matInput placeholder="Ipi" formControlName="ipi" type="digits" mask="percent" suffix="%" [readonly]="readonly">
             </mat-form-field>
           </div>
           <div class="p-10 aj" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Certificado de Aprovação</mat-label>
-              <input matInput placeholder="Certificado de aprovação" formControlName="certificado_aprovacao">
+              <input matInput placeholder="Certificado de aprovação" formControlName="certificado_aprovacao" [readonly]="readonly">
             </mat-form-field>
           </div>
           <div class="p-10 aj" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Embalagem do produto*</mat-label>
-              <input matInput placeholder="Embalagem do produto" formControlName="embalagem_nome">
+              <input matInput placeholder="Embalagem do produto" formControlName="embalagem_nome" [readonly]="readonly">
             </mat-form-field>
           </div>
           <!-- <div class="p-10 aj" fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="100">
@@ -183,7 +183,7 @@
           <div class="p-10 aj" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
             <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
               <mat-label>Selecione a unidade*</mat-label>
-              <mat-select formControlName="embalagem_un">
+              <mat-select formControlName="embalagem_un" [disabled]="readonly">
                 <mat-option *ngFor="let unidade of unidades" [value]="unidade.id">
                   {{unidade.sigla}}
                 </mat-option>
@@ -194,7 +194,7 @@
           <div class="p-10 aj" fxFlex.gt-sm="14" fxFlex.gt-xs="14" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Qtd. Min*</mat-label>
-              <input matInput placeholder="Quantidade" formControlName="embalagem_min">
+              <input matInput placeholder="Quantidade" formControlName="embalagem_min" [readonly]="readonly">
             </mat-form-field>
           </div>
         </div>
@@ -204,11 +204,11 @@
               <mat-chip *ngFor="let color of colors" [selectable]="selectable" [removable]="removable"
                 (removed)="removeColor(color)">
                 {{color.nome}}
-                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                <mat-icon matChipRemove *ngIf="removable && !readonly">cancel</mat-icon>
               </mat-chip>
               <input placeholder="Nova cor*..." #colorInput [formControl]="colorCtrl" [matAutocomplete]="autoColor"
                 [matChipInputFor]="chipListColor" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                (matChipInputTokenEnd)="addColor($event)">
+                (matChipInputTokenEnd)="addColor($event)" [readonly]="readonly">
             </mat-chip-list>
             <mat-autocomplete #autoColor="matAutocomplete" (optionSelected)="selectedColor($event)">
               <mat-option *ngFor="let color of filteredColors | async" [value]="color">
@@ -225,11 +225,11 @@
               <mat-chip *ngFor="let size of sizes" [selectable]="selectable" [removable]="removable"
                 (removed)="remove(size)">
                 {{size.tamanho_id ? size.tamanho.nome : size.nome }}
-                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                <mat-icon matChipRemove *ngIf="removable && !readonly">cancel</mat-icon>
               </mat-chip>
               <input required placeholder="Novo tamanho*..." #sizeInput [formControl]="sizeCtrl" [matAutocomplete]="auto"
                 [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                (matChipInputTokenEnd)="add($event)">
+                (matChipInputTokenEnd)="add($event)" [readonly]="readonly">
             </mat-chip-list>
             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
               <mat-option *ngFor="let size of filteredSizes | async" [value]="size">
@@ -250,11 +250,11 @@
               </div>
               <mat-form-field appearance="outline">
                 <mat-label>Preço - Final*</mat-label>
-                <input matInput placeholder="Preço PR- Final" formControlName="preco_pr_final" currencyMask>
+                <input matInput placeholder="Preço PR- Final" formControlName="preco_pr_final" currencyMask [readonly]="readonly">
               </mat-form-field>
               <mat-form-field appearance="outline">
                 <mat-label>Preço - Revenda*</mat-label>
-                <input matInput placeholder="Preço PR - Revenda" formControlName="preco_pr_revenda" currencyMask>
+                <input matInput placeholder="Preço PR - Revenda" formControlName="preco_pr_revenda" currencyMask [readonly]="readonly">
               </mat-form-field>
             </div>
           </div>
@@ -264,7 +264,7 @@
             </div>
             <mat-form-field appearance="outline">
               <mat-label>Preço*</mat-label>
-              <input matInput placeholder="Preço" formControlName="preco_sp" currencyMask>
+              <input matInput placeholder="Preço" formControlName="preco_sp" currencyMask [readonly]="readonly">
             </mat-form-field>
           </div>
           <div class="p-10 aj" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100">
@@ -273,7 +273,7 @@
             </div>
             <mat-form-field appearance="outline">
               <mat-label>Preço*</mat-label>
-              <input matInput placeholder="Preço" formControlName="preco_sc" currencyMask>
+              <input matInput placeholder="Preço" formControlName="preco_sc" currencyMask [readonly]="readonly">
             </mat-form-field>
           </div>
           <div class="p-10 aj" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100">
@@ -282,7 +282,7 @@
             </div>
             <mat-form-field appearance="outline">
               <mat-label>Preço*</mat-label>
-              <input matInput placeholder="Preço" formControlName="preco_ms" currencyMask>
+              <input matInput placeholder="Preço" formControlName="preco_ms" currencyMask [readonly]="readonly">
             </mat-form-field>
           </div>
         </div>
@@ -295,7 +295,7 @@
     </div> -->
   </div>
   <mat-card-actions class="p-10" style="float: right;">
-    <button mat-raised-button color="primary" type="button" (click)="onSubmit()">Salvar</button>
+    <button mat-raised-button color="primary" type="button" (click)="onSubmit()" [disabled]="readonly" >Salvar</button>
     <button style="margin-left: 15px;" mat-raised-button color="warn" (click)="close()">Cancelar</button>
   </mat-card-actions>
 </form>

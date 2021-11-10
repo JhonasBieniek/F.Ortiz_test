@@ -99,7 +99,19 @@ export class ClassificacoesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(value => {
       (value != 1) ? this.refreshTable() : null
       });
-    }
+  }
+  view(row){
+    const dialogConfig = new MatDialogConfig();
+
+      dialogConfig.data = row
+      dialogConfig.data.action = 'view'
+      let dialogRef = this.dialog.open(DialogBodyProdutoClassificacaoComponent,
+      dialogConfig   
+    );
+    dialogRef.afterClosed().subscribe(value => {
+      (value != 1) ? this.refreshTable() : null
+      });
+  }
   ngOnInit() {
   }
 

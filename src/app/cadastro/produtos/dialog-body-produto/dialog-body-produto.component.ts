@@ -56,6 +56,7 @@ export class DialogBodyProdutoComponent implements OnInit {
   colors: any = [];
   cores: any[] = [];
   produto: any = [];
+  readonly: boolean = false;
 
   imageError: string;
   isImageSaved: boolean;
@@ -198,7 +199,13 @@ export class DialogBodyProdutoComponent implements OnInit {
         this.cardImageBase64 = this.produto.imagem;
         this.fichaBase64 = this.produto.imagem_ficha;
       });
-      this.pageTitle = "Editar Produto";
+      if(this.data.action == 'edit'){
+        this.pageTitle = "Editar Produto";
+      }else{
+        this.pageTitle = "Visualizar Produto";
+        this.readonly = true;
+      }
+      
     }
 
     this.filteredSizes = this.sizeCtrl.valueChanges.pipe(
@@ -294,7 +301,7 @@ export class DialogBodyProdutoComponent implements OnInit {
   }
   fileChangeEvent(fileInput: any) {
     this.imageError = null;
-    if (fileInput.target.files && fileInput.target.files[0]) {
+    if (fileInput.target.files && fileInput.target.files[0] && !this.readonly) {
       // Size Filter Bytes
       const max_size = 20971520;
       const allowed_types = [

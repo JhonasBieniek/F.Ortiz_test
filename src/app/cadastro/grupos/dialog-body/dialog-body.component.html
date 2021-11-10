@@ -16,7 +16,7 @@
           <div class="p-10" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Nome do grupo</mat-label>
-              <input matInput placeholder="Nome do grupo" [formControl]="form.controls['nome']">
+              <input matInput placeholder="Nome do grupo" [formControl]="form.controls['nome']" [readonly]='readonly'>
             </mat-form-field>
             <mat-hint *ngIf="form.controls['nome'].hasError('required') && form.controls['nome'].touched"
               class="text-danger font-14">Nome grupo.</mat-hint>
@@ -27,7 +27,7 @@
           </div>
         </div>
         <mat-card-actions class="p-10" >
-          <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid" (click)="areaVendasSubmit(); close()">Salvar</button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid || readonly == true" (click)="areaVendasSubmit(); close()">Salvar</button>
           <button mat-raised-button color="warn" (click)="close()">Cancelar</button>
         </mat-card-actions>
       </form>

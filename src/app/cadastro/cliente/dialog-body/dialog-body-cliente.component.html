@@ -28,7 +28,7 @@
       <div class="p-10 aj" fxFlex.gt-sm="35" fxFlex.gt-xs="35" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Inscrição estadual</mat-label>
-          <input matInput placeholder="Inscrição estadual" formControlName="inscricao_estadual">
+          <input matInput placeholder="Inscrição estadual" formControlName="inscricao_estadual" [readonly]="readonly">
         </mat-form-field>
         <small *ngIf="form.get('inscricao_estadual').errors?.required && form.get('inscricao_estadual').touched"
           class="text-danger font-14">Você precisa inserir a inscrição estadual.</small>
@@ -37,7 +37,7 @@
         <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
           [floatLabel]="form.value.floatLabel">
           <mat-label>Status</mat-label>
-          <mat-select required formControlName="status">
+          <mat-select required formControlName="status" [disabled]="readonly">
             <mat-option>-- Selecione... --</mat-option>
             <mat-option [value]=true>Ativo</mat-option>
             <mat-option [value]=false>Inativo</mat-option>
@@ -49,7 +49,7 @@
       <div class="p-10 aj" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Nome fantasia*</mat-label>
-          <input matInput placeholder="Nome fantasia" formControlName="nome_fantasia">
+          <input matInput placeholder="Nome fantasia" formControlName="nome_fantasia" [readonly]="readonly">
         </mat-form-field>
         <mat-hint *ngIf="form.get('nome_fantasia').errors?.required && form.get('nome_fantasia').touched"
           class="text-danger font-14">Você deve incluir um nome fantasia.</mat-hint>
@@ -57,7 +57,7 @@
       <div class="p-10 aj" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Razão social*</mat-label>
-          <input matInput placeholder="Razão social*" formControlName="razao_social">
+          <input matInput placeholder="Razão social*" formControlName="razao_social" [readonly]="readonly">
         </mat-form-field>
         <mat-hint *ngIf="form.get('razao_social').errors?.required && form.get('razao_social').touched"
           class="text-danger font-14">Você deve incluir uma razão social.</mat-hint>
@@ -66,7 +66,7 @@
     <div formArrayName="enderecos_clientes" fxLayout="row wrap" class="row">
       <div class="p-10 aj1" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <h4 class="dadosCadastro"><span style="margin-left: 10%;">Endereço</span>
-          <a style="float: right;" (click)="addEndereco()"><i class="material-icons plus-icons">add_circle_outline</i>
+          <a style="float: right;" (click)="addEndereco()" *ngIf="!readonly"><i class="material-icons plus-icons">add_circle_outline</i>
             <span class="title">Novo Endereço</span></a>
         </h4>
       </div>
@@ -75,50 +75,50 @@
         <div fxLayout="row wrap" formGroupName="endereco">
           <div class="p-10 aj" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
             Endereço - {{i + 1}}
-            <button mat-icon-button (click)="delEndereco(i)">
+            <button mat-icon-button (click)="delEndereco(i)" *ngIf="!readonly">
               <mat-icon class="clear">clear</mat-icon>
             </button>
           </div>
           <div class="p-10 aj" fxFlex.gt-sm="15" fxFlex.gt-xs="13" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>CEP*</mat-label>
-              <input matInput placeholder="CEP" mask="00000-000" (blur)="onBlurMethod(i)" formControlName="cep">
+              <input matInput placeholder="CEP" mask="00000-000" (blur)="onBlurMethod(i)" formControlName="cep" [readonly]="readonly">
             </mat-form-field>
           </div>
           <div class="p-10 aj" fxFlex.gt-sm="55" fxFlex.gt-xs="52" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Logradouro</mat-label>
-              <input matInput placeholder="Logradouro" formControlName="logradouro">
+              <input matInput placeholder="Logradouro" formControlName="logradouro" [readonly]="readonly">
             </mat-form-field>
           </div>
           <div class="p-10 aj" fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Número*</mat-label>
-              <input matInput placeholder="Número" formControlName="numero">
+              <input matInput placeholder="Número" formControlName="numero" [readonly]="readonly">
             </mat-form-field>
           </div>
           <div class="p-10 aj" fxFlex.gt-sm="20" fxFlex.gt-xs="21" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Complemento</mat-label>
-              <input matInput placeholder="Complemento" formControlName="complemento">
+              <input matInput placeholder="Complemento" formControlName="complemento" [readonly]="readonly">
             </mat-form-field>
           </div>
           <div class="p-10 aj" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Bairro</mat-label>
-              <input matInput placeholder="Bairro" formControlName="bairro">
+              <input matInput placeholder="Bairro" formControlName="bairro" [readonly]="readonly">
             </mat-form-field>
           </div>
           <div class="p-10 aj" fxFlex.gt-sm="36" fxFlex.gt-xs="36" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Cidade</mat-label>
-              <input matInput placeholder="Cidade" formControlName="cidade">
+              <input matInput placeholder="Cidade" formControlName="cidade" [readonly]="readonly">
             </mat-form-field>
           </div>
           <div class="p-10 aj" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="100">
             <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
               <mat-label>Estado*</mat-label>
-              <mat-select formControlName="estado_id">
+              <mat-select formControlName="estado_id" [disabled]="readonly">
                 <mat-option *ngFor="let estado of estados" [value]="estado.id">
                   {{estado.nome}}
                 </mat-option>
@@ -132,14 +132,14 @@
     <div formArrayName="cliente_representada_area_vendas" fxLayout="row wrap" class="row" fxflex="100">
       <div class="p-10 aj1" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <h4 class="dadosCadastro"><span style="margin-left: 10%;">Área de Venda</span>
-          <a style="float: right;" (click)="addAreaVenda()"><i class="material-icons plus-icons">add_circle_outline</i>
+          <a style="float: right;" (click)="addAreaVenda()" *ngIf="!readonly"><i class="material-icons plus-icons">add_circle_outline</i>
             <span class="title">Nova Área de Venda</span></a>
         </h4>
       </div>
       <div fxLayout="row wrap" *ngFor="let e of form.get('cliente_representada_area_vendas').controls; index as i" [formGroupName]="i" fxFlex="50">
           <div class="p-10 aj ml-5" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
             Área de venda - {{i + 1}}
-            <button mat-icon-button (click)="delAreaVenda(i)">
+            <button mat-icon-button (click)="delAreaVenda(i)" *ngIf="!readonly">
               <mat-icon class="clear">clear</mat-icon>
             </button>
           </div>
@@ -147,7 +147,7 @@
           <div class="p-10 aj" fxFlex.gt-sm="45" fxFlex.gt-xs="35" fxFlex="100" style="margin-left: 10px;">
             <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
               <mat-label>Representada*</mat-label>
-              <mat-select formControlName="representada_id">
+              <mat-select formControlName="representada_id" [disabled]="readonly">
                 <mat-option *ngFor="let representada of representadas" [value]="representada.id">
                   {{representada.nome_fantasia}} ({{ representada.status == true ? 'Ativo' : 'Inativo' }})
                 </mat-option>
@@ -159,7 +159,7 @@
           <div class="p-10 aj" fxFlex.gt-sm="45" fxFlex.gt-xs="35" fxFlex="100" style="margin-left: 10px;" *ngIf="form.get('cliente_representada_area_vendas').value[i].representada_id != null ">
             <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
               <mat-label>Área de venda*</mat-label>
-              <mat-select formControlName="area_venda_id">
+              <mat-select formControlName="area_venda_id" [disabled]="readonly">
                 <mat-option *ngFor="let area of areasFilter(form.get('cliente_representada_area_vendas').value[i].representada_id)" [value]="area.id">
                   {{area.nome}} ({{ area.status == true ? 'Ativo' : 'Inativo' }})
                 </mat-option>
@@ -172,7 +172,7 @@
     <div formArrayName="cliente_contatos" fxLayout="row wrap" class="row" fxflex="100">
       <div class="p-10 aj1" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <h4 class="dadosCadastro"><span style="margin-left: 10%;">Contatos</span>
-          <a style="float: right;" (click)="addContato()"><i class="material-icons plus-icons">add_circle_outline</i>
+          <a style="float: right;" (click)="addContato()" *ngIf="!readonly"><i class="material-icons plus-icons">add_circle_outline</i>
             <span class="title">Novo Contato</span></a>
         </h4>
       </div>
@@ -180,58 +180,58 @@
         [formGroupName]="i" fxFlex="100">
           <div class="p-10 aj" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
             Contato - {{i + 1}}
-            <button mat-icon-button (click)="delContato(i)">
+            <button mat-icon-button (click)="delContato(i)" *ngIf="!readonly">
               <mat-icon class="clear">clear</mat-icon>
             </button>
           </div>
           <div class="p-10 aj" fxFlex.gt-sm="60" fxFlex.gt-xs="60" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Nome</mat-label>
-              <input matInput placeholder="Nome" formControlName="nome">
+              <input matInput placeholder="Nome" formControlName="nome" [readonly]="readonly">
             </mat-form-field>
           </div>
           <div class="p-10 aj" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Cargo</mat-label>
-              <input matInput placeholder="Cargo" formControlName="cargo">
+              <input matInput placeholder="Cargo" formControlName="cargo" [readonly]="readonly">
             </mat-form-field>
           </div>
           <div class="p-10 aj" fxFlex.gt-sm="20" fxFlex.gt-xs="21" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>WhatsApp</mat-label>
-              <input matInput placeholder="Celular" formControlName="celular" mask="(00) 0000-0000||(00) 0 0000-0000">
+              <input matInput placeholder="Celular" formControlName="celular" mask="(00) 0000-0000||(00) 0 0000-0000" [readonly]="readonly">
             </mat-form-field>
           </div>
           <div class="p-10 aj" fxFlex.gt-sm="40" fxFlex.gt-xs="40" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Email</mat-label>
-              <input matInput placeholder="Email" formControlName="email">
+              <input matInput placeholder="Email" formControlName="email" [readonly]="readonly">
             </mat-form-field>
           </div>
           <div class="p-10 aj" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Aniversário</mat-label>
-              <input matInput [matDatepicker]="picker" formControlName="aniversario" placeholder="Aniversário">
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
+              <input matInput [matDatepicker]="picker" formControlName="aniversario" placeholder="Aniversário" [readonly]="readonly">
+              <mat-datepicker-toggle matSuffix [for]="picker" *ngIf="!readonly"></mat-datepicker-toggle>
+              <mat-datepicker #picker *ngIf="!readonly"></mat-datepicker>
             </mat-form-field>
           </div>
           <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
-            <mat-checkbox class="example-margin" formControlName="preferential">Contato do Charlie?</mat-checkbox>
+            <mat-checkbox class="example-margin" formControlName="preferential" [disabled]="readonly">Contato do Charlie?</mat-checkbox>
           </div>
       </div>
     </div>
     <div formArrayName="cliente_vencimentos" fxLayout="row wrap" class="row" fxflex="100">
       <div class="p-10 aj1" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <h4 class="dadosCadastro"><span style="margin-left: 10%;">Vencimentos</span>
-          <a style="float: right;" (click)="addRepresentadaTipo()"><i class="material-icons plus-icons">add_circle_outline</i>
+          <a style="float: right;" (click)="addRepresentadaTipo()" *ngIf="!readonly"><i class="material-icons plus-icons">add_circle_outline</i>
             <span class="title">Novo Vencimento</span></a>
         </h4>
       </div>
       <div fxLayout="row wrap" *ngFor="let e of form.get('cliente_vencimentos').controls; index as i" [formGroupName]="i" fxFlex="100">
           <div class="p-10 aj ml-5" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
             Vencimento - {{i + 1}}
-            <button mat-icon-button (click)="delRepresentadaVencimento(i)">
+            <button mat-icon-button (click)="delRepresentadaVencimento(i)" *ngIf="!readonly">
               <mat-icon class="clear">clear</mat-icon>
             </button>
           </div>
@@ -239,8 +239,8 @@
           <div class="p-10 aj" fxFlex.gt-sm="20" fxFlex.gt-xs="30" fxFlex="100">
             <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
               <mat-label>Representada*</mat-label>
-              <mat-select formControlName="representada_id">
-                <mat-option *ngFor="let representada of representadas" [value]="representada.id">
+              <mat-select formControlName="representada_id" [disabled]="readonly">
+                <mat-option *ngFor="let representada of representadas" [value]="representada.id" >
                   {{representada.nome_fantasia}} ({{ representada.status == true ? 'Ativo' : 'Inativo' }})
                 </mat-option>
               </mat-select>
@@ -251,7 +251,7 @@
           <div class="p-10 aj" fxFlex.gt-sm="20" fxFlex.gt-xs="30" fxFlex="100" *ngIf="form.get('cliente_vencimentos').value[i].representada_id != null ">
             <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
               <mat-label>Tipo de Pagamento</mat-label>
-              <mat-select  formControlName="tipo">
+              <mat-select  formControlName="tipo" [disabled]="readonly">
                 <mat-option value="Faturamento">Faturamento</mat-option>
                 <mat-option value="Vencimento">Vencimento</mat-option>
               </mat-select>
@@ -266,7 +266,7 @@
               <div fxFlex="80">
                 <mat-form-field appearance="outline" >
                   <mat-label>Venc. {{vencimentoIndex + 1}}</mat-label>
-                  <input matInput placeholder="Venc. {{vencimentoIndex + 1}}" formControlName="vencimento">
+                  <input matInput placeholder="Venc. {{vencimentoIndex + 1}}" formControlName="vencimento" [readonly]="readonly">
                 </mat-form-field>
               </div>
               <div fxFlex="20">
@@ -283,7 +283,7 @@
       <div class="p-10 aj" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25">
         <mat-form-field appearance="outline">
           <mat-label>Representante</mat-label>
-          <input matInput placeholder="Representante" formControlName="representante">
+          <input matInput placeholder="Representante" formControlName="representante" [readonly]="readonly">
         </mat-form-field>
         <mat-hint *ngIf="form.get('representante').errors?.minlength && form.get('representante').touched"
           class="text-danger font-14">O representante tem que conter no mínimo 5 caracteres.</mat-hint>
@@ -293,7 +293,7 @@
       <div class="p-10 aj" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25">
         <mat-form-field appearance="outline">
           <mat-label>Telefone fixo</mat-label>
-          <input matInput placeholder="Telefone Fixo" mask="(00) 0000-0000" formControlName="telefone" type="text">
+          <input matInput placeholder="Telefone Fixo" mask="(00) 0000-0000" formControlName="telefone" type="text" [readonly]="readonly">
         </mat-form-field>
         <small *ngIf="form.get('telefone').errors?.phone && form.get('telefone').touched" class="text-danger font-14">O
           número inserido deve ser válido.</small>
@@ -301,7 +301,7 @@
       <div class="p-10 aj" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25">
         <mat-form-field appearance="outline">
           <mat-label>Celular</mat-label>
-          <input matInput placeholder="Celular" mask="(00) 0000-0000||(00) 0 0000-0000" formControlName="celular" type="text">
+          <input matInput placeholder="Celular" mask="(00) 0000-0000||(00) 0 0000-0000" formControlName="celular" type="text" [readonly]="readonly">
         </mat-form-field>
         <small *ngIf="form.get('celular').errors?.phone && form.get('celular').touched" class="text-danger font-14">O
           número inserido deve ser válido.</small>
@@ -309,13 +309,13 @@
       <div class="p-10 aj" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25">
         <mat-form-field appearance="outline">
           <mat-label>Limite de Crédito</mat-label>
-          <input matInput placeholder="Limite de crédito" formControlName="limite" currencyMask>
+          <input matInput placeholder="Limite de crédito" formControlName="limite" currencyMask [readonly]="readonly">
         </mat-form-field>
       </div>
       <div class="p-10 aj" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="34">
         <mat-form-field appearance="outline">
           <mat-label>Email</mat-label>
-          <input matInput placeholder="Email" formControlName="email" type="email">
+          <input matInput placeholder="Email" formControlName="email" type="email" [readonly]="readonly">
         </mat-form-field>
         <small *ngIf="form.get('email').errors?.email && form.get('email').touched" class="text-danger font-14">O
           endereço de email deve ser valido.</small>
@@ -323,7 +323,7 @@
       <div class="p-10 aj" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="33">
         <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
           <mat-label>Ramo de Atividade</mat-label>
-          <mat-select formControlName="ramo_atividade_id">
+          <mat-select formControlName="ramo_atividade_id" [disabled]="readonly">
             <mat-option *ngFor="let ramo of ramos" [value]="ramo.id">
               {{ramo.nome}}
             </mat-option>
@@ -335,7 +335,7 @@
         <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
           [floatLabel]="form.value.floatLabel">
           <mat-label>Tipo de Cliente</mat-label>
-          <mat-select formControlName="tipo_cliente">
+          <mat-select formControlName="tipo_cliente" [disabled]="readonly">
             <mat-option>-- Selecione... --</mat-option>
             <mat-option value="final">Final</mat-option>
             <mat-option value="revendedor">Revendedor</mat-option>
@@ -348,7 +348,7 @@
         <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
           [floatLabel]="form.value.floatLabel">
           <mat-label>Classificação tabela VOLK</mat-label>
-          <mat-select formControlName="categoria_volk">
+          <mat-select formControlName="categoria_volk" [disabled]="readonly">
             <mat-option>-- Selecione... --</mat-option>
             <mat-option value="A">A</mat-option>
             <mat-option value="B">B</mat-option>
@@ -398,14 +398,14 @@
       </div>
       <div fxFlex.gt-sm="100" fxFlex="100">
         <mat-form-field appearance="outline">
-          <input matInput formControlName="obs">
+          <input matInput formControlName="obs" [readonly]="readonly">
         </mat-form-field>
         <textarea *ngIf="form.get('obs').errors?.maxlength && form.get('obs').touched"
           class="text-danger font-14">O representante não deve exceder 50 caracteres</textarea>
       </div>
     </div>
     <mat-card-actions>
-      <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid"
+      <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid || readonly == true"
         (click)="onSubmit();">Salvar</button>
       <button style="margin-left: 15px;" mat-raised-button color="warn" (click)="close()">Cancelar</button>
     </mat-card-actions>

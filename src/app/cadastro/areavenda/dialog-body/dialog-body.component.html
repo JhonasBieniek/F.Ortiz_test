@@ -10,14 +10,14 @@
       <div class="p-10" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Nome da área de venda*</mat-label>
-          <input matInput placeholder="Nome da área de venda" [formControl]="form.controls['nome']">
+          <input matInput placeholder="Nome da área de venda" [formControl]="form.controls['nome']" [readonly]='readonly'>
         </mat-form-field>
       </div>
       <div class="p-10" fxFlex.gt-sm="22" fxFlex.gt-xs="22" fxFlex="100">
         <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
           [floatLabel]="form.value.floatLabel">
           <mat-label>Selecione a região*...</mat-label>
-          <mat-select required [formControl]="form.controls['regiao_id']">
+          <mat-select required [formControl]="form.controls['regiao_id']" [disabled]="readonly == true">
             <mat-option *ngFor="let regiao of regioes" [value]="regiao.id">
               {{regiao.nome}}
             </mat-option>
@@ -28,7 +28,7 @@
         <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
           [floatLabel]="form.value.floatLabel">
           <mat-label>Selecione a representada*...</mat-label>
-          <mat-select required [formControl]="form.controls['representada_id']">
+          <mat-select required [formControl]="form.controls['representada_id']" [disabled]="readonly == true">
             <mat-option *ngFor="let rep of representadas" [value]="rep.id">
               {{rep.razao_social}}
             </mat-option>
@@ -39,7 +39,7 @@
         <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
           [floatLabel]="form.value.floatLabel">
           <mat-label>Status.</mat-label>
-          <mat-select required [formControl]="form.controls['status']">
+          <mat-select required [formControl]="form.controls['status']" [disabled]="readonly == true">
             <mat-option>-- Selecione... --</mat-option>
             <mat-option [value]=true>Ativo</mat-option>
             <mat-option [value]=false>Inativo</mat-option>
@@ -51,7 +51,7 @@
         <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
           [floatLabel]="form.value.floatLabel">
           <mat-label>Selecione um vendedor*...</mat-label>
-          <mat-select required [formControl]="form.controls['vendedor_id']">
+          <mat-select required [formControl]="form.controls['vendedor_id']" [disabled]="readonly == true">
             <mat-option *ngFor="let vendedor of vendedores" [value]="vendedor.id">
               {{vendedor.nome}}
             </mat-option>
@@ -63,7 +63,7 @@
         <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
           [floatLabel]="form.value.floatLabel">
           <mat-label>Selecione um(a) assistente*...</mat-label>
-          <mat-select required [formControl]="form.controls['auxiliar_id']">
+          <mat-select required [formControl]="form.controls['auxiliar_id']" [disabled]="readonly == true">
             <mat-option *ngFor="let aux of auxiliares" [value]="aux.id">
               {{aux.nome}}
             </mat-option>
@@ -73,7 +73,7 @@
       </div>
     </div>
     <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
-      <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid"
+      <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid || readonly == true"
         (click)="areaVendasSubmit(); close()"> Salvar </button>
       <button mat-raised-button color="warn" (click)="close()">Cancelar</button>
     </mat-card-actions>

@@ -94,6 +94,22 @@ export class TamanhosComponent implements OnInit {
       (value != 1) ? this.refreshTable() : null
     });
   }
+  view(row) {
+    let dialogConfig = new MatDialogConfig();
+    /*dialogConfig = {
+      maxWidth: '75vw',
+      maxHeight: '75vh',
+      width: '75vw',
+      height: '40vh'
+    }*/
+    dialogConfig.data = row
+    dialogConfig.data.action = 'view'
+    let dialogRef = this.dialog.open(DialogTamanhosComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(value => {
+      (value != 1) ? this.refreshTable() : null
+    });
+  }
   /*delete(row) {
     const dialogConfig = new MatDialogConfig();
     let tipo = 'grupos'

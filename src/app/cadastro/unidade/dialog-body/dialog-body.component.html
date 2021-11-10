@@ -16,7 +16,7 @@
           <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Sigla*</mat-label>
-              <input matInput placeholder="Sigla" [formControl]="form.controls['sigla']">
+              <input matInput placeholder="Sigla" [formControl]="form.controls['sigla']" [readonly] = 'readonly'>
               <mat-hint *ngIf="form.controls['sigla'].hasError('required') && form.controls['sigla'].touched"
                 class="text-danger font-14">Digite a sigla.</mat-hint>
               <mat-hint *ngIf="form.controls['sigla'].hasError('minlength') && form.controls['sigla'].touched"
@@ -29,7 +29,7 @@
           <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Descrição*</mat-label>
-              <input matInput placeholder="Descrição" [formControl]="form.controls['descricao']">
+              <input matInput placeholder="Descrição" [formControl]="form.controls['descricao']" [readonly] = 'readonly'>
 
               <mat-hint *ngIf="form.controls['descricao'].hasError('required') && form.controls['descricao'].touched"
                 class="text-danger font-14">Digite a descrição.</mat-hint>
@@ -43,7 +43,7 @@
             <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
               [floatLabel]="form.value.floatLabel">
               <mat-label>Status</mat-label>
-              <mat-select required [formControl]="form.controls['status']">
+              <mat-select required [formControl]="form.controls['status']" [disabled] = 'readonly'>
                 <mat-option>-- Selecione... --</mat-option>
                 <mat-option [value]=true>Ativo</mat-option>
                 <mat-option [value]=false>Inativo</mat-option>
@@ -53,7 +53,7 @@
           </div>
         </div>
         <mat-card-actions class="p-10">
-          <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid"
+          <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid || readonly == true"
             (click)="areaVendasSubmit(); close()">Salvar</button>
           <button mat-raised-button color="warn" (click)="close()">Cancelar</button>
         </mat-card-actions>

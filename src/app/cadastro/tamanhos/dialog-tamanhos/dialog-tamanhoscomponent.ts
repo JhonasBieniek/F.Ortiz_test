@@ -12,37 +12,44 @@ import { NotificationService } from '../../../shared/messages/notification.servi
 export class DialogTamanhosComponent implements OnInit {
 
   public form: FormGroup;
-  pageTitle:string= "";
-  
-  constructor(public dialogRef: MatDialogRef<DialogTamanhosComponent>, 
-                                @Inject(MAT_DIALOG_DATA) public data: any,
-                                private fb: FormBuilder,
-                                private clientservice: ClientService,
-                                private notificationService: NotificationService
-                                ){
-    
+  pageTitle: string = "";
+  readonly = false;
+
+  constructor(public dialogRef: MatDialogRef<DialogTamanhosComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private fb: FormBuilder,
+    private clientservice: ClientService,
+    private notificationService: NotificationService
+  ) {
+
   }
-                              
+
   ngOnInit() {
     this.form = this.fb.group({
-      id:[null],
+      id: [null],
       nome: [null, Validators.required],
     });
-    if(this.data == null){
+    if (this.data == null) {
       this.pageTitle = 'Cadastrar tamanho'
-    }else{
-      this.pageTitle = 'Editar tamanho'
+    } else {
+      if(this.data.action == 'edit'){
+        this.pageTitle = 'Editar tamanho';
+      }else{
+        this.pageTitle = 'Visualizar tamanho';
+        this.readonly = true;
+      }
+      
       this.form.patchValue(this.data)
     }
   }
 
-  areaVendasSubmit() { 
-    if(this.data == null)
-    this.clientservice.addTamanhos(this.form.value)  
+  areaVendasSubmit() {
+    if (this.data == null)
+      this.clientservice.addTamanhos(this.form.value)
     else
-    this.clientservice.updateTamanhos(this.form.value).subscribe( () =>{
-      this.notificationService.notify("Atualizado com Sucesso!")
-    }) 
+      this.clientservice.updateTamanhos(this.form.value).subscribe(() => {
+        this.notificationService.notify("Atualizado com Sucesso!")
+      })
   }
 
   close() {

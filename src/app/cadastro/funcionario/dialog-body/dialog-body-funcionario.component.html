@@ -6,14 +6,14 @@
 
       <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <mat-card-header class="bg-info text-white">
-          <mat-card-title class="dadosCadastro">Dados de cadastro</mat-card-title>
+          <mat-card-title class="dadosCadastro">{{pageTitle}}</mat-card-title>
         </mat-card-header>
       </div>
 
       <div class="p-10 aj" fxFlex.gt-sm="40" fxFlex.gt-xs="40" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Nome completo*</mat-label>
-          <input matInput placeholder="Nome completo" formControlName="nome">
+          <input matInput placeholder="Nome completo" formControlName="nome" [readonly]="readonly">
         </mat-form-field>
         <mat-hint *ngIf="funcionario.get('nome').errors?.required && funcionario.get('nome').touched"
           class="text-danger font-14">Você deve inserir o nome Completo.</mat-hint>
@@ -26,9 +26,9 @@
       <div class="p-10 aj" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Data de nascimento</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="nascimento" placeholder="Data de nascimento">
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
+          <input matInput [matDatepicker]="picker" formControlName="nascimento" placeholder="Data de nascimento" [readonly]="readonly">
+          <mat-datepicker-toggle matSuffix [for]="picker" *ngIf="!readonly"></mat-datepicker-toggle>
+          <mat-datepicker #picker *ngIf="!readonly"></mat-datepicker>
         </mat-form-field>
         <!-- <mat-hint *ngIf="funcionario.get('nascimento').errors?.required && funcionario.get('nascimento').touched"
           class="text-danger font-14">Você precisa inserir uma data.</mat-hint>
@@ -39,7 +39,7 @@
       <div class="p-10 aj" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>CPF</mat-label>
-          <input matInput placeholder="CPF" mask="000.000.000-00" formControlName="cpf" type="digits">
+          <input matInput placeholder="CPF" mask="000.000.000-00" formControlName="cpf" type="digits" [readonly]="readonly">
         </mat-form-field>
         <!-- <small *ngIf="funcionario.get('cpf').errors?.required && funcionario.get('cpf').touched"
           class="text-danger font-14">Você precisa inserir um CPF.</small>
@@ -50,7 +50,7 @@
       <div class="p-10 aj" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>RG</mat-label>
-          <input matInput placeholder="RG" formControlName="rg" type="digits">
+          <input matInput placeholder="RG" formControlName="rg" type="digits" [readonly]="readonly">
         </mat-form-field>
         <!-- <small *ngIf="funcionario.get('rg').errors?.required && funcionario.get('rg').touched"
           class="text-danger font-14">Você precisa inserir um RG.</small>
@@ -61,7 +61,7 @@
       <div class="p-10 aj" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Orgão expedidor</mat-label>
-          <input matInput placeholder="Orgão expedidor" formControlName="oe">
+          <input matInput placeholder="Orgão expedidor" formControlName="oe" [readonly]="readonly">
         </mat-form-field>
         <!-- <small *ngIf="funcionario.get('oe').errors?.required && funcionario.get('oe').touched"
           class="text-danger font-14">Você precisa inserir um orgão expedidor.</small> -->
@@ -70,7 +70,7 @@
       <div class="p-10 aj" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
         <mat-form-field [hideRequiredMarker]="true" appearance="outline">
           <mat-label>Selecione o cargo...</mat-label>
-          <mat-select formControlName="cargo_id">
+          <mat-select formControlName="cargo_id" [disabled]="readonly">
             <mat-option *ngFor="let cargo of cargos" [value]="cargo.id">
               {{cargo.nome}}
             </mat-option>
@@ -83,7 +83,7 @@
 
       <div class="p-10 mt-15" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
         <label class="m-r-20">Gênero :</label>
-        <mat-radio-group formControlName="sexo" appearance="outline">
+        <mat-radio-group formControlName="sexo" appearance="outline" [disabled]="readonly">
           <mat-radio-button value="M" class="m-r-10">Masculino</mat-radio-button>
           <mat-radio-button value="F">Feminino</mat-radio-button>
         </mat-radio-group>
@@ -100,7 +100,7 @@
       <div class="p-10 aj" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>CEP</mat-label>
-          <input matInput placeholder="CEP" mask="00000-000" (blur)="chargeCep()" formControlName="cep">
+          <input matInput placeholder="CEP" mask="00000-000" (blur)="chargeCep()" formControlName="cep" [readonly]="readonly">
         </mat-form-field>
         <!-- <mat-hint *ngIf="funcionario.get('endereco.cep').errors?.required && funcionario.get('endereco.cep').touched"
           class="text-danger font-14">Você deve inserir o CEP.</mat-hint>
@@ -112,7 +112,7 @@
       <div class="p-10 aj" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Logradouro</mat-label>
-          <input matInput placeholder="Logradouro" formControlName="logradouro">
+          <input matInput placeholder="Logradouro" formControlName="logradouro" [readonly]="readonly">
         </mat-form-field>
         <!-- <small *ngIf="funcionario.get('endereco.logradouro').errors?.required && funcionario.get('endereco.logradouro').touched"
           class="text-danger font-14">Você precisa deve inserir um endereço.</small>
@@ -122,7 +122,7 @@
       <div class="p-10 aj" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Número</mat-label>
-          <input matInput placeholder="Número" formControlName="numero">
+          <input matInput placeholder="Número" formControlName="numero" [readonly]="readonly">
         </mat-form-field>
         <!-- <small *ngIf="funcionario.get('endereco.numero').errors?.required && funcionario.get('endereco.numero').touched"
           class="text-danger font-14">Você precisa deve inserir um Número.</small>
@@ -132,7 +132,7 @@
       <div class="p-10 aj" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Complemento</mat-label>
-          <input matInput placeholder="Complemento" formControlName="complemento">
+          <input matInput placeholder="Complemento" formControlName="complemento" [readonly]="readonly">
         </mat-form-field>
         <!-- <mat-hint *ngIf="funcionario.get('endereco.complemento').errors?.required && funcionario.get('endereco.complemento').touched"
           class="text-danger font-14">Você deve incluir um complemento.</mat-hint>
@@ -152,7 +152,7 @@
       <div class="p-10 aj" fxFlex.gt-sm="36" fxFlex.gt-xs="36" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Cidade</mat-label>
-          <input matInput placeholder="Cidade" formControlName="cidade">
+          <input matInput placeholder="Cidade" formControlName="cidade" [readonly]="readonly">
         </mat-form-field>
         <!-- <small *ngIf="funcionario.get('endereco.cidade').errors?.required && funcionario.get('endereco.cidade').touched"
           class="text-danger font-14">Você precisa deve inserir uma cidade.</small> -->
@@ -160,7 +160,7 @@
       <div class="p-10 aj" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Estado</mat-label>
-          <input matInput placeholder="Estado" formControlName="estado">
+          <input matInput placeholder="Estado" formControlName="estado" [readonly]="readonly">
         </mat-form-field>
         <!-- <small *ngIf="funcionario.get('endereco.estado').errors?.required && funcionario.get('endereco.estado').touched"
           class="text-danger font-14">Você precisa deve inserir um estado.</small> -->
@@ -177,7 +177,7 @@
       <div class="p-10 aj" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Telefone fixo</mat-label>
-          <input matInput placeholder="Telefone fixo" mask="(00) 0000-0000" formControlName="telefone" type="text">
+          <input matInput placeholder="Telefone fixo" mask="(00) 0000-0000" formControlName="telefone" type="text" [readonly]="readonly">
         </mat-form-field>
         <!-- <small *ngIf="funcionario.get('telefone').errors?.required && funcionario.get('telefone').touched"
           class="text-danger font-14">Você deve incluir um telefone.</small>
@@ -188,14 +188,14 @@
       <div class="p-10 aj" fxFlex.gt-sm="33" fxFlex.gt-xs="33" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Celular</mat-label>
-          <input matInput placeholder="Celular" mask="(00) 0 0000-0000" formControlName="celular" type="text">
+          <input matInput placeholder="Celular" mask="(00) 0 0000-0000" formControlName="celular" type="text" [readonly]="readonly">
         </mat-form-field>
       </div>
 
       <div class="p-10 aj" fxFlex.gt-sm="34" fxFlex.gt-xs="34" fxFlex="100">
         <mat-form-field appearance="outline" [hideRequiredMarker]="true">
           <mat-label>Selecione o status...</mat-label>
-          <mat-select required formControlName="status">
+          <mat-select required formControlName="status" [disabled]="readonly">
             <mat-option [value]=true>Ativo</mat-option>
             <mat-option [value]=false>Inativo</mat-option>
           </mat-select>
@@ -207,7 +207,7 @@
       <div class="p-10 aj" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
         <mat-form-field appearance="outline">
           <mat-label>Email*</mat-label>
-          <input matInput placeholder="Email" formControlName="email" type="email">
+          <input matInput placeholder="Email" formControlName="email" type="email" [readonly]="readonly">
         </mat-form-field>
         <!-- <small *ngIf="funcionario.get('email').errors?.required && funcionario.get('email').touched"
           class="text-danger font-14">Você precisa inserir um endereço de email.</small>
@@ -219,7 +219,7 @@
       <div class="p-10 aj" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
         <mat-form-field [hideRequiredMarker]="true" appearance="outline">
           <mat-label>Selecione o grupo*...</mat-label>
-          <mat-select required formControlName="grupo_id">
+          <mat-select required formControlName="grupo_id" [disabled]="readonly">
             <mat-option *ngFor="let grupo of grupos" [value]="grupo.id">
               {{grupo.nome}}
             </mat-option>
@@ -237,7 +237,7 @@
     </div>
     <div formArrayName="comissoes" fxLayout="row wrap">
       <div class="p-20" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-        <button mat-stroked-button color="primary" (click)="addComissao()"><i class="material-icons">add</i>
+        <button mat-stroked-button color="primary" (click)="addComissao()" *ngIf="!readonly"><i class="material-icons">add</i>
           Representada</button>
       </div>
       <div *ngFor="let representada of comissoes().controls; let comIndex = index" fxFlex="50">
@@ -245,7 +245,7 @@
           <div class="p-10 font" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="50">
             <mat-form-field appearance="outline">
               <mat-label>Selecione uma representada</mat-label>
-              <mat-select required formControlName="representada_id">
+              <mat-select required formControlName="representada_id" [disabled]="readonly">
                 <mat-option *ngFor="let representada of representadas" [value]="representada.id"
                   (click)="checkExist(comIndex, representada.id)">
                   {{representada.razao_social}}
@@ -255,9 +255,9 @@
             </mat-form-field>
           </div>
           <div class="p-20" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="50">
-            <button mat-stroked-button (click)="addComissaoFaixa(comIndex)"><i class="material-icons">add</i>
+            <button mat-stroked-button (click)="addComissaoFaixa(comIndex)" *ngIf="!readonly"><i class="material-icons">add</i>
               Faixa</button>
-            <button mat-icon-button>
+            <button mat-icon-button *ngIf="!readonly">
               <mat-icon class="material-icons  x-icons" (click)="removeComissao(comIndex)">highlight_off</mat-icon>
             </button>
           </div>
@@ -267,16 +267,16 @@
                 <div class="p-10 top" fxFlex.gt-sm="47" fxFlex.gt-xs="47" fxFlex="47">
                   <mat-form-field appearance="outline">
                     <mat-label>A partir de (%)</mat-label>
-                    <input matInput placeholder="a partir de %" formControlName="faixa">
+                    <input matInput placeholder="a partir de %" formControlName="faixa" [readonly]="readonly">
                   </mat-form-field>
                 </div>
                 <div class="p-10 top" fxFlex.gt-sm="47" fxFlex.gt-xs="47" fxFlex="47">
                   <mat-form-field appearance="outline">
                     <mat-label>Percentual</mat-label>
-                    <input matInput placeholder="Percentual" formControlName="percentual">
+                    <input matInput placeholder="Percentual" formControlName="percentual" [readonly]="readonly">
                   </mat-form-field>
                 </div>
-                <div class="p-20 top" fxFlex.gt-sm="6" fxFlex.gt-xs="6" fxFlex="6">
+                <div class="p-20 top" fxFlex.gt-sm="6" fxFlex.gt-xs="6" fxFlex="6" *ngIf="!readonly">
                   <i class="material-icons x-icons"
                     (click)="removeComissaoFaixa(comIndex, faixaIndex); ">highlight_off</i>
                 </div>
@@ -287,7 +287,7 @@
       </div>
     </div>
     <div>
-      <button mat-raised-button color="primary" type="submit" [disabled]="!funcionario.valid"
+      <button mat-raised-button color="primary" type="submit" [disabled]="!funcionario.valid || readonly == true"
         (click)="onSubmit(); close()">Salvar</button>
       <button mat-raised-button style="margin-left: 15px;" color="warn" (click)="close()">Cancelar</button>
     </div>

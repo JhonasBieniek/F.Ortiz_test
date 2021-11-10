@@ -16,7 +16,7 @@
           <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Nome do Ramo de atividade</mat-label>
-              <input matInput placeholder="Nome do Ramo de atividade" [formControl]="form.controls['nome']">
+              <input matInput placeholder="Nome do Ramo de atividade" [formControl]="form.controls['nome']" [readonly]='readonly'>
               <mat-hint *ngIf="form.controls['nome'].hasError('required') && form.controls['nome'].touched"
               class="text-danger font-14">Nome do Ramo de atividade.</mat-hint>
             <mat-hint *ngIf="form.controls['nome'].hasError('minlength') && form.controls['nome'].touched"
@@ -30,7 +30,7 @@
         <div fxLayout="row wrap" class="row">
           <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
             <mat-card-actions>
-              <button style="margin-left:10px" mat-raised-button color="primary" [disabled]="!form.valid"  (click)="Submit(); close()">Salvar cadastro</button>
+              <button style="margin-left:10px" mat-raised-button color="primary" [disabled]="!form.valid || readonly == true"  (click)="Submit(); close()">Salvar cadastro</button>
               <button mat-raised-button color="warn" (click)="close()">Cancelar</button>
             </mat-card-actions>
           </div>

@@ -12,17 +12,18 @@ import { NotificationService } from '../../../shared/messages/notification.servi
 export class DialogBodyUnidadesComponent implements OnInit {
 
   public form: FormGroup;
-  pageTitle:string = "";
+  pageTitle: string = "";
+  readonly = false;
 
-  constructor(public dialogRef: MatDialogRef<DialogBodyUnidadesComponent>, 
-                                @Inject(MAT_DIALOG_DATA) public data: any,
-                                private fb: FormBuilder,
-                                private clientservice: ClientService,
-                                private notificationService: NotificationService
-                                ){
+  constructor(public dialogRef: MatDialogRef<DialogBodyUnidadesComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private fb: FormBuilder,
+    private clientservice: ClientService,
+    private notificationService: NotificationService
+  ) {
 
-                                }
-                              
+  }
+
   ngOnInit() {
     this.form = this.fb.group({
       id: [null],
@@ -32,21 +33,27 @@ export class DialogBodyUnidadesComponent implements OnInit {
       hideRequired: true,
       floatLabel: 'auto',
     });
-    if(this.data == null)
-    this.pageTitle = 'Cadastrar unidade'
-    else{
-      this.pageTitle = 'Editar unidade'
+    if (this.data == null)
+      this.pageTitle = 'Cadastrar unidade'
+    else {
+      if(this.data.action == 'edit'){
+        this.pageTitle = 'Editar unidade';
+      }else{
+        this.pageTitle = 'Visualizar unidade';
+        this.readonly = true;
+      }
+      
       this.form.patchValue(this.data)
     }
   }
 
-  areaVendasSubmit() { 
-    if(this.data == null)
-    this.clientservice.addUnidades(this.form.value)  
+  areaVendasSubmit() {
+    if (this.data == null)
+      this.clientservice.addUnidades(this.form.value)
     else
-    this.clientservice.updateUnidade(this.form.value).subscribe( () =>{
-      this.notificationService.notify("Atualizado com Sucesso!")
-    })
+      this.clientservice.updateUnidade(this.form.value).subscribe(() => {
+        this.notificationService.notify("Atualizado com Sucesso!")
+      })
   }
 
   close() {

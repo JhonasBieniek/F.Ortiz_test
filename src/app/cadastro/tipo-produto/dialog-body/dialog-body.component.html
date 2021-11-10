@@ -12,7 +12,7 @@
           <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Tipo de Produto</mat-label>
-              <input matInput placeholder="Nome do tipo" [formControl]="form.controls['nome']">
+              <input matInput placeholder="Nome do tipo" [formControl]="form.controls['nome']" [readonly]='readonly'>
             </mat-form-field>
             <mat-hint *ngIf="form.controls['nome'].hasError('required') && form.controls['nome'].touched"
               class="text-danger font-14">Tipo de Produto.</mat-hint>
@@ -23,7 +23,7 @@
           </div>
         </div>
         <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
-          <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid" (click)="areaVendasSubmit(); close()"> Salvar </button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid || readonly == true" (click)="areaVendasSubmit(); close()"> Salvar </button>
           <button mat-raised-button color="warn" (click)="close()">Cancelar</button>
         </mat-card-actions>
       </form>

@@ -12,27 +12,32 @@ import { NotificationService } from '../../../shared/messages/notification.servi
 export class DialogBodyCargosComponent implements OnInit {
 
   public form: FormGroup;
-  dados:any= "";
+  dados: any = "";
   dataAux;
   dataAux1;
-  pageTitle:string = "";
+  pageTitle: string = "";
+  readonly = false;
 
-  constructor(public dialogRef: MatDialogRef<DialogBodyCargosComponent>, 
-                                @Inject(MAT_DIALOG_DATA) public data: any,
-                                private fb: FormBuilder,
-                                private clientservice: ClientService,
-                                private notificationService: NotificationService
-                                ){}
-                              
+  constructor(public dialogRef: MatDialogRef<DialogBodyCargosComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private fb: FormBuilder,
+    private clientservice: ClientService,
+    private notificationService: NotificationService
+  ) { }
+
   ngOnInit() {
-    if(this.data != undefined){
-      this.pageTitle = 'Editar Cargos'
-      console.log(this.data)
+    if (this.data != undefined) {
+      if(this.data.action == 'edit'){
+        this.pageTitle = 'Editar Cargos';
+      }else{
+        this.pageTitle = 'Visualizar Cargos';
+        this.readonly = true;
+      }
       this.form = this.fb.group({
         id: this.data.id,
         nome: [this.data.nome, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
       });
-    }else{
+    } else {
       this.pageTitle = 'Cadastrar Cargos'
       this.form = this.fb.group({
         nome: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
@@ -42,14 +47,14 @@ export class DialogBodyCargosComponent implements OnInit {
     }
   }
 
-  areaVendasSubmit() { 
-    if(this.data != undefined){
-      this.clientservice.updateCargo(this.form.value).subscribe( () =>{
+  areaVendasSubmit() {
+    if (this.data != undefined) {
+      this.clientservice.updateCargo(this.form.value).subscribe(() => {
         this.notificationService.notify("Atualizado com Sucesso!")
       })
-    }else{
-      this.clientservice.addCargo(this.form.value)   
-    } 
+    } else {
+      this.clientservice.addCargo(this.form.value)
+    }
   }
 
   close() {

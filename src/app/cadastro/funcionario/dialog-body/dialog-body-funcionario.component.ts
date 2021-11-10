@@ -25,6 +25,7 @@ export class DialogBodyFuncionarioComponent implements OnInit {
   dados:any;
   isOn = true;
   isOn2 = false;
+  readonly = false;
 
 
   constructor(
@@ -75,7 +76,13 @@ export class DialogBodyFuncionarioComponent implements OnInit {
       if(this.data == null){
         this.pageTitle = 'Cadastrar Funcionário'
       }else{
-        this.pageTitle = 'Editar Funcionário';
+        if(this.data.action == 'edit'){
+          this.pageTitle = 'Editar Funcionário';
+        }else{
+          this.pageTitle = 'Visualizar Funcionário';
+          this.readonly = true;
+        }
+        
         this.clientservice.getFuncionario(this.data.id).subscribe((res:any) => {
           this.dados =res.data;
           for(let i=0; i < this.dados.comissoes.length ; i++){
@@ -102,19 +109,22 @@ export class DialogBodyFuncionarioComponent implements OnInit {
     return data.toString().replace(/\D+/g, '');
   }
   chargeCep(){
-    let cep = this.funcionario.get('endereco.cep').value;
-    if(cep != null && cep.length == 8){
-      this.clientservice.getCep(cep).subscribe((res:any) => {
-        if(res.success == true){
-        this.funcionario.get('endereco.cidade').setValue(res.data.cidade);
-        this.funcionario.get('endereco.estado').setValue(res.data.estado);
-        this.funcionario.get('endereco.logradouro').setValue(res.data.logradouro);
-        this.funcionario.get('endereco.bairro').setValue(res.data.bairro);
-      }else{
-        this.openAlert('Erro', 'Cep Inválido');
+    if(this.readonly == false){
+      let cep = this.funcionario.get('endereco.cep').value;
+      if(cep != null && cep.length == 8){
+        this.clientservice.getCep(cep).subscribe((res:any) => {
+          if(res.success == true){
+          this.funcionario.get('endereco.cidade').setValue(res.data.cidade);
+          this.funcionario.get('endereco.estado').setValue(res.data.estado);
+          this.funcionario.get('endereco.logradouro').setValue(res.data.logradouro);
+          this.funcionario.get('endereco.bairro').setValue(res.data.bairro);
+        }else{
+          this.openAlert('Erro', 'Cep Inválido');
+        }
+        })
       }
-      })
     }
+    
   }
   onSubmit(){
     let data = this.funcionario.value;

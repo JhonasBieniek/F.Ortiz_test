@@ -143,5 +143,21 @@ export class ProdutosComponent implements OnInit {
       value != 1 ? this.refreshTable() : null;
     });
   }
+  view(row) {
+    let dialogConfig = new MatDialogConfig();
+    dialogConfig = {
+      maxWidth: "100vw",
+      maxHeight: "100vh",
+
+      width: "95vw",
+      height: "95vh",
+    };
+    dialogConfig.data = row;
+    dialogConfig.data.action = "view";
+    let dialogRef = this.dialog.open(DialogBodyProdutoComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe((value) => {
+      value != 1 ? this.refreshTable() : null;
+    });
+  }
   ngOnInit() {}
 }

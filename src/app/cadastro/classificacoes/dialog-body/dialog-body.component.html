@@ -12,7 +12,7 @@
             <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
               <mat-form-field appearance="outline">
                 <mat-label>Classificacão do Produto*</mat-label>
-                <input matInput placeholder="Nome da classificacão" [formControl]="form.controls['name']">
+                <input matInput placeholder="Nome da classificacão" [formControl]="form.controls['name']" [readonly]='readonly'>
               </mat-form-field>
               <mat-hint *ngIf="form.controls['name'].hasError('required') && form.controls['name'].touched"
                 class="text-danger font-14">Classificacão do Produto.</mat-hint>
@@ -24,12 +24,12 @@
             <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
               <mat-form-field appearance="outline">
                 <mat-label>Valor</mat-label>
-                <input matInput placeholder="Valor" formControlName="value" currencyMask>
+                <input matInput placeholder="Valor" formControlName="value" currencyMask [readonly]='readonly'>
               </mat-form-field>
             </div>
           </div>
           <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
-            <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid" (click)="Submit(); close()"> Salvar </button>
+            <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid || readonly == true" (click)="Submit(); close()"> Salvar </button>
             <button mat-raised-button color="warn" (click)="close()">Cancelar</button>
           </mat-card-actions>
         </form>

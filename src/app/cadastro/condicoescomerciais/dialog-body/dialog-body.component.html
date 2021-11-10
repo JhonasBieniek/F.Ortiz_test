@@ -9,7 +9,7 @@
           <div class="p-10" fxFlex.gt-sm="60" fxFlex.gt-xs="60" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Nome da condição comercial*</mat-label>
-              <input matInput placeholder="Nome da condição comercial" [formControl]="form.controls['nome']">
+              <input matInput placeholder="Nome da condição comercial" [formControl]="form.controls['nome']" [readonly]="readonly">
             </mat-form-field>
             <mat-hint *ngIf="form.controls['nome'].hasError('required') && form.controls['nome'].touched"
               class="text-danger font-14">Condição.</mat-hint>
@@ -22,7 +22,7 @@
             <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
               [floatLabel]="form.value.floatLabel">
               <mat-label>Selecione uma forma de pagamento...</mat-label>
-              <mat-select required [formControl]="form.controls['tipo']" >
+              <mat-select required [formControl]="form.controls['tipo']" [disabled]="readonly == true" >
                 <mat-option *ngFor="let cond of condicoesComerciais" [value]="cond.id" (click)="validaDias(cond.id)">
                   {{cond.nome}}
                 </mat-option>
@@ -36,7 +36,7 @@
             <div *ngSwitchCase="'prazo'">
               <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
                 <mat-form-field appearance="outline">
-                  <input matInput placeholder="N° de dias" [formControl]="form.controls['dias']">
+                  <input matInput placeholder="N° de dias" [formControl]="form.controls['dias']" [readonly]="readonly">
                 </mat-form-field>
                 <small *ngIf="form.controls['dias'].hasError('required') && form.controls['dias'].touched"
                   class="text-danger font-14">Você deve inserir um Número.</small>
@@ -46,7 +46,7 @@
               <div class="p-10" fxFlex="none">
                 <mat-form-field appearance="outline" (keyup)="addParcela('new')" >
                   <mat-label>Parcelas</mat-label>
-                  <input matInput mask="99" placeholder="Parcelas" [formControl]="form.controls['parcelas_qtd']">
+                  <input matInput mask="99" placeholder="Parcelas" [formControl]="form.controls['parcelas_qtd']" [readonly]="readonly">
                 </mat-form-field>
                 <small *ngIf="form.controls['parcelas_qtd'].hasError('required') && form.controls['parcelas_qtd'].touched"
                   class="text-danger font-14">Você deve inserir um Número.</small>
@@ -57,7 +57,7 @@
                     <div class="p-l-10 p-r-10 p-t-10" fxLayoutGap="20px" fxFlex="100">
                       <mat-form-field appearance="outline" >
                           <mat-label>Parcela {{i + 1}}</mat-label>
-                          <input matInput placeholder="Parcela {{i == 0 ? null : i+1}}" formControlName="parcela">
+                          <input matInput placeholder="Parcela {{i == 0 ? null : i+1}}" formControlName="parcela" [readonly]="readonly">
                       </mat-form-field>
                     </div>  
                   </ng-container>
@@ -67,7 +67,7 @@
           </div>
         </div> 
         <mat-card-actions class="p-10">
-          <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid" (click)="Submit(); close()">Salvar</button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid || readonly == true" (click)="Submit(); close()">Salvar</button>
           <button mat-raised-button color="warn" (click)="close()">Cancelar</button>
         </mat-card-actions>
       </form>

@@ -13,39 +13,39 @@ import { DialogConfirmarDeleteComponent } from '../dialog-confirmar-delete/confi
 
 export class RepresentadaComponent implements OnInit {
 
-  data:any = [];
-  dados:any = [];
+  data: any = [];
+  dados: any = [];
   editing = {};
   isEditable = {};
   rows = [];
   temp = [...this.data];
-  
+
   loadingIndicator: boolean = true;
-  reorderable: boolean = true;                           
+  reorderable: boolean = true;
 
   columns = [
-      { prop: 'razao_social' },
-      { prop: 'cnpj' },
-      { prop: 'inscricao_estadual' },
-      { prop: 'status' },
+    { prop: 'razao_social' },
+    { prop: 'cnpj' },
+    { prop: 'inscricao_estadual' },
+    { prop: 'status' },
 
-  ];       
+  ];
 
-  @ViewChild(RepresentadaComponent, {static: false}) table: RepresentadaComponent;
+  @ViewChild(RepresentadaComponent, { static: false }) table: RepresentadaComponent;
   constructor(private clientservice: ClientService, private dialog: MatDialog) {
-    this.refreshTable();                               
+    this.refreshTable();
   }
-  
+
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
-    const temp = this.temp.filter(function(d) {
-      if( d.razao_social.toLowerCase().indexOf(val) !== -1 || !val || d.cnpj.toLowerCase().indexOf(val) !== -1 || !val  )
-      return d
-    }); 
+    const temp = this.temp.filter(function (d) {
+      if (d.razao_social.toLowerCase().indexOf(val) !== -1 || !val || d.cnpj.toLowerCase().indexOf(val) !== -1 || !val)
+        return d
+    });
     this.rows = temp;
     this.table = this.data;
   }
-  updateValue(event, cell, rowIndex) {   
+  updateValue(event, cell, rowIndex) {
     this.editing[rowIndex + '-' + cell] = false;
     this.rows[rowIndex][cell] = event.target.value;
     this.rows = [...this.rows];
@@ -56,54 +56,73 @@ export class RepresentadaComponent implements OnInit {
     dialogConfig = {
       maxWidth: '100vw',
       maxHeight: '100vh',
-    
+
       width: '95vw',
       height: '95vh'
     }
     //dialogConfig.data = this.dados.data;
     let dialogRef = this.dialog.open(
-      DialogBodyRepresentadaComponent, 
+      DialogBodyRepresentadaComponent,
       dialogConfig,
-  );
+    );
     dialogRef.afterClosed().subscribe(value => {
       this.refreshTable();
     });
   }
-  edit(row){
+  edit(row) {
     let dialogConfig = new MatDialogConfig();
-      dialogConfig = {
-        maxWidth: '100vw',
-        maxHeight: '100vh',
-      
-        width: '95vw',
-        height: '95vh'
-      }
-      dialogConfig.data = row
-      dialogConfig.data.action = 'edit'
-      let dialogRef = this.dialog.open(DialogBodyRepresentadaComponent,
-      dialogConfig   
-    );
-    dialogRef.afterClosed().subscribe(value => {
-      (value != 1) ? this.refreshTable() : null
-      });
-    }
+    dialogConfig = {
+      maxWidth: '100vw',
+      maxHeight: '100vh',
 
-  delete(row){
-    const dialogConfig = new MatDialogConfig();
-      let tipo = 'representadas'
-      dialogConfig.data = row
-      dialogConfig.data.nome = row.razao_social
-      dialogConfig.data.tipo = tipo
-      let dialogRef = this.dialog.open(DialogConfirmarDeleteComponent,
-      dialogConfig   
+      width: '95vw',
+      height: '95vh'
+    }
+    dialogConfig.data = row
+    dialogConfig.data.action = 'edit'
+    let dialogRef = this.dialog.open(DialogBodyRepresentadaComponent,
+      dialogConfig
     );
     dialogRef.afterClosed().subscribe(value => {
       (value != 1) ? this.refreshTable() : null
     });
   }
 
-  refreshTable(){
-    this.clientservice.getRepresentadas().subscribe(res =>{
+  view(row) {
+    let dialogConfig = new MatDialogConfig();
+    dialogConfig = {
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+
+      width: '95vw',
+      height: '95vh'
+    }
+    dialogConfig.data = row
+    dialogConfig.data.action = 'view'
+    let dialogRef = this.dialog.open(DialogBodyRepresentadaComponent,
+      dialogConfig
+    );
+    dialogRef.afterClosed().subscribe(value => {
+      (value != 1) ? this.refreshTable() : null
+    });
+  }
+
+  delete(row) {
+    const dialogConfig = new MatDialogConfig();
+    let tipo = 'representadas'
+    dialogConfig.data = row
+    dialogConfig.data.nome = row.razao_social
+    dialogConfig.data.tipo = tipo
+    let dialogRef = this.dialog.open(DialogConfirmarDeleteComponent,
+      dialogConfig
+    );
+    dialogRef.afterClosed().subscribe(value => {
+      (value != 1) ? this.refreshTable() : null
+    });
+  }
+
+  refreshTable() {
+    this.clientservice.getRepresentadas().subscribe(res => {
       this.dados = res;
       this.rows = this.dados.data;
       this.temp = [...this.dados.data];
@@ -112,7 +131,7 @@ export class RepresentadaComponent implements OnInit {
 
 
   ngOnInit() {
-   
+
   }
 
 }

@@ -11,103 +11,116 @@ import { DialogConfirmarDeleteComponent } from '../dialog-confirmar-delete/confi
   encapsulation: ViewEncapsulation.None
 })
 export class RamoAtividadeComponent implements OnInit {
-  data:any = [];
-  dados:any = [];
+  data: any = [];
+  dados: any = [];
   editing = {};
   isEditable = {};
   rows = [];
   temp = [...this.data];
-  
+
   loadingIndicator: boolean = true;
-  reorderable: boolean = true;                           
+  reorderable: boolean = true;
 
   columns = [
-      { prop: 'id' },
-      { prop: 'nome' },
-      { prop: 'created' },
-      { prop: 'modified' },
-            ];       
+    { prop: 'id' },
+    { prop: 'nome' },
+    { prop: 'created' },
+    { prop: 'modified' },
+  ];
 
-  @ViewChild(RamoAtividadeComponent, {static: false}) table: RamoAtividadeComponent;
+  @ViewChild(RamoAtividadeComponent, { static: false }) table: RamoAtividadeComponent;
   constructor(private clientservice: ClientService, private dialog: MatDialog) {
 
-    this.clientservice.getRamos().subscribe(res =>{
+    this.clientservice.getRamos().subscribe(res => {
       this.data = res; console.log(this.data.data)
       this.rows = this.data.data;
       this.temp = [...this.data.data];
-      setTimeout(() => { this.loadingIndicator = false; }, 1500); 
-    });                                  
+      setTimeout(() => { this.loadingIndicator = false; }, 1500);
+    });
   }
-  
+
   updateFilter(event) {
-  const val = event.target.value.toLowerCase();
-      
-  // filter our data
-  const temp = this.temp.filter(function(d) {
-    if( d.nome.toLowerCase().indexOf(val) !== -1 || !val  )
-    return d
-  }); 
-  // update the rows
-  this.rows = temp;
-  // Whenever the filter changes, always go back to the first page
-  this.table = this.data;
+    const val = event.target.value.toLowerCase();
+
+    // filter our data
+    const temp = this.temp.filter(function (d) {
+      if (d.nome.toLowerCase().indexOf(val) !== -1 || !val)
+        return d
+    });
+    // update the rows
+    this.rows = temp;
+    // Whenever the filter changes, always go back to the first page
+    this.table = this.data;
   }
-  updateValue(event, cell, rowIndex) {    
-  console.log('inline editing rowIndex', rowIndex)
-  this.editing[rowIndex + '-' + cell] = false;
-  this.rows[rowIndex][cell] = event.target.value;
-  this.rows = [...this.rows];
-  console.log('UPDATED!', this.rows[rowIndex][cell]);
+  updateValue(event, cell, rowIndex) {
+    console.log('inline editing rowIndex', rowIndex)
+    this.editing[rowIndex + '-' + cell] = false;
+    this.rows[rowIndex][cell] = event.target.value;
+    this.rows = [...this.rows];
+    console.log('UPDATED!', this.rows[rowIndex][cell]);
   }
 
   openDialog() {
     let dialogRef = this.dialog.open(
-      DialogBodyRamoComponent,  
+      DialogBodyRamoComponent,
     );
     dialogRef.afterClosed().subscribe(value => {
-        this.refreshTable();
-        console.log(`Dialog sent: ${value}`); 
-      });
+      this.refreshTable();
+      console.log(`Dialog sent: ${value}`);
+    });
   }
-  edit(row){
+  edit(row) {
     const dialogConfig = new MatDialogConfig();
-      dialogConfig.data = row
-      dialogConfig.data.action = 'edit'
-      let dialogRef = this.dialog.open(DialogBodyRamoComponent,
-      dialogConfig   
+    dialogConfig.data = row
+    dialogConfig.data.action = 'edit'
+    let dialogRef = this.dialog.open(DialogBodyRamoComponent,
+      dialogConfig
     );
     dialogRef.afterClosed().subscribe(value => {
 
-     (value != 1) ? this.refreshTable() : null
+      (value != 1) ? this.refreshTable() : null
 
-      });
-    }
-  delete(row){
+    });
+  }
+  view(row) {
     const dialogConfig = new MatDialogConfig();
-      let tipo = 'ramoAtividades'
-      dialogConfig.data = row
-      dialogConfig.data.tipo = tipo
-      let dialogRef = this.dialog.open(DialogConfirmarDeleteComponent,
-      dialogConfig   
+    dialogConfig.data = row
+    dialogConfig.data.action = 'view'
+    let dialogRef = this.dialog.open(DialogBodyRamoComponent,
+      dialogConfig
     );
     dialogRef.afterClosed().subscribe(value => {
 
-     (value != 1) ? this.refreshTable() : null
+      (value != 1) ? this.refreshTable() : null
 
-      });
-    }
+    });
+  }
+  delete(row) {
+    const dialogConfig = new MatDialogConfig();
+    let tipo = 'ramoAtividades'
+    dialogConfig.data = row
+    dialogConfig.data.tipo = tipo
+    let dialogRef = this.dialog.open(DialogConfirmarDeleteComponent,
+      dialogConfig
+    );
+    dialogRef.afterClosed().subscribe(value => {
 
-  refreshTable(){
-    this.clientservice.getRamos().subscribe(res =>{
+      (value != 1) ? this.refreshTable() : null
+
+    });
+  }
+
+  refreshTable() {
+    this.clientservice.getRamos().subscribe(res => {
       this.dados = res;
       this.rows = this.dados.data;
       this.temp = [...this.dados.data];
-      });
+    });
   }
 
 
   ngOnInit() {
-  
+
   }
 
 }

@@ -26,6 +26,7 @@ export class DialogBodyComponent implements OnInit {
   selectedVendedor: string;
   selectedAuxiliar: string;
   pageTitle:string = "";
+  readonly = false;
 
 
   constructor(public dialogRef: MatDialogRef<DialogBodyComponent>, 
@@ -53,7 +54,12 @@ export class DialogBodyComponent implements OnInit {
   ngOnInit() {
     if(this.data != null){
       this.chargeForm();
-      this.pageTitle = 'Editar área de venda'
+      if(this.data.action =="edit"){
+        this.pageTitle = 'Editar área de venda';
+      }else{
+        this.pageTitle = 'Visualizar área de venda';
+        this.readonly = true;
+      }
     }else{
       this.pageTitle = 'Cadastrar área de venda'
       this.form = this.fb.group({

@@ -12,27 +12,34 @@ import { NotificationService } from '../../../shared/messages/notification.servi
 export class DialogBodyTipoProdutoComponent implements OnInit {
 
   public form: FormGroup;
-  dados:any= "";
+  dados: any = "";
   dataAux;
   dataAux1;
-  pageTitle:string = "";
+  pageTitle: string = "";
+  readonly = false;
 
-  constructor(public dialogRef: MatDialogRef<DialogBodyTipoProdutoComponent>, 
-                                @Inject(MAT_DIALOG_DATA) public data: any,
-                                private fb: FormBuilder,
-                                private clientservice: ClientService,
-                                private notificationService: NotificationService
-                                ){}
-                              
+  constructor(public dialogRef: MatDialogRef<DialogBodyTipoProdutoComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private fb: FormBuilder,
+    private clientservice: ClientService,
+    private notificationService: NotificationService
+  ) { }
+
   ngOnInit() {
-    if(this.data != undefined){
-      this.pageTitle = 'Editar Tipo de Produto'
+    if (this.data != undefined) {
+      if(this.data.action == 'edit'){
+        this.pageTitle = 'Editar Tipo de Produto';
+      }else{
+        this.pageTitle = 'Visualizar Tipo de Produto'
+        this.readonly = true;
+      }
+      
       console.log(this.data)
       this.form = this.fb.group({
         id: this.data.id,
         nome: [this.data.nome, Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(50)])],
       });
-    }else{
+    } else {
       this.pageTitle = 'Tipo de Produto'
       this.form = this.fb.group({
         nome: [null, Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(50)])],
@@ -42,14 +49,14 @@ export class DialogBodyTipoProdutoComponent implements OnInit {
     }
   }
 
-  areaVendasSubmit() { 
-    if(this.data != undefined){
-      this.clientservice.updateProdutoTipo(this.form.value).subscribe( () =>{
+  areaVendasSubmit() {
+    if (this.data != undefined) {
+      this.clientservice.updateProdutoTipo(this.form.value).subscribe(() => {
         this.notificationService.notify("Atualizado com Sucesso!")
       })
-    }else{
-      this.clientservice.addProdutoTipo(this.form.value)   
-    } 
+    } else {
+      this.clientservice.addProdutoTipo(this.form.value)
+    }
   }
 
   close() {
