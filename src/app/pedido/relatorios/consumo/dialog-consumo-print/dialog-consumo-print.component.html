@@ -13,6 +13,9 @@
                 <div class="p-t-10 p-l-10 text-left" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100"><span style="font-weight: 500;"> Relatório Comparativo de Vendas</span></div>
                 <div class="p-l-10 text-left formInputs" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="data.form.dtInicio != null"> Inicio: {{data.form.dtInicio | date:'dd/MM/yyyy'}}</div>
                 <div class="p-l-10 text-left formInputs" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="data.form.dtFinal != null"> Fim: {{data.form.dtFinal | date:'dd/MM/yyyy'}}</div>
+                <div class="p-l-10 text-left formInputs" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="data.form.representada_id != null"> Representada:  {{data.representada.nome_fantasia}}</div>
+                <div class="p-l-10 text-left formInputs" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="data.form.cliente_id != null"> Cliente: {{data.cliente.razao_social}} - {{data.cliente.cnpj | mask:'00.000.000/0000-00'}}</div>
+                <div class="p-l-10 text-left formInputs" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="data.form.produto_id != null"> Produto: {{data.produto.nome}} - {{data.produto.codigo_catalogo}}</div>
                 <table mat-table [dataSource]="dataSource" style="width: 100%; font-family: Verdana, Tahoma, Arial, Sans-serif; font-size: 10px;">
                     
                     <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">

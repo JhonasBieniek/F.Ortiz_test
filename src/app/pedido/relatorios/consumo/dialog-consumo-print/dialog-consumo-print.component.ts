@@ -40,27 +40,54 @@ export class DialogConsumoPrintComponent implements OnInit {
       let IndexMes = meses.findIndex(x => x.mes == periodoFormatado);
 
       pedido.pedido_produtos.forEach(produto => {
-        let IndexProduto = this.dataSource.findIndex(x => x.Nome ==  produto.produto.nome);
-        if(IndexProduto == -1){
-          let mesSoma: any = meses.map( (e:any) => { return Object.assign( {}, e)});
-          mesSoma[IndexMes].quantidade = produto.quantidade;
+        if(this.data.form.produto_id != null){
+          if(produto.produto_id == this.data.form.produto_id){
+            let IndexProduto = this.dataSource.findIndex(x => x.Nome ==  produto.produto.nome);
+            if(IndexProduto == -1){
+              let mesSoma: any = meses.map( (e:any) => { return Object.assign( {}, e)});
+              mesSoma[IndexMes].quantidade = produto.quantidade;
 
-          let addProduto = {
-            Nome:  produto.produto.nome,
-            Embalagem: produto.embalagem,
-            Código: produto.produto.codigo_catalogo,
-            Total: produto.quantidade
-          };
-          mesSoma.forEach(mes => {
-            addProduto[mes.mes] = mes.quantidade;
-          });
-          
-          this.dataSource.push(addProduto)
-          
+              let addProduto = {
+                Nome:  produto.produto.nome,
+                Embalagem: produto.embalagem,
+                Código: produto.produto.codigo_catalogo,
+                Total: produto.quantidade
+              };
+              mesSoma.forEach(mes => {
+                addProduto[mes.mes] = mes.quantidade;
+              });
+              
+              this.dataSource.push(addProduto)
+              
+            }else{
+              let mes = meses[IndexMes].mes;
+              this.dataSource[IndexProduto][mes] = this.dataSource[IndexProduto][mes] +  produto.quantidade;
+              this.dataSource[IndexProduto].Total = this.dataSource[IndexProduto].Total + produto.quantidade;
+            }
+          }
         }else{
-          let mes = meses[IndexMes].mes;
-          this.dataSource[IndexProduto][mes] = this.dataSource[IndexProduto][mes] +  produto.quantidade;
-          this.dataSource[IndexProduto].Total = this.dataSource[IndexProduto].Total + produto.quantidade;
+          let IndexProduto = this.dataSource.findIndex(x => x.Nome ==  produto.produto.nome);
+          if(IndexProduto == -1){
+            let mesSoma: any = meses.map( (e:any) => { return Object.assign( {}, e)});
+            mesSoma[IndexMes].quantidade = produto.quantidade;
+
+            let addProduto = {
+              Nome:  produto.produto.nome,
+              Embalagem: produto.embalagem,
+              Código: produto.produto.codigo_catalogo,
+              Total: produto.quantidade
+            };
+            mesSoma.forEach(mes => {
+              addProduto[mes.mes] = mes.quantidade;
+            });
+            
+            this.dataSource.push(addProduto)
+            
+          }else{
+            let mes = meses[IndexMes].mes;
+            this.dataSource[IndexProduto][mes] = this.dataSource[IndexProduto][mes] +  produto.quantidade;
+            this.dataSource[IndexProduto].Total = this.dataSource[IndexProduto].Total + produto.quantidade;
+          }
         }
       });
     });

@@ -17,7 +17,40 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                        
+                        <div class="p-10 text" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+                            <mat-form-field appearance="outline" fxFlex="100">
+                                <input type="text" placeholder="Busque o cliente" aria-label="Cliente" matInput
+                                    [formControl]="clienteBusca" (keyup)="searchCliente()"
+                                    [matAutocomplete]="autoCliente">
+                                <button mat-button matSuffix mat-icon-button aria-label="Clear" type="button"
+                                    *ngIf="form.controls['cliente_id'].value != null">
+                                    <mat-icon color="warn" (click)="limpar();">close</mat-icon>
+                                </button>
+                                <mat-autocomplete autoActiveFirstOption #autoCliente="matAutocomplete">
+                                    <mat-option *ngFor="let cliente of $clientes" (click)="setCliente(cliente)"
+                                        (onSelectionChange)="setCliente(cliente)" [value]="cliente.razao_social">
+                                        {{cliente.razao_social}} - CNPJ: {{cliente.cnpj | mask:'00.000.000/0000-00'}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                        <div class="p-l-10 p-r-10 text" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+                            <mat-form-field appearance="outline" fxFlex="100">
+                                <input type="text" placeholder="Busque o produto" aria-label="Produto" matInput
+                                    [formControl]="produtosBusca" (keyup)="searchProduto()"
+                                    [matAutocomplete]="autoProduto">
+                                <button mat-button matSuffix mat-icon-button aria-label="Clear" type="button"
+                                    *ngIf="form.controls['produto_id'].value != null">
+                                    <mat-icon color="warn" (click)="limparProduto();">close</mat-icon>
+                                </button>
+                                <mat-autocomplete autoActiveFirstOption #autoProduto="matAutocomplete">
+                                    <mat-option *ngFor="let produto of $produtos" (click)="setProduto(produto)"
+                                        (onSelectionChange)="setProduto(produto)" [value]="produto.nome" style="font-size: 12px;">
+                                        Código: {{produto.codigo_catalogo}} - {{produto.nome}} - Representada: {{produto.representada.nome_fantasia}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
                         <div class="show-title" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
                             <span class="p-l-10"> Período</span>
                         </div>

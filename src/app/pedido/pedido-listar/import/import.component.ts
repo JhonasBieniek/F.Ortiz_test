@@ -906,7 +906,7 @@ export class ImportComponent implements OnInit {
           this.notificationService.notify(`Pedido Cadastrado com Sucesso!`);
           this.dialogRef.close();
         } else {
-          if(res.data.pedido){
+          if(res.data.pedido == "Pedido ja Cadastrado"){
             this.notificationService.notify(`Já existe um pedido cadastrado com esses dados!`);
           }else{
             this.notificationService.notify(`Erro contate o Administrador`);
