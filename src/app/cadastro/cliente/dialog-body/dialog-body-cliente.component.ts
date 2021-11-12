@@ -24,6 +24,7 @@ import moment from "moment";
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from "@angular/material-moment-adapter";
 import { findIndex } from "rxjs-compat/operator/findIndex";
 import { RelatorioClientePedidosComponent } from "./relatorio-cliente-pedidos/relatorio-cliente-pedidos.component";
+import { DialogProdutosCorporativoComponent } from "./dialog-produtos-corporativo/dialog-produtos-corporativo.component";
 
 export const MY_FORMATS = {
   parse: {
@@ -152,7 +153,7 @@ export class DialogBodyClienteComponent implements OnInit {
       cliente_vencimentos: this.fb.array([]),
       cliente_representada_area_vendas: this.fb.array([]),
       cliente_contatos: this.fb.array([]),
-
+      client_representeds: ([]),
     });
   }
   IsReadOnly() {
@@ -584,6 +585,29 @@ export class DialogBodyClienteComponent implements OnInit {
         );
       }else{
         this.notificationService.notify(`Não possui pedidos!`);
+      }
+    });
+  }
+
+  produtosCorporativos(tipo: string){
+    let dialogConfig = new MatDialogConfig();
+    dialogConfig = {
+      maxWidth: '75vw',
+      maxHeight: '100vh',
+      width: '75vw',
+      height: '90vh'
+    }
+    dialogConfig.data = []
+    dialogConfig.data.client_representeds = this.form.get('client_representeds').value;
+    dialogConfig.data.action = 'view';
+    let dialogRef = this.dialog.open(
+      DialogProdutosCorporativoComponent,
+      dialogConfig
+    );
+    dialogRef.afterClosed().subscribe(value => {
+      console.log(value)
+      if(value){
+        this.form.controls['client_representeds'].setValue(value);
       }
     });
   }

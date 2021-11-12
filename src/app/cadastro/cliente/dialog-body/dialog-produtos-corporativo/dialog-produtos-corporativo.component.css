@@ -1,0 +1,31 @@
+.title {
+    font-size: 18px;
+    text-align: center;
+    cursor: pointer;
+}
+.dadosCadastro {
+    font-weight: 800;
+    padding: 0.2em;
+    text-align: center;
+    font-size: 1.5em;
+    background-color: dodgerblue;
+    color: white;
+}
+.aj {
+    margin-top: -20px;
+}
+.aj1 {
+    margin-top: -45px;
+}
+
+.form {
+    font-size: 11px;
+}
+
+.itens {
+    margin-bottom: -15px;
+}
+
+.bandeira-select{
+    /* verificar se é necessario */
+}

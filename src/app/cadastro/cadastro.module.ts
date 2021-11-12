@@ -61,6 +61,7 @@ import { DialogUpdatePriceComponent } from './produtos/dialog-update-price/dialo
 import { ClassificacoesComponent } from './classificacoes/classificacoes.component';
 import { DialogBodyProdutoClassificacaoComponent } from './classificacoes/dialog-body/dialog-body.component';
 import { RelatorioClientePedidosComponent } from './cliente/dialog-body/relatorio-cliente-pedidos/relatorio-cliente-pedidos.component';
+import { DialogProdutosCorporativoComponent } from './cliente/dialog-body/dialog-produtos-corporativo/dialog-produtos-corporativo.component';
 
 
 
@@ -124,7 +125,8 @@ import { RelatorioClientePedidosComponent } from './cliente/dialog-body/relatori
     ProdutoMateriaisComponent,
     DialogUpdatePriceComponent,
     ClassificacoesComponent,
-    RelatorioClientePedidosComponent
+    RelatorioClientePedidosComponent,
+    DialogProdutosCorporativoComponent,
   ],
   providers: [
     DateFormatPipe,
@@ -157,7 +159,8 @@ import { RelatorioClientePedidosComponent } from './cliente/dialog-body/relatori
     DialogBodyProdutoClassificacaoComponent,
     DialogBodyTipoProdutoComponent,
     DialogUpdatePriceComponent,
-    RelatorioClientePedidosComponent
+    RelatorioClientePedidosComponent,
+    DialogProdutosCorporativoComponent
   ],
   exports: []
 })

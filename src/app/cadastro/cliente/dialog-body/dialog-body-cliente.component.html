@@ -342,6 +342,7 @@
             <mat-option>-- Selecione... --</mat-option>
             <mat-option value="final">Final</mat-option>
             <mat-option value="revendedor">Revendedor</mat-option>
+            <mat-option value="corporativo">Corporativo</mat-option>
           </mat-select>
         </mat-form-field>
         <small *ngIf="form.get('tipo_cliente').errors?.required && form.get('tipo_cliente').touched"
@@ -361,42 +362,11 @@
         <small *ngIf="form.get('categoria_volk').errors?.required && form.get('categoria_volk').touched"
           class="text-danger font-14">Você precisa selecionar a Classificação da tabela.</small>
       </div>
-
-
-      
-
-
-
-      <!-- <div class="p-10 aj" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="15">
-        <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
-          <mat-label>Tipo de Pagamento</mat-label>
-          <mat-select  formControlName="pagamento_tipo">
-            <mat-option value="Faturamento" (click)="clearVencimento()">Faturamento</mat-option>
-            <mat-option value="Vencimento" (click)="addVencimento(null, 'v')">Vencimento</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <small *ngIf="form.get('pagamento_tipo').errors?.required && form.get('pagamento_tipo').touched"
-          class="text-danger font-14">Você precisa selecionar o tipo de pagamento.</small>
+      <div class="p-10 aj" *ngIf="form.get('tipo_cliente').value == 'corporativo'" fxFlex="100">
+        <button mat-raised-button color="primary" type="button"  (click)="produtosCorporativos('add')">Adicionar Produtos Corporativo</button>
+        <button mat-raised-button color="warn" type="button" style="margin-left: 15px;"   (click)="produtosCorporativos('view')">Visualizar Produtos Corporativo</button>
       </div>
-      <div *ngIf="form.controls['pagamento_tipo'].value == 'Vencimento'" class="p-10 aj" style="margin-left: -5px;"
-        fxFlex.gt-sm="5" fxFlex.gt-xs="5" fxFlex="5">
-        <i style="color: blue;" class="material-icons plus-icons" (click)="addVencimento()">add_circle_outline</i>
-      </div>
-      <div formArrayName="cliente_vencimentos" class="p-10 aj" fxFlex.gt-sm="55" fxFlex.gt-xs="55" fxFlex="55">
-        <div *ngFor="let v of form.get('cliente_vencimentos').controls; index as j" [formGroupName]="j"
-          fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="20">
-          <div fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="70">
-            <mat-form-field appearance="outline" style="position: relative;">
-              <mat-label>Venc. {{j + 1}}</mat-label>
-              <input matInput placeholder="Venc. {{j + 1}}" formControlName="vencimento">
-            </mat-form-field>
-          </div>
-          <div fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="30">
-            <mat-icon class="material-icons x-icons" (click)="delVencimento(i)">highlight_off</mat-icon>
-          </div>
-        </div>
-      </div> -->
-      <div class="p-10 aj1" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+      <div class="p-10 aj" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <h4 class="dadosCadastro">Observação</h4>
       </div>
       <div fxFlex.gt-sm="100" fxFlex="100">
