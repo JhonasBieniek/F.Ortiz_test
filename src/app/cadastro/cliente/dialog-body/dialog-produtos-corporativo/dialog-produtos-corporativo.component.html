@@ -97,7 +97,7 @@
         </div>
         
         <mat-card-actions>
-            <button mat-raised-button color="primary" type="button" (click)="validar();">Manter Alterações e voltar</button>
+            <button mat-raised-button color="primary" type="button" (click)="validar();" *ngIf="!readonly">Manter Alterações e voltar</button>
             <button style="margin-left: 15px;" mat-raised-button color="warn" (click)="close()">Voltar</button>
         </mat-card-actions>
     </form>
