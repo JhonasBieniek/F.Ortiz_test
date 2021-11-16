@@ -70,3 +70,8 @@
 .form{
   font-size:11px;
 }
+
+.cart {
+  margin: -5px -5px;
+  font-weight: 500;
+}

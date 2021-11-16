@@ -362,9 +362,19 @@
         <small *ngIf="form.get('categoria_volk').errors?.required && form.get('categoria_volk').touched"
           class="text-danger font-14">Você precisa selecionar a Classificação da tabela.</small>
       </div>
+      <div class="p-10 aj" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="form.get('tipo_cliente').value == 'corporativo'">
+        <h4 class="dadosCadastro">Corporativo</h4>
+      </div>
       <div class="p-10 aj" *ngIf="form.get('tipo_cliente').value == 'corporativo'" fxFlex="100">
         <button mat-raised-button color="primary" type="button"  (click)="produtosCorporativos('add')">Adicionar Produtos Corporativo</button>
-        <button mat-raised-button color="warn" type="button" style="margin-left: 15px;"   (click)="produtosCorporativos('view')">Visualizar Produtos Corporativo</button>
+        <button mat-raised-button type="button" style="margin-left: 15px; background-color: #1ba91b; color: white;"   (click)="produtosCorporativos('view')">Visualizar Produtos Corporativo</button>
+      </div>
+      <div class="p-l-20 p-t-10 p-b-10" fxFlex="100" *ngIf="form.get('tipo_cliente').value == 'corporativo'">
+        <h4 class="cart"> Representadas com produto:</h4>
+      </div>
+      <div class="p-l-30 p-t-10"  fxFlex="100" *ngIf="form.get('tipo_cliente').value == 'corporativo'">
+        <p class="cart" *ngFor="let representada of form.get('client_representeds').value; index as i"> {{getRepresentada(representada.representada_id) }}
+        </p>
       </div>
       <div class="p-10 aj" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <h4 class="dadosCadastro">Observação</h4>

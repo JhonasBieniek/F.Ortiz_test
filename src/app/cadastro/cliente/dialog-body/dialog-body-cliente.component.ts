@@ -610,4 +610,11 @@ export class DialogBodyClienteComponent implements OnInit {
       }
     });
   }
+
+  getRepresentada(representada_id){
+    const representada =  this.representadas.find(representada => {
+      return representada.id == representada_id
+    });
+    return representada.razao_social;
+  }
 }
