@@ -709,7 +709,9 @@ export class ImportComponent implements OnInit {
       .subscribe((res: any) => {
         this.rows = res.data;
         this.temp = [...this.rows];
-        
+        if(res.tipo == "corporativo" && res.data.length == 0 ){
+          this.notificationService.notify("Cliente corporativo não possui produtos cadastrados!");
+        }
       });
   }
 

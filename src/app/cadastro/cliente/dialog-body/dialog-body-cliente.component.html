@@ -366,7 +366,7 @@
         <h4 class="dadosCadastro">Corporativo</h4>
       </div>
       <div class="p-10 aj" *ngIf="form.get('tipo_cliente').value == 'corporativo'" fxFlex="100">
-        <button mat-raised-button color="primary" type="button"  (click)="produtosCorporativos('add')">Adicionar Produtos Corporativo</button>
+        <button mat-raised-button color="primary" type="button"  (click)="produtosCorporativos('add')" *ngIf="!readonly">Adicionar Produtos Corporativo</button>
         <button mat-raised-button type="button" style="margin-left: 15px; background-color: #1ba91b; color: white;"   (click)="produtosCorporativos('view')">Visualizar Produtos Corporativo</button>
       </div>
       <div class="p-l-20 p-t-10 p-b-10" fxFlex="100" *ngIf="form.get('tipo_cliente').value == 'corporativo'">

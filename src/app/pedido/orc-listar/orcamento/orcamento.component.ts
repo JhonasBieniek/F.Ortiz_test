@@ -183,6 +183,7 @@ export class OrcamentoComponent implements OnInit {
       //console.log(res)
       this.rows = res.data;
       this.temp = [...this.rows];
+      
       produtos.orcamento_produtos.forEach(element => {
         this.rows.filter(produto => {
           if(produto.id == element.produto_id){
@@ -191,6 +192,10 @@ export class OrcamentoComponent implements OnInit {
         })
         this.addItem(element)
       });
+
+      if(res.tipo == "corporativo" && res.data.length == 0 ){
+        this.notificationService.notify("Cliente corporativo não possui produtos cadastrados!");
+      }
     })
   }
 
@@ -301,6 +306,9 @@ export class OrcamentoComponent implements OnInit {
     this.clientservice.getProdRepCli(representada_id, cliente_id ).subscribe((res:any) => {
       this.rows = res.data;
       this.temp = [...this.rows];
+      if(res.tipo == "corporativo" && res.data.length == 0 ){
+        this.notificationService.notify("Cliente corporativo não possui produtos cadastrados!");
+      }
       this.loadingIndicator = false;
 
     })

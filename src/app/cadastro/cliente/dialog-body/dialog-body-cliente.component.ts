@@ -612,9 +612,13 @@ export class DialogBodyClienteComponent implements OnInit {
   }
 
   getRepresentada(representada_id){
-    const representada =  this.representadas.find(representada => {
-      return representada.id == representada_id
-    });
-    return representada.razao_social;
+    if(this.representadas.length > 0 ){
+      const representada =  this.representadas.find(representada => {
+        return representada.id == representada_id
+      });
+      return representada.razao_social;
+    }else{
+      return '';
+    }
   }
 }

@@ -472,6 +472,9 @@ export class NovoComponent implements OnInit {
         this.rows = res.data;
         this.temp = [...this.rows];
         this.loadingIndicator = false;
+        if(res.tipo == "corporativo" && res.data.length == 0 ){
+          this.notificationService.notify("Cliente corporativo não possui produtos cadastrados!");
+        }
       });
   }
 
