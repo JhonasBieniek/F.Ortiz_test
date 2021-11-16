@@ -1,0 +1,11 @@
+<div class="border">
+    <h1 mat-dialog-title>Você realmente deseja alterar de: <span style="color: red;">{{data.antiga.nome_fantasia}}</span> para <span style="color: red;">{{data.nova.nome_fantasia}}</span>, todos os produtos serão removidos!</h1>
+    <div mat-dialog-content>
+      <p>Confirme para prosseguir.</p>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button color="warn" (click)="alterar()">ok</button>
+      <button mat-button color="primary" autofocus (click)="cancelar()">Cancelar</button>
+    </div>
+  </div>
+  

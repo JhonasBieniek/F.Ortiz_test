@@ -62,6 +62,7 @@ import { ClassificacoesComponent } from './classificacoes/classificacoes.compone
 import { DialogBodyProdutoClassificacaoComponent } from './classificacoes/dialog-body/dialog-body.component';
 import { RelatorioClientePedidosComponent } from './cliente/dialog-body/relatorio-cliente-pedidos/relatorio-cliente-pedidos.component';
 import { DialogProdutosCorporativoComponent } from './cliente/dialog-body/dialog-produtos-corporativo/dialog-produtos-corporativo.component';
+import { DialogRepresentadaConfirmacaoComponent } from './cliente/dialog-body/dialog-produtos-corporativo/dialog-representada-confirmacao/dialog-representada-confirmacao.component';
 
 
 
@@ -127,6 +128,7 @@ import { DialogProdutosCorporativoComponent } from './cliente/dialog-body/dialog
     ClassificacoesComponent,
     RelatorioClientePedidosComponent,
     DialogProdutosCorporativoComponent,
+    DialogRepresentadaConfirmacaoComponent,
   ],
   providers: [
     DateFormatPipe,
@@ -160,7 +162,8 @@ import { DialogProdutosCorporativoComponent } from './cliente/dialog-body/dialog
     DialogBodyTipoProdutoComponent,
     DialogUpdatePriceComponent,
     RelatorioClientePedidosComponent,
-    DialogProdutosCorporativoComponent
+    DialogProdutosCorporativoComponent,
+    DialogRepresentadaConfirmacaoComponent
   ],
   exports: []
 })

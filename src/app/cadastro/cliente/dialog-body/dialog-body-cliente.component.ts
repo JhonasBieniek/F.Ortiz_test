@@ -599,13 +599,12 @@ export class DialogBodyClienteComponent implements OnInit {
     }
     dialogConfig.data = []
     dialogConfig.data.client_representeds = this.form.get('client_representeds').value;
-    dialogConfig.data.action = 'view';
+    dialogConfig.data.action = tipo;
     let dialogRef = this.dialog.open(
       DialogProdutosCorporativoComponent,
       dialogConfig
     );
     dialogRef.afterClosed().subscribe(value => {
-      console.log(value)
       if(value){
         this.form.controls['client_representeds'].setValue(value);
       }

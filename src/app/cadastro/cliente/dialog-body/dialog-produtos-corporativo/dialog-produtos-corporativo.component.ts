@@ -1,8 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { NotificationService } from '../../../../shared/messages/notification.service';
 import { ClientService } from '../../../../shared/services/client.service.component';
+import { DialogRepresentadaConfirmacaoComponent } from './dialog-representada-confirmacao/dialog-representada-confirmacao.component';
 
 @Component({
   selector: 'app-dialog-produtos-corporativo',
@@ -18,6 +19,8 @@ export class DialogProdutosCorporativoComponent implements OnInit {
   representadas: any = [];
   produtos: any[] = [];
   produtosByRepresentada: any[] = [];
+  readonly: boolean = false;
+  prevMatSelectValue: any;
   
   constructor(
     private fb: FormBuilder,
@@ -48,7 +51,9 @@ export class DialogProdutosCorporativoComponent implements OnInit {
             this.produtosByRepresentada[representada.id] = produtos;
 
           });
-
+          if(this.data.action == 'view'){
+            this.readonly = true;
+          }
           this.load(this.data);
         });
 
@@ -58,7 +63,18 @@ export class DialogProdutosCorporativoComponent implements OnInit {
   ngOnInit() {
   }
   load(data){
-    console.log(data);
+
+    for (let index = 0; index < data.client_representeds.length; index++) {
+      this.addRepresentada();
+      for (let indexProducts = 0; indexProducts < data.client_representeds[index].client_represented_products.length; indexProducts++) {
+        this.addRepresentadaProdutos(index);
+
+        //* Precisa transformar o integer em string para que o select dos produtos funcione
+        data.client_representeds[index].client_represented_products[indexProducts].produto_id = data.client_representeds[index].client_represented_products[indexProducts].produto_id.toString();
+      }
+    }
+
+    this.form.get('client_representeds').patchValue(data.client_representeds);
   }
   //* Controla as representadas
   client_representeds(): FormArray{
@@ -128,9 +144,37 @@ export class DialogProdutosCorporativoComponent implements OnInit {
     return this.produtosByRepresentada[this.produtosIndex(this.client_representeds().at(representadaIndex).get('representada_id').value)].produtos
   }
 
+  representadaChangeValidate(event, index){
+    if(event.value != this.prevMatSelectValue && this.prevMatSelectValue != null){
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.data = []
+        dialogConfig.data.antiga = this.representadas.find((representada:any) => { return representada.id == this.prevMatSelectValue });
+        dialogConfig.data.nova = this.representadas.find((representada:any) => { return representada.id == event.value });
+        let dialogRef = this.dialog.open(DialogRepresentadaConfirmacaoComponent,
+          dialogConfig
+        );
+        dialogRef.afterClosed().subscribe(value => {
+          if(value == true){
+              while (this.client_represented_products(index).length !== 0) {
+                this.client_represented_products(index).removeAt(0)
+              }
+          }else{
+            this.client_representeds().at(index).get("representada_id").setValue(this.prevMatSelectValue);
+          }
+        });
+      
+    }
+  }
+
+  public onMatSelectOpen(form: AbstractControl, index, event): void {
+    if(event){
+      this.prevMatSelectValue = form.value.client_representeds[index].representada_id;
+    }
+    
+  }
+
   validar(){
     if(this.form.valid){
-      console.log(this.form.value)
       this.dialogRef.close(this.form.get('client_representeds').value);
     }else{
       this.form.markAllAsTouched();

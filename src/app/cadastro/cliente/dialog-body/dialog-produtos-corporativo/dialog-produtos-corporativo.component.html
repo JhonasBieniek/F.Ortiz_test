@@ -6,29 +6,29 @@
             </div>
             <div class="p-10 aj" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
                 <div fxLayout="row wrap" formArrayName="client_representeds" >
-                    <div class="p-20" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-                        <button mat-stroked-button color="primary" (click)="addRepresentada()" type="button"><i class="material-icons">add</i> Representada</button>
+                    <div class="" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                        <button mat-stroked-button color="primary" (click)="addRepresentada()" type="button" *ngIf="!readonly"><i class="material-icons">add</i> Representada</button>
                     </div>
                     <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
                         <div *ngFor="let corporativoRepresentada of client_representeds().controls; let representadaIndex = index">
                             <div [formGroupName]="representadaIndex" fxLayout="row wrap" class="row">
-                                <div class="p-20" fxFlex.gt-sm="44" fxFlex.gt-xs="44" fxFlex="44">
+                                <div class="p-10" fxFlex.gt-sm="44" fxFlex.gt-xs="44" fxFlex="44">
                                     <mat-form-field appearance="outline" class="bandeira-select">
                                         <mat-label>Representada</mat-label>
-                                        <mat-select required formControlName="representada_id">
+                                        <mat-select required formControlName="representada_id" [disabled]="readonly" (selectionChange)="representadaChangeValidate($event, representadaIndex)" (openedChange)="onMatSelectOpen(form, representadaIndex, $event)">
                                             <mat-option *ngFor="let representada of representadas" [value]="representada.id"
                                                 (click)="checkExistRepresentada(representadaIndex, representada.id)">
                                                 {{representada.nome_fantasia}} 
                                             </mat-option>
                                         </mat-select>
                                     </mat-form-field>
-                                    <button mat-icon-button type="button" fxFlex.gt-sm="6" fxFlex.gt-xs="6" fxFlex="6">
+                                    <button mat-icon-button type="button" fxFlex.gt-sm="6" fxFlex.gt-xs="6" fxFlex="6" *ngIf="!readonly">
                                         <mat-icon class="material-icons  x-icons" (click)="removeRepresentada(representadaIndex)">
                                             highlight_off</mat-icon>
                                     </button>
                                 </div>
-                                <div class="p-20" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="50" *ngIf="client_representeds().at(representadaIndex).get('representada_id').value != null">
-                                    <button mat-stroked-button type="button" (click)="addRepresentadaProdutos(representadaIndex)"><i
+                                <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="50" *ngIf="client_representeds().at(representadaIndex).get('representada_id').value != null">
+                                    <button mat-stroked-button type="button" (click)="addRepresentadaProdutos(representadaIndex)" *ngIf="!readonly"><i
                                             class="material-icons">add</i> Produtos</button>
                                     <!-- <button mat-icon-button type="button">
                                         <mat-icon class="material-icons  x-icons" (click)="removeBandeira(representadaIndex)">
@@ -36,8 +36,8 @@
                                     </button> -->
                                 </div>
                                 <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="client_representeds().at(representadaIndex).get('representada_id').value != null">
-                                    <div fxLayout="row wrap" class="row">
-                                        <div class="p-20" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" style="padding-top: 0px;">
+                                    <div fxLayout="row wrap">
+                                        <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" style="padding-top: 0px;">
                                             <mat-accordion>
                                                 <mat-expansion-panel hideToggle>
                                                     <mat-expansion-panel-header>
@@ -48,36 +48,36 @@
                                                     <div formArrayName="client_represented_products" style="font-size: 11px;">
                                                         <div *ngFor="let item of client_represented_products(representadaIndex).controls; let produtosIndex = index">
                                                             <div [formGroupName]="produtosIndex" fxLayout="row" fxLayoutGap="20px">
-                                                                <div class="itens" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="20">
+                                                                <div class="itens" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25">
                                                                     <mat-select-autocomplete appearance="outline" [placeholder]="'Produto*'" [options]="produtosByRepresentada[client_representeds().at(representadaIndex).get('representada_id').value]"
-                                                                    [multiple]='false' name="optionsSelector" ngDefaultControl [formControl]="client_represented_products(representadaIndex).at(produtosIndex).get('produto_id')">
+                                                                    [multiple]='false' name="optionsSelector" ngDefaultControl [formControl]="client_represented_products(representadaIndex).at(produtosIndex).get('produto_id')" [disabled]="readonly">
                                                                     </mat-select-autocomplete>
                                                                 </div>
                                                                 <div class="itens" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="15">
                                                                     <mat-form-field appearance="outline">
                                                                         <mat-label>MS</mat-label>
-                                                                        <input matInput placeholder="Preço Ms" formControlName="valor_ms" currencyMask >
+                                                                        <input matInput placeholder="Preço Ms" formControlName="valor_ms" currencyMask [readonly]="readonly">
                                                                     </mat-form-field>
                                                                 </div>
                                                                 <div class="itens" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="15">
                                                                     <mat-form-field appearance="outline">
                                                                         <mat-label>PR</mat-label>
-                                                                        <input matInput placeholder="Preço Pr" formControlName="valor_pr" currencyMask >
+                                                                        <input matInput placeholder="Preço Pr" formControlName="valor_pr" currencyMask [readonly]="readonly">
                                                                     </mat-form-field>
                                                                 </div>
                                                                 <div class="itens" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="15">
                                                                     <mat-form-field appearance="outline">
                                                                         <mat-label>SC</mat-label>
-                                                                        <input matInput placeholder="Preço Sc" formControlName="valor_sc" currencyMask >
+                                                                        <input matInput placeholder="Preço Sc" formControlName="valor_sc" currencyMask [readonly]="readonly">
                                                                     </mat-form-field>
                                                                 </div>
                                                                 <div class="itens" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="15">
                                                                     <mat-form-field appearance="outline">
                                                                         <mat-label>SP</mat-label>
-                                                                        <input matInput placeholder="Preço Sp" formControlName="valor_sp" currencyMask >
+                                                                        <input matInput placeholder="Preço Sp" formControlName="valor_sp" currencyMask [readonly]="readonly">
                                                                     </mat-form-field>
                                                                 </div>
-                                                                <button mat-icon-button type="button" class="itens">
+                                                                <button mat-icon-button type="button" class="itens" *ngIf="!readonly">
                                                                     <mat-icon class="material-icons  x-icons" (click)="removeRepresentadaProduto(representadaIndex, produtosIndex)">highlight_off
                                                                     </mat-icon>
                                                                 </button>
@@ -98,7 +98,7 @@
         
         <mat-card-actions>
             <button mat-raised-button color="primary" type="button" (click)="validar();">Manter Alterações e voltar</button>
-            <button style="margin-left: 15px;" mat-raised-button color="warn" (click)="close()">Cancelar</button>
+            <button style="margin-left: 15px;" mat-raised-button color="warn" (click)="close()">Voltar</button>
         </mat-card-actions>
     </form>
 </mat-card-content>
