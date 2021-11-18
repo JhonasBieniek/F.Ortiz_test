@@ -14,10 +14,11 @@
         [rowHeight]="'auto'" 
         [limit]="10" 
         [rows]='rows' 
-        [selected]="selected"
+        >
+        <!-- [selected]="selected"
         [selectionType]="'checkbox'"
-        (select)='onSelect($event)'>
-            <ngx-datatable-column  [flexGrow]="0.5" name="Selecionar" [sortable]="false">
+        (select)='onSelect($event)' -->
+            <!-- <ngx-datatable-column  [flexGrow]="0.5" name="Selecionar" [sortable]="false">
             <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected"
                 let-selectFn="selectFn">
                 <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)" />
@@ -26,7 +27,7 @@
                 let-onCheckboxChangeFn="onCheckboxChangeFn">
                 <input type="checkbox"  [checked]="isSelected" (change)="onCheckboxChangeFn($event)" />
             </ng-template>
-            </ngx-datatable-column>
+            </ngx-datatable-column> -->
             <ngx-datatable-column [flexGrow]="1" name="Núm. parcela">
                 <ng-template let-value="parcela" let-row="row" ngx-datatable-cell-template>
                   {{ row.parcela }}
@@ -53,7 +54,7 @@
 
               <ngx-datatable-column [flexGrow]="1" name="Estornado ?">
                 <ng-template let-value="estorno" let-row="row" ngx-datatable-cell-template>
-                  {{row.estorno != null ? 'Sim' : 'Não'}}
+                  <input type="checkbox" [(ngModel)]="row.estorno" />
                 </ng-template>
               </ngx-datatable-column> 
         </ngx-datatable>

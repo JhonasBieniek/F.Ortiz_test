@@ -1,0 +1,89 @@
+<div fxLayout="row wrap">
+    <!-- Card column -->
+    <div fxFlex.gt-sm="100%" fxFlex="100">
+        <mat-card class="no-shadow">
+            <mat-card-content>
+                <form [formGroup]="form">
+                    <mat-card-title class="title">{{pageTitle}}</mat-card-title>
+                    <div fxLayout="row wrap" class="row">
+                        <div class="p-10 text" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+                            <mat-form-field [hideRequiredMarker]="true" appearance="outline">
+                                <mat-label>Selecione a representada...</mat-label>
+                                <mat-select formControlName="representada_id">
+                                    <mat-option *ngFor="let representada of representadas" [value]="representada.id">
+                                        {{representada.nome_fantasia}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="show-title" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <span class="p-l-10"> Período</span>
+                        </div>
+                        <div class="p-10 text" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Data inicial</mat-label>
+                                <input matInput [matDatepicker]="picker" formControlName="dtInicio"
+                                    placeholder="Data inicial">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="p-10 text" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Data final</mat-label>
+                                <input matInput [matDatepicker]="picker2" formControlName="dtFinal"
+                                    placeholder="Data final">
+                                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="buttonComissao">
+                        <button mat-raised-button color="primary" type="submit" (click)="getRecebidos()">Buscar</button>
+                        <button mat-raised-button class="m-l-10" color="warn" (click)="clear()">Limpar</button>
+                    </div>
+                </form>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+<mat-card *ngIf="data.length > 0" style="margin-top: -10px;">
+    <mat-card-content>
+        <mat-form-field>
+            <input matInput type='text' class="form-control" placeholder='Insira o numero do pedido ou nota para pesquisar...' (keyup)='updateFilter($event)' />
+        </mat-form-field>
+        <ngx-datatable #table class="material striped" [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50"
+            [rowHeight]="'auto'" [rows]="rows">
+            <ngx-datatable-column [flexGrow]="0.3" name="N° Parcela" prop="parcela">
+                <ng-template let-value="num_nota" let-row="row" ngx-datatable-cell-template>
+                    <div>{{row.parcela}}</div>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [flexGrow]="1" name="Representada" prop="nota.pedido.representada.razao_social">
+                <ng-template let-value="representada" let-row="row" ngx-datatable-cell-template>
+                    {{row.nota.pedido.representada.razao_social}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [flexGrow]="0.5" name="N° Nota" prop="nota.num_nota">
+                <ng-template let-value="num_nota" let-row="row" ngx-datatable-cell-template>
+                    <div>{{row.nota.num_nota}}</div>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [flexGrow]="0.5" name="Pedido" prop="nota.pedido.num_pedido">
+                <ng-template let-value="num_pedido" let-row="row" ngx-datatable-cell-template>
+                    <div>{{row.nota.pedido.num_pedido}}</div>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [flexGrow]="0.5" name="Data" prop="data_recebimento">
+                <ng-template let-value="data_recebimento" let-row="row" ngx-datatable-cell-template>
+                    <div>{{row.data_recebimento | date:'dd/MM/yyyy'}}</div>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [flexGrow]="0.5" name="Reverter">
+                <ng-template let-value="reverter" let-row="row" ngx-datatable-cell-template>
+                    <mat-icon aria-hidden="false" color="warn" aria-label="Reverter" style="cursor: pointer;" (click)="reverter(row)">close</mat-icon>
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </mat-card-content>
+</mat-card>

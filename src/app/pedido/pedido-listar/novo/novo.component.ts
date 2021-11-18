@@ -573,7 +573,7 @@ export class NovoComponent implements OnInit {
     this.form.get("comissao_media").setValue(comissao / i);
     return comissao / i;
   }
-  comissaoVendedorAuxiliar() {
+  async comissaoVendedorAuxiliar() {
     let comissao_vendedor = 0;
     let comissao_auxiliar = 0;
     this.produto.controls.forEach((element) => {
@@ -591,6 +591,7 @@ export class NovoComponent implements OnInit {
         element.get("comissao_produto").value
       );
     });
+
     this.form.get("comissao_vendedor").setValue(comissao_vendedor);
     this.form.get("comissao_auxiliar").setValue(comissao_auxiliar);
   }
@@ -661,7 +662,8 @@ export class NovoComponent implements OnInit {
     else return total - desconto;
   }
 
-  enviarPedido() {
+  async enviarPedido() {
+    await this.comissaoVendedorAuxiliar();
     if(this.form.valid){
       if (this.currentAction == "edit") {
         this.clientservice.updatePedido(this.form.value).subscribe((res: any) => {

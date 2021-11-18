@@ -815,7 +815,7 @@ export class ImportComponent implements OnInit {
     this.form.get("comissao_media").setValue(comissao / i);
     return comissao / i;
   }
-  comissaoVendedorAuxiliar() {
+  async comissaoVendedorAuxiliar() {
     let comissao_vendedor = 0;
     let comissao_auxiliar = 0;
     this.produto.controls.forEach((element) => {
@@ -901,7 +901,8 @@ export class ImportComponent implements OnInit {
     else return total - desconto;
   }
 
-  enviarPedido() {
+  async enviarPedido() {
+    await this.comissaoVendedorAuxiliar();
     if(this.form.valid){
       this.clientservice.addPedido(this.form.value).subscribe((res: any) => {
         if (res.success == true) {

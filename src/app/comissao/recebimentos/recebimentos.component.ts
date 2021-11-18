@@ -98,7 +98,7 @@ export class RecebimentosComponent implements OnInit {
     }else{
       data.nota_parcelas.forEach(e => {
         e.status_recebimento = false;
-        e.data_recebimento = "";
+        e.data_recebimento = null;
       });
     }
   }
@@ -109,8 +109,9 @@ export class RecebimentosComponent implements OnInit {
       row.data_recebimento = new Date();
     }else{
       row.status_recebimento = false;
-      row.data_recebimento = "";
+      row.data_recebimento = null;
     }
+
   }
 
   onActivate(event) {
@@ -124,12 +125,14 @@ export class RecebimentosComponent implements OnInit {
         value = element.data_vencimento
       }
     });
+    if(value == 0){
+      if(row.nota_parcelas.length > 0) value = row.nota_parcelas[row.nota_parcelas.length-1].data_vencimento;
+    }
     return value
   }
   
   submit(){
     this.clientservice.getRecebimentos(this.form.value).subscribe((res:any) => {
-      console.log(res);
       this.rows = res.data;
       this.showTable = true;
     });

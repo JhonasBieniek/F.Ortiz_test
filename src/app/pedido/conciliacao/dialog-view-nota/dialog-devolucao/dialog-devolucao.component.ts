@@ -90,7 +90,21 @@ export class DialogDevolucaoComponent implements OnInit {
         }
       }
     });
-    this.form.get('status').setValue(notaValidacao);
+    if(notaValidacao == "aberto"){
+      if(this.data.nota_parcelas.every(el => el.status_recebimento === true)){
+        this.form.get('status').setValue('recebido');
+      }else{
+        this.form.get('status').setValue(notaValidacao);
+      }
+      // let recebido = this.data.nota_parcelas.every( parcela => { return parcela.status_recebimento === true});
+      // if(recebido.length > 0){
+      //   this.form.get('status').setValue('recebido');
+      // }else{
+      //   this.form.get('status').setValue(notaValidacao);
+      // }
+    }else{
+      this.form.get('status').setValue(notaValidacao);
+    }
 
     this.clientservice.addDevolucao(this.form.value).subscribe((res:any) => {
       this.dialogRef.close({

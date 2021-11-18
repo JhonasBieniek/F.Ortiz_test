@@ -106,6 +106,7 @@ export class DialogSendNotaComponent implements OnInit {
       let valor = totalNota / parcelas.length;
       let auxValor = this.pedido.comissao_auxiliar / parcelas.length; // Validar 
       let venValor = this.pedido.comissao_vendedor / parcelas.length; // Validar
+      let fortiz_valor = (this.pedido.comissao_bruto - ( this.pedido.comissao_vendedor + this.pedido.comissao_auxiliar ) ) / parcelas.length; // Validar
       for (let i = 0; i < parcelas.length; i++) {
         if (parcelas[i] != "") {
           let vencimento = new Date(data)
@@ -115,7 +116,8 @@ export class DialogSendNotaComponent implements OnInit {
             status_recebimento: false,
             parcela: (i == 0) ? 1 : i,
             auxiliar_valor: auxValor,
-            vendedor_valor: venValor
+            vendedor_valor: venValor,
+            fortiz_valor: fortiz_valor
           }))
         }
       }

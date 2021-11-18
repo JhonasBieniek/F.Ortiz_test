@@ -82,6 +82,7 @@ const MENUITEMS = [
     type: 'sub',
     icon: 'trending_up',
     children: [
+      {state: 'recebidos', name: 'Recebidos', type: 'link' },
       {state: 'importar', name: 'Importar', type: 'link' },
       {state: 'recebimentos', name: 'Recebimentos', type: 'link' },
       {

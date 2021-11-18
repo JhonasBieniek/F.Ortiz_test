@@ -18,12 +18,32 @@
             <div class="p-10 text" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
               <mat-form-field [hideRequiredMarker]="true" appearance="outline">
                 <mat-label>Selecione a representada...</mat-label>
-                <mat-select formControlName="representada_id">
+                <mat-select formControlName="representada_id" (selectionChange)="getAreas()">
                   <mat-option *ngFor="let representada of representadas" [value]="representada.id">
                     {{representada.nome_fantasia}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
+            </div>
+            <div class="p-10 text" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100" *ngIf="areas.length > 0">
+              <mat-form-field appearance="outline" fxFlex="100">
+                <mat-label>Área de Venda...</mat-label>
+                <input type="text" placeholder="Busque a área" aria-label="area" matInput [formControl]="areaBusca"
+                  (keyup)="searchArea()" [matAutocomplete]="autoArea">
+                <button mat-button matSuffix mat-icon-button aria-label="Clear" type="button"
+                  *ngIf="form.controls['area_venda_id'].value != null">
+                  <mat-icon color="warn" (click)="limparArea();">close</mat-icon>
+                </button>
+                <mat-autocomplete autoActiveFirstOption #autoArea="matAutocomplete">
+                  <mat-option *ngFor="let area of $areas" (click)="setArea(area)" (onSelectionChange)="setArea(area)"
+                    [value]="area.nome">
+                    {{area.nome}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+            <div class="show-title" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+              <span class="p-l-10"> Período</span>
             </div>
             <div class="p-10 text" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100">
               <mat-form-field appearance="outline">
@@ -52,7 +72,8 @@
               <mat-form-field [hideRequiredMarker]="true" appearance="outline">
                 <mat-label>Selecione um Vendedor...</mat-label>
                 <mat-select [formControl]="vendedor_id">
-                  <mat-option *ngFor="let vendedor of (vendedores$ | async)" [value]="vendedor.id"(click)="updateFilter('vendedor')" >
+                  <mat-option *ngFor="let vendedor of (vendedores$ | async)" [value]="vendedor.id"
+                    (click)="updateFilter('vendedor')">
                     {{vendedor.nome}}
                   </mat-option>
                 </mat-select>
@@ -63,7 +84,8 @@
               <mat-form-field [hideRequiredMarker]="true" appearance="outline">
                 <mat-label>Selecione um Auxiliar...</mat-label>
                 <mat-select [formControl]="auxiliar_id">
-                  <mat-option *ngFor="let auxiliar of (auxiliares$ | async)" [value]="auxiliar.id" (click)='updateFilter("auxiliar")'>
+                  <mat-option *ngFor="let auxiliar of (auxiliares$ | async)" [value]="auxiliar.id"
+                    (click)='updateFilter("auxiliar")'>
                     {{auxiliar.nome}}
                   </mat-option>
                 </mat-select>
@@ -74,14 +96,16 @@
               <mat-form-field [hideRequiredMarker]="true" appearance="outline">
                 <mat-label>Selecione um cliente...</mat-label>
                 <mat-select [formControl]="cliente_id">
-                  <mat-option *ngFor="let cliente of (clientes$ | async)" [value]="cliente.id" (click)="updateFilter('cliente')">
+                  <mat-option *ngFor="let cliente of (clientes$ | async)" [value]="cliente.id"
+                    (click)="updateFilter('cliente')">
                     {{cliente.razao_social}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
           </div>
-          <div *ngIf="(clientes$ | async)?.length > 0" fxLayout="row" fxLayoutAlign="end center" class="button" style="margin-bottom: -20px;">
+          <div *ngIf="(clientes$ | async)?.length > 0" fxLayout="row" fxLayoutAlign="end center" class="button"
+            style="margin-bottom: -20px;">
             <button mat-raised-button color="warn" (click)="updateFilter('limpar')">Limpar</button>
           </div>
         </form>
@@ -91,15 +115,9 @@
 </div>
 <mat-card *ngIf="rows.length && this.route.snapshot.url[1].path == 'recebimento'" style="margin-top: -10px;">
   <mat-card-content>
-    <ngx-datatable
-      #table 
-      class="material" 
-      [columnMode]="'flex'" 
-      [headerHeight]="50" 
-      [footerHeight]="50"
-      [rowHeight]="'auto'" 
-      [rows]="rows">
-      <ngx-datatable-column [flexGrow]="0.6" prop="pedido.representada.nome_fantasia" name="Representada" >
+    <ngx-datatable #table class="material" [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50"
+      [rowHeight]="'auto'" [rows]="rows">
+      <ngx-datatable-column [flexGrow]="0.6" prop="pedido.representada.nome_fantasia" name="Representada">
       </ngx-datatable-column>
       <ngx-datatable-column prop="pedido.cliente.razao_social" name="Cliente" [flexGrow]="0.8"></ngx-datatable-column>
       <ngx-datatable-column [flexGrow]="0.5" name="Núm. Nota">
@@ -122,7 +140,7 @@
             {{parcela.data_vencimento | date: 'dd/MM/yyyy'}}</div>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Valor Total" [flexGrow]="0.6" >
+      <ngx-datatable-column name="Valor Total" [flexGrow]="0.6">
         <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
           <div>{{row.pedido.valor_total | currency:'BRL':true:'1.2-2'}}</div>
           <div class="inner-col-header">Valor Parcela</div>
@@ -132,7 +150,7 @@
       </ngx-datatable-column>
       <ngx-datatable-column [flexGrow]="0.7" name="Comissão">
         <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
-          <div >{{row.pedido.comissao_bruto | currency:'BRL':true:'1.2-2'}}</div>
+          <div>{{row.pedido.comissao_bruto | currency:'BRL':true:'1.2-2'}}</div>
           <div class="inner-col-header">Comissão parcela</div>
           <div *ngFor=" let parcela of row.nota_parcelas">
             {{parcela.valor * row.pedido.comissao_media / 100 | currency:'BRL':true:'1.2-2'}}</div>
@@ -148,22 +166,21 @@
 </mat-card>
 <mat-card *ngIf="rows.length > 0 && this.route.snapshot.url[1].path == 'acumulado'" style="margin-top: -10px;">
   <mat-card-content>
-    <ngx-datatable
-      #table 
-      class="material" 
-      [columnMode]="'flex'" 
-      [headerHeight]="50" 
-      [footerHeight]="50"
-      [rowHeight]="'auto'" 
-      [rows]="rows">
-      <ngx-datatable-column [flexGrow]="2" name="Área de Venda">
+    <ngx-datatable #table class="material" [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50"
+      [rowHeight]="'auto'" [rows]="rows">
+      <ngx-datatable-column [flexGrow]="1" name="Área de Venda">
         <ng-template let-value="area" let-row="row" ngx-datatable-cell-template>
-        {{row.vendedor.nome}} - {{row.auxiliar.nome}} - {{row.regiao.nome}}
+          {{row.area_venda.nome}}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [flexGrow]="0.5" name="Valor Notas">
         <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
           <div>{{row.valor | currency:'BRL':true:'1.2-2'}}</div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [flexGrow]="0.5" name="Valor de Devoluções">
+        <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
+          <div>{{row.devolucao | currency:'BRL':true:'1.2-2'}}</div>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [flexGrow]="0.6" name="Comissão Rec.">
@@ -181,9 +198,9 @@
           <div class="inner-col-data">{{row.comissao_paga | currency:'BRL':true:'1.2-2'}}</div>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [flexGrow]="0.5" name="Perc. Rec.">
+      <ngx-datatable-column [flexGrow]="0.5" name="Perc. Pago.">
         <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
-          <div class="inner-col-data">{{(row.comissao_paga*100 )/row.valor   | number : '1.2-2'}}%</div>
+          <div class="inner-col-data">{{(row.comissao_paga*100 )/row.valor | number : '1.2-2'}}%</div>
         </ng-template>
       </ngx-datatable-column>
     </ngx-datatable>
@@ -198,38 +215,39 @@
         Valor Total: {{valorTotal() | currency:'BRL':true:'1.2-2'}}
       </div>
       <div class="p-10 vt" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100" fxLayoutAlign="start center">
-        Comissão Total: {{comissaoTotal() | currency:'BRL':true:'1.2-2'}} 
+        Comissão Total: {{comissaoTotal() | currency:'BRL':true:'1.2-2'}}
       </div>
       <div class="p-10 vt" fxFlex.gt-sm="55" fxFlex.gt-xs="55" fxFlex="100" fxLayoutAlign="start center">
       </div>
       <div class="p-10 ct" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100" fxLayoutAlign="start center">
-        Valor Parcelas: {{valorParcelas() | currency:'BRL':true:'1.2-2'}} 
+        Valor Parcelas: {{valorParcelas() | currency:'BRL':true:'1.2-2'}}
       </div>
       <div class="p-10 ct" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100" fxLayoutAlign="start center">
-        Comissão Parcelas: {{comissaoParcelas() | currency:'BRL':true:'1.2-2'}}      
-      </div>                    
+        Comissão Parcelas: {{comissaoParcelas() | currency:'BRL':true:'1.2-2'}}
+      </div>
     </div>
   </mat-card-content>
 </mat-card>
 <mat-card *ngIf="rows.length > 0 && this.route.snapshot.url[1].path == 'acumulado'" style="margin-top: -10px;">
   <mat-card-content>
     <div fxLayout="row wrap" class="row" style="margin-top: -10px; margin-bottom: -10px;">
-      <div class="p-10 vt" fxFlex.gt-sm="55" fxFlex.gt-xs="55" fxFlex="100" fxLayoutAlign="start center">
-      </div>
-      <div class="p-10 vt" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100" fxLayoutAlign="start center">
-        Valor Total: {{vTotal | currency:'BRL':true:'1.2-2'}}
+      <div class="p-10 vt" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100" fxLayoutAlign="start center">
       </div>
       <div class="p-10 vt" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100" fxLayoutAlign="start center">
-        Comissão Total: {{cTotal | currency:'BRL':true:'1.2-2'}} 
-      </div>
-      <div class="p-10 vt" fxFlex.gt-sm="55" fxFlex.gt-xs="55" fxFlex="100" fxLayoutAlign="start center">
-      </div>
-      <div class="p-10 ct" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100" fxLayoutAlign="start center">
-        Comissão Paga: {{cPaga | currency:'BRL':true:'1.2-2'}} 
+        Notas Total: {{vTotal | currency:'BRL':true:'1.2-2'}}
       </div>
       <div class="p-10 vt" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100" fxLayoutAlign="start center">
-        Percentual Recebido %: {{(cPaga*100)/vTotal | currency:'BRL':true:'1.2-2'}} 
-      </div>                   
+        Comissão Rec.: {{cTotal | currency:'BRL':true:'1.2-2'}}
+      </div>
+      <div class="p-10 vt" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100" fxLayoutAlign="start center">
+      </div>
+      <div class="p-10 vt" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100" fxLayoutAlign="start center">
+        Perc. Rec.: {{(cTotal*100)/vTotal | number : '1.2-2'}}%
+      </div>
+      <div class="p-10 ct" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100" fxLayoutAlign="start center">
+        Comissão Paga: {{cPaga | currency:'BRL':true:'1.2-2'}}
+      </div>
+      
     </div>
   </mat-card-content>
 </mat-card>

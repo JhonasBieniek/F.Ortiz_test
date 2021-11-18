@@ -4,13 +4,13 @@
             <mat-card-content>
                 <form [formGroup]="form">
                     <mat-card-title class="title">{{pageTitle}}</mat-card-title>
-                    <div fxLayout="row wrap">
+                    <!-- <div fxLayout="row wrap">
                         <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
                             <mat-radio-group formControlName="tipo" appearance="outline">
                                 <mat-radio-button value="Recebimentos" class="m-r-10">Recebimentos</mat-radio-button>
                             </mat-radio-group>
                         </div>
-                    </div>
+                    </div> -->
                     <div fxLayout="row wrap" class="row">
                         <div class="p-10 text" fxFlex.gt-sm="37" fxFlex.gt-xs="37" fxFlex="100">
                             <mat-form-field [hideRequiredMarker]="true" appearance="outline">
@@ -105,7 +105,7 @@
               <!-- Row Detail Template -->
               <ngx-datatable-row-detail rowHeight="(row.nota_parcelas.lenght * 70)" #myDetailRow (toggle)="onDetailToggle($event)">
                 <ng-template ngx-datatable-row-detail-template let-row="row" let-expanded="expanded" >
-                  <div style="padding-left:35px;">
+                  <div style="padding-left:35px; font-size: 12px;">
                     <div fxLayout="row wrap">
                       <table class="table table-striped">
                         <thead>
@@ -120,7 +120,7 @@
                         <tbody>
                         <tr  *ngFor="let cols of parcelas(row.nota_parcelas) index as i" >
                           <td>{{ cols.parcela }}</td>
-                          <td>{{ cols.data_vencimento }}</td>
+                          <td>{{ cols.data_vencimento | date:'dd/MM/yyyy' }}</td>
                           <td>{{ cols.valor | currency : 'R$' }}</td>
                           <td>{{ (cols.valor * row.pedido.comissao_media)/100 | currency : 'R$'}}</td>
                           <td>

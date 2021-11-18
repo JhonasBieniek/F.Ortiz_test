@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { RelatoriosComponent } from './relatorios/relatorios.component';
 import { RecebimentosComponent } from './recebimentos/recebimentos.component';
 import { ImportarComponent } from './importar/importar.component';
+import { RecebidosComponent } from './recebidos/recebidos.component';
 
 export const ComissaoRoutes: Routes = [
   {
@@ -28,6 +29,10 @@ export const ComissaoRoutes: Routes = [
       path: 'importar',
       component: ImportarComponent
     }, 
+    {
+      path: 'recebidos',
+      component: RecebidosComponent
+    }
     ]
   }
 ];

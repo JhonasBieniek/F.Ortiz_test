@@ -17,7 +17,7 @@
     <button *ngIf="dados?.status == 'aberto' || 'parcial'" mat-stroked-button color="accent" class="p-10"
       (click)="devolucao()">
       <i class="material-icons">highlight_off</i>Devolução</button>
-    <button *ngIf="dados?.status == 'recebido'" mat-stroked-button color="primary" class="p-10" (click)="estorno()">
+    <button *ngIf="dados?.status == 'recebido' || dados?.status == 'devolvido parcial' || dados?.status == 'devolvido'" mat-stroked-button color="primary" class="p-10" (click)="estorno()">
       <i class="material-icons">restore</i>Estorno</button>
     <button mat-stroked-button color="primary" class="p-10" (click)="imprimir()">
       <i class="material-icons">print</i>Imprimir
@@ -158,6 +158,27 @@
       {{ value }}
     </ng-template>
   </ngx-datatable-column>
+</ngx-datatable>
+</div>
+
+<div class="p-t-10 text" fxLayout="row wrap" *ngIf="estornos.length > 0">
+  <p fxFlex="100"><strong>Lista de Estorno:</strong></p>
+
+  <ngx-datatable class='material striped' [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50"
+  [rowHeight]="'auto'" [limit]="5" [rows]='estornos' [sorts]="[{prop: 'id', dir: 'asc'}]" fxFlex="100">
+
+  <ngx-datatable-column [flexGrow]="0.6" name="Parcela" prop="parcela">
+    <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+      {{ value }}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column [flexGrow]="1" name="Valor" prop="valor">
+    <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+      {{ value }}
+    </ng-template>
+  </ngx-datatable-column>
+
 </ngx-datatable>
 </div>
 

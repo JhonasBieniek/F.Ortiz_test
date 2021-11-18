@@ -31,6 +31,7 @@ export class DialogViewNotaComponent implements OnInit {
   ];
 
   devolucoes: any[] = [];
+  estornos: any[] = [];
 
   defaultTab = 0;
 
@@ -72,6 +73,8 @@ export class DialogViewNotaComponent implements OnInit {
       
       this.dados = res.data;
       this.devolucoes = res.data.nota_produto_devolutions;
+      this.estornos = res.data.nota_parcelas.filter( parcelas => { return parcelas.estorno === true});
+      console.log(this.estornos)
       this.temp[0] = res.data.pedido.pedido_produtos;
       let qtd = res.data.nota_produtos;
       this.temp[0].map(e => {
@@ -157,7 +160,7 @@ export class DialogViewNotaComponent implements OnInit {
 
     );
     dialogRef.afterClosed().subscribe(value => {
-      console.log(value)
+      if(value === true) this.loadData();
     });
   }
   devolucao() {

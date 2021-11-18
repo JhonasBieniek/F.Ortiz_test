@@ -754,6 +754,26 @@ export class ClientService {
       });
   }
 
+  comissoesRecebidas(data) {
+    const uri = `${API_URL}` + `notaParcelas/getRecebidos.json`;
+    return this
+      .http
+      .post(uri, data)
+      .map(res => {
+        return res;
+      });
+  }
+
+  reverterComissao(data) {
+    const uri = `${API_URL}` + `notaParcelas/reverterComissao.json`;
+    return this
+      .http
+      .post(uri, data)
+      .map(res => {
+        return res;
+      });
+  }
+
   getOrcPedido(id, tipo) {
     const uri = `${API_URL}` + tipo + `/view/` + id + `.json`;
     return this
@@ -1133,6 +1153,10 @@ export class ClientService {
   getEstorno(data) {
     const uri = API_URL + 'notas/estorno/' + data + ".json";
     return this.http.get(uri);
+  }
+  estornarParcela(data) {
+    const uri = `${API_URL}` + `notas/estornarParcela.json`;
+    return this.http.post(uri, data);
   }
   areceber(data) {
     const uri = `${API_URL}` + `pedidos/receber.json`;

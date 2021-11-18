@@ -19,6 +19,8 @@ import {
 } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { ImportarComponent } from './importar/importar.component';
+import { DialogRelatorioPrintComponent } from './dialog-relatorio-print/dialog-relatorio-print.component';
+import { RecebidosComponent } from './recebidos/recebidos.component';
 
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
@@ -28,7 +30,7 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
   declarations: [
     RelatoriosComponent, 
     RecebimentosComponent, 
-    ImportarComponent
+    ImportarComponent, DialogRelatorioPrintComponent, RecebidosComponent
   ],
   imports: [
     CommonModule,
