@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogConfig } from "@angu
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
 import { NovoComponent } from '../../pedido-listar/novo/novo.component';
+import moment from 'moment';
 
 @Component({
   selector: 'app-dialog-edit-nota',
@@ -131,7 +132,7 @@ export class DialogEditNotaComponent implements OnInit {
         if(parcelas[i] != ""){
           let vencimento = new Date(data)
           this.nota_parcelas.push(this.fb.group({
-            data_vencimento: new Date (vencimento.setDate(vencimento.getDate() + parseInt(parcelas[i]))),
+            data_vencimento: moment(new Date(vencimento.setDate(vencimento.getDate() + parseInt(parcelas[i])))).format("YYYY-MM-DD"),
             valor: valor,
             status_recebimento: false,
             parcela: i,

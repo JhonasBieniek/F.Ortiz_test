@@ -4,6 +4,7 @@ import { ClientService } from '../../shared/services/client.service.component';
 import { NotificationService } from '../../shared/messages/notification.service';
 import { SelectionType } from '@swimlane/ngx-datatable';
 import { Observable } from 'rxjs';
+import moment from 'moment';
 
 @Component({
   selector: 'app-recebimentos',
@@ -93,7 +94,7 @@ export class RecebimentosComponent implements OnInit {
     if(ev.currentTarget.checked){
       data.nota_parcelas.forEach(e => {
         e.status_recebimento = true;
-        e.data_recebimento = new Date();
+        e.data_recebimento = moment(new Date()).format("YYYY-MM-DD");
       });
     }else{
       data.nota_parcelas.forEach(e => {
@@ -106,12 +107,11 @@ export class RecebimentosComponent implements OnInit {
   selectParcela(ev:any, row:any){
     if(ev.currentTarget.checked){
       row.status_recebimento = true;
-      row.data_recebimento = new Date();
+      row.data_recebimento = moment(new Date()).format("YYYY-MM-DD");
     }else{
       row.status_recebimento = false;
       row.data_recebimento = null;
     }
-
   }
 
   onActivate(event) {

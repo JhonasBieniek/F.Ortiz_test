@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
 import { ClientService } from '../../../../shared/services/client.service.component';
 import { NovoComponent } from '../../../pedido-listar/novo/novo.component';
+import moment from 'moment';
+import { NotificationService } from '../../../../shared/messages/notification.service';
 
 @Component({
   selector: 'app-dialog-send-nota',
@@ -44,6 +46,7 @@ export class DialogSendNotaComponent implements OnInit {
     private clientservice: ClientService,
     public dialogRef: MatDialogRef<DialogSendNotaComponent>,
     private dialog: MatDialog,
+    private notificationService: NotificationService,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     this.loadData();
@@ -111,7 +114,7 @@ export class DialogSendNotaComponent implements OnInit {
         if (parcelas[i] != "") {
           let vencimento = new Date(data)
           this.nota_parcelas.push(this.fb.group({
-            data_vencimento: new Date(vencimento.setDate(vencimento.getDate() + parseInt(parcelas[i]))),
+            data_vencimento: moment(new Date(vencimento.setDate(vencimento.getDate() + parseInt(parcelas[i])))).format("YYYY-MM-DD") ,
             valor: valor,
             status_recebimento: false,
             parcela: (i == 0) ? 1 : i,
@@ -174,7 +177,11 @@ export class DialogSendNotaComponent implements OnInit {
       // }
 
     this.clientservice.addNota(dados).subscribe((res: any) => {
-      this.dialogRef.close(res.success);
+      if(res.success === true){
+        this.dialogRef.close(res.success);
+      }else{
+        this.notificationService.notify('Inform ao administrador que nao foi possivel gerar a nota');
+      }
     });
   }
 
