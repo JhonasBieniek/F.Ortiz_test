@@ -866,6 +866,14 @@ export class ClientService {
     const uri = `${API_URL}` + `notas/relatorios.json`;
     return this.http.post<Object>(uri, data);
   }
+  getNotasRelatoriosDevolucoes(data): Observable<Object> {
+    const uri = `${API_URL}` + `notas/relatorioDevolucoes.json`;
+    return this.http.post<Object>(uri, data);
+  }
+  getNotasRelatoriosEstornos(data): Observable<Object> {
+    const uri = `${API_URL}` + `notas/relatorioEstornos.json`;
+    return this.http.post<Object>(uri, data);
+  }
   getPedidoSemNota() {
     const uri = `${API_URL}` + `notas/getPedidoSemNota.json`;
     return this
@@ -1095,6 +1103,16 @@ export class ClientService {
         return res;
       });
   }
+  getClientsByRepresentadaAndArea($representada_id, $area_venda_id) {
+    const uri = `${API_URL}` + 'ClienteRepresentadaAreaVendas/getClientsByRepresentadaAndArea/' + $representada_id + '/'+ $area_venda_id+ '.json';
+    return this
+      .http
+      .get(uri)
+      .map(res => {
+        return res;
+      });
+  }
+
   getAreaByRepresentada($representada_id) {
     const uri = `${API_URL}` + 'areaVendas/getAreaByRepresentada/' + $representada_id + '.json';
     return this

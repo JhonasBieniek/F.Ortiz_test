@@ -42,3 +42,9 @@
   font-size: 12px;
   font-weight: 400;
 }
+
+.show-title{
+  padding: 0.2em;
+  background-color: dodgerblue;
+  color:white;
+}

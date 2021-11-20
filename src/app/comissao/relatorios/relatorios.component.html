@@ -5,27 +5,19 @@
       <mat-card-content>
         <form [formGroup]="form">
           <mat-card-title class="title">{{pageTitle}}</mat-card-title>
-          <div *ngIf="show == true" fxLayout="row wrap" class="row">
-            <div class="p-10 text" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-              <mat-radio-group aria-label="Select an option" formControlName="tipo">
-                <!-- <mat-radio-button value="faturamento">Faturamento</mat-radio-button> -->
-                <mat-radio-button value="data_recebimento">Recebimento</mat-radio-button>
-                <mat-radio-button value="data_vencimento">Vencimento</mat-radio-button>
-              </mat-radio-group>
-            </div>
-          </div>
           <div fxLayout="row wrap" class="row">
-            <div class="p-10 text" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+            <div class="p-10 text" fxFlex.gt-sm="25" fxFlex.gt-xs="30" fxFlex="100">
               <mat-form-field [hideRequiredMarker]="true" appearance="outline">
                 <mat-label>Selecione a representada...</mat-label>
                 <mat-select formControlName="representada_id" (selectionChange)="getAreas()">
+                  <mat-option [value]=null></mat-option>
                   <mat-option *ngFor="let representada of representadas" [value]="representada.id">
                     {{representada.nome_fantasia}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
-            <div class="p-10 text" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100" *ngIf="areas.length > 0">
+            <div class="p-10 text" fxFlex.gt-sm="25" fxFlex.gt-xs="30" fxFlex="100" *ngIf="areas.length > 0">
               <mat-form-field appearance="outline" fxFlex="100">
                 <mat-label>Área de Venda...</mat-label>
                 <input type="text" placeholder="Busque a área" aria-label="area" matInput [formControl]="areaBusca"
@@ -42,8 +34,44 @@
                 </mat-autocomplete>
               </mat-form-field>
             </div>
+            <div class="p-10 text" fxFlex.gt-sm="25" fxFlex.gt-xs="30" fxFlex="100" *ngIf="clientes.length > 0">
+              <mat-form-field appearance="outline" fxFlex="100">
+                <mat-label>Clientes...</mat-label>
+                <input type="text" placeholder="Busque o cliente" aria-label="area" matInput [formControl]="clienteBusca"
+                  (keyup)="searchCliente()" [matAutocomplete]="autoCliente">
+                <button mat-button matSuffix mat-icon-button aria-label="Clear" type="button"
+                  *ngIf="form.controls['cliente_id'].value != null">
+                  <mat-icon color="warn" (click)="limparCliente();">close</mat-icon>
+                </button>
+                <mat-autocomplete autoActiveFirstOption #autoCliente="matAutocomplete">
+                  <mat-option *ngFor="let cliente of $clientes" (click)="setCliente(cliente)" (onSelectionChange)="setCliente(cliente)"
+                    [value]="cliente.razao_social">
+                    {{cliente.razao_social}} - {{cliente.cnpj}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+            <div class="p-10 text" fxFlex.gt-sm="25" fxFlex.gt-xs="30" fxFlex="100" *ngIf="rota == 'comissoes'">
+              <mat-form-field [hideRequiredMarker]="true" appearance="outline">
+                <mat-label>Funcionarios</mat-label>
+                <mat-select required formControlName="funcionario_id">
+                  <mat-option *ngFor="let funcionario of funcionarios" [value]="funcionario.id">
+                    {{funcionario.nome | uppercase}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
             <div class="show-title" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
               <span class="p-l-10"> Período</span>
+            </div>
+            <div *ngIf="show == true" fxLayout="row wrap" fxFlex="100">
+              <div class="p-10 text" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                <mat-radio-group aria-label="Select an option" formControlName="tipo">
+                  <mat-radio-button value="data_faturamento">Faturamento</mat-radio-button>
+                  <mat-radio-button value="data_recebimento">Recebimento</mat-radio-button>
+                  <mat-radio-button value="data_vencimento">Vencimento</mat-radio-button>
+                </mat-radio-group>
+              </div>
             </div>
             <div class="p-10 text" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100">
               <mat-form-field appearance="outline">
@@ -61,12 +89,40 @@
                 <mat-datepicker #picker2></mat-datepicker>
               </mat-form-field>
             </div>
+            <div *ngIf="rota == 'recebimento' || rota == 'devolucoes' || rota == 'estorno'" style="margin-top: -20px;" fxLayout="row wrap" fxFlex="100">
+              <div class="p-10 text" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                <mat-radio-group aria-label="Select an option" formControlName="filtro">
+                  <mat-radio-button value="todas">Todas</mat-radio-button>
+                  <mat-radio-button value="vencidas">Vencidas</mat-radio-button>
+                  <mat-radio-button value="recebidas">Recebidas</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+            <div *ngIf="rota == 'recebimento' || rota == 'devolucoes' || rota == 'estorno'" class="show-title" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+              <span class="p-l-10"> Ordenação </span>
+            </div>
+            <div *ngIf="rota == 'recebimento' || rota == 'devolucoes' || rota == 'estorno'" class="m-b-20"  fxLayout="row wrap" fxFlex="100">
+              <div class="p-10 text" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                <mat-radio-group aria-label="Select an option" formControlName="ordenacao">
+                  <mat-radio-button value="num_nota">Nota</mat-radio-button>
+                  <mat-radio-button value="Pedidos.num_pedido">Pedido</mat-radio-button>
+                  <mat-radio-button value="data_faturamento">Data</mat-radio-button>
+                  <mat-radio-button value="Clientes.razao_social">Cliente</mat-radio-button>
+                </mat-radio-group>
+              </div>
+              <div class="p-l-10 text" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                <mat-radio-group aria-label="Select an option" formControlName="ordenacao_tipo">
+                  <mat-radio-button value="asc">Crescente</mat-radio-button>
+                  <mat-radio-button value="desc">Descrecente</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
           </div>
           <div class="buttonComissao">
             <button mat-raised-button color="primary" type="submit" (click)="Submit()">Buscar</button>
             <button mat-raised-button class="m-l-10" color="warn" (click)="clear()">Limpar</button>
           </div>
-          <div fxLayout="row wrap" class="row">
+          <!-- <div fxLayout="row wrap" class="row">
             <div *ngIf="(vendedores$ | async)?.length > 0" class="p-10 text" fxFlex.gt-sm="33.33" fxFlex.gt-xs="33.33"
               fxFlex="100">
               <mat-form-field [hideRequiredMarker]="true" appearance="outline">
@@ -107,7 +163,7 @@
           <div *ngIf="(clientes$ | async)?.length > 0" fxLayout="row" fxLayoutAlign="end center" class="button"
             style="margin-bottom: -20px;">
             <button mat-raised-button color="warn" (click)="updateFilter('limpar')">Limpar</button>
-          </div>
+          </div> -->
         </form>
       </mat-card-content>
     </mat-card>
@@ -120,19 +176,19 @@
       <ngx-datatable-column [flexGrow]="0.6" prop="pedido.representada.nome_fantasia" name="Representada">
       </ngx-datatable-column>
       <ngx-datatable-column prop="pedido.cliente.razao_social" name="Cliente" [flexGrow]="0.8"></ngx-datatable-column>
-      <ngx-datatable-column [flexGrow]="0.5" name="Núm. Nota">
+      <ngx-datatable-column [flexGrow]="0.5" name="Núm. Nota" prop="num_nota">
         <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
           <div>{{row.num_nota}}</div>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [flexGrow]="0.6" name="Núm. Pedido">
+      <ngx-datatable-column [flexGrow]="0.6" name="Núm. Pedido" prop="pedido.num_pedido">
         <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
           <div>{{row.pedido.num_pedido}}</div>
           <div class="inner-col-header">Parcela</div>
           <div *ngFor=" let parcela of row.nota_parcelas">{{parcela.parcela}}</div>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [flexGrow]="0.6" name="Data">
+      <ngx-datatable-column [flexGrow]="0.6" name="Data" prop="data_faturamento">
         <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
           <div>{{row.data_faturamento | date: 'dd/MM/yyyy'}}</div>
           <div class="inner-col-header">Vencimento</div>
@@ -140,28 +196,120 @@
             {{parcela.data_vencimento | date: 'dd/MM/yyyy'}}</div>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Valor Total" [flexGrow]="0.6">
+      <ngx-datatable-column name="Valor Total" [flexGrow]="0.6" prop="total">
         <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
-          <div>{{row.pedido.valor_total | currency:'BRL':true:'1.2-2'}}</div>
+          <div>{{row.total | currency:'BRL':true:'1.2-2'}}</div>
           <div class="inner-col-header">Valor Parcela</div>
           <div *ngFor=" let parcela of row.nota_parcelas">
             {{parcela.valor | currency:'BRL':true:'1.2-2'}}</div>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [flexGrow]="0.7" name="Comissão">
+      <ngx-datatable-column [flexGrow]="0.7" name="Comissão" prop="total">
         <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
-          <div>{{row.pedido.comissao_bruto | currency:'BRL':true:'1.2-2'}}</div>
+          <div>{{row.total * row.pedido.comissao_media / 100 | currency:'BRL':true:'1.2-2'}}</div>
           <div class="inner-col-header">Comissão parcela</div>
           <div *ngFor=" let parcela of row.nota_parcelas">
             {{parcela.valor * row.pedido.comissao_media / 100 | currency:'BRL':true:'1.2-2'}}</div>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [flexGrow]="0.5" name="Comissão %">
+      <ngx-datatable-column [flexGrow]="0.5" name="Comissão %" prop="pedido.comissao_media">
         <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
           <div class="inner-col-data">{{row.pedido.comissao_media}}%</div>
         </ng-template>
       </ngx-datatable-column>
     </ngx-datatable>
+  </mat-card-content>
+</mat-card>
+<mat-card *ngIf="rows.length && this.route.snapshot.url[1].path == 'devolucoes'" style="margin-top: -10px;">
+  <mat-card-content>
+    <ngx-datatable #table class="material" [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50"
+      [rowHeight]="'auto'" [rows]="rows">
+      <ngx-datatable-column [flexGrow]="0.6" prop="pedido.representada.nome_fantasia" name="Representada">
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="pedido.cliente.razao_social" name="Cliente" [flexGrow]="0.8"></ngx-datatable-column>
+      <ngx-datatable-column [flexGrow]="0.5" name="Núm. Nota" prop="num_nota">
+        <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
+          <div>{{row.num_nota}}</div>
+          <div class="inner-col-header">Código</div>
+          <div *ngFor=" let produto of row.nota_produto_devolutions">{{produto.pedido_produto.produto.codigo_catalogo}}</div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [flexGrow]="0.6" name="Núm. Pedido" prop="pedido.num_pedido">
+        <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
+          <div>{{row.pedido.num_pedido}}</div>
+          <div class="inner-col-header">Produto</div>
+          <div *ngFor=" let produto of row.nota_produto_devolutions">{{produto.pedido_produto.produto.nome }}</div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Quantidade" [flexGrow]="0.6" prop="quantidade">
+        <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
+          <div>{{row.quantidade}}</div>
+          <div class="inner-col-header">Qtde</div>
+          <div *ngFor=" let produto of row.nota_produto_devolutions">{{produto.qtd}}</div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [flexGrow]="0.7" name="Total" prop="total">
+        <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
+          <div>{{row.total | currency:'BRL':true:'1.2-2'}}</div>
+          <div class="inner-col-header">Total</div>
+          <div *ngFor=" let produto of row.nota_produto_devolutions">{{produto.qtd * produto.pedido_produto.valor_unitario | currency:'BRL':true:'1.2-2'}}</div>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </mat-card-content>
+</mat-card>
+<mat-card *ngIf="rows.length && this.route.snapshot.url[1].path == 'estorno'" style="margin-top: -10px;">
+  <mat-card-content>
+    <ngx-datatable #table class="material" [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50"
+      [rowHeight]="'auto'" [rows]="rows">
+      <ngx-datatable-column [flexGrow]="0.6" prop="pedido.representada.nome_fantasia" name="Representada"></ngx-datatable-column>
+      <ngx-datatable-column prop="pedido.cliente.razao_social" name="Cliente" [flexGrow]="0.8"></ngx-datatable-column>
+      <ngx-datatable-column [flexGrow]="0.5" name="Núm. Nota" prop="num_nota">
+        <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
+          <div>{{row.num_nota}}</div>
+          <div class="inner-col-header">Parcela</div>
+          <div *ngFor=" let parcela of row.nota_parcelas">{{parcela.parcela}}</div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [flexGrow]="0.6" name="Núm. Pedido" prop="pedido.num_pedido">
+        <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
+          <div>{{row.pedido.num_pedido}}</div>
+          <div class="inner-col-header">Vencimento</div>
+          <div *ngFor=" let parcela of row.nota_parcelas">
+            {{parcela.data_vencimento | date: 'dd/MM/yyyy'}}</div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [flexGrow]="0.7" name="Total" prop="total">
+        <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
+          <div>{{row.total | currency:'BRL':true:'1.2-2'}}</div>
+          <div class="inner-col-header">Valor</div>
+          <div *ngFor=" let parcela of row.nota_parcelas">
+            {{parcela.valor | currency:'BRL':true:'1.2-2'}}</div>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </mat-card-content>
+</mat-card>
+<mat-card *ngIf="rows.length > 0 && this.route.snapshot.url[1].path == 'recebido'" style="margin-top: -10px;">
+  <mat-card-content>
+    <div fxLayout="row wrap" class="row" style="margin-top: -10px; margin-bottom: -10px;">
+      <div class="p-10 vt" fxFlex.gt-sm="55" fxFlex.gt-xs="55" fxFlex="100" fxLayoutAlign="start center">
+      </div>
+      <div class="p-10 vt" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100" fxLayoutAlign="start center">
+        Valor Total: {{valorTotal() | currency:'BRL':true:'1.2-2'}}
+      </div>
+      <div class="p-10 vt" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100" fxLayoutAlign="start center">
+        Comissão Total: {{comissaoTotal() | currency:'BRL':true:'1.2-2'}}
+      </div>
+      <div class="p-10 vt" fxFlex.gt-sm="55" fxFlex.gt-xs="55" fxFlex="100" fxLayoutAlign="start center">
+      </div>
+      <div class="p-10 ct" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100" fxLayoutAlign="start center">
+        Valor Parcelas: {{valorParcelas() | currency:'BRL':true:'1.2-2'}}
+      </div>
+      <div class="p-10 ct" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100" fxLayoutAlign="start center">
+        Comissão Parcelas: {{comissaoParcelas() | currency:'BRL':true:'1.2-2'}}
+      </div>
+    </div>
   </mat-card-content>
 </mat-card>
 <mat-card *ngIf="rows.length > 0 && this.route.snapshot.url[1].path == 'acumulado'" style="margin-top: -10px;">
@@ -206,28 +354,6 @@
     </ngx-datatable>
   </mat-card-content>
 </mat-card>
-<mat-card *ngIf="rows.length > 0 && this.route.snapshot.url[1].path == 'recebido'" style="margin-top: -10px;">
-  <mat-card-content>
-    <div fxLayout="row wrap" class="row" style="margin-top: -10px; margin-bottom: -10px;">
-      <div class="p-10 vt" fxFlex.gt-sm="55" fxFlex.gt-xs="55" fxFlex="100" fxLayoutAlign="start center">
-      </div>
-      <div class="p-10 vt" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100" fxLayoutAlign="start center">
-        Valor Total: {{valorTotal() | currency:'BRL':true:'1.2-2'}}
-      </div>
-      <div class="p-10 vt" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100" fxLayoutAlign="start center">
-        Comissão Total: {{comissaoTotal() | currency:'BRL':true:'1.2-2'}}
-      </div>
-      <div class="p-10 vt" fxFlex.gt-sm="55" fxFlex.gt-xs="55" fxFlex="100" fxLayoutAlign="start center">
-      </div>
-      <div class="p-10 ct" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100" fxLayoutAlign="start center">
-        Valor Parcelas: {{valorParcelas() | currency:'BRL':true:'1.2-2'}}
-      </div>
-      <div class="p-10 ct" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100" fxLayoutAlign="start center">
-        Comissão Parcelas: {{comissaoParcelas() | currency:'BRL':true:'1.2-2'}}
-      </div>
-    </div>
-  </mat-card-content>
-</mat-card>
 <mat-card *ngIf="rows.length > 0 && this.route.snapshot.url[1].path == 'acumulado'" style="margin-top: -10px;">
   <mat-card-content>
     <div fxLayout="row wrap" class="row" style="margin-top: -10px; margin-bottom: -10px;">
@@ -247,6 +373,56 @@
       <div class="p-10 ct" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100" fxLayoutAlign="start center">
         Comissão Paga: {{cPaga | currency:'BRL':true:'1.2-2'}}
       </div>
+      
+    </div>
+  </mat-card-content>
+</mat-card>
+<mat-card *ngIf="rows.length > 0 && this.route.snapshot.url[1].path == 'comissoes'" style="margin-top: -10px;">
+  <mat-card-content>
+    <ngx-datatable #table class="material" [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50"
+      [rowHeight]="'auto'" [rows]="rows">
+      <ngx-datatable-column [flexGrow]="1" name="Área de Venda" prop="area_venda.nome">
+        <ng-template let-value="area" let-row="row" ngx-datatable-cell-template>
+          {{row.area_venda.nome}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [flexGrow]="1" name="Valor Notas" prop="valor">
+        <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
+          <div>{{row.valor | currency:'BRL':true:'1.2-2'}}</div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [flexGrow]="1" name="Valor de Devoluções" prop="devolucao">
+        <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
+          <div>{{row.devolucao | currency:'BRL':true:'1.2-2'}}</div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [flexGrow]="1" name="Comissão" prop="comissao">
+        <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
+          <div>{{row.comissao | currency:'BRL':true:'1.2-2'}}</div>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </mat-card-content>
+</mat-card>
+<mat-card *ngIf="rows.length > 0 && this.route.snapshot.url[1].path == 'comissoes'" style="margin-top: -10px;">
+  <mat-card-content>
+    <div fxLayout="row wrap" class="row" style="margin-top: -10px; margin-bottom: -10px;">
+      <div class="p-10 vt" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100" fxLayoutAlign="start center">
+      </div>
+      <div class="p-10 vt" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100" fxLayoutAlign="start center">
+        Notas Total: {{vTotal | currency:'BRL':true:'1.2-2'}}
+      </div>
+      <div class="p-10 vt" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100" fxLayoutAlign="start center">
+        Devolução Total: {{totalDevolucao | currency:'BRL':true:'1.2-2'}}
+      </div>
+      <div class="p-10 vt" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100" fxLayoutAlign="start center">
+      </div>
+      <div class="p-10 ct" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100" fxLayoutAlign="start center">
+        Comissao Total: {{totalComissao | currency:'BRL':true:'1.2-2'}}
+      </div>
+      <!--<div class="p-10 ct" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100" fxLayoutAlign="start center">
+        Comissão Paga: {{cPaga | currency:'BRL':true:'1.2-2'}}
+      </div> -->
       
     </div>
   </mat-card-content>
