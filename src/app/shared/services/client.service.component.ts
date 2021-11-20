@@ -469,6 +469,33 @@ export class ClientService {
       });
   }
 
+  fornecedor() {
+    const uri = `${API_URL}` + `financeiros/fornecedor.json`;
+    return this
+      .http
+      .get(uri)
+      .map(res => {
+        return res;
+      });
+  }
+
+  contasPagarByCliente(id) {
+    const uri = `${API_URL}` + `financeiros/contasPagarByCliente/${id}.json`;
+    return this
+      .http
+      .get(uri)
+      .map(res => {
+        return res;
+      });
+  }
+
+  receberPagamentos(data) {
+    const uri = `${API_URL}` + `financeiros/receberPagamentos.json`;
+    return this
+      .http
+      .post(uri, data);
+  }
+
   chkParcelas(id, data) {
     const uri = `${API_URL}` + `notas/chk/${id}.json`;
     return this

@@ -150,7 +150,58 @@ export class RecebimentosComponent implements OnInit {
   })
 
   sendBaixa(){
+    
     this.checkRecebido.subscribe((res:any) => {
+      res.forEach(nota => {
+        nota.contas = [];
+        nota.nota_parcelas.forEach(parcela => {
+          if(parcela.status_recebimento === true){
+            //* entrada => do recebimento comissao fortiz
+            nota.contas.push({
+              tipo: 'entrada',
+              operacao: 'recebimento',
+              nota_id: nota.id,
+              nota_parcela_id: parcela.id,
+              representada_id: nota.pedido.representada_id,
+              auxiliar_id: null,
+              vendedor_id: null,
+              valor: parcela.fortiz_valor,
+              data_pagamento: moment(new Date()).format("YYYY-MM-DD"),
+              status_pagamento: true,
+              conta_id: nota.pedido.representada.conta_id
+            });
+            
+            //* entrada => do recebimento comissao fortiz
+            nota.contas.push({
+              tipo: 'saida',
+              operacao: 'pagamento',
+              nota_id: nota.id,
+              nota_parcela_id: parcela.id,
+              representada_id: nota.pedido.representada_id,
+              auxiliar_id: nota.pedido.auxiliar_id,
+              vendedor_id: null,
+              valor: parcela.auxiliar_valor,
+              data_pagamento: null,
+              status_pagamento: false,
+            });
+
+            //* entrada => do recebimento comissao fortiz
+            nota.contas.push({
+              tipo: 'saida',
+              operacao: 'pagamento',
+              nota_id: nota.id,
+              nota_parcela_id: parcela.id,
+              representada_id: nota.pedido.representada_id,
+              auxiliar_id: null,
+              vendedor_id: nota.pedido.vendedor_id,
+              valor: parcela.vendedor_valor,
+              data_pagamento: null,
+              status_pagamento: false,
+            });
+          }
+        });
+      });
+
       this.clientservice.baixaRecebimentos(res).subscribe((res:any) => {
         if(res.success ==  true){
           this.rows = [];

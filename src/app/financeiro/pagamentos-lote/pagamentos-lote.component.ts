@@ -35,11 +35,11 @@ export class PagamentosLoteComponent implements OnInit {
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
 
-  displayedColumns: string[] = ['select', 'position', 'name', 'weight'];
-  displayedColumnsPayment: string[] = ['position', 'name', 'weight'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  dataSourceSelected: PeriodicElement[] = [];
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  // displayedColumns: string[] = ['select', 'position', 'name', 'weight'];
+  displayedColumnsPayment: string[] = ['fornecedor', 'valor'];
+  // dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  // dataSourceSelected: PeriodicElement[] = [];
+  // selection = new SelectionModel<PeriodicElement>(true, []);
 
   public form: FormGroup;
   public formPayments: FormGroup;
@@ -55,24 +55,59 @@ export class PagamentosLoteComponent implements OnInit {
   data: any = [];
   dados: any = [];
   rows = [];
-  temp = [...this.data];
+  temp = [];
 
 
   
 
   //@ViewChild(RelatoriosComponent, { static: false }) table: RelatoriosComponent;
   constructor(private clientservice: ClientService, private fb: FormBuilder, private notificationService: NotificationService) {
-    //this.loadData();
-    this.clientservice.getFuncPgtoLote().subscribe((res: any) => {
-      this.funcionarios = res.data;
-      this.$funcionarios = res.data;
-    });
 
     this.clientservice.getContas().subscribe((res: any) => {
       this.contas = res.data;
     });
+  }
 
-    
+  loadData(){
+    this.funcionarios = [];
+    this.$funcionarios = [];
+
+    this.funcionarioBusca.reset('');
+    this.form.reset();
+    this.formPayments.reset();
+
+    this.rows = [];
+    this.step = 0;
+
+    this.clientservice.fornecedor().subscribe((res: any) => {
+      let fornecedores: any[] = [];
+      if(res.data.length > 0){
+        res.data.forEach(funcionario => {
+          let index;
+          if(funcionario.auxiliar_id != null){
+            index = fornecedores.findIndex( fornecedor => { return fornecedor.id == funcionario.auxiliar_id});
+            if(index == -1){
+              fornecedores.push({
+                id: funcionario.auxiliar_id,
+                nome: funcionario.auxiliar.nome
+              });
+            }
+          }else{
+            index = fornecedores.findIndex( fornecedor => { return fornecedor.id == funcionario.auxiliar_id});
+            if(index == -1){
+              fornecedores.push({
+                id: funcionario.vendedor_id,
+                nome: funcionario.vendedor.nome
+              });
+            }
+          }
+        });
+      }else{
+        this.notificationService.notify("Não possui pagamento Pendente !");
+      }
+      this.funcionarios = fornecedores;
+      this.$funcionarios = fornecedores;
+    });
   }
 
   filterFornecedor() {
@@ -88,7 +123,6 @@ export class PagamentosLoteComponent implements OnInit {
       this.$funcionarios = this.funcionarios.filter(function (d) {
         if (
           d.nome.toLowerCase().match(re) ||
-          d.email.toLowerCase().match(re) ||
           !val
         )
           return d;
@@ -99,13 +133,12 @@ export class PagamentosLoteComponent implements OnInit {
   }
 
   setCliente(funcionario) {
-    console.log(funcionario);
     this.form.get("funcionario_id").setValue(funcionario.id);
   }
 
   ngOnInit() {
     this.form = this.fb.group({
-      funcionario_id: [null]
+      funcionario_id: [null, Validators.required]
     });
     
     this.formPayments = this.fb.group({
@@ -116,65 +149,91 @@ export class PagamentosLoteComponent implements OnInit {
       observacao: [null]
     });
 
+    this.loadData();
   }
 
   getTotalCost() {
-    return this.dataSourceSelected.map(t => t.weight).reduce((acc, value) => acc + value, 0);
+    return this.rows.map(t => t.valor).reduce((acc, value) => acc + value, 0);
   }
 
   setStep(index: number) {
     this.step = index;
+    // this.rows = [];
+    // this.clientservice.contasPagarByCliente(this.form.get('funcionario_id').value).subscribe((res: any) => {
+    //   console.log(res)
+    // });
   }
 
   nextStep() {
     this.step++;
-    this.dataSourceSelected = [];
-    this.selection.selected.forEach(element => {
-      this.dataSourceSelected.push(element)
+    this.rows = [];
+    this.clientservice.contasPagarByCliente(this.form.get('funcionario_id').value).subscribe((res: any) => {
+      console.log(res)
+      this.rows = res.data;
     });
   }
-  mostrar(){
-    console.log(this.formPayments.value)
+
+  getFornecedorName(){
+    let fornecedores = this.funcionarios.find( funcionario => {return funcionario.id == this.form.get('funcionario_id').value});
+    return fornecedores.nome
+  }
+
+  finalizarPagamento(){
+    this.rows.forEach(conta => {
+      conta.data_pagamento = this.formPayments.get('datapagamento').value.format("YYYY-MM-DD");
+      conta.status_pagamento = true;
+      conta.conta_id = this.formPayments.get('conta_id').value;
+      conta.obs = this.formPayments.get('observacao').value;
+    });
+    console.log(this.formPayments.value);
+    console.log(this.rows)
+    this.clientservice.receberPagamentos(this.rows).subscribe((res:any) => {
+      if(res.success ==  true){
+        this.loadData();
+        this.notificationService.notify("Pagamento processado !");
+      }
+    })
   }
 
   prevStep() {
     this.step--;
-    this.dataSourceSelected = [];
+    this.rows = [];
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
+  // isAllSelected() {
+  //   const numSelected = this.selection.selected.length;
+  //   const numRows = this.dataSource.data.length;
+  //   return numSelected === numRows;
+  // }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
-    }
+  // masterToggle() {
+  //   if (this.isAllSelected()) {
+  //     this.selection.clear();
+  //     return;
+  //   }
 
-    this.selection.select(...this.dataSource.data);
-  }
+  //   this.selection.select(...this.dataSource.data);
+  // }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
-  }
+  // checkboxLabel(row?: PeriodicElement): string {
+  //   if (!row) {
+  //     return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+  //   }
+  //   return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+  // }
 
   limpar(){
     this.form.get('funcionario_id').setValue(null);
     this.funcionarioBusca.setValue('');
     this.$funcionarios = this.funcionarios;
+    this.rows = [];
   }
 
-  filtrar(){
-  }
+  // filtrar(){
+  // }
 
 
 }
