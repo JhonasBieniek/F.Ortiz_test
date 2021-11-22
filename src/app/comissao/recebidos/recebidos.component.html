@@ -81,7 +81,8 @@
             </ngx-datatable-column>
             <ngx-datatable-column [flexGrow]="0.5" name="Reverter">
                 <ng-template let-value="reverter" let-row="row" ngx-datatable-cell-template>
-                    <mat-icon aria-hidden="false" color="warn" aria-label="Reverter" style="cursor: pointer;" (click)="reverter(row)">close</mat-icon>
+                    <mat-icon aria-hidden="false" color="warn" aria-label="Reverter" style="cursor: pointer;" (click)="reverter(row)" *ngIf="row.financeiros.length == 0">close</mat-icon>
+                    <span *ngIf="row.financeiros.length > 0">Já foi Pago!</span>
                 </ng-template>
             </ngx-datatable-column>
         </ngx-datatable>

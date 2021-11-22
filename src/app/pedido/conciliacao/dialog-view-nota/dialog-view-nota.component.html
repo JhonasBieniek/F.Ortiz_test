@@ -57,8 +57,11 @@
 <div class="p-t-20 text" fxLayout="row wrap">
   <ng-container *ngFor="let parcela of dados?.nota_parcelas; let num = index">
 
-    <div style="margin-right: -10px;" fxFlex.gt-sm="3" fxFlex.gt-xs="3" fxFlex="4">
+    <!-- <div style="margin-right: -10px;" fxFlex.gt-sm="3" fxFlex.gt-xs="3" fxFlex="4">
       <span style="color: rgb(57, 57, 233)">{{num+1}}/{{dados?.nota_parcelas.length}} -</span>
+    </div> -->
+    <div style="margin-right: -10px;" fxFlex.gt-sm="3" fxFlex.gt-xs="3" fxFlex="4">
+      <span style="color: rgb(57, 57, 233)">{{parcela?.parcela }}/{{dados?.nota_parcelas.length}} -</span>
     </div>
     <div fxFlex.gt-sm="18" fxFlex.gt-xs="18" fxFlex="48">
       <span><strong>Data do Vencimento:</strong> {{parcela?.data_vencimento | date:'dd/MM/yyyy'}} </span>
