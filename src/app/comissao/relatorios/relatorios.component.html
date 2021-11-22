@@ -226,19 +226,25 @@
       [rowHeight]="'auto'" [rows]="rows">
       <ngx-datatable-column [flexGrow]="0.6" prop="pedido.representada.nome_fantasia" name="Representada">
       </ngx-datatable-column>
-      <ngx-datatable-column prop="pedido.cliente.razao_social" name="Cliente" [flexGrow]="0.8"></ngx-datatable-column>
+      <ngx-datatable-column prop="pedido.cliente.razao_social" name="Cliente" [flexGrow]="0.8">
+        <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
+          <div>{{row.pedido.cliente.razao_social}}</div>
+          <div class="inner-col-header">Código</div>
+          <div *ngFor=" let produto of row.nota_produto_devolutions">{{produto.pedido_produto.produto.codigo_catalogo}}</div>
+        </ng-template>
+      </ngx-datatable-column>
       <ngx-datatable-column [flexGrow]="0.5" name="Núm. Nota" prop="num_nota">
         <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
           <div>{{row.num_nota}}</div>
-          <div class="inner-col-header">Código</div>
-          <div *ngFor=" let produto of row.nota_produto_devolutions">{{produto.pedido_produto.produto.codigo_catalogo}}</div>
+          <div class="inner-col-header">Produto</div>
+          <div *ngFor=" let produto of row.nota_produto_devolutions">{{produto.pedido_produto.produto.nome }}</div>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [flexGrow]="0.6" name="Núm. Pedido" prop="pedido.num_pedido">
         <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
           <div>{{row.pedido.num_pedido}}</div>
-          <div class="inner-col-header">Produto</div>
-          <div *ngFor=" let produto of row.nota_produto_devolutions">{{produto.pedido_produto.produto.nome }}</div>
+          <div class="inner-col-header">Valor Un.</div>
+          <div *ngFor=" let produto of row.nota_produto_devolutions">{{produto.pedido_produto.valor_unitario | currency:'BRL':true:'1.2-2'}}</div>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="Quantidade" [flexGrow]="0.6" prop="quantidade">
