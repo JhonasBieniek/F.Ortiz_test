@@ -193,7 +193,7 @@
         </div>
         <div formArrayName="orcamento_produtos">
           <div *ngFor="let produto of form.get('orcamento_produtos')['controls']; index as i" [formGroupName]="i">
-            <div class="title"> {{produto.get('codigo_catalogo').value}} - {{produto.get('nome').value | slice:0:55}}
+            <div class="cartOrcamento"> {{produto.get('codigo_catalogo').value}} - {{produto.get('nome').value | slice:0:55}}
               <button (click)="removeItem(i)" mat-icon-button color="warn">
                 <mat-icon>clear</mat-icon>
               </button>

@@ -55,3 +55,8 @@
 .fontTable{
   font-size: 15px;
 }
+
+.cartOrcamento {
+  margin: -5px -5px;
+  font-weight: 500;
+}

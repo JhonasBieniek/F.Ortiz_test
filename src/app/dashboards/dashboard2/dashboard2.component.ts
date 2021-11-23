@@ -279,6 +279,10 @@ export class Dashboard2Component implements OnInit {
   cliente_id: any = null;
   UltimosPedidos: any[] = [];
   dialogConfig = new MatDialogConfig();
+  clientes_total = 0;
+  representadas_total = 0;
+  pedidosAbertos_total = 0;
+  pedidosFaturados_total = 0;
   // This is for the table responsive
   constructor(breakpointObserver: BreakpointObserver,
     private clientservice: ClientService,
@@ -293,6 +297,23 @@ export class Dashboard2Component implements OnInit {
     this.clientservice.getClientes().subscribe((res:any) =>{
       this.clientes = res.data;
     });
+
+    this.clientservice.getTotalClientes().subscribe((res:any) =>{
+      this.clientes_total = res.data;
+    });
+
+    this.clientservice.getTotalRepresentadas().subscribe((res:any) =>{
+      this.representadas_total = res.data;
+    });
+
+    this.clientservice.getTotalPedidosAbertos().subscribe((res:any) =>{
+      this.pedidosAbertos_total = res.data;
+    });
+
+    this.clientservice.getTotalPedidosfaturados().subscribe((res:any) =>{
+      this.pedidosFaturados_total = res.data;
+    });
+
   }
 
   ngOnInit() {

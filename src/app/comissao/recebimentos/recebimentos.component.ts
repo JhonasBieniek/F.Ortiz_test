@@ -31,7 +31,7 @@ export class RecebimentosComponent implements OnInit {
     private clientservice: ClientService,
     private notificationService: NotificationService,
   ){
-    this.clientservice.getRepresentadas().subscribe((res:any)=>{
+    this.clientservice.getRepresentadasAtivas().subscribe((res:any)=>{
       this.representadas = res.data
     })
   }    

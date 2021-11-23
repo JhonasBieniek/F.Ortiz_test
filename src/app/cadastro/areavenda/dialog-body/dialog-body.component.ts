@@ -45,7 +45,7 @@ export class DialogBodyComponent implements OnInit {
       this.clientservice.getFuncionarios().subscribe((res:any) =>{
         this.auxiliares = res.data; 
       }); 
-      this.clientservice.getRepresentadas().subscribe((res:any) =>{
+      this.clientservice.getRepresentadasAtivas().subscribe((res:any) =>{
         this.representadas = res.data.filter(rep => rep.status == true); 
       }); 
 

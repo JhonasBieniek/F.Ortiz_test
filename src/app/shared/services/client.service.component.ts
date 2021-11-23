@@ -579,6 +579,10 @@ export class ClientService {
     const uri = `${API_URL}` + `representadas/index.json`;
     return this.http.get<any[]>(uri);
   }
+  getRepresentadasAtivas(): Observable<any[]> {
+    const uri = `${API_URL}` + `representadas/index2.json`;
+    return this.http.get<any[]>(uri);
+  }
   getClassificacoes(): Observable<any[]> {
     const uri = `${API_URL}` + `classifications/index.json`;
     return this.http.get<any[]>(uri);
@@ -1113,6 +1117,46 @@ export class ClientService {
 
   getClientes() {
     const uri = `${API_URL}` + `clientes/index.json`;
+    return this
+      .http
+      .get(uri)
+      .map(res => {
+        return res;
+      });
+  }
+
+  getTotalClientes(){
+    const uri = `${API_URL}` + `clientes/totalClientes.json`;
+    return this
+      .http
+      .get(uri)
+      .map(res => {
+        return res;
+      });
+  }
+
+  getTotalRepresentadas(){
+    const uri = `${API_URL}` + `representadas/totalRepresentadas.json`;
+    return this
+      .http
+      .get(uri)
+      .map(res => {
+        return res;
+      });
+  }
+
+  getTotalPedidosAbertos(){
+    const uri = `${API_URL}` + `pedidos/totalPedidosAbertos.json`;
+    return this
+      .http
+      .get(uri)
+      .map(res => {
+        return res;
+      });
+  }
+
+  getTotalPedidosfaturados(){
+    const uri = `${API_URL}` + `pedidos/totalPedidosFaturados.json`;
     return this
       .http
       .get(uri)

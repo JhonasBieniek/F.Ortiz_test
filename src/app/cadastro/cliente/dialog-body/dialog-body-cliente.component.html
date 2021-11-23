@@ -216,7 +216,7 @@
               <mat-label>Aniversário</mat-label>
               <input matInput [matDatepicker]="picker" formControlName="aniversario" placeholder="Aniversário" [readonly]="readonly">
               <mat-datepicker-toggle matSuffix [for]="picker" *ngIf="!readonly"></mat-datepicker-toggle>
-              <mat-datepicker #picker *ngIf="!readonly"></mat-datepicker>
+              <mat-datepicker #picker ></mat-datepicker>
             </mat-form-field>
           </div>
           <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">

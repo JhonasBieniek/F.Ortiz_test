@@ -8,7 +8,7 @@
         <mat-card-content>
             <!-- column -->
             <mat-icon class="text-info">account_circle</mat-icon>
-            <h3 class="m-0">3886</h3>
+            <h3 class="m-0">{{clientes_total}}</h3>
             <h5 class="text-muted m-t-0 m-b-10">Clientes</h5>
             <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
         </mat-card-content>
@@ -21,7 +21,7 @@
         <mat-card-content>
             <!-- column -->
             <mat-icon class="text-danger">local_mall</mat-icon>
-            <h3 class="m-0">8</h3>
+            <h3 class="m-0">{{representadas_total}}</h3>
             <h5 class="text-muted m-t-0 m-b-10">Representadas</h5>
             <mat-progress-bar color="warn" mode="determinate" value="60"></mat-progress-bar>
         </mat-card-content>
@@ -34,7 +34,7 @@
         <mat-card-content>
             <!-- column -->
             <mat-icon class="text-purple">stars</mat-icon>
-            <h3 class="m-0">986</h3>
+            <h3 class="m-0">{{pedidosAbertos_total}}</h3>
             <h5 class="text-muted m-t-0 m-b-10">Pedidos em aberto</h5>
             <mat-progress-bar color="accent" mode="determinate" value="80"></mat-progress-bar>
         </mat-card-content>
@@ -47,7 +47,7 @@
         <mat-card-content>
             <!-- column -->
             <mat-icon class="text-info">content_paste</mat-icon>
-            <h3 class="m-0">12356</h3>
+            <h3 class="m-0">{{pedidosFaturados_total}}</h3>
             <h5 class="text-muted m-t-0  m-b-10">Pedidos concluídos</h5>
             <mat-progress-bar mode="indeterminate" value="40"></mat-progress-bar>
         </mat-card-content>

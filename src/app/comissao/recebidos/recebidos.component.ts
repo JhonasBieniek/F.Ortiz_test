@@ -26,7 +26,7 @@ export class RecebidosComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.clientservice.getRepresentadas().subscribe((res: any) => this.representadas = res.data);
+    this.clientservice.getRepresentadasAtivas().subscribe((res: any) => this.representadas = res.data);
     this.form = this.fb.group({
       dtInicio: [null],
       dtFinal: [null],

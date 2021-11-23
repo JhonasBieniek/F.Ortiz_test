@@ -4,8 +4,8 @@
     Cliente: <strong>{{pedido?.cliente.razao_social}}</strong>
   </p>
   <p>
-    Cadastrar nota fiscal para o pedido: <span style="color: blue;">{{data.num_pedido}} </span>
-    <i class="fa fa-pencil button" title="Editar" (click)="edit(pedido);"></i>
+    Cadastrar nota fiscal para o pedido: <span style="color: blue;">{{pedido?.num_pedido}} </span>
+    <i class="fa fa-pencil button" title="Editar" (click)="edit(pedido);" *ngIf="pedido?.situacao == 'pendente'"></i>
   </p>
   <form [formGroup]="form">
     <div fxLayout="row" fxLayoutWrap="wrap" class="row">

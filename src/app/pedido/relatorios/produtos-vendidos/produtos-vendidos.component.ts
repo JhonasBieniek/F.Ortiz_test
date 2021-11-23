@@ -35,7 +35,7 @@ export class ProdutosVendidosComponent implements OnInit {
     private dialog: MatDialog
   ) {
 
-    this.clientservice.getRepresentadas().subscribe((res:any) =>{
+    this.clientservice.getRepresentadasAtivas().subscribe((res:any) =>{
       this.representadas = res.data;
     });
 

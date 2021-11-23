@@ -2,7 +2,7 @@
   <div fxFlex.gt-sm="60%" fxFlex="60">
       <h3><b>Pedido: </b><span style="color: blue;">{{dados?.num_pedido}}</span><i class="fa fa-pencil button m-l-10" 
         title="Editar" 
-        (click)="editar(dados);"></i></h3><br>
+        (click)="editar(dados);" *ngIf="dados?.situacao == 'pendente'"></i></h3><br>
   </div>
 
   <div fxFlex.gt-sm="40%" fxFlex="40" fxLayoutAlign="end start" fxLayoutGap="10px">

@@ -2,22 +2,22 @@
   <div class="p-t-30" fxFlex.gt-sm="50%" class="p-20" fxFlex="50" fxLayoutAlign="start" fxLayoutGap="10px">
     <h1 mat-dialog-title style="font-size: x-large;">
       Visualizando NF: <span style="font-weight: bolder; color:blue">{{dados?.num_nota}}</span>
-      <i class="fa fa-pencil button m-l-10" title="Editar" (click)="editar(row);"></i>
+      <i class="fa fa-pencil button m-l-10" title="Editar" (click)="editar(row);" *ngIf="verificarParcelas()"></i>
     </h1>
   </div>
   <div fxFlex.gt-sm="50%" fxFlex="50" class="p-20" fxLayoutAlign="end start" fxLayoutGap="10px">
     <!-- <button *ngIf="dados?.status == 'parcial'" mat-stroked-button color="primary" class="p-10" (click)="adicionarNf()">
       <i class="material-icons">note_add</i>Adicionar NF</button> -->
-    <button *ngIf="dados?.status == 'aberto' || 'parcial' || 'faturado'" mat-stroked-button color="warn" class="p-10"
+    <button *ngIf="verificarParcelas()" mat-stroked-button color="warn" class="p-10"
       (click)="cancelarNf()">
       <i class="material-icons">close_fullscreen</i>Cancelar NF</button>
-    <button *ngIf="dados?.status == 'aberto' || 'parcial' || 'faturado'" mat-stroked-button color="warn" class="p-10"
+    <button *ngIf="verificarParcelas()" mat-stroked-button color="warn" class="p-10"
       (click)="removerNf()">
       <i class="material-icons">close_fullscreen</i>Remover NF</button>
-    <button *ngIf="dados?.status == 'aberto' || 'parcial'" mat-stroked-button color="accent" class="p-10"
+    <button mat-stroked-button color="accent" class="p-10"
       (click)="devolucao()">
       <i class="material-icons">highlight_off</i>Devolução</button>
-    <button *ngIf="dados?.status == 'recebido' || dados?.status == 'devolvido parcial' || dados?.status == 'devolvido'" mat-stroked-button color="primary" class="p-10" (click)="estorno()">
+    <button *ngIf="!verificarParcelas()" mat-stroked-button color="primary" class="p-10" (click)="estorno()">
       <i class="material-icons">restore</i>Estorno</button>
     <button mat-stroked-button color="primary" class="p-10" (click)="imprimir()">
       <i class="material-icons">print</i>Imprimir

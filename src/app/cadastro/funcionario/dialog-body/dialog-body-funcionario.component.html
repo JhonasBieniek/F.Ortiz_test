@@ -28,7 +28,7 @@
           <mat-label>Data de nascimento</mat-label>
           <input matInput [matDatepicker]="picker" formControlName="nascimento" placeholder="Data de nascimento" [readonly]="readonly">
           <mat-datepicker-toggle matSuffix [for]="picker" *ngIf="!readonly"></mat-datepicker-toggle>
-          <mat-datepicker #picker *ngIf="!readonly"></mat-datepicker>
+          <mat-datepicker #picker ></mat-datepicker>
         </mat-form-field>
         <!-- <mat-hint *ngIf="funcionario.get('nascimento').errors?.required && funcionario.get('nascimento').touched"
           class="text-danger font-14">Você precisa inserir uma data.</mat-hint>
@@ -288,7 +288,7 @@
     </div>
     <div>
       <button mat-raised-button color="primary" type="submit" [disabled]="!funcionario.valid || readonly == true"
-        (click)="onSubmit(); close()">Salvar</button>
+        (click)="onSubmit();">Salvar</button>
       <button mat-raised-button style="margin-left: 15px;" color="warn" (click)="close()">Cancelar</button>
     </div>
   </form>

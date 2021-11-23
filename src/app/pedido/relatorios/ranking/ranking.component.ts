@@ -29,7 +29,7 @@ export class RankingComponent implements OnInit {
     private route: ActivatedRoute,
     private dialog: MatDialog
   ) {
-    this.clientservice.getRepresentadas().subscribe((res:any) =>{
+    this.clientservice.getRepresentadasAtivas().subscribe((res:any) =>{
       this.representadas = res.data;
     });
     

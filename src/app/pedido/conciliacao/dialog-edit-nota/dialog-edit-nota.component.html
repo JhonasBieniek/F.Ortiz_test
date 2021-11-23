@@ -3,9 +3,12 @@
   <p>
     Cliente: <strong>{{pedido?.cliente.razao_social}}</strong>
   </p>
-  <p>
+  <!-- <p>
     Editar PEDIDO: <span style="color: blue;">{{data.pedido.num_pedido }} </span>
     <i class="fa fa-pencil button" title="Editar" (click)="edit(pedido);"></i>
+  </p> -->
+  <p>
+    PEDIDO Nº: <span style="color: blue;">{{data.pedido.num_pedido }} </span>
   </p>
   <form [formGroup]="form">
     <div fxLayout="row" fxLayoutWrap="wrap" class="row">

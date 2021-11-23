@@ -68,7 +68,6 @@ export class DialogSendNotaComponent implements OnInit {
 
   loadData() {
     this.clientservice.getPedido(this.data.id).subscribe((res: any) => {
-      console.log(res)
       this.pedido = res.data;
       this.temp = this.pedido.pedido_produtos.sort((a, b) => a.id - b.id);
       this.rows = [...this.temp];
@@ -88,7 +87,6 @@ export class DialogSendNotaComponent implements OnInit {
         e.quantidade_recebida = e.quantidade;
         return e;
       })
-      console.log(this.rows)
     });
   }
   totalNota(){

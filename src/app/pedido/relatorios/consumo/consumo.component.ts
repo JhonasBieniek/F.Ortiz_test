@@ -37,7 +37,7 @@ export class ConsumoComponent implements OnInit {
     //   this.ramos = res.data;
     // });
 
-    this.clientservice.getRepresentadas().subscribe((res:any) =>{
+    this.clientservice.getRepresentadasAtivas().subscribe((res:any) =>{
       this.representadas = res.data;
     });
 

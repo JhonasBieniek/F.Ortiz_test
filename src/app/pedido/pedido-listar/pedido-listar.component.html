@@ -186,9 +186,9 @@
                     <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
                       <i class="fa fa-search buttonP" title="Visualizar" (click)="view(row);"></i>
                       <i class="fa fa-clone buttonP" title="Clonar Pedido" (click)="clone(row);"></i>
-                      <i *ngIf="row.situacao != 'faturado'" class="fa fa-pencil buttonP" title="Editar"
+                      <i *ngIf="row.situacao != 'faturado' && row.situacao != 'parcial'" class="fa fa-pencil buttonP" title="Editar"
                         (click)="edit(row);"></i>
-                      <i *ngIf="row.situacao != 'faturado'" class="fa fa-trash-o buttonP2" title="Deletar"
+                      <i *ngIf="row.situacao != 'faturado' && row.situacao != 'parcial'" class="fa fa-trash-o buttonP2" title="Deletar"
                         (click)="delete(row)"></i>
                     </ng-template>
                   </ngx-datatable-column>

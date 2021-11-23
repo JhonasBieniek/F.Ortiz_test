@@ -105,13 +105,13 @@ const MENUITEMS = [
     icon: 'monetization_on',
     children: [
       {state: 'pagamentosLote', name: 'Pagamentos em Lote', type: 'link' },
-      {state: 'financeiro', name: 'Caixa e Bancos', type: 'link' },
-      {state: 'financeiro', name: 'Criar Banco', type: 'link' },
-      {state: 'financeiro', name: 'Grupo Despesa', type: 'link' },
-      {state: 'financeiro', name: 'Criar Categoria', type: 'link' },
-      {state: 'financeiro', name: 'Contas a Pagar', type: 'link' },
-      {state: 'financeiro', name: 'Contas a Receber', type: 'link' },
-      {state: 'financeiro', name: 'Configurar', type: 'link' },
+      // {state: 'financeiro', name: 'Caixa e Bancos', type: 'link' },
+      // {state: 'financeiro', name: 'Criar Banco', type: 'link' },
+      // {state: 'financeiro', name: 'Grupo Despesa', type: 'link' },
+      // {state: 'financeiro', name: 'Criar Categoria', type: 'link' },
+      // {state: 'financeiro', name: 'Contas a Pagar', type: 'link' },
+      // {state: 'financeiro', name: 'Contas a Receber', type: 'link' },
+      // {state: 'financeiro', name: 'Configurar', type: 'link' },
     ]
   },{
     state: 'homologacao',

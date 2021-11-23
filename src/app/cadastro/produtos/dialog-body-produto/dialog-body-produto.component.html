@@ -30,7 +30,7 @@
               <input matInput [matDatepicker]="pickerPrevisao" formControlName="previsao_retorno"
                 placeholder="Previsão de Retorno" [readonly]="readonly">
               <mat-datepicker-toggle matSuffix [for]="pickerPrevisao" *ngIf="!readonly"></mat-datepicker-toggle>
-              <mat-datepicker #pickerPrevisao *ngIf="!readonly"></mat-datepicker>
+              <mat-datepicker #pickerPrevisao ></mat-datepicker>
             </mat-form-field>
           </div>
         </div>

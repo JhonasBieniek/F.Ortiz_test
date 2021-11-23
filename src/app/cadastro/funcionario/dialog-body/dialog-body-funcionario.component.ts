@@ -132,12 +132,18 @@ export class DialogBodyFuncionarioComponent implements OnInit {
     this.clientservice.addFuncionario(data).subscribe((res:any) => {
       if(res.success == true){
         if(this.editar == false){
-          this.notificationService.notify(`Cadastro Efetuado com Sucesso!`)
+          this.notificationService.notify(`Cadastro Efetuado com Sucesso!`);
+          this.close();
         }else {
-          this.notificationService.notify(`Cadastro alterado com Sucesso!`)
+          this.notificationService.notify(`Cadastro alterado com Sucesso!`);
+          this.close();
         }
       }else{
-        this.notificationService.notify(`Erro contate o Administrador`)
+        if(res.data.email._isUnique){
+          this.notificationService.notify(`Email já esta sendo usado!`);
+        }else{
+          this.notificationService.notify(`Erro contate o Administrador`);
+        }
       }
     });
   }
