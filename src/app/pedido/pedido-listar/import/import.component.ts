@@ -484,6 +484,8 @@ export class ImportComponent implements OnInit {
       this.form.get("data_emissao").setValue(moment(data[6][4].match(new RegExp("\\d{2}\\/\\d{2}\\/\\d{4}", "g"))[0].replace(/\//g, "-"), "DD-MM-YYYY").format("YYYY-MM-DD"));
       this.form.get("data_entrega").setValue(moment(data[6][10].match(new RegExp("\\d{2}\\/\\d{2}\\/\\d{4}", "g"))[0].replace(/\//g, "-"), "DD-MM-YYYY").format("YYYY-MM-DD"));
 
+      this.ValorTotal = itens.valorTotal;
+
       if (itens.item.length > 0) {
         itens.item.forEach(element => {
           this.addItem(element); //* Adiciona item à item que já esteja cadastrado no banco
