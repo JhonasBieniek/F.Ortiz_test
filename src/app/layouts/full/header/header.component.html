@@ -1,6 +1,6 @@
 <!-- ============================================================== -->
 <!-- Notification - style you can find in header.scss -->
-<!-- ============================================================== 
+<!-- ============================================================== -->
 <button [matMenuTriggerFor]="notification" mat-icon-button class="m-r-10">
     <mat-icon>message</mat-icon>
     <div class="notify">
@@ -17,7 +17,6 @@
             <li>
                 <div class="message-center">
                     <perfect-scrollbar [config]="config">
-                        <!-- Message 
                         <a href="#" *ngFor="let notification of notifications">
                             <div class="round {{notification.round}}">
                                 <i class="{{notification.icon}}"></i>
@@ -28,7 +27,6 @@
                                 <span class="time">{{notification.time}}</span>
                             </div>
                         </a>
-
                     </perfect-scrollbar>
                 </div>
             </li>
@@ -36,6 +34,7 @@
         </ul>
     </div>
 </mat-menu>
+<!--
 ============================================================== 
 Profile - style you can find in header.scss 
 <button [matMenuTriggerFor]="message" mat-icon-button class="m-r-10">
@@ -76,8 +75,7 @@ Profile - style you can find in header.scss
   -->
 <!-- Profile - style you can find in header.scss -->
 <!-- ============================================================== -->
-
-<div class="profile-text" style="cursor: pointer;">
+<div class="profile-text" style="cursor: pointer; display: inline-block;">
     <a [matMenuTriggerFor]="sdprofile" class=""> {{currentUser.usuario.nome}}
         <i class="ti-angle-down font-12 m-l-5" ></i>
     </a>

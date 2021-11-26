@@ -28,6 +28,7 @@
     "@angular/router": "^8.1.0",
     "@swimlane/ngx-charts": "^12.0.1",
     "@swimlane/ngx-datatable": "^16.0.3",
+    "@types/autobahn": "^20.9.0",
     "@types/gapi": "0.0.39",
     "@types/gapi.auth2": "0.0.51",
     "@types/gapi.client.gmail": "^1.0.3",
@@ -67,7 +68,8 @@
     "rxjs-compat": "^6.5.2",
     "rxjs-tslint": "^0.1.7",
     "tslib": "^2.3.1",
-    "xlsx": "^0.15.5",
+    "wamprx": "^1.6.0",
+    "xlsx": "^0.17.4",
     "zone.js": "^0.9.1"
   },
   "devDependencies": {

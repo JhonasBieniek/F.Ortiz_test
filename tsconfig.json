@@ -19,7 +19,8 @@
     "types": [
       "gapi",
       "gapi.auth2",
-      "gapi.client.gmail"
+      "gapi.client.gmail",
+      "autobahn"
     ],
     "lib": [
       "es2017",

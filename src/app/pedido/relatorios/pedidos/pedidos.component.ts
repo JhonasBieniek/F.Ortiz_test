@@ -2,10 +2,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+
 import { NotificationService } from '../../../shared/messages/notification.service';
 import { ClientService } from '../../../shared/services/client.service.component';
 import { DialogPedidosPrintComponent } from './dialog-pedidos-print/dialog-pedidos-print.component';
+
 
 @Component({
   selector: 'app-pedidos',
@@ -25,6 +27,8 @@ export class PedidosComponent implements OnInit {
   clientes: any = [];
   $clientes: any = [];
 
+  //
+
   constructor(
     private fb: FormBuilder,
     private clientservice: ClientService,
@@ -32,6 +36,7 @@ export class PedidosComponent implements OnInit {
     private route: ActivatedRoute,
     private dialog: MatDialog
   ) {
+
     this.clientservice.getRamos().subscribe((res: any) => {
       this.ramos = res.data;
     });
@@ -43,6 +48,8 @@ export class PedidosComponent implements OnInit {
     this.clientservice.getClientes().subscribe((res:any) =>{
       this.clientes = res.data;
     });
+
+    
   }
   ngOnInit(): void {
     this.form = this.fb.group({

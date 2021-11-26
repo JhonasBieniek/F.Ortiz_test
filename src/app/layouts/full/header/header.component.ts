@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-import { LoginService } from '../../../authentication/login/login.service'
+import { LoginService } from '../../../authentication/login/login.service';
+import { Session } from 'autobahn';
 
+declare const ab: any;
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -11,36 +13,14 @@ export class AppHeaderComponent {
   public config: PerfectScrollbarConfigInterface = {};
   currentUser: any;
 
-
   // This is for Notifications
-  notifications: Object[] = [
+  public notifications: Object[] = [
     {
       round: 'round-danger',
       icon: 'ti-link',
       title: 'Launch Admin',
       subject: 'Just see the my new admin!',
       time: '9:30 AM'
-    },
-    {
-      round: 'round-success',
-      icon: 'ti-calendar',
-      title: 'Event today',
-      subject: 'Just a reminder that you have event',
-      time: '9:10 AM'
-    },
-    {
-      round: 'round-info',
-      icon: 'ti-settings',
-      title: 'Settings',
-      subject: 'You can customize this template as you want',
-      time: '9:08 AM'
-    },
-    {
-      round: 'round-primary',
-      icon: 'ti-user',
-      title: 'Pavan kumar',
-      subject: 'Just see the my admin!',
-      time: '9:00 AM'
     }
   ];
 
@@ -75,11 +55,41 @@ export class AppHeaderComponent {
       time: '9:00 AM'
     }
   ];
+
   constructor(
     private loginService: LoginService,
   ) {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'))
+    this.startSocket()
+  }
 
+  startSocket(){
+    this.notifications
+    var conn = new ab.Session('ws://test2.fortiz.com.br:8080',
+          function() {
+              conn.subscribe('kittensCategory', function(topic, data) {
+                console.log(data)
+                console.log('New article published to category "' + topic + '" : ' + data.title);
+                return data;
+                
+                // this.notifications.push({
+                //   round: 'round-danger',
+                //   icon: 'ti-calendar',
+                //   title: data.title,
+                //   subject: data.category,
+                //   time: '9:30 AM'
+                // })
+                  // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
+
+              });
+          },
+          function() {
+            console.warn(conn)
+              console.warn('WebSocket connection closed');
+          },
+          {'skipSubprotocolCheck': true}
+      );
+      console.log(conn)
   }
 
   public signOut(): void {
