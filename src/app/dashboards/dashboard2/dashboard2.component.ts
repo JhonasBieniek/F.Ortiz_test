@@ -6,12 +6,8 @@ import { ChartType, ChartEvent } from 'ng-chartist';
 import { FormControl } from '@angular/forms';
 import { NotificationService } from '../../shared/messages/notification.service';
 import { ClientService } from '../../shared/services/client.service.component';
-import { connectWampChannel } from 'wamprx';
-import { delay, retryWhen, switchMap } from 'rxjs/operators';
 import { ViewPedidoOrcamentoComponent } from '../../pedido/view-pedido/view-pedido.component';
 
-//import { webSocket, WebSocketSubject } from 'rxjs/internal-compatibility';
-import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import { Observable } from 'rxjs';
 //import {Connection, Session} from 'autobahn';
 
@@ -290,8 +286,6 @@ export class Dashboard2Component implements OnInit {
   pedidosAbertos_total = 0;
   pedidosFaturados_total = 0;
   
-
-  webSocketConn: any;
   // This is for the table responsive
 
   constructor(breakpointObserver: BreakpointObserver,

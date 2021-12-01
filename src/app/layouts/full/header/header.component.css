@@ -1,0 +1,12 @@
+.mailbox .message-center a {
+    border-bottom: none;
+}
+
+.mailbox .message-center .message-button {
+    text-align: center;
+    font-size: 13px;
+    border-bottom: 1px solid rgba(120, 130, 140, 0.13);
+}
+.mailbox .message-center .message-button:hover {
+    background:  #f2f4f8;
+}

@@ -1,0 +1,107 @@
+<div fxLayout="row wrap">
+    <!-- Card column -->
+    <div fxFlex.gt-sm="100%" fxFlex="100">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div fxLayout="row wrap" class="row">
+                <div class="" style="padding-left: 10px; margin-top: -5px;" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="50" cdkFocusInitial>
+                    <h2 mat-dialog-title style="margin-bottom: 0px;">Lançamento de contas manual.</h2>
+                </div>
+            </div>
+            <mat-divider></mat-divider>
+            <div fxLayout="row wrap" class="row">
+                <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" style="padding-bottom: 0px;">
+                    <div fxLayout="row wrap" class="row">
+                        <div fxFlex.gt-sm="40" fxFlex.gt-xs="40" fxFlex="40" style="padding-top: 12px;">
+                            <label fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="20" style="margin-left: 10px;">Tipo: </label>
+                            <mat-radio-group [formControl]="form.controls['tipo']" class="financeiro-padding" appearance="outline" floatLabel="never">
+                                <mat-radio-button class="text-center" value="saida" style="font-size: 14px;">
+                                    Saida
+                                </mat-radio-button>
+                                <mat-radio-button class="text-center" value="entrada" style="margin-left: 10px; font-size: 14px;">
+                                    Entrada
+                                </mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                        <mat-divider vertical></mat-divider>
+                        <div fxFlex.gt-sm="58" fxFlex.gt-xs="58" fxFlex="58" style="padding-top: 12px;padding-left: 10px;">
+                            <label fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="30" >Lançamento: </label>
+                            <mat-radio-group [formControl]="form.controls['lancamento']" class="financeiro-padding" appearance="outline" floatLabel="never" fxFlex.gt-sm="45" fxFlex.gt-xs="45" fxFlex="45">
+                                <mat-radio-button class="text-center" value="unico" style="font-size: 14px;">
+                                    Único
+                                </mat-radio-button>
+                                <mat-radio-button class="text-center" value="multiplos" style="margin-left: 10px; font-size: 14px;">
+                                    Múltiplos
+                                </mat-radio-button>
+                            </mat-radio-group>
+                            <mat-form-field floatLabel="never" style="margin-top: -20px;" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="15">
+                                <input matInput type="number" [formControl]="form.controls['multiplos']" style="font-size: 14px; padding-left: 5px;">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <mat-divider style="margin-top: 5px;"></mat-divider>
+            <div fxLayout="row wrap" class="row">
+                <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="50">
+                    <div class="text-left" fxFlex.gt-sm="41" fxFlex.gt-xs="41" fxFlex="41" style="padding-top: 13px;">
+                        <span>Data de Pagamento: </span>
+                    </div>
+                    <div class="text-right" fxFlex.gt-sm="55" fxFlex.gt-xs="55" fxFlex="55">
+                        <mat-form-field appearance="outline" class="financeiro-padding">
+                            <input matInput [matDatepicker]="picker" formControlName="data_pagamento" placeholder="Data de Pagamento" >
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker ></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="50">
+                    <div class="text-center" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="50" style="padding-top: 13px;">
+                        <span>Valor: </span>
+                    </div>
+                    <div fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="50">
+                        <mat-form-field class="financeiro-padding" appearance="outline" floatLabel="never">
+                            <input matInput required [formControl]="form.controls['valor']" currencyMask>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                    <div class="text-left" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="20" style="padding-top: 13px;">
+                        <span>Descrição: </span>
+                    </div>
+                    <div fxFlex.gt-sm="80" fxFlex.gt-xs="80" fxFlex="80">
+                        <mat-form-field appearance="outline" floatLabel="never" class="financeiro-padding">
+                            <input matInput [formControl]="form.controls['descritivo']">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="50">
+                    <div class="text-left" fxFlex.gt-sm="41" fxFlex.gt-xs="41" fxFlex="41" style="padding-top: 13px;">
+                        <span>Situação: </span>
+                    </div>
+                    <div class="text-right" fxFlex.gt-sm="55" fxFlex.gt-xs="55" fxFlex="55">
+                        <mat-form-field class="financeiro-padding" appearance="outline" floatLabel="never">
+                            <mat-select required [formControl]="form.controls['status_pagamento']">
+                                <mat-option [value]=true> Pago </mat-option>
+                                <mat-option [value]=false> Pendente </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="p-10" fxFlex="100">
+                    <div class="text-left" fxFlex="20" style="padding-top: 13px;">
+                        <span>Obs: </span>
+                    </div>
+                    <div class="text-right" fxFlex="80">
+                        <mat-form-field class="financeiro-padding" appearance="outline" floatLabel="never">
+                            <input matInput formControlName="obs">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="p-10 text-right" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" >
+                    <button mat-raised-button color="primary" type="submit">Incluir</button>
+                    <button mat-raised-button type="button" style="margin-left: 5px;" (click)="close()"> Fechar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

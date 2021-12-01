@@ -1,0 +1,11 @@
+.financeiro-padding .mat-form-field-wrapper {
+    padding-bottom: 0 !important;
+}
+
+/* .financeiro-padding .mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 0.4em 0 0.4em 0 !important;
+} */
+
+.financeiro-padding{
+    font-size: 13px;
+}

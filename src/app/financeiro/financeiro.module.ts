@@ -12,9 +12,13 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { DateFormatPipe } from '../shared/pipes/dateFormat.pipe';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { ContasComponent } from './contas/contas.component';
+import { DialogIncluirComponent } from './contas/dialog-incluir/dialog-incluir.component';
+import { NgxCurrencyModule } from 'ngx-currency';
+import { DialogAlterarComponent } from './contas/dialog-alterar/dialog-alterar.component';
 
 @NgModule({
-  declarations: [PagamentosLoteComponent],
+  declarations: [PagamentosLoteComponent, ContasComponent, DialogIncluirComponent, DialogAlterarComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(FinanceiroRoutes),
@@ -25,6 +29,11 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAda
     NgxMaskModule.forRoot(),
     ReactiveFormsModule,
     FlexLayoutModule,
+    NgxCurrencyModule,
+  ],
+  entryComponents: [
+    DialogIncluirComponent,
+    DialogAlterarComponent
   ],
   providers: [
     DateFormatPipe,

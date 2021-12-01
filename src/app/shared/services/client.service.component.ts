@@ -479,6 +479,20 @@ export class ClientService {
       });
   }
 
+  addContasAvulsas(data){
+    const uri = `${API_URL}` + `financeiros/addContasAvulsas.json`;
+    return this
+      .http
+      .post(uri, data);
+  }
+
+  editFinanceiro(data){
+    const uri = `${API_URL}` + `financeiros/edit.json`;
+    return this
+      .http
+      .post(uri, data);
+  }
+
   contasPagarByCliente(id) {
     const uri = `${API_URL}` + `financeiros/contasPagarByCliente/${id}.json`;
     return this
@@ -487,6 +501,20 @@ export class ClientService {
       .map(res => {
         return res;
       });
+  }
+
+  financeiroContas(data) {
+    const uri = `${API_URL}` + `financeiros/getContasFinanceiro.json`;
+    return this
+      .http
+      .post(uri, data);
+  }
+
+  getNewOrcamentos(data) {
+    const uri = `${API_URL}` + `financeiros/getContasFinanceiro.json`;
+    return this
+      .http
+      .post(uri, data);
   }
 
   receberPagamentos(data) {
@@ -502,6 +530,27 @@ export class ClientService {
       .http
       .post(uri, data)
   }
+
+  getNotificationsByUser() {
+    const uri = `${API_URL}` + `notifications/notificationsByUser.json`;
+    return this
+      .http
+      .get(uri)
+      .map(res => {
+        return res;
+      });
+  }
+
+  marcarLido(id) {
+    const uri = `${API_URL}` + `notifications/edit/${id}.json`;
+    return this
+      .http
+      .get(uri)
+      .map(res => {
+        return res;
+      });
+  }
+
 
   getProdutos() {
     const uri = `${API_URL}` + `produtos/index.json`;
