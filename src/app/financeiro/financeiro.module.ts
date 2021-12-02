@@ -16,9 +16,10 @@ import { ContasComponent } from './contas/contas.component';
 import { DialogIncluirComponent } from './contas/dialog-incluir/dialog-incluir.component';
 import { NgxCurrencyModule } from 'ngx-currency';
 import { DialogAlterarComponent } from './contas/dialog-alterar/dialog-alterar.component';
+import { DialogConfirmarDeleteContasComponent } from './contas/dialog-confirmar-delete-contas/dialog-confirmar-delete-contas.component';
 
 @NgModule({
-  declarations: [PagamentosLoteComponent, ContasComponent, DialogIncluirComponent, DialogAlterarComponent],
+  declarations: [PagamentosLoteComponent, ContasComponent, DialogIncluirComponent, DialogAlterarComponent, DialogConfirmarDeleteContasComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(FinanceiroRoutes),
@@ -33,7 +34,8 @@ import { DialogAlterarComponent } from './contas/dialog-alterar/dialog-alterar.c
   ],
   entryComponents: [
     DialogIncluirComponent,
-    DialogAlterarComponent
+    DialogAlterarComponent,
+    DialogConfirmarDeleteContasComponent
   ],
   providers: [
     DateFormatPipe,

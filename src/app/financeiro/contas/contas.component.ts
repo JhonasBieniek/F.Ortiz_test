@@ -4,6 +4,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material';
 import { NotificationService } from '../../shared/messages/notification.service';
 import { ClientService } from '../../shared/services/client.service.component';
 import { DialogAlterarComponent } from './dialog-alterar/dialog-alterar.component';
+import { DialogConfirmarDeleteContasComponent } from './dialog-confirmar-delete-contas/dialog-confirmar-delete-contas.component';
 import { DialogIncluirComponent } from './dialog-incluir/dialog-incluir.component';
 
 @Component({
@@ -107,6 +108,28 @@ export class ContasComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(value => {
       setTimeout(() => { this.atualizar(); }, 250);
+    });
+  }
+
+  delete(row){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = row;
+    
+    let dialogRef = this.dialog.open(DialogConfirmarDeleteContasComponent,
+      dialogConfig
+    );
+    dialogRef.afterClosed().subscribe(value => {
+      if(value){
+        this.clientservice.deleteConta(row.id).subscribe((res: any) => {
+          if(res.status){
+            this.notificationService.notify("Deletado com Sucesso!");
+          }else{
+            this.notificationService.notify("Não foi possivel deletar informe ao administrador!");
+            console.log(res.data);
+          }
+        });
+      }
+      this.atualizar()
     });
   }
 

@@ -64,10 +64,11 @@
                             <ngx-datatable class='material striped' [columnMode]="'standart'" [headerHeight]="50"
                                 [footerHeight]="50" [rowHeight]="50" [rows]='rows' [scrollbarV]="true" style="height: 60vh">
 
-                                <ngx-datatable-column [width]="60" name="">
+                                <ngx-datatable-column [width]="100" name="">
                                     <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex"
                                         ngx-datatable-cell-template>
                                         <i class="fa fa-pencil button" title="Editar" (click)="edit(row);"></i>
+                                        <i class="fa fa-trash-o button" title="Deletar" (click)="delete(row)" *ngIf="row.nota_id === null && row.nota_parcela_id === null"></i>
                                     </ng-template>
                                 </ngx-datatable-column>
                                 <ngx-datatable-column [width]="100" name="Tipo" prop="tipo">

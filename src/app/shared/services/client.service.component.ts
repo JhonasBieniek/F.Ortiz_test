@@ -510,6 +510,16 @@ export class ClientService {
       .post(uri, data);
   }
 
+  deleteConta(id) {
+    const uri = `${API_URL}` + `financeiros/delete/${id}.json`;
+    return this
+      .http
+      .get(uri)
+      .map(res => {
+        return res;
+      });
+  }
+
   getNewOrcamentos(data) {
     const uri = `${API_URL}` + `financeiros/getContasFinanceiro.json`;
     return this
