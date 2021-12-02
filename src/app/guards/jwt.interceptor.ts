@@ -28,8 +28,7 @@ export class JwtInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler):  Observable<HttpEvent<any>>  {
         let url = request.url.split('/');
-        let endpoint = url.filter( url => { return url == "notificationsByUser"});
-        
+        let endpoint = url.filter( url => { return url == "notificationsByUser.json"});
         if(endpoint.length == 0){
             this.spinner.show();
         }

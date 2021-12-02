@@ -9,7 +9,6 @@ import { ClientService } from '../../shared/services/client.service.component';
 import { ViewPedidoOrcamentoComponent } from '../../pedido/view-pedido/view-pedido.component';
 
 import { Observable } from 'rxjs';
-//import {Connection, Session} from 'autobahn';
 
 declare var require: any;
 const data: any = require('./data.json');
