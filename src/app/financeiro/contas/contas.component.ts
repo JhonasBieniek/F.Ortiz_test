@@ -18,7 +18,6 @@ export class ContasComponent implements OnInit {
   temp: any[] = [];
   public form: FormGroup;
 
-  @ViewChild(ContasComponent, { static: false }) table: ContasComponent;
   constructor(private clientservice: ClientService, private fb: FormBuilder, private notificationService: NotificationService, private dialog: MatDialog) {
     
   }
@@ -37,6 +36,7 @@ export class ContasComponent implements OnInit {
 
   atualizar(){
     this.clientservice.financeiroContas(this.form.value).subscribe((res: any) => {
+      console.log(res)
       this.rows = res.data;
       this.temp = res.data;
     });

@@ -86,6 +86,7 @@ export class DialogIncluirComponent implements OnInit {
           operacao: this.form.get('operacao').value,
           obs: this.form.get('obs').value,
         }
+        contas.push(conta);
         this.clienteService.addContasAvulsas(contas).subscribe((user: any) => {
           if (user.data.status == true) {
             this.notificationService.notify("Conta Cadastrada com sucesso!");

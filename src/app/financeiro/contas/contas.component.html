@@ -48,7 +48,8 @@
                             </mat-form-field>
                         </div>
                         <div class="button-row" class="p-10" fxFlex="20">
-                            <button type="button" mat-raised-button class="m-t-10" (click)="atualizar()">Atualizar</button>
+                            <button type="button" mat-raised-button class="m-t-10"
+                                (click)="atualizar()">Atualizar</button>
                         </div>
                         <div fxFlex="100">
                             <div class="button-row" class="p-l-10 p-b-10" fxFlex="20">
@@ -60,7 +61,87 @@
                                 <input matInput type='text' class="form-control" placeholder='Digite um nome para filtrar...'
                                     (keyup)='updateFilter($event)' />
                             </mat-form-field> -->
-                            <ngx-datatable #table class='material striped' [columnMode]="'flex'" [headerHeight]="50"
+                            <ngx-datatable class='material striped' [columnMode]="'standart'" [headerHeight]="50"
+                                [footerHeight]="50" [rowHeight]="50" [rows]='rows' [scrollbarV]="true" style="height: 60vh">
+
+                                <ngx-datatable-column [width]="60" name="">
+                                    <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex"
+                                        ngx-datatable-cell-template>
+                                        <i class="fa fa-pencil button" title="Editar" (click)="edit(row);"></i>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [width]="100" name="Tipo" prop="tipo">
+                                    <ng-template let-value="tipo" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.tipo}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [width]="100" name="Num. Nota" prop="nota.num_nota">
+                                    <ng-template let-value="nota_id" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.nota?.num_nota}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [width]="100" name="Parcela" prop="nota_parcela.parcela">
+                                    <ng-template let-value="nota_parcela_id" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.nota_parcela?.parcela}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [width]="150" name="Representada" prop="representada.nome_fantasia">
+                                    <ng-template let-value="nota_parcela_id" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.representada?.nome_fantasia}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [width]="300" name="Descritivo" prop="descritivo">
+                                    <ng-template let-value="descritivo" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.descritivo}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [width]="100" name="Valor" prop="valor">
+                                    <ng-template let-value="valor" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.valor | currency: 'BRL':symbol:'1.2-2'}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [width]="110" name="Dt. de Pgto" prop="data_pagamento">
+                                    <ng-template let-value="data_pagamento" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.data_pagamento | date: 'dd/MM/yyyy'}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [width]="100" name="Status" prop="status_pagamento">
+                                    <ng-template let-value="status_pagamento" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.status_pagamento == true ? 'Pago' : 'Pendente'}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [width]="250" name="Vendedor" prop="vendedor.nome">
+                                    <ng-template let-value="vendedor.nome" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.vendedor?.nome}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [width]="250" name="Auxiliar" prop="auxiliar.nome">
+                                    <ng-template let-value="auxiliar.nome" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.auxiliar?.nome}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [width]="100" name="Operação" prop="operacao">
+                                    <ng-template let-value="operacao" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.operacao}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [width]="400" name="Observação" prop="obs">
+                                    <ng-template let-value="obs" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.obs}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                            </ngx-datatable>
+                        </div>
+                    </div>
+                </form>
+
+
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+
+<!-- <ngx-datatable #table class='material striped' [columnMode]="'flex'" [headerHeight]="50"
                                 [footerHeight]="50" [rowHeight]="'auto'" [limit]="10" [rows]='rows' [scrollbarV]="false">
                                 <ngx-datatable-column [flexGrow]="0.5" name="">
                                     <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex"
@@ -123,36 +204,4 @@
                                         {{ row.obs}}
                                     </ng-template>
                                 </ngx-datatable-column>
-                                <!-- <ngx-datatable-column [flexGrow]="1" name="CNPJ">
-                                    <ng-template let-value="cnpj" let-row="row" ngx-datatable-cell-template>
-                                        {{ row.cnpj | mask: '00.000.000/0000-00'}}
-                                    </ng-template>
-                                </ngx-datatable-column>
-                                <ngx-datatable-column [flexGrow]="0.8" name="Inscrição estadual">
-                                    <ng-template let-value="inscricao_estadual" let-row="row" ngx-datatable-cell-template>
-                                        {{ row.inscricao_estadual }}
-                                    </ng-template>
-                                </ngx-datatable-column>
-                                <ngx-datatable-column [flexGrow]="0.5" name="Status">
-                                    <ng-template let-value="status" let-row="row" ngx-datatable-cell-template>
-                                        {{ (row.status == true)? "Ativo" : "Inativo" }}
-                                    </ng-template>
-                                </ngx-datatable-column>
-                                <ngx-datatable-column [flexGrow]="0.8" name="Ações">
-                                    <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex"
-                                        ngx-datatable-cell-template>
-                                        <i class="fa fa-pencil button" title="Editar" (click)="edit(row);"></i>
-                                        <i class="fa fa-eye button" title="Visualizar" (click)="view(row);"></i>
-                                        <i class="fa fa-trash-o button2" title="Deletar" (click)="delete(row)"></i>
-                                    </ng-template>
-                                </ngx-datatable-column> -->
-                            </ngx-datatable>
-                        </div>
-                    </div>
-                </form>
-                
-                
-            </mat-card-content>
-        </mat-card>
-    </div>
-</div>
+                            </ngx-datatable> -->
