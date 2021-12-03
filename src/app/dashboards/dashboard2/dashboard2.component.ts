@@ -6,10 +6,11 @@ import { ChartType, ChartEvent } from 'ng-chartist';
 import { FormControl } from '@angular/forms';
 import { NotificationService } from '../../shared/messages/notification.service';
 import { ClientService } from '../../shared/services/client.service.component';
-import { Observable } from 'rxjs';
 import { ViewPedidoOrcamentoComponent } from '../../pedido/view-pedido/view-pedido.component';
-declare var require: any;
 
+import { Observable } from 'rxjs';
+
+declare var require: any;
 const data: any = require('./data.json');
 
 export interface Chart {
@@ -283,11 +284,14 @@ export class Dashboard2Component implements OnInit {
   representadas_total = 0;
   pedidosAbertos_total = 0;
   pedidosFaturados_total = 0;
+  
   // This is for the table responsive
+
   constructor(breakpointObserver: BreakpointObserver,
     private clientservice: ClientService,
     private notificationService: NotificationService,
     private dialog: MatDialog) {
+
     breakpointObserver.observe(['(max-width: 600px)']).subscribe(result => {
       this.displayedColumns = result.matches ? 
           ['pic', 'name', 'weight', 'designation'] : 
@@ -313,7 +317,6 @@ export class Dashboard2Component implements OnInit {
     this.clientservice.getTotalPedidosfaturados().subscribe((res:any) =>{
       this.pedidosFaturados_total = res.data;
     });
-
   }
 
   ngOnInit() {

@@ -1,12 +1,13 @@
 <!-- ============================================================== -->
 <!-- Notification - style you can find in header.scss -->
-<!-- ============================================================== 
+<!-- ============================================================== -->
 <button [matMenuTriggerFor]="notification" mat-icon-button class="m-r-10">
-    <mat-icon>message</mat-icon>
-    <div class="notify">
+    <mat-icon *ngIf="notifications.length == 0">message</mat-icon>
+    <mat-icon matBadge="{{notifications.length}}" matBadgeColor="warn" *ngIf="notifications.length > 0 ">message</mat-icon>
+     <!--s<div class="notify" *ngIf="notifications.length > 0" matBadge="8" matBadgeColor="warn">
         <span class="heartbit"></span>
         <span class="point"></span>
-    </div>
+    </div> -->
 </button>
 <mat-menu #notification="matMenu" class="mymegamenu">
     <div class="mailbox">
@@ -17,18 +18,20 @@
             <li>
                 <div class="message-center">
                     <perfect-scrollbar [config]="config">
-                        <!-- Message 
-                        <a href="#" *ngFor="let notification of notifications">
-                            <div class="round {{notification.round}}">
-                                <i class="{{notification.icon}}"></i>
-                            </div>
-                            <div class="mail-content">
-                                <h5>{{notification.title}}</h5>
-                                <span class="mail-desc">{{notification.subject}}</span>
-                                <span class="time">{{notification.time}}</span>
-                            </div>
-                        </a>
-
+                        <div *ngFor="let notification of notifications; let i = index;">
+                            <a (click)="orcamento(notification, i)" style="cursor: pointer;">
+                                <div class="round round-danger">
+                                    <i class="ti-link"></i>
+                                </div>
+                                <div class="mail-content">
+                                    <h5>{{notification.title}}</h5>
+                                    <span class="mail-desc">{{notification.subject}}</span>
+                                    <span class="time">{{notification.time | date:'dd/MM/yyyy HH:mm'}}</span>
+                                </div>
+                            </a>
+                            <div class="message-button" style="cursor: pointer;" (click)="readMark(notification, i)">Marcar como Visto</div>
+                        </div>
+                        
                     </perfect-scrollbar>
                 </div>
             </li>
@@ -36,6 +39,7 @@
         </ul>
     </div>
 </mat-menu>
+<!--
 ============================================================== 
 Profile - style you can find in header.scss 
 <button [matMenuTriggerFor]="message" mat-icon-button class="m-r-10">
@@ -66,18 +70,17 @@ Profile - style you can find in header.scss
                                 <span class="time">{{mymessage.time}}</span>
                             </div>
                         </a>
-                         Message 
+                        Message 
                     </perfect-scrollbar>
                 </div>
             </li>
         </ul>
     </div>
 </mat-menu>
-  -->
+-->
 <!-- Profile - style you can find in header.scss -->
 <!-- ============================================================== -->
-
-<div class="profile-text" style="cursor: pointer;">
+<div class="profile-text" style="cursor: pointer; display: inline-block;">
     <a [matMenuTriggerFor]="sdprofile" class=""> {{currentUser.usuario.nome}}
         <i class="ti-angle-down font-12 m-l-5" ></i>
     </a>

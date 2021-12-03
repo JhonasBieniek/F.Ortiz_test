@@ -1,0 +1,44 @@
+.button {
+    padding: 6px 9px;
+    font-size: 15px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    color: rgb(3, 3, 3);
+    border: none;
+    border-radius: 10px;
+}
+
+.button:hover {
+    background-color: #1e88e5;
+}
+
+.button:active {
+    background-color: #519fe2;
+    box-shadow: 0 2px #666;
+    transform: translateY(2px);
+}
+
+.ngx-datatable.material .datatable-body .datatable-body-row .datatable-body-cell {
+    text-align: left;
+    padding: 0.3rem 1.2rem;
+    vertical-align: top;
+    border-top: 0;
+    color: rgba(0, 0, 0, 0.87);
+    -webkit-transition: width 0.3s ease;
+    transition: width 0.3s ease;
+    font-size: 11px;
+    font-weight: 400;
+}
+
+.custom-datatable ngx-datatable.material .datatable-header .datatable-header-cell {
+    font-size: 10px !important;
+}
+
+.input-size {
+    font-size: 13px;
+}
+
+table {
+    width: 100%;
+}

@@ -1,0 +1,208 @@
+<div fxLayout="row" fxLayoutWrap="wrap">
+    <!-- Card column -->
+    <div fxFlex.gt-sm="100%" fxFlex="100">
+        <mat-card>
+            <mat-card-content>
+                <mat-card-title style="font-weight: bold;font-size: x-large;">Contas Financeiro
+                </mat-card-title>
+                <form [formGroup]="form">
+                    <div fxLayout="row wrap" class="row">
+                        <div class="p-10 input-size" fxFlex.gt-sm="20" fxFlex.gt-md="17" fxFlex="50">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Data Inicial</mat-label>
+                                <input matInput [matDatepicker]="pickerIncial" formControlName="data_inicial"
+                                    placeholder="Data Incial">
+                                <mat-datepicker-toggle matSuffix [for]="pickerIncial"></mat-datepicker-toggle>
+                                <mat-datepicker #pickerIncial></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="p-10 input-size" fxFlex.gt-sm="20" fxFlex.gt-md="17" fxFlex="50">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Data Final</mat-label>
+                                <input matInput [matDatepicker]="pickerFinal" formControlName="data_final"
+                                    placeholder="Data final">
+                                <mat-datepicker-toggle matSuffix [for]="pickerFinal"></mat-datepicker-toggle>
+                                <mat-datepicker #pickerFinal></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="p-10 input-size" fxFlex.gt-sm="20" fxFlex.gt-md="17" fxFlex="100">
+                            <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+                                [floatLabel]="form.value.floatLabel">
+                                <mat-label>Tipo</mat-label>
+                                <mat-select formControlName="tipo">
+                                    <mat-option [value]=null></mat-option>
+                                    <mat-option value="entrada">Entradas</mat-option>
+                                    <mat-option value="saida">Saidas</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="p-10 input-size" fxFlex.gt-sm="20" fxFlex.gt-md="17" fxFlex="100">
+                            <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+                                [floatLabel]="form.value.floatLabel">
+                                <mat-label>Status</mat-label>
+                                <mat-select formControlName="status">
+                                    <mat-option [value]=null></mat-option>
+                                    <mat-option [value]=true>Pago</mat-option>
+                                    <mat-option [value]=false>Pendente</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="button-row" class="p-10" fxFlex="20">
+                            <button type="button" mat-raised-button class="m-t-10"
+                                (click)="atualizar()">Atualizar</button>
+                        </div>
+                        <div fxFlex="100">
+                            <div class="button-row" class="p-l-10 p-b-10" fxFlex="20">
+                                <button type="button" mat-raised-button (click)="novaConta()">Nova Conta</button>
+                            </div>
+                        </div>
+                        <div fxFlex="100">
+                            <!-- <mat-form-field>
+                                <input matInput type='text' class="form-control" placeholder='Digite um nome para filtrar...'
+                                    (keyup)='updateFilter($event)' />
+                            </mat-form-field> -->
+                            <ngx-datatable class='material striped' [columnMode]="'standart'" [headerHeight]="50"
+                                [footerHeight]="50" [rowHeight]="50" [rows]='rows' [scrollbarV]="true" style="height: 60vh">
+
+                                <ngx-datatable-column [width]="100" name="">
+                                    <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex"
+                                        ngx-datatable-cell-template>
+                                        <i class="fa fa-pencil button" title="Editar" (click)="edit(row);"></i>
+                                        <i class="fa fa-trash-o button" title="Deletar" (click)="delete(row)" *ngIf="row.nota_id === null && row.nota_parcela_id === null"></i>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [width]="100" name="Tipo" prop="tipo">
+                                    <ng-template let-value="tipo" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.tipo}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [width]="100" name="Num. Nota" prop="nota.num_nota">
+                                    <ng-template let-value="nota_id" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.nota?.num_nota}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [width]="100" name="Parcela" prop="nota_parcela.parcela">
+                                    <ng-template let-value="nota_parcela_id" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.nota_parcela?.parcela}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [width]="150" name="Representada" prop="representada.nome_fantasia">
+                                    <ng-template let-value="nota_parcela_id" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.representada?.nome_fantasia}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [width]="300" name="Descritivo" prop="descritivo">
+                                    <ng-template let-value="descritivo" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.descritivo}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [width]="100" name="Valor" prop="valor">
+                                    <ng-template let-value="valor" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.valor | currency: 'BRL':symbol:'1.2-2'}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [width]="110" name="Dt. de Pgto" prop="data_pagamento">
+                                    <ng-template let-value="data_pagamento" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.data_pagamento | date: 'dd/MM/yyyy'}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [width]="100" name="Status" prop="status_pagamento">
+                                    <ng-template let-value="status_pagamento" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.status_pagamento == true ? 'Pago' : 'Pendente'}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [width]="250" name="Vendedor" prop="vendedor.nome">
+                                    <ng-template let-value="vendedor.nome" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.vendedor?.nome}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [width]="250" name="Auxiliar" prop="auxiliar.nome">
+                                    <ng-template let-value="auxiliar.nome" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.auxiliar?.nome}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [width]="100" name="Operação" prop="operacao">
+                                    <ng-template let-value="operacao" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.operacao}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [width]="400" name="Observação" prop="obs">
+                                    <ng-template let-value="obs" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.obs}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                            </ngx-datatable>
+                        </div>
+                    </div>
+                </form>
+
+
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+
+<!-- <ngx-datatable #table class='material striped' [columnMode]="'flex'" [headerHeight]="50"
+                                [footerHeight]="50" [rowHeight]="'auto'" [limit]="10" [rows]='rows' [scrollbarV]="false">
+                                <ngx-datatable-column [flexGrow]="0.5" name="">
+                                    <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex"
+                                        ngx-datatable-cell-template>
+                                        <i class="fa fa-pencil button" title="Editar" (click)="edit(row);"></i>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [flexGrow]="0.5" name="Tipo" prop="tipo">
+                                    <ng-template let-value="tipo" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.tipo}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [flexGrow]="0.5" name="Num. Nota" prop="nota.num_nota">
+                                    <ng-template let-value="nota_id" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.nota?.num_nota}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [flexGrow]="0.5" name="Parcela" prop="nota_parcela.parcela">
+                                    <ng-template let-value="nota_parcela_id" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.nota_parcela?.parcela}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [flexGrow]="0.7" name="Valor" prop="valor">
+                                    <ng-template let-value="valor" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.valor | currency: 'BRL':symbol:'1.2-2'}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [flexGrow]="1" name="Dt. de Pgto" prop="data_pagamento">
+                                    <ng-template let-value="data_pagamento" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.data_pagamento | date: 'dd/MM/yyyy'}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [flexGrow]="1" name="Status" prop="status_pagamento">
+                                    <ng-template let-value="status_pagamento" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.status_pagamento == true ? 'Pago' : 'Pendente'}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [flexGrow]="1" name="Vendedor" prop="vendedor.nome">
+                                    <ng-template let-value="vendedor.nome" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.vendedor?.nome}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [flexGrow]="1" name="Auxiliar" prop="auxiliar.nome">
+                                    <ng-template let-value="auxiliar.nome" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.auxiliar?.nome}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [flexGrow]="1" name="Operação" prop="operacao">
+                                    <ng-template let-value="operacao" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.operacao}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [flexGrow]="1" name="Descritivo" prop="descritivo">
+                                    <ng-template let-value="descritivo" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.descritivo}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [flexGrow]="1" name="Observação" prop="obs">
+                                    <ng-template let-value="obs" let-row="row" ngx-datatable-cell-template>
+                                        {{ row.obs}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                            </ngx-datatable> -->

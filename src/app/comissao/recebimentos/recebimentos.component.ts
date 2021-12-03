@@ -171,7 +171,7 @@ export class RecebimentosComponent implements OnInit {
               conta_id: nota.pedido.representada.conta_id
             });
             
-            //* entrada => do recebimento comissao fortiz
+            //* entrada => do recebimento comissao auxiliar
             nota.contas.push({
               tipo: 'saida',
               operacao: 'pagamento',
@@ -185,7 +185,7 @@ export class RecebimentosComponent implements OnInit {
               status_pagamento: false,
             });
 
-            //* entrada => do recebimento comissao fortiz
+            //* entrada => do recebimento comissao vendedor
             nota.contas.push({
               tipo: 'saida',
               operacao: 'pagamento',

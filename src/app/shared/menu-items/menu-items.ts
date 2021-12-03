@@ -105,6 +105,7 @@ const MENUITEMS = [
     icon: 'monetization_on',
     children: [
       {state: 'pagamentosLote', name: 'Pagamentos em Lote', type: 'link' },
+      {state: 'contas', name: 'Contas', type: 'link' },
       // {state: 'financeiro', name: 'Caixa e Bancos', type: 'link' },
       // {state: 'financeiro', name: 'Criar Banco', type: 'link' },
       // {state: 'financeiro', name: 'Grupo Despesa', type: 'link' },

@@ -1,48 +1,22 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-import { LoginService } from '../../../authentication/login/login.service'
+import { Observable } from 'rxjs';
+import 'rxjs/add/observable/interval';
+import { LoginService } from '../../../authentication/login/login.service';
+import { ClientService } from '../../../shared/services/client.service.component';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: []
+  styleUrls: ['./header.component.css']
 })
 export class AppHeaderComponent {
   public config: PerfectScrollbarConfigInterface = {};
   currentUser: any;
-
-
+  
   // This is for Notifications
-  notifications: Object[] = [
-    {
-      round: 'round-danger',
-      icon: 'ti-link',
-      title: 'Launch Admin',
-      subject: 'Just see the my new admin!',
-      time: '9:30 AM'
-    },
-    {
-      round: 'round-success',
-      icon: 'ti-calendar',
-      title: 'Event today',
-      subject: 'Just a reminder that you have event',
-      time: '9:10 AM'
-    },
-    {
-      round: 'round-info',
-      icon: 'ti-settings',
-      title: 'Settings',
-      subject: 'You can customize this template as you want',
-      time: '9:08 AM'
-    },
-    {
-      round: 'round-primary',
-      icon: 'ti-user',
-      title: 'Pavan kumar',
-      subject: 'Just see the my admin!',
-      time: '9:00 AM'
-    }
-  ];
+  public notifications: Object[] = [];
 
   // This is for Mymessages
   mymessages: Object[] = [
@@ -52,34 +26,64 @@ export class AppHeaderComponent {
       from: 'Pavan kumar',
       subject: 'Just see the my admin!',
       time: '9:30 AM'
-    },
-    {
-      useravatar: 'assets/images/users/2.jpg',
-      status: 'busy',
-      from: 'Sonu Nigam',
-      subject: 'I have sung a song! See you at',
-      time: '9:10 AM'
-    },
-    {
-      useravatar: 'assets/images/users/2.jpg',
-      status: 'away',
-      from: 'Arijit Sinh',
-      subject: 'I am a singer!',
-      time: '9:08 AM'
-    },
-    {
-      useravatar: 'assets/images/users/4.jpg',
-      status: 'offline',
-      from: 'Pavan kumar',
-      subject: 'Just see the my admin!',
-      time: '9:00 AM'
     }
   ];
+  notificationObs:any;
+  
+
   constructor(
     private loginService: LoginService,
+    private clientservice: ClientService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'))
+    this.requisitarNotificacoes();
+    this.notificationObs = Observable.interval(180000)
+    .subscribe((val) => { this.requisitarNotificacoes()});
+  }
 
+  requisitarNotificacoes(){
+    this.notifications = [];
+    this.clientservice.getNotificationsByUser().subscribe((res: any) => {
+      if(res.data.length > 0){
+        res.data.forEach(cotacao => {
+          this.notifications.push({
+            id: cotacao.id,
+            orcamento_id: cotacao.orcamento_id,
+            title: 'Nova Cotação',
+            subject: 'Cotação id: ' +cotacao.orcamento_id,
+            time: cotacao.created
+          })
+        });
+      }
+    });
+  }
+
+  readMark(row, index){
+    this.clientservice.marcarLido(row.id).subscribe((res: any) => {
+      if(res.status){
+        this.notifications.splice(index,1);
+      }else{
+        console.log(res.data);
+      }
+    });
+  }
+
+  orcamento(row, index){
+    this.clientservice.marcarLido(row.id).subscribe((res: any) => {
+      if(res.status){
+        this.notifications.splice(index,1);
+        let navigationExtras: NavigationExtras = {
+          queryParams: {
+              "orcamento_id": row.orcamento_id,
+          }
+        };
+        this.router.navigate(['/pedidos/cotacoes'], navigationExtras);
+      }else{
+        console.log(res.data);
+      }
+    });
   }
 
   public signOut(): void {

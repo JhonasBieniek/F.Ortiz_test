@@ -43,7 +43,7 @@ export class OrcListarComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private dialog: MatDialog) {
-    this.loadData()
+    this.loadData();
   }
 
   loadData() {
@@ -61,7 +61,13 @@ export class OrcListarComponent implements OnInit {
     this.dialogConfig = {
       width: '98vw',
       height: '98vh'
-    }
+    } 
+
+    this.route.queryParams.subscribe(params => {
+      if(params["orcamento_id"]){
+        this.edit({id: params["orcamento_id"]}) ;
+      }
+    }); 
   }
   add(tipo) {
     this.dialogConfig.data = {

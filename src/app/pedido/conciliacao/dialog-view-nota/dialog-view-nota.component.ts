@@ -129,8 +129,13 @@ export class DialogViewNotaComponent implements OnInit {
   }
 
   verificarParcelas(){
-    let index = this.dados.nota_parcelas.findIndex(parcela => { return parcela.status_recebimento === true});
-    return index == -1 ? true : false;
+    if(this.dados){
+      let index = this.dados.nota_parcelas.findIndex(parcela => { return parcela.status_recebimento === true});
+      return index == -1 ? true : false;
+    }else{
+      return true;
+    }
+    
   }
 
   cancelarNf() {

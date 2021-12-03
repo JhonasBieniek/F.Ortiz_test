@@ -1,0 +1,11 @@
+<div class="border">
+    <h1 mat-dialog-title>Você realmente deseja deletar a Conta: <span style="color: red;">{{data.descritivo}}</span>!</h1>
+    <div mat-dialog-content>
+        <p>Valor: {{data.valor  | currency: 'BRL':symbol:'1.2-2'}}</p>
+        <p>Confirme para prosseguir.</p>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button color="warn" (click)="Deletar()">Deletar</button>
+        <button mat-button color="primary" autofocus (click)="Cancelar()">Cancelar</button>
+    </div>
+</div>
