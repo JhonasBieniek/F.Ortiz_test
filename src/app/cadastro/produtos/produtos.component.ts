@@ -54,12 +54,14 @@ export class ProdutosComponent implements OnInit {
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
     const temp = this.temp.filter(function (d) {
+      if(d.certificado_aprovacao == null) {
+        d.certificado_aprovacao = '';
+      }
       return (
         d.nome.toLowerCase().indexOf(val) !== -1 ||
-        !val ||
         d.representada.nome_fantasia.toLowerCase().indexOf(val) !== -1 ||
-        !val ||
         d.codigo_importacao.toLowerCase().indexOf(val) !== -1 ||
+        d.certificado_aprovacao.toLowerCase().indexOf(val) !== -1 ||
         !val
       );
     });
