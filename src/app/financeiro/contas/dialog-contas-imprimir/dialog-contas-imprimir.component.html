@@ -1,0 +1,78 @@
+<div align="end" style="margin-bottom: -40px">
+    <button mat-raised-button type="button" (click)="printWindowCurrent()">Imprimir</button>
+    <button mat-raised-button type="button" class="m-l-10" color="warn" (click)="close()">Voltar</button>
+</div>
+<div id="impressao" cdkFocusInitial>
+    <div fxLayout="row wrap">
+        <!-- Card column -->
+        <div fxFlex.gt-sm="100%" fxFlex="100">
+            <div fxLayout="row wrap" class="row">
+                <div class="p-10">
+                    <img src="./assets/images/logo.png" alt="logo">
+                </div>
+                <div class="p-t-10 p-l-10 text-left" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100"><span style="font-weight: 500;"> Impressao de Contas</span></div>
+                <table mat-table [dataSource]="dataSource" style="width: 100%; font-family: Verdana, Tahoma, Arial, Sans-serif;">
+
+                    <ng-container matColumnDef="tipo" >
+                        <th mat-header-cell *matHeaderCellDef class="p-r-5"> Tipo </th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos p-r-5" > {{element.tipo}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="num_nota">
+                        <th mat-header-cell *matHeaderCellDef class="p-r-5"> Num. Nota </th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos p-r-5"> {{element.nota?.num_nota}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="parcela">
+                        <th mat-header-cell *matHeaderCellDef class="p-r-5"> Parcela </th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos p-r-5"> {{element.nota_parcela?.parcela}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="representada">
+                        <th mat-header-cell *matHeaderCellDef class="p-r-5"> Representada </th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos p-r-5" > {{element.representada?.nome_fantasia}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="descritivo">
+                        <th mat-header-cell *matHeaderCellDef class="conta-descritivo"> Descritivo </th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos conta-descritivo p-r-5" > {{element.descritivo}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="valor">
+                        <th mat-header-cell *matHeaderCellDef class="p-r-5"> Valor </th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos p-r-5"> {{element.valor | currency:'BRL':true:'1.2-2'}} </td>
+                        <!-- {{getTotalCost() | currency}} -->
+                    </ng-container>
+
+                    <ng-container matColumnDef="data_pagamento">
+                        <th mat-header-cell *matHeaderCellDef class="p-r-5"> Dt. de Pgto </th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos p-r-5"> {{element.data_pagamento | date: 'dd/MM/yyyy'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef class="p-r-5"> Status </th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos p-r-5" > {{element.status == true ? 'Pago' : 'Pendente'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="vendedor">
+                        <th mat-header-cell *matHeaderCellDef style="padding-left: 5px;" class="p-r-5"> Vendedor </th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos p-r-5" style="padding-left: 5px;"> {{element.vendedor?.nome}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="auxiliar">
+                        <th mat-header-cell *matHeaderCellDef style="padding-left: 5px;" class="p-r-5"> Auxiliar </th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos p-r-5" style="padding-left: 5px;"> {{element.auxiliar?.nome}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="operacao">
+                        <th mat-header-cell *matHeaderCellDef class="p-r-5"> Operacao </th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos p-r-5" > {{element.operacao}} </td>
+                    </ng-container>s                    
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns" style="height: 30px !important;"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;" style="height: 25px !important;"></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

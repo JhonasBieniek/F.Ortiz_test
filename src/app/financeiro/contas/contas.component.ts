@@ -1,10 +1,13 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material';
+import moment from 'moment';
 import { NotificationService } from '../../shared/messages/notification.service';
 import { ClientService } from '../../shared/services/client.service.component';
+import { ExcelExportService } from '../../shared/services/excel-export.service';
 import { DialogAlterarComponent } from './dialog-alterar/dialog-alterar.component';
 import { DialogConfirmarDeleteContasComponent } from './dialog-confirmar-delete-contas/dialog-confirmar-delete-contas.component';
+import { DialogContasImprimirComponent } from './dialog-contas-imprimir/dialog-contas-imprimir.component';
 import { DialogIncluirComponent } from './dialog-incluir/dialog-incluir.component';
 
 @Component({
@@ -19,7 +22,7 @@ export class ContasComponent implements OnInit {
   temp: any[] = [];
   public form: FormGroup;
 
-  constructor(private clientservice: ClientService, private fb: FormBuilder, private notificationService: NotificationService, private dialog: MatDialog) {
+  constructor(private clientservice: ClientService, private fb: FormBuilder, private notificationService: NotificationService, private dialog: MatDialog, private excelService: ExcelExportService) {
     
   }
 
@@ -133,4 +136,41 @@ export class ContasComponent implements OnInit {
     });
   }
 
+  gerarExcel(){
+    let contasExportacao: any[] = [];
+    console.log(this.rows);
+    this.rows.map( (e:any) => {
+        let row = {
+          id: e.id,
+          tipo: e.tipo,
+          num_nota: e.nota_id != null ? e.nota.num_nota : '',
+          parcela: e.nota_parcela_id != null ? e.nota_parcela.parcela : '',
+          representada: e.representada_id != null ? e.representada.nome_fantasia : '',
+          descritivo: e.descritivo,
+          valor: e.valor,
+          data_pagamento: e.data_pagamento != null ? moment(e.data_pagamento).format("DD-MM-YYYY") : '',
+          status: e.status_pagamento == true ? 'Pago' : 'Pendente',
+          vendedor: e.vendedor_id != null ? e.vendedor.nome : '',
+          auxiliar: e.auxiliar_id != null ? e.auxiliar.nome : '',
+          operacao: e.operacao,
+          observacao: e.obs,
+        }
+        contasExportacao.push(row);
+    })
+    this.excelService.exportToExcel(contasExportacao, 'Contas');
+  }
+
+  print() {
+
+    let dialogConfig = new MatDialogConfig();
+    dialogConfig = {
+      maxWidth: '95vw',
+      maxHeight: '95vh',
+    }
+    dialogConfig.data = this.rows;
+    let dialogRef = this.dialog.open(
+      DialogContasImprimirComponent,
+      dialogConfig
+    );
+  }
 }

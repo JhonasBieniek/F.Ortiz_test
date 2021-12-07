@@ -145,7 +145,7 @@ export class DialogBodyClienteComponent implements OnInit {
       ramo_atividade_id: null,
       limite: null,
       categoria_volk: 'C',
-      tipo_cliente: 'revendedor',
+      tipo_cliente: ['revendedor', Validators.compose([Validators.required])],
       //pagamento_tipo: 'Faturamento',
       obs: [null, Validators.compose([Validators.maxLength(100)])],
       status: true,

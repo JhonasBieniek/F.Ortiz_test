@@ -52,8 +52,16 @@
                                 (click)="atualizar()">Atualizar</button>
                         </div>
                         <div fxFlex="100">
-                            <div class="button-row" class="p-l-10 p-b-10" fxFlex="20">
-                                <button type="button" mat-raised-button (click)="novaConta()">Nova Conta</button>
+                            <div fxLayout="row wrap">
+                                <div class="button-row" class="p-l-10 p-b-10">
+                                    <button type="button" mat-raised-button (click)="novaConta()">Nova Conta</button>
+                                </div>
+                                <div class="button-row" class="p-l-10 p-b-10" *ngIf="rows.length > 0">
+                                    <button type="button" mat-raised-button (click)="gerarExcel()">Exportar <mat-icon>trending_down</mat-icon></button>
+                                </div>
+                                <div class="button-row" class="p-l-10 p-b-10" *ngIf="rows.length > 0">
+                                    <button type="button" mat-raised-button (click)="print()">Imprimir <mat-icon>print</mat-icon></button>
+                                </div>
                             </div>
                         </div>
                         <div fxFlex="100">

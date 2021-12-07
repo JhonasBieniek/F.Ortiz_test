@@ -8,6 +8,7 @@ import { ClientService } from './services/client.service.component';
 import { OrderService } from './services/order.service.component';
 import { GoogleService } from './services/google.service.component';
 import { ImportService } from './services/import.service';
+import { ExcelExportService } from './services/excel-export.service';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { ImportService } from './services/import.service';
     ClientService,
     OrderService,
     GoogleService,
-    ImportService
+    ImportService,
+    ExcelExportService
   ]
 })
 export class SharedModule {}
