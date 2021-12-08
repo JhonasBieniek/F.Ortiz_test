@@ -523,8 +523,11 @@ export class DialogBodyClienteComponent implements OnInit {
           this.notificationService.notify(`Cadastro Efetuado com Sucesso!`);
           this.dialogRef.close(res);
         } else {
-          console.log(this.form.value)
-          this.notificationService.notify(`Erro contate o Administrador`);
+          if(res.data.cnpj._isUnique){
+            this.notificationService.notify(`CNPJ já cadastrado no sistema!`);
+          }else{
+            this.notificationService.notify(`Erro contate o Administrador`);
+          }
           //this.dialogRef.close();
         }
       });
