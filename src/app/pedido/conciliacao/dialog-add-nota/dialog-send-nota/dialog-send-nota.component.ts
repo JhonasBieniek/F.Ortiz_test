@@ -87,6 +87,9 @@ export class DialogSendNotaComponent implements OnInit {
         e.quantidade_recebida = e.quantidade;
         return e;
       })
+
+      console.log(this.rows)
+      console.log(this.pedido)
     });
   }
   totalNota(){
@@ -94,7 +97,21 @@ export class DialogSendNotaComponent implements OnInit {
     this.rows.map( produto => {
       total  = total + (produto.quantidade_recebida * produto.valor_unitario)
     });
+    return total;
+  }
 
+  totalNotaBruto(){
+    let total = 0;
+    this.rows.map( produto => {
+      if(produto.quantidade_recebida > 0){
+        if(produto.ipi > 0){
+          let ipi = (produto.quantidade_recebida * produto.valor_unitario * produto.ipi)  / 100;
+          total  = total + ((produto.quantidade_recebida * produto.valor_unitario)  + ipi );
+        }else{
+          total  = total + (produto.quantidade_recebida * produto.valor_unitario );
+        }
+      }
+    });
     return total;
   }
 
@@ -186,6 +203,18 @@ export class DialogSendNotaComponent implements OnInit {
   clearParcelas() {
     while (this.nota_parcelas.controls.length) {
       this.nota_parcelas.removeAt(0);
+    }
+  }
+
+  changeQuantidade(rowIndex, condition){
+    if(this.rows[rowIndex].quantidade_recebida == 0){
+      this.rows[rowIndex].quantidade_recebida = this.rows[rowIndex].quantidade;
+    }else{
+      if(condition == true){
+        this.rows[rowIndex].quantidade_recebida = this.rows[rowIndex].quantidade;
+      }else{
+        this.rows[rowIndex].quantidade_recebida = 0;
+      }
     }
   }
 

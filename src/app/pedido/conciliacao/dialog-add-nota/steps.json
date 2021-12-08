@@ -9,12 +9,12 @@
         {
           "prop": "num_pedido",
           "name": "Pedido",
-          "width": 0.4
+          "width": 0.8
         },
         {
           "prop": "representada.nome_fantasia",
           "name": "Representada",
-          "width": 1.5
+          "width": 1.3
         },
         {
           "prop": "cliente.nome_fantasia",
