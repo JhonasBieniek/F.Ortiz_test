@@ -48,7 +48,6 @@ export class DialogEditNotaComponent implements OnInit {
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) { 
-    console.log(this.data)
   }
 
   ngOnInit() {
@@ -74,7 +73,6 @@ export class DialogEditNotaComponent implements OnInit {
       this.temp = this.pedido.pedido_produtos.sort((a, b) => a.id - b.id);
       
       this.rows = [...this.temp];
-      console.log(this.pedido)
       this.rows.map(e => {
         
         // Verificar se ja existe nota do produto que nao esteja cancelada.
@@ -148,7 +146,6 @@ export class DialogEditNotaComponent implements OnInit {
 
   clearParcelas(){
     this.data.nota_parcelas.forEach(element => {
-      console.log(element)
       this.clientservice.removeNotaParcela(element.id).subscribe(() => {})
     });
     this.data.nota_produtos.forEach(element => {
@@ -232,6 +229,33 @@ export class DialogEditNotaComponent implements OnInit {
     dialogRef.afterClosed().subscribe(value =>{
       this.loadData();
     })
+  }
+
+  changeQuantidade(rowIndex, condition){
+    if(this.rows[rowIndex].quantidade_recebida == 0){
+      this.rows[rowIndex].quantidade_recebida = this.rows[rowIndex].quantidade;
+    }else{
+      if(condition == true){
+        this.rows[rowIndex].quantidade_recebida = this.rows[rowIndex].quantidade;
+      }else{
+        this.rows[rowIndex].quantidade_recebida = 0;
+      }
+    }
+  }
+
+  totalNotaBruto(){
+    let total = 0;
+    this.rows.map( produto => {
+      if(produto.quantidade_recebida > 0){
+        if(produto.ipi > 0){
+          let ipi = (produto.quantidade_recebida * produto.valor_unitario * produto.ipi)  / 100;
+          total  = total + ((produto.quantidade_recebida * produto.valor_unitario)  + ipi );
+        }else{
+          total  = total + (produto.quantidade_recebida * produto.valor_unitario );
+        }
+      }
+    });
+    return total;
   }
 
 }

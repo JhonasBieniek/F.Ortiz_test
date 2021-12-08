@@ -97,7 +97,7 @@
       <ngx-datatable-column [flexGrow]="1" name="Qtd Recebida" prop="quantidade_recebida">
         <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
           <mat-form-field>
-            <input matInput value="quantidade_recebida" class='row-color' [(ngModel)]="row.quantidade_recebida" [disabled]="!isEditable[rowIndex] && !row.parcial">
+            <input matInput value="quantidade_recebida" class='row-color' [(ngModel)]="row.quantidade_recebida" [disabled]="!row.parcial">
           </mat-form-field>
         </ng-template>
       </ngx-datatable-column>
@@ -105,7 +105,7 @@
       <ngx-datatable-column  [flexGrow]="0.4" name="Parcial" [sortable]="false" [draggable]="false">
         <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected" let-row="row" let-rowIndex="rowIndex"
           let-onCheckboxChangeFn="onCheckboxChangeFn">
-          <input type="checkbox"  [checked]="row.parcial" (change)="this.isEditable[rowIndex]=!this.isEditable[rowIndex]" [disabled]="row.quantidade_recebida == 0"/>
+          <input type="checkbox"  [checked]="row.parcial" [(ngModel)]="row.parcial" [disabled]="row.quantidade == 0" (click)="changeQuantidade(rowIndex, row.parcial)" /> <!-- (change)="row.parcial == true ? this.isEditable[rowIndex]= true : this.isEditable[rowIndex]=!this.isEditable[rowIndex]" -->
         </ng-template>
       </ngx-datatable-column>
 
@@ -114,9 +114,13 @@
   </mat-tab-group>
 </div>
 <br>
-<b>Valor Total do Pedido: {{pedido?.valor_total | currency:'BRL':true:'1.2-2'}}</b>
+<b><span style="color: rgb(97, 199, 122);">Valor Total do Pedido:</span> {{ this.pedido?.valor_total | currency:'BRL':true:'1.2-2'}} </b>
 <br>
-<b>Valor Total da Nota: {{ totalNota() | currency:'BRL':true:'1.2-2'}}</b>
+<b *ngIf="this.pedido?.subst > 0"> <span style="color: rgb(97, 199, 122);">Valor total Subst.:</span> {{this.pedido?.subst | currency:'BRL':true:'1.2-2'}}</b>
+<br *ngIf="this.pedido?.subst > 0">
+<b>Valor Total Bruto: {{ totalNotaBruto() | currency:'BRL':true:'1.2-2'}}</b>
+<br>
+<b>Valor Total Liquido: {{ totalNota() | currency:'BRL':true:'1.2-2'}}</b>
 <br>
 <div mat-dialog-actions>
   <button mat-raised-button color="primary" (click)="save()" cdkFocusInitial [disabled]="!form.valid">Salvar</button>
