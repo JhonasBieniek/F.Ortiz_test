@@ -122,7 +122,7 @@
                           <td>{{ cols.parcela }}</td>
                           <td>{{ cols.data_vencimento | date:'dd/MM/yyyy' }}</td>
                           <td>{{ cols.valor | currency : 'R$' }}</td>
-                          <td>{{ (cols.valor * row.pedido.comissao_media)/100 | currency : 'R$'}}</td>
+                          <td>{{ (cols.auxiliar_valor + cols.vendedor_valor + cols.fortiz_valor) | currency : 'R$'}}</td>
                           <td>
                             <input #Parcela type="checkbox" [(ngModel)]="cols.status_recebimento" (change)="selectParcela($event, cols)"/>  
                           </td>
@@ -187,14 +187,14 @@
                   {{vencimento(row) | date:'dd/MM/yyyy'}}
                 </ng-template>
               </ngx-datatable-column>
-              <ngx-datatable-column name="Total" prop="pedido.valor_total" [flexGrow]="0.5">
-                <ng-template let-value="value"  ngx-datatable-cell-template>
-                  {{ value | currency : 'R$'}}
+              <ngx-datatable-column name="Total" [flexGrow]="0.5">
+                <ng-template let-row="row"  ngx-datatable-cell-template>
+                  {{ parcelasTotal(row.nota_parcelas) | currency : 'R$'}}
                 </ng-template>
               </ngx-datatable-column>
-              <ngx-datatable-column name="Comissão" prop="pedido.comissao_bruto" [flexGrow]="0.5">
-                <ng-template let-value="value"  ngx-datatable-cell-template>
-                  {{ value | currency : 'R$'}}
+              <ngx-datatable-column name="Comissão" [flexGrow]="0.5">
+                <ng-template let-row="row"  ngx-datatable-cell-template>
+                  {{ comissaoTotal(row.nota_parcelas) | currency : 'R$'}}
                 </ng-template>
               </ngx-datatable-column>
               <ngx-datatable-column  [flexGrow]="0.4" name="Receber?" [sortable]="false" [draggable]="false">

@@ -9,7 +9,7 @@ import moment from 'moment';
 @Component({
   selector: 'app-recebimentos',
   templateUrl: './recebimentos.component.html',
-  styleUrls: ['./recebimentos.component.css']
+  styleUrls: ['./recebimentos.component.css'],
 })
 export class RecebimentosComponent implements OnInit {
   
@@ -210,5 +210,23 @@ export class RecebimentosComponent implements OnInit {
         }
       })
     });
+  }
+
+  parcelasTotal(parcelas){
+    let total = 0;
+    parcelas.forEach(parcela => {
+      total += parcela.valor;
+    });
+    
+    return total;
+  }
+
+  comissaoTotal(parcelas){
+    let total = 0;
+    parcelas.forEach(parcela => {
+      total += parcela.auxiliar_valor + parcela.vendedor_valor + parcela.fortiz_valor;
+    });
+    console.log(parcelas)
+    return total;
   }
 }
