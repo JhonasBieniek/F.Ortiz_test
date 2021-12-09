@@ -124,8 +124,11 @@ export class DialogProdutosCorporativoComponent implements OnInit {
       id: '',
       client_represented_id: '',
       produto_id: [null,Validators.required],
-      valor_outros: [null,Validators.required],
-      valor_pr: [null,Validators.required],
+      valor_4: [0,Validators.required],
+      valor_7: [0,Validators.required],
+      valor_12: [0,Validators.required],
+      valor_17: [0,Validators.required],
+      valor_18: [0,Validators.required],
     })
   }
 

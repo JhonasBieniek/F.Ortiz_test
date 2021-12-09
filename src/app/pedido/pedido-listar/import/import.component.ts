@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output, ViewChild, ViewEncapsulation, Inject } from "@angular/core";
+import { Component, OnInit, Input, EventEmitter, Output, ViewChild, ViewEncapsulation, Inject, ElementRef } from "@angular/core";
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from "@angular/forms";
 import { ClientService } from "../../../shared/services/client.service.component";
 import { NotificationService } from "../../../shared/messages/notification.service";
@@ -459,6 +459,13 @@ export class ImportComponent implements OnInit {
       } else {
         this.notificationService.notify("CNPJ INCORRETO!");
       }
+      let el = document.getElementById('enviar');
+      
+      // setTimeout(() => {
+      //   console.log('executou na betanin');
+      //   el.scrollIntoView({behavior: "smooth"})
+      // }, 3000);
+      
       this.spinner.hide();
     } catch(e) {
       console.log(e);
@@ -717,6 +724,10 @@ export class ImportComponent implements OnInit {
           if(res.tipo == "corporativo" && res.data.length == 0 ){
             this.notificationService.notify("Cliente corporativo não possui produtos cadastrados!");
           }
+          let el = document.getElementById('enviar');
+          setTimeout(() => {
+            el.scrollIntoView({behavior: "smooth"})
+          }, 1000);
         }else{
           if(res.data.endereco){
             this.notificationService.notify("Cliente não possui endereço cadastrado!");
@@ -902,11 +913,11 @@ export class ImportComponent implements OnInit {
     let subst = this.form.get("subst").value > 0 ? this.form.get("subst").value : 0 ;
     this.form.get("valor_liquido").setValue(total - desconto);
     this.form.get("valor_total").setValue(Math.round(( total + ipi - desconto + subst) * 100) / 100);
-    if (this.form.get("valor_total").value > (this.ValorTotal+ ipi)){
-      this.disabled = true;
-    }else{
-      this.disabled = false;
-    }  
+    // if (this.form.get("valor_total").value > (this.ValorTotal+ ipi)){
+    //   this.disabled = true;
+    // }else{
+    //   this.disabled = false;
+    // }  
     if (tipo == "total") return this.form.get("valor_total").value;
     else if (tipo == "ipi") return ipi;
     else return total - desconto;

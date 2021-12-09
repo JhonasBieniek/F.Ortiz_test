@@ -213,7 +213,7 @@
         <div formArrayName="pedido_produtos">
           <div *ngFor="let produto of form.get('pedido_produtos').controls; index as i" [formGroupName]="i">
             <div class="cart"> {{produto.get('codigo_catalogo').value}} - {{produto.get('nome').value | slice:0:55}}
-              <button (click)="removeItem(i)" mat-icon-button color="warn">
+              <button type="button" (click)="removeItem(i)" mat-icon-button color="warn">
                 <mat-icon class="remove">clear</mat-icon>
               </button>
             </div>
@@ -260,7 +260,7 @@
             </ng-container>
           </div>
           <div *ngIf="form.get('pedido_produtos').controls.length > 0" fxLayoutAlign="end center">
-            <button mat-button color="warn" (click)="clearProdutos()"><i
+            <button mat-button type="button" color="warn" (click)="clearProdutos()"><i
                 class="material-icons">delete_outline</i>Limpar</button>
           </div>
         </div>
@@ -296,8 +296,8 @@
         <th>Comissão Bruta($): {{comissaoBruta() | currency:'BRL':true:'1.2-2'}}</th>
       </tr>
     </div>
-    <div style="margin-top: 20px; margin-left:5px">
-      <button mat-stroked-button color="primary" (click)="enviarPedido()" [disabled]="disabled" *ngIf="areaVendaError == '' ">Finalizar</button>
+    <div style="margin-top: 20px; margin-left:5px" id="enviar" #enviar>
+      <button mat-stroked-button  color="primary" (click)="enviarPedido()" *ngIf="areaVendaError == '' " cdkFocusInitial>Finalizar</button>
       <button mat-stroked-button color="warn" (click)="dialogRef.close()">Cancelar</button>
     </div>
   </div>

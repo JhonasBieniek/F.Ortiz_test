@@ -655,13 +655,13 @@ export class NovoComponent implements OnInit {
     let subst = this.form.get("subst").value > 0 ? this.form.get("subst").value : 0 ;
     this.form.get("valor_liquido").setValue(total - desconto);
     this.form.get("valor_total").setValue(Math.round(( total + ipi - desconto + subst) * 100) / 100);
-    if(this.ValorTotal > 0){  
-      if (this.form.get("valor_total").value > (this.ValorTotal + ipi)){
-        this.disabled = true;
-      }else{
-        this.disabled = false;
-      }
-    }  
+    // if(this.ValorTotal > 0){  
+    //   if (this.form.get("valor_total").value > (this.ValorTotal + ipi)){
+    //     this.disabled = true;
+    //   }else{
+    //     this.disabled = false;
+    //   }
+    // }  
     if (tipo == "total") return this.form.get("valor_total").value;
     else if (tipo == "ipi") return ipi;
     else return total - desconto;

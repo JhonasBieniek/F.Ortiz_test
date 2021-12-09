@@ -63,7 +63,6 @@ export class ClientService {
         }
       }
       );
-    this.notificationService.notify(`Contate o Administrador!`)
   }
 
   delPedidoProdutos(id) {

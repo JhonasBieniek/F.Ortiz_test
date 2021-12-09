@@ -47,22 +47,40 @@
                                                     </mat-expansion-panel-header>
                                                     <div formArrayName="client_represented_products" style="font-size: 11px;">
                                                         <div *ngFor="let item of client_represented_products(representadaIndex).controls; let produtosIndex = index">
-                                                            <div [formGroupName]="produtosIndex" fxLayout="row" fxLayoutGap="20px">
+                                                            <div [formGroupName]="produtosIndex" fxLayout="row" fxLayoutGap="15px">
                                                                 <div class="represented_products" fxFlex.gt-sm="20" fxFlex.gt-md="25" fxFlex.gt-xs="25" fxFlex="25">
                                                                     <mat-select-autocomplete appearance="outline" [placeholder]="'Produto*'" [options]="produtosByRepresentada[client_representeds().at(representadaIndex).get('representada_id').value]"
                                                                     [multiple]='false' name="optionsSelector" ngDefaultControl [formControl]="client_represented_products(representadaIndex).at(produtosIndex).get('produto_id')" [disabled]="readonly">
                                                                     </mat-select-autocomplete>
                                                                 </div>
-                                                                <div class="represented_products" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="15">
+                                                                <div class="represented_products" fxFlex.gt-sm="12" fxFlex.gt-xs="15" fxFlex="15">
                                                                     <mat-form-field appearance="outline">
-                                                                        <mat-label>Valor Outros (ICMS 4%)</mat-label>
-                                                                        <input matInput placeholder="Preço outros" formControlName="valor_outros" currencyMask [readonly]="readonly">
+                                                                        <mat-label>Valor (ICMS 4%)</mat-label>
+                                                                        <input matInput placeholder="Preço 4%" formControlName="valor_4" currencyMask [readonly]="readonly">
                                                                     </mat-form-field>
                                                                 </div>
-                                                                <div class="represented_products" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="15">
+                                                                <div class="represented_products" fxFlex.gt-sm="12" fxFlex.gt-xs="15" fxFlex="15">
                                                                     <mat-form-field appearance="outline">
-                                                                        <mat-label>Valor PR (ICMS 18%)</mat-label>
-                                                                        <input matInput placeholder="Preço Pr" formControlName="valor_pr" currencyMask [readonly]="readonly">
+                                                                        <mat-label>Valor (ICMS 7%)</mat-label>
+                                                                        <input matInput placeholder="Preço 7%" formControlName="valor_7" currencyMask [readonly]="readonly">
+                                                                    </mat-form-field>
+                                                                </div>
+                                                                <div class="represented_products" fxFlex.gt-sm="12" fxFlex.gt-xs="15" fxFlex="15">
+                                                                    <mat-form-field appearance="outline">
+                                                                        <mat-label>Valor (ICMS 12%)</mat-label>
+                                                                        <input matInput placeholder="Preço 12%" formControlName="valor_12" currencyMask [readonly]="readonly">
+                                                                    </mat-form-field>
+                                                                </div>
+                                                                <div class="represented_products" fxFlex.gt-sm="12" fxFlex.gt-xs="15" fxFlex="15">
+                                                                    <mat-form-field appearance="outline">
+                                                                        <mat-label>Valor (ICMS 17%)</mat-label>
+                                                                        <input matInput placeholder="Preço 17%" formControlName="valor_17" currencyMask [readonly]="readonly">
+                                                                    </mat-form-field>
+                                                                </div>
+                                                                <div class="represented_products" fxFlex.gt-sm="12" fxFlex.gt-xs="15" fxFlex="15">
+                                                                    <mat-form-field appearance="outline">
+                                                                        <mat-label>Valor (ICMS 18%)</mat-label>
+                                                                        <input matInput placeholder="Preço Pr" formControlName="valor_18" currencyMask [readonly]="readonly">
                                                                     </mat-form-field>
                                                                 </div>
                                                                 <button mat-icon-button type="button" class="represented_products" *ngIf="!readonly">
