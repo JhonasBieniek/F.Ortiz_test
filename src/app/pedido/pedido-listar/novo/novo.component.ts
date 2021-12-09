@@ -469,11 +469,16 @@ export class NovoComponent implements OnInit {
     this.clientservice
       .getProdRepCli(this.representada.id, (this.form.get('cliente_id').value) || this.pedidoN.cliente_id)
       .subscribe((res: any) => {
-        this.rows = res.data;
-        this.temp = [...this.rows];
-        this.loadingIndicator = false;
-        if(res.tipo == "corporativo" && res.data.length == 0 ){
-          this.notificationService.notify("Cliente corporativo não possui produtos cadastrados!");
+        if(res.success){
+          this.rows = res.data;
+          this.temp = [...this.rows];
+          if(res.tipo == "corporativo" && res.data.length == 0 ){
+            this.notificationService.notify("Cliente corporativo não possui produtos cadastrados!");
+          }
+        }else{
+          if(res.data.endereco){
+            this.notificationService.notify("Cliente não possui endereço cadastrado!");
+          }
         }
       });
   }

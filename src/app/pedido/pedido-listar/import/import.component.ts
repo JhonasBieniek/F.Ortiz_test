@@ -487,11 +487,13 @@ export class ImportComponent implements OnInit {
       this.ValorTotal = itens.valorTotal;
 
       if (itens.item.length > 0) {
+        console.log(itens.item)
         itens.item.forEach(element => {
           this.addItem(element); //* Adiciona item à item que já esteja cadastrado no banco
         });
       }
       if (itens.newItem.length > 0) {
+        console.log(itens.newItem)
         this.itemsNew = [...itens.newItem];
         this.openDialogProdutos();
       }
@@ -709,11 +711,18 @@ export class ImportComponent implements OnInit {
     this.clientservice
       .getProdRepCli(this.representada.id, (this.form.get('cliente_id').value) || this.pedidoN.cliente_id)
       .subscribe((res: any) => {
-        this.rows = res.data;
-        this.temp = [...this.rows];
-        if(res.tipo == "corporativo" && res.data.length == 0 ){
-          this.notificationService.notify("Cliente corporativo não possui produtos cadastrados!");
+        if(res.success){
+          this.rows = res.data;
+          this.temp = [...this.rows];
+          if(res.tipo == "corporativo" && res.data.length == 0 ){
+            this.notificationService.notify("Cliente corporativo não possui produtos cadastrados!");
+          }
+        }else{
+          if(res.data.endereco){
+            this.notificationService.notify("Cliente não possui endereço cadastrado!");
+          }
         }
+        
       });
   }
 
