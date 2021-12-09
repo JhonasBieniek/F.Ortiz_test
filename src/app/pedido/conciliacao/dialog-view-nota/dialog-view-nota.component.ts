@@ -54,23 +54,6 @@ export class DialogViewNotaComponent implements OnInit {
   loadData() {
     this.clientservice.getNotasID(this.data.id).subscribe((res: any) => {
       
-      // old - Mostra tudo
-      // this.dados = res.data;
-      // this.temp[0] = res.data.pedido.pedido_produtos;
-      // let qtd = res.data.nota_produtos;
-      // this.temp[0].map(e => {
-      //   qtd.map(f => {
-      //     if (e.id === f.pedido_produto_id) {
-      //       e.qtd_restante = e.quantidade - f.qtd
-      //       e.qtd_faturado = f.qtd
-      //       e.total = f.qtd * e.valor_unitario
-      //       e.desconto = res.data.desconto
-      //     }
-      //   })
-      // })
-      // this.rows = [...this.temp];
-      // fim old
-      
       this.dados = res.data;
       this.devolucoes = res.data.nota_produto_devolutions;
       this.estornos = res.data.nota_parcelas.filter( parcelas => { return parcelas.estorno === true});
@@ -90,9 +73,6 @@ export class DialogViewNotaComponent implements OnInit {
       this.rows[0] = this.temp[0].filter( produto => {
         if(produto.qtd_faturado > 0 ) return produto;
       })
-      // console.log(teste)
-      // this.rows = [...this.temp];
-      // console.log(this.rows);
       
     })
   }

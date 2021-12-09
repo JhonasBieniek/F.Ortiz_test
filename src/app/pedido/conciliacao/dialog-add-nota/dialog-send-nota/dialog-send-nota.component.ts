@@ -88,8 +88,6 @@ export class DialogSendNotaComponent implements OnInit {
         return e;
       })
 
-      console.log(this.rows)
-      console.log(this.pedido)
     });
   }
   totalNota(){
@@ -123,7 +121,6 @@ export class DialogSendNotaComponent implements OnInit {
       let dias = this.pedido.condicao_comercial.dias.split("/");
       let parcelas = dias.filter(e =>  e);
       let valor = totalNota / parcelas.length;
-      console.log(parcelas); // remover comentario
       let auxValor = this.pedido.comissao_auxiliar / parcelas.length; // Validar 
       let venValor = this.pedido.comissao_vendedor / parcelas.length; // Validar
       let fortiz_valor = (this.pedido.comissao_bruto - ( this.pedido.comissao_vendedor + this.pedido.comissao_auxiliar ) ) / parcelas.length; // Validar
@@ -134,7 +131,7 @@ export class DialogSendNotaComponent implements OnInit {
             data_vencimento: moment(new Date(vencimento.setDate(vencimento.getDate() + parseInt(parcelas[i])))).format("YYYY-MM-DD") ,
             valor: valor,
             status_recebimento: false,
-            parcela: (i == 0) ? 1 : i,
+            parcela: i+1,
             auxiliar_valor: auxValor,
             vendedor_valor: venValor,
             fortiz_valor: fortiz_valor
@@ -193,15 +190,13 @@ export class DialogSendNotaComponent implements OnInit {
       //   dados.status = 'parcial'
       // }
 
-      console.log(dados);
-
-    // this.clientservice.addNota(dados).subscribe((res: any) => {
-    //   if(res.success === true){
-    //     this.dialogRef.close(res.success);
-    //   }else{
-    //     this.notificationService.notify('Informar ao administrador que nao foi possivel gerar a nota');
-    //   }
-    // });
+    this.clientservice.addNota(dados).subscribe((res: any) => {
+      if(res.success === true){
+        this.dialogRef.close(res.success);
+      }else{
+        this.notificationService.notify('Informar ao administrador que nao foi possivel gerar a nota');
+      }
+    });
   }
 
   clearParcelas() {

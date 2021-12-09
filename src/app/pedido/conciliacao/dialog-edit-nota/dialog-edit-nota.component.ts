@@ -121,19 +121,20 @@ export class DialogEditNotaComponent implements OnInit {
     let data = this.form.get('data_faturamento').value;
     let totalNota = this.totalNota();
     if(this.data.pedido.condicao_comercial.dias != null){
-      let parcelas = this.data.pedido.condicao_comercial.dias.split("/");
+      let dias = this.pedido.condicao_comercial.dias.split("/");
+      let parcelas = dias.filter(e =>  e);
       let valor = totalNota / parcelas.length;
       let auxValor = this.pedido.comissao_auxiliar / parcelas.length; // Validar 
       let venValor = this.pedido.comissao_vendedor / parcelas.length; // Validar
       let fortiz_valor = (this.pedido.comissao_bruto - ( this.pedido.comissao_vendedor + this.pedido.comissao_auxiliar ) ) / parcelas.length; // Validar
-      for(let i=0; i<parcelas.length; i++){
+      for(let i=0; i < parcelas.length; i++){
         if(parcelas[i] != ""){
           let vencimento = new Date(data)
           this.nota_parcelas.push(this.fb.group({
             data_vencimento: moment(new Date(vencimento.setDate(vencimento.getDate() + parseInt(parcelas[i])))).format("YYYY-MM-DD"),
             valor: valor,
             status_recebimento: false,
-            parcela: i,
+            parcela: i+1,
             auxiliar_valor: auxValor,
             vendedor_valor: venValor,
             fortiz_valor: fortiz_valor

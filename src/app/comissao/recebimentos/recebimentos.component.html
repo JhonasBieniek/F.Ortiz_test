@@ -118,7 +118,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr  *ngFor="let cols of parcelas(row.nota_parcelas) index as i" >
+                        <tr *ngFor="let cols of parcelas(row.nota_parcelas) index as i" >
                           <td>{{ cols.parcela }}</td>
                           <td>{{ cols.data_vencimento | date:'dd/MM/yyyy' }}</td>
                           <td>{{ cols.valor | currency : 'R$' }}</td>

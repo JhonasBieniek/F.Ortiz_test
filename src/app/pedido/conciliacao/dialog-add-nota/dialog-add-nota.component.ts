@@ -60,7 +60,6 @@ export class DialogAddNotaComponent implements OnInit {
       });
 
     });
-    console.log(this.temp)
   }
 
   onTabChange(event: MatTabChangeEvent) {
