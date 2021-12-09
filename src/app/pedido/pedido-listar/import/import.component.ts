@@ -184,7 +184,6 @@ export class ImportComponent implements OnInit {
       this.itemsNew = [];
       // let json = await this.importservice.importarPedido(this.info.file, this.representada);
       this.importservice.importarPedido(this.info.file, this.representada).then(res=>{
-        //console.log(res)
         if(res != false){
           this.form.get("representada_id").setValue(this.representada.id);
           this.spinner.hide();
@@ -319,14 +318,36 @@ export class ImportComponent implements OnInit {
         this.itemsNew = [...itens.newItem];
         this.openDialogProdutos();
       }
-
+      
       if (String(clienteCnpj).length == 14) {
         this.clientservice.getClientesCnpj(clienteCnpj).subscribe((res: any) => {
           if (res.success == true) {
+            if(res.data.razao_social.toLowerCase().indexOf('brf') !== -1){
+              for (let index = itens.final; index < data.length; index++) {
+                if(data[index].length > 0){
+                  let row = data[index][0].split(":");
+                  if(row[0] == "Nº PEDIDO DO CLIENTE"){
+                    this.form.get("num_pedido").setValue(this.form.get("num_pedido").value +"/"+row[1].replace(" ", ""));
+                    break;
+                  }
+                }
+              }
+            }
             this.form.get("cliente_id").setValue(res.data.id);
             this.setAreaDeVenda(res.data.cliente_representada_area_vendas);
             this.CarregarProdutosRepresentada();
           } else {
+            if(data[2][0].split(":")[1].toLowerCase().indexOf('brf') !== -1){
+              for (let index = itens.final; index < data.length; index++) {
+                if(data[index].length > 0){
+                  let row = data[index][0].split(":");
+                  if(row[0] == "Nº PEDIDO DO CLIENTE"){
+                    this.form.get("num_pedido").setValue(this.form.get("num_pedido").value +"/"+row[1].replace(" ", ""));
+                    break;
+                  }
+                }
+              }
+            }
             this.openDialogCNPJ(clienteCnpj);
           }
         });
@@ -336,6 +357,7 @@ export class ImportComponent implements OnInit {
 
       this.spinner.hide()
     } catch(e) {
+      console.log(e)
       this.notificationService.notify("Excel com divergência, informe ao administrador!");
       this.dialogRef.close();
     }
