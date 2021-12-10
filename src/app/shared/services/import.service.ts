@@ -165,7 +165,6 @@ export class ImportService {
                 data[inicial][3].match(/\d+/g)[1],
               comissao: null,
             };
-            console.log(produto.valor_unitario)
             await this.consultaCod(produto, representada_id).then((res: any) => {
               if(res.item != undefined){
                 item.push(res.item);
@@ -407,12 +406,12 @@ export class ImportService {
       this.clientservice
         .getProdutoCode(produto.codigo_catalogo)
         .subscribe((res: any) => {
-          console.log(res)
           if (res.success == true) {
             campos = produto;
             campos.embalagem = res.data.produto_embalagem.nome
             //campos.unidade = (res.data.unidade != null) ? res.data.unidade : null;
             campos.id = res.data.id;
+            if(representada_id == 18) campos.ipi = res.data.ipi;
           } else {
             newItem = produto;
             newItem.certificado_aprovacao = "";
