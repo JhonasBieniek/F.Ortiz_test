@@ -54,7 +54,7 @@ export class ImportService {
           resolve({json, itens: res})
         })
         .catch((rej) => {
-          //console.log(rej)
+          console.log(rej)
           resolve(false)
           //console.log(rej)
         });
@@ -165,6 +165,7 @@ export class ImportService {
                 data[inicial][3].match(/\d+/g)[1],
               comissao: null,
             };
+            console.log(produto.valor_unitario)
             await this.consultaCod(produto, representada_id).then((res: any) => {
               if(res.item != undefined){
                 item.push(res.item);
@@ -178,7 +179,7 @@ export class ImportService {
         resolve({
           item: item,
           newItem: newItem,
-          valorTotal: data[final+3][4].replace(/[^\d,-]/g, '').replace(',', "."),
+          valorTotal: data[final+3][4] != undefined ? data[final+3][4].replace(/[^\d,-]/g, '').replace(',', ".") : data[final+3][5].replace(/[^\d,-]/g, '').replace(',', "."),
           final: final
         })
       }catch(e){
@@ -406,6 +407,7 @@ export class ImportService {
       this.clientservice
         .getProdutoCode(produto.codigo_catalogo)
         .subscribe((res: any) => {
+          console.log(res)
           if (res.success == true) {
             campos = produto;
             campos.embalagem = res.data.produto_embalagem.nome

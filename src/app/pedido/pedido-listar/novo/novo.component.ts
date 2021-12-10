@@ -440,7 +440,7 @@ export class NovoComponent implements OnInit {
     const temp = this.temp.filter(function (d) {
       return (
         d.codigo_catalogo.toLowerCase().indexOf(val) !== -1 ||
-        !val ||
+        d.codigo_importacao.toLowerCase().indexOf(val) !== -1 ||
         d.nome.toLowerCase().indexOf(val) !== -1 ||
         !val
       );

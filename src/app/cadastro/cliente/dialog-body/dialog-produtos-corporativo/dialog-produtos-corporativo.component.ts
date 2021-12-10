@@ -40,7 +40,7 @@ export class DialogProdutosCorporativoComponent implements OnInit {
         this.clientservice.getProdutosSoft().subscribe((res: any) => {
           this.produtos = res.data;
           this.produtos.map((e) => {
-            e.display = e.nome +' - '+ e.codigo_catalogo;
+            e.display = e.nome +' - '+ e.codigo_catalogo +' - '+ e.codigo_importacao;
             e.value = e.id.toString();
           });
 

@@ -711,6 +711,7 @@ export class ImportComponent implements OnInit {
     const temp = this.temp.filter(function (d) {
       return (
         d.codigo_catalogo.toLowerCase().indexOf(val) !== -1 ||
+        d.codigo_importacao.toLowerCase().indexOf(val) !== -1 ||
         !val ||
         d.nome.toLowerCase().indexOf(val) !== -1 ||
         !val
@@ -720,9 +721,10 @@ export class ImportComponent implements OnInit {
     this.table = this.data.data;
   }
   setTotal(i) {
+    let ipi = (this.produto.at(i).get("quantidade").value * this.produto.at(i).get("valor_unitario").value * this.produto.at(i).get("ipi").value) / 100;
     let valor =
       this.produto.at(i).get("quantidade").value *
-      this.produto.at(i).get("valor_unitario").value;
+      this.produto.at(i).get("valor_unitario").value + ipi;
     this.produto.at(i).get("valor_total").setValue(valor);
   }
   cnpjFilter(cnpj) {

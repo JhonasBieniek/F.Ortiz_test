@@ -66,7 +66,7 @@
                 <mat-autocomplete autoActiveFirstOption #autoProduto="matAutocomplete">
                   <mat-option *ngFor="let produto of $produtos" (onSelectionChange)="setProduto(produto, i)"
                     [value]="produto.nome">
-                    {{produto.codigo_catalogo}} - {{produto.nome}}
+                    {{produto.codigo_catalogo}} - {{produto.codigo_importacao}} - {{produto.nome}}
                   </mat-option>
                 </mat-autocomplete>
               </mat-form-field>

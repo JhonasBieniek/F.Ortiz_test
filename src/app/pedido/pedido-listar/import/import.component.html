@@ -233,7 +233,7 @@
                 </mat-form-field>
                 <mat-form-field fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="12" appearance="outline">
                   <mat-label>IPI</mat-label>
-                  <input matInput placeholder="IPI" formControlName="ipi" mask="percent" suffix="%">
+                  <input matInput placeholder="IPI" formControlName="ipi" mask="percent" suffix="%" (blur)="setTotal(i)">
                 </mat-form-field>
                 <mat-form-field fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="15" appearance="outline">
                   <mat-label>Valor Unit.</mat-label>

@@ -99,7 +99,7 @@ export class ProdutosVendidosComponent implements OnInit {
       const re = new RegExp(xp, "g");
       this.$produtos = this.produtos.filter(function (d) {
         if (
-          d.nome.toLowerCase().match(re) || d.codigo_catalogo.toLowerCase().match(re) ||
+          d.nome.toLowerCase().match(re) || d.codigo_catalogo.toLowerCase().match(re) || d.codigo_importacao.toLowerCase().match(re) ||
           !val
         )
           return d;

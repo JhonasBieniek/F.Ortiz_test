@@ -70,7 +70,7 @@
                                 <mat-autocomplete autoActiveFirstOption #autoProduto="matAutocomplete">
                                     <mat-option *ngFor="let produto of $produtos" (click)="setProduto(produto)"
                                         (onSelectionChange)="setProduto(produto)" [value]="produto.nome" style="font-size: 12px;">
-                                        Código: {{produto.codigo_catalogo}} - {{produto.nome}} - Representada: {{produto.representada.nome_fantasia}}
+                                        Importação: {{produto.codigo_importacao}} - Catalogo: {{produto.codigo_catalogo}} - {{produto.nome}} - Representada: {{produto.representada.nome_fantasia}}
                                     </mat-option>
                                 </mat-autocomplete>
                             </mat-form-field>

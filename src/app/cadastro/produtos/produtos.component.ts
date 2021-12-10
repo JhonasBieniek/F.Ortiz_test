@@ -62,6 +62,7 @@ export class ProdutosComponent implements OnInit {
         d.representada.nome_fantasia.toLowerCase().indexOf(val) !== -1 ||
         d.codigo_importacao.toLowerCase().indexOf(val) !== -1 ||
         d.certificado_aprovacao.toLowerCase().indexOf(val) !== -1 ||
+        d.codigo_catalogo.toLowerCase().indexOf(val) !== -1 ||
         !val
       );
     });

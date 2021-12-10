@@ -287,8 +287,9 @@ export class OrcamentoComponent implements OnInit {
     const val = event.target.value.toLowerCase();
     // filter our datas
     const temp = this.temp.filter(e => e.nome || e.descricao != null).filter(function (d) {
-      return d.codigo_catalogo.toLowerCase().indexOf(val) !== -1 || !val ||
-             d.nome.toLowerCase().indexOf(val) !== -1 || !val 
+      return d.codigo_catalogo.toLowerCase().indexOf(val) !== -1 || 
+              d.codigo_importacao.toLowerCase().indexOf(val) !== -1 ||
+              d.nome.toLowerCase().indexOf(val) !== -1 || !val 
     });
     // update the rows
     this.rows = temp;

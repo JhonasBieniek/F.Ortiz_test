@@ -135,6 +135,7 @@ export class DialogBodyComponent implements OnInit {
       this.$produtos = this.produtos.filter(function (d) {
         if (
           d.codigo_catalogo.toLowerCase().match(re) ||
+          d.codigo_importacao.toLowerCase().match(re) ||
           d.nome.toLowerCase().match(re) ||
           !val
         )
