@@ -87,6 +87,7 @@ registerLocaleData(ptBr)
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
     },
+    { provide: LOCALE_ID, useValue: 'pt' },
     {
     provide: LocationStrategy,
     useClass: HashLocationStrategy,
