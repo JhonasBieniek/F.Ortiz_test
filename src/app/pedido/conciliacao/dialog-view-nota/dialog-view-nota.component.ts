@@ -211,14 +211,14 @@ export class DialogViewNotaComponent implements OnInit {
   }
 
   valorRestante(){
-    let valorFaturado = 0;
+    let valorRestante = 0;
     if(this.rows[0] != undefined){
       this.rows[0].map(produto => {
-        valorFaturado = valorFaturado + produto.total;
+        valorRestante = valorRestante + produto.total;
       })
-      return this.dados.pedido.valor_total - valorFaturado;
+      return this.dados.pedido.valor_liquido - valorRestante;
     }else{
-      return valorFaturado;
+      return valorRestante;
     }
     
   }
