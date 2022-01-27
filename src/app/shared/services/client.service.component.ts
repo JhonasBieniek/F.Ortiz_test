@@ -1289,10 +1289,10 @@ export class ClientService {
       });
   }
   getProdutoCode(code) {
-    const uri = API_URL + 'produtos/getByCode/' + code + ".json";
+    const uri = `${API_URL}` + `produtos/getByCode2.json`;
     return this
       .http
-      .get(uri)
+      .post(uri, code)
       .map(res => {
         return res;
       });

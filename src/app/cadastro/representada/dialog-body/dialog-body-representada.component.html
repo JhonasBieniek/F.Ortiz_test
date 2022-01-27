@@ -5,7 +5,7 @@
   <div fxLayout="row wrap" class="row">
     <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
       <mat-card-header class="bg-info text-white">
-        <mat-card-title class="dadosCadastro">{{pageTitle}}</mat-card-title>
+        <mat-card-title >{{pageTitle}}</mat-card-title>
       </mat-card-header>
     </div>
     <div class="p-10 aj" fxFlex.gt-sm="35" fxFlex.gt-xs="30" fxFlex="100">
@@ -86,7 +86,7 @@
       <mat-hint *ngIf="form.get('endereco.cep').errors?.maxlength && form.get('endereco.cep').touched"
         class="text-danger font-14">Seu cep não deve exceder 8 caracteres.</mat-hint>
     </div>
-    <div class="p-10 aj" fxFlex.gt-sm="52" fxFlex.gt-xs="55" fxFlex="100">
+    <div class="p-10 aj" fxFlex.gt-sm="52" fxFlex.gt-xs="52" fxFlex="100">
       <mat-form-field appearance="outline">
         <mat-label>Logradouro</mat-label>
         <input matInput placeholder="Logradouro" formControlName="logradouro" [readonly]="readonly">
@@ -106,7 +106,7 @@
       <small *ngIf="form.get('endereco.numero').errors?.number && form.get('endereco.numero').touched"
         class="text-danger font-14">O Número precisa ser válido.</small>
     </div>
-    <div class="p-10 aj" fxFlex.gt-sm="20" fxFlex.gt-xs="21" fxFlex="100">
+    <div class="p-10 aj" fxFlex.gt-sm="21" fxFlex.gt-xs="21" fxFlex="100">
       <mat-form-field appearance="outline">
         <mat-label>Complemento</mat-label>
         <input matInput placeholder="Complemento" formControlName="complemento" [readonly]="readonly">
@@ -141,6 +141,52 @@
       </mat-form-field>
       <small *ngIf="form.get('endereco.estado').errors?.required && form.get('endereco.estado').touched"
         class="text-danger font-14">Você precisa deve inserir um estado.</small>
+    </div>
+  </div>
+  <div formArrayName="representada_fretes" fxLayout="row wrap" class="row" fxflex="100">
+    <div class="p-10 aj1" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100"  (click)="addRepresentadaFrete()" >
+      <h4 class="dadosCadastro"><span style="margin-left: 10%;">Valores de Frete</span>
+        <a style="float: right;"*ngIf="!readonly"><i class="material-icons plus-icons">add_circle_outline</i>
+          <span class="title">Nova Valor de frete</span></a>
+      </h4>
+    </div>
+    <div fxLayout="row wrap" *ngFor="let e of form.get('representada_fretes').controls; index as i" [formGroupName]="i" fxFlex="50">
+        <div class="p-10 aj ml-5" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+          Frete - {{i + 1}}
+          <button mat-icon-button (click)="delRepresentadaFrete(i)" *ngIf="!readonly">
+            <mat-icon class="clear">clear</mat-icon>
+          </button>
+        </div>
+        
+        <div class="p-10 aj" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100" style="margin-left: 10px;">
+          <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
+            <mat-label>Estado*</mat-label>
+            <mat-select formControlName="estado_id" [disabled]="readonly" required>
+              <mat-option *ngFor="let estado of estados" [value]="estado.id">
+                {{estado.nome}}
+              </mat-option>
+            </mat-select>
+            <mat-placeholder>Estado</mat-placeholder>
+          </mat-form-field>
+        </div>
+
+        <div class="p-10 aj" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100" style="margin-left: 10px;" *ngIf="form.get('representada_fretes').value[i].estado_id != null ">
+          <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
+            <mat-label>Tipo de frete</mat-label>
+            <mat-select formControlName="tipo" [disabled]="readonly" required>
+              <mat-option value="fob">FOB</mat-option>
+              <mat-option value="cif">CIF</mat-option>
+            </mat-select>
+            <mat-placeholder>Tipo de frete</mat-placeholder>
+          </mat-form-field>
+        </div>
+
+        <div class="p-10 aj" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100" style="margin-left: 10px;" *ngIf="form.get('representada_fretes').value[i].estado_id != null ">
+          <mat-form-field appearance="outline">
+              <mat-label>Valor</mat-label>
+              <input matInput placeholder="Valor*" formControlName="valor" currencyMask [readonly]="readonly" required>
+          </mat-form-field>
+        </div>
     </div>
   </div>
   <div fxLayout="row wrap" class="row">
@@ -209,6 +255,7 @@
         class="text-danger font-14">O representante não deve exceder 50 caracteres</textarea>
     </div>
   </div>
+  
   <mat-card-actions class="p-10">
     <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid || readonly == true" (click)="onSubmit();">Salvar</button>
     <button style="margin-left: 15px;" mat-raised-button color="warn" (click)="close()">Cancelar</button>

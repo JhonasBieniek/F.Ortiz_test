@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog, MatDialogConfig } from '@angular/material';
-import { FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ValidationErrors, FormArray } from '@angular/forms';
 import { ClientService } from '../../../shared/services/client.service.component';
 import { NotificationService } from '../../../shared/messages/notification.service';
 import { CustomValidators } from 'ng2-validation';
@@ -22,6 +22,7 @@ export class DialogBodyRepresentadaComponent implements OnInit {
   modelLogradouro;
   pageTitle: string = "";
   bancos: any = [];
+  estados: any = [];
   readonly = false;
 
 
@@ -34,6 +35,9 @@ export class DialogBodyRepresentadaComponent implements OnInit {
   ) {
     this.clientservice.getContas().subscribe((res: any) => {
       this.bancos = res.data;
+    });
+    this.clientservice.getEstados().subscribe((res: any) => {
+      this.estados = res.data;
     });
   }
   ngOnInit() {
@@ -51,6 +55,7 @@ export class DialogBodyRepresentadaComponent implements OnInit {
       status: [true],
       conta_id: null,
       comissao_padrao: [null],
+      representada_fretes: this.fb.array([]),
       endereco: this.fb.group({
         cep: [null],
         logradouro: [null],
@@ -67,6 +72,7 @@ export class DialogBodyRepresentadaComponent implements OnInit {
     else {
       if(this.data.action == 'edit'){
         this.pageTitle = 'Editar Representada';
+        this.addRepresentadaFretes(this.data.representada_fretes);
       }else{
         this.pageTitle = 'Visualizar Representada';
         this.readonly = true;
@@ -77,6 +83,48 @@ export class DialogBodyRepresentadaComponent implements OnInit {
   }
   editCharge() {
     this.form.patchValue(this.data)
+  }
+
+  addRepresentadaFrete(data: any = null) {
+    const frete = this.form.controls.representada_fretes as FormArray;
+    frete.push(
+      this.fb.group({
+        representada_id: '',
+        estado_id: data ? data.estado_id : null,
+        tipo: data ? data.tipo : null,
+        valor: data ? data.valor : null,
+      })
+    );
+  }
+
+
+  addRepresentadaFreteEdit(data: any = null) {
+    const frete = this.form.controls.representada_fretes as FormArray;
+    console.log(this.data)
+    frete.push(
+      this.fb.group({
+        id: data ? data.id : null,
+        representada_id: data ? data.representada_id : null,
+        estado_id: data ? data.estado_id : null,
+        tipo: data ? data.tipo : null,
+        valor: data ? data.valor : null,
+      })
+    );
+  }
+
+  delRepresentadaFrete(index) {
+    const frete = this.form.controls.representada_fretes as FormArray;
+    frete.removeAt(index);
+  }
+
+  addRepresentadaFretes(data: any) {
+    data.forEach(async (e: any) => {
+      if (this.data.action == 'edit' || this.data.action == 'view') {
+        this.addRepresentadaFreteEdit(e);
+      } else {
+        this.addRepresentadaFrete(e);
+      }
+    });
   }
 
 

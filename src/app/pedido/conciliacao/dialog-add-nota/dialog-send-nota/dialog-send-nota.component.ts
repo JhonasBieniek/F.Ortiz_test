@@ -56,7 +56,7 @@ export class DialogSendNotaComponent implements OnInit {
     this.form = this.fb.group({
       pedido_id: [this.data.id],
       num_nota: [null, Validators.compose([Validators.required])],
-      data_faturamento: [null, Validators.compose([Validators.required, CustomValidators.date])],
+      data_faturamento: [new Date(), Validators.compose([Validators.required, CustomValidators.date])],
       obs: [null],
       status: ["aberto"],
       nota_parcelas: this.fb.array([]),

@@ -404,7 +404,7 @@ export class ImportService {
     let newItem;
     return new Promise(async (resolve, reject) => {
       this.clientservice
-        .getProdutoCode(produto.codigo_catalogo)
+        .getProdutoCode({"codigo":produto.codigo_catalogo})
         .subscribe((res: any) => {
           if (res.success == true) {
             campos = produto;

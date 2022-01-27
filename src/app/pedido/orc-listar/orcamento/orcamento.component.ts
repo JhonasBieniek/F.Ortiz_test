@@ -120,7 +120,7 @@ export class OrcamentoComponent implements OnInit {
       quotation : [null],
       quotation_name : [null],
       quotation_phone : [null],
-      frete: ['Representada', Validators.required],
+      frete: ['cif', Validators.required],
       transportadora: [null],
       valor_total: [null],
       status: [false],
