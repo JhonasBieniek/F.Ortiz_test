@@ -110,7 +110,7 @@ export class ImportComponent implements OnInit {
       regiao_id: [null],
       area_venda_id: [null, Validators.compose([Validators.required])],
       num_pedido: [null, Validators.compose([Validators.required])],
-      frete: [null, Validators.required],
+      frete: ['Representada', Validators.required],
       transportadora: [null],
       valor_total: [null, Validators.compose([Validators.required])],
       valor_liquido: [null],
