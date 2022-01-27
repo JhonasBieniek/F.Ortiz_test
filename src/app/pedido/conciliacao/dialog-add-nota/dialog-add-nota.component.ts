@@ -43,21 +43,20 @@ export class DialogAddNotaComponent implements OnInit {
     this.clientservice.getPedidoSemNota().subscribe((res:any) =>{
       let i = 0;
       this.steps.forEach(e => {
-        this.temp[i] = res.data.filter(d => d.situacao == e.step);
-        i++;
+        this.temp[i] = res.data;
       });
       //console.log(this.temp)
       // this.rows = [...this.temp];
 
-      this.clientservice.getPedidoParcial().subscribe((res:any) =>{
-        // let i = 1;
-        this.steps.forEach(e => {
-          this.temp[i] = res.data.filter(d => d.situacao == e.step);
-          i++;
-        });
-        // this.rows = [...this.temp];
-        this.rows = [...this.temp];
-      });
+      // this.clientservice.getPedidoParcial().subscribe((res:any) =>{
+      //   // let i = 1;
+      //   this.steps.forEach(e => {
+      //     this.temp[i] = res.data.filter(d => d.situacao == e.step);
+      //     i++;
+      //   });
+      //   // this.rows = [...this.temp];
+      // });
+      this.rows = [...this.temp];
 
     });
   }
@@ -74,9 +73,12 @@ export class DialogAddNotaComponent implements OnInit {
 
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
+    console.log(this.defaultTab)
+
     this.rows[this.defaultTab] = this.temp[this.defaultTab].filter(function(d) {
       if( d.cliente.nome_fantasia.toLowerCase().indexOf(val) !== -1 || !val ||
           d.representada.nome_fantasia.toLowerCase().indexOf(val) !== -1 || !val ||
+          d.situacao.toLowerCase().indexOf(val) !== -1 || !val ||
           d.num_pedido.toLowerCase().indexOf(val) !== -1 || !val )
       return d
     }); 

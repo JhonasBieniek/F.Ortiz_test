@@ -61,7 +61,7 @@ export class DialogBodyCondComerciaisComponent implements OnInit {
 
   validaDias(data) {
     this.form.controls['parcelas_qtd'].setValue(null);
-    this.form.controls['dias'].setValue(null);
+    this.form.controls['dias'].setValue(0);
     this.addParcela('new');
     if (data == 'prazo') {
       this.form.controls.dias.setValidators(Validators.required);

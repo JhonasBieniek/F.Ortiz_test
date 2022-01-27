@@ -30,38 +30,10 @@
           "prop": "data_entrega",
           "name": "Data Entrega",
           "width": 1
-        }
-      ]
-    },
-    {
-      "titulo": "Parciais",
-      "step": "parcial",
-      "info": "Pedidos com com produtos pendente de Nota Fiscal",
-      "index": 3,
-      "columns": [
-        {
-          "prop": "num_pedido",
-          "name": "Pedido",
-          "width": 0.4
         },
         {
-          "prop": "representada.nome_fantasia",
-          "name": "Representada",
-          "width": 1.5
-        },
-        {
-          "prop": "cliente.nome_fantasia",
-          "name": "Cliente",
-          "width": 1.5
-        },
-        {
-          "prop": "data_emissao",
-          "name": "Data Emissão",
-          "width": 1
-        },
-        {
-          "prop": "data_entrega",
-          "name": "Data Entrega",
+          "prop": "situacao",
+          "name": "Status",
           "width": 1
         }
       ]

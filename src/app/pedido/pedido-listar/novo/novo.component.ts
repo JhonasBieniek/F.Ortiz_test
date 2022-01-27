@@ -273,6 +273,8 @@ export class NovoComponent implements OnInit {
       valor_liquido: [null],
       comissao_media: [null, Validators.compose([Validators.required])],
       comissao_bruto: [null, Validators.compose([Validators.required])],
+      vendedor_porcentagem: [null],
+      auxiliar_porcentagem: [null],
       comissao_auxiliar: [null],
       comissao_vendedor: [null],
       status: [true, Validators.compose([Validators.required])],
@@ -587,13 +589,15 @@ export class NovoComponent implements OnInit {
         this.comissao_vendedor,
         element.get("quantidade").value,
         element.get("valor_unitario").value,
-        element.get("comissao_produto").value
+        element.get("comissao_produto").value,
+        "vendedor_porcentagem"
       );
       comissao_auxiliar += this.comissaoCalcFaixa(
         this.comissao_auxiliar,
         element.get("quantidade").value,
         element.get("valor_unitario").value,
-        element.get("comissao_produto").value
+        element.get("comissao_produto").value,
+        "auxiliar_porcentagem"
       );
     });
 
@@ -614,12 +618,13 @@ export class NovoComponent implements OnInit {
     return comissao;
   }
 
-  comissaoCalcFaixa(f, q, v, c) {
+  comissaoCalcFaixa(f, q, v, c, type) {
     if (f.comissao_faixas != undefined) {
       let percentual = 0;
       f.comissao_faixas.map((res) => {
         if (c >= res.faixa) {
           percentual = res.percentual;
+          this.form.get(type).setValue(percentual);
         }
       });
       return ((q * v) / 100) * percentual;

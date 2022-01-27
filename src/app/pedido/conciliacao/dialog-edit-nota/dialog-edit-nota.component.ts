@@ -124,9 +124,9 @@ export class DialogEditNotaComponent implements OnInit {
       let dias = this.pedido.condicao_comercial.dias.split("/");
       let parcelas = dias.filter(e =>  e);
       let valor = totalNota / parcelas.length;
-      let auxValor = this.pedido.comissao_auxiliar / parcelas.length; // Validar 
-      let venValor = this.pedido.comissao_vendedor / parcelas.length; // Validar
-      let fortiz_valor = (this.pedido.comissao_bruto - ( this.pedido.comissao_vendedor + this.pedido.comissao_auxiliar ) ) / parcelas.length; // Validar
+      let auxValor = (this.pedido.valor_liquido * (this.pedido.auxiliar_porcentagem )/100) / parcelas.length; // Validar 
+      let venValor = (this.pedido.valor_liquido * (this.pedido.vendedor_porcentagem )/100) / parcelas.length; // Validar
+      let fortiz_valor = (this.pedido.valor_liquido * (this.pedido.comissao_media - this.pedido.vendedor_porcentagem - this.pedido.auxiliar_porcentagem )/100) / parcelas.length; // Validar
       for(let i=0; i < parcelas.length; i++){
         if(parcelas[i] != ""){
           let vencimento = new Date(data)
