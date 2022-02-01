@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { ExcelExportService } from '../../../../shared/services/excel-export.service';
 
 @Component({
   selector: 'app-dialog-consumo-print',
@@ -10,8 +11,9 @@ export class DialogConsumoPrintComponent implements OnInit {
 
   displayedColumns: string[] = ['Nome', 'Código', 'Embalagem'];
   dataSource: any[] = [];
+  meses: any[] = [];
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,  public dialogRef: MatDialogRef<DialogConsumoPrintComponent>) { 
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,  public dialogRef: MatDialogRef<DialogConsumoPrintComponent>, private excelExport: ExcelExportService) { 
     //this.dataSource = data;
     this.gerarComparativo();
   }
@@ -19,12 +21,12 @@ export class DialogConsumoPrintComponent implements OnInit {
   gerarComparativo(){
     let start = new Date(this.data.form.dtInicio);
     let end = new Date(this.data.form.dtFinal);
-    let meses: any[] = [];
+    //let meses: any[] = [];
     let periodoInicial = '';
     let periodoFinal = (end.getMonth() + 1) +"/"+end.getFullYear();
     while(periodoInicial != periodoFinal){
       periodoInicial = (start.getMonth() + 1) +"/"+start.getFullYear();
-      meses.push({
+      this.meses.push({
         mes: periodoInicial,
         quantidade: 0
       });
@@ -37,20 +39,20 @@ export class DialogConsumoPrintComponent implements OnInit {
     this.data.forEach(pedido => {
       let periodo = new Date(pedido.data_emissao+ " 00:00:00");
       let periodoFormatado = (periodo.getMonth() + 1) +"/"+periodo.getFullYear();
-      let IndexMes = meses.findIndex(x => x.mes == periodoFormatado);
+      let IndexMes = this.meses.findIndex(x => x.mes == periodoFormatado);
 
       pedido.pedido_produtos.forEach(produto => {
         if(this.data.form.produto_id != null){
           if(produto.produto_id == this.data.form.produto_id){
             let IndexProduto = this.dataSource.findIndex(x => x.Nome ==  produto.produto.nome);
             if(IndexProduto == -1){
-              let mesSoma: any = meses.map( (e:any) => { return Object.assign( {}, e)});
+              let mesSoma: any = this.meses.map( (e:any) => { return Object.assign( {}, e)});
               mesSoma[IndexMes].quantidade = produto.quantidade;
 
               let addProduto = {
                 Nome:  produto.produto.nome,
-                Embalagem: produto.embalagem,
                 Código: produto.produto.codigo_catalogo,
+                Embalagem: produto.embalagem,
                 Total: produto.quantidade
               };
               mesSoma.forEach(mes => {
@@ -60,7 +62,7 @@ export class DialogConsumoPrintComponent implements OnInit {
               this.dataSource.push(addProduto)
               
             }else{
-              let mes = meses[IndexMes].mes;
+              let mes = this.meses[IndexMes].mes;
               this.dataSource[IndexProduto][mes] = this.dataSource[IndexProduto][mes] +  produto.quantidade;
               this.dataSource[IndexProduto].Total = this.dataSource[IndexProduto].Total + produto.quantidade;
             }
@@ -68,7 +70,7 @@ export class DialogConsumoPrintComponent implements OnInit {
         }else{
           let IndexProduto = this.dataSource.findIndex(x => x.Nome ==  produto.produto.nome);
           if(IndexProduto == -1){
-            let mesSoma: any = meses.map( (e:any) => { return Object.assign( {}, e)});
+            let mesSoma: any = this.meses.map( (e:any) => { return Object.assign( {}, e)});
             mesSoma[IndexMes].quantidade = produto.quantidade;
 
             let addProduto = {
@@ -84,7 +86,7 @@ export class DialogConsumoPrintComponent implements OnInit {
             this.dataSource.push(addProduto)
             
           }else{
-            let mes = meses[IndexMes].mes;
+            let mes = this.meses[IndexMes].mes;
             this.dataSource[IndexProduto][mes] = this.dataSource[IndexProduto][mes] +  produto.quantidade;
             this.dataSource[IndexProduto].Total = this.dataSource[IndexProduto].Total + produto.quantidade;
           }
@@ -93,7 +95,7 @@ export class DialogConsumoPrintComponent implements OnInit {
     });
     
     for (let index = 0; index < this.dataSource.length; index++) {
-      this.dataSource[index]['Média'] = Math.round(this.dataSource[index].Total / meses.length);  
+      this.dataSource[index]['Média'] = Math.round(this.dataSource[index].Total / this.meses.length);  
     }
     
     this.displayedColumns.push('Média')
@@ -166,6 +168,47 @@ export class DialogConsumoPrintComponent implements OnInit {
         WindowPrt.document.close();
       }
     }
+  }
+
+  somarTotal() {
+    let total = 0;
+    this.data.map((venda) => {
+      total = venda.valor_total + total;
+    })
+    return total;
+  }
+
+  somarColuna(coluna: string){
+    if(coluna != "Média"){
+      let total = 0;
+      this.dataSource.map((produto) => {
+        total = produto[coluna] + total;
+      })
+      return total;
+    }else{
+      return '';
+    }
+  }
+
+  exportar(){
+    let export_array = [];
+    this.dataSource.forEach( consumo => {
+      let meses = {
+      }
+      this.meses.forEach( (mes) => {
+        meses[mes.mes] = consumo[mes.mes]
+      })
+
+      export_array.push({
+        Nome: consumo.Nome,
+        Código: consumo.Código,
+        Embalagem: consumo.Embalagem,
+        ...meses,
+        Total: consumo.Total,
+        Média: consumo.Média
+      });
+    });
+    this.excelExport.exportToExcel(export_array, "Relatorio de consumo")
   }
 
 }

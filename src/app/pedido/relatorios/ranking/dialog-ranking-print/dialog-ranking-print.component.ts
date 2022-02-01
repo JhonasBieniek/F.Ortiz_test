@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { ExcelExportService } from '../../../../shared/services/excel-export.service';
 
 @Component({
   selector: 'app-dialog-ranking-print',
@@ -11,7 +12,7 @@ export class DialogRankingPrintComponent implements OnInit {
   displayedColumns: string[] = ['ranking', 'cliente', 'cnpj', 'total', 'total_liquido', 'percentual'];
   dataSource: any[] = [];
   total = 0;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,  public dialogRef: MatDialogRef<DialogRankingPrintComponent>) { 
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,  public dialogRef: MatDialogRef<DialogRankingPrintComponent>, private excelExport: ExcelExportService) { 
     this.dataSource = data;
 
     this.somar();
@@ -88,6 +89,54 @@ export class DialogRankingPrintComponent implements OnInit {
         WindowPrt.document.close();
       }
     }
+  }
+
+  somarTotal() {
+    let total = 0;
+    this.data.map((venda) => {
+      total = venda.valor_total + total;
+    })
+    return total;
+  }
+
+  somarTotalLiquido() {
+    let total = 0;
+    this.data.map((venda) => {
+      total = venda.valor_liquido + total;
+    })
+    return total;
+  }
+
+  somarTotalPorcentagem() {
+    let total = 0;
+    this.data.map((venda) => {
+      total = venda.percentual + total;
+    })
+    return total;
+  }
+
+  exportar(){
+    let export_array = [];
+
+    this.dataSource.forEach( (cliente, index) => {
+      export_array.push({
+        colocação: index+1,
+        cliente: cliente.cliente.nome_fantasia,
+        cnpj: cliente.cliente.cnpj,
+        total: cliente.valor_total,
+        total_liquido: cliente.valor_liquido,
+        porcentagem: cliente.percentual,
+      })
+    });
+    export_array.push({
+      colocação: "Total: ",
+      cliente: null,
+      cnpj: null,
+      total: this.somarTotal(),
+      total_liquido: this.somarTotalLiquido(),
+      porcentagem: this.somarTotalPorcentagem(),
+    });
+    this.excelExport.exportToExcel(export_array, "Relatorio de Ranking")
   }
 
 }

@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { ExcelExportService } from '../../../../shared/services/excel-export.service';
 
 @Component({
   selector: 'app-dialog-pedidos-print',
@@ -11,7 +12,8 @@ export class DialogPedidosPrintComponent implements OnInit {
   displayedColumns: string[] = ['CLIENTE', 'CNPJ', 'NUMERO', 'DT PEDIDO', 'DT ENTREGA', `VALOR`];
   dataSource = [];
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<DialogPedidosPrintComponent>) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<DialogPedidosPrintComponent>,
+  private excelExport: ExcelExportService) {
     this.dataSource = data;
   }
 
@@ -80,6 +82,30 @@ export class DialogPedidosPrintComponent implements OnInit {
       total = venda.valor_total + total;
     })
     return total;
+  }
+
+  exportar(){
+    let export_array = [];
+
+    this.dataSource.forEach( pedido => {
+      export_array.push({
+        cliente: pedido.cliente.nome_fantasia,
+        cnpj: pedido.cliente.cnpj,
+        numero: pedido.num_pedido,
+        emissao: pedido.data_emissao,
+        entrega: pedido.data_entrega,
+        valor: pedido.valor_total
+      })
+    });
+    export_array.push({
+      cliente: "Total: ",
+      cnpj: null,
+      numero: null,
+      emissao: null,
+      entrega: null,
+      valor: this.somarTotal()
+    });
+    this.excelExport.exportToExcel(export_array, "Relatorio de Pedidos")
   }
 
 }

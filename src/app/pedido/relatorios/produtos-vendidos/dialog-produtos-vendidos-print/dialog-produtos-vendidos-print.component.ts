@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { ExcelExportService } from '../../../../shared/services/excel-export.service';
 
 @Component({
   selector: 'app-dialog-produtos-vendidos-print',
@@ -11,7 +12,8 @@ export class DialogProdutosVendidosPrintComponent implements OnInit {
   displayedColumns: string[] = ['codigo', 'nome', 'tamanho', 'quantidade', 'valor_total'];
   dataSource: any[] = [];
   total = 0;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,  public dialogRef: MatDialogRef<DialogProdutosVendidosPrintComponent>) { 
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,  public dialogRef: MatDialogRef<DialogProdutosVendidosPrintComponent>,
+  private excelExport: ExcelExportService) { 
     this.dataSource = data;
 
   }
@@ -76,4 +78,41 @@ export class DialogProdutosVendidosPrintComponent implements OnInit {
     }
   }
 
+  somarTotal() {
+    let total = 0;
+    this.data.map((venda) => {
+      total = venda.valor_total + total;
+    })
+    return total;
+  }
+
+  somarTotalProdutos() {
+    let total = 0;
+    this.data.map((venda) => {
+      total = venda.quantidade + total;
+    })
+    return total;
+  }
+
+  exportar(){
+    let export_array = [];
+
+    this.dataSource.forEach( produto => {
+      export_array.push({
+        codigo: produto.codigo,
+        nome: produto.nome,
+        tamanho: produto.tamanho,
+        quantidade: produto.quantidade,
+        total_vendido: produto.valor_total
+      })
+    });
+    export_array.push({
+      codigo: "Total: ",
+      nome: null,
+      tamanho: null,
+      quantidade: this.somarTotalProdutos(),
+      total_vendido: this.somarTotal()
+    });
+    this.excelExport.exportToExcel(export_array, "Relatorio de Produtos Vendidos")
+  }
 }

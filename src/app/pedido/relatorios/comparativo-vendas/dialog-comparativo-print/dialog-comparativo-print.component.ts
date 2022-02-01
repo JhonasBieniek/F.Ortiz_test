@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { ExcelExportService } from '../../../../shared/services/excel-export.service';
 
 @Component({
   selector: 'app-dialog-comparativo-print',
@@ -11,8 +12,8 @@ export class DialogComparativoPrintComponent implements OnInit {
   displayedColumns: string[] = ['NAME', 'TOTAL'];
   dataSource: any[] = [];
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,  public dialogRef: MatDialogRef<DialogComparativoPrintComponent>) { 
-    console.log(data);
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,  public dialogRef: MatDialogRef<DialogComparativoPrintComponent>,  private excelExport: ExcelExportService) { 
+    //console.log(data);
     //this.dataSource = data;
     this.gerarComparativo();
   }
@@ -92,5 +93,29 @@ export class DialogComparativoPrintComponent implements OnInit {
         WindowPrt.document.close();
       }
     }
+  }
+
+  somarTotal() {
+    let total = 0;
+    this.dataSource.map((mes) => {
+      total = mes.total + total;
+    })
+    return total;
+  }
+
+  exportar(){
+    let export_array = [];
+
+    this.dataSource.forEach( mes => {
+      export_array.push({
+        mes: mes.name,
+        total: mes.total,
+      });
+    });
+    export_array.push({
+      mes: 'Total: ',
+      total: this.somarTotal(),
+    })
+    this.excelExport.exportToExcel(export_array, "Relatorio de comparativo de vendas")
   }
 }

@@ -1,5 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import Chartist from 'chartist';
+import { ExcelExportService } from '../../../../shared/services/excel-export.service';
 
 @Component({
   selector: 'app-dialog-sem-compras-print',
@@ -10,7 +12,7 @@ export class DialogSemComprasPrintComponent implements OnInit {
 
   displayedColumns: string[] = ['nome', 'cnpj', 'contato', 'telefone', 'celular', 'data', 'valor', 'condicao'];
   dataSource: any[] = [];
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,  public dialogRef: MatDialogRef<DialogSemComprasPrintComponent>) { 
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,  public dialogRef: MatDialogRef<DialogSemComprasPrintComponent>, private excelExport: ExcelExportService) { 
     this.dataSource = data;
   }
   ngOnInit(): void {
@@ -72,6 +74,45 @@ export class DialogSemComprasPrintComponent implements OnInit {
         WindowPrt.document.close();
       }
     }
+  }
+
+  exportar(){
+    let export_array = [];
+
+    this.dataSource.forEach( cliente => {
+      export_array.push({
+        nome: cliente.nome_fantasia,
+        cnpj: cliente.cnpj,
+        contato: cliente.representante,
+        telefone_fixo: cliente.telefone,
+        telefone_celular: cliente.celular,
+        ultima_compra: cliente.pedido ? cliente.pedido.data_emisao : null,
+        valor: cliente.pedido ? cliente.pedido.valor_total : null,
+        condicao: cliente.pedido ? cliente.pedido.condicao_comercial.nome : null
+      })
+    });
+
+    export_array.push({
+      nome: "Total :",
+      cnpj: null,
+      contato: null,
+      telefone_fixo: null,
+      telefone_celular: null,
+      ultima_compra: null,
+      valor: this.somarTotal(),
+      condicao: null
+    });
+    this.excelExport.exportToExcel(export_array, "Relatorio de clientes sem compra")
+  }
+
+  somarTotal() {
+    let total = 0;
+    this.dataSource.map((cliente) => {
+      if(cliente.pedido){
+        total = cliente.pedido.valor_total + total;
+      }
+    })
+    return total;
   }
 
 }

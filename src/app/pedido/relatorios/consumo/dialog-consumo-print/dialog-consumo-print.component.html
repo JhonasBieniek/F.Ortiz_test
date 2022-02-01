@@ -1,5 +1,6 @@
 <div align="end" style="margin-bottom: -40px">
-    <button mat-raised-button type="button" (click)="printWindowCurrent()">Imprimir</button>
+    <button mat-raised-button type="button" (click)="exportar()">Gerar Excel</button>
+    <button mat-raised-button type="button" class="m-l-10" (click)="printWindowCurrent()">Imprimir</button>
     <button mat-raised-button type="button" class="m-l-10" color="warn" (click)="close()">Voltar</button>
 </div>
 <div id="impressao" cdkFocusInitial>
@@ -10,7 +11,7 @@
                 <div class="p-10">
                     <img src="./assets/images/logo.png" alt="logo">
                 </div>
-                <div class="p-t-10 p-l-10 text-left" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100"><span style="font-weight: 500;"> Relatório Comparativo de Vendas</span></div>
+                <div class="p-t-10 p-l-10 text-left" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100"><span style="font-weight: 500;"> Relatório de Consumo</span></div>
                 <div class="p-l-10 text-left formInputs" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="data.form.dtInicio != null"> Inicio: {{data.form.dtInicio | date:'dd/MM/yyyy'}}</div>
                 <div class="p-l-10 text-left formInputs" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="data.form.dtFinal != null"> Fim: {{data.form.dtFinal | date:'dd/MM/yyyy'}}</div>
                 <div class="p-l-10 text-left formInputs" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="data.form.representada_id != null"> Representada:  {{data.representada.nome_fantasia}}</div>
@@ -18,13 +19,19 @@
                 <div class="p-l-10 text-left formInputs" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="data.form.produto_id != null"> Produto: {{data.produto.nome}} - {{data.produto.codigo_catalogo}}</div>
                 <table mat-table [dataSource]="dataSource" style="width: 100%; font-family: Verdana, Tahoma, Arial, Sans-serif; font-size: 10px;">
                     
-                    <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
+                    <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns; let i = index">
                         <th mat-header-cell *matHeaderCellDef> {{column}} </th>
                         <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+                        <td mat-footer-cell *matFooterCellDef>
+                            <span style="font-weight: 500;" *ngIf="i == 0">Total: </span>
+                            <span style="font-weight: 500;" *ngIf="i > 0  && i <= 2"></span>
+                            <span style="font-weight: 500;" *ngIf="i >= 3"> {{somarColuna(column)}}</span>
+                        </td>
                     </ng-container>
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns" style="height: 30px !important;"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;" style="height: 25px !important;"></tr>
+                    <tr mat-footer-row *matFooterRowDef="displayedColumns" style="height: 30px !important;"></tr>
                 </table>
             </div>
         </div>

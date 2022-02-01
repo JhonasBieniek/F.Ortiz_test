@@ -79,7 +79,7 @@ export class ComparativoVendasComponent implements OnInit {
   submit() {
     if(this.form.valid){
       this.clientservice.RelatorioComparativoVendas(this.form.value).subscribe((res: any) => {
-        console.log(res)
+        //console.log(res)
         if(res.success == true){
           if(res.data.length > 0 ){
             this.print(res.data)

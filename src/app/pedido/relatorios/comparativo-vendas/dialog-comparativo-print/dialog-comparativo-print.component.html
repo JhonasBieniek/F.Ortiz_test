@@ -1,5 +1,6 @@
 <div align="end" style="margin-bottom: -40px">
-    <button mat-raised-button type="button" (click)="printWindowCurrent()">Imprimir</button>
+    <button mat-raised-button type="button" (click)="exportar()">Gerar Excel</button>
+    <button mat-raised-button type="button" class="m-l-10" (click)="printWindowCurrent()">Imprimir</button>
     <button mat-raised-button type="button" class="m-l-10" color="warn" (click)="close()">Voltar</button>
 </div>
 <div id="impressao" cdkFocusInitial>
@@ -18,15 +19,18 @@
                     <ng-container matColumnDef="NAME" >
                         <th mat-header-cell *matHeaderCellDef class="text-left" > Mês </th>
                         <td mat-cell *matCellDef="let element" class="tamanhoPedidos text-left" > {{element.name}}</td>
+                        <td mat-footer-cell *matFooterCellDef class="cliente-width"> <span style="font-weight: 500;">Total: </span></td>
                     </ng-container>
 
                     <ng-container matColumnDef="TOTAL">
                         <th mat-header-cell *matHeaderCellDef class="text-right" > Valor total das Vendas </th>
                         <td mat-cell *matCellDef="let element" class="tamanhoPedidos text-right"> {{element.total | currency:'BRL':true:'1.2-2' }}</td>
+                        <td mat-footer-cell *matFooterCellDef class="text-right tamanhoPedidos"> {{somarTotal() | currency:'BRL':true:'1.2-2'}}</td>
                     </ng-container>
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns" style="height: 30px !important;"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;" style="height: 25px !important;"></tr>
+                    <tr mat-footer-row *matFooterRowDef="displayedColumns" style="height: 30px !important;"></tr>
                 </table>
             </div>
         </div>
