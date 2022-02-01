@@ -823,6 +823,16 @@ export class ClientService {
       });
   }
 
+  relatorioNovosClientesCompras(data) {
+    const uri = `${API_URL}` + `clientes/relatorioNovosClientesCompras.json`;
+    return this
+      .http
+      .post(uri, data)
+      .map(res => {
+        return res;
+      });
+  }
+
   rankingPedidos(data) {
     const uri = `${API_URL}` + `pedidos/rankingPedidos.json`;
     return this

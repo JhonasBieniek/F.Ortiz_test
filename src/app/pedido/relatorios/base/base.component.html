@@ -21,9 +21,10 @@
                 <div fxLayout="row wrap" class="row" *ngIf="type.length != 0 ">
                     <app-pedidos fxFlex="100" *ngIf="type.value == 1"></app-pedidos>
                     <app-clientes-sem-compra fxFlex="100" *ngIf="type.value == 2"></app-clientes-sem-compra>
-                    <app-comparativo-vendas fxFlex="100" *ngIf="type.value == 3"></app-comparativo-vendas>
-                    <app-consumo fxFlex="100" *ngIf="type.value == 4"></app-consumo>
-                    <app-faturamento fxFlex="100" *ngIf="type.value == 5"></app-faturamento>
+                    <app-novos-clientes-compras fxFlex="100" *ngIf="type.value == 3"></app-novos-clientes-compras>
+                    <app-comparativo-vendas fxFlex="100" *ngIf="type.value == 4"></app-comparativo-vendas>
+                    <app-consumo fxFlex="100" *ngIf="type.value == 5"></app-consumo>
+                    <!-- <app-faturamento fxFlex="100" *ngIf="type.value == 5"></app-faturamento> -->
                     <app-notas fxFlex="100" *ngIf="type.value == 6"></app-notas>
                     <app-produtos-vendidos fxFlex="100"*ngIf="type.value == 7"></app-produtos-vendidos>
                     <app-ranking fxFlex="100" *ngIf="type.value == 8"></app-ranking>
