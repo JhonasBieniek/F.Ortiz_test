@@ -35,8 +35,8 @@ export class NovosClientesComprasComponent implements OnInit {
     this.form = this.fb.group({
       representada_id: [null],
       area_venda_id: [null],
-      periodo: ["30"],
-      outro: [null],
+      dtInicio: [null, Validators.required],
+      dtFinal: [null, Validators.required],
       ordenacao: ["nome", Validators.required],
       tipo: ["asc", Validators.required],
     });
@@ -79,37 +79,33 @@ export class NovosClientesComprasComponent implements OnInit {
 
   submit() {
     if(this.form.valid){
-      if(this.form.get('periodo').value == "outro" && (this.form.get('outro').value == null || this.form.get('outro').value == '')){
-        this.notificationService.notify("Quantidade de dias não informado!");
-      }else{
-        this.clientservice.relatorioNovosClientesCompras(this.form.value).subscribe((res: any) => {
-          if(res.success == true){
-            if(res.data.length > 0 ){
-              if(this.form.get('representada_id').value == null){
-                this.print(res.data)
-              }else if(this.form.get('area_venda_id').value != null){
-                let data: any[] = [];
-                res.data.map( cliente => {
-                  cliente.cliente_representada_area_vendas.map( area => {
-                    if(area.area_venda_id == this.form.get('area_venda_id').value) data.push(cliente);
-                  });
+      this.clientservice.relatorioNovosClientesCompras(this.form.value).subscribe((res: any) => {
+        if(res.success == true){
+          if(res.data.length > 0 ){
+            if(this.form.get('representada_id').value == null){
+              this.print(res.data)
+            }else if(this.form.get('area_venda_id').value != null){
+              let data: any[] = [];
+              res.data.map( cliente => {
+                cliente.cliente_representada_area_vendas.map( area => {
+                  if(area.area_venda_id == this.form.get('area_venda_id').value) data.push(cliente);
                 });
-                this.print(data)
-              }else{
-                let data: any[] = [];
-                res.data.map( cliente => {
-                  cliente.cliente_representada_area_vendas.map( area => {
-                    if(area.AreaVendas.representada_id == this.form.get('representada_id').value) data.push(cliente);
-                  });
-                });
-                this.print(data)
-              }
+              });
+              this.print(data)
             }else{
-              this.notificationService.notify("Não foi localizado nenhum cliente!");
+              let data: any[] = [];
+              res.data.map( cliente => {
+                cliente.cliente_representada_area_vendas.map( area => {
+                  if(area.AreaVendas.representada_id == this.form.get('representada_id').value) data.push(cliente);
+                });
+              });
+              this.print(data)
             }
+          }else{
+            this.notificationService.notify("Não foi localizado nenhum cliente!");
           }
-        });
-      }
+        }
+      });
     }else{
       this.form.markAllAsTouched();
     }

@@ -87,15 +87,28 @@ export class RankingComponent implements OnInit {
 
   submit() {
     if(this.form.valid){
-      this.clientservice.rankingPedidos(this.form.value).subscribe((res: any) => {
-        if(res.success == true){
-          if(res.data.length > 0 ){
-            this.print(res.data)
-          }else{
-            this.notificationService.notify("Não foi localizado nenhum pedido!");
+      // if(this.form.get('status').value == "todos"){
+      //   this.clientservice.rankingPedidos(this.form.value).subscribe((res: any) => {
+      //     if(res.success == true){
+      //       if(res.data.length > 0 ){
+      //         this.print(res.data)
+      //       }else{
+      //         this.notificationService.notify("Não foi localizado nenhum pedido!");
+      //       }
+      //     }
+      //   });
+      // }else{
+        this.clientservice.rankingPedidosSemAgrupamento(this.form.value).subscribe((res: any) => {
+          if(res.success == true){
+            if(res.data.length > 0 ){
+              this.print(res.data)
+            }else{
+              this.notificationService.notify("Não foi localizado nenhum pedido!");
+            }
           }
-        }
-      });
+        });
+      //}
+      
     }else{
       this.form.markAllAsTouched();
     }

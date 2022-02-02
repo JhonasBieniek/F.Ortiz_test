@@ -843,6 +843,16 @@ export class ClientService {
       });
   }
 
+  rankingPedidosSemAgrupamento(data) {
+    const uri = `${API_URL}` + `pedidos/rankingPedidosSemAgrupamento.json`;
+    return this
+      .http
+      .post(uri, data)
+      .map(res => {
+        return res;
+      });
+  }
+
   relatorioNotas(data) {
     const uri = `${API_URL}` + `notas/relatorioNotas.json`;
     return this

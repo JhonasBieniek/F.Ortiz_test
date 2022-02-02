@@ -103,7 +103,7 @@ export class DialogNovosClientesPrintComponent implements OnInit {
       valor: this.somarTotal(),
       condicao: null
     });
-    this.excelExport.exportToExcel(export_array, "Relatorio de clientes sem compra")
+    this.excelExport.exportToExcel(export_array, "Relatorio de novos clientes")
   }
 
   somarTotal() {

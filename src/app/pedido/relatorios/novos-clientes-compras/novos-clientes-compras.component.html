@@ -37,21 +37,22 @@
                             </mat-form-field>
                         </div>
                         <div class="show-title" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-                            <span class="p-l-10"> Período em que o cliente não realizou pedidos</span>
+                            <span class="p-l-10"> Período de cadastro</span>
                         </div>
-                        <div class="p-10" style="margin-top: 5px;" fxFlex="55" fxFlex.gt-lg="35">
-                            <mat-radio-group appearance="outline" formControlName="periodo">
-                                <mat-radio-button value="30" class="m-r-10">30 Dias</mat-radio-button>
-                                <mat-radio-button value="60" class="m-r-10">60 Dias</mat-radio-button>
-                                <mat-radio-button value="90" class="m-r-10">90 Dias</mat-radio-button>
-                                <mat-radio-button value="90" class="m-r-10">120 Dias</mat-radio-button>
-                                <mat-radio-button value="outro" class="m-r-10">Outro</mat-radio-button>
-                            </mat-radio-group>
+                        <div class="p-10 text" fxFlex.gt-sm="30" fxFlex.gt-xs="20" fxFlex.gt-md="25" fxFlex="100">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Data de Inicio</mat-label>
+                                <input matInput [matDatepicker]="mesInicio" placeholder="Mês Înicio" formControlName="dtInicio">
+                                <mat-datepicker-toggle matSuffix [for]="mesInicio"></mat-datepicker-toggle>
+                                <mat-datepicker #mesInicio></mat-datepicker>
+                            </mat-form-field>
                         </div>
-                        <div class="text" fxFlex="30" *ngIf="form.controls['periodo'].value == 'outro'">
-                            <mat-form-field appearance="outline" fxFlex="100">
-                                <mat-label>Outro Período</mat-label>
-                                <input matInput type="number" step="1" min="1" placeholder="Quantidade de Dias, Apenas numeros" aria-label="area"  formControlName="outro">
+                        <div class="p-10 text" fxFlex.gt-sm="30" fxFlex.gt-xs="20" fxFlex.gt-md="25" fxFlex="100">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Data de Fim</mat-label>
+                                <input matInput [matDatepicker]="anoInicio" placeholder="Ano Inicial" formControlName="dtFinal">
+                                <mat-datepicker-toggle matSuffix [for]="anoInicio"></mat-datepicker-toggle>
+                                <mat-datepicker #anoInicio></mat-datepicker>
                             </mat-form-field>
                         </div>
                         <div class="show-title" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">

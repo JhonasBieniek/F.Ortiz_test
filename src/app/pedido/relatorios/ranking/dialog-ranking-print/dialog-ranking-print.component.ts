@@ -9,15 +9,100 @@ import { ExcelExportService } from '../../../../shared/services/excel-export.ser
 })
 export class DialogRankingPrintComponent implements OnInit {
 
-  displayedColumns: string[] = ['ranking', 'cliente', 'cnpj', 'total', 'total_liquido', 'percentual'];
+  displayedColumns: string[] = ['ranking', 'cliente', 'cnpj', 'total', 'total_liquido' ,'percentual'];  // , 'total_liquido'
   dataSource: any[] = [];
   total = 0;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,  public dialogRef: MatDialogRef<DialogRankingPrintComponent>, private excelExport: ExcelExportService) { 
-    this.dataSource = data;
+    //this.somar();
+    this.agruparClientes();
+  }
+  ngOnInit(): void {
+  }
+
+  agruparClientes(){
+    this.data.forEach( pedido => {
+      let index = this.dataSource.findIndex( cliente => cliente.cnpj === pedido.cliente.cnpj);
+      if(this.dataSource.length == 0 || index === -1){
+        if(pedido.situacao == "faturado" || pedido.situacao == "aberto"){
+          this.dataSource.push({
+            cliente: pedido.cliente.nome_fantasia,
+            cnpj: pedido.cliente.cnpj,
+            valor_total: pedido.valor_total - (pedido.subst != null ? pedido.subst : 0),
+            valor_liquido: pedido.valor_liquido,
+            porcentagem: 0
+          });
+        }else if(pedido.situacao == "parcial"){
+          let totalBruto = this.somarNotaBruto(pedido.notas);
+          let totalLiquido = this.somarNotaLiquido(pedido.notas);
+          this.dataSource.push({
+            cliente: pedido.cliente.nome_fantasia,
+            cnpj: pedido.cliente.cnpj,
+            valor_total: totalBruto,
+            valor_liquido: totalLiquido,
+            porcentagem: 0
+          });
+        }
+      }else{
+        if(pedido.situacao == "faturado" || pedido.situacao == "aberto"){
+
+          this.dataSource[index].valor_total += (pedido.valor_total - (pedido.subst != null ? pedido.subst : 0));
+          this.dataSource[index].valor_liquido += pedido.valor_liquido;
+
+        }else if(pedido.situacao == "parcial"){
+
+          let totalBruto = this.somarNotaBruto(pedido.notas);
+          let totalLiquido = this.somarNotaLiquido(pedido.notas);
+          this.dataSource[index].valor_total += totalBruto;
+          this.dataSource[index].valor_liquido += totalLiquido;
+
+        }
+      }
+    });
+
+    if(this.data.form.ordenacao == "valor"){
+      if(this.data.form.tipo == "asc"){
+        this.dataSource.sort( (a,b) => a.valor_total - b.valor_total);
+      }else{
+        this.dataSource.sort( (a,b) => b.valor_total - a.valor_total);
+      }
+    }else{
+      if(this.data.form.tipo == "asc"){
+        this.dataSource.sort( (a,b) => (a.color < b.color) ? 1 : -1);
+        
+      }else{
+        this.dataSource.sort( (a,b) => (a.color > b.color) ? 1 : -1);
+      }
+    }
 
     this.somar();
   }
-  ngOnInit(): void {
+
+  somarNotaLiquido(notas: any[]){
+    let total = 0;
+    notas.forEach( nota => {
+      nota.nota_produtos.forEach( produto => {
+        if(produto.qtd > 0){
+          total = total + (produto.qtd * produto.pedido_produto.valor_unitario);
+        }
+      });
+    });
+    return total;
+  }
+
+  somarNotaBruto(notas: any[]){
+    let total = 0;
+    notas.forEach( nota => {
+      nota.nota_produtos.forEach( produto => {
+        if(produto.qtd > 0){
+          let ipi = 0;
+          if(produto.pedido_produto.ipi){
+            ipi = (produto.qtd * produto.pedido_produto.valor_unitario * produto.pedido_produto.ipi) / 100;
+          }
+          total += (produto.qtd * produto.pedido_produto.valor_unitario) + ipi;
+        }
+      });
+    });
+    return total;
   }
 
   somar(){
@@ -93,24 +178,24 @@ export class DialogRankingPrintComponent implements OnInit {
 
   somarTotal() {
     let total = 0;
-    this.data.map((venda) => {
-      total = venda.valor_total + total;
+    this.dataSource.map((venda) => {
+      total += venda.valor_total;
     })
     return total;
   }
 
   somarTotalLiquido() {
     let total = 0;
-    this.data.map((venda) => {
-      total = venda.valor_liquido + total;
+    this.dataSource.map((venda) => {
+      total += venda.valor_liquido;
     })
     return total;
   }
 
   somarTotalPorcentagem() {
     let total = 0;
-    this.data.map((venda) => {
-      total = venda.percentual + total;
+    this.dataSource.map((venda) => {
+      total += venda.percentual;
     })
     return total;
   }
@@ -121,8 +206,8 @@ export class DialogRankingPrintComponent implements OnInit {
     this.dataSource.forEach( (cliente, index) => {
       export_array.push({
         colocação: index+1,
-        cliente: cliente.cliente.nome_fantasia,
-        cnpj: cliente.cliente.cnpj,
+        cliente: cliente.cliente,
+        cnpj: cliente.cnpj,
         total: cliente.valor_total,
         total_liquido: cliente.valor_liquido,
         porcentagem: cliente.percentual,
