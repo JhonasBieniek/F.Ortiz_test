@@ -22,8 +22,8 @@ export class DialogRankingPrintComponent implements OnInit {
   agruparClientes(){
     this.data.forEach( pedido => {
       let index = this.dataSource.findIndex( cliente => cliente.cnpj === pedido.cliente.cnpj);
-      if(this.dataSource.length == 0 || index === -1){
-        if(pedido.situacao == "faturado" || pedido.situacao == "aberto"){
+      if(this.data.form.status == "todos"){
+        if(this.dataSource.length == 0 || index === -1){
           this.dataSource.push({
             cliente: pedido.cliente.nome_fantasia,
             cnpj: pedido.cliente.cnpj,
@@ -31,30 +31,61 @@ export class DialogRankingPrintComponent implements OnInit {
             valor_liquido: pedido.valor_liquido,
             porcentagem: 0
           });
-        }else if(pedido.situacao == "parcial"){
-          let totalBruto = this.somarNotaBruto(pedido.notas);
-          let totalLiquido = this.somarNotaLiquido(pedido.notas);
-          this.dataSource.push({
-            cliente: pedido.cliente.nome_fantasia,
-            cnpj: pedido.cliente.cnpj,
-            valor_total: totalBruto,
-            valor_liquido: totalLiquido,
-            porcentagem: 0
-          });
-        }
-      }else{
-        if(pedido.situacao == "faturado" || pedido.situacao == "aberto"){
-
+        }else{
           this.dataSource[index].valor_total += (pedido.valor_total - (pedido.subst != null ? pedido.subst : 0));
           this.dataSource[index].valor_liquido += pedido.valor_liquido;
+        }
+      }else{
+        if(this.dataSource.length == 0 || index === -1){
+          if(pedido.situacao == "faturado" || pedido.situacao == "pendente"){
+            this.dataSource.push({
+              cliente: pedido.cliente.nome_fantasia,
+              cnpj: pedido.cliente.cnpj,
+              valor_total: pedido.valor_total - (pedido.subst != null ? pedido.subst : 0),
+              valor_liquido: pedido.valor_liquido,
+              porcentagem: 0
+            });
+          }else if(pedido.situacao == "parcial"){
+            let totalBruto = this.somarNotaBruto(pedido.notas);
+            let totalLiquido = this.somarNotaLiquido(pedido.notas);
 
-        }else if(pedido.situacao == "parcial"){
+            if(this.data.form.status == "faturado"){
+              this.dataSource.push({
+                cliente: pedido.cliente.nome_fantasia,
+                cnpj: pedido.cliente.cnpj,
+                valor_total: totalBruto,
+                valor_liquido: totalLiquido,
+                porcentagem: 0
+              });
+            }else if(this.data.form.status == "pendente"){
+              this.dataSource.push({
+                cliente: pedido.cliente.nome_fantasia,
+                cnpj: pedido.cliente.cnpj,
+                valor_total: ( (pedido.valor_total - (pedido.subst != null ? pedido.subst : 0) ) - totalBruto ),
+                valor_liquido: ( pedido.valor_liquido - totalLiquido ),
+                porcentagem: 0
+              });
+            }
+          }
+        }else{
+          if(pedido.situacao == "faturado" || pedido.situacao == "pendente"){
 
-          let totalBruto = this.somarNotaBruto(pedido.notas);
-          let totalLiquido = this.somarNotaLiquido(pedido.notas);
-          this.dataSource[index].valor_total += totalBruto;
-          this.dataSource[index].valor_liquido += totalLiquido;
+            this.dataSource[index].valor_total += (pedido.valor_total - (pedido.subst != null ? pedido.subst : 0));
+            this.dataSource[index].valor_liquido += pedido.valor_liquido;
 
+          }else if(pedido.situacao == "parcial"){
+
+            let totalBruto = this.somarNotaBruto(pedido.notas);
+            let totalLiquido = this.somarNotaLiquido(pedido.notas);
+            if(this.data.form.status == "faturado"){
+              this.dataSource[index].valor_total += totalBruto;
+              this.dataSource[index].valor_liquido += totalLiquido;
+            }else if(this.data.form.status == "pendente"){
+              this.dataSource[index].valor_total += ( (pedido.valor_total - (pedido.subst != null ? pedido.subst : 0) ) - totalBruto );
+              this.dataSource[index].valor_liquido += (pedido.valor_liquido - totalLiquido);
+            }
+
+          }
         }
       }
     });
