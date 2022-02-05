@@ -54,14 +54,12 @@ export class RankingComponent implements OnInit {
   getAreas(representada_id){
     this.clientservice.getAreaByRepresentada(representada_id).subscribe((res:any) =>{
       this.areas = res.data;
-      console.log(this.areas)
     });
   }
 
   searchArea() {
     let $area: Observable<any[]>;
     let nome = this.areaBusca.value;
-    console.log(nome)
     if (nome != "") {
       const val = nome.toLowerCase().split(" ");
       let xp = "";

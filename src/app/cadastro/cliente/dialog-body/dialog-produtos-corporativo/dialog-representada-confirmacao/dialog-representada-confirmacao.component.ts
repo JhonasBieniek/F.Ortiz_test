@@ -11,7 +11,6 @@ export class DialogRepresentadaConfirmacaoComponent {
   constructor(
     public dialogRef: MatDialogRef<DialogRepresentadaConfirmacaoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any){ 
-      console.log(this.data)
     }
 
   cancelar(): void { 

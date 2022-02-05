@@ -35,7 +35,6 @@ export class RecebidosComponent implements OnInit {
   }
 
   reverter(row:any){
-    console.log(row)
     
     if(confirm("Tem certeza que deseja reverter este recebimento? ")) {
       this.clientservice.reverterComissao(row).subscribe((res: any) => {
@@ -43,7 +42,6 @@ export class RecebidosComponent implements OnInit {
           this.getRecebidos();
         }else{
           this.notificationService.notify('Não foi possivel reverter a comissao recebida informe ao administrador !');
-          console.log(res);
         }
         // this.data = res.data;
         // this.rows = this.data

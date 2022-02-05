@@ -146,7 +146,6 @@ export class ConsumoComponent implements OnInit {
     dialogConfig.data.cliente = this.form.get("cliente_id").value == null ? null : this.clientes.find( cliente => cliente.id == this.form.get("cliente_id").value);
     dialogConfig.data.representada = this.form.get("representada_id").value == null ? null : this.representadas.find( representada => representada.id == this.form.get("representada_id").value);
     dialogConfig.data.produto = this.form.get("produto_id").value == null ? null : this.produtos.find( produto => produto.id == this.form.get("produto_id").value)
-    //console.log(dialogConfig)
     let dialogRef = this.dialog.open(
       DialogConsumoPrintComponent,
       dialogConfig

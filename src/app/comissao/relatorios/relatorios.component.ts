@@ -466,7 +466,6 @@ export class RelatoriosComponent implements OnInit {
           this.temp = [];
           this.acumulados = [];
           res.map(nota => {
-            console.log(nota);
             if(nota.nota_parcelas.length > 0){
               let total = 0;
               let quantidade = 0;
@@ -482,7 +481,6 @@ export class RelatoriosComponent implements OnInit {
           this.data = this.acumulados;
           this.rows = this.data;
           this.temp = [...this.data];
-          console.log(this.rows)
         });
       }else if(this.route.snapshot.url[1].path == 'estorno'){
         sourceEstorno.subscribe((res: any) => {
@@ -491,7 +489,6 @@ export class RelatoriosComponent implements OnInit {
           this.temp = [];
           this.acumulados = [];
           res.map(nota => {
-            console.log(nota);
             if(nota.nota_parcelas.length > 0){
               let total = 0;
               nota.nota_parcelas.forEach(parcela => {
@@ -504,7 +501,6 @@ export class RelatoriosComponent implements OnInit {
           this.data = this.acumulados;
           this.rows = this.data;
           this.temp = [...this.data];
-          console.log(this.rows)
         });
       }
       // if (this.show == true) {

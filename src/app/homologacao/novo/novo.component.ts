@@ -109,7 +109,6 @@ export class NovoComponent implements OnInit {
     let dialogRef = this.dialog.open(DialogBodyComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((value) => {
       this.refreshTable();
-      // console.log(`Dialog sent: ${value}`);
     });
   }
 

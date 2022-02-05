@@ -35,7 +35,6 @@ export class ClienteComponent implements OnInit {
 
     this.clientservice.getClientes().subscribe(res => {
       this.data = res;
-      console.log(this.data)
       this.rows = this.data.data.sort((a, b) => a.id - b.id);
       this.temp = [...this.data.data];
       setTimeout(() => { this.loadingIndicator = false; }, 1500);
@@ -56,11 +55,9 @@ export class ClienteComponent implements OnInit {
     this.table = this.data;
   }
   updateValue(event, cell, rowIndex) {
-    console.log('inline editing rowIndex', rowIndex)
     this.editing[rowIndex + '-' + cell] = false;
     this.rows[rowIndex][cell] = event.target.value;
     this.rows = [...this.rows];
-    console.log('UPDATED!', this.rows[rowIndex][cell]);
   }
 
   openDialog() {

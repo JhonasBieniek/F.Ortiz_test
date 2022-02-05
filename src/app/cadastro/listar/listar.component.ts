@@ -77,11 +77,9 @@ export class ListarComponent implements OnInit {
   this.table = this.data;
   }
   updateValue(event, cell, rowIndex) {    
-  console.log('inline editing rowIndex', rowIndex)
   this.editing[rowIndex + '-' + cell] = false;
   this.rows[rowIndex][cell] = event.target.value;
   this.rows = [...this.rows];
-  console.log('UPDATED!', this.rows[rowIndex][cell]);
   }
 
 

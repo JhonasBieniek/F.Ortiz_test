@@ -160,7 +160,6 @@ export class PagamentosLoteComponent implements OnInit {
     this.step = index;
     // this.rows = [];
     // this.clientservice.contasPagarByCliente(this.form.get('funcionario_id').value).subscribe((res: any) => {
-    //   console.log(res)
     // });
   }
 
@@ -168,7 +167,6 @@ export class PagamentosLoteComponent implements OnInit {
     this.step++;
     this.rows = [];
     this.clientservice.contasPagarByCliente(this.form.get('funcionario_id').value).subscribe((res: any) => {
-      console.log(res)
       this.rows = res.data;
     });
   }
@@ -185,8 +183,7 @@ export class PagamentosLoteComponent implements OnInit {
       conta.conta_id = this.formPayments.get('conta_id').value;
       conta.obs = this.formPayments.get('observacao').value;
     });
-    console.log(this.formPayments.value);
-    console.log(this.rows)
+
     this.clientservice.receberPagamentos(this.rows).subscribe((res:any) => {
       if(res.success ==  true){
         this.loadData();

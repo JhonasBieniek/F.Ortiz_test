@@ -100,7 +100,6 @@ export class DialogBodyRepresentadaComponent implements OnInit {
 
   addRepresentadaFreteEdit(data: any = null) {
     const frete = this.form.controls.representada_fretes as FormArray;
-    console.log(this.data)
     frete.push(
       this.fb.group({
         id: data ? data.id : null,
@@ -159,7 +158,6 @@ export class DialogBodyRepresentadaComponent implements OnInit {
   }
 
   chargeForm(data) {
-    //console.log(data)
     this.form.get('razao_social').setValue(data.nome);
     this.form.get('nome_fantasia').setValue(data.fantasia);
     this.form.get('email').setValue(data.email);
@@ -190,11 +188,9 @@ export class DialogBodyRepresentadaComponent implements OnInit {
         if (res.status == true) {
           this.notificationService.notify(`Cadastro Efetuado com Sucesso!`)
         } else {
-          console.log(res.data.email.hasOwnProperty('_isUnique'))
           if (res.data.email.hasOwnProperty('_isUnique')) {
             this.notificationService.notify(`Email em uso informar outro email!`)
           } else {
-            console.log(res)
             this.notificationService.notify(`Erro contate o Administrador`)
           }
         }
@@ -222,7 +218,6 @@ export class DialogBodyRepresentadaComponent implements OnInit {
         });
       }
     });
-    console.log(result);
   }
 
   close() {

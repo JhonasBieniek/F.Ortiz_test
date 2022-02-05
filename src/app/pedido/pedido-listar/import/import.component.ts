@@ -246,7 +246,6 @@ export class ImportComponent implements OnInit {
         this.itemsNew = [...itens.newItem];
         this.openDialogProdutos();
       }
-      console.log(itens)
       this.ValorTotal = itens.valorTotal;
 
       if (String(clienteCnpj).length == 14) {
@@ -359,7 +358,6 @@ export class ImportComponent implements OnInit {
 
       this.spinner.hide()
     } catch(e) {
-      console.log(e)
       this.notificationService.notify("Excel com divergência, informe ao administrador!");
       this.dialogRef.close();
     }
@@ -414,7 +412,6 @@ export class ImportComponent implements OnInit {
 
   async betanin(data, itens) {
     try {
-      console.log(data)
       if(data[2][24] == "Cod. Pagto."){
         this.condComercial = data[2][28];
       }else if(data[2][25] == "Cod. Pagto."){
@@ -492,7 +489,6 @@ export class ImportComponent implements OnInit {
       
       this.spinner.hide();
     } catch(e) {
-      console.log(e);
       this.notificationService.notify("Excel com divergência, informe ao administrador!");
       this.dialogRef.close();
     }
@@ -518,13 +514,11 @@ export class ImportComponent implements OnInit {
       this.ValorTotal = itens.valorTotal;
 
       if (itens.item.length > 0) {
-        console.log(itens.item)
         itens.item.forEach(element => {
           this.addItem(element); //* Adiciona item à item que já esteja cadastrado no banco
         });
       }
       if (itens.newItem.length > 0) {
-        console.log(itens.newItem)
         this.itemsNew = [...itens.newItem];
         this.openDialogProdutos();
       }

@@ -111,7 +111,6 @@ export class ViewOrcamentoComponent implements OnInit {
             });
           },
           (error) => {
-            console.log('getPDF error: ',error);
           }
         );
       } 
@@ -147,7 +146,6 @@ export class ViewOrcamentoComponent implements OnInit {
             this.notificationservice.notify('Orçamento cancelado com sucesso!')
           } else {
             this.notificationservice.notify('Erro ao cancelar o Orçamento')
-            console.log(res.data);
           }
           this.close();
         })

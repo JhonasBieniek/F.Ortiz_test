@@ -36,7 +36,7 @@ export class UnidadeComponent implements OnInit {
   constructor(private clientservice: ClientService, private dialog: MatDialog) {
 
     this.clientservice.getUnidades().subscribe(res =>{
-      this.data = res; console.log(this.data.data)
+      this.data = res;
       this.rows = this.data.data;
       this.temp = [...this.data.data];
       setTimeout(() => { this.loadingIndicator = false; }, 1500); 
@@ -76,7 +76,6 @@ export class UnidadeComponent implements OnInit {
   );
     dialogRef.afterClosed().subscribe(value => {
         this.refreshTable();
-        console.log(`Dialog sent: ${value}`); 
       });
   }
   edit(row){

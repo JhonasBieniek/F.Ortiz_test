@@ -117,7 +117,6 @@ export class DialogBodyComponent implements OnInit {
         });
       }
     });
-    console.log(result);
   }
 
 }

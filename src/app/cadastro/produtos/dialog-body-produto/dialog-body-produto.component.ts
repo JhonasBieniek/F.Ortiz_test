@@ -168,7 +168,6 @@ export class DialogBodyProdutoComponent implements OnInit {
       this.pageTitle = "Cadastrar Produto";
     } else {
       this.clientservice.viewProduto(this.data.id).subscribe((res: any) => {
-        //console.log(res)
         this.produto = res.data[0];
         this.produto.produto_tipo_id = this.produto.produto_tipo_id.toString();
         this.produto.produto_material_id = this.produto.produto_material_id.toString();
@@ -473,7 +472,6 @@ pdfBlobConversion(b64Data, contentType) {
 
       if (this.data != null) {
         this.sizes.forEach((element) => {
-          //console.log(element)
           if(element.produto_id != null) {
             tamanhos.push({
               id: element.id,
@@ -569,7 +567,6 @@ pdfBlobConversion(b64Data, contentType) {
         produto_cores: cores,
         produto_estados_precos: precos,
       });
-      //console.log(this.form.value)
       if (this.data == null) {
           this.clientservice.addProdutos(this.form.value).subscribe((res: any) => {
             if (res.success == true) {

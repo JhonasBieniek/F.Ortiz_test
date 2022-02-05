@@ -65,7 +65,6 @@ export class AppHeaderComponent {
       if(res.status){
         this.notifications.splice(index,1);
       }else{
-        console.log(res.data);
       }
     });
   }
@@ -81,7 +80,6 @@ export class AppHeaderComponent {
         };
         this.router.navigate(['/pedidos/cotacoes'], navigationExtras);
       }else{
-        console.log(res.data);
       }
     });
   }

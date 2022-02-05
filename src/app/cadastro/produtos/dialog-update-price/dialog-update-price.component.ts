@@ -147,7 +147,6 @@ export class DialogUpdatePriceComponent implements OnInit {
   }
 
   async volk(data4, data12, data18) {
-    //console.log(data4, 'dados planilha4')
     let produtos = [];
       data4.forEach((element) => {
         if (
@@ -200,7 +199,6 @@ export class DialogUpdatePriceComponent implements OnInit {
           produtos.push(produto);
         }
       });
-    //console.log(produtos, 'volk');
     produtos.forEach((element) => {
       element.forEach((elementIn) => {
         this.prods.map((e: any) => {

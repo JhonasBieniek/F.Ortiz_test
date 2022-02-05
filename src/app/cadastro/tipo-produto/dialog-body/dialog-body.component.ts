@@ -34,7 +34,6 @@ export class DialogBodyTipoProdutoComponent implements OnInit {
         this.readonly = true;
       }
       
-      console.log(this.data)
       this.form = this.fb.group({
         id: this.data.id,
         nome: [this.data.nome, Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(50)])],

@@ -47,14 +47,12 @@ export class DialogCancelarOrcamentosAntigosComponent implements OnInit {
   }
 
   cancelarTodos(){
-    console.log(this.rows)
     this.clientservice.cancelarAntigos(this.rows).subscribe((res: any) => {
       if(res.status == true){
           this.notificationService.notify(`Orçamentos cancelados com Sucesso!`);
           this.dialogRef.close();
       }else{
           this.notificationService.notify(`Não foi possivel cancelar todos os orçamentos informe ao administrador!`);
-          console.log(res.data)
       }
     });
   }
@@ -67,7 +65,6 @@ export class DialogCancelarOrcamentosAntigosComponent implements OnInit {
           this.dialogRef.close();
         }else{
             this.notificationService.notify(`Não foi possivel cancelar todos os orçamentos informe ao administrador!`);
-            console.log(res.data)
         }
       });
     }else{

@@ -88,7 +88,6 @@ export class MailComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogDataExampleDialogComponent, {});
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
     });
   }
 }

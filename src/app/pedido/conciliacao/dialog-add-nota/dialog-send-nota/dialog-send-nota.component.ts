@@ -158,7 +158,7 @@ export class DialogSendNotaComponent implements OnInit {
   }
 
   delete(row) {
-    console.log(row);
+    //console.log(row);
   }
 
   checkParcial() {

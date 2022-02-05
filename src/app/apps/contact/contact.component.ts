@@ -139,7 +139,6 @@ export class DialogContent {
     public dialogRef: MatDialogRef<DialogContent>,
 	    //@Optional() is used to prevent error if no data is passed
 	    @Optional() @Inject(MAT_DIALOG_DATA) public data: ContactData) {
-	   // console.log(data);
 	    this.local_data = {...data};
 	    this.action = this.local_data.action;
 	  }

@@ -26,7 +26,6 @@ export class DialogBodyCondComerciaisComponent implements OnInit {
     private clientservice: ClientService,
     private notificationService: NotificationService
   ) {
-    console.log(data, "data");
     if (data != null) {
       this.clientservice.viewCondComerciais(data.id).subscribe((res: any) => {
         this.dados = res.data;

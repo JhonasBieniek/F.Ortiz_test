@@ -107,11 +107,9 @@ export class JwtInterceptor implements HttpInterceptor {
                     (err: any) => {
                         if (err instanceof HttpErrorResponse) {
                             if (err.status !== 401) {
-                                console.log(1);
                                 this.spinner.hide ();
                                 return;
                             }
-                            console.log(2);
                             this.spinner.hide ()
                             this.router.navigate(['login']);
                         }

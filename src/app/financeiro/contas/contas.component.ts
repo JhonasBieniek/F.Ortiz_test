@@ -40,7 +40,6 @@ export class ContasComponent implements OnInit {
 
   atualizar(){
     this.clientservice.financeiroContas(this.form.value).subscribe((res: any) => {
-      console.log(res)
       this.rows = res.data;
       this.temp = res.data;
     });
@@ -93,7 +92,6 @@ export class ContasComponent implements OnInit {
   // }
 
   edit(row){
-    console.log(row);
 
     let dialogConfig = new MatDialogConfig();
     dialogConfig = {
@@ -128,7 +126,6 @@ export class ContasComponent implements OnInit {
             this.notificationService.notify("Deletado com Sucesso!");
           }else{
             this.notificationService.notify("Não foi possivel deletar informe ao administrador!");
-            console.log(res.data);
           }
         });
       }
@@ -138,7 +135,6 @@ export class ContasComponent implements OnInit {
 
   gerarExcel(){
     let contasExportacao: any[] = [];
-    console.log(this.rows);
     this.rows.map( (e:any) => {
         let row = {
           id: e.id,

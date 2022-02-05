@@ -101,10 +101,6 @@ export class DialogBodyFuncionarioComponent implements OnInit {
         this.editar  = true;
       }
   }
-  private chargeForm(){
-    //console.log(this.data.usuario);
-    //this.usuario.patchValue(this.data);
-  }
   removeSpecialChar(data) {
     return data.toString().replace(/\D+/g, '');
   }

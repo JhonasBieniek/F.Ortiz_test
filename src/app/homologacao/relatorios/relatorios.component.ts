@@ -69,7 +69,6 @@ export class RelatoriosComponent implements OnInit {
   }
 
   setCliente(cliente) {
-    console.log(cliente);
     this.form.get("cliente_id").setValue(cliente.id);
   }
 
@@ -87,7 +86,6 @@ export class RelatoriosComponent implements OnInit {
   private loadData() {
     this.clientservice.getHomologacoes().subscribe((res: any) => {
       this.rows = res.data;
-      console.log(res.data);
     });
   }
 
@@ -132,7 +130,6 @@ export class RelatoriosComponent implements OnInit {
          for(let key in result) {
              allClients.push(result[key]);
          }
-         console.log(allClients);
 
         this.rows = allClients;
       });

@@ -548,7 +548,6 @@ export class DialogBodyClienteComponent implements OnInit {
         });
       }
     });
-    console.log(result);
   }
 
   openAlert(titulo, msg) {

@@ -250,7 +250,6 @@ export class TicketDialogContent {
     public dialogRef: MatDialogRef<TicketDialogContent>,
 	    //@Optional() is used to prevent error if no data is passed
 	    @Optional() @Inject(MAT_DIALOG_DATA) public data: TicketElement) {
-	   // console.log(data);
 	    this.local_data = {...data};
 	    this.action = this.local_data.action;
 	  }

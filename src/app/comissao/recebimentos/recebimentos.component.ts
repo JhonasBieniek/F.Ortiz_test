@@ -1,3 +1,4 @@
+import { catchError } from 'rxjs/operators';
 import { Component, OnInit, ViewChild, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ClientService } from '../../shared/services/client.service.component';
@@ -56,7 +57,6 @@ export class RecebimentosComponent implements OnInit {
   onPage(event) {
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
-      console.log('paged!', event);
     }, 100);
   }
 
@@ -115,7 +115,7 @@ export class RecebimentosComponent implements OnInit {
   }
 
   onActivate(event) {
-    console.log('Activate Event', event);
+    //console.log('Activate Event', event);
   }
 
   vencimento(row){
@@ -207,7 +207,19 @@ export class RecebimentosComponent implements OnInit {
           this.rows = [];
           this.submit();
           this.notificationService.notify("Parcelas Recebidas com sucesso !");
+        }else{
+          this.rows = [];
+          this.submit();
+          this.notificationService.notify("Erro ao receber parcelas !");
+          console.log(res.data, 'Erro ao receber parcelas')
         }
+      },
+      error => { 
+        this.rows = [];
+        this.submit();
+        this.notificationService.notify("Erro no navegador, contate o administrador !");
+        console.log(error);
+        console.log(error.message);
       })
     });
   }
@@ -226,7 +238,6 @@ export class RecebimentosComponent implements OnInit {
     parcelas.forEach(parcela => {
       total += parcela.auxiliar_valor + parcela.vendedor_valor + parcela.fortiz_valor;
     });
-    console.log(parcelas)
     return total;
   }
 }

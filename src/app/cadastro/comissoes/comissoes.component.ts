@@ -34,7 +34,7 @@ export class ComissoesComponent implements OnInit {
   constructor(private clientservice: ClientService, private dialog: MatDialog) {
 
     this.clientservice.getComissoes().subscribe(res =>{
-      this.data = res; console.log(this.data.data)
+      this.data = res;
       this.rows = this.data.data.sort((a,b)=> a.id - b.id);
       this.temp = [...this.data.data.sort((a,b)=> a.id - b.id)];
       setTimeout(() => { this.loadingIndicator = false; }, 1500); 
@@ -55,11 +55,9 @@ export class ComissoesComponent implements OnInit {
   this.table = this.data;
   }
   updateValue(event, cell, rowIndex) {    
-  console.log('inline editing rowIndex', rowIndex)
   this.editing[rowIndex + '-' + cell] = false;
   this.rows[rowIndex][cell] = event.target.value;
   this.rows = [...this.rows];
-  console.log('UPDATED!', this.rows[rowIndex][cell]);
   }
 
   openDialog() {
@@ -78,7 +76,6 @@ export class ComissoesComponent implements OnInit {
   );
     dialogRef.afterClosed().subscribe(value => {
         this.refreshTable();
-        console.log(`Dialog sent: ${value}`); 
       });
   }
   edit(row){
@@ -123,7 +120,6 @@ export class ComissoesComponent implements OnInit {
       this.temp = [...this.dados.data.sort((a,b)=> a.id - b.id)];
       setTimeout(() => { this.loadingIndicator = false; }, 1500);
       });
-      console.log("Rodei")
   }
 
 

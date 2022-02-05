@@ -51,11 +51,9 @@ export class ContaBancoComponent implements OnInit {
     this.table = this.data;
   }
   updateValue(event, cell, rowIndex) {
-    console.log('inline editing rowIndex', rowIndex)
     this.editing[rowIndex + '-' + cell] = false;
     this.rows[rowIndex][cell] = event.target.value;
     this.rows = [...this.rows];
-    console.log('UPDATED!', this.rows[rowIndex][cell]);
   }
   openDialog() {
     let dialogConfig = new MatDialogConfig();
@@ -65,7 +63,6 @@ export class ContaBancoComponent implements OnInit {
     );
     dialogRef.afterClosed().subscribe(value => {
       this.refreshTable();
-      console.log(`Dialog sent: ${value}`);
     });
   }
   refreshTable() {

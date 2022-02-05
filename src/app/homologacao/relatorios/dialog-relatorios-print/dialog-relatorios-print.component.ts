@@ -17,8 +17,7 @@ export class DialogRelatoriosPrintComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) { 
 
-    console.log(data)
-    
+   
     data.homologacoes.forEach((e: any) =>{
       e.forEach(element => {
         var indexcontato = this.contato.findIndex((x:any)=>x.name == element.contato);

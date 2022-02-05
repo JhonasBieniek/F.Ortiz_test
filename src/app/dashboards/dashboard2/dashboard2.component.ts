@@ -365,7 +365,6 @@ export class Dashboard2Component implements OnInit {
     this.clientservice.getLastsByCliente(this.cliente_id).subscribe((res: any) => {
       if(res.success == true){
         if(res.data.length > 0 ){
-          console.log(res)
           this.UltimosPedidos = res.data;
         }else{
           this.notificationService.notify("Não foi localizado nenhum pedido!");

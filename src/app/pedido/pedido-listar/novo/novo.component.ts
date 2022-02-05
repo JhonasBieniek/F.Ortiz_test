@@ -685,7 +685,6 @@ export class NovoComponent implements OnInit {
               this.notificationService.notify(`Já existe um pedido cadastrado com esses dados!`);
             }else{
               this.notificationService.notify(`Erro contate o Administrador`);
-              console.log(res.data)
               this.dialogRef.close();
             }
           }
@@ -703,7 +702,6 @@ export class NovoComponent implements OnInit {
                     this.notificationService.notify(`Já existe um pedido cadastrado com esses dados!`);
                   }else{
                     this.notificationService.notify(`Erro ao alterar o orçamento, contate o Administrador! Pedido gerado.`);
-                    console.log(res.data);
                     this.dialogRef.close();
                   }
                 }
@@ -717,7 +715,6 @@ export class NovoComponent implements OnInit {
               this.notificationService.notify(`Já existe um pedido cadastrado com esses dados!`);
             }else{
               this.notificationService.notify(`Erro contate o Administrador`);
-              console.log(res.data)
             }
             //this.dialogRef.close();
           }

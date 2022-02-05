@@ -31,7 +31,7 @@ export class UsuariosComponent implements OnInit {
   constructor(private clientservice: ClientService, private dialog: MatDialog) {
 
     this.clientservice.getUsuarios().subscribe(res =>{
-      this.data = res; console.log(this.data.data)
+      this.data = res;
       this.rows = this.data.data;
       this.temp = [...this.data.data];
       setTimeout(() => { this.loadingIndicator = false; }, 1500); 
@@ -52,11 +52,9 @@ export class UsuariosComponent implements OnInit {
   this.table = this.data;
   }
   updateValue(event, cell, rowIndex) {    
-  console.log('inline editing rowIndex', rowIndex)
   this.editing[rowIndex + '-' + cell] = false;
   this.rows[rowIndex][cell] = event.target.value;
   this.rows = [...this.rows];
-  console.log('UPDATED!', this.rows[rowIndex][cell]);
   }
 
   openDialog() {
@@ -75,7 +73,6 @@ export class UsuariosComponent implements OnInit {
   );
     dialogRef.afterClosed().subscribe(value => {
         this.refreshTable();
-        console.log(`Dialog sent: ${value}`); 
       });
   }
 
@@ -86,7 +83,6 @@ export class UsuariosComponent implements OnInit {
       this.temp = [...this.dados.data];
       setTimeout(() => { this.loadingIndicator = false; }, 1500);
       });
-      console.log("Rodei")
   }
 
 

@@ -21,7 +21,6 @@ export class ClientService {
 
   getToken(): string {
     this.token = localStorage.getItem('TOKEN_NAME');
-    console.log(JSON.stringify(this.token))
     return this.token
   }
 
