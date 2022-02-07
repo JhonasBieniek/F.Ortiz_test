@@ -163,8 +163,11 @@ export class ImportComponent implements OnInit {
     this.setPageTitle();
   }
 
-  dateAdapterWithUtc(d) {
-      return new Date((d - (25567 + 1))*86400*1000)
+  dateAdapterWithUtc(serialDate) {
+    var days = Math.floor(serialDate);
+    var hours = Math.floor((serialDate % 1) * 24);
+    var minutes = Math.floor((((serialDate % 1) * 24) - hours) * 60)
+    return new Date(Date.UTC(0, 0, serialDate, hours-17, minutes));
   }
 
   private setCurrentAction() {
@@ -221,6 +224,7 @@ export class ImportComponent implements OnInit {
 
   async volk(data, itens) {
     try{
+      console.log(data)
       this.condComercial = data[12][1];
       this.condComerciais.map((x) => {
         if(x.nome.toLowerCase() == this.condComercial.toLowerCase()){
@@ -411,16 +415,17 @@ export class ImportComponent implements OnInit {
   }
 
   async betanin(data, itens) {
+    console.log(data)
     try {
-      if(data[2][24] == "Cod. Pagto."){
-        this.condComercial = data[2][28];
-      }else if(data[2][25] == "Cod. Pagto."){
-        this.condComercial = data[2][29];
-      }else if(data[2][26] == "Cod. Pagto."){
-        this.condComercial = data[2][30];
-      }else{
-        this.condComercial = data[2][31];
-      }
+      if(data[8][4] == "Cond. Pagto."){
+        this.condComercial = data[8][5].split(" - ")[1];
+       }//else if(data[2][25] == "Cod. Pagto."){
+      //   this.condComercial = data[2][29];
+      // }else if(data[2][26] == "Cod. Pagto."){
+      //   this.condComercial = data[2][30];
+      // }else{
+      //   this.condComercial = data[2][31];
+      // }
 
       this.condComerciais.map((x) => {
         if(x.nome.toLowerCase() == this.condComercial.toLowerCase()){
@@ -428,31 +433,30 @@ export class ImportComponent implements OnInit {
           this.condComercial = "";
         }
       });
-      let clienteCnpj = data[5][3].replace(/[^\d]+/g, "");
+      let clienteCnpj = data[11][1].replace(/[^\d]+/g, "");
       clienteCnpj = clienteCnpj.length == 13 ? "0" + clienteCnpj : clienteCnpj;
       
-      if(data[1][24] == "Ordem SAP"){
-        this.form.get("num_pedido").setValue(data[1][28]);
-      }else if(data[1][25] == "Ordem SAP"){
-        this.form.get("num_pedido").setValue(data[1][29]);
-      }else if(data[1][26] == "Ordem SAP"){
-        this.form.get("num_pedido").setValue(data[1][30]);
-      }else{
-        this.form.get("num_pedido").setValue(data[1][31]);
-      }
+      if(data[7][4] == "Ordem SAP"){
+        this.form.get("num_pedido").setValue(data[7][5]);
+       } //else if(data[1][25] == "Ordem SAP"){
+      //   this.form.get("num_pedido").setValue(data[1][29]);
+      // }else if(data[1][26] == "Ordem SAP"){
+      //   this.form.get("num_pedido").setValue(data[1][30]);
+      // }else{
+      //   this.form.get("num_pedido").setValue(data[1][31]);
+      // }
+      if(data[9][4] == "Data emissão"){
+        this.form.get("data_emissao").setValue(moment(data[9][5], "DD-MM-YYYY"));
+       }//else if(data[3][25] == "Data Emissão"){
+      //   this.form.get("data_emissao").setValue(moment(this.dateAdapterWithUtc(data[3][29]), "YYYY-MM-DD"));
+      // }else if(data[3][26] == "Data Emissão"){
+      //   this.form.get("data_emissao").setValue(moment(this.dateAdapterWithUtc(data[3][30]), "YYYY-MM-DD").format("YYYY-DD-MM"));
+      // }else{
+      //   this.form.get("data_emissao").setValue(moment(this.dateAdapterWithUtc(data[3][31]), "YYYY-MM-DD").format("YYYY-DD-MM"));
+      // }
 
-      if(data[3][24] == "Data Emissão"){
-        this.form.get("data_emissao").setValue(moment(this.dateAdapterWithUtc(data[3][28]), "YYYY-MM-DD"));
-      }else if(data[3][25] == "Data Emissão"){
-        this.form.get("data_emissao").setValue(moment(this.dateAdapterWithUtc(data[3][29]), "YYYY-MM-DD"));
-      }else if(data[3][26] == "Data Emissão"){
-        this.form.get("data_emissao").setValue(moment(this.dateAdapterWithUtc(data[3][30]), "YYYY-MM-DD").format("YYYY-DD-MM"));
-      }else{
-        this.form.get("data_emissao").setValue(moment(this.dateAdapterWithUtc(data[3][31]), "YYYY-MM-DD").format("YYYY-DD-MM"));
-      }
-
-      this.form.get("frete").setValue(data[itens.final + 2][3] == "CIF" ? "Cliente" : "Representada");
-      this.form.get("transportadora").setValue(data[itens.final + 3][3]);
+      this.form.get("frete").setValue(data[itens.final + 6][1] == "CIF" ? "Cliente" : "Representada");
+      this.form.get("transportadora").setValue(data[itens.final + 7][1]);
 
       this.ValorTotal = itens.valorTotal;
       this.form.get("subst").setValue(itens.subst);

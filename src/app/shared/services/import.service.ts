@@ -22,7 +22,7 @@ export class ImportService {
         for (var i = 0; i != data.length; ++i)
           arr[i] = String.fromCharCode(data[i]);
         var bstr = arr.join("");
-        var workbook = XLSX.read(bstr, { type: "binary", raw: true });
+        var workbook = XLSX.read(bstr, { type: "binary", raw: true, cellDates: true });
         var first_sheet_name = workbook.SheetNames[0];
         var worksheet = workbook.Sheets[first_sheet_name];
         var json = XLSX.utils.sheet_to_json(worksheet, { raw: true, header: 1 });
@@ -46,12 +46,19 @@ export class ImportService {
         for (var i = 0; i != data.length; ++i)
           arr[i] = String.fromCharCode(data[i]);
         var bstr = arr.join("");
-        var workbook = XLSX.read(bstr, { type: "binary", raw: true });
-        var first_sheet_name = workbook.SheetNames[0];
-        var worksheet = workbook.Sheets[first_sheet_name];
-        var json = XLSX.utils.sheet_to_json(worksheet, { raw: true, header: 1 });
+        
+        if(representada.id == 20){
+          var workbook = XLSX.read(bstr, { type: "binary", raw: false, cellDates: true });
+          var first_sheet_name = workbook.SheetNames[0];
+          var worksheet = workbook.Sheets[first_sheet_name];
+          var json = XLSX.utils.sheet_to_json(worksheet, { raw: false, header: 1 });
+        }else {
+          var workbook = XLSX.read(bstr, { type: "binary", raw:true});
+          var first_sheet_name = workbook.SheetNames[0];
+          var worksheet = workbook.Sheets[first_sheet_name];
+          var json = XLSX.utils.sheet_to_json(worksheet, { raw: true, header: 1 });
+        }
         this[representada.func](json, representada.id).then((res) => {
-          console.log(res)
           resolve({json, itens: res})
         })
         .catch((rej) => {
@@ -258,7 +265,6 @@ export class ImportService {
         var inicial = 0;
         var final = 0;
         var cabecalho = 0;
-        console.log(data);
         while (inicial <= final) {
           while (data[final][0] != "Textos da Nota" ) {
             final++;
@@ -307,12 +313,12 @@ export class ImportService {
             //   desconto = data[inicial][22];
             // }
             var produto = {
-              codigo_catalogo: data[inicial][1],
+              codigo_catalogo: data[inicial][1].toString(),
               nome: data[inicial][2],
               quantidade: parseFloat(data[inicial][5].split("/")[1].trim()),
-              ipi: parseFloat(ipi),
-              valor_unitario: parseFloat(unitario),
-              desconto: parseFloat(desconto)
+              ipi: parseFloat(this.preformatFloat(ipi)),
+              valor_unitario: parseFloat(this.preformatFloat(unitario)),
+              desconto: isNaN(parseFloat(this.preformatFloat(desconto))) ? null : parseFloat(this.preformatFloat(desconto)),
             };
             await this.consultaCod(produto, representada_id).then((res: any) => {
               if(res.item != undefined){
@@ -329,7 +335,7 @@ export class ImportService {
         let valorTotal;
         //* VALIDACAO subst
         if(data[final + 11][4] == "Total Subst."){
-          subst = data[final + 11][5].replaceAll("R$", "").trim().replace(",", ".");
+          subst = data[final + 11][5].replaceAll("R$", "").trim();
          }//else if(data[final + 7][26] == "Total Subst."){
         //   subst = data[final + 7][31]
         // }else{
@@ -337,7 +343,7 @@ export class ImportService {
         // }
         //* VALIDACAO valorTotal
         if(data[final + 12][4] == "Total NF"){
-          valorTotal = data[final + 12][5].replaceAll("R$", "").trim().replace(",", ".");
+          valorTotal = data[final + 12][5].replaceAll("R$", "").trim();
          }//else if(data[final + 8][26] == "Total NF"){
         //   valorTotal = data[final + 8][31]
         // }else{
@@ -347,9 +353,9 @@ export class ImportService {
         resolve({
           item: item,
           newItem: newItem,
-          valorTotal: parseFloat(valorTotal),
+          valorTotal: parseFloat(this.preformatFloat(valorTotal)),
           final: final,
-          subst: parseFloat(subst)
+          subst: parseFloat(this.preformatFloat(subst))
         })
       }catch(e){
         reject(e);
@@ -357,6 +363,33 @@ export class ImportService {
       
     });
   }
+
+  preformatFloat(float){
+    if(!float){
+       return '';
+    };
+ 
+    //Index of first comma
+    const posC = float.indexOf(',');
+ 
+    if(posC === -1){
+       //No commas found, treat as float
+       return float;
+    };
+ 
+    //Index of first full stop
+    const posFS = float.indexOf('.');
+ 
+    if(posFS === -1){
+       //Uses commas and not full stops - swap them (e.g. 1,23 --> 1.23)
+       return float.replace(/\,/g, '.');
+    };
+ 
+    //Uses both commas and full stops - ensure correct order and remove 1000s separators
+    return ((posC < posFS) ? (float.replace(/\,/g,'')) : (float.replace(/\./g,'').replace(',', '.')));
+ };
+
+
   //* é calfor
   async italbotas(data, representada_id: number) {
     let item = [];
