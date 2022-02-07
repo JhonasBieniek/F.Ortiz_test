@@ -82,8 +82,26 @@ export class ClientService {
         console.log('Done'));
   }
 
+  addAreaVendasGrupo(data) {
+    const uri = `${API_URL}` + `area-venda-grupos/add.json`;
+    this
+      .http
+      .post(uri, data)
+      .subscribe(res =>
+        console.log('Done'));
+  }
+
   updateAreaVenda(data): Observable<any> {
     const url = `${API_URL}area-vendas/edit/${data.id}.json`;
+    return this.http.put(url, data).pipe(
+      catchError(this.handleError),
+      map(res => {
+        return res;
+      })
+    )
+  }
+  updateAreaVendasGrupo(data): Observable<any> {
+    const url = `${API_URL}area-venda-grupos/edit/${data.id}.json`;
     return this.http.put(url, data).pipe(
       catchError(this.handleError),
       map(res => {
@@ -616,6 +634,15 @@ export class ClientService {
   }
   getAreaVenda() {
     const uri = `${API_URL}` + `area-vendas/index.json`;
+    return this
+      .http
+      .get(uri)
+      .map(res => {
+        return res;
+      });
+  }
+  getAreaVendaGrupos() {
+    const uri = `${API_URL}` + `area-venda-grupos/index.json`;
     return this
       .http
       .get(uri)

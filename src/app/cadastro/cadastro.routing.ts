@@ -4,6 +4,7 @@ import { ClienteComponent } from './cliente/cliente.component';
 import { FornecedorComponent } from './fornecedor/fornecedor.component';
 import { RepresentanteComponent } from './representante/representante.component';
 import { AreaVendaComponent } from './areavenda/areavenda.component';
+import { AreaVendaGruposComponent } from './areavendagrupos/areavendagrupos.component';
 import { ListarComponent } from './listar/listar.component';
 import { RepresentadaComponent } from './representada/representada.component';
 import { CargosComponent } from './cargos/cargos.component';
@@ -44,6 +45,9 @@ export const CadastroRoutes: Routes = [
     },{
       path: 'areavenda', 
       component: AreaVendaComponent
+    },{
+      path: 'areavendagrupos', 
+      component: AreaVendaGruposComponent
     },{
       path: 'unidade', 
       component: UnidadeComponent

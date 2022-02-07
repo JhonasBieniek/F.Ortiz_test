@@ -49,6 +49,7 @@ const MENUITEMS = [
     icon: 'person',
     children: [
       {state: 'areavenda', name: 'Áreas de Vendas', type: 'link' },
+      {state: 'areavendagrupos', name: 'Grupo de Áreas de Vendas', type: 'link' },
       {state: 'cargos', name: 'Cargos', type: 'link' },
       {state: 'cliente', name: 'Clientes', type: 'link'},
       {state: 'condicoescomerciais', name: 'Condições Comerciais', type: 'link' },

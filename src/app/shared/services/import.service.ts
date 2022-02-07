@@ -51,6 +51,7 @@ export class ImportService {
         var worksheet = workbook.Sheets[first_sheet_name];
         var json = XLSX.utils.sheet_to_json(worksheet, { raw: true, header: 1 });
         this[representada.func](json, representada.id).then((res) => {
+          console.log(res)
           resolve({json, itens: res})
         })
         .catch((rej) => {
@@ -257,59 +258,61 @@ export class ImportService {
         var inicial = 0;
         var final = 0;
         var cabecalho = 0;
+        console.log(data);
         while (inicial <= final) {
-          while (data[final][0] != "Texto da nota\r\nDescontos de cabeçalho" ) {
+          while (data[final][0] != "Textos da Nota" ) {
             final++;
             while (data[inicial][0] != "Item") {
               inicial++;
             }
           }
+
           if(data[inicial][0] == "Item") {
             cabecalho = inicial;
           }
           if (
             data[inicial][0] != "Item" &&
-            data[inicial][0] != "Texto da nota\r\nDescontos de cabeçalho" &&
+            data[inicial][0] != "Textos da Nota" &&
             data[inicial][0] != undefined
           ) {
             let ipi;
             let unitario;
             let desconto;
             //* VALIDACAO IPI
-            if(data[cabecalho][26] == "% IPI"){
-              ipi = data[inicial][26];
-            }else if(data[cabecalho][27] == "% IPI"){
-              ipi = data[inicial][27];
-            }else if(data[cabecalho][28] == "% IPI"){
-              ipi = data[inicial][28];
-            }else{
-              ipi = data[inicial][29];
-            }
+            if(data[cabecalho][11] == "% IPI"){
+              ipi = data[inicial][11];
+            }//else if(data[cabecalho][27] == "% IPI"){
+            //   ipi = data[inicial][27];
+            // }else if(data[cabecalho][28] == "% IPI"){
+            //   ipi = data[inicial][28];
+            // }else{
+            //   ipi = data[inicial][29];
+            // }
             //* VALIDACAO VALOR UNITARIO 
-            if(data[cabecalho][23] == "Preço\r\nLiquido"){
-              unitario = isNaN(data[inicial][23]) ? data[inicial][23].match(/\d+/g)[0] + "." + data[inicial][23].match(/\d+/g)[1] : data[inicial][23];
-            }else if(data[cabecalho][24] == "Preço\r\nLiquido"){
-              unitario = data[inicial][26];
-            }else if(data[cabecalho][25] == "Preço\r\nLiquido"){
-              unitario = data[inicial][27];
-            }else{
-              unitario = data[inicial][28];
-            }
+            if(data[cabecalho][10] == "Preço Líquido"){
+              unitario = data[inicial][10].replaceAll("R$", "").trim();
+            }//else if(data[cabecalho][24] == "Preço\r\nLiquido"){
+            //   unitario = data[inicial][26];
+            // }else if(data[cabecalho][25] == "Preço\r\nLiquido"){
+            //   unitario = data[inicial][27];
+            // }else{
+            //   unitario = data[inicial][28];
+            // }
             //* VALIDACAO DESCONTO
-            if(data[cabecalho][20] == "% Desc"){
-              desconto = data[inicial][20];
-            }else if(data[cabecalho][21] == "% Desc"){
-              desconto = data[inicial][21];
-            }else{
-              desconto = data[inicial][22];
-            }
+            if(data[cabecalho][8] == "% Desc"){
+              desconto = data[inicial][8];
+             }//else if(data[cabecalho][21] == "% Desc"){
+            //   desconto = data[inicial][21];
+            // }else{
+            //   desconto = data[inicial][22];
+            // }
             var produto = {
               codigo_catalogo: data[inicial][1],
-              nome: data[inicial][4],
-              quantidade: isNaN(data[inicial][12]) ? data[inicial][11].split("/")[1].replace(".", "") : data[inicial][12],
-              ipi: ipi,
-              valor_unitario: unitario,
-              desconto: desconto
+              nome: data[inicial][2],
+              quantidade: parseFloat(data[inicial][5].split("/")[1].trim()),
+              ipi: parseFloat(ipi),
+              valor_unitario: parseFloat(unitario),
+              desconto: parseFloat(desconto)
             };
             await this.consultaCod(produto, representada_id).then((res: any) => {
               if(res.item != undefined){
@@ -324,30 +327,29 @@ export class ImportService {
 
         let subst;
         let valorTotal;
-
         //* VALIDACAO subst
-        if(data[final + 7][25] == "Total Subst."){
-          subst = data[final + 7][30]
-        }else if(data[final + 7][26] == "Total Subst."){
-          subst = data[final + 7][31]
-        }else{
-          subst = data[final + 7][32]
-        }
+        if(data[final + 11][4] == "Total Subst."){
+          subst = data[final + 11][5].replaceAll("R$", "").trim().replace(",", ".");
+         }//else if(data[final + 7][26] == "Total Subst."){
+        //   subst = data[final + 7][31]
+        // }else{
+        //   subst = data[final + 7][32]
+        // }
         //* VALIDACAO valorTotal
-        if(data[final + 8][25] == "Total NF"){
-          valorTotal = data[final + 8][30]
-        }else if(data[final + 8][26] == "Total NF"){
-          valorTotal = data[final + 8][31]
-        }else{
-          valorTotal = data[final + 8][32]
-        }
+        if(data[final + 12][4] == "Total NF"){
+          valorTotal = data[final + 12][5].replaceAll("R$", "").trim().replace(",", ".");
+         }//else if(data[final + 8][26] == "Total NF"){
+        //   valorTotal = data[final + 8][31]
+        // }else{
+        //   valorTotal = data[final + 8][32]
+        // }
         
         resolve({
           item: item,
           newItem: newItem,
-          valorTotal: valorTotal,
+          valorTotal: parseFloat(valorTotal),
           final: final,
-          subst: subst
+          subst: parseFloat(subst)
         })
       }catch(e){
         reject(e);

@@ -12,6 +12,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgxMaskModule } from 'ngx-mask';
 
 import { AreaVendaComponent } from './areavenda/areavenda.component';
+import { AreaVendaGruposComponent } from './areavendagrupos/areavendagrupos.component';
 import { AssistenciaTecnicaComponent } from './assistencia-tecnica/assistencia-tecnica.component'
 import { ClienteComponent } from './cliente/cliente.component';
 import { FornecedorComponent } from './fornecedor/fornecedor.component';
@@ -32,6 +33,7 @@ import { DialogBodyRamoComponent } from './ramo-atividade/dialog-body-ramo/dialo
 import { DialogConfirmarDeleteComponent } from './dialog-confirmar-delete/confirmar-delete.component';
 import { DialogBodyProdutoComponent } from './produtos/dialog-body-produto/dialog-body-produto.component';
 import { DialogBodyComponent } from './areavenda/dialog-body/dialog-body.component';
+import { DialogBodyAreaGruposComponent } from './areavendagrupos/dialog-body/dialog-body-area-grupos.component';
 import { DialogBodyCargosComponent } from './cargos/dialog-body/dialog-body.component';
 import { DialogBodyUnidadesComponent } from './unidade/dialog-body/dialog-body.component';
 import { DialogBodyRegioesComponent } from './regioes/dialog-body/dialog-body-regioes.component';
@@ -87,6 +89,7 @@ import { DialogRepresentadaConfirmacaoComponent } from './cliente/dialog-body/di
     FornecedorComponent,
     RepresentanteComponent,
     AreaVendaComponent,
+    AreaVendaGruposComponent,
     AssistenciaTecnicaComponent,
     ListarComponent,
     RepresentadaComponent,
@@ -129,6 +132,7 @@ import { DialogRepresentadaConfirmacaoComponent } from './cliente/dialog-body/di
     RelatorioClientePedidosComponent,
     DialogProdutosCorporativoComponent,
     DialogRepresentadaConfirmacaoComponent,
+    DialogBodyAreaGruposComponent
   ],
   providers: [
     DateFormatPipe,
@@ -156,6 +160,7 @@ import { DialogRepresentadaConfirmacaoComponent } from './cliente/dialog-body/di
     DialogConfirmarDeleteComponent,
     DialogBodyProdutoComponent,
     DialogTamanhosComponent,
+    DialogBodyAreaGruposComponent,
     DialogContaComponent,
     DialogBodyProdutoMateriaisComponent,
     DialogBodyProdutoClassificacaoComponent,

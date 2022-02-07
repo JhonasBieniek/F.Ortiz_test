@@ -1,0 +1,69 @@
+<!-- Card column -->
+<mat-dialog-content class="dialog">
+  <form [formGroup]="form" class="form">
+    <div fxLayout="row wrap" class="row">
+      <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card-header class="bg-info text-white">
+          <mat-card-title class="dadosCadastro">{{pageTitle}}</mat-card-title>
+        </mat-card-header>
+      </div>
+      <div class="p-10" fxFlex.gt-sm="39" fxFlex.gt-xs="39" fxFlex="100">
+        <mat-form-field appearance="outline">
+          <mat-label>Nome da grupo da área de venda*</mat-label>
+          <input matInput placeholder="Nome da grupo da área de venda" [formControl]="form.controls['name']" [readonly]='readonly'>
+        </mat-form-field>
+      </div>
+      <div class="p-10" fxFlex.gt-sm="39" fxFlex.gt-xs="39" fxFlex="100">
+        <mat-form-field appearance="outline">
+          <mat-label>Descrição da grupo da área de venda*</mat-label>
+          <input matInput placeholder="Descrição da grupo da área de venda" [formControl]="form.controls['description']" [readonly]='readonly'>
+        </mat-form-field>
+      </div>
+      <div class="p-10" fxFlex.gt-sm="22" fxFlex.gt-xs="22" fxFlex="100">
+        <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+          [floatLabel]="form.value.floatLabel">
+          <mat-label>Status.</mat-label>
+          <mat-select required [formControl]="form.controls['status']" [disabled]="readonly == true">
+            <mat-option>-- Selecione... --</mat-option>
+            <mat-option [value]=true>Ativo</mat-option>
+            <mat-option [value]=false>Inativo</mat-option>
+          </mat-select>
+          <mat-placeholder>Status</mat-placeholder>
+        </mat-form-field>
+      </div>
+    </div>
+          <div formArrayName="area_venda_grupo_area_vendas" fxLayout="row wrap" class="row" fxflex="100">
+        <div class="p-10 aj1" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+          <h4 class="dadosCadastro"><span style="margin-left: 10%;">Áreas de Venda</span>
+            <a style="float: right;" (click)="addAreaVenda()" *ngIf="!readonly"><i class="material-icons plus-icons">add_circle_outline</i>
+              <span class="title">Nova Área de Venda</span></a>
+          </h4>
+        </div>
+        <div fxLayout="row wrap" *ngFor="let e of form.get('area_venda_grupo_area_vendas').controls; index as i" [formGroupName]="i" fxFlex="33.33">
+            <div class="p-10 aj ml-5" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+              Área de venda - {{i + 1}}
+              <button mat-icon-button (click)="delAreaVenda(i)" *ngIf="!readonly">
+                <mat-icon class="clear">clear</mat-icon>
+              </button>
+            </div>
+            <div class="p-10 aj" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+              <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
+                <mat-label>Área de venda*</mat-label>
+                <mat-select formControlName="area_venda_id" [disabled]="readonly">
+                  <mat-option *ngFor="let area of areasVenda" [value]="area.id">
+                    {{area.nome}} ({{ area.status == true ? 'Ativo' : 'Inativo' }})
+                  </mat-option>
+                </mat-select>
+                <mat-placeholder>Área de venda</mat-placeholder>
+              </mat-form-field>
+            </div>
+        </div>
+      </div>  
+    <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
+      <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid || readonly == true"
+        (click)="areaVendasSubmit(); close()"> Salvar </button>
+      <button mat-raised-button color="warn" (click)="close()">Cancelar</button>
+    </mat-card-actions>
+  </form>
+</mat-dialog-content>
+<!-- <a (click) = "getFormValidationErrors()" >errors</a> -->
