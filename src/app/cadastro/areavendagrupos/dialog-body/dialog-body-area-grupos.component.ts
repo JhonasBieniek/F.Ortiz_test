@@ -31,7 +31,7 @@ export class DialogBodyAreaGruposComponent implements OnInit {
       this.form = this.fb.group({
         id: null,
         name: [null, Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(50)])],
-        description: [null, Validators.compose([Validators.required])],
+        description: [null],
         area_venda_grupo_area_vendas: this.fb.array([]),
         status: [true, Validators.required],
         hideRequired: true,
@@ -44,13 +44,12 @@ export class DialogBodyAreaGruposComponent implements OnInit {
       if(this.data.action =="edit"){
         this.pageTitle = 'Editar grupo de áreas de venda';
         this.addAreaVendas(this.data.area_venda_grupo_area_vendas);
-        console.log(this.form)
         this.form.patchValue(this.data);
 
       }else{
         this.pageTitle = 'Visualizar grupo de áreas de venda';
         this.addAreaVendas(this.data.area_venda_grupo_area_vendas);
-
+        this.form.patchValue(this.data);
         this.readonly = true;
       }
     }else{

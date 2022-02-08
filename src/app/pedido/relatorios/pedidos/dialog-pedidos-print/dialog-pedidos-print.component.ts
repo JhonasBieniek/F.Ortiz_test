@@ -9,7 +9,7 @@ import { ExcelExportService } from '../../../../shared/services/excel-export.ser
 })
 export class DialogPedidosPrintComponent implements OnInit {
 
-  displayedColumns: string[] = ['CLIENTE', 'CNPJ', 'NUMERO', 'DT PEDIDO', 'DT ENTREGA', `VALOR`];
+  displayedColumns: string[] = ['CLIENTE', 'CNPJ', 'NUMERO', 'REPRESENTADA', 'DT PEDIDO', 'DT ENTREGA', `VALOR`];
   dataSource = [];
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<DialogPedidosPrintComponent>,
@@ -92,6 +92,7 @@ export class DialogPedidosPrintComponent implements OnInit {
         cliente: pedido.cliente.nome_fantasia,
         cnpj: pedido.cliente.cnpj,
         numero: pedido.num_pedido,
+        representada: pedido.representada.nome_fantasia,
         emissao: pedido.data_emissao,
         entrega: pedido.data_entrega,
         valor: pedido.valor_total

@@ -36,6 +36,12 @@
                         <td mat-footer-cell *matFooterCellDef>  </td>
                     </ng-container>
 
+                    <ng-container matColumnDef="REPRESENTADA">
+                        <th mat-header-cell *matHeaderCellDef style="padding-right: 5px;"> Representada </th>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos" style="padding-right: 5px;"> {{element.representada.nome_fantasia}} </td>
+                        <td mat-footer-cell *matFooterCellDef>  </td>
+                    </ng-container>
+
                     <ng-container matColumnDef="DT PEDIDO">
                         <th mat-header-cell *matHeaderCellDef > Data do <br>pedido </th>
                         <td mat-cell *matCellDef="let element" class="tamanhoPedidos" > {{element.data_emissao | date:'dd/MM/yyyy'}} </td>

@@ -415,7 +415,6 @@ export class ImportComponent implements OnInit {
   }
 
   async betanin(data, itens) {
-    console.log(data)
     try {
       if(data[8][4] == "Cond. Pagto."){
         this.condComercial = data[8][5].split(" - ")[1];
@@ -446,7 +445,7 @@ export class ImportComponent implements OnInit {
       //   this.form.get("num_pedido").setValue(data[1][31]);
       // }
       if(data[9][4] == "Data emissão"){
-        this.form.get("data_emissao").setValue(moment(data[9][5], "DD-MM-YYYY"));
+        this.form.get("data_emissao").setValue(moment(data[9][5], "MM-DD-YYYY"));
        }//else if(data[3][25] == "Data Emissão"){
       //   this.form.get("data_emissao").setValue(moment(this.dateAdapterWithUtc(data[3][29]), "YYYY-MM-DD"));
       // }else if(data[3][26] == "Data Emissão"){

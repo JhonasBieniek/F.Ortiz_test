@@ -49,7 +49,7 @@
             <div class="p-10 aj" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
               <mat-form-field appearance="outline" [hideRequiredMarker]="true" [floatLabel]="auto">
                 <mat-label>Área de venda*</mat-label>
-                <mat-select formControlName="area_venda_id" [disabled]="readonly">
+                <mat-select formControlName="area_venda_id" [disabled]="readonly" required>
                   <mat-option *ngFor="let area of areasVenda" [value]="area.id">
                     {{area.nome}} ({{ area.status == true ? 'Ativo' : 'Inativo' }})
                   </mat-option>
