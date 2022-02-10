@@ -22,7 +22,7 @@ export class DialogAcumuladoComissoesPrintComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,  public dialogRef: MatDialogRef<DialogAcumuladoComissoesPrintComponent>, private excelExport: ExcelExportService) { 
     //this.somar();
     this.calcular();
-    console.log(data)
+    //console.log(data)
   }
   ngOnInit(): void {
   }

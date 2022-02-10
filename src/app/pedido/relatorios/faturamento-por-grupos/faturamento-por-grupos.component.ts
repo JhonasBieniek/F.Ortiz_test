@@ -18,6 +18,7 @@ export class FaturamentoPorGruposComponent implements OnInit {
   areas: any = [];
   $areas: any = [];
   representadas: any = [];
+  areaVendaGrupos: any = [];
 
   constructor(
     private fb: FormBuilder,
@@ -33,8 +34,8 @@ export class FaturamentoPorGruposComponent implements OnInit {
   }
   ngOnInit(): void {
     this.form = this.fb.group({
-      representada_id: [20],
-      area_venda_id: [null],
+      representada_id: [null],
+      areaVendaGrupo_id: [null],
       dtInicio: [null, Validators.required],
       dtFinal: [null, Validators.required],
     });
@@ -42,6 +43,7 @@ export class FaturamentoPorGruposComponent implements OnInit {
 
   getAreaVendaGrupos(){
     this.clientservice.getAreaVendaGrupos().subscribe((res:any) =>{
+      this.areaVendaGrupos = res.data;
       //console.log(res)
     });
   }
@@ -55,7 +57,7 @@ export class FaturamentoPorGruposComponent implements OnInit {
   searchArea() {
     let $area: Observable<any[]>;
     let nome = this.areaBusca.value;
-    console.log(nome)
+    //console.log(nome)
     if (nome != "") {
       const val = nome.toLowerCase().split(" ");
       let xp = "";
@@ -80,8 +82,21 @@ export class FaturamentoPorGruposComponent implements OnInit {
   }
 
   submit() {
+    
+    
     if(this.form.valid){
-      this.clientservice.faturamentoPorGrupos(this.form.value).subscribe((res: any) => {
+      let form = {
+        ...this.form.value,
+        areas: []
+      }
+      if(this.form.get('areaVendaGrupo_id').value != null){
+        let index = this.areaVendaGrupos.findIndex( grupo => grupo.id === this.form.get('areaVendaGrupo_id').value);
+        this.areaVendaGrupos[index].area_venda_grupo_area_vendas.forEach( area => {
+          form.areas.push(['Pedidos.area_venda_id = '+area.area_venda_id])
+        });
+      }
+
+      this.clientservice.faturamentoPorGrupos(form).subscribe((res: any) => {
         if(res.success == true){
           if(res.data.length > 0 ){
             this.print(res.data)

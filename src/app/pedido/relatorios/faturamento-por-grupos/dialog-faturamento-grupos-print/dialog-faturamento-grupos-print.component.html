@@ -1,5 +1,5 @@
 <div align="end" style="margin-bottom: -40px">
-    <button mat-raised-button type="button" (click)="exportar()">Gerar Excel</button>
+    <!-- <button mat-raised-button type="button" (click)="exportar()">Gerar Excel</button> -->
     <button mat-raised-button type="button" class="m-l-10" (click)="printWindowCurrent()">Imprimir</button>
     <button mat-raised-button type="button" class="m-l-10" color="warn" (click)="close()">Voltar</button>
 </div>
@@ -20,44 +20,61 @@
                         <ul class="colunas" fxFlex="100">
                             <li *ngFor="let representada of representadas; let indexRep = index" class="m-b-20">
                                 <div fxLayout="row wrap">
-                                    <div fxFlex="100" class="p-b-10 p-t-10 text-overflow">
+                                    <div fxFlex="100" class="p-b-10 p-t-10">
                                         <span style="color: black; font-weight: bold; font-size: 14px;">{{representada.razao_social}}</span>
                                     </div>
-                                    <div fxFlex="100" class="title-style">
-                                        <!-- <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100"
-                                            class="tamanhoContas border"
-                                            style="color: black; font-weight: 500; font-size: 9px;"> -->
-                                            <div fxFlex="25" class="text-left">
-                                                Área de Venda
+                                    <div fxFlex="100" *ngFor="let grupo of representada.grupos; let indexGrupo = index">
+                                        <div fxLayout="row wrap">
+                                            <div fxFlex="100" class="p-b-10 p-t-10 text-center">
+                                                <span style="color: black; font-weight: bold; font-size: 13px;">{{grupo.grupo_name}}</span>
                                             </div>
-                                            <div fxFlex="25" class="text-right">
-                                                Total de Pedidos
+                                            <div fxFlex="100" class="title-style">
+                                                <div fxFlex="25" class="text-left">
+                                                    Área de Venda
+                                                </div>
+                                                <div fxFlex="25" class="text-right">
+                                                    Total de Pedidos
+                                                </div>
+                                                <div fxFlex="25" class="text-right">
+                                                    Pedidos Faturados
+                                                </div>
+                                                <div fxFlex="25" class="text-right">
+                                                    Pedidos Abertos
+                                                </div>
                                             </div>
-                                            <div fxFlex="25" class="text-right">
-                                                Pedidos Faturados
+                                            <div fxFlex="100" *ngFor="let area of grupo.areas; let indexArea = index" class="area-style">
+                                                <div fxFlex="25" class="text-left">
+                                                    {{ area.nome }}
+                                                </div>
+                                                <div fxFlex="25" class="text-right">
+                                                    {{ area.total | currency:'BRL':'symbol':'1.2-2'}}
+                                                </div>
+                                                <div fxFlex="25" class="text-right">
+                                                    {{ area.faturado | currency:'BRL':'symbol':'1.2-2'}}
+                                                </div>
+                                                <div fxFlex="25" class="text-right">
+                                                    {{ area.aberto | currency:'BRL':'symbol':'1.2-2'}}
+                                                </div>
                                             </div>
-                                            <div fxFlex="25" class="text-right">
-                                                Pedidos Abertos
+                                            <div fxFlex="100" class="area-style" style="font-weight: bold;">
+                                                <div fxFlex="25" class="text-left">
+                                                    Total do Grupo
+                                                </div>
+                                                <div fxFlex="25" class="text-right">
+                                                    {{ grupo.total | currency:'BRL':'symbol':'1.2-2'}}
+                                                </div>
+                                                <div fxFlex="25" class="text-right">
+                                                    {{ grupo.total_faturado | currency:'BRL':'symbol':'1.2-2'}}
+                                                </div>
+                                                <div fxFlex="25" class="text-right">
+                                                    {{ grupo.total_aberto | currency:'BRL':'symbol':'1.2-2'}}
+                                                </div>
                                             </div>
-                                        <!-- </div> -->
+                                        </div>
                                     </div>
-                                    <div fxFlex="100" *ngFor="let area of representada.areas; let indexArea = index" class="area-style">
+                                    <div fxFlex="100" class="area-style m-t-10" style="font-weight: bold;">
                                         <div fxFlex="25" class="text-left">
-                                            {{ area.nome }}
-                                        </div>
-                                        <div fxFlex="25" class="text-right">
-                                            {{ area.total | currency:'BRL':'symbol':'1.2-2'}}
-                                        </div>
-                                        <div fxFlex="25" class="text-right">
-                                            {{ area.faturado | currency:'BRL':'symbol':'1.2-2'}}
-                                        </div>
-                                        <div fxFlex="25" class="text-right">
-                                            {{ area.aberto | currency:'BRL':'symbol':'1.2-2'}}
-                                        </div>
-                                    </div>
-                                    <div fxFlex="100" class="area-style" style="font-weight: bold;">
-                                        <div fxFlex="25" class="text-left">
-                                            Total do Grupo
+                                            Total da Representada
                                         </div>
                                         <div fxFlex="25" class="text-right">
                                             {{ representada.total | currency:'BRL':'symbol':'1.2-2'}}
@@ -72,6 +89,11 @@
                                 </div>
                             </li>
                         </ul>
+                        <div fxFlex="100" class="p-b-10 p-t-20 text-center"  style="color: black; font-weight: bold; font-size: 13px; font-family: Verdana, Tahoma, Arial, Sans-serif;">
+                            <span >PEDIDOS: {{total.total_pedidos | currency:'BRL':'symbol':'1.2-2'}}</span>
+                            <span class="p-l-10">FATURADOS: {{total.total_faturado | currency:'BRL':'symbol':'1.2-2'}}</span>
+                            <span class="p-l-10"> ABERTOS: {{total.total_aberto | currency:'BRL':'symbol':'1.2-2'}}</span>
+                        </div>
                     </div>
                 </div>
             </div>

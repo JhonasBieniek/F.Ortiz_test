@@ -9,12 +9,15 @@ import { ExcelExportService } from '../../../../shared/services/excel-export.ser
 })
 export class DialogFaturamentoGruposPrintComponent implements OnInit {
 
-  displayedColumns: string[] = ['NAME', 'TOTAL'];
-  dataSource: any[] = [];
   representadas: any[] = [];
+  total = {
+    total_pedidos: 0,
+    total_faturado: 0,
+    total_aberto: 0,
+  };
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,  public dialogRef: MatDialogRef<DialogFaturamentoGruposPrintComponent>,  private excelExport: ExcelExportService) {
-    console.log(data);
+    //console.log(data);
     this.agruparPedidos();
   }
 
@@ -23,7 +26,7 @@ export class DialogFaturamentoGruposPrintComponent implements OnInit {
       //* Verifica se a representada ja foi adicionada;
       let indexRep = this.representadas.findIndex( representada => representada.representada_id === pedido.representada_id);
 
-      if(indexRep === -1){ //* Adiciona a representada
+      if(indexRep === -1){ //* Adiciona a representada o grupo e a area
         let representada = {
           representada_id: pedido.representada_id,
           nome_fantasia: pedido.representada.nome_fantasia,
@@ -31,7 +34,17 @@ export class DialogFaturamentoGruposPrintComponent implements OnInit {
           total: 0,
           total_faturado: 0,
           total_aberto: 0,
-          areas: []
+          grupos: [],
+          //areas: []
+        };
+
+        let grupo = {
+          grupo_id: pedido.area_venda.area_venda_grupo_area_vendas.length === 0 ? null : pedido.area_venda.area_venda_grupo_area_vendas[0].area_venda_grupo_id,
+          grupo_name: pedido.area_venda.area_venda_grupo_area_vendas.length === 0 ? 'SEM GRUPO' : pedido.area_venda.area_venda_grupo_area_vendas[0].area_venda_grupo.name,
+          areas: [],
+          total: 0,
+          total_faturado: 0,
+          total_aberto: 0,
         };
         let area = {
           area_venda_id: pedido.area_venda_id,
@@ -50,15 +63,33 @@ export class DialogFaturamentoGruposPrintComponent implements OnInit {
           area.faturado = totalLiquido;
           area.aberto = (pedido.valor_liquido - totalLiquido);
         }
+
+        grupo.total = area.total;
+        grupo.total_faturado = area.faturado;
+        grupo.total_aberto = area.aberto;
+
         representada.total = area.total;
         representada.total_faturado = area.faturado;
         representada.total_aberto = area.aberto;
-        representada.areas.push(area);
+        
+        grupo.areas.push(area);
+        representada.grupos.push(grupo);
         this.representadas.push(representada);
       }else{
-        let indexArea = this.representadas[indexRep].areas.findIndex( area => area.area_venda_id === pedido.area_venda_id);
 
-        if(indexArea === -1){
+        let grupo_id = pedido.area_venda.area_venda_grupo_area_vendas.length === 0 ? null : pedido.area_venda.area_venda_grupo_area_vendas[0].area_venda_grupo_id
+        let grupoIndex = this.representadas[indexRep].grupos.findIndex( grupo => grupo.grupo_id === grupo_id);
+
+        if(grupoIndex === -1){ //* adicina o grupo e a area alem das somatorias
+          let grupo = {
+            grupo_id: pedido.area_venda.area_venda_grupo_area_vendas.length === 0 ? null : pedido.area_venda.area_venda_grupo_area_vendas[0].area_venda_grupo_id,
+            grupo_name: pedido.area_venda.area_venda_grupo_area_vendas.length === 0 ? 'SEM GRUPO' : pedido.area_venda.area_venda_grupo_area_vendas[0].area_venda_grupo.name,
+            areas: [],
+            total: 0,
+            total_faturado: 0,
+            total_aberto: 0,
+          };
+
           let area = {
             area_venda_id: pedido.area_venda_id,
             nome: pedido.area_venda.nome,
@@ -76,34 +107,78 @@ export class DialogFaturamentoGruposPrintComponent implements OnInit {
             area.faturado = totalLiquido;
             area.aberto = (pedido.valor_liquido - totalLiquido);
           }
+          grupo.total = area.total;
+          grupo.total_faturado = area.faturado;
+          grupo.total_aberto = area.aberto;
+
           this.representadas[indexRep].total += area.total;
           this.representadas[indexRep].total_faturado += area.faturado;
           this.representadas[indexRep].total_aberto += area.aberto;
-          this.representadas[indexRep].areas.push(area);
-        }else{
+          grupo.areas.push(area);
+          this.representadas[indexRep].grupos.push(grupo);
 
-          this.representadas[indexRep].areas[indexArea].total += pedido.valor_liquido;
-          this.representadas[indexRep].total += pedido.valor_liquido;
-          
-          if(pedido.situacao === "faturado"){
-            this.representadas[indexRep].areas[indexArea].faturado += pedido.valor_liquido;
-            this.representadas[indexRep].total_faturado += pedido.valor_liquido;
-          }else if(pedido.situacao === "pendente"){
-            this.representadas[indexRep].areas[indexArea].aberto += pedido.valor_liquido;
-            this.representadas[indexRep].total_aberto += pedido.valor_liquido;
-          }else{
-            let totalLiquido = this.somarNotaLiquido(pedido.notas);
-            this.representadas[indexRep].areas[indexArea].faturado += totalLiquido;
-            this.representadas[indexRep].areas[indexArea].aberto += (pedido.valor_liquido - totalLiquido);
+        }else{ //* verifica a area e as somatorias ja tem representada e grupo
+          let indexArea = this.representadas[indexRep].grupos[grupoIndex].areas.findIndex( area => area.area_venda_id === pedido.area_venda_id);
 
-            this.representadas[indexRep].total_faturado += totalLiquido;
-            this.representadas[indexRep].total_aberto += (pedido.valor_liquido - totalLiquido);
+          if(indexArea === -1){ //*  nao tem area adiciona a area e a somatoria
+            let area = {
+              area_venda_id: pedido.area_venda_id,
+              nome: pedido.area_venda.nome,
+              total:  pedido.valor_liquido,
+              faturado: 0,
+              aberto: 0,
+            }
+    
+            if(pedido.situacao === "faturado"){
+              area.faturado = pedido.valor_liquido;
+            }else if(pedido.situacao === "pendente"){
+              area.aberto = pedido.valor_liquido;
+            }else{
+              let totalLiquido = this.somarNotaLiquido(pedido.notas);
+              area.faturado = totalLiquido;
+              area.aberto = (pedido.valor_liquido - totalLiquido);
+            }
+            this.representadas[indexRep].grupos[grupoIndex].total += area.total;
+            this.representadas[indexRep].grupos[grupoIndex].total_faturado += area.faturado;
+            this.representadas[indexRep].grupos[grupoIndex].total_aberto += area.aberto;
+
+            this.representadas[indexRep].total += area.total;
+            this.representadas[indexRep].total_faturado += area.faturado;
+            this.representadas[indexRep].total_aberto += area.aberto;
+
+            this.representadas[indexRep].grupos[grupoIndex].areas.push(area);
+          }else{ //* ja tem as areas apenas soma
+  
+            this.representadas[indexRep].grupos[grupoIndex].areas[indexArea].total += pedido.valor_liquido;
+            this.representadas[indexRep].total += pedido.valor_liquido;
+            this.representadas[indexRep].grupos[grupoIndex].total += pedido.valor_liquido;
+            
+            if(pedido.situacao === "faturado"){
+              this.representadas[indexRep].grupos[grupoIndex].areas[indexArea].faturado += pedido.valor_liquido;
+              this.representadas[indexRep].total_faturado += pedido.valor_liquido;
+              this.representadas[indexRep].grupos[grupoIndex].total_faturado += pedido.valor_liquido;
+            }else if(pedido.situacao === "pendente"){
+              this.representadas[indexRep].grupos[grupoIndex].areas[indexArea].aberto += pedido.valor_liquido;
+              this.representadas[indexRep].total_aberto += pedido.valor_liquido;
+              this.representadas[indexRep].grupos[grupoIndex].total_aberto += pedido.valor_liquido;
+            }else{
+              let totalLiquido = this.somarNotaLiquido(pedido.notas);
+              this.representadas[indexRep].grupos[grupoIndex].areas[indexArea].faturado += totalLiquido;
+              this.representadas[indexRep].grupos[grupoIndex].areas[indexArea].aberto += (pedido.valor_liquido - totalLiquido);
+  
+              this.representadas[indexRep].total_faturado += totalLiquido;
+              this.representadas[indexRep].total_aberto += (pedido.valor_liquido - totalLiquido);
+
+              this.representadas[indexRep].grupos[grupoIndex].total_faturado += totalLiquido;
+              this.representadas[indexRep].grupos[grupoIndex].total_aberto += (pedido.valor_liquido - totalLiquido);
+            }
           }
         }
       }
     });
 
-    console.log(this.representadas);
+    //console.log(this.representadas);
+    this.somarTotal();
   }
   
   somarNotaLiquido(notas: any[]){
@@ -195,13 +270,13 @@ export class DialogFaturamentoGruposPrintComponent implements OnInit {
     }
   }
 
-  // somarTotal() {
-  //   let total = 0;
-  //   this.dataSource.map((mes) => {
-  //     total = mes.total + total;
-  //   })
-  //   return total;
-  // }
+  somarTotal() {
+    this.representadas.map((representada) => {
+      this.total.total_pedidos += representada.total;
+      this.total.total_faturado += representada.total_faturado;
+      this.total.total_aberto += representada.total_aberto;
+    })
+  }
 
   // exportar(){
   //   let export_array = [];

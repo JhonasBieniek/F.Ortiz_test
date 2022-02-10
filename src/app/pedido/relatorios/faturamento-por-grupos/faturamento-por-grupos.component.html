@@ -17,6 +17,17 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
+                        <div class="p-10 text" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Selecione o grupo de areas...</mat-label>
+                                <mat-select formControlName="areaVendaGrupo_id">
+                                    <mat-option [value]=null></mat-option>
+                                    <mat-option *ngFor="let grupo of areaVendaGrupos" [value]="grupo.id">
+                                        {{grupo.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
                         <!-- <div class="p-10 text" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100" *ngIf="areas.length > 0">
                             <mat-form-field appearance="outline" fxFlex="100">
                                 <mat-label>Área de Venda...</mat-label>
