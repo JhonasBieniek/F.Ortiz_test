@@ -179,8 +179,17 @@ export class DialogFaturamentoGruposPrintComponent implements OnInit {
 
     //console.log(this.representadas);
     this.somarTotal();
+    this.ordenar();
   }
-  
+  ordenar(){
+    this.representadas.sort((a,b)=> a.razao_social.localeCompare(b.razao_social));
+    this.representadas.forEach( representada => {
+      representada.grupos.sort((a,b)=> a.grupo_name.localeCompare(b.grupo_name));
+      representada.grupos.forEach( grupo => {
+        grupo.areas.sort((a,b)=> a.nome.localeCompare(b.nome));
+      });
+    });
+  }
   somarNotaLiquido(notas: any[]){
     let total = 0;
     notas.forEach( nota => {

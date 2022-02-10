@@ -89,10 +89,10 @@ export class RelatoriosComponent implements OnInit {
     this.clientservice.getRepresentadasAtivas().subscribe((res: any) => this.representadas = res.data);
     this.clientservice.getFuncionarios().subscribe((res: any) => this.funcionarios = res.data);
     this.form = this.fb.group({
-      dtInicio: [null, Validators.required],
-      dtFinal: [null, Validators.required],
+      dtInicio: ["2022-02-08T03:00:00.000Z", Validators.required],
+      dtFinal: ["2022-02-08T03:00:00.000Z", Validators.required],
       area_venda_id: [null],
-      funcionario_id: [null],
+      funcionario_id: [44],
       representada_id: [null],
       cliente_id: [null],
       tipo: ['data_faturamento'],
@@ -394,6 +394,7 @@ export class RelatoriosComponent implements OnInit {
           this.totalComissao = 0;
           res.map(nota => {
             if(nota.nota_parcelas.length > 0){
+              //console.log(nota)
               // let id = e.pedido.vendedor_id + "-" + e.pedido.auxiliar_id + "-" + e.pedido.regiao_id;
               let id = this.acumulados.findIndex(e => e.area_venda_id == nota.pedido.area_venda_id);
               
@@ -410,6 +411,7 @@ export class RelatoriosComponent implements OnInit {
               let comissao = 0;
               if(nota.nota_parcelas.length > 0){
                 nota.nota_parcelas.forEach(parcela => {
+                  
                   valor += parcela.valor;
                   if(nota.pedido.auxiliar_id == this.form.get('funcionario_id').value ){
                     comissao += parcela.auxiliar_valor;
@@ -417,6 +419,13 @@ export class RelatoriosComponent implements OnInit {
                   if(nota.pedido.vendedor_id == this.form.get('funcionario_id').value ){
                     comissao += parcela.vendedor_valor;
                   }
+                  let teste = (parcela.valor * 0.01) + 1;
+                  if(parcela.vendedor_valor >= teste){
+                    console.log(teste)
+                    console.log("valor: "+ parcela.valor , "vendedor: "+parcela.vendedor_valor);
+                    console.log(nota)
+                  }
+                  
                 });
               }
     
@@ -438,7 +447,6 @@ export class RelatoriosComponent implements OnInit {
                 })
               }
             }
-            
           })
           this.data = this.acumulados;
           this.rows = this.data;
