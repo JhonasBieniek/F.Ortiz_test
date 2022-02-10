@@ -89,10 +89,10 @@ export class RelatoriosComponent implements OnInit {
     this.clientservice.getRepresentadasAtivas().subscribe((res: any) => this.representadas = res.data);
     this.clientservice.getFuncionarios().subscribe((res: any) => this.funcionarios = res.data);
     this.form = this.fb.group({
-      dtInicio: ["2022-02-08T03:00:00.000Z", Validators.required],
-      dtFinal: ["2022-02-08T03:00:00.000Z", Validators.required],
+      dtInicio: [null, Validators.required],
+      dtFinal: [null, Validators.required],
       area_venda_id: [null],
-      funcionario_id: [44],
+      funcionario_id: [null],
       representada_id: [null],
       cliente_id: [null],
       tipo: ['data_faturamento'],
