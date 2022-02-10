@@ -5,7 +5,8 @@ import { NotificationService } from '../../shared/messages/notification.service'
 import { Observable, from } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { share, pluck, map, distinct, concatMap, reduce } from 'rxjs/operators';
-import { MatTableDataSource } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatTableDataSource } from '@angular/material';
+import { DialogAcumuladoComissoesPrintComponent } from './dialog-acumulado-comissoes-print/dialog-acumulado-comissoes-print.component';
 
 
 @Component({
@@ -58,6 +59,7 @@ export class RelatoriosComponent implements OnInit {
     private clientservice: ClientService,
     private notificationService: NotificationService,
     private route: ActivatedRoute,
+    private dialog: MatDialog
   ) {
   }
 
@@ -530,6 +532,27 @@ export class RelatoriosComponent implements OnInit {
       // }
     }else{
       this.form.markAllAsTouched();
+    }
+  }
+
+  print(){
+    if(this.route.snapshot.url[1].path == 'acumulado'){
+      let dialogConfig = new MatDialogConfig();
+      dialogConfig = {
+        maxWidth: '95vw',
+        maxHeight: '95vh',
+      }
+      dialogConfig.data = {};
+      dialogConfig.data.registros = this.rows;
+      dialogConfig.data.form = this.form.value;
+      if(this.form.get("representada_id").value){
+        let index = this.representadas.findIndex( (representada) => representada.id === this.form.get("representada_id").value);
+        dialogConfig.data.representada = this.representadas[index];
+      }
+      let dialogRef = this.dialog.open(
+        DialogAcumuladoComissoesPrintComponent,
+        dialogConfig
+      );
     }
   }
 }

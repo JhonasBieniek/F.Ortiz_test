@@ -1,0 +1,67 @@
+<div fxLayout="row wrap">
+    <div fxFlex.gt-sm="100%" fxFlex="100">
+        <mat-card class="no-shadow">
+            <mat-card-content>
+                <form [formGroup]="form">
+                    <mat-card-title class="title">Faturamento por Grupo de Áreas de Vendas</mat-card-title>
+                    <mat-divider></mat-divider>
+                    <div fxLayout="row wrap" class="row">
+                        <div class="p-10 text" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Selecione a representada...</mat-label>
+                                <mat-select formControlName="representada_id">
+                                    <mat-option [value]=null></mat-option>
+                                    <mat-option *ngFor="let representada of representadas" [value]="representada.id">
+                                        {{representada.nome_fantasia}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <!-- <div class="p-10 text" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100" *ngIf="areas.length > 0">
+                            <mat-form-field appearance="outline" fxFlex="100">
+                                <mat-label>Área de Venda...</mat-label>
+                                <input type="text" placeholder="Busque a área" aria-label="area" matInput
+                                    [formControl]="areaBusca" (keyup)="searchArea()"
+                                    [matAutocomplete]="autoArea">
+                                <button mat-button matSuffix mat-icon-button aria-label="Clear" type="button"
+                                    *ngIf="form.controls['area_venda_id'].value != null">
+                                    <mat-icon color="warn" (click)="limparArea();">close</mat-icon>
+                                </button>
+                                <mat-autocomplete autoActiveFirstOption #autoArea="matAutocomplete">
+                                    <mat-option *ngFor="let area of $areas" (click)="setArea(area)"
+                                        (onSelectionChange)="setArea(area)" [value]="area.nome">
+                                        {{area.nome}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div> -->
+                        <div class="show-title" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <span class="p-l-10"> Periodo</span>
+                        </div>
+                        <div class="p-10 text" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Data de Inicio</mat-label>
+                                <input matInput [matDatepicker]="mesInicio" placeholder="Mês Înicio" formControlName="dtInicio">
+                                <mat-datepicker-toggle matSuffix [for]="mesInicio"></mat-datepicker-toggle>
+                                <mat-datepicker #mesInicio></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="p-10 text" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Data de Fim</mat-label>
+                                <input matInput [matDatepicker]="anoInicio" placeholder="Ano Inicial" formControlName="dtFinal">
+                                <mat-datepicker-toggle matSuffix [for]="anoInicio"></mat-datepicker-toggle>
+                                <mat-datepicker #anoInicio></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div>
+                        <button mat-raised-button color="primary" type="submit" (click)="submit()">Filtrar</button>
+                        <button mat-raised-button class="m-l-10" color="warn" (click)="clear()">Limpar</button>
+                    </div>
+                </form>
+            </mat-card-content>
+        </mat-card>
+        
+    </div>
+</div>

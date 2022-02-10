@@ -20,6 +20,7 @@ export class BaseComponent implements OnInit {
     {name:"Notas", value: 6},
     {name:"Produtos Vendidos", value: 7},
     {name:"Ranking", value: 8},
+    {name:"Faturamento por Grupo de Áreas de Vendas", value: 9}
   ]
 
   constructor(private fb: FormBuilder) { }

@@ -1,0 +1,80 @@
+<div align="end" style="margin-bottom: -40px">
+    <button mat-raised-button type="button" (click)="exportar()">Gerar Excel</button>
+    <button mat-raised-button type="button" class="m-l-10" (click)="printWindowCurrent()">Imprimir</button>
+    <button mat-raised-button type="button" class="m-l-10" color="warn" (click)="close()">Voltar</button>
+</div>
+<div id="impressao" cdkFocusInitial>
+    <div fxLayout="row wrap">
+        <!-- Card column -->
+        <div fxFlex.gt-sm="100%" fxFlex="100">
+            <div fxLayout="row wrap" class="row">,
+                <div class="p-10">
+                    <img src="./assets/images/logo.png" alt="logo">
+                </div>
+                <div class="p-t-10 p-l-10 text-left" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100"><span style="font-weight: 500;"> Relatório de Faturamento por Grupo de Áreas de Vendas</span></div>
+                <!-- <div class="p-l-10 text-left formInputs" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="data.form.dtInicio != null"> Inicio: {{data.form.dtInicio | date:'dd/MM/yyyy'}}</div>
+                <div class="p-l-10 text-left formInputs" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="data.form.dtFinal != null"> Fim: {{data.form.dtFinal | date:'dd/MM/yyyy'}}</div> -->
+                <!-- <div class="p-10 text-left" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">Período de: {{data.inicial | date:'dd/MM/yyyy'}} até {{data.final | date:'dd/MM/yyyy'}}</div> -->
+                <div fxFlex="100" class="p-t-10 p-l-10 p-r-10">
+                    <div fxLayout="row wrap">
+                        <ul class="colunas" fxFlex="100">
+                            <li *ngFor="let representada of representadas; let indexRep = index" class="m-b-20">
+                                <div fxLayout="row wrap">
+                                    <div fxFlex="100" class="p-b-10 p-t-10 text-overflow">
+                                        <span style="color: black; font-weight: bold; font-size: 14px;">{{representada.razao_social}}</span>
+                                    </div>
+                                    <div fxFlex="100" class="title-style">
+                                        <!-- <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100"
+                                            class="tamanhoContas border"
+                                            style="color: black; font-weight: 500; font-size: 9px;"> -->
+                                            <div fxFlex="25" class="text-left">
+                                                Área de Venda
+                                            </div>
+                                            <div fxFlex="25" class="text-right">
+                                                Total de Pedidos
+                                            </div>
+                                            <div fxFlex="25" class="text-right">
+                                                Pedidos Faturados
+                                            </div>
+                                            <div fxFlex="25" class="text-right">
+                                                Pedidos Abertos
+                                            </div>
+                                        <!-- </div> -->
+                                    </div>
+                                    <div fxFlex="100" *ngFor="let area of representada.areas; let indexArea = index" class="area-style">
+                                        <div fxFlex="25" class="text-left">
+                                            {{ area.nome }}
+                                        </div>
+                                        <div fxFlex="25" class="text-right">
+                                            {{ area.total | currency:'BRL':'symbol':'1.2-2'}}
+                                        </div>
+                                        <div fxFlex="25" class="text-right">
+                                            {{ area.faturado | currency:'BRL':'symbol':'1.2-2'}}
+                                        </div>
+                                        <div fxFlex="25" class="text-right">
+                                            {{ area.aberto | currency:'BRL':'symbol':'1.2-2'}}
+                                        </div>
+                                    </div>
+                                    <div fxFlex="100" class="area-style" style="font-weight: bold;">
+                                        <div fxFlex="25" class="text-left">
+                                            Total do Grupo
+                                        </div>
+                                        <div fxFlex="25" class="text-right">
+                                            {{ representada.total | currency:'BRL':'symbol':'1.2-2'}}
+                                        </div>
+                                        <div fxFlex="25" class="text-right">
+                                            {{ representada.total_faturado | currency:'BRL':'symbol':'1.2-2'}}
+                                        </div>
+                                        <div fxFlex="25" class="text-right">
+                                            {{ representada.total_aberto | currency:'BRL':'symbol':'1.2-2'}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

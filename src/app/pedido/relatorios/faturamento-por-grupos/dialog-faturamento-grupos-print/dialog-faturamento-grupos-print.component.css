@@ -1,0 +1,42 @@
+.colunas{
+    list-style-type: none !important;
+    columns: 1;
+    margin-left: 0px;
+    padding: 0px;
+    -webkit-columns: 1;
+    -moz-columns: 1;
+}
+
+.text-overflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tamanhoContas {
+    font-size: 14px;
+}
+
+.title-style {
+    font-family: Verdana, Tahoma, Arial, Sans-serif;
+    border-bottom: solid 1px;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.area-style {
+    font-family: Verdana, Tahoma, Arial, Sans-serif;
+    font-size: 12px;
+    border-bottom: 1px solid #efefef;
+    padding: 3px;
+}
+
+@media print {
+    .tamanhoContas {
+        font-size: 10px !important; 
+    }
+
+    .tamanhoContas .valor{
+        font-size: 9px !important; 
+    }
+}

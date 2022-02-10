@@ -69,6 +69,8 @@ import { DialogCancelarOrcamentoComponent } from './orc-listar/dialog-cancelar-o
 import { DialogCancelarOrcamentosAntigosComponent } from './orc-listar/dialog-cancelar-orcamentos-antigos/dialog-cancelar-orcamentos-antigos.component';
 import { NovosClientesComprasComponent } from './relatorios/novos-clientes-compras/novos-clientes-compras.component';
 import { DialogNovosClientesPrintComponent } from './relatorios/novos-clientes-compras/dialog-novos-clientes-print/dialog-novos-clientes-print.component';
+import { FaturamentoPorGruposComponent } from './relatorios/faturamento-por-grupos/faturamento-por-grupos.component';
+import { DialogFaturamentoGruposPrintComponent } from './relatorios/faturamento-por-grupos/dialog-faturamento-grupos-print/dialog-faturamento-grupos-print.component';
 
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
@@ -136,7 +138,9 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
     DialogCancelarOrcamentoComponent,
     DialogCancelarOrcamentosAntigosComponent,
     NovosClientesComprasComponent,
-    DialogNovosClientesPrintComponent
+    DialogNovosClientesPrintComponent,
+    FaturamentoPorGruposComponent,
+    DialogFaturamentoGruposPrintComponent
   ],
   providers: [
     DateFormatPipe,
@@ -175,7 +179,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
     DialogCancelarNotaComponent,
     DialogCancelarOrcamentoComponent,
     DialogCancelarOrcamentosAntigosComponent,
-    DialogNovosClientesPrintComponent
+    DialogNovosClientesPrintComponent,
+    DialogFaturamentoGruposPrintComponent
   ],
   exports: [ViewPedidoOrcamentoComponent]
 })

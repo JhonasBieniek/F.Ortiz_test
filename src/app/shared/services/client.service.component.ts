@@ -879,6 +879,16 @@ export class ClientService {
       });
   }
 
+  faturamentoPorGrupos(data) {
+    const uri = `${API_URL}` + `pedidos/faturamentoPorGrupos.json`;
+    return this
+      .http
+      .post(uri, data)
+      .map(res => {
+        return res;
+      });
+  }
+
   relatorioNotas(data) {
     const uri = `${API_URL}` + `notas/relatorioNotas.json`;
     return this

@@ -15,8 +15,10 @@ export class DialogNotasPrintComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,  public dialogRef: MatDialogRef<DialogNotasPrintComponent>, private excelExport: ExcelExportService) {
     this.dataSource = data;
     this.dataSource.forEach( (notas)=> {
+      console.log(notas)
       notas['valor_total'] = 0;
       notas.nota_produtos.forEach( produto => {
+        console.log(produto)
         notas['valor_total'] = parseFloat( (( produto.qtd * produto.pedido_produto.valor_unitario ) + notas['valor_total']).toFixed(2) )  ;
       });
     });

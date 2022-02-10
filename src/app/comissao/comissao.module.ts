@@ -21,6 +21,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { ImportarComponent } from './importar/importar.component';
 import { DialogRelatorioPrintComponent } from './dialog-relatorio-print/dialog-relatorio-print.component';
 import { RecebidosComponent } from './recebidos/recebidos.component';
+import { DialogAcumuladoComissoesPrintComponent } from './relatorios/dialog-acumulado-comissoes-print/dialog-acumulado-comissoes-print.component';
 
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
@@ -30,7 +31,7 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
   declarations: [
     RelatoriosComponent, 
     RecebimentosComponent, 
-    ImportarComponent, DialogRelatorioPrintComponent, RecebidosComponent
+    ImportarComponent, DialogRelatorioPrintComponent, RecebidosComponent, DialogAcumuladoComissoesPrintComponent
   ],
   imports: [
     CommonModule,
@@ -45,6 +46,9 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
     NgxCurrencyModule,
 
   ],
+  entryComponents: [ 
+    DialogAcumuladoComissoesPrintComponent
+  ],
   providers: [
     DateFormatPipe,
     { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
@@ -54,7 +58,6 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
     },
     {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
-  ], 
-  entryComponents: [ ]
+  ]
 })
 export class ComissaoModule { }
