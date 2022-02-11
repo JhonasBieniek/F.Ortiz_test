@@ -330,7 +330,7 @@ export class NovoComponent implements OnInit {
         ipi: item.ipi != null ? parseFloat(item.ipi) : 0,
         valor_unitario: [item.valor_unitario, Validators.compose([Validators.required, Validators.min(0.01)])],
         valor_total: [
-          item.quantidade * item.valor_unitario,
+          this.form.get("desconto").value != null ? item.quantidade * item.valor_unitario - (item.quantidade * item.valor_unitario) * this.form.get("desconto").value / 100 : item.quantidade * item.valor_unitario,
           Validators.compose([Validators.required, Validators.min(0.01)]),
         ],
         comissao_produto:
@@ -357,7 +357,7 @@ export class NovoComponent implements OnInit {
         ipi: item.ipi != null ? parseFloat(item.ipi) : 0,
         valor_unitario: [item.valor_unitario, Validators.compose([Validators.required, Validators.min(0.01)])],
         valor_total: [
-          item.quantidade * item.valor_unitario,
+          this.form.get("desconto").value != null ? item.quantidade * item.valor_unitario - (item.quantidade * item.valor_unitario) * this.form.get("desconto").value / 100 : item.quantidade * item.valor_unitario,
           Validators.compose([Validators.required, Validators.min(0.01)])
         ],
         comissao_produto:
@@ -452,7 +452,9 @@ export class NovoComponent implements OnInit {
   }
   setTotal(i) {
     let valor =
-      this.produto.at(i).get("quantidade").value *
+    this.form.get("desconto").value != null ? this.produto.at(i).get("quantidade").value *
+    this.produto.at(i).get("valor_unitario").value - (this.produto.at(i).get("quantidade").value *
+      this.produto.at(i).get("valor_unitario").value * this.form.get("desconto").value) / 100 : this.produto.at(i).get("quantidade").value *
       this.produto.at(i).get("valor_unitario").value;
     this.produto.at(i).get("valor_total").setValue(valor);
   }
@@ -633,13 +635,18 @@ export class NovoComponent implements OnInit {
     }
   }
 
-  descontoNecessario(valorProdutos){
-    return ( ( (valorProdutos - this.ValorTotal) /  valorProdutos ) * 100).toFixed(4)
-    //(((ValorTotal - valorTotal('total')) / valorTotal('total')) * 100)
-  }
-
-  aplicarDesconto(desconto){
-    this.form.get("desconto").setValue(Number(desconto));
+  aplicarDesconto(){
+    this.produto.controls.forEach((element) => {
+      if (this.form.get("desconto").value != null) {
+        element.get("valor_total").setValue(
+        element.get("quantidade").value *
+        element.get("valor_unitario").value - 
+        element.get("quantidade").value *
+        element.get("valor_unitario").value *
+        this.form.get("desconto").value /100
+        );    
+    }
+  });
   }
 
   valorTotal(tipo) {
@@ -681,7 +688,7 @@ export class NovoComponent implements OnInit {
             this.notificationService.notify("Atualizado com Sucesso!");
             this.dialogRef.close();
           } else {
-            if(res.data.pedido == "Pedido ja Cadastrado"){
+            if(res.data.pedido == "Pedido já Cadastrado"){
               this.notificationService.notify(`Já existe um pedido cadastrado com esses dados!`);
             }else{
               this.notificationService.notify(`Erro contate o Administrador`);
@@ -695,7 +702,7 @@ export class NovoComponent implements OnInit {
             if(this.currentAction == "orc"){
               this.clientservice.orcamentoGerado(this.info.orc.id).subscribe((resOrc: any) => {
                 if (resOrc.status == true) {
-                  this.notificationService.notify(`Orçamento transformado em Pedido Cadastrado com Sucesso!`);
+                  this.notificationService.notify(`Orçamento transformado em Pedido com Sucesso!`);
                   this.dialogRef.close();
                 }else{
                   if(res.data.pedido == "Pedido ja Cadastrado"){
@@ -711,7 +718,7 @@ export class NovoComponent implements OnInit {
               this.dialogRef.close();
             }
           } else {
-            if(res.data.pedido == "Pedido ja Cadastrado"){
+            if(res.data.pedido == "Pedido já Cadastrado"){
               this.notificationService.notify(`Já existe um pedido cadastrado com esses dados!`);
             }else{
               this.notificationService.notify(`Erro contate o Administrador`);

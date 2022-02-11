@@ -33,8 +33,8 @@ export class DialogRankingPrintComponent implements OnInit {
               porcentagem: 0
             });
           }else{
-            this.dataSource[index].valor_total += (pedido.valor_total - (pedido.subst != null ? pedido.subst : 0));
-            this.dataSource[index].valor_liquido += pedido.valor_liquido;
+            this.dataSource[index].valor_total += (this.somarNotaBruto(pedido.notas) - (pedido.subst != null ? pedido.subst : 0));
+            this.dataSource[index].valor_liquido += this.somarNotaLiquido(pedido.notas);
           }
         }else{
           if(this.dataSource.length == 0 || index === -1){
@@ -62,8 +62,8 @@ export class DialogRankingPrintComponent implements OnInit {
                 this.dataSource.push({
                   cliente: pedido.cliente.nome_fantasia,
                   cnpj: pedido.cliente.cnpj,
-                  valor_total: ( (pedido.valor_total - (pedido.subst != null ? pedido.subst : 0) ) - totalBruto ),
-                  valor_liquido: ( pedido.valor_liquido - totalLiquido ),
+                  valor_total: ( (this.somarNotaBruto(pedido.notas) - (pedido.subst != null ? pedido.subst : 0) ) - totalBruto ),
+                  valor_liquido: ( this.somarNotaLiquido(pedido.notas) - totalLiquido ),
                   porcentagem: 0
                 });
               }
@@ -71,8 +71,8 @@ export class DialogRankingPrintComponent implements OnInit {
           }else{
             if(pedido.situacao == "faturado" || pedido.situacao == "pendente"){
 
-              this.dataSource[index].valor_total += (pedido.valor_total - (pedido.subst != null ? pedido.subst : 0));
-              this.dataSource[index].valor_liquido += pedido.valor_liquido;
+              this.dataSource[index].valor_total += (this.somarNotaBruto(pedido.notas) - (pedido.subst != null ? pedido.subst : 0));
+              this.dataSource[index].valor_liquido += this.somarNotaLiquido(pedido.notas);
 
             }else if(pedido.situacao == "parcial"){
 
@@ -82,8 +82,8 @@ export class DialogRankingPrintComponent implements OnInit {
                 this.dataSource[index].valor_total += totalBruto;
                 this.dataSource[index].valor_liquido += totalLiquido;
               }else if(this.data.form.status == "pendente"){
-                this.dataSource[index].valor_total += ( (pedido.valor_total - (pedido.subst != null ? pedido.subst : 0) ) - totalBruto );
-                this.dataSource[index].valor_liquido += (pedido.valor_liquido - totalLiquido);
+                this.dataSource[index].valor_total += ( (this.somarNotaBruto(pedido.notas) - (pedido.subst != null ? pedido.subst : 0) ) - totalBruto );
+                this.dataSource[index].valor_liquido += (this.somarNotaLiquido(pedido.notas) - totalLiquido);
               }
 
             }

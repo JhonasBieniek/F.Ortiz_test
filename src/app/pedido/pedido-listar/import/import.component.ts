@@ -630,7 +630,7 @@ export class ImportComponent implements OnInit {
         ipi: item.ipi != null ? parseFloat(item.ipi) : 0,
         valor_unitario: [item.valor_unitario, Validators.compose([Validators.required, Validators.min(0.01)])],
         valor_total: [
-          item.quantidade * item.valor_unitario,
+          this.form.get("desconto").value != null ? item.quantidade * item.valor_unitario - (item.quantidade * item.valor_unitario) * this.form.get("desconto").value / 100 : item.quantidade * item.valor_unitario,
           Validators.compose([Validators.required, Validators.min(0.01)]),
         ],
         comissao_produto:
@@ -656,8 +656,8 @@ export class ImportComponent implements OnInit {
         ipi: item.ipi != null ? parseFloat(item.ipi) : 0,
         valor_unitario: [item.valor_unitario, Validators.compose([Validators.required, Validators.min(0.01)])],
         valor_total: [
-          item.quantidade * item.valor_unitario,
-          Validators.compose([Validators.required, Validators.min(0.01)])
+          this.form.get("desconto").value != null ? item.quantidade * item.valor_unitario - (item.quantidade * item.valor_unitario) * this.form.get("desconto").value / 100 : item.quantidade * item.valor_unitario,
+          Validators.compose([Validators.required, Validators.min(0.01)]),
         ],
         comissao_produto:
           item.comissao != null
@@ -738,6 +738,7 @@ export class ImportComponent implements OnInit {
   addItemEdit(item: ItemPedido) {
     this.addProdutoEdit(item);
   }
+  
 
   CarregarProdutosRepresentada() {
     this.clientservice
@@ -919,8 +920,18 @@ export class ImportComponent implements OnInit {
     //(((ValorTotal - valorTotal('total')) / valorTotal('total')) * 100)
   }
 
-  aplicarDesconto(desconto){
-    this.form.get("desconto").setValue(Number(desconto));
+  aplicarDesconto(){
+    this.produto.controls.forEach((element) => {
+      if (this.form.get("desconto").value != null) {
+        element.get("valor_total").setValue(
+        element.get("quantidade").value *
+        element.get("valor_unitario").value - 
+        element.get("quantidade").value *
+        element.get("valor_unitario").value *
+        this.form.get("desconto").value /100
+        );    
+    }
+  });
   }
 
   valorTotal(tipo) {

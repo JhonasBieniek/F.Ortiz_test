@@ -92,8 +92,7 @@
 
               <div class="p-10 pad" fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="50">
                 <mat-form-field appearance="outline" class="descontoSuffix">
-                  <input matInput placeholder="Desconto" class="desconto" type="number"  min="0" max="100" step="0.0001" formControlName="desconto">
-                  <span matSuffix class="descontoSuffix">%</span>
+                  <input matInput placeholder="Desconto" class="desconto" type="number"  min="0" max="100" step="0.0001" formControlName="desconto" (blur)="aplicarDesconto()">
                 </mat-form-field>
               </div>
 
