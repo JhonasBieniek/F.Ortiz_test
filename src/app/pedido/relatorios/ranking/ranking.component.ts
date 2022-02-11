@@ -30,7 +30,13 @@ export class RankingComponent implements OnInit {
     private dialog: MatDialog
   ) {
     this.clientservice.getRepresentadasAtivas().subscribe((res:any) =>{
-      this.representadas = res.data;
+      this.representadas = [];
+      this.representadas.push({
+        id: null,
+        nome_fantasia: null
+      })
+      this.representadas.push(...res.data);
+      console.log(this.representadas)
     });
     
   }
@@ -52,9 +58,14 @@ export class RankingComponent implements OnInit {
   }
 
   getAreas(representada_id){
-    this.clientservice.getAreaByRepresentada(representada_id).subscribe((res:any) =>{
-      this.areas = res.data;
-    });
+    if(representada_id == null){
+      this.limparArea();
+      this.areas = [];
+    }else{
+      this.clientservice.getAreaByRepresentada(representada_id).subscribe((res:any) =>{
+        this.areas = res.data;
+      });
+    }
   }
 
   searchArea() {

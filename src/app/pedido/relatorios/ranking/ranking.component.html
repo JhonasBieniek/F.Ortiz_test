@@ -22,8 +22,8 @@
                         <div class="p-10 text" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
                             <mat-form-field appearance="outline">
                                 <mat-label>Selecione a representada...</mat-label>
-                                <mat-select formControlName="representada_id">
-                                    <mat-option *ngFor="let representada of representadas" [value]="representada.id" (onSelectionChange)="getAreas(representada.id)">
+                                <mat-select formControlName="representada_id" (selectionChange)="getAreas($event.value)">
+                                    <mat-option *ngFor="let representada of representadas" [value]="representada.id" > <!--(onSelectionChange)="getAreas(representada.id)"-->
                                         {{representada.nome_fantasia}}
                                     </mat-option>
                                 </mat-select>

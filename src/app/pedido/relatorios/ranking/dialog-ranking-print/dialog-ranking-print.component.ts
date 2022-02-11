@@ -9,7 +9,7 @@ import { ExcelExportService } from '../../../../shared/services/excel-export.ser
 })
 export class DialogRankingPrintComponent implements OnInit {
 
-  displayedColumns: string[] = ['ranking', 'cliente', 'cnpj', 'total', 'total_liquido' ,'percentual'];  // , 'total_liquido'
+  displayedColumns: string[] = ['ranking', 'area', 'cliente', 'cnpj', 'total', 'total_liquido' ,'percentual'];  // , 'total_liquido'
   dataSource: any[] = [];
   total = 0;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,  public dialogRef: MatDialogRef<DialogRankingPrintComponent>, private excelExport: ExcelExportService) { 
@@ -27,6 +27,7 @@ export class DialogRankingPrintComponent implements OnInit {
           if(this.dataSource.length == 0 || index === -1){
             this.dataSource.push({
               cliente: pedido.cliente.nome_fantasia,
+              area: pedido.area_venda.nome,
               cnpj: pedido.cliente.cnpj,
               valor_total: this.somarNotaBruto(pedido.notas) - (pedido.subst != null ? pedido.subst : 0),
               valor_liquido: this.somarNotaLiquido(pedido.notas),
@@ -37,13 +38,23 @@ export class DialogRankingPrintComponent implements OnInit {
             this.dataSource[index].valor_liquido += this.somarNotaLiquido(pedido.notas);
           }
         }else{
-          if(this.dataSource.length == 0 || index === -1){
-            if(pedido.situacao == "faturado" || pedido.situacao == "pendente"){
+          if(index === -1){
+            if(pedido.situacao == "faturado" ){
               this.dataSource.push({
                 cliente: pedido.cliente.nome_fantasia,
+                area: pedido.area_venda.nome,
                 cnpj: pedido.cliente.cnpj,
-                valor_total: this.somarNotaBruto(pedido.notas) - (pedido.subst != null ? pedido.subst : 0),
+                valor_total: this.somarNotaBruto(pedido.notas), // - (pedido.subst != null ? pedido.subst : 0) //* antes tinha essa parte tirado para teste
                 valor_liquido: this.somarNotaLiquido(pedido.notas),
+                porcentagem: 0
+              });
+            }else if(pedido.situacao == "pendente"){
+              this.dataSource.push({
+                cliente: pedido.cliente.nome_fantasia,
+                area: pedido.area_venda.nome,
+                cnpj: pedido.cliente.cnpj,
+                valor_total: pedido.valor_total - (pedido.subst != null ? pedido.subst : 0),
+                valor_liquido: pedido.valor_liquido,
                 porcentagem: 0
               });
             }else if(pedido.situacao == "parcial"){
@@ -53,6 +64,7 @@ export class DialogRankingPrintComponent implements OnInit {
               if(this.data.form.status == "faturado"){
                 this.dataSource.push({
                   cliente: pedido.cliente.nome_fantasia,
+                  area: pedido.area_venda.nome,
                   cnpj: pedido.cliente.cnpj,
                   valor_total: totalBruto,
                   valor_liquido: totalLiquido,
@@ -61,31 +73,35 @@ export class DialogRankingPrintComponent implements OnInit {
               }else if(this.data.form.status == "pendente"){
                 this.dataSource.push({
                   cliente: pedido.cliente.nome_fantasia,
+                  area: pedido.area_venda.nome,
                   cnpj: pedido.cliente.cnpj,
-                  valor_total: ( (this.somarNotaBruto(pedido.notas) - (pedido.subst != null ? pedido.subst : 0) ) - totalBruto ),
-                  valor_liquido: ( this.somarNotaLiquido(pedido.notas) - totalLiquido ),
+                  valor_total: ( (pedido.valor_total - (pedido.subst != null ? pedido.subst : 0) ) - totalBruto ),
+                  valor_liquido: ( pedido.valor_liquido - totalLiquido ),
                   porcentagem: 0
                 });
               }
             }
           }else{
-            if(pedido.situacao == "faturado" || pedido.situacao == "pendente"){
-
-              this.dataSource[index].valor_total += (this.somarNotaBruto(pedido.notas) - (pedido.subst != null ? pedido.subst : 0));
-              this.dataSource[index].valor_liquido += this.somarNotaLiquido(pedido.notas);
-
-            }else if(pedido.situacao == "parcial"){
-
+            if(pedido.situacao == "faturado"){
               let totalBruto = this.somarNotaBruto(pedido.notas);
               let totalLiquido = this.somarNotaLiquido(pedido.notas);
+
+              this.dataSource[index].valor_total += totalBruto
+              this.dataSource[index].valor_liquido += totalLiquido;
+
+            }else if(pedido.situacao == "pendente"){
+              this.dataSource[index].valor_total += (pedido.valor_total - (pedido.subst != null ? pedido.subst : 0));
+              this.dataSource[index].valor_liquido += pedido.valor_liquido;
+            }else if(pedido.situacao == "parcial"){
               if(this.data.form.status == "faturado"){
+                let totalBruto = this.somarNotaBruto(pedido.notas);
+                let totalLiquido = this.somarNotaLiquido(pedido.notas);
                 this.dataSource[index].valor_total += totalBruto;
                 this.dataSource[index].valor_liquido += totalLiquido;
               }else if(this.data.form.status == "pendente"){
-                this.dataSource[index].valor_total += ( (this.somarNotaBruto(pedido.notas) - (pedido.subst != null ? pedido.subst : 0) ) - totalBruto );
-                this.dataSource[index].valor_liquido += (this.somarNotaLiquido(pedido.notas) - totalLiquido);
+                this.dataSource[index].valor_total += pedido.valor_total - (pedido.subst != null ? pedido.subst : 0);
+                this.dataSource[index].valor_liquido += pedido.valor_liquido;
               }
-
             }
           }
         }
@@ -240,6 +256,7 @@ export class DialogRankingPrintComponent implements OnInit {
       export_array.push({
         colocação: index+1,
         cliente: cliente.cliente,
+        area: cliente.area,
         cnpj: cliente.cnpj,
         total: cliente.valor_total,
         total_liquido: cliente.valor_liquido,
@@ -249,6 +266,7 @@ export class DialogRankingPrintComponent implements OnInit {
     export_array.push({
       colocação: "Total: ",
       cliente: null,
+      area: null,
       cnpj: null,
       total: this.somarTotal(),
       total_liquido: this.somarTotalLiquido(),

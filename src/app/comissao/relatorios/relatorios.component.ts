@@ -328,62 +328,68 @@ export class RelatoriosComponent implements OnInit {
           this.vTotal = 0;
           this.cTotal = 0;
           this.cPaga = 0;
-          res.map(e => {
-            if(e.nota_parcelas.length > 0){
-              let id = e.pedido.vendedor_id + "-" + e.pedido.auxiliar_id + "-" + e.pedido.regiao_id;
-              let idx = this.acumulados.findIndex(e => e.id == id);
-              
-              //* Valor total das devoluções por nota
-              let devolucao = 0;
-              if(e.nota_produto_devolutions.length > 0){
-                e.nota_produto_devolutions.forEach(produto => {
-                  devolucao += (produto.qtd * produto.pedido_produto.valor_unitario);
-                });
-              }
-    
-              //* Valor total por nota e nao por pedido
-              let valor = 0;
-              let comissao_paga = 0;
-              let comissao_recebida = 0;
+          if(res.length > 0){
+            res.map(e => {
               if(e.nota_parcelas.length > 0){
-                e.nota_parcelas.forEach(parcela => {
-                  valor += parcela.valor;
-                  comissao_paga += +parcela.auxiliar_valor + parcela.vendedor_valor;
-                  comissao_recebida += parcela.fortiz_valor;
-                });
+                let id = e.pedido.vendedor_id + "-" + e.pedido.auxiliar_id + "-" + e.pedido.regiao_id;
+                let idx = this.acumulados.findIndex(e => e.id == id);
+                
+                //* Valor total das devoluções por nota
+                let devolucao = 0;
+                if(e.nota_produto_devolutions.length > 0){
+                  e.nota_produto_devolutions.forEach(produto => {
+                    devolucao += (produto.qtd * produto.pedido_produto.valor_unitario);
+                  });
+                }
+      
+                //* Valor total por nota e nao por pedido
+                let valor = 0;
+                let comissao_paga = 0;
+                let comissao_recebida = 0;
+                if(e.nota_parcelas.length > 0){
+                  e.nota_parcelas.forEach(parcela => {
+                    valor += parcela.valor;
+                    comissao_paga += +parcela.auxiliar_valor + parcela.vendedor_valor;
+                    comissao_recebida += parcela.fortiz_valor;
+                  });
+                }
+      
+                //this.vTotal += e.pedido.valor_total; //*old
+                this.vTotal += valor;
+                this.cTotal += comissao_recebida;
+                //this.cPaga += +e.pedido.comissao_vendedor + e.pedido.comissao_auxiliar //* old
+                this.cPaga += comissao_paga;
+      
+                if (idx != -1) {
+                  this.acumulados[idx].valor += valor;
+                  this.acumulados[idx].comissao_recebido += comissao_recebida;
+                  this.acumulados[idx].comissao_paga += comissao_paga;
+                  this.acumulados[idx].devolucao += devolucao;
+                } else {
+                  this.acumulados.push({
+                    id: id,
+                    vendedor: e.pedido.vendedor,
+                    auxiliar: e.pedido.auxiliar,
+                    area_venda: e.pedido.area_venda,
+                    regiao: e.pedido.regiao,
+                    valor: valor,
+                    devolucao: devolucao,
+                    comissao_recebido: comissao_recebida,
+                    comissao_paga: comissao_paga
+                  })
+                }
               }
-    
-              //this.vTotal += e.pedido.valor_total; //*old
-              this.vTotal += valor;
-              this.cTotal += comissao_recebida;
-              //this.cPaga += +e.pedido.comissao_vendedor + e.pedido.comissao_auxiliar //* old
-              this.cPaga += comissao_paga;
-    
-              if (idx != -1) {
-                this.acumulados[idx].valor += valor;
-                this.acumulados[idx].comissao_recebido += comissao_recebida;
-                this.acumulados[idx].comissao_paga += comissao_paga;
-                this.acumulados[idx].devolucao += devolucao;
-              } else {
-                this.acumulados.push({
-                  id: id,
-                  vendedor: e.pedido.vendedor,
-                  auxiliar: e.pedido.auxiliar,
-                  area_venda: e.pedido.area_venda,
-                  regiao: e.pedido.regiao,
-                  valor: valor,
-                  devolucao: devolucao,
-                  comissao_recebido: comissao_recebida,
-                  comissao_paga: comissao_paga
-                })
-              }
-            }
-          })
+            })
+          }else{
+            this.notificationService.notify("Não possui acumulados !");
+          }
+          
           this.data = this.acumulados;
           this.rows = this.data;
           this.temp = [...this.data];
         });
       }else if(this.route.snapshot.url[1].path == 'comissoes' && this.form.get('funcionario_id').value){
+        
         source.subscribe((res: any) => {
           this.data = [];
           this.rows = [];
@@ -392,62 +398,57 @@ export class RelatoriosComponent implements OnInit {
           this.vTotal = 0;
           this.totalDevolucao = 0;
           this.totalComissao = 0;
-          res.map(nota => {
-            if(nota.nota_parcelas.length > 0){
-              //console.log(nota)
-              // let id = e.pedido.vendedor_id + "-" + e.pedido.auxiliar_id + "-" + e.pedido.regiao_id;
-              let id = this.acumulados.findIndex(e => e.area_venda_id == nota.pedido.area_venda_id);
-              
-              //* Valor total das devoluções por nota
-              let devolucao = 0;
-              if(nota.nota_produto_devolutions.length > 0){
-                nota.nota_produto_devolutions.forEach(produto => {
-                  devolucao += (produto.qtd * produto.pedido_produto.valor_unitario);
-                });
-              }
-    
-              //* Valor total por nota e nao por pedido
-              let valor = 0;
-              let comissao = 0;
+          if(res.length > 0){
+            res.map(nota => {
               if(nota.nota_parcelas.length > 0){
-                nota.nota_parcelas.forEach(parcela => {
-                  
-                  valor += parcela.valor;
-                  if(nota.pedido.auxiliar_id == this.form.get('funcionario_id').value ){
-                    comissao += parcela.auxiliar_valor;
-                  }
-                  if(nota.pedido.vendedor_id == this.form.get('funcionario_id').value ){
-                    comissao += parcela.vendedor_valor;
-                  }
-                  let teste = (parcela.valor * 0.01) + 1;
-                  if(parcela.vendedor_valor >= teste){
-                    console.log(teste)
-                    console.log("valor: "+ parcela.valor , "vendedor: "+parcela.vendedor_valor);
-                    console.log(nota)
-                  }
-                  
-                });
+                let id = this.acumulados.findIndex(e => e.area_venda_id == nota.pedido.area_venda_id);
+                
+                //* Valor total das devoluções por nota
+                let devolucao = 0;
+                if(nota.nota_produto_devolutions.length > 0){
+                  nota.nota_produto_devolutions.forEach(produto => {
+                    devolucao += (produto.qtd * produto.pedido_produto.valor_unitario);
+                  });
+                }
+      
+                //* Valor total por nota e nao por pedido
+                let valor = 0;
+                let comissao = 0;
+                if(nota.nota_parcelas.length > 0){
+                  nota.nota_parcelas.forEach(parcela => {
+                    
+                    valor += parcela.valor;
+                    if(nota.pedido.auxiliar_id == this.form.get('funcionario_id').value ){
+                      comissao += parcela.auxiliar_valor;
+                    }
+                    if(nota.pedido.vendedor_id == this.form.get('funcionario_id').value ){
+                      comissao += parcela.vendedor_valor;
+                    }                    
+                  });
+                }
+      
+                this.vTotal += valor;
+                this.totalDevolucao += devolucao;
+                this.totalComissao += comissao;
+      
+                if (id != -1) {
+                  this.acumulados[id].valor += valor;
+                  this.acumulados[id].comissao += comissao;
+                  this.acumulados[id].devolucao += devolucao;
+                } else {
+                  this.acumulados.push({
+                    area_venda_id: nota.pedido.area_venda_id,
+                    area_venda: nota.pedido.area_venda,
+                    valor: valor,
+                    devolucao: devolucao,
+                    comissao: comissao,
+                  })
+                }
               }
-    
-              this.vTotal += valor;
-              this.totalDevolucao += devolucao;
-              this.totalComissao += comissao;
-    
-              if (id != -1) {
-                this.acumulados[id].valor += valor;
-                this.acumulados[id].comissao += comissao;
-                this.acumulados[id].devolucao += devolucao;
-              } else {
-                this.acumulados.push({
-                  area_venda_id: nota.pedido.area_venda_id,
-                  area_venda: nota.pedido.area_venda,
-                  valor: valor,
-                  devolucao: devolucao,
-                  comissao: comissao,
-                })
-              }
-            }
-          })
+            })
+          }else{
+            this.notificationService.notify("Não possui comissões !");
+          }
           this.data = this.acumulados;
           this.rows = this.data;
           this.temp = [...this.data];
@@ -458,13 +459,17 @@ export class RelatoriosComponent implements OnInit {
           this.rows = [];
           this.temp = [];
           this.acumulados = [];
-          res.map(nota => {
-            if(nota.nota_parcelas.length > 0){
-              let parcelas = nota.pedido.condicao_comercial.dias.split("/").filter(parcela => {return parcela != ""});
-              nota['total'] = nota.nota_parcelas[0].valor * parcelas.length;
-              this.acumulados.push(nota);
-            }
-          })
+          if(res.length > 0){
+            res.map(nota => {
+              if(nota.nota_parcelas.length > 0){
+                let parcelas = nota.pedido.condicao_comercial.dias.split("/").filter(parcela => {return parcela != ""});
+                nota['total'] = nota.nota_parcelas[0].valor * parcelas.length;
+                this.acumulados.push(nota);
+              }
+            })
+          }else{
+            this.notificationService.notify("Não possui recebimentos !");
+          }
           this.data = this.acumulados;
           this.rows = this.data;
           this.temp = [...this.data];
@@ -475,19 +480,24 @@ export class RelatoriosComponent implements OnInit {
           this.rows = [];
           this.temp = [];
           this.acumulados = [];
-          res.map(nota => {
-            if(nota.nota_parcelas.length > 0){
-              let total = 0;
-              let quantidade = 0;
-              nota.nota_produto_devolutions.forEach(produto => {
-                total += (produto.qtd * produto.pedido_produto.valor_unitario);
-                quantidade += produto.qtd;
-              });
-              nota['total'] = total;
-              nota['quantidade'] = quantidade;
-              this.acumulados.push(nota);
-            }
-          })
+          if(res.length > 0){
+            res.map(nota => {
+              if(nota.nota_parcelas.length > 0){
+                let total = 0;
+                let quantidade = 0;
+                nota.nota_produto_devolutions.forEach(produto => {
+                  total += (produto.qtd * produto.pedido_produto.valor_unitario);
+                  quantidade += produto.qtd;
+                });
+                nota['total'] = total;
+                nota['quantidade'] = quantidade;
+                this.acumulados.push(nota);
+              }
+            })
+          }else{
+            this.notificationService.notify("Não possui devoluções !");
+          }
+          
           this.data = this.acumulados;
           this.rows = this.data;
           this.temp = [...this.data];
@@ -498,16 +508,21 @@ export class RelatoriosComponent implements OnInit {
           this.rows = [];
           this.temp = [];
           this.acumulados = [];
-          res.map(nota => {
-            if(nota.nota_parcelas.length > 0){
-              let total = 0;
-              nota.nota_parcelas.forEach(parcela => {
-                total += parcela.valor;
-              });
-              nota['total'] = total;
-              this.acumulados.push(nota);
-            }
-          })
+          if(res.length > 0){
+            res.map(nota => {
+              if(nota.nota_parcelas.length > 0){
+                let total = 0;
+                nota.nota_parcelas.forEach(parcela => {
+                  total += parcela.valor;
+                });
+                nota['total'] = total;
+                this.acumulados.push(nota);
+              }
+            })
+          }else{
+            this.notificationService.notify("Não possui estornos !");
+          }
+          
           this.data = this.acumulados;
           this.rows = this.data;
           this.temp = [...this.data];
