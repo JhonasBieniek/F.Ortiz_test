@@ -64,8 +64,8 @@ export class DialogViewNotaComponent implements OnInit {
           if (e.id === f.pedido_produto_id) {
             e.qtd_restante = e.quantidade - f.qtd
             e.qtd_faturado = f.qtd
-            e.total = f.qtd * e.valor_unitario
-            e.desconto = res.data.desconto
+            e.total = f.qtd * e.valor_unitario - (f.qtd * e.valor_unitario * f.pedido_produto.desconto / 100)
+
           }
         })
       })

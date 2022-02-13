@@ -326,6 +326,7 @@ export class NovoComponent implements OnInit {
         quantidade: [item.quantidade, Validators.required],
         cor: item.cor != null ? item.cor : null,
         embalagem: item.embalagem,
+        desconto: 0,
         tamanho: item.tamanho,
         ipi: item.ipi != null ? parseFloat(item.ipi) : 0,
         valor_unitario: [item.valor_unitario, Validators.compose([Validators.required, Validators.min(0.01)])],
@@ -353,6 +354,7 @@ export class NovoComponent implements OnInit {
         quantidade: [item.quantidade, Validators.required],
         cor: item.cor != null ? item.cor : null,
         embalagem: item.embalagem,
+        desconto: 0,
         tamanho: item.tamanho,
         ipi: item.ipi != null ? parseFloat(item.ipi) : 0,
         valor_unitario: [item.valor_unitario, Validators.compose([Validators.required, Validators.min(0.01)])],
@@ -637,15 +639,16 @@ export class NovoComponent implements OnInit {
 
   aplicarDesconto(){
     this.produto.controls.forEach((element) => {
-      if (this.form.get("desconto").value != null) {
+
         element.get("valor_total").setValue(
         element.get("quantidade").value *
         element.get("valor_unitario").value - 
         element.get("quantidade").value *
         element.get("valor_unitario").value *
         this.form.get("desconto").value /100
-        );    
-    }
+        );
+        element.get("desconto").setValue(this.form.get("desconto").value);    
+    
   });
   }
 
