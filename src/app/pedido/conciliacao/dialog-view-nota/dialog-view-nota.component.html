@@ -137,6 +137,12 @@
         </ng-template>
       </ngx-datatable-column>
 
+      <ngx-datatable-column [flexGrow]="0.6" name="Desconto" prop="desconto">
+        <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+          {{ value }} %
+        </ng-template>
+      </ngx-datatable-column>
+
       <ngx-datatable-column [flexGrow]="1" name="Valor" prop="total">
         <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
           {{ value | currency:'BRL':true:'1.2-2' }}
