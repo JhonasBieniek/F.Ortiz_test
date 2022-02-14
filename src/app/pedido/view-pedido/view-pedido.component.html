@@ -123,6 +123,14 @@
     </ng-template>
   </ngx-datatable-column>
 
+  <ngx-datatable-column [flexGrow]="0.5" name="Ações">
+    <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+      <i class="fa fa-search buttonP" 
+        title="Visualizar" 
+        (click)="view(row);"></i>               
+    </ng-template>
+  </ngx-datatable-column>
+
 </ngx-datatable>
 
 <div class="p-20" fxLayout="row wrap" fxLayoutAlign="end start">

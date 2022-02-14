@@ -7,6 +7,7 @@ import { ClientService } from '../../shared/services/client.service.component';
 import { GoogleService } from '../../shared/services/google.service.component';
 import { DialogMailComponent } from '../view-orcamento/dialog-mail/dialog-mail.component';
 import { NovoComponent } from '../pedido-listar/novo/novo.component';
+import { DialogViewNotaComponent } from '../conciliacao/dialog-view-nota/dialog-view-nota.component';
 
 
 @Component({
@@ -174,6 +175,26 @@ export class ViewPedidoOrcamentoComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  view(row){
+    //console.log(row)
+    let dialogConfig = new MatDialogConfig();
+    dialogConfig = {
+      maxWidth: '95vw',
+      maxHeight: '95vh',
+      width: '90vw',
+      height: '95vh',
+      data: row
+    }
+    let dialogRef = this.dialog.open(
+      DialogViewNotaComponent, 
+      dialogConfig, 
+    );
+    dialogRef.afterClosed().subscribe(value => {
+      //this.loadData();
+      this.loadData();
+    });
   }
 
 }
