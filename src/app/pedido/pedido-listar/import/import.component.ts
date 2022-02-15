@@ -722,10 +722,11 @@ export class ImportComponent implements OnInit {
     this.table = this.data.data;
   }
   setTotal(i) {
-    let ipi = (this.produto.at(i).get("quantidade").value * this.produto.at(i).get("valor_unitario").value * this.produto.at(i).get("ipi").value) / 100;
     let valor =
-      this.produto.at(i).get("quantidade").value *
-      this.produto.at(i).get("valor_unitario").value + ipi;
+    this.form.get("desconto").value != null ? this.produto.at(i).get("quantidade").value *
+    this.produto.at(i).get("valor_unitario").value - (this.produto.at(i).get("quantidade").value *
+      this.produto.at(i).get("valor_unitario").value * this.form.get("desconto").value) / 100 : this.produto.at(i).get("quantidade").value *
+      this.produto.at(i).get("valor_unitario").value;
     this.produto.at(i).get("valor_total").setValue(valor);
   }
   cnpjFilter(cnpj) {
@@ -891,8 +892,8 @@ export class ImportComponent implements OnInit {
     let comissao = 0;
     this.produto.controls.forEach((element) => {
       comissao +=
-        (element.get("quantidade").value *
-          element.get("valor_unitario").value *
+        ((element.get("quantidade").value * element.get("valor_unitario").value - 
+        (element.get("quantidade").value * element.get("valor_unitario").value *this.form.get("desconto").value /100)) *
           element.get("comissao_produto").value) /
         100;
     });
@@ -939,23 +940,25 @@ export class ImportComponent implements OnInit {
     let ipi = 0;
     this.produto.controls.forEach((element) => {
       if (element.get("ipi").value > 0) {
+        let valor = element.get("quantidade").value * element.get("valor_unitario").value 
+        - (element.get("quantidade").value * element.get("valor_unitario").value * this.form.get("desconto").value /100);
+        
         ipi +=
-          (element.get("quantidade").value *
-            element.get("valor_unitario").value *
-            element.get("ipi").value) /
-          100;
+          ( valor * element.get("ipi").value /100);
       }
       total +=
         element.get("quantidade").value * element.get("valor_unitario").value;
     });
-    let desconto = ((total + ipi) * this.form.get("desconto").value) / 100;
+    let desconto = (total * this.form.get("desconto").value) / 100;
     let subst = this.form.get("subst").value > 0 ? this.form.get("subst").value : 0 ;
     this.form.get("valor_liquido").setValue(total - desconto);
-    this.form.get("valor_total").setValue(Math.round(( total + ipi - desconto + subst) * 100) / 100);
-    // if (this.form.get("valor_total").value > (this.ValorTotal+ ipi)){
-    //   this.disabled = true;
-    // }else{
-    //   this.disabled = false;
+    this.form.get("valor_total").setValue(Math.round(( total + ipi - desconto + subst)));
+    // if(this.ValorTotal > 0){  
+    //   if (this.form.get("valor_total").value > (this.ValorTotal + ipi)){
+    //     this.disabled = true;
+    //   }else{
+    //     this.disabled = false;
+    //   }
     // }  
     if (tipo == "total") return this.form.get("valor_total").value;
     else if (tipo == "ipi") return ipi;

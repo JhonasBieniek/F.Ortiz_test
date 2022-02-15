@@ -92,7 +92,7 @@
 
               <div class="p-10 pad" fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="50">
                 <mat-form-field appearance="outline" class="descontoSuffix">
-                  <input matInput placeholder="Desconto" class="desconto" type="number"  min="0" max="100" step="0.0001" formControlName="desconto" (blur)="aplicarDesconto()">
+                  <input matInput placeholder="Desconto" class="desconto" min="0" max="100" step="0.0001" formControlName="desconto" (blur)="aplicarDesconto()">
                 </mat-form-field>
               </div>
 
@@ -221,8 +221,7 @@
                       </mat-form-field>
                       <mat-form-field fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="12" appearance="outline">
                         <mat-label>IPI</mat-label>
-                        <input matInput placeholder="IPI" formControlName="ipi" mask="percent" suffix="%"
-                          >
+                        <input matInput placeholder="IPI" formControlName="ipi" mask="percent" suffix="%">
                       </mat-form-field>
                       <mat-form-field fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="15" appearance="outline">
                         <mat-label>Valor Unit.</mat-label>
@@ -262,17 +261,11 @@
             </div>
           </div>
           <div class="geral" *ngIf="valorTotal() != 0">
-            <tr *ngIf="ValorTotal > 0">
-              <th style="color: green;">Valor Total da Nota: {{ValorTotal | currency:'BRL':true:'1.2-2'}}
-                <!-- <span style="color: red;" *ngIf="valorTotal('total') > ValorTotal"> Valor da nota diferente do total dos produtos, {{ descontoNecessario(valorTotal('total')) }} % .
-                <button mat-button (click)="aplicarDesconto(descontoNecessario(valorTotal('total')))" color="primary">Aplicar Desconto</button></span>  -->
-              </th>
+            <tr>
+              <th style="color: green;">Valor Total: {{valorTotal('total') | currency:'BRL':true:'1.2-2'}}</th>
             </tr>
             <tr>
-              <th style="color: green;">Valor Total dos Produtos: {{valorTotal('total') | currency:'BRL':true:'1.2-2'}}</th>
-            </tr>
-            <tr>
-              <th style="color: rgb(97, 199, 122);">Valor Líquido dos Produtos: {{valorTotal('liq') | currency:'BRL':true:'1.2-2'}}</th>
+              <th style="color: rgb(97, 199, 122);">Valor Líquido: {{valorTotal('liq') | currency:'BRL':true:'1.2-2'}}</th>
             </tr>
             <tr *ngIf="form.controls['subst'].value > 0">
               <th>Subst.: {{ form.controls['subst'].value | currency:'BRL':true:'1.2-2'}}</th>
