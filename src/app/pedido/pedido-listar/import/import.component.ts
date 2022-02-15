@@ -233,7 +233,7 @@ export class ImportComponent implements OnInit {
         }
       });
       
-      var clienteCnpj = data[7][3].toString().length == 13 ? "0" + data[7][3] : data[7][3];
+      var clienteCnpj = data[7][3].toString().length == 13 ? "0" + data[7][3] : data[7][3] || data[7][3].toString().length == 12 ? "00" + data[7][3] : data[7][3];
       var pedido = data[21][12] != undefined ? data[6][1] + "/" + data[21][12] : data[6][1];
       this.form.get("num_pedido").setValue(pedido);
       this.form.get("transportadora").setValue(data[18][2]);
