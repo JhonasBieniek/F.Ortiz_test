@@ -613,8 +613,8 @@ export class NovoComponent implements OnInit {
     let comissao = 0;
     this.produto.controls.forEach((element) => {
       comissao +=
-        (element.get("quantidade").value *
-          element.get("valor_unitario").value *
+        ((element.get("quantidade").value * element.get("valor_unitario").value - 
+        (element.get("quantidade").value * element.get("valor_unitario").value * this.form.get("desconto").value /100)) *
           element.get("comissao_produto").value) /
         100;
     });
@@ -631,7 +631,7 @@ export class NovoComponent implements OnInit {
           this.form.get(type).setValue(percentual);
         }
       });
-      return ((q * v) / 100) * percentual;
+      return ((q * v - (q * v *this.form.get('desconto').value/100)) / 100) * percentual;
     } else {
       return 0;
     }
@@ -657,19 +657,19 @@ export class NovoComponent implements OnInit {
     let ipi = 0;
     this.produto.controls.forEach((element) => {
       if (element.get("ipi").value > 0) {
+        let valor = element.get("quantidade").value * element.get("valor_unitario").value 
+        - (element.get("quantidade").value * element.get("valor_unitario").value * this.form.get("desconto").value /100);
+        
         ipi +=
-          (element.get("quantidade").value *
-            element.get("valor_unitario").value *
-            element.get("ipi").value) /
-          100;
+          ( valor * element.get("ipi").value /100);
       }
       total +=
         element.get("quantidade").value * element.get("valor_unitario").value;
     });
-    let desconto = ((total + ipi) * this.form.get("desconto").value) / 100;
+    let desconto = (total * this.form.get("desconto").value) / 100;
     let subst = this.form.get("subst").value > 0 ? this.form.get("subst").value : 0 ;
-    this.form.get("valor_liquido").setValue(total - desconto);
-    this.form.get("valor_total").setValue(Math.round(( total + ipi - desconto + subst) * 100) / 100);
+    this.form.get("valor_liquido").setValue(Math.round(total - desconto));
+    this.form.get("valor_total").setValue(Math.round(( total + ipi - desconto + subst)));
     // if(this.ValorTotal > 0){  
     //   if (this.form.get("valor_total").value > (this.ValorTotal + ipi)){
     //     this.disabled = true;

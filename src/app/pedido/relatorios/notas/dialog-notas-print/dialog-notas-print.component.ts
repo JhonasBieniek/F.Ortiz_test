@@ -9,15 +9,19 @@ import { ExcelExportService } from '../../../../shared/services/excel-export.ser
 })
 export class DialogNotasPrintComponent implements OnInit {
 
-  displayedColumns: string[] = ['cliente', 'num_nota', 'num_pedido', 'data_faturamento', 'obs', 'valor_total', 'e-mail']; // 'valor_liquido'
+  displayedColumns: string[] = ['cliente', 'area_venda', 'num_nota', 'num_pedido', 'data_faturamento', 'obs', 'valor_liquido', 'valor_total', 'e-mail']; // 'valor_liquido'
   dataSource: any[] = [];
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,  public dialogRef: MatDialogRef<DialogNotasPrintComponent>, private excelExport: ExcelExportService) {
     this.dataSource = data;
     this.dataSource.forEach( (notas)=> {
       notas['valor_total'] = 0;
+      notas['valor_liquido'] = 0;
       notas.nota_produtos.forEach( produto => {
-        notas['valor_total'] = parseFloat( (( (produto.qtd * produto.pedido_produto.valor_unitario) - produto.qtd * produto.pedido_produto.valor_unitario * produto.pedido_produto.desconto/100 ) + notas['valor_total']).toFixed(2) )  ;
+        notas['valor_total'] = parseFloat( (( (produto.qtd * produto.pedido_produto.valor_unitario) 
+        - produto.qtd * produto.pedido_produto.valor_unitario * produto.pedido_produto.desconto/100) + (produto.qtd * produto.pedido_produto.valor_unitario * produto.pedido_produto.ipi/100)
+        + notas['valor_total']).toFixed(2));
+        notas['valor_liquido'] = parseFloat( (( (produto.qtd * produto.pedido_produto.valor_unitario) - produto.qtd * produto.pedido_produto.valor_unitario * produto.pedido_produto.desconto/100 ) + notas['valor_liquido']).toFixed(2));
       });
     });
     if(data.form.ordenacao == "valor"){
@@ -111,12 +115,13 @@ export class DialogNotasPrintComponent implements OnInit {
     this.dataSource.forEach( nota => {
       export_array.push({
         cliente: nota.pedido.cliente.nome_fantasia,
+        area_venda: nota.pedido.area_venda.nome,
         num_nota: nota.num_nota,
         num_pedido: nota.pedido.num_pedido,
         faturamento: nota.data_faturamento,
         observação: nota.obs,
+        valor_liquido: nota.valor_liquido,
         valor_nota: nota.valor_total,
-        //valor_liquido: nota.pedido.valor_liquido,
         email: nota.pedido.cliente.email
       })
     });

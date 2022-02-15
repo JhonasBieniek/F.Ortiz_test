@@ -113,7 +113,7 @@ export class DialogSendNotaComponent implements OnInit {
         }
       }
     });
-    return total;
+    return Math.round(total);
   }
 
   criaParcelas() {

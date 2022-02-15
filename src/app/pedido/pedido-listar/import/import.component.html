@@ -274,13 +274,10 @@
     </div>
     <div class="geral" *ngIf="valorTotal() != 0">
       <tr>
-        <th style="color: green;">Valor Total da Nota: {{ ValorTotal | currency:'BRL':true:'1.2-2'}}</th>
+        <th style="color: green;">Valor Total: {{ valorTotal('total') | currency:'BRL':true:'1.2-2'}}
       </tr>
       <tr>
-        <th style="color: green;">Valor Total dos Produtos: {{ valorTotal('total') | currency:'BRL':true:'1.2-2'}}
-      </tr>
-      <tr>
-        <th style="color: rgb(97, 199, 122);">Valor Líquido dos Produtos: {{valorTotal('liq') |
+        <th style="color: rgb(97, 199, 122);">Valor Líquido: {{valorTotal('liq') |
           currency:'BRL':true:'1.2-2'}}</th>
       </tr>
       <tr *ngIf="form.controls['subst'].value > 0">
