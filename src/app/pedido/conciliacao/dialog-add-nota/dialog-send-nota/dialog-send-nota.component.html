@@ -118,13 +118,13 @@
   </mat-tab-group>
 </div>
 <br>
-<b><span style="color: rgb(97, 199, 122);">Valor Total do Pedido:</span> {{ this.pedido?.valor_total | currency:'BRL':true:'1.2-2'}} </b>
+<b *ngIf="this.pedido?.representada_id == 20"><span style="color: rgb(97, 199, 122);">Valor Total do Pedido:</span> {{ this.pedido?.valor_total | currency:'BRL':true:'1.2-5'}} </b>
 <br>
-<b *ngIf="this.pedido?.subst > 0"> <span style="color: rgb(97, 199, 122);">Valor total Subst.:</span> {{this.pedido?.subst | currency:'BRL':true:'1.2-2'}}</b>
+<b *ngIf="this.pedido?.subst > 0"> <span style="color: rgb(97, 199, 122);">Valor total Subst.:</span> {{this.pedido?.subst | currency:'BRL':true:'1.2-5'}}</b>
 <br *ngIf="this.pedido?.subst > 0">
-<b>Valor Total Bruto: {{ totalNotaBruto() | currency:'BRL':true:'1.2-2'}}</b>
+<b>Valor Total Bruto: {{ totalNotaBruto() | currency:'BRL':true:'1.2-5'}}</b>
 <br>
-<b>Valor Total Liquido: {{ totalNota() | currency:'BRL':true:'1.2-2'}}</b>
+Valor Total Liquido: {{ totalNota() | currency:'BRL':true:'1.2-5'}}
 <br>
 <div mat-dialog-actions class="m-t-20">
   <button mat-raised-button color="primary" (click)="save()" cdkFocusInitial [disabled]="!form.valid">Salvar</button>

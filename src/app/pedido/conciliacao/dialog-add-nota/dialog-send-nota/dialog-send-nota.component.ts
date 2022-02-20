@@ -103,17 +103,20 @@ export class DialogSendNotaComponent implements OnInit {
   totalNotaBruto(){
     let total = 0;
     let desconto = this.data.desconto /100;
+    let ipiTotal = 0;
     this.rows.map( produto => {
       if(produto.quantidade_recebida > 0){
         if(produto.ipi > 0){
-          let ipi = (produto.quantidade_recebida * produto.valor_unitario * produto.ipi)  / 100;
+          let ipi = ((produto.quantidade_recebida * produto.valor_unitario - (produto.quantidade_recebida * produto.valor_unitario * desconto)) * produto.ipi)  / 100;
+          ipiTotal += ipi;
           total  = total + ((produto.quantidade_recebida * produto.valor_unitario)  + ipi - (produto.quantidade_recebida * produto.valor_unitario * desconto));
         }else{
           total  = total + (produto.quantidade_recebida * produto.valor_unitario - (produto.quantidade_recebida * produto.valor_unitario * desconto));
         }
       }
     });
-    return Math.round(total);
+    console.log(ipiTotal, 'ipi');
+    return total;
   }
 
   criaParcelas() {

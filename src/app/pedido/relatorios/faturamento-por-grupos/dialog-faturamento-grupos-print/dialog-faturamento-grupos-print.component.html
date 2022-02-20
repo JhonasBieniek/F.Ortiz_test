@@ -47,13 +47,13 @@
                                                     {{ area.nome }}
                                                 </div>
                                                 <div fxFlex="25" class="text-right">
-                                                    {{ area.total | currency:'BRL':'symbol':'1.2-2'}}
+                                                    {{ area.total | currency:'BRL':'symbol':'1.2-5'}}
                                                 </div>
                                                 <div fxFlex="25" class="text-right">
-                                                    {{ area.faturado | currency:'BRL':'symbol':'1.2-2'}}
+                                                    {{ area.faturado | currency:'BRL':'symbol':'1.2-5'}}
                                                 </div>
                                                 <div fxFlex="25" class="text-right">
-                                                    {{ area.aberto | currency:'BRL':'symbol':'1.2-2'}}
+                                                    {{ area.aberto | currency:'BRL':'symbol':'1.2-5'}}
                                                 </div>
                                             </div>
                                             <div fxFlex="100" class="area-style" style="font-weight: bold;">
@@ -61,13 +61,13 @@
                                                     Total do Grupo
                                                 </div>
                                                 <div fxFlex="25" class="text-right">
-                                                    {{ grupo.total | currency:'BRL':'symbol':'1.2-2'}}
+                                                    {{ grupo.total | currency:'BRL':'symbol':'1.2-5'}}
                                                 </div>
                                                 <div fxFlex="25" class="text-right">
-                                                    {{ grupo.total_faturado | currency:'BRL':'symbol':'1.2-2'}}
+                                                    {{ grupo.total_faturado | currency:'BRL':'symbol':'1.2-5'}}
                                                 </div>
                                                 <div fxFlex="25" class="text-right">
-                                                    {{ grupo.total_aberto | currency:'BRL':'symbol':'1.2-2'}}
+                                                    {{ grupo.total_aberto | currency:'BRL':'symbol':'1.2-5'}}
                                                 </div>
                                             </div>
                                         </div>
@@ -77,22 +77,22 @@
                                             Total da Representada
                                         </div>
                                         <div fxFlex="25" class="text-right">
-                                            {{ representada.total | currency:'BRL':'symbol':'1.2-2'}}
+                                            {{ representada.total | currency:'BRL':'symbol':'1.2-5'}}
                                         </div>
                                         <div fxFlex="25" class="text-right">
-                                            {{ representada.total_faturado | currency:'BRL':'symbol':'1.2-2'}}
+                                            {{ representada.total_faturado | currency:'BRL':'symbol':'1.2-5'}}
                                         </div>
                                         <div fxFlex="25" class="text-right">
-                                            {{ representada.total_aberto | currency:'BRL':'symbol':'1.2-2'}}
+                                            {{ representada.total_aberto | currency:'BRL':'symbol':'1.2-5'}}
                                         </div>
                                     </div>
                                 </div>
                             </li>
                         </ul>
                         <div fxFlex="100" class="p-b-10 p-t-20 text-center"  style="color: black; font-weight: bold; font-size: 13px; font-family: Verdana, Tahoma, Arial, Sans-serif;">
-                            <span >PEDIDOS: {{total.total_pedidos | currency:'BRL':'symbol':'1.2-2'}}</span>
-                            <span class="p-l-10">FATURADOS: {{total.total_faturado | currency:'BRL':'symbol':'1.2-2'}}</span>
-                            <span class="p-l-10"> ABERTOS: {{total.total_aberto | currency:'BRL':'symbol':'1.2-2'}}</span>
+                            <span >PEDIDOS: {{total.total_pedidos | currency:'BRL':'symbol':'1.2-5'}}</span>
+                            <span class="p-l-10">FATURADOS: {{total.total_faturado | currency:'BRL':'symbol':'1.2-5'}}</span>
+                            <span class="p-l-10"> ABERTOS: {{total.total_aberto | currency:'BRL':'symbol':'1.2-5'}}</span>
                         </div>
                     </div>
                 </div>

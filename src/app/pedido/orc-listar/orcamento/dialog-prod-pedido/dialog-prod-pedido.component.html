@@ -76,12 +76,12 @@
 
         <ng-container matColumnDef="Vlr Unit." >
           <th mat-header-cell *matHeaderCellDef> Vlr Unit. </th>
-          <td mat-cell *matCellDef="let element"> {{element.valor_unitario | currency:'BRL':true:'1.2-2'}}</td>
+          <td mat-cell *matCellDef="let element"> {{element.valor_unitario | currency:'BRL':true:'1.2-5'}}</td>
         </ng-container>
 
         <ng-container matColumnDef="Vlr total" >
           <th mat-header-cell *matHeaderCellDef> Vlr total </th>
-          <td mat-cell *matCellDef="let element"> {{ element.valor_total | currency:'BRL':true:'1.2-2' }}</td>
+          <td mat-cell *matCellDef="let element"> {{ element.valor_total | currency:'BRL':true:'1.2-5' }}</td>
         </ng-container>
       
         <tr mat-header-row *matHeaderRowDef="displayedColumns" style="height: 30px !important;"></tr>

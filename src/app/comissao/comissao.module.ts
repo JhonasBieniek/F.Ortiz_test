@@ -25,6 +25,17 @@ import { DialogAcumuladoComissoesPrintComponent } from './relatorios/dialog-acum
 
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
+export const customCurrencyMaskConfig = {
+  align: "right",
+  allowNegative: true,
+  allowZero: true,
+  decimal: ",",
+  precision: 5,
+  prefix: "R$ ",
+  suffix: "",
+  thousands: ".",
+  nullable: true
+};
 
 
 @NgModule({
@@ -43,7 +54,7 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
     ReactiveFormsModule,
     FlexLayoutModule,
     NgxMaskModule.forRoot(options),
-    NgxCurrencyModule,
+    NgxCurrencyModule.forRoot(customCurrencyMaskConfig),
 
   ],
   entryComponents: [ 

@@ -185,7 +185,7 @@
             </ngx-datatable-column>
             <ngx-datatable-column [flexGrow]="0.5" name="Preço" prop="produto_estados_precos">
               <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                {{ value[0].preco  | currency:'BRL':true:'1.2-2' }}
+                {{ value[0].preco  | currency:'BRL':true:'1.2-5' }}
               </ng-template>
             </ngx-datatable-column>
 
@@ -243,7 +243,7 @@
     </form>
     <div *ngIf="valorTotal() != 0" style="margin-top: -40px; color: black; text-align: left;">
       <tr>
-        <th style="color: red;">Valor Total: {{valorTotal() | currency:'BRL':true:'1.2-2'}}</th>
+        <th style="color: red;">Valor Total: {{valorTotal() | currency:'BRL':true:'1.2-5'}}</th>
       </tr>
     </div>
     <div style="margin-top: 20px; margin-left:5px">

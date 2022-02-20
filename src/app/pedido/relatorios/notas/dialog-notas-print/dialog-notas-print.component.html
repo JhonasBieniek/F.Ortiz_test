@@ -54,20 +54,20 @@
 
                     <ng-container matColumnDef="valor_liquido" >
                         <th mat-header-cell *matHeaderCellDef class="printAdjust"> Valor Liq. da Nota </th>
-                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos printAdjust" > {{element.valor_liquido | currency:'BRL':'symbol':'1.2-2'}}</td>
-                        <td mat-footer-cell *matFooterCellDef class="tamanhoPedidos printAdjust"> {{somarTotal() | currency:'BRL':'symbol':'1.2-2'}}</td>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos printAdjust" > {{element.valor_liquido | currency:'BRL':'symbol':'1.2-5'}}</td>
+                        <td mat-footer-cell *matFooterCellDef class="tamanhoPedidos printAdjust"> {{somarTotalLiquido() | currency:'BRL':'symbol':'1.2-5'}}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="valor_total" >
                         <th mat-header-cell *matHeaderCellDef class="printAdjust"> Valor Bruto da Nota </th>
-                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos printAdjust" > {{element.valor_total | currency:'BRL':'symbol':'1.2-2'}}</td>
-                        <td mat-footer-cell *matFooterCellDef class="tamanhoPedidos printAdjust"> {{somarTotal() | currency:'BRL':'symbol':'1.2-2'}}</td>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos printAdjust" > {{element.valor_total | currency:'BRL':'symbol':'1.2-5'}}</td>
+                        <td mat-footer-cell *matFooterCellDef class="tamanhoPedidos printAdjust"> {{somarTotal() | currency:'BRL':'symbol':'1.2-5'}}</td>
                     </ng-container>
 
                     <!-- <ng-container matColumnDef="valor_liquido" >
                         <th mat-header-cell *matHeaderCellDef class="printAdjust"> Valor Liquido </th>
-                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos printAdjust" > {{element.pedido.valor_liquido | currency:'BRL':'symbol':'1.2-2'}}</td>
-                        <td mat-footer-cell *matFooterCellDef class="tamanhoPedidos printAdjust"> {{somarTotalLiquido() | currency:'BRL':'symbol':'1.2-2'}}</td>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos printAdjust" > {{element.pedido.valor_liquido | currency:'BRL':'symbol':'1.2-5'}}</td>
+                        <td mat-footer-cell *matFooterCellDef class="tamanhoPedidos printAdjust"> {{somarTotalLiquido() | currency:'BRL':'symbol':'1.2-5'}}</td>
                     </ng-container> -->
 
                     <ng-container matColumnDef="e-mail" >

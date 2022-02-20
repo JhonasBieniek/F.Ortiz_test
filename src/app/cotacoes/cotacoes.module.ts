@@ -23,6 +23,18 @@ import { FileUploadModule } from 'ng2-file-upload';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
 
+export const customCurrencyMaskConfig = {
+  align: "right",
+  allowNegative: true,
+  allowZero: true,
+  decimal: ",",
+  precision: 5,
+  prefix: "R$ ",
+  suffix: "",
+  thousands: ".",
+  nullable: true
+};
+
 
 @NgModule({
   imports: [
@@ -36,7 +48,7 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
     QuillModule,
     FileUploadModule,
     MatDialogModule,
-    NgxCurrencyModule,
+    NgxCurrencyModule.forRoot(customCurrencyMaskConfig),
     NgxMaskModule.forRoot(),
   ],
   declarations: [

@@ -42,8 +42,8 @@
 
                     <ng-container matColumnDef="valor_total" >
                         <th mat-header-cell *matHeaderCellDef class="text-right"> Total Vendido</th>
-                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos text-right" > {{element.valor_total | currency:'BRL':true:'1.2-2'}}</td>
-                        <td mat-footer-cell *matFooterCellDef class="text-right tamanhoPedidos"> {{somarTotal() | currency:'BRL':true:'1.2-2'}}</td>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos text-right" > {{element.valor_total | currency:'BRL':true:'1.2-5'}}</td>
+                        <td mat-footer-cell *matFooterCellDef class="text-right tamanhoPedidos"> {{somarTotal() | currency:'BRL':true:'1.2-5'}}</td>
                     </ng-container>
 
 

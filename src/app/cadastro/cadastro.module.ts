@@ -47,7 +47,6 @@ import { DialogBodyFuncionarioComponent } from './funcionario/dialog-body/dialog
 import { DialogBodyClienteComponent } from './cliente/dialog-body/dialog-body-cliente.component';
 import { TamanhosComponent } from './tamanhos/tamanhos.component';
 import { DialogTamanhosComponent } from './tamanhos/dialog-tamanhos/dialog-tamanhoscomponent';
-import { NgxCurrencyModule } from 'ngx-currency';
 import { ContaBancoComponent } from './conta-banco/conta-banco.component';
 import { DialogContaComponent } from './conta-banco/dialog-conta/dialog-conta.component';
 import { TipoProdutoComponent } from './tipo-produto/tipo-produto.component';
@@ -81,7 +80,6 @@ import { DialogRepresentadaConfirmacaoComponent } from './cliente/dialog-body/di
     QuillModule,
     FileUploadModule,
     NgxDatatableModule,
-    NgxCurrencyModule,
     SelectAutocompleteModule,
     NgxMaskModule.forRoot(),
   ],

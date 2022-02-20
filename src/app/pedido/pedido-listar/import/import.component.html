@@ -201,7 +201,7 @@
             </ngx-datatable-column>
             <ngx-datatable-column [flexGrow]="0.5" name="Preço" prop="produto_estados_precos">
               <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                {{ value[0]?.preco | currency:'BRL':true:'1.2-2' }}
+                {{ value[0]?.preco | currency:'BRL':true:'1.2-5' }}
               </ng-template>
             </ngx-datatable-column>
 
@@ -274,23 +274,23 @@
     </div>
     <div class="geral" *ngIf="valorTotal() != 0">
       <tr>
-        <th style="color: green;">Valor Total: {{ valorTotal('total') | currency:'BRL':true:'1.2-2'}}
+        <th style="color: green;">Valor Total: {{ valorTotal('total') | currency:'BRL':true:'1.2-5'}}
       </tr>
       <tr>
         <th style="color: rgb(97, 199, 122);">Valor Líquido: {{valorTotal('liq') |
-          currency:'BRL':true:'1.2-2'}}</th>
+          currency:'BRL':true:'1.2-5'}}</th>
       </tr>
       <tr *ngIf="form.controls['subst'].value > 0">
-        <th>Subst.: {{ form.controls['subst'].value | currency:'BRL':true:'1.2-2'}}</th>
+        <th>Subst.: {{ form.controls['subst'].value | currency:'BRL':true:'1.2-5'}}</th>
       </tr>
       <tr>
-        <th>IPI: {{valorTotal('ipi') | currency:'BRL':true:'1.2-2'}}</th>
+        <th>IPI: {{valorTotal('ipi') | currency:'BRL':true:'1.2-5'}}</th>
       </tr>
       <tr>
         <th>Comissão Média(%): {{comissaoMedia()}}%</th>
       </tr>
       <tr>
-        <th>Comissão Bruta($): {{comissaoBruta() | currency:'BRL':true:'1.2-2'}}</th>
+        <th>Comissão Bruta($): {{comissaoBruta() | currency:'BRL':true:'1.2-5'}}</th>
       </tr>
     </div>
     <div style="margin-top: 20px; margin-left:5px" id="enviar" #enviar>
