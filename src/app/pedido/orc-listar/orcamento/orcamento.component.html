@@ -59,13 +59,13 @@
             <input matInput placeholder="Prazo de Entrega" formControlName="prazo_entrega">
           </mat-form-field>
         </div>
-        <div class="p-10 pad" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
+        <div class="p-10 pad" fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="100">
           <mat-form-field appearance="outline">
             <mat-label>Pedido Mínimo</mat-label>
             <input matInput placeholder="Pedido Mínimo" formControlName="minimo" currencyMask>
           </mat-form-field>
         </div>
-        <div class="p-10 pad" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="20">
+        <div class="p-10 pad" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="20">
           <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
             [floatLabel]="form.value.floatLabel">
             <mat-label>Cond. comercial</mat-label>
@@ -77,33 +77,24 @@
             <mat-placeholder>Condição Comercial</mat-placeholder>
           </mat-form-field>
         </div>
-        <div class="p-10" style="margin-top:-15px" fxFlex.gt-sm="30" fxFlex.gt-xs="30" fxFlex="100">
+        <div class="p-10" style="margin-top:-15px" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
           <label class="m-r-10">Frete :</label>
           <mat-radio-group formControlName="frete">
             <mat-radio-button value="cif" class="m-r-10">CIF</mat-radio-button>
             <mat-radio-button value="fob">FOB</mat-radio-button>
           </mat-radio-group>
         </div>
-        <div class="p-10 pad" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
+        <div class="p-10 pad" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
           <mat-form-field appearance="outline">
             <mat-label>Transportadora</mat-label>
             <input matInput placeholder="Insira a transportadora" formControlName="transportadora">
           </mat-form-field>
         </div>
-        <div class="p-10 pad" fxFlex.gt-sm="15" fxFlex.gt-md="15" fxFlex.gt-xs="15" fxFlex="100">
-          <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
-          [floatLabel]="form.value.floatLabel">
-            <mat-label>Status</mat-label>
-            <mat-select formControlName="situation">
-              <mat-option>-- Selecione... --</mat-option>
-              <mat-option [value]=0>Em Análise</mat-option>
-              <mat-option [value]=1>Ag. Aprovação</mat-option>
-              <mat-option [value]=2>Aprovado</mat-option>
-              <mat-option [value]=3>Cancelado</mat-option>
-            </mat-select>
+        <div class="p-10 pad" fxFlex.gt-sm="38" fxFlex.gt-xs="38" fxFlex="100">
+          <mat-form-field appearance="outline">
+            <mat-label>Observação</mat-label>
+            <input matInput placeholder="Observação" formControlName="obs">
           </mat-form-field>
-          <small *ngIf="form.get('situation').errors?.required && form.get('situation').touched"
-          class="text-danger font-14">Você precisa selecionar o status.</small>
         </div>
           <div class="m-t-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="this.form.get('quotation').value != null">
             <mat-divider></mat-divider>
@@ -127,79 +118,95 @@
           <div class="p-10 pad" fxFlex.gt-sm="20" fxFlex.gt-md="21" fxFlex.gt-xs="21" fxFlex="100" *ngIf="this.form.get('quotation').value != null">
             <mat-form-field appearance="outline">
               <mat-label>N° WhatsApp</mat-label>
-              <input matInput placeholder="N° WhatsApp" formControlName="quotation_phone" mask="(00) 0000-0000||(00) 0 0000-0000">
+              <input matInput placeholder="N° WhatsApp" formControlName="quotation_phone" mask="+00 (00) 0000-0000|| +00 (00) 0 0000-0000" readonly>
             </mat-form-field>
           </div>
-        <div class="p-10 pad" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-          <mat-form-field appearance="outline">
-            <mat-label>Observação</mat-label>
-            <input matInput placeholder="Observação" formControlName="obs">
-          </mat-form-field>
-        </div>
       </div>
       <div fxLayout="row wrap">
         <div fxFlex.gt-sm="100%" fxFlex="100">
-          <h4 color="primary" class="dialog-headline">Selecione o Produto</h4>
-          <mat-form-field>
-            <input matInput type='text' class="form-control" placeholder='Digite para filtrar...'
-              (keyup)='updateFilter($event)' />
-          </mat-form-field>
-          <ngx-datatable #table class='material striped fontTable' [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50"
-            [rowHeight]="'auto'" [limit]="5" [rows]='rows' [loadingIndicator]="loadingIndicator" [selected]="selected"
-            [selectionType]="'single'" (select)='onSelect($event)'>
-
-            <ngx-datatable-column [flexGrow]="0.5" name="Código" prop="codigo_catalogo">
-              <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                {{ value }}
-              </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column [flexGrow]="1.5" name="Nome" prop="nome">
-              <ng-template let-value="value" let-row="row" ngx-datatable-cell-template >
-                {{ value }}
-              </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column [flexGrow]="1" name="Embalagem" prop="produto_embalagem">
-              <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                {{ value.nome }}
-              </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column [flexGrow]="0.5" name="Minímo" prop="produto_embalagem">
-              <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                {{ value.minimo }}
-              </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column [flexGrow]="0.5" name="Unidade" prop="produto_embalagem">
-              <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                {{ value.unidade.sigla }}
-              </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column [flexGrow]="1" name="Cores" prop="produto_cores">
-              <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                {{ transform(value) }}
-              </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column [flexGrow]="1" name="Tamanhos" prop="produto_tamanhos">
-              <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                {{ transform(value) }}
-              </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column [flexGrow]="0.5" name="Preço" prop="produto_estados_precos">
-              <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                {{ value[0].preco  | currency:'BRL':true:'1.2-5' }}
-              </ng-template>
-            </ngx-datatable-column>
-
-          </ngx-datatable>
+          <h4 color="primary" class="dialog-headline">Incluir Item</h4>
+          <mat-accordion>
+            <mat-expansion-panel (opened)="panelOpenState = true"
+                                 (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Produtos
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-form-field>
+                <input matInput type='text' class="form-control" placeholder='Digite para filtrar...'
+                  (keyup)='updateFilter($event)' />
+              </mat-form-field>
+              <ngx-datatable #table class='material striped fontTable' [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50"
+                [rowHeight]="'auto'" [limit]="5" [rows]='rows' [loadingIndicator]="loadingIndicator" [selected]="selected"
+                [selectionType]="'single'" (select)='onSelect($event)'>
+    
+                <ngx-datatable-column [flexGrow]="0.5" name="Código" prop="codigo_catalogo">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value }}
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [flexGrow]="1.5" name="Nome" prop="nome">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template >
+                    {{ value }}
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [flexGrow]="1" name="Embalagem" prop="produto_embalagem">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value.nome }}
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [flexGrow]="0.5" name="Minímo" prop="produto_embalagem">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value.minimo }}
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [flexGrow]="0.5" name="Unidade" prop="produto_embalagem">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value.unidade.sigla }}
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [flexGrow]="1" name="Cores" prop="produto_cores">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ transform(value) }}
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [flexGrow]="1" name="Tamanhos" prop="produto_tamanhos">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ transform(value) }}
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [flexGrow]="0.5" name="Preço" prop="produto_estados_precos">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    {{ value[0].preco  | currency:'BRL':true:'1.2-5' }}
+                  </ng-template>
+                </ngx-datatable-column>
+              </ngx-datatable>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+        <div fxFlex.gt-sm="100%" fxFlex="100" *ngIf="form.get('orcamento_produtos').length > 0">
+          <h4 color="primary" class="headline">Itens da Cotação</h4>
         </div>
         <div formArrayName="orcamento_produtos">
           <div *ngFor="let produto of form.get('orcamento_produtos')['controls']; index as i" [formGroupName]="i">
             <div class="cartOrcamento"> {{produto.get('codigo_catalogo').value}} - {{produto.get('nome').value | slice:0:55}}
               <button (click)="removeItem(i)" mat-icon-button color="warn">
-                <mat-icon>clear</mat-icon>
+                <mat-icon>delete_outline</mat-icon>
               </button>
             </div>
             <ng-container>
               <div fxLayout="row wrap">
+                <mat-form-field fxFlex.gt-sm="16" fxFlex.gt-xs="16" fxFlex="16" appearance="outline">
+                  <mat-label>Tamanho</mat-label>
+                  <input matInput placeholder="Tamanho" formControlName="tamanho" readonly>
+                </mat-form-field>
+
+                <mat-form-field fxFlex.gt-sm="16" fxFlex.gt-xs="16" fxFlex="16" appearance="outline">
+                  <mat-label>Cor</mat-label>
+                  <input matInput placeholder="Cor" formControlName="cor" readonly>
+                </mat-form-field>
+
                 <mat-form-field fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="12" appearance="outline">
                   <mat-label>Qtd.</mat-label>
                   <input matInput placeholder="Qtd" formControlName="quantidade" (blur)="setTotal(i)">
@@ -221,34 +228,41 @@
                   <mat-label>Vlr total</mat-label>
                   <input matInput placeholder="Vlr total" currencyMask formControlName="valor_total">
                 </mat-form-field>
-
-                <mat-form-field fxFlex.gt-sm="16" fxFlex.gt-xs="16" fxFlex="16" appearance="outline">
-                  <mat-label>Tamanho</mat-label>
-                  <input matInput placeholder="Tamanho" formControlName="tamanho" readonly>
-                </mat-form-field>
-
-                <mat-form-field fxFlex.gt-sm="16" fxFlex.gt-xs="16" fxFlex="16" appearance="outline">
-                  <mat-label>Cor</mat-label>
-                  <input matInput placeholder="Cor" formControlName="cor" readonly>
-                </mat-form-field>
               </div>
             </ng-container>
           </div>
           <div *ngIf="form.get('orcamento_produtos')['controls'].length > 0" fxLayoutAlign="end center">
             <button mat-button color="warn" (click)="clearProdutos()"><i
-                class="material-icons">delete_outline</i>Limpar</button>
+                class="material-icons">delete_forever</i>Limpar Tudo</button>
           </div>
         </div>
       </div>
-    </form>
-    <div *ngIf="valorTotal() != 0" style="margin-top: -40px; color: black; text-align: left;">
+    <div *ngIf="valorTotal() != 0" style="text-align: left; margin-bottom: 2rem;">
       <tr>
-        <th style="color: red;">Valor Total: {{valorTotal() | currency:'BRL':true:'1.2-5'}}</th>
+        <th style="color: green;">Valor Total: {{valorTotal() | currency:'BRL':true:'1.2-5'}}</th>
       </tr>
     </div>
-    <div style="margin-top: 20px; margin-left:5px">
-      <button mat-raised-button color="primary" (click)="enviarPedido()" [disabled]="!form.valid">Finalizar</button>
+    <div fxLayout="row wrap" class="row">
+    <div class="p-10" fxFlex.gt-sm="15" fxFlex.gt-md="15" fxFlex.gt-xs="15" fxFlex="100">
+      <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
+      [floatLabel]="form.value.floatLabel">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="situation">
+          <mat-option>-- Selecione... --</mat-option>
+          <mat-option [value]=0>Em Análise da Assistente</mat-option>
+          <mat-option [value]=1>Ag. Aprovação do Cliente</mat-option>
+          <mat-option [value]=2>Cotação Aprovada</mat-option>
+          <mat-option [value]=3>Cotação Cancelada</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <small *ngIf="form.get('situation').errors?.required && form.get('situation').touched"
+      class="text-danger font-14">Você precisa selecionar o status.</small>
+    </div>
+    <div style="margin-top: 18px; margin-left:5px">
+      <button mat-raised-button color="primary" (click)="enviarPedido()" [disabled]="!form.valid">Salvar</button>
       <button mat-raised-button color="warn" (click)="dialogRef.close()" style="margin-left: 10px;">Cancelar</button>
     </div>
+  </div>
+</form>
   </div>
 </div>

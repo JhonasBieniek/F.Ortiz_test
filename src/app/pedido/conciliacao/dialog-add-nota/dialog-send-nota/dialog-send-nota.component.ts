@@ -92,12 +92,12 @@ export class DialogSendNotaComponent implements OnInit {
     });
   }
   totalNota(){
-    let total = 0;
+    let total:any = 0;
     let desconto = this.data.desconto /100;
     this.rows.map( produto => {
       total  = total + (produto.quantidade_recebida * produto.valor_unitario - (produto.quantidade_recebida * produto.valor_unitario * desconto));
     });
-    return total;
+    return total.toFixed(2);
   }
 
   totalNotaBruto(){
@@ -115,8 +115,7 @@ export class DialogSendNotaComponent implements OnInit {
         }
       }
     });
-    console.log(ipiTotal, 'ipi');
-    return total;
+    return total.toFixed(2);
   }
 
   criaParcelas() {

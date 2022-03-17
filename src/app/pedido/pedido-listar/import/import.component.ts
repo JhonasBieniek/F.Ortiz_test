@@ -960,8 +960,8 @@ export class ImportComponent implements OnInit {
 
     let desconto = (total * this.form.get("desconto").value) / 100;
     let subst = this.form.get("subst").value > 0 ? this.form.get("subst").value : 0 ;
-    this.form.get("valor_liquido").setValue(total - desconto);
-    this.form.get("valor_total").setValue(total + ipi - desconto + subst);
+    this.form.get("valor_liquido").setValue((total - desconto).toFixed(2));
+    this.form.get("valor_total").setValue((total + ipi - desconto + subst).toFixed(2));
     // if(this.ValorTotal > 0){  
     //   if (this.form.get("valor_total").value > (this.ValorTotal + ipi)){
     //     this.disabled = true;
@@ -970,7 +970,7 @@ export class ImportComponent implements OnInit {
     //   }
     // }  
     if (tipo == "total") return this.form.get("valor_total").value;
-    else if (tipo == "ipi") return ipi;
+    else if (tipo == "ipi") return ipi.toFixed(2);
     else return total - desconto;
   }
 

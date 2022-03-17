@@ -64,6 +64,7 @@ import { DialogBodyProdutoClassificacaoComponent } from './classificacoes/dialog
 import { RelatorioClientePedidosComponent } from './cliente/dialog-body/relatorio-cliente-pedidos/relatorio-cliente-pedidos.component';
 import { DialogProdutosCorporativoComponent } from './cliente/dialog-body/dialog-produtos-corporativo/dialog-produtos-corporativo.component';
 import { DialogRepresentadaConfirmacaoComponent } from './cliente/dialog-body/dialog-produtos-corporativo/dialog-representada-confirmacao/dialog-representada-confirmacao.component';
+import { NgxCurrencyModule } from 'ngx-currency';
 
 
 
@@ -79,6 +80,7 @@ import { DialogRepresentadaConfirmacaoComponent } from './cliente/dialog-body/di
     FlexLayoutModule,
     QuillModule,
     FileUploadModule,
+    NgxCurrencyModule,
     NgxDatatableModule,
     SelectAutocompleteModule,
     NgxMaskModule.forRoot(),

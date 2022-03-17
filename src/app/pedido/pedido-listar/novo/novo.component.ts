@@ -666,11 +666,10 @@ export class NovoComponent implements OnInit {
       total +=
         element.get("quantidade").value * element.get("valor_unitario").value;
     });
-    ipi = parseFloat((Math.ceil(ipi*20)/20).toFixed(2));
     let desconto = (total * this.form.get("desconto").value) / 100;
     let subst = this.form.get("subst").value > 0 ? this.form.get("subst").value : 0 ;
-    this.form.get("valor_liquido").setValue(total - desconto);
-    this.form.get("valor_total").setValue((total + Math.round(ipi) - desconto + subst));
+    this.form.get("valor_liquido").setValue((total - desconto).toFixed(2));
+    this.form.get("valor_total").setValue((total + ipi - desconto + subst).toFixed(2));
     // if(this.ValorTotal > 0){  
     //   if (this.form.get("valor_total").value > (this.ValorTotal + ipi)){
     //     this.disabled = true;
@@ -679,7 +678,7 @@ export class NovoComponent implements OnInit {
     //   }
     // }  
     if (tipo == "total") return this.form.get("valor_total").value;
-    else if (tipo == "ipi") return Math.round(ipi);
+    else if (tipo == "ipi") return ipi.toFixed(2);
     else return total - desconto;
   }
 

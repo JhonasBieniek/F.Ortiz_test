@@ -132,7 +132,7 @@ export class DialogRankingPrintComponent implements OnInit {
     notas.forEach( nota => {
       nota.nota_produtos.forEach( produto => {
         if(produto.qtd > 0){
-          total = total + (produto.qtd * produto.pedido_produto.valor_unitario - (produto.qtd * produto.pedido_produto.valor_unitario * produto.pedido_produto.desconto/100));
+          total += (produto.qtd * produto.pedido_produto.valor_unitario - (produto.qtd * produto.pedido_produto.valor_unitario * produto.pedido_produto.desconto/100));
         }
       });
     });
@@ -143,12 +143,13 @@ export class DialogRankingPrintComponent implements OnInit {
     let total = 0;
     notas.forEach( nota => {
       nota.nota_produtos.forEach( produto => {
+        let valor = (produto.qtd * produto.pedido_produto.valor_unitario) - (produto.qtd * produto.pedido_produto.valor_unitario * produto.pedido_produto.desconto/100);
         if(produto.qtd > 0){
           let ipi = 0;
           if(produto.pedido_produto.ipi){
-            ipi = (produto.qtd * produto.pedido_produto.valor_unitario * produto.pedido_produto.ipi) / 100;
+            ipi = (valor * produto.pedido_produto.ipi) / 100;
           }
-          total += (produto.qtd * produto.pedido_produto.valor_unitario) + ipi - (produto.qtd * produto.pedido_produto.valor_unitario * produto.pedido_produto.desconto/100);
+          total += valor + ipi;
         }
       });
     });

@@ -222,7 +222,8 @@
                       </mat-form-field>
                       <mat-form-field fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="12" appearance="outline">
                         <mat-label>IPI</mat-label>
-                        <input matInput placeholder="IPI" formControlName="ipi" mask="percent" suffix="%">
+                        <input class="text-right" matInput placeholder="IPI" formControlName="ipi" >
+                        <span matSuffix class="descontoSuffix">%</span>
                       </mat-form-field>
                       <mat-form-field fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="15" appearance="outline">
                         <mat-label>Valor Unit.</mat-label>
@@ -231,8 +232,8 @@
                       </mat-form-field>
                       <mat-form-field fxFlex.gt-sm="16" fxFlex.gt-xs="16" fxFlex="16" appearance="outline">
                         <mat-label>Comissão</mat-label>
-                        <input matInput placeholder="Comissão" formControlName="comissao_produto" mask="percent" suffix="%"
-                          >
+                        <input class="text-right" matInput placeholder="Comissão" formControlName="comissao_produto">
+                        <span matSuffix class="descontoSuffix">%</span>
                       </mat-form-field>
                       <mat-form-field fxFlex.gt-sm="14" class="itens" fxFlex.gt-xs="14" fxFlex="14" appearance="outline">
                         <mat-label>Tamanho</mat-label>

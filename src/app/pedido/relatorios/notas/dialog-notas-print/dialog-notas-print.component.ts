@@ -18,10 +18,10 @@ export class DialogNotasPrintComponent implements OnInit {
       notas['valor_total'] = 0;
       notas['valor_liquido'] = 0;
       notas.nota_produtos.forEach( produto => {
-        notas['valor_total'] =  ((produto.qtd * produto.pedido_produto.valor_unitario) 
-        - (produto.qtd * produto.pedido_produto.valor_unitario * produto.pedido_produto.desconto)/100) 
-        + ((produto.qtd * produto.pedido_produto.valor_unitario * produto.pedido_produto.ipi)/100)
-        + notas['valor_total'];
+        let valor = ((produto.qtd * produto.pedido_produto.valor_unitario) - (produto.qtd * produto.pedido_produto.valor_unitario * produto.pedido_produto.desconto)/100);
+        let ipi = (valor * produto.pedido_produto.ipi)/100;
+
+        notas['valor_total'] +=  valor + ipi;
         notas['valor_liquido'] = ((produto.qtd * produto.pedido_produto.valor_unitario) - (produto.qtd * produto.pedido_produto.valor_unitario * produto.pedido_produto.desconto)/100 ) + notas['valor_liquido'];
       });
     });

@@ -11,7 +11,8 @@
                 <div class="p-10">
                     <img src="./assets/images/logo.png" alt="logo">
                 </div>
-                <div class="p-t-10 p-l-10 text-left" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100"><span style="font-weight: 500;"> Relatório de Faturamento por Grupo de Áreas de Vendas</span></div>
+                <div class="p-t-10 p-l-10 text-left" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100"><span
+                        style="font-weight: 500;"> Relatório de Faturamento por Grupo de Áreas de Vendas - {{this.data.form.dtInicio | date:'dd/MM/yyyy'}} até {{this.data.form.dtFinal | date:'dd/MM/yyyy'}}</span></div>
                 <!-- <div class="p-l-10 text-left formInputs" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="data.form.dtInicio != null"> Inicio: {{data.form.dtInicio | date:'dd/MM/yyyy'}}</div>
                 <div class="p-l-10 text-left formInputs" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" *ngIf="data.form.dtFinal != null"> Fim: {{data.form.dtFinal | date:'dd/MM/yyyy'}}</div> -->
                 <!-- <div class="p-10 text-left" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">Período de: {{data.inicial | date:'dd/MM/yyyy'}} até {{data.final | date:'dd/MM/yyyy'}}</div> -->
@@ -21,78 +22,128 @@
                             <li *ngFor="let representada of representadas; let indexRep = index" class="m-b-20">
                                 <div fxLayout="row wrap">
                                     <div fxFlex="100" class="p-b-10 p-t-10">
-                                        <span style="color: black; font-weight: bold; font-size: 14px;">{{representada.razao_social}}</span>
+                                        <span
+                                            style="color: black; font-weight: bold; font-size: 14px;">{{representada.razao_social}}</span>
                                     </div>
                                     <div fxFlex="100" *ngFor="let grupo of representada.grupos; let indexGrupo = index">
                                         <div fxLayout="row wrap">
                                             <div fxFlex="100" class="p-b-10 p-t-10 text-center">
-                                                <span style="color: black; font-weight: bold; font-size: 13px;">{{grupo.grupo_name}}</span>
+                                                <span
+                                                    style="color: black; font-weight: bold; font-size: 11px;">{{grupo.grupo_name}}</span>
                                             </div>
                                             <div fxFlex="100" class="title-style">
-                                                <div fxFlex="25" class="text-left">
+                                                <div fxFlex="10" class="text-left">
                                                     Área de Venda
                                                 </div>
-                                                <div fxFlex="25" class="text-right">
-                                                    Total de Pedidos
+                                                <div fxFlex="15" class="text-right">
+                                                    Total Liq.
                                                 </div>
-                                                <div fxFlex="25" class="text-right">
-                                                    Pedidos Faturados
+                                                <div fxFlex="15" class="text-right">
+                                                    Total Bruto
                                                 </div>
-                                                <div fxFlex="25" class="text-right">
-                                                    Pedidos Abertos
+                                                <div fxFlex="15" class="text-right">
+                                                    Faturados Liq.
+                                                </div>
+                                                <div fxFlex="15" class="text-right">
+                                                    Faturados Bruto
+                                                </div>
+                                                <div fxFlex="15" class="text-right">
+                                                    Abertos Liq.
+                                                </div>
+                                                <div fxFlex="15" class="text-right">
+                                                    Abertos Bruto
                                                 </div>
                                             </div>
-                                            <div fxFlex="100" *ngFor="let area of grupo.areas; let indexArea = index" class="area-style">
-                                                <div fxFlex="25" class="text-left">
+                                            <div fxFlex="100" *ngFor="let area of grupo.areas; let indexArea = index"
+                                                class="area-style">
+                                                <div fxFlex="10" class="text-left">
                                                     {{ area.nome }}
                                                 </div>
-                                                <div fxFlex="25" class="text-right">
+                                                <div fxFlex="15" class="text-right">
                                                     {{ area.total | currency:'BRL':'symbol':'1.2-5'}}
                                                 </div>
-                                                <div fxFlex="25" class="text-right">
+                                                <div fxFlex="15" class="text-right">
+                                                    {{ area.total_bruto | currency:'BRL':'symbol':'1.2-5'}}
+                                                </div>
+                                                <div fxFlex="15" class="text-right">
                                                     {{ area.faturado | currency:'BRL':'symbol':'1.2-5'}}
                                                 </div>
-                                                <div fxFlex="25" class="text-right">
+                                                <div fxFlex="15" class="text-right">
+                                                    {{ area.faturado_bruto | currency:'BRL':'symbol':'1.2-5'}}
+                                                </div>
+                                                <div fxFlex="15" class="text-right">
                                                     {{ area.aberto | currency:'BRL':'symbol':'1.2-5'}}
+                                                </div>
+                                                <div fxFlex="15" class="text-right">
+                                                    {{ area.aberto_bruto | currency:'BRL':'symbol':'1.2-5'}}
                                                 </div>
                                             </div>
                                             <div fxFlex="100" class="area-style" style="font-weight: bold;">
-                                                <div fxFlex="25" class="text-left">
+                                                <div fxFlex="10" class="text-left">
                                                     Total do Grupo
                                                 </div>
-                                                <div fxFlex="25" class="text-right">
+                                                <div fxFlex="15" class="text-right">
                                                     {{ grupo.total | currency:'BRL':'symbol':'1.2-5'}}
                                                 </div>
-                                                <div fxFlex="25" class="text-right">
+                                                <div fxFlex="15" class="text-right">
+                                                    {{ grupo.total_bruto | currency:'BRL':'symbol':'1.2-5'}}
+                                                </div>
+                                                <div fxFlex="15" class="text-right">
                                                     {{ grupo.total_faturado | currency:'BRL':'symbol':'1.2-5'}}
                                                 </div>
-                                                <div fxFlex="25" class="text-right">
+                                                <div fxFlex="15" class="text-right">
+                                                    {{ grupo.total_faturado_bruto | currency:'BRL':'symbol':'1.2-5'}}
+                                                </div>
+                                                <div fxFlex="15" class="text-right">
                                                     {{ grupo.total_aberto | currency:'BRL':'symbol':'1.2-5'}}
+                                                </div>
+                                                <div fxFlex="15" class="text-right">
+                                                    {{ grupo.total_aberto_bruto | currency:'BRL':'symbol':'1.2-5'}}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div fxFlex="100" class="area-style m-t-10" style="font-weight: bold;">
-                                        <div fxFlex="25" class="text-left">
+                                    <div fxFlex="100" class="area-style m-t-30" style="font-weight: bold;">
+                                        <div fxFlex="10" class="text-left">
                                             Total da Representada
                                         </div>
-                                        <div fxFlex="25" class="text-right">
+                                        <div fxFlex="15" class="text-right">
                                             {{ representada.total | currency:'BRL':'symbol':'1.2-5'}}
                                         </div>
-                                        <div fxFlex="25" class="text-right">
+                                        <div fxFlex="15" class="text-right">
+                                            {{ representada.total_bruto | currency:'BRL':'symbol':'1.2-5'}}
+                                        </div>
+                                        <div fxFlex="15" class="text-right">
                                             {{ representada.total_faturado | currency:'BRL':'symbol':'1.2-5'}}
                                         </div>
-                                        <div fxFlex="25" class="text-right">
+                                        <div fxFlex="15" class="text-right">
+                                            {{ representada.total_faturado_bruto | currency:'BRL':'symbol':'1.2-5'}}
+                                        </div>
+                                        <div fxFlex="15" class="text-right">
                                             {{ representada.total_aberto | currency:'BRL':'symbol':'1.2-5'}}
+                                        </div>
+                                        <div fxFlex="15" class="text-right">
+                                            {{ representada.total_aberto_bruto | currency:'BRL':'symbol':'1.2-5'}}
                                         </div>
                                     </div>
                                 </div>
                             </li>
                         </ul>
-                        <div fxFlex="100" class="p-b-10 p-t-20 text-center"  style="color: black; font-weight: bold; font-size: 13px; font-family: Verdana, Tahoma, Arial, Sans-serif;">
-                            <span >PEDIDOS: {{total.total_pedidos | currency:'BRL':'symbol':'1.2-5'}}</span>
-                            <span class="p-l-10">FATURADOS: {{total.total_faturado | currency:'BRL':'symbol':'1.2-5'}}</span>
-                            <span class="p-l-10"> ABERTOS: {{total.total_aberto | currency:'BRL':'symbol':'1.2-5'}}</span>
+                        <div fxFlex="100" class="p-b-10 p-t-20 text-center"
+                            style="color: black; font-weight: bold; font-size: 11px; font-family: Verdana, Tahoma, Arial, Sans-serif;">
+                            <span>PEDIDOS(Liq): {{total.total_pedidos | currency:'BRL':'symbol':'1.2-5'}}</span>
+                            <span class="p-l-10">FATURADOS(Liq):
+                                {{total.total_faturado | currency:'BRL':'symbol':'1.2-5'}}</span>
+                            <span class="p-l-10"> ABERTOS(Liq):
+                                {{total.total_aberto | currency:'BRL':'symbol':'1.2-5'}}</span>
+                        </div>
+                        <div fxFlex="100" class="p-b-10 p-t-20 text-center"
+                            style="color: black; font-weight: bold; font-size: 11px; font-family: Verdana, Tahoma, Arial, Sans-serif;">
+                            <span>PEDIDOS(Bruto): {{total.total_pedidos_bruto | currency:'BRL':'symbol':'1.2-5'}}</span>
+                            <span class="p-l-10">FATURADOS(Bruto):
+                                {{total.total_faturado_bruto | currency:'BRL':'symbol':'1.2-5'}}</span>
+                            <span class="p-l-10"> ABERTOS(Bruto):
+                                {{total.total_aberto_bruto | currency:'BRL':'symbol':'1.2-5'}}</span>
                         </div>
                     </div>
                 </div>

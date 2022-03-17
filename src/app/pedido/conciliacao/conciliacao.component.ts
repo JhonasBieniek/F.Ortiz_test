@@ -54,15 +54,16 @@ export class ConciliacaoComponent implements OnInit {
     this.clientservice.getNotas().subscribe((res:any) =>{
       let i = 0;
       this.steps.forEach(e => {
-        this.temp[i] = res.data.filter(d => {
-          if(d.status == 'parcial' && e.step == 'aberto') {
-            d.status = 'parcial'
-            return d 
-          }
-          if (d.status == e.step)
-          return d 
-          });
-        i++;
+        this.temp[i] = res.data
+        // this.temp[i] = res.data.filter(d => {
+        //   if(d.status == 'parcial' && e.step == 'aberto') {
+        //     d.status = 'parcial'
+        //     return d 
+        //   }
+        //   if (d.status == e.step)
+        //   return d 
+        //   });
+        // i++;
       });
       this.rows = [...this.temp].sort((a,b)=> a.id - b.id);
     });
@@ -118,7 +119,9 @@ export class ConciliacaoComponent implements OnInit {
     const val = event.target.value.toLowerCase();
     this.rows[this.defaultTab] = this.temp[this.defaultTab].filter(d => {
       if( d.num_nota.toLowerCase().indexOf(val) !== -1 || !val 
-      || d.pedido.num_pedido.toLowerCase().indexOf(val) !== -1 || !val)
+      || d.pedido.num_pedido.toLowerCase().indexOf(val) !== -1 || !val
+      || d.pedido.representada.nome_fantasia.toLowerCase().indexOf(val) !== -1 || !val
+      || d.status.toLowerCase().indexOf(val) !== -1 || !val)
       return d
     });
   }

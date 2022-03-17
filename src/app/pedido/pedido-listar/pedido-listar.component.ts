@@ -58,8 +58,9 @@ export class PedidoListarComponent implements OnInit {
     this.clientservice.getPedidos().subscribe((res:any) =>{
       let i = 0;
       this.steps.forEach(e => {
-        this.temp[i] = res.data.filter(d => d.situacao == e.step);
-        i++;
+       this.temp[i] = res.data;
+        // this.temp[i] = res.data.filter(d => d.situacao == e.step);
+        // i++;
       });
       this.rows = [...this.temp].sort((a,b)=> a.id - b.id);
     });                     

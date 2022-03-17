@@ -15,7 +15,6 @@ import { DialogCancelarOrcamentosAntigosComponent } from './dialog-cancelar-orca
   selector: 'app-orc-listar',
   templateUrl: './orc-listar.component.html',
   styleUrls: ['./orc-listar.component.css'],
-  encapsulation: ViewEncapsulation.None
 })
 
 export class OrcListarComponent implements OnInit {
@@ -36,7 +35,6 @@ export class OrcListarComponent implements OnInit {
   isEditable = {};
 
   dialogConfig = new MatDialogConfig();
-
 
   constructor(
     private clientservice: ClientService,
@@ -59,8 +57,10 @@ export class OrcListarComponent implements OnInit {
 
   ngOnInit() {
     this.dialogConfig = {
-      width: '98vw',
-      height: '98vh'
+      maxWidth: '95vw',
+      maxHeight: '95vh',
+      width: '100vw',
+      height: '100vh'
     } 
 
     this.route.queryParams.subscribe(params => {
