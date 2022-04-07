@@ -127,9 +127,15 @@ export class PedidoListarComponent implements OnInit {
   }
 
   view(row){
+    this.dialogConfig = {
+      maxWidth: '95vw',
+      maxHeight: '95vh',
+      width: '95vw',
+      height: '95vh'
+    }
     this.dialogConfig.data = {
       tipo: 'pedidos',
-      pedido: row
+      pedido: row,
     }
     let dialogRef = this.dialog.open(ViewPedidoOrcamentoComponent, this.dialogConfig);
     dialogRef.afterClosed().subscribe(value =>{

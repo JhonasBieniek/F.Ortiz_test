@@ -38,6 +38,7 @@ export class DialogProdPedidoComponent implements OnInit {
       ipi: this.data.ipi,
       valor_unitario: [this.data.produto_estados_precos[0].preco],
       tamanho: [null],
+      obs: [null],
       quantidade: [null,Validators.required],
       cor: [ this.cores[0].nome],
       valor_total: [null,Validators.required]

@@ -4,7 +4,7 @@
       <h4 color="primary" class="dialog-headline">Ajuste de Produto</h4>
       <form [formGroup]="form" class="form text-size">
         <div fxLayout="row wrap" class="row">
-          <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="30" fxFlex="100">
+          <div class="p-10" fxFlex.gt-sm="18" fxFlex.gt-xs="18" fxFlex="100">
             <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
               [floatLabel]="form.value.floatLabel">
               <mat-label>Cor</mat-label>
@@ -16,7 +16,7 @@
               <mat-placeholder>Cores</mat-placeholder>
             </mat-form-field>
           </div>
-          <div class="p-10" fxFlex.gt-sm="18" fxFlex.gt-xs="30" fxFlex="100">
+          <div class="p-10" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
             <mat-form-field appearance="outline" [hideRequiredMarker]="form.value.hideRequired"
               [floatLabel]="form.value.floatLabel">
               <mat-label>Tamanho</mat-label>
@@ -28,27 +28,35 @@
               <mat-placeholder>Tamanho</mat-placeholder>
             </mat-form-field>
           </div>
-          <div class="p-10" fxFlex.gt-sm="16" fxFlex.gt-xs="30" fxFlex="100">
+          <div class="p-10" fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Qtd</mat-label>
               <input matInput placeholder="quantidade" formControlName="quantidade" (blur)="setTotal()">
             </mat-form-field>
           </div>
-          <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="30" fxFlex="100">
+          <div class="p-10" fxFlex.gt-sm="16" fxFlex.gt-xs="16" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Vlr Unit.</mat-label>
               <input matInput placeholder="Valor unit." formControlName="valor_unitario" (blur)="setTotal()"
                 currencyMask>
             </mat-form-field>
           </div>
-          <div class="p-10" fxFlex.gt-sm="20" fxFlex.gt-xs="33" fxFlex="100">
+          <div class="p-10" fxFlex.gt-sm="18" fxFlex.gt-xs="18" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Vlr total</mat-label>
               <input matInput placeholder="Vlr total" currencyMask formControlName="valor_total" readonly>
             </mat-form-field>
           </div>
-          <div class="p-t-10 m-t-20">
-            <i class="material-icons plus-icons" style="cursor: pointer;" (click)="addProduto()">add_circle_outline</i>
+          <div class="p-10" fxFlex.gt-sm="18" fxFlex.gt-xs="18" fxFlex="100">
+            <mat-form-field appearance="outline">
+              <mat-label>Obs</mat-label>
+              <input matInput placeholder="Obs" formControlName="obs">
+            </mat-form-field>
+          </div>
+          <div class="p-10" fxFlex.gt-sm="5" fxFlex.gt-xs="5" fxFlex="100">
+            <div class="m-t-20">
+              <i class="material-icons plus-icons" style="cursor: pointer;" (click)="addProduto()">add_circle_outline</i>
+            </div>
           </div>
         </div> 
       </form>

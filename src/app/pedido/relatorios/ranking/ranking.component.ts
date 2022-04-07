@@ -36,7 +36,6 @@ export class RankingComponent implements OnInit {
         nome_fantasia: null
       })
       this.representadas.push(...res.data);
-      console.log(this.representadas)
     });
     
   }

@@ -368,7 +368,7 @@ export class NovoComponent implements OnInit {
             : this.representada.comissao_padrao != null
               ? this.representada.comissao_padrao
               : 0,
-        obs: "",
+        obs: item.obs,
       })
     );
   }

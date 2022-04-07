@@ -25,8 +25,11 @@
     <b>Data de Emissão: </b>{{dados?.data_emissao | date:'dd/MM/yyyy'}}<br>
     <b>Transportadora: </b>{{dados?.transportadora}}<br>
     <b>Frete: </b>{{dados?.frete}} - <b>Previsão de Entrega: </b>{{dados?.prazo_entrega}}<br>
+    <b>Desconto: </b>{{dados?.desconto}}<span *ngIf="dados?.desconto">%</span><br>
+    <b>Valor Líquido: </b>{{dados?.valor_liquido | currency:'BRL':true:'1.2-5'}}<br>
     <b>Valor Total da Nota: </b>{{dados?.valor_total | currency:'BRL':true:'1.2-5'}}<br>
     <b>Comissão Média:</b> {{dados?.comissao_media}}% <br>
+    <b>Observação:</b> {{dados?.obs}}<br>
   </div>
 </div>
 <mat-form-field>
@@ -72,6 +75,12 @@
     </ng-template>
   </ngx-datatable-column>
 
+  <ngx-datatable-column [flexGrow]="0.5" name="IPI" prop="ipi">
+    <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+      {{ value }} %
+    </ng-template>
+  </ngx-datatable-column>
+
   <ngx-datatable-column [flexGrow]="1" name="Vlr Unitário" prop="valor_unitario">
     <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
       {{ value | currency:'BRL':true:'1.2-5' }}
@@ -93,6 +102,12 @@
   <ngx-datatable-column [flexGrow]="0.8" name="Comisão" prop="comissao_produto">
     <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
       {{ value }} %
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column [flexGrow]="1" name="Obs" prop="obs">
+    <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+      {{ value }} 
     </ng-template>
   </ngx-datatable-column>
 
