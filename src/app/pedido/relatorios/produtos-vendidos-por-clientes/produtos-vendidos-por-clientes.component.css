@@ -12,3 +12,9 @@
   font-weight: bold;
   margin-right: -10px;
 }
+
+.show-title {
+  padding: 0.2em;
+  background-color: dodgerblue;
+  color: white;
+}

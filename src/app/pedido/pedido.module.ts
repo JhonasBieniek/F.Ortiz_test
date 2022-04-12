@@ -71,6 +71,7 @@ import { NovosClientesComprasComponent } from './relatorios/novos-clientes-compr
 import { DialogNovosClientesPrintComponent } from './relatorios/novos-clientes-compras/dialog-novos-clientes-print/dialog-novos-clientes-print.component';
 import { FaturamentoPorGruposComponent } from './relatorios/faturamento-por-grupos/faturamento-por-grupos.component';
 import { DialogFaturamentoGruposPrintComponent } from './relatorios/faturamento-por-grupos/dialog-faturamento-grupos-print/dialog-faturamento-grupos-print.component';
+import { DialogProdutosVendidosClientComponent } from './relatorios/produtos-vendidos-por-clientes/dialog-produtos-vendidos-client-print/dialog-produtos-vendidos-client-print.component';
 
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
@@ -152,7 +153,8 @@ export const customCurrencyMaskConfig = {
     NovosClientesComprasComponent,
     DialogNovosClientesPrintComponent,
     FaturamentoPorGruposComponent,
-    DialogFaturamentoGruposPrintComponent
+    DialogFaturamentoGruposPrintComponent,
+    DialogProdutosVendidosClientComponent
   ],
   providers: [
     DateFormatPipe,
@@ -192,7 +194,8 @@ export const customCurrencyMaskConfig = {
     DialogCancelarOrcamentoComponent,
     DialogCancelarOrcamentosAntigosComponent,
     DialogNovosClientesPrintComponent,
-    DialogFaturamentoGruposPrintComponent
+    DialogFaturamentoGruposPrintComponent,
+    DialogProdutosVendidosClientComponent
   ],
   exports: [ViewPedidoOrcamentoComponent]
 })

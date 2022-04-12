@@ -159,7 +159,7 @@
           <div class="p-10 aj" fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="100">
             <mat-form-field appearance="outline">
               <mat-label>Ipi</mat-label>
-              <input matInput placeholder="Ipi" formControlName="ipi" type="digits" mask="percent" suffix="%" [readonly]="readonly">
+              <input matInput placeholder="Ipi" formControlName="ipi" type="text" mask="percent" suffix="%" [readonly]="readonly" [dropSpecialCharacters]="false">
             </mat-form-field>
           </div>
           <div class="p-10 aj" fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">

@@ -3,92 +3,112 @@
         <mat-card class="no-shadow">
             <mat-card-content>
                 <form [formGroup]="form">
-                    <mat-card-title class="title">Relatório de Produtos Vendidos por Clientes</mat-card-title>
+                    <mat-card-title class="title">Relatório de Produto comprado por cliente</mat-card-title>
+                    <mat-divider></mat-divider>
                     <div fxLayout="row wrap" class="row">
                         <div class="p-10 text" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
                             <mat-form-field appearance="outline">
                                 <mat-label>Representada</mat-label>
-                                <mat-select>
-                                    <!--mat-option *ngFor="let representada of representadas" [value]="representada.id">
+                                <mat-select formControlName="representada_id">
+                                    <mat-option [value]=null></mat-option>
+                                    <mat-option *ngFor="let representada of representadas" [value]="representada.id">
                                         {{representada.nome_fantasia}}
-                                    </mat-option-->
+                                    </mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
                         <div class="p-10 text" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Cliente</mat-label>
-                                <mat-select>
-                                    <mat-option value=""></mat-option>
-                                    <mat-option value=""></mat-option>
-                                    <mat-option value=""></mat-option>
-                                    <mat-option value=""></mat-option>
-                                </mat-select>
+                            <mat-form-field appearance="outline" fxFlex="100">
+                                <input type="text" placeholder="Busque o cliente" aria-label="Cliente" matInput
+                                    [formControl]="clienteBusca" (keyup)="searchCliente()"
+                                    [matAutocomplete]="autoCliente">
+                                <button mat-button matSuffix mat-icon-button aria-label="Clear" type="button"
+                                    *ngIf="form.controls['cliente_id'].value != null">
+                                    <mat-icon color="warn" (click)="limpar();">close</mat-icon>
+                                </button>
+                                <mat-autocomplete autoActiveFirstOption #autoCliente="matAutocomplete">
+                                    <mat-option *ngFor="let cliente of $clientes" (click)="setCliente(cliente)"
+                                        (onSelectionChange)="setCliente(cliente)" [value]="cliente.razao_social">
+                                        {{cliente.razao_social}} - CNPJ: {{cliente.cnpj | mask:'00.000.000/0000-00'}}
+                                    </mat-option>
+                                </mat-autocomplete>
                             </mat-form-field>
                         </div>
-                        <div class="order text" fxFlex.gt-sm="8" fxFlex.gt-xs="8" fxFlex="100">
-                            Período:
+                        <div class="p-l-10 p-r-10 text" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+                            <mat-form-field appearance="outline" fxFlex="100">
+                                <input type="text" placeholder="Busque o produto" aria-label="Produto" matInput
+                                    [formControl]="produtosBusca" (keyup)="searchProduto()"
+                                    [matAutocomplete]="autoProduto">
+                                <button mat-button matSuffix mat-icon-button aria-label="Clear" type="button"
+                                    *ngIf="form.controls['produto_id'].value != null">
+                                    <mat-icon color="warn" (click)="limparProduto();">close</mat-icon>
+                                </button>
+                                <mat-autocomplete autoActiveFirstOption #autoProduto="matAutocomplete">
+                                    <mat-option *ngFor="let produto of $produtos" (click)="setProduto(produto)"
+                                        (onSelectionChange)="setProduto(produto)" [value]="produto.nome" style="font-size: 12px;">
+                                        Importação: {{produto.codigo_importacao}} - Catalogo: {{produto.codigo_catalogo}} - {{produto.nome}} - Representada: {{produto.representada.nome_fantasia}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                        <div class="show-title" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <span class="p-l-10"> Período</span>
+                        </div>
+
+                        <div class="p-10 text" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Data de Inicio</mat-label>
+                                <input matInput [matDatepicker]="mesInicio" placeholder="Mês Înicio" formControlName="dtInicio">
+                                <mat-datepicker-toggle matSuffix [for]="mesInicio"></mat-datepicker-toggle>
+                                <mat-datepicker #mesInicio></mat-datepicker>
+                            </mat-form-field>
                         </div>
                         <div class="p-10 text" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
                             <mat-form-field appearance="outline">
-                                <mat-label>Data inicial</mat-label>
-                                <input matInput [matDatepicker]="" 
-                                    placeholder="Data inicial">
-                                <mat-datepicker-toggle matSuffix [for]=""></mat-datepicker-toggle>
-                                <mat-datepicker #picker></mat-datepicker>
+                                <mat-label>Data de Fim</mat-label>
+                                <input matInput [matDatepicker]="anoInicio" placeholder="Ano Inicial" formControlName="dtFinal">
+                                <mat-datepicker-toggle matSuffix [for]="anoInicio"></mat-datepicker-toggle>
+                                <mat-datepicker #anoInicio></mat-datepicker>
                             </mat-form-field>
                         </div>
-                        <div class="p-10 text" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Data final</mat-label>
-                                <input matInput [matDatepicker]="" 
-                                    placeholder="Data final">
-                                <mat-datepicker-toggle matSuffix [for]=""></mat-datepicker-toggle>
-                                <mat-datepicker #picker2></mat-datepicker>
-                            </mat-form-field>
+                        <!-- <div class="show-title" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <span class="p-l-10"> Tipo de Código</span>
+                        </div> -->
+
+                        <!-- <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
+                            <mat-radio-group appearance="outline" formControlName="codigo">
+                                <mat-radio-button value="produto" class="m-r-10">Código de Produto</mat-radio-button>
+                                <mat-radio-button value="sap" class="m-r-10">Código SAP</mat-radio-button>
+                                <mat-radio-button value="cpp" class="m-r-10">Código CPP</mat-radio-button>
+                            </mat-radio-group>
+                        </div> -->
+                        
+                        <div class="show-title" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <span class="p-l-10">Ordenação</span>
                         </div>
-                        <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
-                            <mat-radio-group appearance="outline">
-                                <mat-radio-button value="" class="m-r-10">Código de Produto</mat-radio-button>
-                                <mat-radio-button value="" class="m-r-10">Código SAP</mat-radio-button>
-                                <mat-radio-button value="" class="m-r-10">Código CPP</mat-radio-button>
+
+                        <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-radio-group appearance="outline" formControlName="ordenacao">
+                                <mat-radio-button value="codigo" class="m-r-10">Código</mat-radio-button>
+                                <mat-radio-button value="nome" class="m-r-10">Nome</mat-radio-button>
                             </mat-radio-group>
                         </div>
-                        <div class="p-10 text" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Relatório de produto específico</mat-label>
-                                <mat-select>
-                                    <mat-option value=""></mat-option>
-                                    <mat-option value=""></mat-option>
-                                    <mat-option value=""></mat-option>
-                                    <mat-option value=""></mat-option>
-                                </mat-select>
-                            </mat-form-field>
+
+                        <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-radio-group appearance="outline" formControlName="tipo">
+                                <mat-radio-button value="asc" class="m-r-10">Crescente</mat-radio-button>
+                                <mat-radio-button value="desc" class="m-r-10">Decrescente</mat-radio-button>
+                            </mat-radio-group>
                         </div>
+
                     </div>
-                    <div fxLayout="row wrap">
-                        <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
-                            <mat-radio-group appearance="outline">
-                                <mat-radio-button value="" class="m-r-10">Código</mat-radio-button>
-                                <mat-radio-button value="" class="m-r-10">Nome</mat-radio-button>
-                                <mat-radio-button value="" class="m-r-10">Qtde Total de Vendida</mat-radio-button>
-                                <mat-radio-button value="" class="m-r-10">Valor Total Vendido</mat-radio-button>
-                            </mat-radio-group>
-                        </div>
-                        <div class="p-10" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100">
-                            <mat-radio-group appearance="outline">
-                                <mat-radio-button value="" class="m-r-10">Crescente</mat-radio-button>
-                                <mat-radio-button value="" class="m-r-10">Decrescente</mat-radio-button>
-                            </mat-radio-group>
-                        </div>
-                    </div>
-                    <div>
+                    <div class="m-t-20">
                         <button mat-raised-button color="primary" type="submit" (click)="submit()">Filtrar</button>
                         <button mat-raised-button class="m-l-10" color="warn" (click)="clear()">Limpar</button>
                     </div>
                 </form>
             </mat-card-content>
         </mat-card>
-        
+
     </div>
 </div>

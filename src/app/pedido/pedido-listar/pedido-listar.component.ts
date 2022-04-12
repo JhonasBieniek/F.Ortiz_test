@@ -78,6 +78,7 @@ export class PedidoListarComponent implements OnInit {
     this.rows[this.defaultTab] = this.temp[this.defaultTab].filter(function(d) {
       if( d.cliente.nome_fantasia.toLowerCase().indexOf(val) !== -1 || !val ||
           d.representada.nome_fantasia.toLowerCase().indexOf(val) !== -1 || !val ||
+          d.cliente.razao_social.toLowerCase().indexOf(val) !== -1 || !val ||
           d.cliente.cnpj.toLowerCase().indexOf(val) !== -1 || !val ||
           d.num_pedido.toLowerCase().indexOf(val) !== -1 || !val )
       return d
