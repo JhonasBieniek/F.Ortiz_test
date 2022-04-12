@@ -151,12 +151,17 @@
                       {{ value }}
                     </ng-template>
                   </ngx-datatable-column>
-                  <ngx-datatable-column [flexGrow]="1.1" name="Representada" prop="representada.nome_fantasia">
+                  <ngx-datatable-column [flexGrow]="1" name="Representada" prop="representada.nome_fantasia">
                     <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                       {{ value }}
                     </ng-template>
                   </ngx-datatable-column>
-                  <ngx-datatable-column [flexGrow]="1.5" name="Comprador" prop="cliente.nome_fantasia">
+                  <ngx-datatable-column [flexGrow]="1.5" name="Nome Fantasia" prop="cliente.nome_fantasia">
+                    <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                      {{ value }}
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column [flexGrow]="1.5" name="Razão Social" prop="cliente.razao_social">
                     <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                       {{ value }}
                     </ng-template>

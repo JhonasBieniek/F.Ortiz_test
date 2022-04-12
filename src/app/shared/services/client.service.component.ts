@@ -839,6 +839,16 @@ export class ClientService {
       });
   }
 
+  produtoPedidos(data) {
+    const uri = `${API_URL}` + `pedidos/produtoPedidos.json`;
+    return this
+      .http
+      .post(uri, data)
+      .map(res => {
+        return res;
+      });
+  }
+
   relatorioClientesSemCompra(data) {
     const uri = `${API_URL}` + `clientes/relatorioClientesSemCompra.json`;
     return this

@@ -20,7 +20,7 @@
           {
             "prop": "representada.nome_fantasia",
             "name": "Representada",
-            "width": 1.5
+            "width": 1
           },
           {
             "prop": "cliente.nome_fantasia",

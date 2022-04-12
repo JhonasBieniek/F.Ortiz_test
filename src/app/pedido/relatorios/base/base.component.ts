@@ -19,6 +19,7 @@ export class BaseComponent implements OnInit {
     // {name:"Faturamento", value: 5},
     {name:"Notas", value: 6},
     {name:"Produtos Vendidos", value: 7},
+    {name:"Produto comprado por clientes", value: 10},
     {name:"Ranking", value: 8},
     {name:"Faturamento por Grupo de Áreas de Vendas", value: 9}
   ]
