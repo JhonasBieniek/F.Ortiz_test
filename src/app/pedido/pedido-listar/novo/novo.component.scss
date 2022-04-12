@@ -60,12 +60,15 @@
     font-size: 10px !important;
 }
 
-.descontoSuffix .mat-form-field-suffix {
+.mat-form-field-appearance-outline .mat-form-field-suffix {
     top: 0 !important;
     padding-left: 3px;
-}
+  }
 
 .desconto {
+    text-align: right;
+}
+.text-right {
     text-align: right;
 }
 input.desconto::-webkit-outer-spin-button,

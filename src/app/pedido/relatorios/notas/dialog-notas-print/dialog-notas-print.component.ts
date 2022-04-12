@@ -18,10 +18,11 @@ export class DialogNotasPrintComponent implements OnInit {
       notas['valor_total'] = 0;
       notas['valor_liquido'] = 0;
       notas.nota_produtos.forEach( produto => {
-        notas['valor_total'] = parseFloat( (( (produto.qtd * produto.pedido_produto.valor_unitario) 
-        - produto.qtd * produto.pedido_produto.valor_unitario * produto.pedido_produto.desconto/100) + (produto.qtd * produto.pedido_produto.valor_unitario * produto.pedido_produto.ipi/100)
-        + notas['valor_total']).toFixed(2));
-        notas['valor_liquido'] = parseFloat( (( (produto.qtd * produto.pedido_produto.valor_unitario) - produto.qtd * produto.pedido_produto.valor_unitario * produto.pedido_produto.desconto/100 ) + notas['valor_liquido']).toFixed(2));
+        let valor = ((produto.qtd * produto.pedido_produto.valor_unitario) - (produto.qtd * produto.pedido_produto.valor_unitario * produto.pedido_produto.desconto)/100);
+        let ipi = (valor * produto.pedido_produto.ipi)/100;
+
+        notas['valor_total'] +=  valor + ipi;
+        notas['valor_liquido'] = ((produto.qtd * produto.pedido_produto.valor_unitario) - (produto.qtd * produto.pedido_produto.valor_unitario * produto.pedido_produto.desconto)/100 ) + notas['valor_liquido'];
       });
     });
     if(data.form.ordenacao == "valor"){
@@ -104,7 +105,7 @@ export class DialogNotasPrintComponent implements OnInit {
   somarTotalLiquido() {
     let total = 0;
     this.dataSource.map((nota) => {
-      total = nota.pedido.valor_liquido + total;
+      total = nota.valor_liquido + total;
     })
     return total;
   }

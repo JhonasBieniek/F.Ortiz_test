@@ -37,16 +37,16 @@
         <span><strong>Cliente: </strong> {{dados?.pedido.cliente.razao_social}}</span>
       </div>
       <div fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
-        <span><strong>Valor Pedido</strong> {{dados?.pedido.valor_total | currency:'BRL':true:'1.2-2'}}</span>
+        <span><strong>Valor Pedido</strong> {{dados?.pedido.valor_total | currency:'BRL':true:'1.2-5'}}</span>
       </div>
       <div fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100">
-        <span><strong>Valor Liq. Pedido</strong> {{dados?.pedido.valor_liquido | currency:'BRL':true:'1.2-2'}}</span>
+        <span><strong>Valor Liq. Pedido</strong> {{dados?.pedido.valor_liquido | currency:'BRL':true:'1.2-5'}}</span>
       </div>
       <div fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100" class="p-t-10">
-        <span><strong>Valor faturado: </strong> {{ valorFaturado() | currency:'BRL':true:'1.2-2'}}</span>
+        <span><strong>Valor faturado: </strong> {{ valorFaturado() | currency:'BRL':true:'1.2-5'}}</span>
       </div>
       <div fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="100" class="p-t-10">
-        <span><strong>Valor Restante: </strong> {{valorRestante() | currency:'BRL':true:'1.2-2'}}</span>
+        <span><strong>Valor Restante: </strong> {{valorRestante() | currency:'BRL':true:'1.2-5'}}</span>
       </div>
       <div fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100" class="p-t-10">
         <span><strong>Dt. Faturamento: </strong> {{dados?.data_faturamento | date:'dd/MM/yyyy'}}</span>
@@ -63,7 +63,7 @@
       <span><strong>Data do Vencimento:</strong> {{parcela?.data_vencimento | date:'dd/MM/yyyy'}} </span>
     </div>
     <div fxFlex.gt-xs="25" fxFlex.gt-sm="25" fxFlex.gt-md="30" fxFlex.gt-lg="20" fxFlex="10">
-      <span><strong>Valor: </strong>{{parcela?.valor | currency:'BRL':true:'1.2-2'}}</span>
+      <span><strong>Valor: </strong>{{parcela?.valor | currency:'BRL':true:'1.2-5'}}</span>
     </div>
     <div fxFlex.gt-xs="25" fxFlex.gt-sm="25" fxFlex.gt-md="22" fxFlex.gt-lg="22" fxFlex="35">
       <span><strong>Recebido: </strong>{{parcela?.status_recebimento ? 'Recebido' : 'Pendente'}}</span>
@@ -133,7 +133,7 @@
 
       <ngx-datatable-column [flexGrow]="1" name="Vlr Unit." prop="valor_unitario">
         <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
-          {{ value | currency:'BRL':true:'1.2-2' }}
+          {{ value | currency:'BRL':true:'1.2-5' }}
         </ng-template>
       </ngx-datatable-column>
 
@@ -145,7 +145,7 @@
 
       <ngx-datatable-column [flexGrow]="1" name="Valor" prop="total">
         <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
-          {{ value | currency:'BRL':true:'1.2-2' }}
+          {{ value | currency:'BRL':true:'1.2-5' }}
         </ng-template>
       </ngx-datatable-column>
 
@@ -210,7 +210,7 @@
 
   <ngx-datatable-column [flexGrow]="1" name="Valor" prop="valor">
     <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
-      {{ value | currency:'BRL':true:'1.2-2' }}
+      {{ value | currency:'BRL':true:'1.2-5' }}
     </ng-template>
   </ngx-datatable-column>
 

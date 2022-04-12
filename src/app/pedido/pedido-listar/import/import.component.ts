@@ -224,7 +224,6 @@ export class ImportComponent implements OnInit {
 
   async volk(data, itens) {
     try{
-      console.log(data)
       this.condComercial = data[12][1];
       this.condComerciais.map((x) => {
         if(x.nome.toLowerCase() == this.condComercial.toLowerCase()){
@@ -233,7 +232,16 @@ export class ImportComponent implements OnInit {
         }
       });
       
-      var clienteCnpj = data[7][3].toString().length == 13 ? "0" + data[7][3] : data[7][3] || data[7][3].toString().length == 12 ? "00" + data[7][3] : data[7][3];
+      var clienteCnpj = "";
+
+      if(data[7][3].toString().length == 13) {
+        clienteCnpj = "0" + data[7][3];
+      }else if(data[7][3].toString().length == 12){
+        clienteCnpj = "00" + data[7][3];
+      }else{
+        clienteCnpj = data[7][3]; 
+      }
+      console.log(clienteCnpj)
       var pedido = data[21][12] != undefined ? data[6][1] + "/" + data[21][12] : data[6][1];
       this.form.get("num_pedido").setValue(pedido);
       this.form.get("transportadora").setValue(data[18][2]);
@@ -949,10 +957,11 @@ export class ImportComponent implements OnInit {
       total +=
         element.get("quantidade").value * element.get("valor_unitario").value;
     });
+
     let desconto = (total * this.form.get("desconto").value) / 100;
     let subst = this.form.get("subst").value > 0 ? this.form.get("subst").value : 0 ;
-    this.form.get("valor_liquido").setValue(total - desconto);
-    this.form.get("valor_total").setValue(Math.round(( total + ipi - desconto + subst)));
+    this.form.get("valor_liquido").setValue((total - desconto).toFixed(2));
+    this.form.get("valor_total").setValue((total + ipi - desconto + subst).toFixed(2));
     // if(this.ValorTotal > 0){  
     //   if (this.form.get("valor_total").value > (this.ValorTotal + ipi)){
     //     this.disabled = true;
@@ -961,7 +970,7 @@ export class ImportComponent implements OnInit {
     //   }
     // }  
     if (tipo == "total") return this.form.get("valor_total").value;
-    else if (tipo == "ipi") return ipi;
+    else if (tipo == "ipi") return ipi.toFixed(2);
     else return total - desconto;
   }
 

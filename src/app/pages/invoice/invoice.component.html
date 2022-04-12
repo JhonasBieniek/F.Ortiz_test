@@ -39,7 +39,7 @@
       </ngx-datatable-column>
       <ngx-datatable-column name="Unit Price" [flexGrow]="1">
         <ng-template ngx-datatable-cell-template let-row="row">
-          <strong>{{row.price | currency:'USD':'symbol':'1.2-2'}}</strong>
+          <strong>{{row.price | currency:'USD':'symbol':'1.2-5'}}</strong>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="Quantity" [flexGrow]="1">
@@ -49,7 +49,7 @@
       </ngx-datatable-column>
       <ngx-datatable-column name="Total" [flexGrow]="1">
         <ng-template ngx-datatable-cell-template let-row="row">
-          <strong>{{ (row.price * row.quantity) | currency:'USD':'symbol':'1.2-2'}}</strong>
+          <strong>{{ (row.price * row.quantity) | currency:'USD':'symbol':'1.2-5'}}</strong>
         </ng-template>
       </ngx-datatable-column>
     </ngx-datatable>
@@ -64,9 +64,9 @@
         <h6 class="text-uppercase text-sm ma-0 text-bold">Total :</h6>
       </div>
       <div class="m-l-10">
-        <h4 class="font-medium">{{getSubTotal() | currency:'USD':'symbol':'1.2-2'}}</h4>
-        <h4 class="font-medium">{{getCalculatedTax() | currency:'USD':'symbol':'1.2-2'}}</h4>
-        <h4 class="font-medium">{{ getTotal() | currency:'USD':'symbol':'1.2-2'}}</h4>
+        <h4 class="font-medium">{{getSubTotal() | currency:'USD':'symbol':'1.2-5'}}</h4>
+        <h4 class="font-medium">{{getCalculatedTax() | currency:'USD':'symbol':'1.2-5'}}</h4>
+        <h4 class="font-medium">{{ getTotal() | currency:'USD':'symbol':'1.2-5'}}</h4>
       </div>
     </div>
   </mat-card-content>

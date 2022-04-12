@@ -47,7 +47,6 @@ import { DialogBodyFuncionarioComponent } from './funcionario/dialog-body/dialog
 import { DialogBodyClienteComponent } from './cliente/dialog-body/dialog-body-cliente.component';
 import { TamanhosComponent } from './tamanhos/tamanhos.component';
 import { DialogTamanhosComponent } from './tamanhos/dialog-tamanhos/dialog-tamanhoscomponent';
-import { NgxCurrencyModule } from 'ngx-currency';
 import { ContaBancoComponent } from './conta-banco/conta-banco.component';
 import { DialogContaComponent } from './conta-banco/dialog-conta/dialog-conta.component';
 import { TipoProdutoComponent } from './tipo-produto/tipo-produto.component';
@@ -65,6 +64,7 @@ import { DialogBodyProdutoClassificacaoComponent } from './classificacoes/dialog
 import { RelatorioClientePedidosComponent } from './cliente/dialog-body/relatorio-cliente-pedidos/relatorio-cliente-pedidos.component';
 import { DialogProdutosCorporativoComponent } from './cliente/dialog-body/dialog-produtos-corporativo/dialog-produtos-corporativo.component';
 import { DialogRepresentadaConfirmacaoComponent } from './cliente/dialog-body/dialog-produtos-corporativo/dialog-representada-confirmacao/dialog-representada-confirmacao.component';
+import { NgxCurrencyModule } from 'ngx-currency';
 
 
 
@@ -80,8 +80,8 @@ import { DialogRepresentadaConfirmacaoComponent } from './cliente/dialog-body/di
     FlexLayoutModule,
     QuillModule,
     FileUploadModule,
-    NgxDatatableModule,
     NgxCurrencyModule,
+    NgxDatatableModule,
     SelectAutocompleteModule,
     NgxMaskModule.forRoot(),
   ],

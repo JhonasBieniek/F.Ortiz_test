@@ -67,6 +67,8 @@ export class OrcamentoComponent implements OnInit {
 
   results: Observable<any[]>;
 
+  panelOpenState = false;
+
   resposta: any;
   selectedAreaVendaID: any;
 
@@ -245,10 +247,10 @@ export class OrcamentoComponent implements OnInit {
   addCliente() {
     let dialogConfig = new MatDialogConfig();
     dialogConfig = {
-      maxWidth: '75vw',
+      maxWidth: '90vw',
       maxHeight: '100vh',
 
-      width: '75vw',
+      width: '90vw',
       height: '90vh'
     }
     let dialogRef = this.dialog.open(

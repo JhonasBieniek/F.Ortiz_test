@@ -5,7 +5,7 @@
   },
     "pedidos": [
       {
-        "titulo": "Em análise (Assistente)",
+        "titulo": "Em análise da Assistente",
         "step": 0,
         "index": 0,
         "columns": [
@@ -37,7 +37,7 @@
         ]
       },
       {
-        "titulo": "Ag. Aprovação (Cliente)",
+        "titulo": "Ag. Aprovação do Cliente",
         "step": 1,
         "index": 1,
         "columns": [
@@ -74,7 +74,7 @@
         ]
       },
       {
-        "titulo": "Aprovado",
+        "titulo": "Cotação Aprovada",
         "step": 2,
         "index": 2,
         "columns": [
@@ -111,7 +111,7 @@
         ]
       },
       {
-        "titulo": "Cancelado",
+        "titulo": "Cotação Cancelada",
         "step": 3,
         "index": 3,
         "columns": [
@@ -148,7 +148,7 @@
         ]
       },
       {
-        "titulo": "Gerado",
+        "titulo": "Pedido Gerado",
         "step": 4,
         "index": 4,
         "columns": [

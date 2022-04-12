@@ -92,28 +92,30 @@ export class DialogSendNotaComponent implements OnInit {
     });
   }
   totalNota(){
-    let total = 0;
+    let total:any = 0;
     let desconto = this.data.desconto /100;
     this.rows.map( produto => {
       total  = total + (produto.quantidade_recebida * produto.valor_unitario - (produto.quantidade_recebida * produto.valor_unitario * desconto));
     });
-    return total;
+    return total.toFixed(2);
   }
 
   totalNotaBruto(){
     let total = 0;
     let desconto = this.data.desconto /100;
+    let ipiTotal = 0;
     this.rows.map( produto => {
       if(produto.quantidade_recebida > 0){
         if(produto.ipi > 0){
-          let ipi = (produto.quantidade_recebida * produto.valor_unitario * produto.ipi)  / 100;
+          let ipi = ((produto.quantidade_recebida * produto.valor_unitario - (produto.quantidade_recebida * produto.valor_unitario * desconto)) * produto.ipi)  / 100;
+          ipiTotal += ipi;
           total  = total + ((produto.quantidade_recebida * produto.valor_unitario)  + ipi - (produto.quantidade_recebida * produto.valor_unitario * desconto));
         }else{
           total  = total + (produto.quantidade_recebida * produto.valor_unitario - (produto.quantidade_recebida * produto.valor_unitario * desconto));
         }
       }
     });
-    return Math.round(total);
+    return total.toFixed(2);
   }
 
   criaParcelas() {

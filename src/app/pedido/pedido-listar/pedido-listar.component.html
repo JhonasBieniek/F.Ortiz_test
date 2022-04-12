@@ -151,12 +151,12 @@
                       {{ value }}
                     </ng-template>
                   </ngx-datatable-column>
-                  <ngx-datatable-column [flexGrow]="0.7" name="Representada" prop="representada.nome_fantasia">
+                  <ngx-datatable-column [flexGrow]="1.1" name="Representada" prop="representada.nome_fantasia">
                     <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                       {{ value }}
                     </ng-template>
                   </ngx-datatable-column>
-                  <ngx-datatable-column [flexGrow]="2" name="Comprador" prop="cliente.nome_fantasia">
+                  <ngx-datatable-column [flexGrow]="1.5" name="Comprador" prop="cliente.nome_fantasia">
                     <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                       {{ value }}
                     </ng-template>
@@ -166,23 +166,38 @@
                       {{ value | mask:'00.000.000/0000-00' }}
                     </ng-template>
                   </ngx-datatable-column>
-                  <ngx-datatable-column [flexGrow]="0.7" name="Emissão" prop="data_emissao">
+                  <ngx-datatable-column [flexGrow]="0.9" name="Emissão" prop="data_emissao">
                     <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                       {{ value | date:'dd/MM/yyyy'}}
                     </ng-template>
                   </ngx-datatable-column>
-                  <ngx-datatable-column [flexGrow]="0.7" name="Entrega" prop="data_entrega">
+                  <ngx-datatable-column [flexGrow]="0.8" name="Entrega" prop="data_entrega">
                     <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                       {{ value | date:'dd/MM/yyyy'}}
                     </ng-template>
                   </ngx-datatable-column>
-                  <ngx-datatable-column [flexGrow]="0.8" name="Cond. Pagamento" prop="condicao_comercial.nome">
+                  <ngx-datatable-column [flexGrow]="0.9" name="Cond. Pag" prop="condicao_comercial.nome">
+                    <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                      {{ value }}
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column [flexGrow]="1" name="Vlr Liq" prop="valor_liquido">
+                    <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                      {{ value | currency:'BRL':true:'1.2-5'}}
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column [flexGrow]="1" name="Vlr Bruto" prop="valor_total">
+                    <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                      {{ value | currency:'BRL':true:'1.2-5' }}
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column [flexGrow]="0.7" name="Status" prop="situacao">
                     <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                       {{ value }}
                     </ng-template>
                   </ngx-datatable-column>
 
-                  <ngx-datatable-column [flexGrow]="1.2" name="Ações">
+                  <ngx-datatable-column [flexGrow]="1" name="Ações">
                     <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
                       <i class="fa fa-search buttonP" title="Visualizar" (click)="view(row);"></i>
                       <i class="fa fa-clone buttonP" title="Clonar Pedido" (click)="clone(row);"></i>

@@ -26,6 +26,17 @@
   background-color: dodgerblue;
   color: white;
 }
+.headline {
+  font-weight: 800;
+  margin-left: -1em;
+  margin-right: -1em;
+  margin-bottom: 0;
+  padding: 0.2em;
+  text-align: center;
+  font-size: 1.5em;
+  background-color: dodgerblue;
+  color: white;
+}
 .plus-icons {
   color: black;
   margin-bottom: 10px;

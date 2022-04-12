@@ -93,6 +93,7 @@
               <div class="p-10 pad" fxFlex.gt-sm="10" fxFlex.gt-xs="10" fxFlex="50">
                 <mat-form-field appearance="outline" class="descontoSuffix">
                   <input matInput placeholder="Desconto" class="desconto" min="0" max="100" step="0.0001" formControlName="desconto" (blur)="aplicarDesconto()">
+                  <span matSuffix class="descontoSuffix">%</span>
                 </mat-form-field>
               </div>
 
@@ -189,7 +190,7 @@
                 </ngx-datatable-column>
                 <ngx-datatable-column [flexGrow]="0.5" name="Preço" prop="produto_estados_precos">
                   <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                    {{ value[0]?.preco  | currency:'BRL':true:'1.2-2' }}
+                    {{ value[0]?.preco  | currency:'BRL':true:'1.2-5' }}
                   </ng-template>
                 </ngx-datatable-column>
     
@@ -221,7 +222,8 @@
                       </mat-form-field>
                       <mat-form-field fxFlex.gt-sm="12" fxFlex.gt-xs="12" fxFlex="12" appearance="outline">
                         <mat-label>IPI</mat-label>
-                        <input matInput placeholder="IPI" formControlName="ipi" mask="percent" suffix="%">
+                        <input class="text-right" matInput placeholder="IPI" formControlName="ipi" >
+                        <span matSuffix class="descontoSuffix">%</span>
                       </mat-form-field>
                       <mat-form-field fxFlex.gt-sm="15" fxFlex.gt-xs="15" fxFlex="15" appearance="outline">
                         <mat-label>Valor Unit.</mat-label>
@@ -230,8 +232,8 @@
                       </mat-form-field>
                       <mat-form-field fxFlex.gt-sm="16" fxFlex.gt-xs="16" fxFlex="16" appearance="outline">
                         <mat-label>Comissão</mat-label>
-                        <input matInput placeholder="Comissão" formControlName="comissao_produto" mask="percent" suffix="%"
-                          >
+                        <input class="text-right" matInput placeholder="Comissão" formControlName="comissao_produto">
+                        <span matSuffix class="descontoSuffix">%</span>
                       </mat-form-field>
                       <mat-form-field fxFlex.gt-sm="14" class="itens" fxFlex.gt-xs="14" fxFlex="14" appearance="outline">
                         <mat-label>Tamanho</mat-label>
@@ -262,22 +264,22 @@
           </div>
           <div class="geral" *ngIf="valorTotal() != 0">
             <tr>
-              <th style="color: green;">Valor Total: {{valorTotal('total') | currency:'BRL':true:'1.2-2'}}</th>
+              <th style="color: green;">Valor Total: {{valorTotal('total') | currency:'BRL':true:'1.2-5'}}</th>
             </tr>
             <tr>
-              <th style="color: rgb(97, 199, 122);">Valor Líquido: {{valorTotal('liq') | currency:'BRL':true:'1.2-2'}}</th>
+              <th style="color: rgb(97, 199, 122);">Valor Líquido: {{valorTotal('liq') | currency:'BRL':true:'1.2-5'}}</th>
             </tr>
             <tr *ngIf="form.controls['subst'].value > 0">
-              <th>Subst.: {{ form.controls['subst'].value | currency:'BRL':true:'1.2-2'}}</th>
+              <th>Subst.: {{ form.controls['subst'].value | currency:'BRL':true:'1.2-5'}}</th>
             </tr>
             <tr>
-              <th>IPI: {{valorTotal('ipi') | currency:'BRL':true:'1.2-2'}}</th>
+              <th>IPI: {{valorTotal('ipi') | currency:'BRL':true:'1.2-5'}}</th>
             </tr>
             <tr>
               <th>Comissão Média(%): {{comissaoMedia()}}%</th>
             </tr>
             <tr>
-              <th>Comissão Bruta($): {{comissaoBruta() | currency:'BRL':true:'1.2-2'}}</th>
+              <th>Comissão Bruta($): {{comissaoBruta() | currency:'BRL':true:'1.2-5'}}</th>
             </tr>
           </div>
           <div style="margin-top: 20px; margin-left:5px">

@@ -368,7 +368,7 @@ export class NovoComponent implements OnInit {
             : this.representada.comissao_padrao != null
               ? this.representada.comissao_padrao
               : 0,
-        obs: "",
+        obs: item.obs,
       })
     );
   }
@@ -668,8 +668,8 @@ export class NovoComponent implements OnInit {
     });
     let desconto = (total * this.form.get("desconto").value) / 100;
     let subst = this.form.get("subst").value > 0 ? this.form.get("subst").value : 0 ;
-    this.form.get("valor_liquido").setValue(Math.round(total - desconto));
-    this.form.get("valor_total").setValue(Math.round(( total + ipi - desconto + subst)));
+    this.form.get("valor_liquido").setValue((total - desconto).toFixed(2));
+    this.form.get("valor_total").setValue((total + ipi - desconto + subst).toFixed(2));
     // if(this.ValorTotal > 0){  
     //   if (this.form.get("valor_total").value > (this.ValorTotal + ipi)){
     //     this.disabled = true;
@@ -678,7 +678,7 @@ export class NovoComponent implements OnInit {
     //   }
     // }  
     if (tipo == "total") return this.form.get("valor_total").value;
-    else if (tipo == "ipi") return ipi;
+    else if (tipo == "ipi") return ipi.toFixed(2);
     else return total - desconto;
   }
 

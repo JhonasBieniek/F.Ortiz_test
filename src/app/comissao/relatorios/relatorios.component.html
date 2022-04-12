@@ -199,18 +199,18 @@
       </ngx-datatable-column>
       <ngx-datatable-column name="Valor Total" [flexGrow]="0.6" prop="total">
         <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
-          <div>{{row.total | currency:'BRL':true:'1.2-2'}}</div>
+          <div>{{row.total | currency:'BRL':true:'1.2-5'}}</div>
           <div class="inner-col-header">Valor Parcela</div>
           <div *ngFor=" let parcela of row.nota_parcelas">
-            {{parcela.valor | currency:'BRL':true:'1.2-2'}}</div>
+            {{parcela.valor | currency:'BRL':true:'1.2-5'}}</div>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [flexGrow]="0.7" name="Comissão" prop="total">
         <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
-          <div>{{row.total * row.pedido.comissao_media / 100 | currency:'BRL':true:'1.2-2'}}</div>
+          <div>{{row.total * row.pedido.comissao_media / 100 | currency:'BRL':true:'1.2-5'}}</div>
           <div class="inner-col-header">Comissão parcela</div>
           <div *ngFor=" let parcela of row.nota_parcelas">
-            {{parcela.valor * row.pedido.comissao_media / 100 | currency:'BRL':true:'1.2-2'}}</div>
+            {{parcela.valor * row.pedido.comissao_media / 100 | currency:'BRL':true:'1.2-5'}}</div>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [flexGrow]="0.5" name="Comissão %" prop="pedido.comissao_media">
@@ -245,7 +245,7 @@
         <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
           <div>{{row.pedido.num_pedido}}</div>
           <div class="inner-col-header">Valor Un.</div>
-          <div *ngFor=" let produto of row.nota_produto_devolutions">{{produto.pedido_produto.valor_unitario | currency:'BRL':true:'1.2-2'}}</div>
+          <div *ngFor=" let produto of row.nota_produto_devolutions">{{produto.pedido_produto.valor_unitario | currency:'BRL':true:'1.2-5'}}</div>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="Quantidade" [flexGrow]="0.6" prop="quantidade">
@@ -257,9 +257,9 @@
       </ngx-datatable-column>
       <ngx-datatable-column [flexGrow]="0.7" name="Total" prop="total">
         <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
-          <div>{{row.total | currency:'BRL':true:'1.2-2'}}</div>
+          <div>{{row.total | currency:'BRL':true:'1.2-5'}}</div>
           <div class="inner-col-header">Total</div>
-          <div *ngFor=" let produto of row.nota_produto_devolutions">{{produto.qtd * produto.pedido_produto.valor_unitario | currency:'BRL':true:'1.2-2'}}</div>
+          <div *ngFor=" let produto of row.nota_produto_devolutions">{{produto.qtd * produto.pedido_produto.valor_unitario | currency:'BRL':true:'1.2-5'}}</div>
         </ng-template>
       </ngx-datatable-column>
     </ngx-datatable>
@@ -288,10 +288,10 @@
       </ngx-datatable-column>
       <ngx-datatable-column [flexGrow]="0.7" name="Total" prop="total">
         <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
-          <div>{{row.total | currency:'BRL':true:'1.2-2'}}</div>
+          <div>{{row.total | currency:'BRL':true:'1.2-5'}}</div>
           <div class="inner-col-header">Valor</div>
           <div *ngFor=" let parcela of row.nota_parcelas">
-            {{parcela.valor | currency:'BRL':true:'1.2-2'}}</div>
+            {{parcela.valor | currency:'BRL':true:'1.2-5'}}</div>
         </ng-template>
       </ngx-datatable-column>
     </ngx-datatable>
@@ -303,18 +303,18 @@
       <div class="p-10 vt" fxFlex.gt-sm="55" fxFlex.gt-xs="55" fxFlex="100" fxLayoutAlign="start center">
       </div>
       <div class="p-10 vt" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100" fxLayoutAlign="start center">
-        Valor Total: {{valorTotal() | currency:'BRL':true:'1.2-2'}}
+        Valor Total: {{valorTotal() | currency:'BRL':true:'1.2-5'}}
       </div>
       <div class="p-10 vt" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100" fxLayoutAlign="start center">
-        Comissão Total: {{comissaoTotal() | currency:'BRL':true:'1.2-2'}}
+        Comissão Total: {{comissaoTotal() | currency:'BRL':true:'1.2-5'}}
       </div>
       <div class="p-10 vt" fxFlex.gt-sm="55" fxFlex.gt-xs="55" fxFlex="100" fxLayoutAlign="start center">
       </div>
       <div class="p-10 ct" fxFlex.gt-sm="20" fxFlex.gt-xs="20" fxFlex="100" fxLayoutAlign="start center">
-        Valor Parcelas: {{valorParcelas() | currency:'BRL':true:'1.2-2'}}
+        Valor Parcelas: {{valorParcelas() | currency:'BRL':true:'1.2-5'}}
       </div>
       <div class="p-10 ct" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100" fxLayoutAlign="start center">
-        Comissão Parcelas: {{comissaoParcelas() | currency:'BRL':true:'1.2-2'}}
+        Comissão Parcelas: {{comissaoParcelas() | currency:'BRL':true:'1.2-5'}}
       </div>
     </div>
   </mat-card-content>
@@ -330,32 +330,32 @@
       </ngx-datatable-column>
       <ngx-datatable-column [flexGrow]="0.5" name="Valor Notas">
         <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
-          <div>{{row.valor | currency:'BRL':true:'1.2-2'}}</div>
+          <div>{{row.valor | currency:'BRL':true:'1.2-5'}}</div>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [flexGrow]="0.5" name="Valor de Devoluções">
         <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
-          <div>{{row.devolucao | currency:'BRL':true:'1.2-2'}}</div>
+          <div>{{row.devolucao | currency:'BRL':true:'1.2-5'}}</div>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [flexGrow]="0.6" name="Comissão Rec.">
         <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
-          <div class="inner-col-data">{{row.comissao_recebido | currency:'BRL':true:'1.2-2'}}</div>
+          <div class="inner-col-data">{{row.comissao_recebido | currency:'BRL':true:'1.2-5'}}</div>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [flexGrow]="0.5" name="Perc. Rec.">
         <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
-          <div class="inner-col-data">{{(row.comissao_recebido*100)/(row.valor) | number : '1.2-2'}}%</div>
+          <div class="inner-col-data">{{(row.comissao_recebido*100)/(row.valor) | number : '1.2-5'}}%</div>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [flexGrow]="0.6" name="Comissão Paga">
         <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
-          <div class="inner-col-data">{{row.comissao_paga | currency:'BRL':true:'1.2-2'}}</div>
+          <div class="inner-col-data">{{row.comissao_paga | currency:'BRL':true:'1.2-5'}}</div>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [flexGrow]="0.5" name="Perc. Pago.">
         <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
-          <div class="inner-col-data">{{(row.comissao_paga*100 )/row.valor | number : '1.2-2'}}%</div>
+          <div class="inner-col-data">{{(row.comissao_paga*100 )/row.valor | number : '1.2-5'}}%</div>
         </ng-template>
       </ngx-datatable-column>
     </ngx-datatable>
@@ -367,18 +367,18 @@
       <div class="p-10 vt" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100" fxLayoutAlign="start center">
       </div>
       <div class="p-10 vt" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100" fxLayoutAlign="start center">
-        Notas Total: {{vTotal | currency:'BRL':true:'1.2-2'}}
+        Notas Total: {{vTotal | currency:'BRL':true:'1.2-5'}}
       </div>
       <div class="p-10 vt" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100" fxLayoutAlign="start center">
-        Comissão Rec.: {{cTotal | currency:'BRL':true:'1.2-2'}}
+        Comissão Rec.: {{cTotal | currency:'BRL':true:'1.2-5'}}
       </div>
       <div class="p-10 vt" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100" fxLayoutAlign="start center">
       </div>
       <div class="p-10 vt" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100" fxLayoutAlign="start center">
-        Perc. Rec.: {{(cTotal*100)/vTotal | number : '1.2-2'}}%
+        Perc. Rec.: {{(cTotal*100)/vTotal | number : '1.2-5'}}%
       </div>
       <div class="p-10 ct" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100" fxLayoutAlign="start center">
-        Comissão Paga: {{cPaga | currency:'BRL':true:'1.2-2'}}
+        Comissão Paga: {{cPaga | currency:'BRL':true:'1.2-5'}}
       </div>
       
     </div>
@@ -395,17 +395,17 @@
       </ngx-datatable-column>
       <ngx-datatable-column [flexGrow]="1" name="Valor Notas" prop="valor">
         <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
-          <div>{{row.valor | currency:'BRL':true:'1.2-2'}}</div>
+          <div>{{row.valor | currency:'BRL':true:'1.2-5'}}</div>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [flexGrow]="1" name="Valor de Devoluções" prop="devolucao">
         <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
-          <div>{{row.devolucao | currency:'BRL':true:'1.2-2'}}</div>
+          <div>{{row.devolucao | currency:'BRL':true:'1.2-5'}}</div>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [flexGrow]="1" name="Comissão" prop="comissao">
         <ng-template let-value="nome" let-row="row" ngx-datatable-cell-template>
-          <div>{{row.comissao | currency:'BRL':true:'1.2-2'}}</div>
+          <div>{{row.comissao | currency:'BRL':true:'1.2-5'}}</div>
         </ng-template>
       </ngx-datatable-column>
     </ngx-datatable>
@@ -417,18 +417,18 @@
       <div class="p-10 vt" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100" fxLayoutAlign="start center">
       </div>
       <div class="p-10 vt" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100" fxLayoutAlign="start center">
-        Notas Total: {{vTotal | currency:'BRL':true:'1.2-2'}}
+        Notas Total: {{vTotal | currency:'BRL':true:'1.2-5'}}
       </div>
       <div class="p-10 vt" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100" fxLayoutAlign="start center">
-        Devolução Total: {{totalDevolucao | currency:'BRL':true:'1.2-2'}}
+        Devolução Total: {{totalDevolucao | currency:'BRL':true:'1.2-5'}}
       </div>
       <div class="p-10 vt" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100" fxLayoutAlign="start center">
       </div>
       <div class="p-10 ct" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100" fxLayoutAlign="start center">
-        Comissao Total: {{totalComissao | currency:'BRL':true:'1.2-2'}}
+        Comissao Total: {{totalComissao | currency:'BRL':true:'1.2-5'}}
       </div>
       <!--<div class="p-10 ct" fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="100" fxLayoutAlign="start center">
-        Comissão Paga: {{cPaga | currency:'BRL':true:'1.2-2'}}
+        Comissão Paga: {{cPaga | currency:'BRL':true:'1.2-5'}}
       </div> -->
       
     </div>

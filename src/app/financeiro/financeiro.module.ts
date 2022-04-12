@@ -19,6 +19,19 @@ import { DialogAlterarComponent } from './contas/dialog-alterar/dialog-alterar.c
 import { DialogConfirmarDeleteContasComponent } from './contas/dialog-confirmar-delete-contas/dialog-confirmar-delete-contas.component';
 import { DialogContasImprimirComponent } from './contas/dialog-contas-imprimir/dialog-contas-imprimir.component';
 
+
+export const customCurrencyMaskConfig = {
+  align: "right",
+  allowNegative: true,
+  allowZero: true,
+  decimal: ",",
+  precision: 5,
+  prefix: "R$ ",
+  suffix: "",
+  thousands: ".",
+  nullable: true
+};
+
 @NgModule({
   declarations: [PagamentosLoteComponent, ContasComponent, DialogIncluirComponent, DialogAlterarComponent, DialogConfirmarDeleteContasComponent, DialogContasImprimirComponent],
   imports: [
@@ -31,7 +44,7 @@ import { DialogContasImprimirComponent } from './contas/dialog-contas-imprimir/d
     NgxMaskModule.forRoot(),
     ReactiveFormsModule,
     FlexLayoutModule,
-    NgxCurrencyModule,
+    NgxCurrencyModule.forRoot(customCurrencyMaskConfig),
   ],
   entryComponents: [
     DialogIncluirComponent,

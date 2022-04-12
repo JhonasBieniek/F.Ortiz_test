@@ -23,7 +23,7 @@
     <b>Data de Emissão: </b>{{dados?.data_emissao}}<br>
     <b>Transportadora: </b>{{dados?.transportadora}}<br>
     <b>Frete: </b>{{dados?.frete}} - <b>Previsão de Entrega: </b>{{dados?.prazo_entrega}}<br>
-    <b>Valor Total: </b>{{dados?.valor_total | currency:'BRL':true:'1.2-2'}}<br>
+    <b>Valor Total: </b>{{dados?.valor_total | currency:'BRL':true:'1.2-5'}}<br>
     <b>Obs: </b>{{dados?.obs}}<br>
   </div>
 </div>
@@ -60,13 +60,13 @@
 
   <ngx-datatable-column [flexGrow]="1" name="Vlr Unitário" prop="valor_unitario">
     <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
-      {{ value | currency:'BRL':true:'1.2-2' }}
+      {{ value | currency:'BRL':true:'1.2-5' }}
     </ng-template>
   </ngx-datatable-column>
 
   <ngx-datatable-column [flexGrow]="1" name="Vlr Total" prop="valor_total">
     <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
-      {{ value | currency:'BRL':true:'1.2-2' }}
+      {{ value | currency:'BRL':true:'1.2-5' }}
     </ng-template>
   </ngx-datatable-column>
 

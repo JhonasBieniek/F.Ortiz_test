@@ -25,38 +25,38 @@
 
                     <ng-container matColumnDef="notas_valor" >
                         <th mat-header-cell *matHeaderCellDef class="text-right"> Valor das Notas </th>
-                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos text-right"> {{element.notas_valor | currency:'BRL':'symbol':'1.2-2'}}</td>
-                        <td mat-footer-cell *matFooterCellDef class="tamanhoPedidos text-right" style="font-weight: bold;"> {{total.nota | currency:'BRL':'symbol':'1.2-2'}} </td>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos text-right"> {{element.notas_valor | currency:'BRL':'symbol':'1.2-5'}}</td>
+                        <td mat-footer-cell *matFooterCellDef class="tamanhoPedidos text-right" style="font-weight: bold;"> {{total.nota | currency:'BRL':'symbol':'1.2-5'}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="valor_devolucoes" >
                         <th mat-header-cell *matHeaderCellDef class="text-right">Valor de Devoluções</th>
-                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos text-right"> {{element.valor_devolucoes | currency:'BRL':'symbol':'1.2-2'}}</td>
-                        <td mat-footer-cell *matFooterCellDef class="tamanhoPedidos text-right" style="font-weight: bold;"> {{total.devolucao | currency:'BRL':'symbol':'1.2-2'}}  </td>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos text-right"> {{element.valor_devolucoes | currency:'BRL':'symbol':'1.2-5'}}</td>
+                        <td mat-footer-cell *matFooterCellDef class="tamanhoPedidos text-right" style="font-weight: bold;"> {{total.devolucao | currency:'BRL':'symbol':'1.2-5'}}  </td>
                     </ng-container>
 
                     <ng-container matColumnDef="comissao_recebida" >
                         <th mat-header-cell *matHeaderCellDef class="text-right"> Comissão Rec </th>
-                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos text-right" > {{element.comissao_recebida | currency:'BRL':'symbol':'1.2-2'}}</td>
-                        <td mat-footer-cell *matFooterCellDef class="tamanhoPedidos text-right" style="font-weight: bold;"> {{total.comissao_recebida | currency:'BRL':'symbol':'1.2-2'}}  </td>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos text-right" > {{element.comissao_recebida | currency:'BRL':'symbol':'1.2-5'}}</td>
+                        <td mat-footer-cell *matFooterCellDef class="tamanhoPedidos text-right" style="font-weight: bold;"> {{total.comissao_recebida | currency:'BRL':'symbol':'1.2-5'}}  </td>
                     </ng-container>
 
                     <ng-container matColumnDef="percentual_recebido" >
                         <th mat-header-cell *matHeaderCellDef class="text-right"> Perc. Rec</th>
-                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos text-right" > {{element.percentual_recebido | number : '1.2-2'}}%</td>
-                        <td mat-footer-cell *matFooterCellDef class="tamanhoPedidos text-right" style="font-weight: bold;"> {{total.percentual_recebido | number : '1.2-2'}}% </td>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos text-right" > {{element.percentual_recebido | number : '1.2-5'}}%</td>
+                        <td mat-footer-cell *matFooterCellDef class="tamanhoPedidos text-right" style="font-weight: bold;"> {{total.percentual_recebido | number : '1.2-5'}}% </td>
                     </ng-container>
 
                     <ng-container matColumnDef="comissao_paga" >
                         <th mat-header-cell *matHeaderCellDef class="text-right"> Comissão Paga </th>
-                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos text-right" > {{element.comissao_paga | currency:'BRL':'symbol':'1.2-2'}} </td>
-                        <td mat-footer-cell *matFooterCellDef class="tamanhoPedidos text-right" style="font-weight: bold;"> {{total.comissao_paga | currency:'BRL':'symbol':'1.2-2'}}  </td>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos text-right" > {{element.comissao_paga | currency:'BRL':'symbol':'1.2-5'}} </td>
+                        <td mat-footer-cell *matFooterCellDef class="tamanhoPedidos text-right" style="font-weight: bold;"> {{total.comissao_paga | currency:'BRL':'symbol':'1.2-5'}}  </td>
                     </ng-container>
 
                     <ng-container matColumnDef="percentual_pago" >
                         <th mat-header-cell *matHeaderCellDef class="text-right"> Perc. Pago </th>
-                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos text-right" > {{element.percentual_pago | number : '1.2-2'}}% </td>
-                        <td mat-footer-cell *matFooterCellDef class="tamanhoPedidos text-right" style="font-weight: bold;"> {{total.percentual_pago | number : '1.2-2'}}%</td>
+                        <td mat-cell *matCellDef="let element" class="tamanhoPedidos text-right" > {{element.percentual_pago | number : '1.2-5'}}% </td>
+                        <td mat-footer-cell *matFooterCellDef class="tamanhoPedidos text-right" style="font-weight: bold;"> {{total.percentual_pago | number : '1.2-5'}}%</td>
                     </ng-container>
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns" style="height: 30px !important;"></tr>

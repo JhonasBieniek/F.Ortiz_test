@@ -41,7 +41,7 @@
                 <ngx-datatable-column [flexGrow]=col.width name="{{col.name}}" prop="{{col.prop}}">
                   <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
                     <span [ngSwitch]="col.prop"> 
-                      <span  *ngSwitchCase="'valor'">  {{value | currency:'BRL':true:'1.2-2'}} </span>
+                      <span  *ngSwitchCase="'valor'">  {{value | currency:'BRL':true:'1.2-5'}} </span>
                       <span  *ngSwitchCase="'movim'">  {{value | date:'dd/MM/yyyy'}} </span>
                       <span  *ngSwitchCase="'vencto'"> {{value | date:'dd/MM/yyyy'}} </span>
                       <span  *ngSwitchDefault> {{value}} </span>
