@@ -1,0 +1,42 @@
+.table-striped tr:nth-child(even) {
+    background: #eee; 
+}
+
+.table-striped td, .table-striped th{
+    border-bottom: 1px solid #dddddd;
+    padding: 3px 8px;
+}
+
+table{
+    border-collapse:collapse;
+    font-family: Verdana, Tahoma, Arial, Sans-serif;
+}
+
+table thead th {
+    border-bottom-color: black;
+}
+
+table tbody {
+    padding: 0.3rem 1.2rem;
+    vertical-align: top;
+}
+
+.inner-header{
+    font-size: 9pt;
+    font-weight: 500;
+    color: rgb(0, 0, 99);
+    border-top: 1px solid black;
+}
+
+.cliente-width {
+    width: 250px;
+}
+
+@media print {
+    @page {size: A4 landscape}
+    table { page-break-after:auto }
+    tr    { page-break-inside:avoid; page-break-after:auto }
+    td    { page-break-inside:avoid; page-break-after:auto }
+    thead { display:table-row-group }
+    tfoot { display:table-row-group }
+}

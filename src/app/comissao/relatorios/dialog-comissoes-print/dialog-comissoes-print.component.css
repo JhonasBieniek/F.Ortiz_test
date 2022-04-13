@@ -1,0 +1,17 @@
+.table-striped tr:nth-child(even) {
+    background: #eee; 
+}
+
+.table-striped td, .table-striped th{
+    border-bottom: 1px solid #dddddd;
+    padding: 3px 8px;
+}
+
+table{
+    border-collapse:collapse;
+    font-family: Verdana, Tahoma, Arial, Sans-serif;
+}
+
+table thead th {
+    border-bottom-color: black;
+}

@@ -7,6 +7,9 @@ import { ActivatedRoute } from '@angular/router';
 import { share, pluck, map, distinct, concatMap, reduce } from 'rxjs/operators';
 import { MatDialog, MatDialogConfig, MatTableDataSource } from '@angular/material';
 import { DialogAcumuladoComissoesPrintComponent } from './dialog-acumulado-comissoes-print/dialog-acumulado-comissoes-print.component';
+import { DialogComissoesPrintComponent } from './dialog-comissoes-print/dialog-comissoes-print.component';
+import { DialogRecebimentoPrintComponent } from './dialog-recebimento-print/dialog-recebimento-print.component';
+import { DialogDevolucoesPrintComponent } from './dialog-devolucoes-print/dialog-devolucoes-print.component';
 
 
 @Component({
@@ -146,7 +149,9 @@ export class RelatoriosComponent implements OnInit {
       representada_id: [null],
       cliente_id: [null],
       tipo: [null],
-      filtro: ['todas']
+      filtro: ['todas'],
+      ordenacao: ['num_nota'],
+      ordenacao_tipo: ['asc'],
     });
 
     this.$areas = [];
@@ -170,7 +175,6 @@ export class RelatoriosComponent implements OnInit {
     }
     if (this.route.snapshot.url[1].path == 'recebimento') {
       this.form.get('tipo').setValue('data_faturamento');
-      this.pageTitle = 'Relatório de Recebimento';
     }
     if (this.route.snapshot.url[1].path == 'devolucoes') {
       //this.pageTitle = 'Relatório de Devoluções';
@@ -528,31 +532,6 @@ export class RelatoriosComponent implements OnInit {
           this.temp = [...this.data];
         });
       }
-      // if (this.show == true) {
-      //   this.vendedores$ = source.pipe(
-      //     concatMap(from),
-      //     map(e => e.pedido.vendedor),
-      //     distinct(e => e.id),
-      //     reduce((data, e) => [...data, e], []),
-      //   )
-      //   this.auxiliares$ = source.pipe(
-      //     concatMap(from),
-      //     map(e => e.pedido.auxiliar),
-      //     distinct(e => e.id),
-      //     reduce((data, e) => [...data, e], []),
-      //   )
-      //   this.clientes$ = source.pipe(
-      //     concatMap(from),
-      //     map(e => e.pedido.cliente),
-      //     distinct(e => e.id),
-      //     reduce((data, e) => [...data, e], []),
-      //   )
-      //   source.subscribe((res: []) => {
-      //     this.data = res
-      //     this.rows = this.data;
-      //     this.temp = [...this.data];
-      //   })
-      // }
     }else{
       this.form.markAllAsTouched();
     }
@@ -574,6 +553,83 @@ export class RelatoriosComponent implements OnInit {
       }
       let dialogRef = this.dialog.open(
         DialogAcumuladoComissoesPrintComponent,
+        dialogConfig
+      );
+    }
+
+    if(this.route.snapshot.url[1].path == 'comissoes'){
+      let dialogConfig = new MatDialogConfig();
+      dialogConfig = {
+        maxWidth: '95vw',
+        maxHeight: '95vh',
+        minWidth: '75vw'
+      }
+      dialogConfig.data = {};
+      dialogConfig.data.registros = this.rows;
+      dialogConfig.data.form = this.form.value;
+      if(this.form.get("representada_id").value){
+        let index = this.representadas.findIndex( (representada) => representada.id === this.form.get("representada_id").value);
+        dialogConfig.data.representada = this.representadas[index];
+      }
+      if(this.form.get("funcionario_id").value){
+        dialogConfig.data.funcionario = this.funcionarios.find( (funcionario) => funcionario.id === this.form.get("funcionario_id").value);
+      }
+      if(this.form.get("area_venda_id").value){
+        dialogConfig.data.area = this.areas.find( (area) => area.id === this.form.get("area_venda_id").value);
+      }
+      let dialogRef = this.dialog.open(
+        DialogComissoesPrintComponent,
+        dialogConfig
+      );
+    }
+
+    if(this.route.snapshot.url[1].path == 'recebimento'){
+      let dialogConfig = new MatDialogConfig();
+      dialogConfig = {
+        maxWidth: '95vw',
+        maxHeight: '95vh',
+        minWidth: '75vw'
+      }
+      dialogConfig.data = {};
+      dialogConfig.data.registros = this.rows;
+      dialogConfig.data.form = this.form.value;
+      if(this.form.get("representada_id").value){
+        let index = this.representadas.findIndex( (representada) => representada.id === this.form.get("representada_id").value);
+        dialogConfig.data.representada = this.representadas[index];
+      }
+      if(this.form.get("area_venda_id").value){
+        dialogConfig.data.area = this.areas.find( (area) => area.id === this.form.get("area_venda_id").value);
+      }
+      if(this.form.get("cliente_id").value){
+        dialogConfig.data.cliente = this.clientes.find( (cliente) => cliente.id === this.form.get("cliente_id").value);
+      }
+      
+      let dialogRef = this.dialog.open(
+        DialogRecebimentoPrintComponent,
+        dialogConfig
+      );
+    }
+
+    if(this.route.snapshot.url[1].path == 'devolucoes'){
+      let dialogConfig = new MatDialogConfig();
+      dialogConfig = {
+        maxWidth: '95vw',
+        maxHeight: '95vh',
+        minWidth: '75vw'
+      }
+      dialogConfig.data = {};
+      dialogConfig.data.registros = this.rows;
+      dialogConfig.data.form = this.form.value;
+      if(this.form.get("representada_id").value){
+        let index = this.representadas.findIndex( (representada) => representada.id === this.form.get("representada_id").value);
+        dialogConfig.data.representada = this.representadas[index];
+      }
+      if(this.form.get("area_venda_id").value){
+        dialogConfig.data.area = this.areas.find( (area) => area.id === this.form.get("area_venda_id").value);
+      }
+      
+      let dialogRef = this.dialog.open(
+        DialogDevolucoesPrintComponent,
         dialogConfig
       );
     }
