@@ -14,6 +14,7 @@ export class DialogBodyRegioesComponent implements OnInit {
   public form: FormGroup;
   pageTitle: string = "";
   readonly = false;
+  funcionarios: any[] = [];
 
   constructor(public dialogRef: MatDialogRef<DialogBodyRegioesComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -21,7 +22,7 @@ export class DialogBodyRegioesComponent implements OnInit {
     private clientservice: ClientService,
     private notificationService: NotificationService
   ) {
-
+    this.get_tecnicos();
   }
 
   ngOnInit() {
@@ -30,6 +31,7 @@ export class DialogBodyRegioesComponent implements OnInit {
       nome: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50)])],
       descricao: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(100)])],
       status: [true, Validators.required],
+      funcionario_id: [null]
     });
     if (this.data == null)
       this.pageTitle = 'Cadastrar região';
@@ -52,6 +54,12 @@ export class DialogBodyRegioesComponent implements OnInit {
       this.clientservice.updateRegiao(this.form.value).subscribe(() => {
         this.notificationService.notify("Atualizado com Sucesso!")
       })
+  }
+
+  get_tecnicos(){
+    this.clientservice.getTecnicos().subscribe((res: any) => {
+      this.funcionarios = res.data;
+    });
   }
 
   close() {

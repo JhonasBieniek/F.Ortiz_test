@@ -485,6 +485,16 @@ export class ClientService {
       });
   }
 
+  getTecnicos() {
+    const uri = `${API_URL}` + `funcionarios/getTecnicos.json`;
+    return this
+      .http
+      .get(uri)
+      .map(res => {
+        return res;
+      });
+  }
+
   fornecedor() {
     const uri = `${API_URL}` + `financeiros/fornecedor.json`;
     return this
