@@ -45,7 +45,7 @@ export class PedidosComponent implements OnInit {
       this.representadas = res.data;
     });
 
-    this.clientservice.getClientes().subscribe((res:any) =>{
+    this.clientservice.getClientesBasico().subscribe((res:any) =>{
       this.clientes = res.data;
     });
 

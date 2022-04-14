@@ -1269,6 +1269,16 @@ export class ClientService {
       });
   }
 
+  getClientesBasico() {
+    const uri = `${API_URL}` + `clientes/index2.json`;
+    return this
+      .http
+      .get(uri)
+      .map(res => {
+        return res;
+      });
+  }
+
   getTotalClientes(){
     const uri = `${API_URL}` + `clientes/totalClientes.json`;
     return this

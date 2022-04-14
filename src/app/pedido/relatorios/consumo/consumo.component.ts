@@ -45,7 +45,7 @@ export class ConsumoComponent implements OnInit {
       this.produtos = res.data;
     });
 
-    this.clientservice.getClientes().subscribe((res:any) =>{
+    this.clientservice.getClientesBasico().subscribe((res:any) =>{
       this.clientes = res.data;
     });
 
