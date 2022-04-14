@@ -14,6 +14,9 @@
     <button mat-stroked-button color="primary" class="p-10" (click)="sendEmail(dados?.id)">
       <i class="material-icons">mail</i>Email
     </button>
+    <button mat-stroked-button color="primary" class="p-10" (click)="sendEmailRepresentada(dados?.id)">
+      <i class="material-icons">mail</i>Email Representada
+    </button>
   </div>
   <div fxFlex.gt-sm="100%" fxFlex="100">
     <b>Representada: </b>{{dados?.representada.razao_social}}<br>

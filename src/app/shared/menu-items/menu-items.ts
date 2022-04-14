@@ -64,7 +64,8 @@ const MENUITEMS = [
       {state: 'tamanhos', name: 'Tamanhos', type: 'link' },
       {state: 'representada', name: 'Representadas', type: 'link' },
       {state: 'unidade', name: 'Unidades', type: 'link' },     
-      {state: 'conta', name: 'Conta bancária', type: 'link' },     
+      {state: 'conta', name: 'Conta bancária', type: 'link' },
+      {state: 'relatorio', name: 'Relatórios', type: 'link' }
     ]
   },{
     state: 'pedidos',

@@ -56,6 +56,7 @@ export class DialogBodyRepresentadaComponent implements OnInit {
       conta_id: null,
       comissao_padrao: [null],
       representada_fretes: this.fb.array([]),
+      representada_emails: this.fb.array([]),
       endereco: this.fb.group({
         cep: [null],
         logradouro: [null],
@@ -73,8 +74,11 @@ export class DialogBodyRepresentadaComponent implements OnInit {
       if(this.data.action == 'edit'){
         this.pageTitle = 'Editar Representada';
         this.addRepresentadaFretes(this.data.representada_fretes);
+        this.addRepresentadaEmails(this.data.representada_emails);
       }else{
         this.pageTitle = 'Visualizar Representada';
+        this.addRepresentadaFretes(this.data.representada_fretes);
+        this.addRepresentadaEmails(this.data.representada_emails);
         this.readonly = true;
       }
       
@@ -126,6 +130,42 @@ export class DialogBodyRepresentadaComponent implements OnInit {
     });
   }
 
+  addRepresentadaEmail(data: any = null) {
+    const email = this.form.controls.representada_emails as FormArray;
+    email.push(
+      this.fb.group({
+        representada_id: '',
+        email: data ? data.email : null,
+      })
+    );
+  }
+
+
+  addRepresentadaEmailEdit(data: any = null) {
+    const email = this.form.controls.representada_emails as FormArray;
+    email.push(
+      this.fb.group({
+        id: data ? data.id : null,
+        representada_id: data ? data.representada_id : null,
+        email: data ? data.email : null,
+      })
+    );
+  }
+
+  delRepresentadaEmail(index) {
+    const email = this.form.controls.representada_emails as FormArray;
+    email.removeAt(index);
+  }
+
+  addRepresentadaEmails(data: any) {
+    data.forEach(async (e: any) => {
+      if (this.data.action == 'edit' || this.data.action == 'view') {
+        this.addRepresentadaEmailEdit(e);
+      } else {
+        this.addRepresentadaEmail(e);
+      }
+    });
+  }
 
   onBlurMethod() {
     if (this.form.get('endereco.cep').value != null) {
