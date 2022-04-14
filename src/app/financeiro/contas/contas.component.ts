@@ -35,7 +35,13 @@ export class ContasComponent implements OnInit {
       hideRequired: true,
       floatLabel: "auto",
     });
+    let date = new Date();
+
+    this.form.get('data_inicial').setValue(date);
+    this.form.get('data_final').setValue(date);
+
     this.atualizar();
+    
   }
 
   atualizar(){
