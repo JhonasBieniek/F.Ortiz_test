@@ -20,8 +20,8 @@
                     <perfect-scrollbar [config]="config">
                         <div *ngFor="let notification of notifications; let i = index;">
                             <a (click)="orcamento(notification, i)" style="cursor: pointer;">
-                                <div class="round round-danger">
-                                    <i class="ti-link"></i>
+                                <div class="round" [ngClass]="notification.title == 'Cotação Aprovada' ? 'round-successo' : 'round-danger' ">
+                                    <i class="ti-link" [ngClass]="notification.title == 'Cotação Aprovada' ? 'ti-check' : 'ti-link' "></i>
                                 </div>
                                 <div class="mail-content">
                                     <h5>{{notification.title}}</h5>

@@ -65,6 +65,9 @@ import { RelatorioClientePedidosComponent } from './cliente/dialog-body/relatori
 import { DialogProdutosCorporativoComponent } from './cliente/dialog-body/dialog-produtos-corporativo/dialog-produtos-corporativo.component';
 import { DialogRepresentadaConfirmacaoComponent } from './cliente/dialog-body/dialog-produtos-corporativo/dialog-representada-confirmacao/dialog-representada-confirmacao.component';
 import { NgxCurrencyModule } from 'ngx-currency';
+import { BaseComponent } from './relatorios/base/base.component';
+import { ClientesComponent } from './relatorios/clientes/clientes.component';
+import { DialogClientesPrintComponent } from './relatorios/clientes/dialog-clientes-print/dialog-clientes-print.component';
 
 
 
@@ -132,7 +135,10 @@ import { NgxCurrencyModule } from 'ngx-currency';
     RelatorioClientePedidosComponent,
     DialogProdutosCorporativoComponent,
     DialogRepresentadaConfirmacaoComponent,
-    DialogBodyAreaGruposComponent
+    DialogBodyAreaGruposComponent,
+    BaseComponent,
+    ClientesComponent,
+    DialogClientesPrintComponent
   ],
   providers: [
     DateFormatPipe,
@@ -168,7 +174,8 @@ import { NgxCurrencyModule } from 'ngx-currency';
     DialogUpdatePriceComponent,
     RelatorioClientePedidosComponent,
     DialogProdutosCorporativoComponent,
-    DialogRepresentadaConfirmacaoComponent
+    DialogRepresentadaConfirmacaoComponent,
+    DialogClientesPrintComponent
   ],
   exports: []
 })

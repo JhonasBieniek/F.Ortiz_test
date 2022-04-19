@@ -138,7 +138,7 @@ export class ViewPedidoOrcamentoComponent implements OnInit {
   sendEmail(id) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = []
-    console.log(this.dados)
+    //console.log(this.dados)
     dialogConfig.data.email = this.dados.cliente.email
     let dialogRef = this.dialog.open(DialogMailComponent,
       dialogConfig
@@ -149,7 +149,7 @@ export class ViewPedidoOrcamentoComponent implements OnInit {
         .subscribe(
           (data: Blob) => {
             this.blobToBase64(data).then((response:any) => {
-              this.googleservice.sendEmailAttach(this.user, response.substr(response.indexOf (',') + 1), this.dados.cliente.email , "Pedido",value.mensagem,"Pedido Nº "+ this.dados.num_pedido + " - " + this.dados.representada.razao_social, value.cc);
+              this.googleservice.sendEmailAttach(this.user, response.substr(response.indexOf (',') + 1), value.email , "Pedido",value.mensagem,"Pedido Nº "+ this.dados.num_pedido + " - " + this.dados.representada.razao_social, value.cc);
             });
           },
           (error) => {
@@ -163,8 +163,8 @@ export class ViewPedidoOrcamentoComponent implements OnInit {
   sendEmailRepresentada(id) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = []
-    console.log(this.dados)
-    dialogConfig.data.email = this.dados.representada.email
+    //console.log(this.dados)
+    dialogConfig.data.emails = this.dados.representada.representada_emails
     let dialogRef = this.dialog.open(DialogMailComponent,
       dialogConfig
     );
@@ -174,7 +174,7 @@ export class ViewPedidoOrcamentoComponent implements OnInit {
         .subscribe(
           (data: Blob) => {
             this.blobToBase64(data).then((response:any) => {
-              this.googleservice.sendEmailAttach(this.user, response.substr(response.indexOf (',') + 1), this.dados.representada.email , "Pedido - " +this.dados.num_pedido,value.mensagem,"Pedido Nº "+ this.dados.num_pedido + " - " + this.dados.representada.razao_social, value.cc);
+              this.googleservice.sendEmailAttach(this.user, response.substr(response.indexOf (',') + 1), value.email , "Pedido - " +this.dados.num_pedido,value.mensagem,"Pedido Nº "+ this.dados.num_pedido + " - " + this.dados.representada.razao_social, value.cc);
             });
           },
           (error) => {

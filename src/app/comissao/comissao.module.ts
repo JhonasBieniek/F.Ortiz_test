@@ -22,6 +22,9 @@ import { ImportarComponent } from './importar/importar.component';
 import { DialogRelatorioPrintComponent } from './dialog-relatorio-print/dialog-relatorio-print.component';
 import { RecebidosComponent } from './recebidos/recebidos.component';
 import { DialogAcumuladoComissoesPrintComponent } from './relatorios/dialog-acumulado-comissoes-print/dialog-acumulado-comissoes-print.component';
+import { DialogComissoesPrintComponent } from './relatorios/dialog-comissoes-print/dialog-comissoes-print.component';
+import { DialogRecebimentoPrintComponent } from './relatorios/dialog-recebimento-print/dialog-recebimento-print.component';
+import { DialogDevolucoesPrintComponent } from './relatorios/dialog-devolucoes-print/dialog-devolucoes-print.component';
 
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>)=null;
@@ -42,7 +45,13 @@ export const customCurrencyMaskConfig = {
   declarations: [
     RelatoriosComponent, 
     RecebimentosComponent, 
-    ImportarComponent, DialogRelatorioPrintComponent, RecebidosComponent, DialogAcumuladoComissoesPrintComponent
+    ImportarComponent,
+    DialogRelatorioPrintComponent,
+    RecebidosComponent,
+    DialogAcumuladoComissoesPrintComponent,
+    DialogComissoesPrintComponent,
+    DialogRecebimentoPrintComponent,
+    DialogDevolucoesPrintComponent,
   ],
   imports: [
     CommonModule,
@@ -58,7 +67,10 @@ export const customCurrencyMaskConfig = {
 
   ],
   entryComponents: [ 
-    DialogAcumuladoComissoesPrintComponent
+    DialogAcumuladoComissoesPrintComponent,
+    DialogComissoesPrintComponent,
+    DialogRecebimentoPrintComponent,
+    DialogDevolucoesPrintComponent,
   ],
   providers: [
     DateFormatPipe,

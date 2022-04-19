@@ -121,7 +121,7 @@
           <div class="buttonComissao">
             <button mat-raised-button color="primary" type="submit" (click)="Submit()">Buscar</button>
             <button mat-raised-button class="m-l-10" color="warn" (click)="clear()">Limpar</button>
-            <button mat-raised-button class="m-l-10" type="button" (click)="print()" *ngIf="rows.length > 0 && this.route.snapshot.url[1].path == 'acumulado'">Imprimir</button>
+            <button mat-raised-button class="m-l-10" type="button" (click)="print()" *ngIf="rows.length > 0">Imprimir</button>
           </div>
           <!-- <div fxLayout="row wrap" class="row">
             <div *ngIf="(vendedores$ | async)?.length > 0" class="p-10 text" fxFlex.gt-sm="33.33" fxFlex.gt-xs="33.33"

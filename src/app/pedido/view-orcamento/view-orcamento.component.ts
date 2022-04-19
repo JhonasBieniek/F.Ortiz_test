@@ -107,7 +107,30 @@ export class ViewOrcamentoComponent implements OnInit {
         .subscribe(
           (data: Blob) => {
             this.blobToBase64(data).then((response:any) => {
-              this.googleservice.sendEmailAttach(this.user, response.substr(response.indexOf (',') + 1), this.dados.cliente.email , "Orcamento" ,value.mensagem, "Cotação Nº "+ this.dados.id + " - " + this.dados.representada.razao_social, value.cc);
+              this.googleservice.sendEmailAttach(this.user, response.substr(response.indexOf (',') + 1), value.email , "Orcamento" ,value.mensagem, "Cotação Nº "+ this.dados.id + " - " + this.dados.representada.razao_social, value.cc);
+            });
+          },
+          (error) => {
+          }
+        );
+      } 
+    });
+  }
+
+  sendEmailRepresentada(id) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = []
+    dialogConfig.data.emails = this.dados.representada.representada_emails;
+    let dialogRef = this.dialog.open(DialogMailComponent,
+      dialogConfig
+    );
+    dialogRef.afterClosed().subscribe(value => { 
+      if(value != null){
+        this.getPdf("https://test2.fortiz.com.br/api/orcamentos/download/" + id + ".pdf")
+        .subscribe(
+          (data: Blob) => {
+            this.blobToBase64(data).then((response:any) => {
+              this.googleservice.sendEmailAttach(this.user, response.substr(response.indexOf (',') + 1), value.email , "Orcamento" ,value.mensagem, "Cotação Nº "+ this.dados.id + " - " + this.dados.representada.razao_social, value.cc);
             });
           },
           (error) => {

@@ -1,0 +1,58 @@
+
+<div align="end" style="margin-bottom: -40px">
+    <button mat-raised-button type="button" (click)="export_to_excell()">Gerar Excel</button>
+    <button mat-raised-button type="button" class="m-l-10" (click)="printWindowCurrent()">Imprimir</button>
+    <button mat-raised-button type="button" class="m-l-10" color="warn" [mat-dialog-close]="true">Voltar</button>
+</div>
+<div id="imprimir" cdkFocusInitial> 
+    <div fxLayout="row wrap">
+        <div fxFlex="100" fxLayout="row wrap">
+            <div class="p-10" fxFlex="100">
+                <img src="./assets/images/logo.png" alt="logo">
+            </div>
+            <div class="text-left font-bold font-16 m-b-10" fxFlex="100" > Relatório de Comissões</div>
+            <div fxFlex="100" fxLayout="row wrap" class="font-14" >
+                <div fxFlex="100">
+                    Data Inicio: <span class="font-bold m-r-10">{{data.form.dtInicio | date:'dd/MM/yyyy'}}</span> até Data Final:  <span class="font-bold">{{data.form.dtFinal | date:'dd/MM/yyyy'}}</span>
+                </div>
+                <div fxFlex="100" *ngIf="data?.form.representada_id != null">
+                    Representada: <span class="font-bold">{{data.representada.nome_fantasia}}</span>
+                </div>
+                <div fxFlex="100" *ngIf="data?.form.area_venda_id != null">
+                    Área de Venda: <span class="font-bold">{{data.area.nome}}</span>
+                </div>
+                <div fxFlex="100" *ngIf="data?.form.funcionario_id != null">
+                    Funcionario: <span class="font-bold">{{data.funcionario.nome}}</span>
+                </div>
+            </div>
+            <div fxFlex="100" class="m-t-20">
+                <table id="table" #table class="table-striped table w-100">
+                    <thead class="font-14">
+                        <tr>
+                            <th scope="col" class="text-left">Área de Venda</th>
+                            <th scope="col" class="text-right">Valor Notas</th>
+                            <th scope="col" class="text-right">Devoluções</th>
+                            <th scope="col" class="text-right">Comissão</th>
+                        </tr>
+                    </thead>
+                    <tbody class="font-14">
+                        <tr *ngFor="let area of data?.registros index as i">
+                            <td class="text-left" >{{ area.area_venda.nome| titlecase }}</td>
+                            <td class="text-right" >{{ area.valor | currency:'BRL':'symbol':'1.2-5':'pt' }}</td>
+                            <td class="text-right" >{{ area.devolucao | currency:'BRL':'symbol':'1.2-5':'pt' }}</td>
+                            <td class="text-right" >{{ area.comissao | currency:'BRL':'symbol':'1.2-5':'pt' }}</td>
+                        </tr>
+                    </tbody>
+                    <tfoot class="font-14">
+                        <tr>
+                            <th class="text-left"> Total:</th>
+                            <th class="text-right"> {{ somar('notas') | currency:'BRL':'symbol':'1.2-5':'pt'}} </th>
+                            <th class="text-right"> {{ somar('devolucao') | currency:'BRL':'symbol':'1.2-5':'pt'}} </th>
+                            <th class="text-right"> {{ somar('comissao') | currency:'BRL':'symbol':'1.2-5':'pt'}} </th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

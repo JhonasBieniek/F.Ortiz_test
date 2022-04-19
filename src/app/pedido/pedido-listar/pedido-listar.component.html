@@ -79,7 +79,7 @@
             </mat-form-field>
             <ng-container [ngSwitch]="action">
               <!--<ng-template [ngSwitchCase]="'orcamento'">
-                 <ngx-datatable 
+                <ngx-datatable 
                 #table
                 #step.step 
                 class='material striped' 
@@ -143,7 +143,7 @@
                 </ngx-datatable>
               </ng-template> -->
               <ng-template [ngSwitchCase]="'pedido'">
-                <ngx-datatable #table #step.step class='material striped' [columnMode]="'flex'" [headerHeight]="50"
+                <ngx-datatable #table #step.step class='material pedidos striped' [columnMode]="'flex'" [headerHeight]="50"
                   [footerHeight]="50" [rowHeight]="'auto'" [limit]="20" [rows]='rows[step.index]' [selected]="selected"
                   (select)='onSelect($event)' [sorts]="[{prop: 'id', dir: 'asc'}]">
                   <ngx-datatable-column [flexGrow]="1" name="N° Pedido" prop="num_pedido">

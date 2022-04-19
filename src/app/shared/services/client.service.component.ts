@@ -485,6 +485,16 @@ export class ClientService {
       });
   }
 
+  getTecnicos() {
+    const uri = `${API_URL}` + `funcionarios/getTecnicos.json`;
+    return this
+      .http
+      .get(uri)
+      .map(res => {
+        return res;
+      });
+  }
+
   fornecedor() {
     const uri = `${API_URL}` + `financeiros/fornecedor.json`;
     return this
@@ -841,6 +851,16 @@ export class ClientService {
 
   produtoPedidos(data) {
     const uri = `${API_URL}` + `pedidos/produtoPedidos.json`;
+    return this
+      .http
+      .post(uri, data)
+      .map(res => {
+        return res;
+      });
+  }
+
+  relatorioClientes(data) {
+    const uri = `${API_URL}` + `clientes/relatorioClientes.json`;
     return this
       .http
       .post(uri, data)
@@ -1241,6 +1261,16 @@ export class ClientService {
 
   getClientes() {
     const uri = `${API_URL}` + `clientes/index.json`;
+    return this
+      .http
+      .get(uri)
+      .map(res => {
+        return res;
+      });
+  }
+
+  getClientesBasico() {
+    const uri = `${API_URL}` + `clientes/index2.json`;
     return this
       .http
       .get(uri)

@@ -144,9 +144,9 @@
     </div>
   </div>
   <div formArrayName="representada_fretes" fxLayout="row wrap" class="row" fxflex="100">
-    <div class="p-10 aj1" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100"  (click)="addRepresentadaFrete()" >
+    <div class="p-10 aj1" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100" >
       <h4 class="dadosCadastro"><span style="margin-left: 10%;">Valores de Frete</span>
-        <a style="float: right;"*ngIf="!readonly"><i class="material-icons plus-icons">add_circle_outline</i>
+        <a style="float: right;" (click)="addRepresentadaFrete()" *ngIf="!readonly"><i class="material-icons plus-icons">add_circle_outline</i>
           <span class="title">Nova Valor de frete</span></a>
       </h4>
     </div>
@@ -185,6 +185,29 @@
           <mat-form-field appearance="outline">
               <mat-label>Valor</mat-label>
               <input matInput placeholder="Valor*" formControlName="valor" currencyMask [readonly]="readonly" required>
+          </mat-form-field>
+        </div>
+    </div>
+  </div>
+  <div formArrayName="representada_emails" fxLayout="row wrap" class="row" fxflex="100">
+    <div class="p-10 aj1" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100"  >
+      <h4 class="dadosCadastro"><span style="margin-left: 10%;">Emails</span>
+        <a style="float: right;" (click)="addRepresentadaEmail()" *ngIf="!readonly"><i class="material-icons plus-icons">add_circle_outline</i>
+          <span class="title">Novo Email</span></a>
+      </h4>
+    </div>
+    <div fxLayout="row wrap" *ngFor="let e of form.get('representada_emails').controls; index as i" [formGroupName]="i" fxFlex="33">
+        <div class="p-10 aj ml-5" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+          Email - {{i + 1}}
+          <button mat-icon-button (click)="delRepresentadaEmail(i)" *ngIf="!readonly">
+            <mat-icon class="clear">clear</mat-icon>
+          </button>
+        </div>
+
+        <div class="p-10 aj" fxFlex="100" style="margin-left: 10px;">
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Email*" formControlName="email" type="email" [readonly]="readonly" required>
           </mat-form-field>
         </div>
     </div>

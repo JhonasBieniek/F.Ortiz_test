@@ -1,0 +1,85 @@
+
+<div align="end" style="margin-bottom: -40px">
+    <button mat-raised-button type="button" (click)="export_to_excell()">Gerar Excel</button>
+    <button mat-raised-button type="button" class="m-l-10" (click)="printWindowCurrent()">Imprimir</button>
+    <button mat-raised-button type="button" class="m-l-10" color="warn" [mat-dialog-close]="true">Voltar</button>
+</div>
+<div id="imprimir" cdkFocusInitial> 
+    <div fxLayout="row wrap">
+        <div fxFlex="100" fxLayout="row wrap">
+            <div class="p-10" fxFlex="100">
+                <img src="./assets/images/logo.png" alt="logo">
+            </div>
+            <div class="text-left font-bold font-16 m-b-10" fxFlex="100" > Relatório de Devoluções</div>
+            <div fxFlex="100" fxLayout="row wrap" class="font-14" >
+                <div fxFlex="100">
+                    Data Inicio: <span class="font-bold m-r-10">{{data.form.dtInicio | date:'dd/MM/yyyy'}}</span> até Data Final:  <span class="font-bold">{{data.form.dtFinal | date:'dd/MM/yyyy'}}</span> ,
+                    por Data de <span class="font-bold">{{ data.form.tipo === 'data_faturamento' ? 'Faturamento' : data.form.tipo === 'data_recebimento' ? 'Recebimento' : 'Vencimento' }}</span>
+                </div>
+                <div fxFlex="100" *ngIf="data?.form.representada_id != null">
+                    Representada: <span class="font-bold">{{data.representada.nome_fantasia}}</span>
+                </div>
+                <div fxFlex="100" *ngIf="data?.form.area_venda_id != null">
+                    Área de Venda: <span class="font-bold">{{data.area.nome}}</span>
+                </div>
+                <div fxFlex="100">
+                    Situação: <span class="font-bold m-r-10">{{data.form.filtro | titlecase}}</span>, Ordenação : 
+                    <span class="font-bold m-r-10">{{ data.form.ordenacao == 'num_nota' ? 'Nota' : data.form.ordenacao == 'Pedidos.num_pedido' ? 'Pedido' : data.form.ordenacao == 'data_faturamento' ? 'Data' : 'Cliente' }}</span>,
+                    {{ data.form.ordenacao_tipo == 'asc' ? 'Crescente' : 'Descrecente'}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <table id="table" #table class="table-striped table w-100 m-t-20">
+        <thead class="font-14">
+            <tr>
+                <th >Representada</th>
+                <th class="cliente-width">Cliente</th>
+                <th >Núm. Nota</th>
+                <th >Núm. Pedido</th>
+                <th >Quantidade</th>
+                <th >Total</th>
+            </tr>
+        </thead>
+        <tbody class="font-12">
+            <tr *ngFor="let registro of data?.registros index as i">
+                <td >{{ registro.pedido.representada.nome_fantasia }}</td>
+                <td class="cliente-width">
+                    <div>{{ registro.pedido.cliente.razao_social }}</div>
+                    <div class="inner-header">Código</div>
+                    <div *ngFor="let produto of registro.nota_produto_devolutions">{{ produto.pedido_produto.produto.codigo_catalogo}}</div>
+                </td>
+                <td >
+                    <div> {{ registro.num_nota }} </div>
+                    <div class="inner-header">Produto</div>
+                    <div *ngFor="let produto of registro.nota_produto_devolutions">{{ produto.pedido_produto.produto.nome}}</div>
+                </td>
+                <td >
+                    <div >{{ registro.pedido.num_pedido }} </div>
+                    <div class="inner-header">Valor Un.</div>
+                    <div *ngFor="let produto of registro.nota_produto_devolutions">{{ produto.pedido_produto.valor_unitario}}</div>
+                </td>
+                <td >
+                    <div>{{ registro.quantidade }}</div>
+                    <div class="inner-header">Qtde</div>
+                    <div *ngFor="let produto of registro.nota_produto_devolutions">{{ produto.qtd }}</div>
+                </td>
+                <td >
+                    <div>{{ registro.total | currency:'BRL':'symbol':'1.2-5':'pt' }}</div>
+                    <div class="inner-header">Total</div>
+                    <div *ngFor="let produto of registro.nota_produto_devolutions">{{ produto.qtd * produto.pedido_produto.valor_unitario | currency:'BRL':'symbol':'1.2-5':'pt'}}</div>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot class="font-12">
+            <tr>
+                <th> Total:</th>
+                <th> </th>
+                <th> </th>
+                <th> </th>
+                <th> </th>
+                <th> {{ somar('total') | currency:'BRL':'symbol':'1.2-5':'pt'}} </th>
+            </tr>
+        </tfoot>
+    </table>
+</div>

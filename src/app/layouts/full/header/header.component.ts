@@ -51,7 +51,7 @@ export class AppHeaderComponent {
           this.notifications.push({
             id: cotacao.id,
             orcamento_id: cotacao.orcamento_id,
-            title: 'Nova Cotação',
+            title: cotacao.orcamento.situation == 2 ? 'Cotação Aprovada' : 'Nova Cotação',
             subject: 'Cotação id: ' +cotacao.orcamento_id,
             time: cotacao.created
           })
@@ -78,7 +78,15 @@ export class AppHeaderComponent {
               "orcamento_id": row.orcamento_id,
           }
         };
-        this.router.navigate(['/pedidos/cotacoes'], navigationExtras);
+        let param = row.orcamento_id;
+        if(this.router.url.includes(param)){
+          this.router.navigate(['/pedidos/cotacoes'])
+          setTimeout(()=>{
+            this.router.navigate(['/pedidos/cotacoes'], navigationExtras);
+          }, 500)
+        } else{
+          this.router.navigate(['/pedidos/cotacoes'], navigationExtras);
+        }
       }else{
       }
     });
