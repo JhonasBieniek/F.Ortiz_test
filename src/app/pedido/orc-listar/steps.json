@@ -5,7 +5,7 @@
   },
     "pedidos": [
       {
-        "titulo": "Em análise da Assistente",
+        "titulo": "Cotação Recebida",
         "step": 0,
         "index": 0,
         "columns": [
@@ -37,7 +37,7 @@
         ]
       },
       {
-        "titulo": "Ag. Aprovação do Cliente",
+        "titulo": "Cotação Liberada",
         "step": 1,
         "index": 1,
         "columns": [
